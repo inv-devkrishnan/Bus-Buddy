@@ -3,6 +3,8 @@ from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
+regex_alphabet_only = r"^[A-Za-z\s]*$"
+error_message_only_letter = "This field can only contain letters"
 
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,8 +15,8 @@ class UserModelSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                regex=r"^[A-Za-z\s]*$",
-                message="Name can only contain letters",
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
             ),
         ],
     )
@@ -22,8 +24,8 @@ class UserModelSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                regex=r"^[A-Za-z\s]*$",
-                message="Name can only contain letters",
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
             ),
         ],
     )
@@ -52,7 +54,55 @@ class UserModelSerializer(serializers.ModelSerializer):
                 message="Phone number can only contain numbers.",
             ),
             UniqueValidator(
-                queryset=User.objects.all(), message="Phone number is already registered"
+                queryset=User.objects.all(),
+                message="Phone number is already registered",
             ),
         ],
     )
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message="Email is already registered"
+            ),
+        ]
+    )
+    phone = serializers.CharField(
+        min_length=10,
+        max_length=10,
+        validators=[
+            RegexValidator(
+                regex=r"^[0-9\s]*$",
+                message="Phone number can only contain numbers.",
+            ),
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Phone number is already registered",
+            ),
+        ],
+    )
+    
