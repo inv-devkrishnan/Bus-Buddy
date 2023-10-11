@@ -30,11 +30,14 @@ class UpdateProfile(APIView):
             if User.objects.filter(id=user_id):
                 current_data = User.objects.get(id=user_id)
                 serialized_data = UMS(data=request.data)
-                current_data.first_name = serialized_data.validated_data["first_name"]
-                current_data.last_name = serialized_data.validated_data["last_name"]
-                current_data.email = serialized_data.validated_data["email"]
-                current_data.phone = serialized_data.validated_data["phone"]
-                return Response({"message":"updated successfully"},status=200)
+                if serialized_data.is_valid():
+                    current_data.first_name = serialized_data.validated_data["first_name"]
+                    current_data.last_name = serialized_data.validated_data["last_name"]
+                    current_data.email = serialized_data.validated_data["email"]
+                    current_data.phone = serialized_data.validated_data["phone"]
+                    return Response({"message":"updated successfully"},status=200)
+                else:
+                    return Response(serialized_data._errors,status=400)
             else:
                 return Response({"message":"invalid user"})
         else:
