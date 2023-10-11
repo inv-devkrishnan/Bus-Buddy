@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
-from account_manage.serializer import UserModelSerializer as UMS
+from normal_user.serializer import UserModelSerializer as UMS
 
 
 class RegisterUser(APIView):
