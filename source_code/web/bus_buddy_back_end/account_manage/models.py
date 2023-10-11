@@ -22,6 +22,7 @@ class User(AbstractBaseUser):
     extra_charges = models.FloatField(null=True, blank=False)
     role = models.SmallIntegerField(default=2)
     status = models.SmallIntegerField(default=0)
+    account_provider = models.SmallIntegerField(default=0)
     user_details_status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

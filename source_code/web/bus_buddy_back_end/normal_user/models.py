@@ -41,7 +41,7 @@ class Bookings(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_time = models.DateTimeField(auto_now=True, null=False)
 
-    class meta:
+    class Meta:
         db_table = "bookings"
 
 
@@ -53,7 +53,7 @@ class Payment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_time = models.DateTimeField(auto_now=True)
 
-    class meta:
+    class Meta:
         db_table = "payment"
 
 
@@ -65,7 +65,7 @@ class Traveler(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_time = models.DateTimeField(auto_now=True)
 
-    class meta:
+    class Meta:
         db_table = "traveler"
 
 
