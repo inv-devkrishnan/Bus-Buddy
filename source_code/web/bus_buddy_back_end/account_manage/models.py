@@ -9,12 +9,18 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_superuser(self, password,**extra_fields):
+        user = self.model(first_name="Admin",role=1,**extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
 
 class User(AbstractBaseUser):
-    first_name = models.CharField(max_length=100,null=False)
+    first_name = models.CharField(max_length=100, null=False)
     last_name = models.CharField(max_length=100, null=True, blank=False)
-    email = models.EmailField(max_length=254, unique=True,null=False)
-    password = models.CharField(max_length=100,null=False)
+    email = models.EmailField(max_length=254, unique=True, null=False)
+    password = models.CharField(max_length=100, null=False)
     phone = models.CharField(max_length=100, null=True, blank=False)
     company_name = models.CharField(max_length=100, null=True, blank=False)
     aadhaar_no = models.CharField(max_length=100, null=True, blank=False)
