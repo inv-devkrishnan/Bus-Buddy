@@ -35,6 +35,7 @@ class UpdateProfile(APIView):
                     current_data.last_name = serialized_data.validated_data["last_name"]
                     current_data.email = serialized_data.validated_data["email"]
                     current_data.phone = serialized_data.validated_data["phone"]
+                    current_data.save()
                     return Response({"message":"updated successfully"},status=200)
                 else:
                     return Response(serialized_data._errors,status=400)
