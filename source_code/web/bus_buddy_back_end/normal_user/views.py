@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -26,10 +27,9 @@ class UpdateProfile(APIView):
     def put(self, request, id):
         user_id = id
         entered_password = request.data.get("password")
-        entered_email = request.data.get("email")
-        entered_phone = request.data.get("phone")
+        
         if User.objects.filter(password=entered_password):
-            if User.objects.filter(email!=entered_email and phone!=entered_phone):
+            try:
                 current_data = User.objects.get(id=user_id)
                 serialized_data = UUS(data=request.data)
                 if serialized_data.is_valid():
@@ -37,13 +37,23 @@ class UpdateProfile(APIView):
                         "first_name"
                     ]
                     current_data.last_name = serialized_data.validated_data["last_name"]
-                    current_data.email = serialized_data.validated_data["email"]
-                    current_data.phone = serialized_data.validated_data["phone"]
+                    current_data.email = serialized_data._validated_data["email"]
+                    current_data.phone = serialized_data._validated_data["phone"]
                     current_data.save()
                     return Response({"message": "updated successfully"}, status=200)
                 else:
                     return Response(serialized_data._errors, status=400)
-            else:
-                return Response({"message": "invalid user"})
+            except IntegrityError:
+                current_data = User.objects.get(id=user_id)
+                serialized_data = UUS(data=request.data)
+                if serialized_data.is_valid():
+                    current_data.first_name = serialized_data.validated_data[
+                        "first_name"
+                    ]
+                    current_data.last_name = serialized_data.validated_data["last_name"]
+                    current_data.save()
+                    return Response({"message": "updated successfully"}, status=200)
+                else:
+                    return Response(serialized_data._errors, status=400)      
         else:
             return Response({"message": "invalid password"})
