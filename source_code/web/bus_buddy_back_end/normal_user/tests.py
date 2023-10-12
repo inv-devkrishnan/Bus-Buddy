@@ -1,8 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
-from django.contrib.auth.models import User
-from .serializer import UserModelSerializer as UMS
 
 valid_first_name = "Sakki"
 valid_last_name = "Sayya"
