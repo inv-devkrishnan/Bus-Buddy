@@ -4,7 +4,11 @@ from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
+regex_number_only = r"^[0-9\s]*$"
 error_message_only_letter = "This field can only contain letters"
+error_message_email_exist = "Email is already registered"
+error_message_only_number = "This field can only contain numbers."
+error_message_phone_exist = "Phone number is already registered"
 
 
 class UserModelSerializer(serializers.ModelSerializer):
@@ -33,7 +37,7 @@ class UserModelSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         validators=[
             UniqueValidator(
-                queryset=User.objects.all(), message="Email is already registered"
+                queryset=User.objects.all(), message=error_message_email_exist
             ),
         ]
     )
@@ -50,46 +54,143 @@ class UserModelSerializer(serializers.ModelSerializer):
         min_length=10,
         max_length=10,
         validators=[
-            RegexValidator(
-                regex=r"^[0-9\s]*$",
-                message="Phone number can only contain numbers.",
-            ),
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
             UniqueValidator(
-                queryset=User.objects.all(),
-                message="Phone number is already registered",
+                queryset=User.objects.all(), message=error_message_phone_exist
             ),
         ],
     )
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    container = UserModelSerializer
-    
     class Meta:
-        model = User
-        fields = ("first_name","last_name","email","phone")
+        model = UserModelSerializer(User)
+        fields = ("first_name", "last_name", "email", "phone")
 
-    
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_email_exist
+            ),
+        ]
+    )
+    phone = serializers.CharField(
+        min_length=10,
+        max_length=10,
+        validators=[
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_phone_exist
+            ),
+        ],
+    )
+
+
 class UserUpdateOnlyNameSerializer(serializers.ModelSerializer):
-    container = UserModelSerializer
-    
     class Meta:
         model = User
-        fields = ("first_name","last_name")
+        fields = ("first_name", "last_name")
+
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
 
 
 class UserUpdateExceptEmailSerializer(serializers.ModelSerializer):
-    container = UserModelSerializer
-    
     class Meta:
         model = User
-        fields = ("first_name","last_name","phone")
+        fields = ("first_name", "last_name", "phone")
+
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    phone = serializers.CharField(
+        min_length=10,
+        max_length=10,
+        validators=[
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_phone_exist
+            ),
+        ],
+    )
 
 
 class UserUpdateExceptPhoneSerializer(serializers.ModelSerializer):
-    container = UserModelSerializer
-    
     class Meta:
         model = User
-        fields = ("first_name","last_name","email")
+        fields = ("first_name", "last_name", "email")
 
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_email_exist
+            ),
+        ]
+    )

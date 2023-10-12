@@ -22,7 +22,7 @@ def update_only_name(request, user_id):
         current_data.first_name = serialized_data.validated_data["first_name"]
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
 
@@ -35,7 +35,7 @@ def update_except_email(request, user_id):
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.phone = serialized_data.validated_data["phone"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
 
@@ -48,9 +48,23 @@ def update_except_phone(request, user_id):
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.email = serialized_data.validated_data["email"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
+    
+def update_all(request, user_id):
+    current_data = User.objects.get(id=user_id)
+    serialized_data = AllField(data=request.data)
+    if serialized_data.is_valid():
+        current_data.first_name = serialized_data.validated_data["first_name"]
+        current_data.last_name = serialized_data.validated_data["last_name"]
+        current_data.email = serialized_data.validated_data["email"]
+        current_data.phone = serialized_data.validated_data["phone"]
+        current_data.save()
+        return True
+    else:
+        return serialized_data._errors
+    
 
 
 class RegisterUser(APIView):
@@ -76,27 +90,30 @@ class UpdateProfile(APIView):
         if User.objects.all().filter(
             email__contains=entered_email, phone=entered_phone # old email and phone
         ):
-            message = update_only_name(request, user_id)
-            return Response(message)
+            flag=update_only_name(request, user_id)
+            if flag==True:
+                return Response(update_message)
+            else:
+                return Response(flag,status=400) 
         elif User.objects.all().filter(
             ~Q(phone=entered_phone), email__contains=entered_email # old email only
         ):
-            message = update_except_email(request, user_id)
-            return Response(message)
+            flag=update_except_email(request, user_id)
+            if flag==True:
+                return Response(update_message)
+            else:
+                return Response(flag,status=400) 
         elif User.objects.all().filter(
             ~Q(email__contains=entered_email), phone=entered_phone # old phone only
         ):
-            message = update_except_phone(request, user_id)
-            return Response(message)
-        else: # every data is different from old
-            current_data = User.objects.get(id=user_id)
-            serialized_data = AllField(data=request.data)
-            if serialized_data.is_valid():
-                current_data.first_name = serialized_data.validated_data["first_name"]
-                current_data.last_name = serialized_data.validated_data["last_name"]
-                current_data.email = serialized_data.validated_data["email"]
-                current_data.phone = serialized_data.validated_data["phone"]
-                current_data.save()
+            flag=update_except_phone(request, user_id)
+            if flag==True:
                 return Response(update_message)
             else:
-                return Response(serialized_data._errors)
+                return Response(flag,status=400) 
+        else: # every data is different from old
+            flag=update_all(request, user_id)
+            if flag==True:
+                return Response(update_message)
+            else:
+                return Response(flag,status=400) 
