@@ -51,26 +51,25 @@ axiosApi.interceptors.response.use(
       if (
         error.response.status === 401 &&
         !originalRequest._retry &&
-        originalRequest.url !== "account/local-login/"
+        (originalRequest.url !== "account/local-login/" && originalRequest.url !=="account/google-login/" )
       ) {
         /* tries to get new access token from  exisiting refresh token when access token expires
         and request url is not login api call*/
         originalRequest._retry = true;
-        const accessToken = await getAcessToken(); 
+        console.log(originalRequest.url);
+        const accessToken = await getAcessToken();
         sessionStorage.setItem("access_token", accessToken);
         console.log("Access Token Updated !");
         axiosApi.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${sessionStorage.getItem("access_token")}`;
         return axiosApi(originalRequest);
-      } 
-      else if (
+      } else if (
         error.response.status === 401 &&
-        originalRequest.url !== "account/local-login/"
+        (originalRequest.url !== "account/local-login/" && originalRequest.url !=="account/google-login/" )
       ) {
         localStorage.clear();
         sessionStorage.clear();
-        console.log(error.config.url);
         window.location.replace(loginUrl);
       }
     }

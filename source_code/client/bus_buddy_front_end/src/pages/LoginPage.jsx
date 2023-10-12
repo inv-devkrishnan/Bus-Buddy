@@ -6,8 +6,11 @@ import Col from "react-bootstrap/Col";
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Image from 'react-bootstrap/Image';
 import { GoogleLogin } from "@react-oauth/google";
 import { login, loginWithGoogle } from "../utils/loginApiCalls";
+import { getErrorMessage } from "../utils/getErrorMessage";
+import LoginSplash from "../assets/images/login_splash.jpg";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -48,30 +51,7 @@ function LoginPage() {
     } else {
       const error = loginRes?.message?.response?.data?.error_code;
       if (loginRes?.message?.response?.data?.error_code) {
-        switch (error) {
-          case "D1000":
-            setErrorMessage("Invalid Login Credentials");
-            break;
-          case "D1001":
-            setErrorMessage(
-              "User doesn't exist or use different sign in method"
-            );
-            break;
-          case "D1002":
-            setErrorMessage("Data validation failed");
-            break;
-          case "G1003":
-            setErrorMessage("Unauthorized client (google auth)");
-            break;
-          case "G1004":
-            setErrorMessage("token expired (google auth)");
-            break;
-          case "G1005":
-            setErrorMessage("token invalid (google auth)");
-            break;
-          default:
-            setErrorMessage("Unknown Error");
-        }
+        setErrorMessage(getErrorMessage(error))
         setIsHidden(false);
       }
     }
@@ -92,11 +72,11 @@ function LoginPage() {
   return (
     <Container className="mt-5">
       <Row>
-        <Col></Col>
+        <Col>
+        <Image src={LoginSplash} fluid></Image>
+        </Col>
         <Col>
         <Card className="p-5">
-
-       
           <h1>Login</h1>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -110,6 +90,9 @@ function LoginPage() {
                 }}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+              Please provide a valid Email.
+            </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -123,6 +106,9 @@ function LoginPage() {
                 }}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+              Please provide a valid Password.
+            </Form.Control.Feedback>
             </Form.Group>
             <Form.Label
               className="d-block text-danger text-center"
