@@ -3,7 +3,8 @@ from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
-class UserModelSerializer(serializers.ModelSerializer):
+
+class OwnerModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
@@ -50,6 +51,10 @@ class UserModelSerializer(serializers.ModelSerializer):
                 regex=r"^[0-9\s]*$",
                 message="Phone number can only contain numbers.",
             ),
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Phone number is already registered",
+            ),
         ],
     )
     company_name = serializers.CharField(max_length=100)
@@ -61,7 +66,51 @@ class UserModelSerializer(serializers.ModelSerializer):
                 regex=r"^[0-9\s]*$",
                 message="Aadhaar number can only contain numbers.",
             ),
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Adhaar number is already registered",
+            ),
         ],
     )
-    msme_no = serializers.CharField(max_length=20)
-    extra_charges = serializers.DecimalField(max_digits=12,decimal_places=5)
+    msme_no = serializers.CharField(
+        max_length=20,
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="MSME number is already registered",
+            ),
+        ],
+    )
+    extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
+
+
+class OwnerUpdateSerializer(serializers.ModelSerializer):
+    container = OwnerModelSerializer
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "phone", "company_name")
+
+
+class OwnerUpdateExceptEmailSerializer(serializers.ModelSerializer):
+    container = OwnerModelSerializer
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "phone", "company_name")
+
+
+class OwnerUpdateExceptPhoneSerializer(serializers.ModelSerializer):
+    container = OwnerModelSerializer
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "company_name")
+
+
+class OwnerUpdateOnlyNamesSerializer(serializers.ModelSerializer):
+    container = OwnerModelSerializer
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "company_name")
