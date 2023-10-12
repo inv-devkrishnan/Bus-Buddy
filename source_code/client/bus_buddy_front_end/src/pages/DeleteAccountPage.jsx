@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import { useAuthStatus } from "../utils/useAuth";
 import Button from "react-bootstrap/Button";
+import { useAuthStatus } from "../utils/useAuth";
 import { deleteUserAccount } from "../utils/apiCalls";
 function DeleteAccountPage() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ function DeleteAccountPage() {
       navigate("/login");
     }
   }, [authStatus, navigate]);
+  
   const deleteAccount = async () => {
     const response = await deleteUserAccount();
     if(response.status)
