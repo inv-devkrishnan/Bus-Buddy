@@ -1,12 +1,56 @@
 from django.shortcuts import render
-from django.db import IntegrityError
+from django.db.models import Q  # to check not equal in filter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from normal_user.serializer import UserModelSerializer as UMS
-from normal_user.serializer import UserUpdateSerializer as UUS
+from normal_user.serializer import UserUpdateSerializer as AllField
+from normal_user.serializer import UserUpdateOnlyNameSerializer as OnlyName
+from normal_user.serializer import UserUpdateExceptEmailSerializer as ExceptEmail
+from normal_user.serializer import UserUpdateExceptPhoneSerializer as ExceptPhone
+
+# commonly used messages
+update_message = {"message": "updated succesffully"}
+
+
+def update_only_name(request, user_id):
+    current_data = User.objects.get(id=user_id)
+    serialized_data = OnlyName(data=request.data)
+    if serialized_data.is_valid():
+        current_data.first_name = serialized_data.validated_data["first_name"]
+        current_data.last_name = serialized_data.validated_data["last_name"]
+        current_data.save()
+        return update_message
+    else:
+        return serialized_data._errors
+
+
+def update_except_email(request, user_id):
+    current_data = User.objects.get(id=user_id)
+    serialized_data = ExceptEmail(data=request.data)
+    if serialized_data.is_valid():
+        current_data.first_name = serialized_data.validated_data["first_name"]
+        current_data.last_name = serialized_data.validated_data["last_name"]
+        current_data.phone = serialized_data.validated_data["phone"]
+        current_data.save()
+        return update_message
+    else:
+        return serialized_data._errors
+
+
+def update_except_phone(request, user_id):
+    current_data = User.objects.get(id=user_id)
+    serialized_data = ExceptPhone(data=request.data)
+    if serialized_data.is_valid():
+        current_data.first_name = serialized_data.validated_data["first_name"]
+        current_data.last_name = serialized_data.validated_data["last_name"]
+        current_data.email = serialized_data.validated_data["email"]
+        current_data.save()
+        return update_message
+    else:
+        return serialized_data._errors
 
 
 class RegisterUser(APIView):
@@ -26,34 +70,33 @@ class UpdateProfile(APIView):
 
     def put(self, request, id):
         user_id = id
-        entered_password = request.data.get("password")
-        
-        if User.objects.filter(password=entered_password):
-            try:
-                current_data = User.objects.get(id=user_id)
-                serialized_data = UUS(data=request.data)
-                if serialized_data.is_valid():
-                    current_data.first_name = serialized_data.validated_data[
-                        "first_name"
-                    ]
-                    current_data.last_name = serialized_data.validated_data["last_name"]
-                    current_data.email = serialized_data._validated_data["email"]
-                    current_data.phone = serialized_data._validated_data["phone"]
-                    current_data.save()
-                    return Response({"message": "updated successfully"}, status=200)
-                else:
-                    return Response(serialized_data._errors, status=400)
-            except IntegrityError:
-                current_data = User.objects.get(id=user_id)
-                serialized_data = UUS(data=request.data)
-                if serialized_data.is_valid():
-                    current_data.first_name = serialized_data.validated_data[
-                        "first_name"
-                    ]
-                    current_data.last_name = serialized_data.validated_data["last_name"]
-                    current_data.save()
-                    return Response({"message": "updated successfully"}, status=200)
-                else:
-                    return Response(serialized_data._errors, status=400)      
-        else:
-            return Response({"message": "invalid password"})
+        entered_email = request.data.get("email")
+        entered_phone = request.data.get("phone")
+
+        if User.objects.all().filter(
+            email__contains=entered_email, phone=entered_phone # old email and phone
+        ):
+            message = update_only_name(request, user_id)
+            return Response(message)
+        elif User.objects.all().filter(
+            ~Q(phone=entered_phone), email__contains=entered_email # old email only
+        ):
+            message = update_except_email(request, user_id)
+            return Response(message)
+        elif User.objects.all().filter(
+            ~Q(email__contains=entered_email), phone=entered_phone # old phone only
+        ):
+            message = update_except_phone(request, user_id)
+            return Response(message)
+        else: # every data is different from old
+            current_data = User.objects.get(id=user_id)
+            serialized_data = AllField(data=request.data)
+            if serialized_data.is_valid():
+                current_data.first_name = serialized_data.validated_data["first_name"]
+                current_data.last_name = serialized_data.validated_data["last_name"]
+                current_data.email = serialized_data.validated_data["email"]
+                current_data.phone = serialized_data.validated_data["phone"]
+                current_data.save()
+                return Response(update_message)
+            else:
+                return Response(serialized_data._errors)

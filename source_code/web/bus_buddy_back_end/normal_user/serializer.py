@@ -63,30 +63,33 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+    container = UserModelSerializer
+    
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ("first_name","last_name","email","phone")
 
-    first_name = serializers.CharField(
-        max_length=100,
-        validators=[
-            RegexValidator(
-                regex=regex_alphabet_only,
-                message=error_message_only_letter,
-            ),
-        ],
-    )
-    last_name = serializers.CharField(
-        max_length=100,
-        validators=[
-            RegexValidator(
-                regex=regex_alphabet_only,
-                message=error_message_only_letter,
-            ),
-        ],
-    )
-    email = serializers.EmailField()
-    phone = serializers.CharField(
-        min_length=10,
-        max_length=10,
-    )
+    
+class UserUpdateOnlyNameSerializer(serializers.ModelSerializer):
+    container = UserModelSerializer
+    
+    class Meta:
+        model = User
+        fields = ("first_name","last_name")
+
+
+class UserUpdateExceptEmailSerializer(serializers.ModelSerializer):
+    container = UserModelSerializer
+    
+    class Meta:
+        model = User
+        fields = ("first_name","last_name","phone")
+
+
+class UserUpdateExceptPhoneSerializer(serializers.ModelSerializer):
+    container = UserModelSerializer
+    
+    class Meta:
+        model = User
+        fields = ("first_name","last_name","email")
+
