@@ -10,11 +10,11 @@ class UserManager(BaseUserManager):
         return user
 
 
-def create_google_user(self, **extra_fields):
-    user = self.model(**extra_fields)
-    user.set_unusable_password()
-    user.save()
-    return user
+    def create_google_user(self, **extra_fields):
+        user = self.model(**extra_fields)
+        user.set_unusable_password()
+        user.save()
+        return user
 
 
 class User(AbstractBaseUser):
