@@ -5,8 +5,7 @@ export async function login(userCredentials) {
   await axiosApi
     .post("account/local-login/", userCredentials)
     .then((result) => {
-      localStorage.setItem("refresh_token", result.data.refresh);
-      sessionStorage.setItem("access_token", result.data.access);
+      message = result.data
       status = true;
     })
     .catch(function (error) {
@@ -22,8 +21,7 @@ export async function loginWithGoogle(credToken) {
   await axiosApi
     .post("account/google-login/", credToken)
     .then((result) => {
-      localStorage.setItem("refresh_token", result.data.refresh);
-      sessionStorage.setItem("access_token", result.data.access);
+      message = result.data
       status = true;
     })
     .catch(function (error) {
@@ -63,4 +61,21 @@ export async function deleteUserAccount() {
       message = error;
     });
   return { status: status, message: message };
+}
+
+export async function changePassword(passwordData)
+{
+  let status;
+  let message;
+  await axiosApi
+    .put("account/change-password/",passwordData)
+    .then((result) => {
+      message = result.data;
+      status = true;
+    })
+    .catch(function (error) {
+      status = false;
+      message = error;
+    });
+    return{status:status,message:message}
 }

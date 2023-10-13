@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import DeleteAccountPage from "./pages/DeleteAccountPage";
+import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 
 

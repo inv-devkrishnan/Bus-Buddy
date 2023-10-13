@@ -6,4 +6,5 @@ def generate_token(user):
     return {
         'refresh': str(refresh),
         'access': str(refresh.access_token),
+        'refresh_token_expire_time': str(refresh.lifetime.total_seconds()*1000)
     }

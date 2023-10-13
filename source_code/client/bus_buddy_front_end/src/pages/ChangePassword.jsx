@@ -7,8 +7,12 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Modal from "react-bootstrap/Modal";
 
-import { useAuthStatus } from "../utils/useAuth";
+import { useAuthStatus } from "../utils/hooks/useAuth";
+import { changePassword } from "../utils/apiCalls";
+import { useLogout } from "../utils/hooks/useLogout";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 function ChangePassword() {
   const navigate = useNavigate();
@@ -25,7 +29,14 @@ function ChangePassword() {
   const [oldpassword, setOldpassword] = useState("");
   const [newpassword, setNewpassword] = useState("");
   const [renterpassword, setRenterpassword] = useState("");
-  const passwordMatched = useRef(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const passwordMatched = useRef(true);
+  const oldNotNewPassword = useRef(true);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const logout = useLogout();
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -33,10 +44,15 @@ function ChangePassword() {
       event.stopPropagation();
     } else {
       event.preventDefault();
+      if (passwordMatched.current && oldNotNewPassword.current) {
+        setErrorMessage("");
+        changeUserPassword();
+      }
     }
 
     setValidated(true);
   };
+
   const checkPasswordMatch = (e) => {
     if (e.target.value === newpassword) {
       passwordMatched.current = true;
@@ -45,11 +61,41 @@ function ChangePassword() {
     }
     setRenterpassword(e.target.value);
   };
+  const checkOldNotNewPassword = (e) => {
+    if (e.target.value === oldpassword) {
+      oldNotNewPassword.current = false;
+    } else {
+      oldNotNewPassword.current = true;
+    }
+    setRenterpassword("");
+    setNewpassword(e.target.value);
+  };
+
+  const changeUserPassword = async () => {
+    if (authStatus.current) {
+      const passwordData = {
+        old_password: oldpassword,
+        new_password: newpassword,
+      };
+      const response = await changePassword(passwordData);
+      if (response.status) {
+        handleShow(); // shows the logout modal
+      } else {
+        const error = response?.message?.response?.data?.error_code;
+        if (error) {
+          setErrorMessage(getErrorMessage(error));
+        }
+      }
+    } else {
+      console.log("timeout")
+      navigate("/login");
+    }
+  };
   return (
     <Container className="mt-3">
       <Row>
         <Col>
-          <h1>Change Password</h1>
+          <h1>Change password</h1>
           <Form
             noValidate
             validated={validated}
@@ -57,7 +103,7 @@ function ChangePassword() {
             className="ms-3 mt-3"
           >
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label> Old Password</Form.Label>
+              <Form.Label> Old password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Old Password"
@@ -69,28 +115,29 @@ function ChangePassword() {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a valid Password.
+                Please provide a valid password.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>New Password</Form.Label>
+              <Form.Label>New password</Form.Label>
               <Form.Control
                 type="password"
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*\(\)_\+\-\{\}\[\]:;<>,\.\?~\\\/]).{8,20}$"
                 placeholder="New Password"
                 value={newpassword}
-                onChange={(e) => {
-                  setNewpassword(e.target.value);
-                }}
+                onChange={checkOldNotNewPassword}
+                isInvalid={!oldNotNewPassword.current}
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a valid Password.
+                {oldNotNewPassword.current
+                  ? "Please enter a valid password"
+                  : "New password can't be same as old"}
               </Form.Control.Feedback>
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Re enter Password</Form.Label>
+              <Form.Label>Re enter password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Re enter Password"
@@ -104,7 +151,10 @@ function ChangePassword() {
                 Password doesn't match
               </Form.Control.Feedback>
             </Form.Group>
-            <Button variant="success" type="submit">
+            <Form.Text className="text-danger d-block">
+              {errorMessage}
+            </Form.Text>
+            <Button variant="success mt-2" type="submit">
               Change Password
             </Button>
           </Form>
@@ -126,6 +176,18 @@ function ChangePassword() {
           </Card>
         </Col>
       </Row>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Password change successful</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>You will be logged out</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={logout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

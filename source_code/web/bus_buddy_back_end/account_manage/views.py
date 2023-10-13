@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authentication import authenticate
-from decouple import config
 from .serializer import GoogleAuthSerializer as GAS
 from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
@@ -13,6 +12,7 @@ from .google_auth import Google
 
 
 class LoginWithGoogle(APIView):
+    # to login google users
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -55,22 +55,24 @@ class LoginWithGoogle(APIView):
 
 
 class LoginLocal(APIView):
+    # to login local users
     permission_classes = (AllowAny,)
 
     def post(self, request):
         user_credentials = LS(data=request.data)
 
-        if user_credentials.is_valid():
+        if user_credentials.is_valid(): #  validation check
             try:
                 user = User.objects.get(
                     email=user_credentials.validated_data["email"],
                     account_provider=0,
                     status=0,
                 )
+                # authenticates user
                 is_user_authenticated = authenticate(
                     email=user_credentials.validated_data["email"],
                     password=user_credentials.validated_data["password"],
-                )
+                ) 
                 if is_user_authenticated:
                     token = generate_token(user)
                     return Response(token, status=200)
@@ -106,13 +108,19 @@ class ChangePassword(APIView):
         password_data = PS(data=request.data)
         if password_data.is_valid():
             user_id = request.user.id
-            user = User.objects.get(id=user_id)
-            old_password = password_data.validated_data["old_password"]
-            if user.check_password(old_password):
-                user.set_password(password_data.validated_data["new_password"])
-                user.save()
-                return Response({"success_code": "D2001"}, status=200)
-            else:
-                return Response({"error_code": "D1003"}, status=409)
+            try:
+                # limiting change password only to local users
+                user = User.objects.get(
+                    id=user_id, account_provider=0
+                )  
+                old_password = password_data.validated_data["old_password"]
+                if user.check_password(old_password):
+                    user.set_password(password_data.validated_data["new_password"])
+                    user.save()
+                    return Response({"success_code": "D2001"}, status=200)
+                else:
+                    return Response({"error_code": "D1003"}, status=400)
+            except User.DoesNotExist:
+                return Response({"error_code": "D1004"}, status=403)
         else:
             return Response({"error_code": "D1002"}, status=400)

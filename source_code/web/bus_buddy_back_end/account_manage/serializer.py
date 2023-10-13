@@ -28,3 +28,10 @@ class PasswordSerializer(serializers.Serializer):
             ),
         ],
     )
+
+    def validate(self, attrs):
+        if attrs.get("old_password") == attrs.get("new_password"):
+            raise serializers.ValidationError(
+                "old password can't be same as new password"
+            )
+        return super().validate(attrs)
