@@ -9,7 +9,7 @@ from .serializers import buddyserializer
 logger = logging.getLogger(__name__)
 from django.core.exceptions import ObjectDoesNotExist 
 from rest_framework.exceptions import ValidationError
-
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -34,9 +34,9 @@ class Addbus(APIView):
         
 class Deletebus(APIView):
     permission_classes=(AllowAny,)
-    def put(self, request,bus_name):
+    def put(self, request,id):
         try:
-            data=Bus.objects.get(bus_name=bus_name)
+            data=Bus.objects.get(id=id)
             data.status=99
             data.save()
             logger.info ("Deleted")
@@ -47,12 +47,12 @@ class Deletebus(APIView):
         
 class Updatebus(APIView):
     # permission_classes=(AllowAny,)
-    def put(self, request,bus_name):
+    def put(self, request,id):
         try:
             serializer = buddyserializer(data=request.data)
-            data=Bus.objects.get(bus_name=bus_name)
+            data=Bus.objects.get(id=id)
             if serializer.is_valid(): 
-                data.user=serializer.validated_data['user']
+                data.user=1
                 data.bus_name=serializer.validated_data['bus_name']
                 data.plate_no=serializer.validated_data['plate_no']
                 data.status=serializer.validated_data['status']

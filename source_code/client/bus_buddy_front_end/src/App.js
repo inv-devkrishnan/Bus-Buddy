@@ -15,9 +15,9 @@ function App() {
           <React.Fragment>
             <Routes>
               <Route path='/BusHome' element={<BusHome/>}/>
-              <Route path='/' element={<Addbus/>}/>
+              <Route path='/Addbus' element={<Addbus/>}/>
               <Route path='/Deletebus' element={<Deletebus/>}/>
-              <Route path='/Updatebus' element={<Updatebus/>}/>
+              <Route path='/' element={<Updatebus/>}/>
               <Route path='/Viewbus' element={<Viewbus/>}/>
             </Routes>
           </React.Fragment>
