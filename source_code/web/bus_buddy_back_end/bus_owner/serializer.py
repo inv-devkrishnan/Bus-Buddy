@@ -3,6 +3,7 @@ from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
+
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -50,6 +51,9 @@ class UserModelSerializer(serializers.ModelSerializer):
                 regex=r"^[0-9\s]*$",
                 message="Phone number can only contain numbers.",
             ),
+            UniqueValidator(
+                queryset=User.objects.all(), message="Phone number is already registered"
+            ),
         ],
     )
     company_name = serializers.CharField(max_length=100)
@@ -64,4 +68,4 @@ class UserModelSerializer(serializers.ModelSerializer):
         ],
     )
     msme_no = serializers.CharField(max_length=20)
-    extra_charges = serializers.DecimalField(max_digits=12,decimal_places=5)
+    extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
