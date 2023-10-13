@@ -4,9 +4,9 @@ from rest_framework.test import APIClient
 
 valid_first_name = "Sakki"
 valid_last_name = "Sayya"
-valid_email = "SakkiSayya01@gmail.com"
+valid_email = "SakkiSayya999@gmail.com"
 valid_password = "Aa!1qwerty"
-valid_phone = "1234567899"
+valid_phone = "9961006248"
 
 
 class BaseTest(TestCase):
@@ -110,6 +110,7 @@ class RegisterUserTest(BaseTest):
     def test_can_register_user(self):
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.post(self.register, self.valid_all_values, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 201)
 
     def test_cant_register_user_with_invalid_names(self):
@@ -120,6 +121,7 @@ class RegisterUserTest(BaseTest):
     def test_cant_register_user_with_invalid_email(self):
         self.client.post(self.register, self.invalid_email, format="json")
         response = self.client.post(self.register, self.invalid_email, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_length(self):
