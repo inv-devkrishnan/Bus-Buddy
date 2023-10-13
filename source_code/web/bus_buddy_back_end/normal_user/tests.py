@@ -16,14 +16,14 @@ class BaseTest(TestCase):
         self.register = reverse("register-user")
 
         self.valid_all_values = {
-            "first_name": valid_first_name,
-            "last_name": valid_last_name,
-            "email": valid_email,
-            "password": valid_password,
-            "phone": valid_phone,
+            "first_name": "Priya",
+            "last_name": "Menoth",
+            "email": "priyaMenoth@gmail.com",
+            "password": "Az@9uhts",
+            "phone": "9495130217",
         }
 
-        self.invalid_names = {
+        self.invalid_names = { 
             "first_name": "56",
             "last_name": "789",
             "email": valid_email,
@@ -121,7 +121,6 @@ class RegisterUserTest(BaseTest):
     def test_cant_register_user_with_invalid_email(self):
         self.client.post(self.register, self.invalid_email, format="json")
         response = self.client.post(self.register, self.invalid_email, format="json")
-        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_length(self):
