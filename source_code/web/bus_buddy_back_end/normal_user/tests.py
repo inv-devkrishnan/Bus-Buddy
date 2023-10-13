@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
+from .models import User
 from .serializer import UserModelSerializer as UMS
 
 
@@ -13,7 +14,7 @@ class BaseTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-        self.update = reverse("update-profile")
+        self.update = reverse("update-profile",kwargs={'id': 1})
 
         self.valid_all_values = {
             "first_name": valid_first_name,
@@ -53,29 +54,34 @@ class BaseTest(TestCase):
         return super().setUp()
     
     
-class UpdateOwnerTest(BaseTest):
+class UpdateUserTest(BaseTest):
     def test_can_update_user(self):
-        self.client.post(self.update, self.valid_all_values, format="json")
-        response = self.client.post(self.update, self.valid_all_values, format="json")
+        self.client.put(self.update, self.valid_all_values, format="json")
+        response = self.client.put(self.update, self.valid_all_values, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 201)
 
     def test_cant_update_user_with_invalid_names(self):
-        self.client.post(self.update, self.invalid_names, format="json")
-        response = self.client.post(self.update, self.invalid_names, format="json")
+        self.client.put(self.update, self.invalid_names, format="json")
+        response = self.client.put(self.update, self.invalid_names, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_email(self):
-        self.client.post(self.update, self.invalid_email, format="json")
-        response = self.client.post(self.update, self.invalid_email, format="json")
+        self.client.put(self.update, self.invalid_email, format="json")
+        response = self.client.put(self.update, self.invalid_email, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_length(self):
-        self.client.post(self.update, self.invalid_phone_length, format="json")
-        response = self.client.post(self.update, self.invalid_phone_length, format="json")
+        self.client.put(self.update, self.invalid_phone_length, format="json")
+        response = self.client.put(self.update, self.invalid_phone_length, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_alphabet(self):
-        self.client.post(self.update, self.invalid_phone_alphabet, format="json")
-        response = self.client.post(self.update, self.invalid_phone_alphabet, format="json")
+        self.client.put(self.update, self.invalid_phone_alphabet, format="json")
+        response = self.client.put(self.update, self.invalid_phone_alphabet, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
