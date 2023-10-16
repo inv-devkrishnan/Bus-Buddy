@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from 'react-router-dom';
-import OwnerRegisterCard from './components/ownerRegisterCard';
+import OwnerRegisterCard from './components/OwnerRegisterCard';
 
 function App() {
   return (
