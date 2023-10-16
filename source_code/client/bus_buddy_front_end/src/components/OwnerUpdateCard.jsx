@@ -1,101 +1,175 @@
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import { React } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import updateImage from "../assets/update.jpg";
+import { useFormik } from "formik";
+import { OwnerUpdationSchema } from "./OwmerUpdationSchema";
 import axios from "axios";
 
 export default function OwnerUpdateForm() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const onSubmit = () => {
     axios
-      .put("http://127.0.0.1:8000/bus-owner/update-profile/23", {
-        first_name: data.get("firstName"),
-        last_name: data.get("lastName"),
-        email: data.get("email"),
-        phone: data.get("phone"),
-        company_name: data.get("companyName")
+      .put("http://127.0.0.1:8000/bus-owner/update-profile/19", {
+        first_name: formik.values.firstName,
+        last_name: formik.values.lastName,
+        email: formik.values.email,
+        phone: formik.values.phone,
+        company_name: formik.values.companyName,
       })
       .then((res) => {
         if (res.status === 200) {
-          Swal.fire(
-            'Edited!',
-            'Updated successfully!',
-            'success'
-          )        }
+          Swal.fire("Success!", "Updated successfully!", "success");
+          resetForm();
+        }
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.data.email && err.response.data.phone) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Email and phone is already registered",
+          });
+        } else if (err.response.data.email) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data.email,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data.phone,
+          });
+        }
       });
   };
 
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+      companyName: "",
+      aadhaar: "",
+      msme: "",
+      extraCharges: "",
+    },
+    validationSchema: OwnerUpdationSchema,
+    onSubmit,
+  });
+
+  const { resetForm } = formik;
   const handleClear = () => {
-    const form = document.getElementById("userRegisterForm");
-    form.reset();
+    resetForm();
   };
 
   return (
     <>
-    <Card style={{ width: '50rem' }}>
-      <Card.Img variant="top" src={updateImage} />
-      <Card.Body>
-      <Form onSubmit={handleSubmit} id="userRegisterForm">
-        <Form.Group className="mb-3" controlId="firstName">
-          <Form.Label>Fisrt name</Form.Label>
-          <Form.Control
-            name="firstName"
-            type="text"
-            placeholder="Enter first name"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="lastName">
-          <Form.Label>Last name</Form.Label>
-          <Form.Control
-            name="lastName"
-            type="text"
-            placeholder="Enter last name"
-          />{" "}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            name="email"
-            type="email"
-            placeholder="Enter email"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="phone">
-          <Form.Label>Phone number</Form.Label>
-          <Form.Control
-            name="phone"
-            type="text"
-            maxLength={10}
-            placeholder="Phone number"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="companyName">
-          <Form.Label>Company name</Form.Label>
-          <Form.Control
-            name="companyName"
-            type="text"
-            placeholder="Enter email"
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" style={{ margin: "4px" }}>
-          Submit
-        </Button>
-        <Button
-          variant="secondary"
-          style={{ margin: "4px" }}
-          onClick={handleClear}
-        >
-          Clear
-        </Button>
-      </Form>
-      </Card.Body>
-    </Card>
+      <Card style={{ width: "50rem" }}>
+        <Card.Img variant="top" src={updateImage} />
+        <Card.Body>
+          <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
+            <Form.Group className="mb-3" controlId="firstName">
+              <Form.Label>Fisrt name</Form.Label>
+              <Form.Control
+                name="firstName"
+                type="text"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.firstName && formik.errors.firstName}
+                placeholder="Enter first name"
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.firstName}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="lastName">
+              <Form.Label>Last name</Form.Label>
+              <Form.Control
+                name="lastName"
+                type="text"
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.lastName && formik.errors.lastName}
+                placeholder="Enter last name"
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.lastName}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                name="email"
+                type="temailext"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.email && formik.errors.email}
+                placeholder="Enter email"
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.email}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="phone">
+              <Form.Label>Phone number</Form.Label>
+              <Form.Control
+                name="phone"
+                type="text"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.phone && formik.errors.phone}
+                maxLength={10}
+                placeholder="Phone number"
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.phone}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="companyName">
+              <Form.Label>Comapny name</Form.Label>
+              <Form.Control
+                name="companyName"
+                type="text"
+                value={formik.values.companyName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={
+                  formik.touched.companyName && formik.errors.companyName
+                }
+                placeholder="Enter the company name"
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.companyName}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{ margin: "4px" }}>
+              Submit
+            </Button>
+            <Button
+              variant="secondary"
+              style={{ margin: "4px" }}
+              onClick={handleClear}
+            >
+              Clear
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </>
   );
 }
