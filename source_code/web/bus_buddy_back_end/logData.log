@@ -1,105 +1,4 @@
-django.request ERROR 2023-10-13 12:35:28,585 log 57254 140509898073664 Internal Server Error: /deletebus/6/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-TypeError: Deletebus.put() got an unexpected keyword argument 'bus_name'
-django.request ERROR 2023-10-13 12:36:14,108 log 57254 140509502756416 Internal Server Error: /deletebus/6/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-TypeError: Deletebus.put() got an unexpected keyword argument 'bus_name'
-django.request ERROR 2023-10-13 12:42:10,543 log 58298 140269135590976 Internal Server Error: /updatebus/1/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-TypeError: Updatebus.put() got an unexpected keyword argument 'id'
-django.request ERROR 2023-10-13 12:47:28,315 log 59140 140643773965888 Internal Server Error: /updatebus/1/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
-    data.user=serializer.validated_data['user']
-KeyError: 'user'
-django.request ERROR 2023-10-13 12:48:14,041 log 59140 140643773965888 Internal Server Error: /updatebus/1/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
-    data.user=serializer.validated_data['user']
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
-    raise ValueError(
-ValueError: Cannot assign "'1'": "Bus.user" must be a "User" instance.
-django.request ERROR 2023-10-13 12:49:06,734 log 59489 140635190322752 Internal Server Error: /updatebus/1/
+django.request ERROR 2023-10-16 03:52:56,110 log 10532 140613398816320 Internal Server Error: /updatebus/1/
 Traceback (most recent call last):
   File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
     response = get_response(request)
@@ -122,3 +21,459 @@ Traceback (most recent call last):
   File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
     raise ValueError(
 ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 03:55:03,956 log 10532 140613398816320 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 03:59:30,743 log 10532 140613398816320 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 04:02:27,361 log 11688 140599270303296 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1048, "Column 'user_id' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 24, in post
+    serializer.save()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+django.db.utils.IntegrityError: (1048, "Column 'user_id' cannot be null")
+django.request ERROR 2023-10-16 04:03:08,822 log 11688 140599270303296 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 24, in post
+    serializer.save()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/base.py", line 543, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "'1'": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 05:18:53,163 log 20434 139974930331200 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user = User.objects.get(id=1)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'account_manage.User'
+django.request ERROR 2023-10-16 05:19:42,041 log 21705 140220694521408 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=  User.objects.get(fk=1)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'account_manage.User'
+django.request ERROR 2023-10-16 05:20:03,940 log 21797 139935336101440 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=  User.objects.get(pk=1)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'account_manage.User'
+django.request ERROR 2023-10-16 05:24:11,851 log 21977 139734138480192 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    user_instance = User.objects.get(pk=1)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'account_manage.User'
+django.request ERROR 2023-10-16 05:24:34,144 log 22165 139648336651840 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=  1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 05:25:10,136 log 22237 140104101258816 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user= 1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 05:54:25,203 log 22237 140104101258816 Internal Server Error: /updatebus/2/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user= 1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 05:56:26,130 log 23576 139929579415104 Internal Server Error: /updatebus/2/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 05:56:57,432 log 23809 140622116677184 Internal Server Error: /updatebus/2/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 06:01:09,143 log 24032 139881611257408 Internal Server Error: /updatebus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 06:04:07,655 log 24032 139881611257408 Internal Server Error: /updatebus/10/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 55, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 06:06:08,863 log 24733 140395058030144 Internal Server Error: /updatebus/10/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 57, in put
+    data.user=1
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Bus.user" must be a "User" instance.
+django.request ERROR 2023-10-16 06:08:39,254 log 25161 140342015817280 Internal Server Error: /updatebus/10/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 57, in put
+    data.user = User.objects.get(id=1)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 196, in __get__
+    raise AttributeError(
+AttributeError: Manager isn't available; 'auth.User' has been swapped for 'account_manage.User'
