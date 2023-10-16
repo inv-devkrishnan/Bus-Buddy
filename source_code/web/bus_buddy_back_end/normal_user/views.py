@@ -81,11 +81,15 @@ class RegisterUser(APIView):
 
 class UpdateProfile(APIView):
     permission_classes = (AllowAny,)
+    
+    def get(self, request,id):
+        user_id=id
+        user= User.objects.filter(id=user_id).values()
+        return Response(user.values())
 
     def put(self, request, id):
         entered_email = request.data.get("email")
         entered_phone = request.data.get("phone")
-
         if User.objects.all().filter(
             email__contains=entered_email, phone=entered_phone # old email and phone
         ):
