@@ -14,7 +14,7 @@ export default function Viewalltask() {
 
     useEffect(() => {
       const fetchData = async () => {
-        const response = await axios.get("http://localhost:8000/viewbus/1/");
+        const response = await axios.get("http://localhost:8000/viewroutes/1/");
         setData(response.data);
       }
       fetchData();
@@ -24,15 +24,17 @@ export default function Viewalltask() {
 
 
     const renderTable = () => {
-        return data.map(viewbus => {
+        return data.map(viewroutes => {
           return (
             <tr>
-              <td>{viewbus.id}</td>
-              <td>{viewbus.bus_name}</td>
-              <td>{viewbus.plate_no}</td>
-              <td>{viewbus.status}</td>
-              <td>{viewbus.bus_type}</td>
-              <td>{viewbus.bus_ac}</td>
+              <td>{viewroutes.id}</td>
+              <td>{viewroutes.start_point}</td>
+              <td>{viewroutes.end_point}</td>
+              <td>{viewroutes.via}</td>
+              <td>{viewroutes.distance}</td>
+              <td>{viewroutes.duration}</td>
+              <td>{viewroutes.travel_fare}</td>
+
             </tr>
           )
         })
@@ -43,16 +45,17 @@ export default function Viewalltask() {
         <div style={{textAlign:"center",backgroundColor:"GrayText"}}>
             <h1>Viewall</h1>
         </div>
-        <div style={{marginLeft:"34%"}}>
+        <div style={{display:'flex',justifyContent:'center'}}>
             <table style={{width:"50%",backgroundColor:"powderblue"}}>
                 <thead>
                     <tr>
-                        <th>Bus Id</th>
-                        <th>Bus Name</th>
-                        <th>Plate No</th>
-                        <th>Status</th>
-                        <th>Bus Type</th>
-                        <th>Bus A/C</th>
+                        <th>Route ID</th>
+                        <th>Start Point</th>
+                        <th>End Point</th>
+                        <th>Via</th>
+                        <th>Distance</th>
+                        <th>Duration</th>
+                        <th>Travel Fare</th>
                     </tr>
                 </thead>
                 <tbody>{renderTable()}</tbody>

@@ -6,12 +6,13 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 export default function Delete() {
-  const [user,setuser]=useState(0);
+  const [user,setuser]=useState(1);
+  const [id,setid]=useState();
   const navi = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://127.0.0.1:8000/deletebus/6/`)
+    axios.put(`http://127.0.0.1:8000/deletebus/${id}/`)
       .then(response => {
         // navi('/Viewalltask');
         console.log("user:", user);
@@ -35,11 +36,11 @@ export default function Delete() {
     <div style={{display:"flex",justifyContent:"center"}}>
       <Card style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title  style={{textAlign:"center"}}>Card Title</Card.Title>
+        <Card.Title  style={{textAlign:"center"}}>Delete Bus</Card.Title>
         <Card.Text>
         <form >
-         <label for="id"> User ID:</label>
-         <input type="number" id="user" name="user" onChange={(e)=>{setuser(e.target.value)}}/><br/><br/>
+         <label for="id"> Bus ID:</label>
+         <input type="number" id="user" name="user" onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
          <input type='button' value={"Close"} onClick={handleSubmit} className="btn btn-success"/>
       </form> 
         </Card.Text>
