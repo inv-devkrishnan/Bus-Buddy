@@ -66,13 +66,21 @@ class Routes(models.Model):
 
 
 class Locations(models.Model):
-    routes = models.ForeignKey(Routes, on_delete=models.CASCADE)
     location_name = models.CharField(max_length=255, null=False)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "locations"
+
+
+class Stops(models.Model):
+    seq_id = models.IntegerField(null=False)
+    location = models.ForeignKey(Locations, on_delete=models.CASCADE)
+    route = models.ForeignKey(Routes, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "stops"
 
 
 class PickUp(models.Model):
