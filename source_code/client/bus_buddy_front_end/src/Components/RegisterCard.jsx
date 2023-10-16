@@ -157,12 +157,21 @@ export default function RegisterCard() {
                         }
                         placeholder="Enter password"
                       />
-                      <Button
-                        variant="outline-secondary"
-                        onClick={handleClickShowPassword}
-                      >
-                        Show
-                      </Button>
+                       {showPassword ? (
+                        <Button
+                          variant="outline-secondary"
+                          onClick={handleClickShowPassword}
+                        >
+                          Hide
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outline-secondary"
+                          onClick={handleClickShowPassword}
+                        >
+                          Show
+                        </Button>
+                      )}
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.password}
                       </Form.Control.Feedback>
@@ -182,12 +191,21 @@ export default function RegisterCard() {
                         }
                         placeholder="Confirm password"
                       />
-                      <Button
-                        variant="outline-secondary"
-                        onClick={handleClickShowConfirmPassword}
-                      >
-                        Show
-                      </Button>
+                     {showConfirmPassword ? (
+                        <Button
+                          variant="outline-secondary"
+                          onClick={handleClickShowConfirmPassword}
+                        >
+                          Hide
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outline-secondary"
+                          onClick={handleClickShowConfirmPassword}
+                        >
+                          Show
+                        </Button>
+                      )}
                       <Form.Control.Feedback type="invalid">
                         {formik.errors.confirmPassword}
                       </Form.Control.Feedback>
