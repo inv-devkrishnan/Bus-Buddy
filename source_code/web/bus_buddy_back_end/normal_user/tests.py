@@ -108,9 +108,7 @@ class BaseTest(TestCase):
 
 class RegisterUserTest(BaseTest):
     def test_can_register_user(self):
-        self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.post(self.register, self.valid_all_values, format="json")
-        print(response.content)
         self.assertEqual(response.status_code, 201)
 
     def test_cant_register_user_with_invalid_names(self):

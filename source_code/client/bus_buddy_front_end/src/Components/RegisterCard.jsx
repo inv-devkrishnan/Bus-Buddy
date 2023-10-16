@@ -31,7 +31,7 @@ axios.post('http://127.0.0.1:8000/user/registration/',{
 }).catch((err)=>{console.log(err.response.data);})
   };
 
-  const handleClear = (event)=>{
+  const handleClear = ()=>{
   const form = document.getElementById('userRegisterForm');
   form.reset();
   }
