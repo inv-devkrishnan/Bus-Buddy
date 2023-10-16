@@ -27,7 +27,7 @@ export default function Viewalltask() {
         return data.map(viewbus => {
           return (
             <tr>
-              <td>{viewbus.user}</td>
+              <td>{viewbus.id}</td>
               <td>{viewbus.bus_name}</td>
               <td>{viewbus.plate_no}</td>
               <td>{viewbus.status}</td>
@@ -47,7 +47,7 @@ export default function Viewalltask() {
             <table style={{width:"50%",backgroundColor:"powderblue"}}>
                 <thead>
                     <tr>
-                        <th>User</th>
+                        <th>Bus Id</th>
                         <th>Bus Name</th>
                         <th>Plate No</th>
                         <th>Status</th>

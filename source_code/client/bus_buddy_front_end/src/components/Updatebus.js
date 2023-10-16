@@ -59,7 +59,7 @@ export default function Updatebus() {
         <Card.Text style={{display:'flex',}}>
         <form onSubmit={handleSubmit} >
          <label for="user">Bus ID:</label>
-         <input type="text" id="id" name="id"  onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
+         <input type="text" id="id" name="id" onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
          <label for="user">User ID:</label>
          <input type="text" id="id" name="id" value={1}/><br/><br/>
          <label for="bus_name">Bus name:</label>
