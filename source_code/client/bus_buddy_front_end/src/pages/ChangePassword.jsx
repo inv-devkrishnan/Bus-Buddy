@@ -19,8 +19,8 @@ function ChangePassword() {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    console.log(authStatus.current);
-    if (!authStatus.current) {
+    console.log(authStatus().current);
+    if (!authStatus().current) {
       navigate("/login");
     }
   }, [authStatus, navigate]);
@@ -72,7 +72,7 @@ function ChangePassword() {
   };
 
   const changeUserPassword = async () => {
-    if (authStatus.current) {
+    if (authStatus().current) {
       const passwordData = {
         old_password: oldpassword,
         new_password: newpassword,

@@ -14,8 +14,8 @@ function DeleteAccount() {
   const logout = useLogout();
   const authStatus = useAuthStatus();
   useEffect(() => {
-    console.log(authStatus.current);
-    if (!authStatus.current) {
+    console.log(authStatus().current);
+    if (!authStatus().current) {
       navigate("/login");
     }
   }, [authStatus, navigate]);
@@ -25,7 +25,7 @@ function DeleteAccount() {
   const handleShow = () => setShow(true);
 
   const deleteAccount = async () => {
-    if (authStatus.current) {
+    if (authStatus().current) {
       const response = await deleteUserAccount();
       if (response.status) {
         logout();
