@@ -7,14 +7,12 @@ import Card from 'react-bootstrap/Card';
 // import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-// import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
 export default function Addbus() {
     const [user,setuser]=useState(1);
     const [bus_name,setbus_name]=useState("");
     const [plate_no,setplate_no]=useState("");
-    const [status,setstatus]=useState("");
     const [bus_type,setbus_type]=useState("");
     const [bus_ac,setbus_ac]=useState("");
     const [validated, setValidated] = useState(false);
@@ -29,7 +27,6 @@ export default function Addbus() {
             user:user,
             bus_name: bus_name,
             plate_no:plate_no,
-            status: status,
             bus_type:bus_type,
             bus_ac:bus_ac
           });
@@ -45,7 +42,6 @@ export default function Addbus() {
             user:Number(user),
             bus_name: bus_name,
             plate_no:plate_no,
-            status: status,
             bus_type:bus_type,
             bus_ac:bus_ac
           })
@@ -82,15 +78,6 @@ export default function Addbus() {
                 </Form.Group>
             </Row>
             <Row className="mb-5">
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-                <Form.Label>Status</Form.Label>
-                    <Form.Control
-                    type="number"
-                    placeholder="0"
-                    required
-                    onChange={(e)=>{setstatus(e.target.value)}}
-                    />
-                </Form.Group>
                 <Form.Group as={Col} md="4" controlId="validationCustom03">
                 <Form.Label>Bus Type</Form.Label>
                 <Form.Control type="number" placeholder="2" required onChange={(e)=>{setbus_type(e.target.value)}} />
@@ -104,7 +91,7 @@ export default function Addbus() {
 
            
             <div style={{paddingTop:'1.5rem'}}>
-                 <Button type="submit" >Submit</Button>
+                 <Button type="submit" >Add</Button>
                  </div> 
             </Form>
            

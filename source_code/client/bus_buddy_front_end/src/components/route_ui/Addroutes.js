@@ -7,19 +7,17 @@ import Card from 'react-bootstrap/Card';
 // import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
 export default function Addbus() {
     const [user,setuser]=useState(1);
     const [start_point,setstart_point]=useState("");
     const [end_point,setend_point]=useState("");
-    const [status,setstatus]=useState("");
+    // const [status,setstatus]=useState("");
     const [via,setvia]=useState("");
     const [distance,setdistance]=useState("");
     const [duration,setduration]=useState("");
     const [travel_fare,settravel_fare]=useState("");
-
     const [validated, setValidated] = useState(false);
     const navi = useNavigate();
 
@@ -32,7 +30,6 @@ export default function Addbus() {
             user:user,
             start_point: start_point,
             end_point:end_point,
-            status: status,
             via:via,
             distance:distance,
             duration:duration,
@@ -50,7 +47,6 @@ export default function Addbus() {
             user:Number(user),
             start_point: start_point,
             end_point:end_point,
-            status: status,
             via:via,
             distance:distance,
             duration:duration,
@@ -112,20 +108,11 @@ export default function Addbus() {
                 <Form.Label>Travel Fare</Form.Label>
                 <Form.Control type="number" placeholder="travel_fare" required onChange={(e)=>{settravel_fare(e.target.value)}}/>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-                <Form.Label>Status</Form.Label>
-                    <Form.Control
-                    type="text"
-                    placeholder="status"
-                    required
-                    onChange={(e)=>{setstatus(e.target.value)}}
-                    />
-                </Form.Group>
             </Row>
 
            
             <div style={{paddingTop:'1.5rem'}}>
-                 <Button type="submit" >Submit</Button>
+                 <Button type="submit" >Add</Button>
                  </div> 
             </Form>
            

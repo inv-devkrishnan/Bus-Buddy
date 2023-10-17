@@ -18,14 +18,14 @@ function App() {
           <React.Fragment>
             <Routes>
               <Route path='/BusHome' element={<BusHome/>}/>
-              <Route path='/Addbus' element={<Addbus/>}/>
+              <Route path='/' element={<Addbus/>}/>
               <Route path='/Deletebus' element={<Deletebus/>}/>
               <Route path='/Updatebus' element={<Updatebus/>}/>
               <Route path='/Viewbus' element={<Viewbus/>}/>
               <Route path='/Addroutes' element={<Addroutes/>}/>
               <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
               <Route path='/Updateroutes' element={<Updateroutes/>}/>
-              <Route path='/' element={<Viewroutes/>}/>
+              <Route path='/Viewroutes' element={<Viewroutes/>}/>
             </Routes>
           </React.Fragment>
         </Router>

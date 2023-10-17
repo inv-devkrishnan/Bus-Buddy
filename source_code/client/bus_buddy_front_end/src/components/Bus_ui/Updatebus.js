@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 
 export default function Updatebus() {
@@ -15,6 +18,8 @@ export default function Updatebus() {
   const [bus_type,setbus_type]=useState("");
   const [bus_ac,setbus_ac]=useState("");
   const [inputs,setInputs] = useState({})
+  const [validated, setValidated] = useState(false);
+
     const navi = useNavigate();
 
 
@@ -36,7 +41,6 @@ export default function Updatebus() {
             user:1,
             bus_name:data.get("bus_name"),
             plate_no:data.get("plate_no"),
-            status:data.get("status"),
             bus_type:data.get("bus_type"),
             bus_ac:data.get("bus_ac"),
           }
@@ -52,28 +56,60 @@ export default function Updatebus() {
       };
 
   return (
-    <div style={{display:"flex",justifyContent:"center"}}>
-      <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title style={{textAlign:"center"}}>Update Bus Details</Card.Title>
-        <Card.Text style={{display:'flex',}}>
-        <form onSubmit={handleSubmit} >
-         <label for="user">Bus ID:</label>
-         <input type="text" id="id" name="id" onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
-         <label for="user">User ID:</label>
-         <input type="text" id="id" name="id" value={1}/><br/><br/>
-         <label for="bus_name">Bus name:</label>
-         <input type="text" id="bus_name" name="bus_name"  /><br/><br/>
-         <label for="plate_no">Plate No:</label>
-         <input type="text" id="plate_no" name="plate_no" /><br/><br/>
-         <label for="status">Status:</label>
-         <input type="text" id="status" name="status" /><br/><br/>
-         <label for="bus_type">Bus Type:</label>
-         <input type="text" id="bus_type" name="bus_type"/><br/><br/>
-         <label for="bus_ac">Bus A/C:</label>
-         <input type="text" id="bus_ac" name="bus_ac"/><br/><br/>
-         <button type="submit" className="btn btn-success">Update</button>
-        </form> 
+    <div style={{display:"flex",justifyContent:"right",marginRight:'5rem',paddingTop:'5rem' }}>
+            <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
+            <Card.Body>
+                <Card.Title style={{textAlign:"center"}}>Update Bus</Card.Title>
+                <Card.Text style={{display:'flex',}}>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
+            <Row className="mb-1">
+                <Form.Group as={Col} md="3" controlId="validationCustom01">
+                <Form.Label>Bus ID</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Bus ID"
+                    onChange={(e)=>{setid(e.target.value)}}
+                />
+                </Form.Group>
+                </Row>
+                <Row className="mb-5">
+                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Label>Bus Name</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Bus name"
+                    onChange={(e)=>{setbus_name(e.target.value)}}
+                />
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Label>Plate Number</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Plate Number"
+                    onChange={(e)=>{setplate_no(e.target.value)}}
+                />
+                </Form.Group>
+            
+                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Label>Bus Type</Form.Label>
+                <Form.Control type="number" placeholder="2" required onChange={(e)=>{setbus_type(e.target.value)}} />
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Label>Bus A/C</Form.Label>
+                <Form.Control type="number" placeholder="0" required onChange={(e)=>{setbus_ac(e.target.value)}}/>
+                </Form.Group>
+                
+            </Row>
+
+           
+            <div style={{paddingTop:'1.5rem'}}>
+                 <Button type="submit" >Update</Button>
+                 </div> 
+            </Form>
+           
         </Card.Text>
       </Card.Body>
     </Card>

@@ -4,18 +4,23 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 
 export default function Updatebus() {
-  const [id,setid]=useState(0);
   const [user,setuser]=useState(1);
-  const [bus_name,setbus_name]=useState("");
-  const [plate_no,setplate_no]=useState("");
+  const [id,setid]=useState();
+  const [start_point,setstart_point]=useState("");
+  const [end_point,setend_point]=useState("");
   const [status,setstatus]=useState("");
-  const [bus_type,setbus_type]=useState("");
-  const [bus_ac,setbus_ac]=useState("");
-  const [inputs,setInputs] = useState({})
-    const navi = useNavigate();
+  const [via,setvia]=useState("");
+  const [distance,setdistance]=useState("");
+  const [duration,setduration]=useState("");
+  const [travel_fare,settravel_fare]=useState("");
+  const [validated, setValidated] = useState(false);
+  const navi = useNavigate();
 
 
     
@@ -47,28 +52,69 @@ export default function Updatebus() {
       };
 
   return (
-    <div style={{display:"flex",justifyContent:"center"}}>
-      <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title style={{textAlign:"center"}}>Update Bus Details</Card.Title>
-        <Card.Text style={{display:'flex',}}>
-        <form onSubmit={handleSubmit} >
-        <label for="user">Route Id:</label>
-         <input type="text" id="id" name="id" onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
-         <label for="user">Start Point:</label>
-         <input type="text" id="start_point" name="start_point" /><br/><br/>
-         <label for="bus_name">End Point</label>
-         <input type="text" end_point="end_point" name="end_point"  /><br/><br/>
-         <label for="plate_no">Via:</label>
-         <input type="text" id="via" name="via" /><br/><br/>
-         <label for="status">Distance:</label>
-         <input type="text" id="distance" name="distance" /><br/><br/>
-         <label for="bus_type">Duration:</label>
-         <input type="text" id="duration" name="duration"/><br/><br/>
-         <label for="bus_ac">Travel Fare:</label>
-         <input type="text" id="travel_fare" name="travel_fare"/><br/><br/>
-         <button type="submit" className="btn btn-success">Update</button>
-        </form> 
+    <div style={{display:"flex",justifyContent:"right",marginRight:'5rem',paddingTop:'5rem' }}>
+            <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
+            <Card.Body>
+                <Card.Title style={{textAlign:"center"}}>Add Route</Card.Title>
+                <Card.Text style={{display:'flex',}}>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
+            <Row className="mb-2">
+            <Form.Group as={Col} md="7" controlId="validationCustom01" >
+                <Form.Label>Bus ID</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Bus ID"
+                    onChange={(e)=>{setid(e.target.value)}}
+                />
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Label>Start Point</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="strart point"
+                    onChange={(e)=>{setstart_point(e.target.value)}}
+                />
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Label>End Point</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="end point"
+                    onChange={(e)=>{setend_point(e.target.value)}}
+                />
+                </Form.Group>
+            </Row>
+            <Row className="mb-5">
+            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+                <Form.Label>Via</Form.Label>
+                    <Form.Control
+                    type="text"
+                    placeholder="via"
+                    required
+                    onChange={(e)=>{setvia(e.target.value)}}
+                    />
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Label>Distance</Form.Label>
+                <Form.Control type="number" placeholder="distance" required onChange={(e)=>{setdistance(e.target.value)}} />
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Label>Duration</Form.Label>
+                <Form.Control type="text" placeholder="duration" required onChange={(e)=>{setduration(e.target.value)}}/>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Label>Travel Fare</Form.Label>
+                <Form.Control type="number" placeholder="travel_fare" required onChange={(e)=>{settravel_fare(e.target.value)}}/>
+                </Form.Group>
+            </Row>
+            <div style={{paddingTop:'1.5rem'}}>
+                 <Button type="submit" >Update</Button>
+                 </div> 
+            </Form>
+           
         </Card.Text>
       </Card.Body>
     </Card>

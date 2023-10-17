@@ -4,9 +4,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 export default function Delete() {
   const [user,setuser]=useState(1);
+  const [validated, setValidated] = useState(false);
+
   const [id,setid]=useState();
 
   const navi = useNavigate();
@@ -34,16 +39,29 @@ export default function Delete() {
   return (
 
     
-    <div style={{display:"flex",justifyContent:"center"}}>
-      <Card style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title  style={{textAlign:"center"}}>Delete Route</Card.Title>
-        <Card.Text>
-        <form >
-         <label for="id"> Bus ID:</label>
-         <input type="number" id="user" name="user" onChange={(e)=>{setid(e.target.value)}}/><br/><br/>
-         <input type='button' value={"Close"} onClick={handleSubmit} className="btn btn-success"/>
-      </form> 
+    <div style={{display:"flex",justifyContent:"right",marginRight:'5rem',paddingTop:'5rem' }}>
+            <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
+            <Card.Body>
+                <Card.Title style={{textAlign:"center"}}>Delete Bus</Card.Title>
+                <Card.Text style={{display:'flex',}}>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
+            <Row className="mb-1">
+                <Form.Group as={Col} md="7" controlId="validationCustom01" >
+                <Form.Label>Bus ID</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Bus ID"
+                    onChange={(e)=>{setid(e.target.value)}}
+                />
+                </Form.Group>
+               
+            </Row>
+            <div style={{paddingTop:'1.5rem'}}>
+                 <Button type="submit" >Delete</Button>
+                 </div> 
+            </Form>
+           
         </Card.Text>
       </Card.Body>
     </Card>
