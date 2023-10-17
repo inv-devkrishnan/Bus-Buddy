@@ -117,47 +117,38 @@ class RegisterUserTest(BaseTest):
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_email(self):
-        self.client.post(self.register, self.invalid_email, format="json")
         response = self.client.post(self.register, self.invalid_email, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_length(self):
-        self.client.post(self.register, self.invalid_phone_length, format="json")
         response = self.client.post(self.register, self.invalid_phone_length, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_alphabet(self):
-        self.client.post(self.register, self.invalid_phone_alphabet, format="json")
         response = self.client.post(self.register, self.invalid_phone_alphabet, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_length_less_than_eight(self):
-        self.client.post(self.register, self.invalid_password_length_less_than_eight, format="json")
         response = self.client.post(self.register, self.invalid_password_length_less_than_eight, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_length_more_than_twenty(self):
-        self.client.post(self.register, self.invalid_password_length_more_than_twenty, format="json")
         response = self.client.post(self.register, self.invalid_password_length_more_than_twenty, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_capital_letter(self):
-        self.client.post(self.register, self.invalid_password_no_capital_letter, format="json")
         response = self.client.post(self.register, self.invalid_password_no_capital_letter, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_small_letter(self):
-        self.client.post(self.register, self.invalid_password_no_small_letter, format="json")
         response = self.client.post(self.register, self.invalid_password_no_small_letter, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_number(self):
-        self.client.post(self.register, self.invalid_password_no_number, format="json")
         response = self.client.post(self.register, self.invalid_password_no_number, format="json")
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_special_character(self):
-        self.client.post(self.register, self.invalid_password_no_special_character, format="json")
         response = self.client.post(self.register, self.invalid_password_no_special_character, format="json")
         self.assertEqual(response.status_code, 400)
         
