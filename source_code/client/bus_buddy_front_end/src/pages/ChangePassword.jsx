@@ -19,9 +19,12 @@ function ChangePassword() {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    console.log(authStatus().current);
-    if (!authStatus().current) {
+    if (!authStatus()) {   // if user not logged in redirect to login page
       navigate("/login");
+    }
+    else if(localStorage.getItem("account_provider")==="1")
+    {
+      navigate("/login") // if user is a google user redirect to login page
     }
   }, [authStatus, navigate]);
 
@@ -33,7 +36,7 @@ function ChangePassword() {
   const passwordMatched = useRef(true);
   const oldNotNewPassword = useRef(true);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setShow(false); logout()}
   const handleShow = () => setShow(true);
   const logout = useLogout();
 
@@ -44,6 +47,7 @@ function ChangePassword() {
       event.stopPropagation();
     } else {
       event.preventDefault();
+      // checks if old password not equals to new and re enter password matches
       if (passwordMatched.current && oldNotNewPassword.current) {
         setErrorMessage("");
         changeUserPassword();
@@ -54,6 +58,7 @@ function ChangePassword() {
   };
 
   const checkPasswordMatch = (e) => {
+    // function to check if re enter password matches with new password
     if (e.target.value === newpassword) {
       passwordMatched.current = true;
     } else {
@@ -62,17 +67,20 @@ function ChangePassword() {
     setRenterpassword(e.target.value);
   };
   const checkOldNotNewPassword = (e) => {
+    // function to check if old password is not equals to new password
     if (e.target.value === oldpassword) {
       oldNotNewPassword.current = false;
     } else {
       oldNotNewPassword.current = true;
     }
+    // sets renter password to empty if new password changes
     setRenterpassword("");
     setNewpassword(e.target.value);
   };
 
   const changeUserPassword = async () => {
-    if (authStatus().current) {
+    // function that calls api to change user password
+    if (authStatus()) {
       const passwordData = {
         old_password: oldpassword,
         new_password: newpassword,
@@ -87,7 +95,6 @@ function ChangePassword() {
         }
       }
     } else {
-      console.log("timeout")
       navigate("/login");
     }
   };
@@ -141,7 +148,6 @@ function ChangePassword() {
               <Form.Control
                 type="password"
                 placeholder="Re enter Password"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*\(\)_\+\-\{\}\[\]:;<>,\.\?~\\\/]).{8,20}$"
                 value={renterpassword}
                 onChange={checkPasswordMatch}
                 isInvalid={!passwordMatched.current}
@@ -177,7 +183,8 @@ function ChangePassword() {
         </Col>
       </Row>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} backdrop="static"
+        keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Password change successful</Modal.Title>
         </Modal.Header>

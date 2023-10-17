@@ -13,9 +13,8 @@ function DeleteAccount() {
   const navigate = useNavigate();
   const logout = useLogout();
   const authStatus = useAuthStatus();
-  useEffect(() => {
-    console.log(authStatus().current);
-    if (!authStatus().current) {
+  useEffect(() => {   
+    if (!authStatus()) {  // if user not logged in redirect to login page
       navigate("/login");
     }
   }, [authStatus, navigate]);
@@ -25,13 +24,15 @@ function DeleteAccount() {
   const handleShow = () => setShow(true);
 
   const deleteAccount = async () => {
-    if (authStatus().current) {
+    // function which calls the api to delete account
+    if (authStatus()) {
       const response = await deleteUserAccount();
       if (response.status) {
         logout();
       }
     } else {
       navigate("/login");
+      // if user not logged in redirect to login page
     }
   };
   return (

@@ -25,11 +25,12 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const authenicateGoogleUser = async (response) => {
+    // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)
     console.log(response);
     const credToken = {
       cred_token: response.credential,
     };
-
+    // api call to authenticate a google user
     const loginRes = await loginWithGoogle(credToken);
     loginResponse(loginRes);
   };
@@ -43,19 +44,29 @@ function LoginPage() {
       email: email,
       password: password,
     };
+    // api call to authenticate a local user
     const loginRes = await login(userCredentials);
     loginResponse(loginRes);
   };
 
   const loginResponse = (loginRes) => {
+    // function which is reponsible for showing error and success messages after login
     if (loginRes.status) {
+      // if login success sets refresh,access,expiration time,user role, account provider in localstorage
       setErrorMessage("");
       localStorage.setItem("refresh_token", loginRes.message.refresh);
+      localStorage.setItem("user_role", loginRes.message.user_role);
+      localStorage.setItem(
+        "account_provider",
+        loginRes.message.account_provider
+      );
       sessionStorage.setItem("access_token", loginRes.message.access);
-      const expire_time = Number(loginRes.message.refresh_token_expire_time)+Date.now()
-      localStorage.setItem("token_expire_time",expire_time); // sets user is logged in
+      const expire_time =
+        Number(loginRes.message.refresh_token_expire_time) + Date.now();
+      localStorage.setItem("token_expire_time", expire_time);
       navigate("/");
     } else {
+      // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;
       if (loginRes?.message?.response?.data?.error_code) {
         setErrorMessage(getErrorMessage(error));
@@ -82,7 +93,7 @@ function LoginPage() {
           <Image src={LoginSplash} fluid></Image>
         </Col>
         <Col>
-          <Card className="p-5">
+          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded" >
             <h1>Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -105,7 +116,7 @@ function LoginPage() {
                 <Form.Label>Password</Form.Label>
                 <InputGroup>
                   <Form.Control
-                    type={showPassword ? "text":"password"}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => {

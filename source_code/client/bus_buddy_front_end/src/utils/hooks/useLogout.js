@@ -5,6 +5,6 @@ export const useLogout=()=> {
   return () => {
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/login"); //clears previous history
+    navigate("/login"); 
   };
 }
