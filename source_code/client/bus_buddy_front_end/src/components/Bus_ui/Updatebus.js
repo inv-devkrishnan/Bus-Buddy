@@ -1,24 +1,18 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
-
 export default function Updatebus() {
   const [id,setid]=useState(0);
-  const [uid,setuid]=useState(1);
   const [bus_name,setbus_name]=useState("");
   const [plate_no,setplate_no]=useState("");
-  const [status,setstatus]=useState("");
   const [bus_type,setbus_type]=useState("");
   const [bus_ac,setbus_ac]=useState("");
-  const [inputs,setInputs] = useState({})
-  const [validated, setValidated] = useState(false);
+  const validated = useState(false);
 
     const navi = useNavigate();
 
@@ -33,6 +27,10 @@ export default function Updatebus() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(plate_no < 0 || plate_no > 10){
+          alert("Plate Number cannot exceed 10 , pleace remove Spaces in between ")
+        }
+
         try {
           const data = new FormData(e.currentTarget);
           // Send a POST request to add the task
@@ -43,12 +41,9 @@ export default function Updatebus() {
             plate_no:data.get("plate_no"),
             bus_type:data.get("bus_type"),
             bus_ac:data.get("bus_ac"),
-          }
-            
-            
+          } 
           );
           console.log("updated");
-          // After successfully adding the task, navigate to the "Viewalltask" route
           // navi('/Viewalltask');
         } catch (error) {
           console.error("Error updating:", error);

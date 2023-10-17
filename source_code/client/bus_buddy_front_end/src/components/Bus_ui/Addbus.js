@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -10,17 +9,31 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 export default function Addbus() {
-    const [user,setuser]=useState(1);
+    const user=useState(1);
     const [bus_name,setbus_name]=useState("");
     const [plate_no,setplate_no]=useState("");
     const [bus_type,setbus_type]=useState("");
     const [bus_ac,setbus_ac]=useState("");
-    const [validated, setValidated] = useState(false);
+    const validated = useState(false);
     const navi = useNavigate();
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(!bus_name){
+          alert("Bus name cannot be Empty")
+        }
+        if(!plate_no || plate_no.length > 10){
+          alert("Plate Number cannot Exceed 10,Dont leave space in between")
+        }
+        if(bus_type < 0 || bus_type >2 ){
+          alert("Bus type can only be 0:Sleeper,1:Seater,2:Both")
+        }
+        if(bus_ac < 0 || bus_ac > 2){
+          alert("Bus A/C can only be 0:A/C,1:Non A/C")
+        }
+
         try {
           // Send a POST request to add the task
           const response = await axios.post("http://localhost:8000/addbus/", {
@@ -33,7 +46,6 @@ export default function Addbus() {
         
           if (response.status===200){
             console.log("Inserted");
-            // After successfully adding the task, navigate to the "Viewalltask" route
             // navi('/Bushome'); 
           }
         } catch (error) {

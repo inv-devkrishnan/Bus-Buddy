@@ -1,25 +1,22 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 
 export default function Updatebus() {
-  const [user,setuser]=useState(1);
+  const user=useState(1);
   const [id,setid]=useState();
   const [start_point,setstart_point]=useState("");
   const [end_point,setend_point]=useState("");
-  const [status,setstatus]=useState("");
   const [via,setvia]=useState("");
   const [distance,setdistance]=useState("");
   const [duration,setduration]=useState("");
   const [travel_fare,settravel_fare]=useState("");
-  const [validated, setValidated] = useState(false);
+  const validated = useState(false);
   const navi = useNavigate();
 
 
@@ -27,6 +24,10 @@ export default function Updatebus() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if(distance <= 0 || duration <= 0){
+          alert("distance and duration cannot be null")
+        }
         try {
           const data = new FormData(e.currentTarget);
           // Send a POST request to add the task
@@ -44,7 +45,6 @@ export default function Updatebus() {
             
           );
           console.log("updated");
-          // After successfully adding the task, navigate to the "Viewalltask" route
           // navi('/Viewalltask');
         } catch (error) {
           console.error("Error updating:", error);

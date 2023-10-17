@@ -9,14 +9,18 @@ import Row from 'react-bootstrap/Row';
 
 
 export default function Delete() {
-  const [user,setuser]=useState(1);
+  const user=useState(1);
   const [id,setid]=useState();
-  const [validated, setValidated] = useState(false);
-
+  const validated= useState(false);
   const navi = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if(!id){
+      alert("ID cannot be blank")
+    }
+
     axios.put(`http://127.0.0.1:8000/deletebus/${id}/`)
       .then(response => {
         // navi('/Viewalltask');

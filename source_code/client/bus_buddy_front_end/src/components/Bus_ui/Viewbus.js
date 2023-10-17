@@ -1,10 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { useEffect,useState } from 'react';
 import'./table.css';
-import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 
 export default function Viewalltask() {
 

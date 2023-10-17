@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -9,8 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 export default function Delete() {
-  const [user,setuser]=useState(1);
-  const [validated, setValidated] = useState(false);
+  const user=useState(1);
+  const validated = useState(false);
 
   const [id,setid]=useState();
 
@@ -18,6 +17,9 @@ export default function Delete() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(!id){
+      alert("Id cannot be empty")
+    }
     axios.put(`http://127.0.0.1:8000/deletebus/${id}/`)
       .then(response => {
         // navi('/Viewalltask');

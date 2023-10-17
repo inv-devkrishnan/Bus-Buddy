@@ -1,29 +1,33 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-// import { BrowserRouter as Router, Route, Switch,Link, Routes } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 export default function Addbus() {
-    const [user,setuser]=useState(1);
+    const user=useState(1);
     const [start_point,setstart_point]=useState("");
     const [end_point,setend_point]=useState("");
-    // const [status,setstatus]=useState("");
     const [via,setvia]=useState("");
     const [distance,setdistance]=useState("");
     const [duration,setduration]=useState("");
     const [travel_fare,settravel_fare]=useState("");
-    const [validated, setValidated] = useState(false);
+    const validated = useState(false);
     const navi = useNavigate();
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(!start_point || end_point || via ){
+          alert("Start Point , End Point and Via  Feilds cannot be Null")
+        }
+        if(distance<=0 || duration<=0 ){
+          alert("Duraction and distance Should not 0")
+        }
         try {
           // Send a POST request to add the task
           const response = await axios.post("http://localhost:8000/addroutes/", {
