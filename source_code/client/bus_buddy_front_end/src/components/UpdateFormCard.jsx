@@ -12,7 +12,7 @@ export default function UpdateForm() {
 
   const onSubmit = () => {
     axios
-      .put("http://127.0.0.1:8000/user/update-profile/17", {
+      .put("http://127.0.0.1:8000/user/update-profile/15", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,

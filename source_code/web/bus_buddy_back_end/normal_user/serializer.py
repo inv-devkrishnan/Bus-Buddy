@@ -2,6 +2,21 @@ from rest_framework import serializers
 from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
+from django.core.exceptions import ValidationError
+import re
+
+
+class MultiRegexValidator:
+    def __init__(self, regex_message_pairs):
+        self.validators = [
+            (re.compile(pair[0]), pair[1]) for pair in regex_message_pairs
+        ]
+
+    def __call__(self, value):
+        for regex, message in self.validators:
+            if not regex.search(value):
+                raise ValidationError(message)
+
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -41,15 +56,7 @@ class UserModelSerializer(serializers.ModelSerializer):
             ),
         ]
     )
-    password = serializers.CharField(
-        max_length=12,
-        validators=[
-            RegexValidator(
-                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
-                message="Password failed",
-            ),
-        ],
-    )
+    password = serializers.CharField()
     phone = serializers.CharField(
         min_length=10,
         max_length=10,
