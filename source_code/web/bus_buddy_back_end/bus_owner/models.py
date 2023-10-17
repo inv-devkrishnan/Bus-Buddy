@@ -9,6 +9,7 @@ class Bus(models.Model):
     status = models.SmallIntegerField(default=0)
     bus_type = models.SmallIntegerField(default=2)
     bus_ac = models.SmallIntegerField(default=0)
+    bus_details_complete = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -39,6 +40,7 @@ class Amenities(models.Model):
 class SeatDetails(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
     seat_number = models.CharField(max_length=50, null=False)
+    seat_ui_order = models.IntegerField()
     seat_type = models.SmallIntegerField(default=0)
     deck = models.SmallIntegerField(default=0)
     seat_cost = models.DecimalField(max_digits=10, decimal_places=3)
@@ -47,6 +49,15 @@ class SeatDetails(models.Model):
 
     class Meta:
         db_table = "seat_details"
+
+
+class LocationData(models.Model):
+    location_name = models.CharField(max_length=255, null=False)
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "location_data"
 
 
 class Routes(models.Model):
@@ -65,44 +76,27 @@ class Routes(models.Model):
         db_table = "routes"
 
 
-class Locations(models.Model):
-    location_name = models.CharField(max_length=255, null=False)
-    created_time = models.DateTimeField(auto_now_add=True)
-    updated_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = "locations"
-
-
-class Stops(models.Model):
+class StartStopLocations(models.Model):
     seq_id = models.IntegerField(null=False)
-    location = models.ForeignKey(Locations, on_delete=models.CASCADE)
+    location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
+    arrival_time = models.TimeField(null=False)
+    arrival_date_offset = models.IntegerField(default=0)
     route = models.ForeignKey(Routes, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "stops"
+        db_table = "start_stop_locations"
 
 
-class PickUp(models.Model):
-    location = models.ForeignKey(Locations, on_delete=models.CASCADE)
+class PickAndDrop(models.Model):
+    location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
+    route = models.ForeignKey(Routes, on_delete=models.CASCADE)
     bus_stop = models.CharField(max_length=255, null=False)
-    arrival_time = models.TimeField()
+    arrival_time_offset = models.TimeField()
     landmark = models.CharField(max_length=255, null=False)
     status = models.SmallIntegerField(default=0)
 
     class Meta:
-        db_table = "pick_up"
-
-
-class DropOff(models.Model):
-    location = models.ForeignKey(Locations, on_delete=models.CASCADE)
-    bus_stop = models.CharField(max_length=255, null=False)
-    arrival_time = models.TimeField()
-    landmark = models.CharField(max_length=255, null=False)
-    status = models.SmallIntegerField(default=0)
-
-    class Meta:
-        db_table = "drop_off"
+        db_table = "pick_and_drop"
 
 
 class Trip(models.Model):
