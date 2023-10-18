@@ -1,2 +1,3 @@
 .coverage
 logData.log
+__pycache__/

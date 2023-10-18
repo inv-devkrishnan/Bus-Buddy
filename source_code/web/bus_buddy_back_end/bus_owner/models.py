@@ -7,9 +7,10 @@ class Bus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     plate_no = models.CharField(max_length=100, null=False)
     status = models.SmallIntegerField(default=0)
-    bus_type = models.SmallIntegerField(default=2)
+    bus_seat_type = models.SmallIntegerField(default=2)
+    bus_type = models.SmallIntegerField(default=0)
     bus_ac = models.SmallIntegerField(default=0)
-    bus_details_complete = models.SmallIntegerField(default=0)
+    bus_details_status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -81,6 +82,8 @@ class StartStopLocations(models.Model):
     location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
     arrival_time = models.TimeField(null=False)
     arrival_date_offset = models.IntegerField(default=0)
+    departure_time = models.TimeField(null=False)
+    departure_date_offset = models.IntegerField(default=0)
     route = models.ForeignKey(Routes, on_delete=models.CASCADE)
 
     class Meta:
@@ -91,7 +94,7 @@ class PickAndDrop(models.Model):
     location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
     route = models.ForeignKey(Routes, on_delete=models.CASCADE)
     bus_stop = models.CharField(max_length=255, null=False)
-    arrival_time_offset = models.TimeField()
+    arrival_time = models.TimeField()
     landmark = models.CharField(max_length=255, null=False)
     status = models.SmallIntegerField(default=0)
 
@@ -100,14 +103,26 @@ class PickAndDrop(models.Model):
 
 
 class Trip(models.Model):
-    bus_id = models.ForeignKey(Bus, on_delete=models.CASCADE, null=False)
-    route_id = models.ForeignKey(Routes, on_delete=models.CASCADE, null=False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    start_date = models.DateTimeField(null=False)
-    end_date = models.DateTimeField(null=False)
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE, null=False)
+    route = models.ForeignKey(Routes, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    start_date = models.DateField(null=False)
+    end_date = models.DateField(null=False)
+    start_time = models.TimeField(null=False)
+    end_time = models.TimeField(null=False)
     status = models.SmallIntegerField(default=0, null=False)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
-    updated_time = models.DateTimeField(auto_now=True, null=False)
+    updated_date = models.DateTimeField(auto_now=True, null=False)
 
-    class meta:
+    class Meta:
         db_table = "trip"
+
+class BusLayout(models.Model):
+    name = models.CharField(max_length=100,null=False)
+    type = models.SmallIntegerField(null=False)
+    created_date = models.DateTimeField(auto_now_add=True, null=False)
+    updated_date = models.DateTimeField(auto_now=True, null=False)
+    
+    class Meta:
+        db_table = "bus_layout"
+            
