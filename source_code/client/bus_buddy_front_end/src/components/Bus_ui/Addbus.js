@@ -37,7 +37,7 @@ export default function Addbus() {
         try {
           // Send a POST request to add the task
           const response = await axios.post("http://localhost:8000/addbus/", {
-            user:user,
+            user:1,
             bus_name: bus_name,
             plate_no:plate_no,
             bus_type:bus_type,
@@ -46,12 +46,15 @@ export default function Addbus() {
         
           if (response.status===200){
             console.log("Inserted");
-            // navi('/Bushome'); 
+            console.log(response);
+            const Bus=response.data.bus;
+            console.log(Bus);
+            navi('/Addamenities'); 
           }
         } catch (error) {
 
           console.log({
-            user:Number(user),
+            user:user,
             bus_name: bus_name,
             plate_no:plate_no,
             bus_type:bus_type,

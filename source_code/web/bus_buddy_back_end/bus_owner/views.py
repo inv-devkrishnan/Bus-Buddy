@@ -7,6 +7,7 @@ import logging
 from .models import Bus
 from .models import Routes
 from .serializers import busserializer
+from .serializers import amenitiesserializer
 from .serializers import buddyserializer
 from .serializers import routeserializer
 from .serializers import routesserializer
@@ -28,7 +29,8 @@ class Addbus(APIView):
                 # serializer.user=User.objects.get(id=1)
                 serializer.save()
                 logger.info("Inserted")
-                return Response("Inserted")
+                return Response({"message":"Inserted",
+                                 "bus":serializer.data["id"]})
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError:
@@ -85,6 +87,25 @@ class Viewbus(APIView):
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
+        
+class Addamenities(APIView):
+    permission_classes=(AllowAny,)
+    serializer = None
+    
+    def post(self, request):
+        try:
+            serializer = amenitiesserializer(data=request.data)
+            if serializer.is_valid():
+                # serializer.user=User.objects.get(id=1)
+                serializer.save()
+                logger.info("Inserted")
+                return Response("Inserted")
+            else:
+                return Response(serializer.errors, status=400)
+        except ValidationError:
+            logger.info ("Invalid entry")
+            # raise ValidationError(serializer.errors)
+            return Response("invalid Entry",status=400)
         
 class Addroutes(APIView):
     permission_classes=(AllowAny,)

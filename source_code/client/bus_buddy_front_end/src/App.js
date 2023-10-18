@@ -5,6 +5,7 @@ import Addbus from './components/Bus_ui/Addbus';
 import Deletebus from './components/Bus_ui/Deletebus';
 import Updatebus from './components/Bus_ui/Updatebus';
 import Viewbus from './components/Bus_ui/Viewbus';
+import Addamenities from './components/Bus_ui/Addamenities';
 import 'bootstrap/dist/css/bootstrap.css';
 import Addroutes from './components/route_ui/Addroutes';
 import Deleteroutes from './components/route_ui/Deleteroutes';
@@ -22,6 +23,7 @@ function App() {
               <Route path='/Deletebus' element={<Deletebus/>}/>
               <Route path='/Updatebus' element={<Updatebus/>}/>
               <Route path='/Viewbus' element={<Viewbus/>}/>
+              <Route path='/Addamenities' element={<Addamenities/>}/>
               <Route path='/Addroutes' element={<Addroutes/>}/>
               <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
               <Route path='/Updateroutes' element={<Updateroutes/>}/>

@@ -1,0 +1,678 @@
+django.request ERROR 2023-10-18 06:11:38,230 log 74134 140539406046784 Internal Server Error: /addamenities/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 96, in post
+    bus_id = request.data.get(id=1)
+TypeError: dict.get() takes no keyword arguments
+django.request ERROR 2023-10-18 06:13:40,137 log 74627 140308842014272 Internal Server Error: /addamenities/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 98, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:16:31,117 log 75195 140718543726144 Internal Server Error: /addamenities/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 101, in post
+    serializer.save()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 198, in save
+    assert not hasattr(self, '_data'), (
+AssertionError: You cannot call `.save()` after accessing `serializer.data`.If you need to access data before committing to the database then inspect 'serializer.validated_data' instead. 
+django.request ERROR 2023-10-18 06:53:06,875 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:53:15,531 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:54:10,332 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:55:08,186 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:55:53,319 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:56:55,210 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:57:34,969 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:58:10,096 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:58:22,142 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:58:47,801 log 79354 140383248967232 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:59:05,693 log 80592 139910462826048 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 06:59:23,004 log 80686 140652246459968 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 07:01:11,494 log 80686 140652246459968 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 07:01:51,598 log 80686 140652235970112 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 31, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 07:04:41,454 log 81264 140481564501568 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 27, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1051, in get_fields
+    info = model_meta.get_field_info(model)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/model_meta.py", line 35, in get_field_info
+    opts = model._meta.concrete_model._meta
+AttributeError: 'tuple' object has no attribute '_meta'
+django.request ERROR 2023-10-18 07:09:20,630 log 82486 140075384956480 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 32, in post
+    return Response("Inserted",serializer.data.id)
+AttributeError: 'ReturnDict' object has no attribute 'id'
+django.request ERROR 2023-10-18 07:17:11,559 log 83155 140480020997696 Internal Server Error: /addbus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 33, in post
+    "bus":serializer.data.id})
+AttributeError: 'ReturnDict' object has no attribute 'id'
