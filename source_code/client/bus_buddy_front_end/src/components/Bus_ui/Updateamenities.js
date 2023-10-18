@@ -5,21 +5,23 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
 
-export default function Addamenities() {
-  const location = useLocation();
-  const { bus } = location.state;
+export default function Updateamenities() {
+    const location = useLocation();
+    const { bus } = location.state;
+
+
   const [formState, setFormState] = useState({
-    emergency_no: 0,
-    water_bottle: 0,
-    charging_point: 0,
-    usb_port: 0,
-    blankets: 0,
-    pillows: 0,
-    reading_light: 0,
-    toilet: 0,
-    snacks: 0,
-    tour_guide: 0,
-    cctv: 0,
+    emergency_no: bus.emergency_no,
+    water_bottle: bus.water_bottle,
+    charging_point: bus.charging_point,
+    usb_port: bus.usb_port,
+    blankets: bus.blankets,
+    pillows: bus.pillows,
+    reading_light: bus.reading_light,
+    toilet: bus.toilet,
+    snacks: bus.snacks,
+    tour_guide: bus.tour_guide,
+    cctv: bus.cctv,
   });
 
   const handleCheckboxChange = (amenity) => {
@@ -31,18 +33,16 @@ export default function Addamenities() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      // Send a POST request to add the amenities
-      const response = await axios.post('http://localhost:8000/addamenities/', {
-        bus: bus,
-        ...formState,
-      });
+      // Send a PUT request to update the amenities
+      const response = await axios.put(`http://localhost:8000/updateamenities/${bus.id}/`, formState);
 
       if (response.status === 200) {
-        console.log('Amenities Inserted');
+        console.log('Amenities Updated');
       }
     } catch (error) {
-      console.error('Error adding amenities:', error);
+      console.error('Error updating amenities:', error);
     }
   };
 
@@ -50,7 +50,7 @@ export default function Addamenities() {
     <div style={{ display: 'flex', justifyContent: 'right', marginRight: '5rem', paddingTop: '3rem' }}>
       <Card style={{ width: '35rem', height: '35rem', paddingTop: '1rem' }}>
         <Card.Body>
-          <Card.Title style={{ textAlign: 'center' }}>Amenities</Card.Title>
+          <Card.Title style={{ textAlign: 'center' }}>Update Amenities</Card.Title>
           <Card.Text style={{ display: 'flex' }}>
             <Form onSubmit={handleSubmit}>
               {Object.keys(formState).map((amenity) => (
@@ -64,7 +64,7 @@ export default function Addamenities() {
                   />
                 </div>
               ))}
-                           <Button type="submit">Add Amenities</Button>
+              <Button type="submit">Update Amenities</Button>
             </Form>
           </Card.Text>
         </Card.Body>
@@ -72,4 +72,3 @@ export default function Addamenities() {
     </div>
   );
 }
-

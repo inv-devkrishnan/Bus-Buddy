@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, Page
 import logging
 from .models import Bus
 from .models import Routes
+from .models import Amenities
 from .serializers import busserializer
 from .serializers import amenitiesserializer
 from .serializers import buddyserializer
@@ -106,6 +107,26 @@ class Addamenities(APIView):
             logger.info ("Invalid entry")
             # raise ValidationError(serializer.errors)
             return Response("invalid Entry",status=400)
+        
+
+class Updateamenities(APIView):
+    
+    def put(self, request, id):
+        queryset = Amenities.objects.all()
+        try:
+            
+            data = Amenities.objects.get(bus_id=id)
+            serializer = busserializer(data, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                logger.info("Amenities updated")
+                return Response("Amenities updated", status=200)
+            else:
+                return Response(serializer.errors, status=400)
+        except ObjectDoesNotExist:
+            return Response("Invalid Bus ID", status=400)
+
         
 class Addroutes(APIView):
     permission_classes=(AllowAny,)

@@ -33,18 +33,19 @@ export default function Updatebus() {
 
         try {
           const data = new FormData(e.currentTarget);
-          // Send a POST request to add the task
           axios.put(`http://127.0.0.1:8000/updatebus/${id}/`, 
           {
             user:1,
-            bus_name:data.get("bus_name"),
-            plate_no:data.get("plate_no"),
-            bus_type:data.get("bus_type"),
-            bus_ac:data.get("bus_ac"),
+            bus_name:bus_name,
+            plate_no:plate_no,
+            bus_type:bus_type,
+            bus_ac:bus_ac,
           } 
           );
           console.log("updated");
-          // navi('/Viewalltask');
+          const bus={id:id};
+          console.log(bus);
+          navi('/Updateamenities', { state: bus });
         } catch (error) {
           console.error("Error updating:", error);
         }
@@ -72,7 +73,7 @@ export default function Updatebus() {
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                 <Form.Label>Bus Name</Form.Label>
                 <Form.Control
-                    required
+                    
                     type="text"
                     placeholder="Bus name"
                     onChange={(e)=>{setbus_name(e.target.value)}}
@@ -81,7 +82,7 @@ export default function Updatebus() {
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                 <Form.Label>Plate Number</Form.Label>
                 <Form.Control
-                    required
+                    
                     type="text"
                     placeholder="Plate Number"
                     onChange={(e)=>{setplate_no(e.target.value)}}
@@ -90,11 +91,11 @@ export default function Updatebus() {
             
                 <Form.Group as={Col} md="4" controlId="validationCustom03">
                 <Form.Label>Bus Type</Form.Label>
-                <Form.Control type="number" placeholder="2" required onChange={(e)=>{setbus_type(e.target.value)}} />
+                <Form.Control type="number" placeholder="2"  onChange={(e)=>{setbus_type(e.target.value)}} />
                 </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                 <Form.Label>Bus A/C</Form.Label>
-                <Form.Control type="number" placeholder="0" required onChange={(e)=>{setbus_ac(e.target.value)}}/>
+                <Form.Control type="number" placeholder="0"  onChange={(e)=>{setbus_ac(e.target.value)}}/>
                 </Form.Group>
                 
             </Row>
