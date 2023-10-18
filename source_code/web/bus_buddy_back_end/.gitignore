@@ -1,2 +1,4 @@
 logData.log
 .coverage
+logData.log
+__pycache__/
