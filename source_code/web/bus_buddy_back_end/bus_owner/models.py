@@ -119,6 +119,7 @@ class Trip(models.Model):
 
 class BusLayout(models.Model):
     name = models.CharField(max_length=100,null=False)
+    bus = models.ForeignKey(Bus,on_delete=models.CASCADE)
     type = models.SmallIntegerField(null=False)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_date = models.DateTimeField(auto_now=True, null=False)
