@@ -27,7 +27,6 @@ class Addbus(APIView):
         try:
             serializer = busserializer(data=request.data)
             if serializer.is_valid():
-                # serializer.user=User.objects.get(id=1)
                 serializer.save()
                 logger.info("Inserted")
                 return Response({"message":"Inserted",
@@ -98,6 +97,10 @@ class Addamenities(APIView):
             serializer = amenitiesserializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                bus_id=serializer.data.get('bus')
+                current_bus=Bus.objects.get(id=bus_id)
+                current_bus.bus_details_status=1
+                current_bus.save()
                 logger.info("Inserted")
                 return Response("Inserted")
             else:
