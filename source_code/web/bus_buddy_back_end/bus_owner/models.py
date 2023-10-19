@@ -67,7 +67,7 @@ class Routes(models.Model):
     end_point = models.ForeignKey(LocationData,on_delete=models.CASCADE,related_name='end_point' )
     via = models.CharField(max_length=255, null=False)
     distance = models.DecimalField(max_digits=10, decimal_places=3)
-    duration = models.TimeField()
+    duration = models.DecimalField(max_digits=10,decimal_places=3)
     travel_fare = models.DecimalField(max_digits=10, decimal_places=3)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
