@@ -63,8 +63,8 @@ class LocationData(models.Model):
 
 class Routes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_point = models.CharField(max_length=255, null=False)
-    end_point = models.CharField(max_length=255, null=False)
+    start_point = models.ForeignKey(LocationData,on_delete=models.CASCADE,related_name='start_point')
+    end_point = models.ForeignKey(LocationData,on_delete=models.CASCADE,related_name='end_point' )
     via = models.CharField(max_length=255, null=False)
     distance = models.DecimalField(max_digits=10, decimal_places=3)
     duration = models.TimeField()
