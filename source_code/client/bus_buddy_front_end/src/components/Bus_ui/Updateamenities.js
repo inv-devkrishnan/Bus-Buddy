@@ -7,21 +7,20 @@ import { useLocation } from 'react-router-dom';
 
 export default function Updateamenities() {
     const location = useLocation();
-    const { bus } = location.state;
-
-
+    const bus = location.state;
+    console.log(bus.id," : id");
   const [formState, setFormState] = useState({
-    emergency_no: bus.emergency_no,
-    water_bottle: bus.water_bottle,
-    charging_point: bus.charging_point,
-    usb_port: bus.usb_port,
-    blankets: bus.blankets,
-    pillows: bus.pillows,
-    reading_light: bus.reading_light,
-    toilet: bus.toilet,
-    snacks: bus.snacks,
-    tour_guide: bus.tour_guide,
-    cctv: bus.cctv,
+    emergency_no:0,
+    water_bottle: 0,
+    charging_point: 0,
+    usb_port: 0,
+    blankets:0,
+    pillows: 0,
+    reading_light: 0,
+    toilet: 0,
+    snacks: 0,
+    tour_guide:0,
+    cctv:0,
   });
 
   const handleCheckboxChange = (amenity) => {
@@ -36,7 +35,10 @@ export default function Updateamenities() {
 
     try {
       // Send a PUT request to update the amenities
-      const response = await axios.put(`http://localhost:8000/updateamenities/${bus.id}/`, formState);
+      const response = await axios.put(`http://127.0.0.1:8000/updateamenities/${bus.id}/`, {
+        bus: bus.idstat,
+        ...formState,
+      });
 
       if (response.status === 200) {
         console.log('Amenities Updated');

@@ -19,10 +19,10 @@ function App() {
         <Router>
           <React.Fragment>
             <Routes>
-              <Route path='/BusHome' element={<BusHome/>}/>
+              <Route path='/' element={<BusHome/>}/>
               <Route path='/Addbus' element={<Addbus/>}/>
               <Route path='/Deletebus' element={<Deletebus/>}/>
-              <Route path='/' element={<Updatebus/>}/>
+              <Route path='/Updatebus' element={<Updatebus/>}/>
               <Route path='/Updateamenities' element={<Updateamenities/>}/>
               <Route path='/Viewbus' element={<Viewbus/>}/>
               <Route path='/Addamenities' element={<Addamenities/>}/>

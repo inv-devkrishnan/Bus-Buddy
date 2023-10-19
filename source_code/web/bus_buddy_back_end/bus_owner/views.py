@@ -97,7 +97,6 @@ class Addamenities(APIView):
         try:
             serializer = amenitiesserializer(data=request.data)
             if serializer.is_valid():
-                # serializer.user=User.objects.get(id=1)
                 serializer.save()
                 logger.info("Inserted")
                 return Response("Inserted")
@@ -112,16 +111,26 @@ class Addamenities(APIView):
 class Updateamenities(APIView):
     
     def put(self, request, id):
-        queryset = Amenities.objects.all()
         try:
-            
-            data = Amenities.objects.get(bus_id=id)
-            serializer = busserializer(data, data=request.data, partial=True)
-
+            amenities_id=Amenities.objects.get(bus=id)
+            print(amenities_id.id)
+            serializer = amenitiesserializer(data=request.data)
+            data=Amenities.objects.get(bus=id)
             if serializer.is_valid():
-                serializer.save()
+                data.emergency_no=serializer.validated_data['emergency_no']
+                data.water_bottle=serializer.validated_data['water_bottle']
+                data.charging_point=serializer.validated_data['charging_point']
+                data.usb_port=serializer.validated_data['usb_port']
+                data.blankets=serializer.validated_data['blankets']
+                data.pillows=serializer.validated_data['pillows']
+                data.reading_light=serializer.validated_data['reading_light']
+                data.toilet=serializer.validated_data['toilet']
+                data.snacks=serializer.validated_data['snacks']
+                data.tour_guide=serializer.validated_data['tour_guide']
+                data.cctv=serializer.validated_data['cctv']
+                data.save()
                 logger.info("Amenities updated")
-                return Response("Amenities updated", status=200)
+                return Response({"message":"Amenities updated","id":str(amenities_id.id)})
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:

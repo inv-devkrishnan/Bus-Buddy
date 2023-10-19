@@ -45,7 +45,7 @@ export default function Updatebus() {
           console.log("updated");
           const bus={id:id};
           console.log(bus);
-          navi('/Updateamenities', { state: bus });
+          navi('/Updateamenities', { state: id });
         } catch (error) {
           console.error("Error updating:", error);
         }
