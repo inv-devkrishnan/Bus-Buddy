@@ -74,7 +74,7 @@ function AddRouteLocation(props) {
       event.preventDefault();
       event.stopPropagation();
       setStopFormValidated(true);
-    } else {
+    }else {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,

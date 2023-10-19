@@ -167,12 +167,21 @@ export default function AddRouteCard() {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Duration</Form.Label>
+                  <InputGroup>
                   <Form.Control
                     id="duration"
-                    type="time"
+                    type="number"
+                    step={0.1}
+                    min={1}
+                    max={500}
+                    maxLength={6}
                     placeholder="Enter the total time"
                     required
                   />
+                  <InputGroup.Text>hrs</InputGroup.Text>
+                  </InputGroup>
+                  
+                 
                   <Form.Control.Feedback type="invalid">
                     Please provide valid Duration
                   </Form.Control.Feedback>
@@ -185,6 +194,8 @@ export default function AddRouteCard() {
                       id="distance"
                       type="number"
                       step={0.01}
+                      min={1}
+                      max={100000}
                       placeholder="Enter the total distance"
                       required
                     />
@@ -204,6 +215,7 @@ export default function AddRouteCard() {
                       type="number"
                       placeholder="Enter the travel fare"
                       min={0}
+                      max={1000000}
                       required
                       step="0.01"
                     />
