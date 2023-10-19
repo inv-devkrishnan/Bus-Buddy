@@ -21,7 +21,7 @@ function AddRouteLocation(props) {
   const checkLocationAlreadyExists = (currentLocationId) => {
     let status = false;
     props.stopLocations.forEach((element) => {
-      if (element.location_id === currentLocationId) {
+      if (element.location === currentLocationId) {
         status = true;
       }
     });
@@ -48,7 +48,7 @@ function AddRouteLocation(props) {
      else {
       const locationStop = {
         seq_id: props.sequenceId,
-        location_id: locationValue,
+        location: locationValue,
         arrival_time: arrivalTime,
         arrival_date: arrivalDate,
         departure_time: departureTime,

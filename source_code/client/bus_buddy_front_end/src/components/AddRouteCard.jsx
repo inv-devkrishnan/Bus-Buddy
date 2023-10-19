@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 
-import RouteImage from "../Assets/route.jpg";
+import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
 import { Container, Row, Col } from "react-bootstrap";
@@ -54,8 +54,8 @@ export default function AddRouteCard() {
     if (stopLocations.length >= 2) {
       const routeData=
       {
-        start_point :  stopLocations[0].location_id,
-        end_point : stopLocations[stopLocations.length-1].location_id,
+        start_point :  stopLocations[0].location,
+        end_point : stopLocations[stopLocations.length-1].location,
         via : document.getElementById("via").value,
         distance : document.getElementById("distance").value,
         duration : document.getElementById("duration").value,
@@ -120,7 +120,7 @@ export default function AddRouteCard() {
                             <tr key={stopLocation.seq_id}>
                               <td>{stopLocation.seq_id}</td>
                               <td>
-                                {getLocationName(stopLocation.location_id)}
+                                {getLocationName(stopLocation.location)}
                               </td>
                               <td>
                                 <ul>
