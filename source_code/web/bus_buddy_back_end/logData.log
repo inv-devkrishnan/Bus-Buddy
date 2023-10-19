@@ -1,379 +1,4 @@
-django.request ERROR 2023-10-19 04:48:53,398 log 15128 139814195160640 Internal Server Error: /updateamenities/1/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 116, in put
-    amenities_id=Amenities.objects.filter(bus=id).get(id)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 623, in get
-    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1436, in filter
-    return self._filter_or_exclude(False, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
-    clone._filter_or_exclude_inplace(negate, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
-    self._query.add_q(Q(*args, **kwargs))
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1545, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
-    child_clause, needed_inner = self.build_filter(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
-    arg, value = filter_expr
-TypeError: cannot unpack non-iterable int object
-django.request ERROR 2023-10-19 04:55:23,065 log 15729 139842150196800 Internal Server Error: /updateamenities/1/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data=Amenities.objects.get(bus=id)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 640, in get
-    raise self.model.MultipleObjectsReturned(
-bus_owner.models.Amenities.MultipleObjectsReturned: get() returned more than one Amenities -- it returned 2!
-django.request ERROR 2023-10-19 04:57:46,015 log 16087 139917126526528 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data.bus=id;
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
-    raise ValueError(
-ValueError: Cannot assign "3": "Amenities.bus" must be a "Bus" instance.
-django.request ERROR 2023-10-19 05:00:38,041 log 16807 140125513180736 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data.bus=Amenities.objects.get('bus');
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 623, in get
-    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1436, in filter
-    return self._filter_or_exclude(False, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
-    clone._filter_or_exclude_inplace(negate, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
-    self._query.add_q(Q(*args, **kwargs))
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1545, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
-    child_clause, needed_inner = self.build_filter(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
-    arg, value = filter_expr
-ValueError: too many values to unpack (expected 2)
-django.request ERROR 2023-10-19 05:00:58,215 log 16807 140125513180736 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data.bus=Amenities.objects.get('bus');
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 623, in get
-    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1436, in filter
-    return self._filter_or_exclude(False, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
-    clone._filter_or_exclude_inplace(negate, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
-    self._query.add_q(Q(*args, **kwargs))
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1545, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
-    child_clause, needed_inner = self.build_filter(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
-    arg, value = filter_expr
-ValueError: too many values to unpack (expected 2)
-django.request ERROR 2023-10-19 05:08:42,004 log 18400 140173456172608 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 121, in put
-    data.bus=Amenities.objects.get('bus');
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 623, in get
-    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1436, in filter
-    return self._filter_or_exclude(False, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
-    clone._filter_or_exclude_inplace(negate, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
-    self._query.add_q(Q(*args, **kwargs))
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1545, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
-    child_clause, needed_inner = self.build_filter(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
-    arg, value = filter_expr
-ValueError: too many values to unpack (expected 2)
-django.request ERROR 2023-10-19 05:14:57,249 log 18965 140546697852480 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-TypeError: Updateamenities.put() got an unexpected keyword argument 'id'
-django.request ERROR 2023-10-19 05:18:28,927 log 19578 140399772427840 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-TypeError: Updateamenities.put() got an unexpected keyword argument 'bus_id'
-django.request ERROR 2023-10-19 05:18:50,311 log 19658 139658377819712 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data.bus=Amenities.objects.get('bus');
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 623, in get
-    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1436, in filter
-    return self._filter_or_exclude(False, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
-    clone._filter_or_exclude_inplace(negate, args, kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
-    self._query.add_q(Q(*args, **kwargs))
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1545, in add_q
-    clause, _ = self._add_q(q_object, self.used_aliases)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
-    child_clause, needed_inner = self.build_filter(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
-    arg, value = filter_expr
-ValueError: too many values to unpack (expected 2)
-django.request ERROR 2023-10-19 05:19:18,431 log 19787 140590466459200 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 120, in put
-    data.bus=id;
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
-    raise ValueError(
-ValueError: Cannot assign "3": "Amenities.bus" must be a "Bus" instance.
-django.request ERROR 2023-10-19 05:58:30,374 log 22728 139755586053696 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
-    response = response.render()
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
-    self.content = self.rendered_content
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
-    ret = renderer.render(self.data, accepted_media_type, context)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
-    context = self.get_context(data, accepted_media_type, renderer_context)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 679, in get_context
-    'content': self.get_content(renderer, data, accepted_media_type, renderer_context),
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 412, in get_content
-    content = renderer.render(data, accepted_media_type, renderer_context)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 99, in render
-    ret = json.dumps(
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/json.py", line 25, in dumps
-    return json.dumps(*args, **kwargs)
-  File "/usr/lib/python3.10/json/__init__.py", line 238, in dumps
-    **kw).encode(obj)
-  File "/usr/lib/python3.10/json/encoder.py", line 201, in encode
-    chunks = list(chunks)
-  File "/usr/lib/python3.10/json/encoder.py", line 431, in _iterencode
-    yield from _iterencode_dict(o, _current_indent_level)
-  File "/usr/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
-    yield from chunks
-  File "/usr/lib/python3.10/json/encoder.py", line 439, in _iterencode
-    yield from _iterencode(o, _current_indent_level)
-  File "/usr/lib/python3.10/json/encoder.py", line 429, in _iterencode
-    yield from _iterencode_list(o, _current_indent_level)
-  File "/usr/lib/python3.10/json/encoder.py", line 325, in _iterencode_list
-    yield from chunks
-  File "/usr/lib/python3.10/json/encoder.py", line 438, in _iterencode
-    o = _default(o)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/utils/encoders.py", line 67, in default
-    return super().default(obj)
-  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
-    raise TypeError(f'Object of type {o.__class__.__name__} '
-TypeError: Object of type Amenities is not JSON serializable
-django.request ERROR 2023-10-19 06:01:58,066 log 23573 140031799846464 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 116, in put
-    amenities_id=Amenities.objects.get(bus=id).values().id
-AttributeError: 'Amenities' object has no attribute 'values'
-django.request ERROR 2023-10-19 06:05:17,017 log 24080 140603110188608 Internal Server Error: /updateamenities/3/
-Traceback (most recent call last):
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
-    return view_func(*args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
-    response = self.handle_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
-    self.raise_uncaught_exception(exc)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
-    raise exc
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 115, in put
-    amenities_id=Amenities.objects.filter(bus=id).values().id
-AttributeError: 'QuerySet' object has no attribute 'id'
-django.request ERROR 2023-10-19 07:39:10,216 log 42102 139835995055680 Internal Server Error: /addamenities/
+django.request ERROR 2023-10-19 11:54:30,733 log 60138 140054707037760 Internal Server Error: /addroutes/
 Traceback (most recent call last):
   File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
     response = get_response(request)
@@ -391,10 +16,10 @@ Traceback (most recent call last):
     raise exc
   File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
     response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 100, in post
-    print(serializer.data.bus)
-AttributeError: 'ReturnDict' object has no attribute 'bus'
-django.request ERROR 2023-10-19 07:44:14,595 log 43459 140367434344000 Internal Server Error: /addamenities/
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 153, in post
+    routes_id=serializer.data.id
+AttributeError: 'ReturnDict' object has no attribute 'id'
+django.request ERROR 2023-10-19 11:57:36,402 log 60658 139742409647680 Internal Server Error: /addroutes/
 Traceback (most recent call last):
   File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
     response = get_response(request)
@@ -412,6 +37,56 @@ Traceback (most recent call last):
     raise exc
   File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
     response = handler(request, *args, **kwargs)
-  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 103, in post
-    current_bus.save()
-AttributeError: 'QuerySet' object has no attribute 'save'
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 154, in post
+    print(serializer.data.id)
+AttributeError: 'ReturnDict' object has no attribute 'id'
+django.request ERROR 2023-10-19 12:25:33,113 log 62156 139631683958336 Internal Server Error: /addroutes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 150, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 981, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Routes.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Routes.objects.create()`. You may need to make the field read-only, or override the RoutesSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+

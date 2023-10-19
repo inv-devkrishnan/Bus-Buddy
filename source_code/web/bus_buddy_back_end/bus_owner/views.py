@@ -9,9 +9,9 @@ from .models import Routes
 from .models import Amenities
 from .serializers import busserializer
 from .serializers import amenitiesserializer
-from .serializers import buddyserializer
-from .serializers import routeserializer
-from .serializers import routesserializer
+from .serializers import buddyserializer,RoutesSerializer
+# from .serializers import routeserializer
+# from .serializers import routesserializer
 logger = logging.getLogger(__name__)
 from django.core.exceptions import ObjectDoesNotExist 
 from rest_framework.exceptions import ValidationError
@@ -141,22 +141,19 @@ class Updateamenities(APIView):
 
         
 class Addroutes(APIView):
-    permission_classes=(AllowAny,)
-    serializer = None
-    
+    permission_classes = (AllowAny,)
+
     def post(self, request):
         try:
-            serializer = routesserializer(data=request.data)
+            serializer = RoutesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                logger.info("Inserted")
-                return Response("Inserted")
+                routes_id = serializer.data.get('id')  # Access the ID after saving
+                return Response({"message": "Route inserted", "routes_id": routes_id})
             else:
                 return Response(serializer.errors, status=400)
-        except ValidationError:
-            logger.info ("Invalid entry")
-            # raise ValidationError(serializer.errors)
-            return Response("invalid Entry",status=400)
+        except ValidationError as e:
+            return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
         
         
 class Viewroutes(APIView):
