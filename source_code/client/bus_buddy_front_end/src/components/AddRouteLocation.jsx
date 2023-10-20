@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 function AddRouteLocation(props) {
   const [locationValue, setLocationValue] = useState(1);
   const [arrivalTime, setArrivalTime] = useState("");
@@ -56,6 +56,7 @@ function AddRouteLocation(props) {
       };
 
       setLocation(locationStop);
+      localStorage.setItem("locationStop",JSON.stringify(locationStop))
       setLocationValue(1);
       setArrivalTime("");
       setArrivalDate("");
@@ -74,7 +75,8 @@ function AddRouteLocation(props) {
       event.preventDefault();
       event.stopPropagation();
       setStopFormValidated(true);
-    }else {
+    }
+    else {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,
@@ -87,7 +89,6 @@ function AddRouteLocation(props) {
       setStopArrivalTime("");
       setLandmark("");
       setErrorMessage("");
-      console.log(props.sequenceId);
       setStopFormValidated(false);
     }
   };
@@ -100,6 +101,7 @@ function AddRouteLocation(props) {
       props.appendStopLocation(currentStopLocation);
       props.setSequenceId(props.sequenceId + 1);
       props.handleClose();
+      
     } else {
       setErrorMessage("At least add one stop");
     }
@@ -118,6 +120,7 @@ function AddRouteLocation(props) {
             validated={stopFormValidated}
             onSubmit={stopHandleSubmit}
           >
+            <Form.Text>Add stops for the location.Once done save the changes </Form.Text>
             <Form.Group className="mb-3">
               <Form.Label>Stop Name</Form.Label>
               <Form.Control
@@ -176,7 +179,7 @@ function AddRouteLocation(props) {
               onClick={saveDetails}
               className="ms-2 me-2"
             >
-              Save
+              Save Changes
             </Button>
           </Form>
         ) : (
@@ -197,11 +200,9 @@ function AddRouteLocation(props) {
                   }}
                 >
                   {props.locations.map((location) => (
-                    <>
                       <option key={location.id} value={location.id}>
                         {location.location_name}
                       </option>
-                    </>
                   ))}
                 </Form.Select>
               )}

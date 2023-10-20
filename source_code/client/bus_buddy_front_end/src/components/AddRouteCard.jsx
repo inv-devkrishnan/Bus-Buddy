@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -37,20 +37,38 @@ export default function AddRouteCard() {
   };
 
   useEffect(() => {
+
+    // gets all the hardcoded location data
     axios
       .get("http://127.0.0.1:8000/get-location-data/")
       .then((res) => {
         setLocations(res.data);
       })
       .catch((err) => {});
+
+      // to get previously added  locations if page refresh
+    if(localStorage.getItem("locationStop") !==null)
+    {
+       let  stopLocationList = JSON.parse(localStorage.getItem("stopLocationList"));
+       if(stopLocationList.length >1)
+       {
+        let lastEnteredStop = stopLocationList[stopLocationList.length-1]
+        setSequenceId(lastEnteredStop.seq_id+1)
+       }
+       addStopLocation(stopLocationList)
+    }  
   }, []);
 
   const appendStopLocation = (newStopLocation) => {
+    // function to append each location to the StopLocations list
     console.log(newStopLocation);
     addStopLocation((StopLocation) => [...StopLocation, newStopLocation]);
+    let stoplocationArray =[...stopLocations,newStopLocation]
+    localStorage.setItem("stopLocationList",JSON.stringify(stoplocationArray))
   };
 
   const addRoute = () => {
+    // can only add Route if it has two locations (start,end)
     if (stopLocations.length >= 2) {
       const routeData=
       {
@@ -71,6 +89,7 @@ export default function AddRouteCard() {
   };
 
   const getLocationName = (locationId) => {
+    // function to get location name from locationId
     let locationName;
     locations.forEach((element) => {
       if (element.id === locationId) {
@@ -139,6 +158,8 @@ export default function AddRouteCard() {
                         variant="danger"
                         onClick={() => {
                           addStopLocation([]);
+                          localStorage.removeItem("locationStop");
+                          localStorage.removeItem("stopLocationList");
                           setSequenceId(1);
                         }}
                       >

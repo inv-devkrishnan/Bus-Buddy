@@ -1,0 +1,90 @@
+[
+    {
+      "id": 1,
+      "start_point": 6,
+      "end_point": 8,
+      "via": "Thrissur",
+      "distance": "110",
+      "duration": "12",
+      "travel_fare": "400",
+      "status": 0,
+      "location": [
+        {
+          "seq_id": 1,
+          "location": 6,
+          "arrival_time": "10:00",
+          "arrival_date": "1",
+          "departure_time": "20:00",
+          "departure_date": "1",
+          "pick_and_drop": [
+            {
+              "bus_stop": "Edapally",
+              "arrival_time": "10:00",
+              "landmark": "fds",
+              "status": 0
+            }
+          ]
+        },
+        {
+            "seq_id": 2,
+            "location": 7,
+            "arrival_time": "10:00",
+            "arrival_date": "1",
+            "departure_time": "20:00",
+            "departure_date": "1",
+            "pick_and_drop": [
+              {
+                "bus_stop": "Thrissur Round",
+                "arrival_time": "10:00",
+                "landmark": "fds",
+                "status": 0
+              }
+            ]
+          }
+    ]
+    },
+    {
+        "id": 2,
+        "start_point": 7,
+        "end_point": 8,
+        "via": "Thrissur",
+        "distance": "110",
+        "duration": "12",
+        "travel_fare": "400",
+        "status": 0,
+        "location": [
+          {
+            "seq_id": 1,
+            "location": 7,
+            "arrival_time": "10:00",
+            "arrival_date": "1",
+            "departure_time": "20:00",
+            "departure_date": "1",
+            "pick_and_drop": [
+              {
+                "bus_stop": "Mannuthy",
+                "arrival_time": "10:00",
+                "landmark": "fds",
+                "status": 0
+              }
+            ]
+          },
+          {
+              "seq_id": 2,
+              "location": 8,
+              "arrival_time": "10:00",
+              "arrival_date": "1",
+              "departure_time": "20:00",
+              "departure_date": "1",
+              "pick_and_drop": [
+                {
+                  "bus_stop": "Palakad",
+                  "arrival_time": "10:00",
+                  "landmark": "fds",
+                  "status": 0
+                }
+              ]
+            }
+      ]
+      }    
+  ]
