@@ -58,6 +58,9 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             UniqueValidator(
                 queryset=User.objects.all(), message=error_message_phone_exist
             ),
+            UniqueValidator(
+                queryset=User.objects.all(), message="Phone number is already registered"
+            ),
         ],
     )
     company_name = serializers.CharField(max_length=100)
@@ -85,6 +88,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
+
 
 
 class OwnerUpdateSerializer(serializers.ModelSerializer):
