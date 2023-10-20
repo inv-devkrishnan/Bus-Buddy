@@ -138,7 +138,7 @@ function AddRouteLocation(props) {
                 onChange={(e) => {
                   setStopName(e.target.value);
                 }}
-                pattern="^[a-zA-Z0-9 ]+$"
+                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -169,7 +169,7 @@ function AddRouteLocation(props) {
                 onChange={(e) => {
                   setLandmark(e.target.value);
                 }}
-                pattern="^[a-zA-Z0-9 ]+$"
+                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
                 required
               />
               <Form.Control.Feedback type="invalid">
