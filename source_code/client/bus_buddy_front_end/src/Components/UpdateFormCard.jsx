@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { React } from "react";
+import { React, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -12,7 +12,7 @@ export default function UpdateForm() {
 
   const onSubmit = () => {
     axios
-      .put("http://127.0.0.1:8000/user/update-profile/15", {
+      .put("http://127.0.0.1:8000/user/update-profile/31", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -80,6 +80,7 @@ export default function UpdateForm() {
                 type="text"
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.firstName && formik.errors.firstName}
                 placeholder="Enter first name"
               />
@@ -94,6 +95,7 @@ export default function UpdateForm() {
                 type="text"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.lastName && formik.errors.lastName}
                 placeholder="Enter last name"
               />
@@ -108,6 +110,7 @@ export default function UpdateForm() {
                 type="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.email && formik.errors.email}
                 placeholder="Enter email"
               />
@@ -122,6 +125,7 @@ export default function UpdateForm() {
                 type="text"
                 value={formik.values.phone}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 isInvalid={formik.touched.phone && formik.errors.phone}
                 maxLength={10}
                 placeholder="Phone number"

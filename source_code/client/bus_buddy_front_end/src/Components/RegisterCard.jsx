@@ -101,6 +101,7 @@ export default function RegisterCard() {
                           type="text"
                           value={formik.values.firstName}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           isInvalid={
                             formik.touched.firstName && formik.errors.firstName
                           }
@@ -119,6 +120,7 @@ export default function RegisterCard() {
                           type="text"
                           value={formik.values.lastName}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           isInvalid={
                             formik.touched.lastName && formik.errors.lastName
                           }
@@ -137,6 +139,7 @@ export default function RegisterCard() {
                       type="email"
                       value={formik.values.email}
                       onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                       isInvalid={formik.touched.email && formik.errors.email}
                       placeholder="Enter email"
                     />
@@ -152,6 +155,7 @@ export default function RegisterCard() {
                         type={showPassword ? "text" : "password"}
                         value={formik.values.password}
                         onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                         isInvalid={
                           formik.touched.password && formik.errors.password
                         }
@@ -185,6 +189,7 @@ export default function RegisterCard() {
                         type={showConfirmPassword ? "text" : "password"}
                         value={formik.values.confirmPassword}
                         onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                         isInvalid={
                           formik.touched.confirmPassword &&
                           formik.errors.confirmPassword
@@ -218,6 +223,7 @@ export default function RegisterCard() {
                       type="text"
                       value={formik.values.phone}
                       onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                       isInvalid={formik.touched.phone && formik.errors.phone}
                       maxLength={10}
                       placeholder="Phone number"

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 const phoneRules = /^\d+$/;
-const nameRules = /^A-Za-z+$/;
+const nameRules = /^[A-Za-z]+$/;
 
 export const RegistrationSchema = yup.object().shape({
   firstName: yup

@@ -56,7 +56,19 @@ class UserModelSerializer(serializers.ModelSerializer):
             ),
         ]
     )
-    password = serializers.CharField()
+    password = serializers.CharField(
+        min_length=8,
+        max_length=20,
+        validators=[
+            RegexValidator(
+                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
+                message="Password failed",
+            ),
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_phone_exist
+            ),
+        ],
+    )
     phone = serializers.CharField(
         min_length=10,
         max_length=10,

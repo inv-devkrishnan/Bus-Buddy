@@ -22,13 +22,8 @@
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "sweetalert2": "^11.7.32",
-<<<<<<< HEAD
-    "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^2.1.4"
-=======
     "web-vitals": "^2.1.4",
     "yup": "^1.3.2"
->>>>>>> feature/user-registration
   },
   "scripts": {
     "start": "react-scripts start",

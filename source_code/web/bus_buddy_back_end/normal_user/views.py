@@ -22,7 +22,7 @@ def update_only_name(request, user_id):
         current_data.first_name = serialized_data.validated_data["first_name"]
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
 
@@ -35,7 +35,7 @@ def update_except_email(request, user_id):
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.phone = serialized_data.validated_data["phone"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
 
@@ -48,10 +48,11 @@ def update_except_phone(request, user_id):
         current_data.last_name = serialized_data.validated_data["last_name"]
         current_data.email = serialized_data.validated_data["email"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
-    
+
+
 def update_all(request, user_id):
     current_data = User.objects.get(id=user_id)
     serialized_data = AllField(data=request.data)
@@ -61,9 +62,10 @@ def update_all(request, user_id):
         current_data.email = serialized_data.validated_data["email"]
         current_data.phone = serialized_data.validated_data["phone"]
         current_data.save()
-        return update_message
+        return True
     else:
         return serialized_data._errors
+
 
 class RegisterUser(APIView):
     permission_classes = (AllowAny,)
@@ -84,17 +86,21 @@ class UpdateProfile(APIView):
         entered_email = request.data.get("email")
         entered_phone = request.data.get("phone")
         if User.objects.all().filter(
-            email__icontains=entered_email, phone=entered_phone # old email and phone
+            email__icontains=entered_email, phone=entered_phone  # old email and phone
         ):
-            return Response(update_only_name(request, id))
+            response = update_only_name(request, id)
         elif User.objects.all().filter(
-            ~Q(phone=entered_phone), email__icontains=entered_email # old email
+            ~Q(phone=entered_phone), email__icontains=entered_email  # old email
         ):
-            return Response(update_except_email(request, id))
+            response = update_except_email(request, id)
         elif User.objects.all().filter(
-            ~Q(email__icontains=entered_email), phone=entered_phone # old phone
+            ~Q(email__icontains=entered_email), phone=entered_phone  # old phone
         ):
-            return Response(update_except_phone(request, id))
-        else: # every data is different from old
-            return Response(update_all(request, id))
+            response = update_except_phone(request, id)
+        else:  # every data is different from old
+            response = update_all(request, id)
 
+        if response == True:
+            return Response(update_message,status=200)
+        else:
+            return Response(response, status=400)

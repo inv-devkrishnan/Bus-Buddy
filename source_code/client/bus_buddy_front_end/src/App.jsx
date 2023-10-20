@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from 'react-router-dom';
 import RegisterCard from './Components/RegisterCard';
-import UpdateForm from './components/UpdateFormCard'
+import UpdateForm from './Components/UpdateFormCard'
 function App() {
   return (
     <div className="App">
     <Routes>
-    <Route path='/' element={<RegisterCard/>} />
-      <Route path='/' element={<UpdateForm/>} />
+    <Route path='/register-user' element={<RegisterCard/>} />
+      <Route path='/update-user' element={<UpdateForm/>} />
     </Routes>
     </div>
   );
