@@ -1,76 +1,37 @@
 import { React, useState } from "react";
 
-import { IconButton,Button,Grid } from "@mui/material";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { IconButton } from "@mui/material";
 
 import Sleeper from "../../Assests/sleeper.png";
 import Booked from "../../Assests/bookedSleeper.png";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { useNavigate } from "react-router-dom";
 
 function UserSleeper() {
+  const [select, setSelect] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [booked, setBooked] = useState(false);
+  const [choice, setChoice] = useState(0);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setBooked(true);
+  const handleSelect = () => {
+    setSelect(!select);
+    if (!select) {
+      setChoice(choice + 1);
+    } else {
+      setChoice(choice - 1);
+    }
   };
-
-  const handleCancel = (event) => {
-    event.preventDefault();
-    setBooked(false);
-  };
+  console.log(choice);
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        {booked ? (
+      <IconButton onClick={handleSelect}>
+        {select ? (
           <img src={Booked} alt="sleeper" />
         ) : (
           <img src={Sleeper} alt="booked" />
         )}
       </IconButton>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Seat Number
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Seat Details
-          </Typography>
-          <Grid container>
-            <Grid item xs={10}></Grid>
-            <Grid item xs={2}>
-              {booked ? (
-                <Button onClick={handleCancel}>Cancel</Button>
-              ) : (
-                <Button onClick={handleSubmit}>Book</Button>
-              )}
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
     </>
   );
 }

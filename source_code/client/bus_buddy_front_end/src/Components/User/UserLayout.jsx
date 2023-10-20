@@ -10,7 +10,7 @@ export default function UserLayout() {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+      <Grid item md={3} xs={6}>
           <span style={{color:"cornflowerblue"}}>Lower Deck</span>
           <Card sx={{ width: 300, border: 1 }}>
             <CardContent>
@@ -29,7 +29,7 @@ export default function UserLayout() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={3} xs={6}>
           <span style={{color:"cornflowerblue"}}>Upper Deck</span>
           <Card sx={{ width: 300, border: 1 }}>
             <CardContent>
