@@ -96,30 +96,19 @@ class UpdateBusOwner(APIView):
         if User.objects.all().filter(
             email__contains=entered_email, phone=entered_phone # old email and phone
         ):
-            flag=update_only_name(request, user_id)
-            if flag==True:
-                return Response(update_message)
-            else:
-                return Response(flag,status=400) 
+            response=update_only_name(request, user_id)
         elif User.objects.all().filter(
             ~Q(phone=entered_phone), email__contains=entered_email # old email only
         ):
-            flag=update_except_email(request, user_id)
-            if flag==True:
-                return Response(update_message)
-            else:
-                return Response(flag,status=400) 
+            response=update_except_email(request, user_id)
         elif User.objects.all().filter(
             ~Q(email__contains=entered_email), phone=entered_phone # old phone only
         ):
-            flag=update_except_phone(request, user_id)
-            if flag==True:
-                return Response(update_message)
-            else:
-                return Response(flag,status=400) 
+            response=update_except_phone(request, user_id)
         else: # every data is different from old
-            flag=update_all(request, user_id)
-            if flag==True:
-                return Response(update_message)
-            else:
-                return Response(flag,status=400) 
+            response=update_all(request, user_id)
+            
+        if response==True:
+            return Response(update_message,status=200)
+        else:
+            return Response(response,status=400) 
