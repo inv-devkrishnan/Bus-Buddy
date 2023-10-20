@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="App">
     <Routes>
-      <Route path='/' element={<OwnerUpdateCard/>} />
-      <Route path='/' element={<OwnerRegisterCard/>} />
+      <Route path='/update-owner' element={<OwnerUpdateCard/>} />
+      <Route path='/register-owner' element={<OwnerRegisterCard/>} />
     <Route path='/register-user' element={<RegisterCard/>} />
       <Route path='/update-user' element={<UpdateForm/>} />
     </Routes>
