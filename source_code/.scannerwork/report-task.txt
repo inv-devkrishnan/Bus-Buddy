@@ -1,0 +1,6 @@
+projectKey=Bus-Buddy
+serverUrl=http://10.10.24.45:9000
+serverVersion=9.6.0.59041
+dashboardUrl=http://10.10.24.45:9000/dashboard?id=Bus-Buddy
+ceTaskId=AYs9O9KrwEbnkbIE8gqS
+ceTaskUrl=http://10.10.24.45:9000/api/ce/task?id=AYs9O9KrwEbnkbIE8gqS
