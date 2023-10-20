@@ -8,8 +8,8 @@ class GoogleAuthSerializer(serializers.Serializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=100)
-    password = serializers.CharField(max_length=50)
+    email = serializers.EmailField(max_length=254)
+    password = serializers.CharField(max_length=100)
 
     class Meta:
         model = User
@@ -20,11 +20,11 @@ class LoginSerializer(serializers.ModelSerializer):
 class PasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(max_length=100)
     new_password = serializers.CharField(
-        max_length=12,
+        max_length=100,
         validators=[
             RegexValidator(
                 regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
-                message="Name can only contain letters",
+                message="password not valid",
             ),
         ],
     )
