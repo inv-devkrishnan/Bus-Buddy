@@ -47,10 +47,10 @@ export default function AddRouteCard() {
       .catch((err) => {});
 
       // to get previously added  locations if page refresh
-    if(localStorage.getItem("locationStop") !==null)
+    if(localStorage.getItem("stopLocationList") !==null)
     {
        let  stopLocationList = JSON.parse(localStorage.getItem("stopLocationList"));
-       if(stopLocationList.length >1)
+       if(stopLocationList.length >0)
        {
         let lastEnteredStop = stopLocationList[stopLocationList.length-1]
         setSequenceId(lastEnteredStop.seq_id+1)
@@ -70,6 +70,11 @@ export default function AddRouteCard() {
   const addRoute = () => {
     // can only add Route if it has two locations (start,end)
     if (stopLocations.length >= 2) {
+
+      // removes auto save
+      localStorage.removeItem("stopLocationList")
+      localStorage.removeItem("locationStop")
+
       const routeData=
       {
         start_point :  stopLocations[0].location,

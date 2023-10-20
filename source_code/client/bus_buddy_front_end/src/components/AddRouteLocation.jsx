@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 function AddRouteLocation(props) {
   const [locationValue, setLocationValue] = useState(1);
   const [arrivalTime, setArrivalTime] = useState("");
@@ -17,6 +17,17 @@ function AddRouteLocation(props) {
   const [stopFormValidated, setStopFormValidated] = useState(false);
   const [stopsArray, setStopsArray] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("locationStop") !== null) {
+      let locationStop = JSON.parse(localStorage.getItem("locationStop"));
+      setLocationValue(locationStop.location);
+      setArrivalTime(locationStop.arrival_time);
+      setArrivalDate(locationStop.arrival_date);
+      setDepartureTime(locationStop.departure_time);
+      setDepartureDate(locationStop.departure_date);
+    }
+  }, []);
 
   const checkLocationAlreadyExists = (currentLocationId) => {
     let status = false;
@@ -37,15 +48,11 @@ function AddRouteLocation(props) {
       setlocationFormValidated(true);
     } else if (checkLocationAlreadyExists(locationValue)) {
       setErrorMessage("This location is already added");
-    }else if(arrivalDate>departureDate)
-    {
+    } else if (arrivalDate > departureDate) {
       setErrorMessage("Arrival date offset can't be past depature date offset");
-    }
-     else if (arrivalTime > departureTime && arrivalDate === departureDate)
-    {
-      setErrorMessage("Arrival time can't be past depature time")
-    }
-     else {
+    } else if (arrivalTime > departureTime && arrivalDate === departureDate) {
+      setErrorMessage("Arrival time can't be past depature time");
+    } else {
       const locationStop = {
         seq_id: props.sequenceId,
         location: locationValue,
@@ -56,7 +63,7 @@ function AddRouteLocation(props) {
       };
 
       setLocation(locationStop);
-      localStorage.setItem("locationStop",JSON.stringify(locationStop))
+      localStorage.setItem("locationStop", JSON.stringify(locationStop));
       setLocationValue(1);
       setArrivalTime("");
       setArrivalDate("");
@@ -75,8 +82,7 @@ function AddRouteLocation(props) {
       event.preventDefault();
       event.stopPropagation();
       setStopFormValidated(true);
-    }
-    else {
+    } else {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,
@@ -100,8 +106,8 @@ function AddRouteLocation(props) {
       setStopsArray([]); // clears stops array for next location
       props.appendStopLocation(currentStopLocation);
       props.setSequenceId(props.sequenceId + 1);
+      localStorage.removeItem("locationStop");
       props.handleClose();
-      
     } else {
       setErrorMessage("At least add one stop");
     }
@@ -120,7 +126,9 @@ function AddRouteLocation(props) {
             validated={stopFormValidated}
             onSubmit={stopHandleSubmit}
           >
-            <Form.Text>Add stops for the location.Once done save the changes </Form.Text>
+            <Form.Text>
+              Add stops for the location.Once done save the changes{" "}
+            </Form.Text>
             <Form.Group className="mb-3">
               <Form.Label>Stop Name</Form.Label>
               <Form.Control
@@ -200,9 +208,9 @@ function AddRouteLocation(props) {
                   }}
                 >
                   {props.locations.map((location) => (
-                      <option key={location.id} value={location.id}>
-                        {location.location_name}
-                      </option>
+                    <option key={location.id} value={location.id}>
+                      {location.location_name}
+                    </option>
                   ))}
                 </Form.Select>
               )}
@@ -233,7 +241,8 @@ function AddRouteLocation(props) {
                 required
               />
               <Form.Text className="text-muted">
-                Number of days which is required to reach this location from the start date of the trip
+                Number of days which is required to reach this location from the
+                start date of the trip
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -262,7 +271,8 @@ function AddRouteLocation(props) {
                 required
               />
               <Form.Text className="text-muted">
-              Number of days after which we leave this location from the start date of the trip
+                Number of days after which we leave this location from the start
+                date of the trip
               </Form.Text>
             </Form.Group>
             <label className="text-danger d-block ms-2 me-2">
