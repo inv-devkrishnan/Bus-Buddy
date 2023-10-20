@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { React, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -9,6 +9,18 @@ import { UpdateSchema } from "./UpdateSchema";
 import axios from "axios";
 
 export default function UpdateForm() {
+  const [currentUserData, setCurrentUserData] = useState([])
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/user/update-profile/31")
+      .then((res) => {
+        console.log(res.data);
+        setCurrentUserData(res.data)
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, []);
 
   const onSubmit = () => {
     axios
@@ -51,12 +63,10 @@ export default function UpdateForm() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phone: "",
+      firstName: currentUserData["first_name"],
+      lastName: currentUserData["last_name"],
+      email: currentUserData["email"],
+      phone: currentUserData["phone"],
     },
     validationSchema: UpdateSchema,
     onSubmit,
@@ -70,7 +80,21 @@ export default function UpdateForm() {
   return (
     <>
       <Card style={{ width: "50rem" }}>
-        <Card.Img variant="top" src={updateImage} />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Card.Img
+            variant="top"
+            src={updateImage}
+            style={{ width: "20rem", height: "auto" }}
+          />
+          <div>
+            <Card.Title style={{ fontSize: "40px", fontWeight: "bold" }}>
+              Update Profile
+            </Card.Title>
+            <Card.Text style={{ color: "gray" }}>
+              Keep your information current and accurate.
+            </Card.Text>
+          </div>
+        </div>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

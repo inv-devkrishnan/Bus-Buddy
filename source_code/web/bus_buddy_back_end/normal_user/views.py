@@ -82,6 +82,15 @@ class RegisterUser(APIView):
 class UpdateProfile(APIView):
     permission_classes = (AllowAny,)
 
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=404)
+        
+        serialized_data=UMS(user)
+        return Response(serialized_data.data)
+
     def put(self, request, id):
         entered_email = request.data.get("email")
         entered_phone = request.data.get("phone")
@@ -101,6 +110,6 @@ class UpdateProfile(APIView):
             response = update_all(request, id)
 
         if response == True:
-            return Response(update_message,status=200)
+            return Response(update_message, status=200)
         else:
             return Response(response, status=400)
