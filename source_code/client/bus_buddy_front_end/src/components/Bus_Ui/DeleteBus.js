@@ -20,7 +20,7 @@ export default function Delete() {
       alert("ID cannot be blank")
     }
 
-    axios.put(`http://127.0.0.1:8000/deletebus/${id}/`)
+    axios.put(`http://127.0.0.1:8000/Delete-Bus/${id}/`)
       .then(response => {
         // navi('/Viewalltask');
         console.log("user:", user);

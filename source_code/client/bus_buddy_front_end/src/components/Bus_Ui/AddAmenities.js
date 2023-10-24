@@ -33,7 +33,7 @@ export default function Addamenities() {
     e.preventDefault();
     try {
       // Send a POST request to add the amenities
-      const response = await axios.post('http://localhost:8000/addamenities/', {
+      const response = await axios.post('http://localhost:8000/Add-Amenities/', {
         bus: bus,
         ...formState,
       });

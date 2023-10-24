@@ -5,12 +5,12 @@ import'./table.css';
 export default function Viewalltask() {
 
     // const [pageno,setpageno] =useState(1)
-    // const url = viewbus/1/
+    // const url = iewbus/1/
     const [data, setData] = useState([])
 
     useEffect(() => {
       const fetchData = async () => {
-        const response = await axios.get("http://localhost:8000/viewbus/1/");
+        const response = await axios.get("http://localhost:8000/View-Bus/1/");
         setData(response.data);
       }
       fetchData();

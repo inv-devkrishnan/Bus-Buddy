@@ -34,7 +34,7 @@ export default function Updatebus() {
 
         try {
           const data = new FormData(e.currentTarget);
-          axios.put(`http://127.0.0.1:8000/updatebus/${id}/`, 
+          axios.put(`http://127.0.0.1:8000/Update-Bus/${id}/`, 
           {
             user:1,
             bus_name:bus_name,

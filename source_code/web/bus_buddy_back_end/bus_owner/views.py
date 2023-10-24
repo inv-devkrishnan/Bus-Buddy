@@ -3,15 +3,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from django.core.paginator import Paginator, Page
-import logging
 from .models import Bus
 from .models import Routes
 from .models import Amenities
-from .serializers import BusSerializer,BuddySerializer
+from .serializers import BusSerializer,ViewBusSerializer
 from .serializers import AmenitiesSerializer
-from .serializers import RoutesSerializer,StartStopLocationsSerializer,PickAndDropSerializer
-# from .serializers import routeserializer
-# from .serializers import routesserializer
+from .serializers import RoutesSerializer,StartStopLocationsSerializer,PickAndDropSerializer,ViewRoutesSerializer
+import logging
 logger = logging.getLogger(__name__)
 from django.core.exceptions import ObjectDoesNotExist 
 from rest_framework.exceptions import ValidationError
@@ -83,7 +81,7 @@ class Viewbus(APIView):
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
-            serializer = BuddySerializer(page, many=True)
+            serializer = ViewBusSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
@@ -139,7 +137,6 @@ class Updateamenities(APIView):
         except ObjectDoesNotExist:
             return Response("Invalid Bus ID", status=400)
 
-        
 class Addroutes(APIView):
     permission_classes = (AllowAny,)
 
@@ -147,8 +144,8 @@ class Addroutes(APIView):
         try:
             serializer =  RoutesSerializer(data=request.data)
             if serializer.is_valid():
-                print(serializer.data)
-                # serializer.save()
+                # print(serializer.data)
+                serializer.save()
                 routes_id = serializer.data.get('id') 
                 return Response({"message": "Route inserted", "routes_id": routes_id})
             else:
@@ -165,7 +162,7 @@ class Viewroutes(APIView):
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
-            serializer = RoutesSerializer(page, many=True)
+            serializer = ViewRoutesSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)

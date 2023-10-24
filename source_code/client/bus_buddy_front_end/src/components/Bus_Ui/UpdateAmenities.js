@@ -35,7 +35,7 @@ export default function Updateamenities() {
 
     try {
       // Send a PUT request to update the amenities
-      const response = await axios.put(`http://127.0.0.1:8000/updateamenities/${bus.id}/`, {
+      const response = await axios.put(`http://127.0.0.1:8000/Update-Amenities/${bus.id}/`, {
         bus: bus.idstat,
         ...formState,
       });

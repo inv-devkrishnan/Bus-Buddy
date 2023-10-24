@@ -38,7 +38,7 @@ class UpdateamenitiesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class BuddySerializer(serializers.ModelSerializer):
+class ViewBusSerializer(serializers.ModelSerializer):
     user = serializers.CharField(required=False)
 
     class Meta:
@@ -46,51 +46,30 @@ class BuddySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# class routesserializer(serializers.ModelSerializer):
-#     # user= serializers.CharField(required=False)
-
-#     def validate_name(self, value):
-#         if not re.match(r"^[A-Za-z]+$", value):
-#             raise serializers.ValidationError(
-#                 "Invalid Name format. Only letters are allowed."
-#             )
-#         return value
-
-#     class Meta:
-#         model = Routes
-#         fields = "__all__"
 
 
-# class routeserializer(serializers.ModelSerializer):
-#     user = serializers.CharField(required=False)
-
-#     def validate_name(self, value):
-#         if not re.match(r"^[A-Za-z]+$", value):
-#             raise serializers.ValidationError(
-#                 "Invalid Name format. Only letters are allowed."
-#             )
-#         return value
-
-#     class Meta:
-#         model = Routes
-#         fields = "__all__"
-
+class ViewRoutesSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(required=False)
+    start_point = serializers.CharField(required=False)
+    end_point = serializers.CharField(required=False)
+    class Meta:
+        model = Routes
+        fields = '__all__'
+        
 class PickAndDropSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickAndDrop
-        fields = ['location','bus_stop','arrival_time','landmark','status']
+        fields = '__all__'
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
+    # pick_and_drop = PickAndDropSerializerTest(many=True)
     
-    pick_and_drop = PickAndDropSerializer(many=True)
-
     class Meta:
         model = StartStopLocations
-        fields = ['seq_id' ,'location','arrival_time','arrival_date_offset','departure_time','departure_date_offset','pick_and_drop']
+        fields = '__all__' 
         
-
 class RoutesSerializer(serializers.ModelSerializer):
-    location = StartStopLocationsSerializer(many=True)
+    # location = StartStopLocationsSerializerTest(many=True)
 
     class Meta:
         model = Routes

@@ -8,7 +8,7 @@ export default function Home() {
   
   return (
     <>
-      <div style={{display:"flex",justifyContent:"space-between",margin:"3%"}}>
+      <div style={{display:"flex",justifyContent:"space-between",margin:"12%"}}>
       <Card style={{ width: '18rem',borderRadius:'18px',backgroundColor:"grey"  }}>
           <Card.Body style={{textAlign:"center"}}>
             <Card.Title>Create Bus</Card.Title>
@@ -20,7 +20,6 @@ export default function Home() {
               </Link>      
           </Card.Body>
        </Card>
-        
        <Card style={{ width: '18rem',borderRadius:'18px',backgroundColor:"grey" }}>
           <Card.Body style={{textAlign:"center"}}>
             <Card.Title>Delete Bus</Card.Title>
@@ -33,19 +32,9 @@ export default function Home() {
           </Card.Body>
        </Card>
         
-       <Card style={{ width: '18rem',borderRadius:'18px', backgroundColor:"grey"}}>
-          <Card.Body style={{textAlign:"center"}}>
-            <Card.Title>Update Bus</Card.Title>
-              <Card.Text>
-                Update the task name of an existing task in the todolist
-              </Card.Text>
-              <Link to={'/Updatebus'}>
-                <button className="btn btn-primary">Update Bus</button> 
-              </Link>    
-          </Card.Body>
-       </Card>
+       
       </div>
-      <div style={{display:"flex",justifyContent:"space-between",margin:"3%"}}>
+      <div style={{display:"flex",justifyContent:"space-between",margin:"12%"}}>
         
        <Card style={{ width: '18rem',borderRadius:'18px',backgroundColor:"grey" }}>
           <Card.Body style={{textAlign:"center"}}>
@@ -56,6 +45,17 @@ export default function Home() {
               <Link to={'/Viewbus'}>
                 <button className="btn btn-primary">Viewall Bus</button> 
               </Link>  
+          </Card.Body>
+       </Card>
+       <Card style={{ width: '18rem',borderRadius:'18px', backgroundColor:"grey"}}>
+          <Card.Body style={{textAlign:"center"}}>
+            <Card.Title>Update Bus</Card.Title>
+              <Card.Text>
+                Update the task name of an existing task in the todolist
+              </Card.Text>
+              <Link to={'/Updatebus'}>
+                <button className="btn btn-primary">Update Bus</button> 
+              </Link>    
           </Card.Body>
        </Card>
       </div>
