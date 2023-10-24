@@ -19,6 +19,7 @@ function AddRouteLocation(props) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    // if user added the location but not the stops the location info is loaded to form
     if (localStorage.getItem("locationStop") !== null) {
       let locationStop = JSON.parse(localStorage.getItem("locationStop"));
       setLocationValue(locationStop.location);
@@ -30,6 +31,7 @@ function AddRouteLocation(props) {
   }, []);
 
   const checkLocationAlreadyExists = (currentLocationId) => {
+    // function to check if location Already Exists
     let status = false;
     props.stopLocations.forEach((element) => {
       if (element.location === currentLocationId) {
@@ -39,6 +41,7 @@ function AddRouteLocation(props) {
     return status;
   };
   const locationHandleSubmit = (event) => {
+    // function  to submit a location
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
@@ -64,6 +67,7 @@ function AddRouteLocation(props) {
 
       setLocation(locationStop);
       localStorage.setItem("locationStop", JSON.stringify(locationStop));
+      //clears the form
       setLocationValue(1);
       setArrivalTime("");
       setArrivalDate("");
@@ -71,6 +75,7 @@ function AddRouteLocation(props) {
       setDepartureDate("");
       setlocationFormValidated(false);
       setErrorMessage("");
+      // this will enable adding the stops 
       props.setlocationAdded(true);
     }
   };
@@ -100,6 +105,7 @@ function AddRouteLocation(props) {
   };
 
   const saveDetails = () => {
+    // function to save locations along to with its stops 
     if (stopsArray.length > 0) {
       let currentStopLocation = location;
       currentStopLocation["pick_and_drop"] = stopsArray;

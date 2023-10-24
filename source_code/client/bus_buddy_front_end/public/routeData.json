@@ -22,6 +22,12 @@
               "arrival_time": "10:00",
               "landmark": "fds",
               "status": 0
+            },
+            {
+              "bus_stop": "Aluva",
+              "arrival_time": "10:00",
+              "landmark": "fds",
+              "status": 0
             }
           ]
         },

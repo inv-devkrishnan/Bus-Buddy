@@ -1,4 +1,4 @@
-import { React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -14,7 +14,7 @@ export default function AddRouteCard() {
   const [locations, setLocations] = useState([]);
   const [sequenceId, setSequenceId] = useState(1);
   const [stopLocations, addStopLocation] = useState([]);
-  const [locationAdded, setlocationAdded] = useState(false);
+  const [locationAdded, setlocationAdded] = useState(false); // if true shows  add stop form else shows add location form
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -37,7 +37,6 @@ export default function AddRouteCard() {
   };
 
   useEffect(() => {
-
     // gets all the hardcoded location data
     axios
       .get("http://127.0.0.1:8000/get-location-data/")
@@ -46,47 +45,45 @@ export default function AddRouteCard() {
       })
       .catch((err) => {});
 
-      // to get previously added  locations if page refresh
-    if(localStorage.getItem("stopLocationList") !==null)
-    {
-       let  stopLocationList = JSON.parse(localStorage.getItem("stopLocationList"));
-       if(stopLocationList.length >0)
-       {
-        let lastEnteredStop = stopLocationList[stopLocationList.length-1]
-        setSequenceId(lastEnteredStop.seq_id+1)
-       }
-       addStopLocation(stopLocationList)
-    }  
+    // to get previously added  locations if page refresh
+    if (localStorage.getItem("stopLocationList") !== null) {
+      let stopLocationList = JSON.parse(
+        localStorage.getItem("stopLocationList")
+      );
+      if (stopLocationList.length > 0) {
+        let lastEnteredStop = stopLocationList[stopLocationList.length - 1];
+        setSequenceId(lastEnteredStop.seq_id + 1);
+      }
+      addStopLocation(stopLocationList);
+    }
   }, []);
 
   const appendStopLocation = (newStopLocation) => {
     // function to append each location to the StopLocations list
     console.log(newStopLocation);
     addStopLocation((StopLocation) => [...StopLocation, newStopLocation]);
-    let stoplocationArray =[...stopLocations,newStopLocation]
-    localStorage.setItem("stopLocationList",JSON.stringify(stoplocationArray))
+    let stoplocationArray = [...stopLocations, newStopLocation];
+    localStorage.setItem("stopLocationList", JSON.stringify(stoplocationArray));
   };
 
   const addRoute = () => {
     // can only add Route if it has two locations (start,end)
     if (stopLocations.length >= 2) {
-
       // removes auto save
-      localStorage.removeItem("stopLocationList")
-      localStorage.removeItem("locationStop")
+      localStorage.removeItem("stopLocationList");
+      localStorage.removeItem("locationStop");
 
-      const routeData=
-      {
-        start_point :  stopLocations[0].location,
-        end_point : stopLocations[stopLocations.length-1].location,
-        via : document.getElementById("via").value,
-        distance : document.getElementById("distance").value,
-        duration : document.getElementById("duration").value,
-        travel_fare : document.getElementById("travel_fare").value,
-        status : 0,
-        location : stopLocations
-      }
-      console.log(routeData)
+      const routeData = {
+        start_point: stopLocations[0].location,
+        end_point: stopLocations[stopLocations.length - 1].location,
+        via: document.getElementById("via").value,
+        distance: document.getElementById("distance").value,
+        duration: document.getElementById("duration").value,
+        travel_fare: document.getElementById("travel_fare").value,
+        status: 0,
+        location: stopLocations,
+      };
+      console.log(routeData);
       setErrorMessage("");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");
@@ -143,9 +140,7 @@ export default function AddRouteCard() {
                           {stopLocations.map((stopLocation) => (
                             <tr key={stopLocation.seq_id}>
                               <td>{stopLocation.seq_id}</td>
-                              <td>
-                                {getLocationName(stopLocation.location)}
-                              </td>
+                              <td>{getLocationName(stopLocation.location)}</td>
                               <td>
                                 <ul>
                                   {stopLocation.pick_and_drop.map((stops) => (
@@ -176,7 +171,7 @@ export default function AddRouteCard() {
                 <Form.Group className="mb-3">
                   <Form.Label>Via Location</Form.Label>
                   <Form.Control
-                    id ="via"
+                    id="via"
                     type="text"
                     placeholder="Enter the location"
                     pattern="^[a-zA-Z]+$"
@@ -194,20 +189,19 @@ export default function AddRouteCard() {
                 <Form.Group className="mb-3">
                   <Form.Label>Duration</Form.Label>
                   <InputGroup>
-                  <Form.Control
-                    id="duration"
-                    type="number"
-                    step={0.1}
-                    min={1}
-                    max={500}
-                    maxLength={6}
-                    placeholder="Enter the total time"
-                    required
-                  />
-                  <InputGroup.Text>hrs</InputGroup.Text>
+                    <Form.Control
+                      id="duration"
+                      type="number"
+                      step={0.1}
+                      min={1}
+                      max={500}
+                      maxLength={6}
+                      placeholder="Enter the total time"
+                      required
+                    />
+                    <InputGroup.Text>hrs</InputGroup.Text>
                   </InputGroup>
-                  
-                 
+
                   <Form.Control.Feedback type="invalid">
                     Please provide valid Duration
                   </Form.Control.Feedback>
@@ -227,8 +221,8 @@ export default function AddRouteCard() {
                     />
                     <InputGroup.Text>km</InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                    Please provide valid Distance
-                  </Form.Control.Feedback>
+                      Please provide valid Distance
+                    </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
 
@@ -246,8 +240,8 @@ export default function AddRouteCard() {
                       step="0.01"
                     />
                     <Form.Control.Feedback type="invalid">
-                    Please provide valid travel fare
-                  </Form.Control.Feedback>
+                      Please provide valid travel fare
+                    </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
                 <label className="text-danger d-block">{errorMessage}</label>
