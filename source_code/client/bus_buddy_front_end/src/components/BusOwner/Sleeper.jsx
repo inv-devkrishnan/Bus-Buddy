@@ -5,13 +5,16 @@ import { IconButton } from "@mui/material";
 import SleeperImage from "../../assests/sleeper.png";
 import { useNavigate } from "react-router-dom";
 
-function Sleeper() {
+function Sleeper(position) {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(true);
-  
+
   const handleClick = () => {
-    setIsClicked(!isClicked)
-    navigate("/", { state: isClicked })};
+    setIsClicked(!isClicked);
+    navigate("/", {
+      state: { isClicked: isClicked, row: position.row, column: position.column },
+    });
+  };
 
   return (
     <>

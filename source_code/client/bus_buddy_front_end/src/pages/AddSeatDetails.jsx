@@ -5,7 +5,9 @@ import FormComponent from "../components/BusOwner/FormComponent";
 
 export default function AddSeatDetails() {
   const location = useLocation();
-  const isClicked = location.state; //stores the value as true which is passed from sleeper
+  const isClicked = location.state.isClicked; //stores the value as true which is passed from sleeper
+  const row = location.state.row;
+  const column = location.state.column;
 
   return (
     <div className="container">
@@ -13,7 +15,7 @@ export default function AddSeatDetails() {
         <Layout />
       </div>
       <div className="component">
-        {isClicked && <FormComponent />}
+        {isClicked && <FormComponent row={row} column={column} />}
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}
       </div>

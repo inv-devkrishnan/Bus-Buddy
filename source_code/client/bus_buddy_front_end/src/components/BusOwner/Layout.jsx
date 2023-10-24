@@ -20,11 +20,11 @@ export default function Layout() {
                     <img src={driver} alt="driver" />
                   </Grid>
                 </Grid>
-                <Layer />
-                <Layer />
-                <Layer />
-                <Layer />
-                <Layer />
+                <Layer layer={1}/>
+                <Layer layer={2}/>
+                <Layer layer={3}/>
+                <Layer layer={4}/>
+                <Layer layer={5}/>
               </CardContent>
             </Card>
           </Grid>
@@ -39,11 +39,11 @@ export default function Layout() {
                     <HorizontalRuleIcon sx={{ color: "white" }} />{" "}
                   </Grid>
                 </Grid>
-                <Layer />
-                <Layer />
-                <Layer />
-                <Layer />
-                <Layer />
+                <Layer layer={6}/>
+                <Layer layer={7}/>
+                <Layer layer={8}/>
+                <Layer layer={9}/>
+                <Layer layer={10}/>
               </CardContent>
             </Card>
           </Grid>
