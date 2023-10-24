@@ -19,40 +19,26 @@ export default function Viewalltask() {
 
 
 
-    const renderTable = () => {
-        return data.map(viewbus => {
-          return (
-            <tr>
-              <td>{viewbus.id}</td>
-              <td>{viewbus.bus_name}</td>
-              <td>{viewbus.plate_no}</td>
-              <td>{viewbus.bus_type}</td>
-              <td>{viewbus.bus_ac}</td>
-            </tr>
-          )
-        })
-      }
+    const renderCards = () => {
+      return data.map(viewbus => (
+        <div className="card" key={viewbus.id}>
+          <h2>Bus Name: {viewbus.bus_name}</h2>
+          <p>Bus ID: {viewbus.id}</p>
+          <p>Plate No: {viewbus.plate_no}</p>
+          <p>Status: {viewbus.bus_type}</p>
+          <p>Bus A/C: {viewbus.bus_ac}</p>
+        </div>
+      ));
+    };
 
   return (
     <div>
-        <div style={{textAlign:"center",backgroundColor:"GrayText"}}>
-            <h1>Viewall</h1>
-        </div>
-        <div style={{marginLeft:"34%"}}>
-            <table style={{width:"50%",backgroundColor:"powderblue"}}>
-                <thead>
-                    <tr>
-                        <th>Bus Id</th>
-                        <th>Bus Name</th>
-                        <th>Plate No</th>
-                        <th>Status</th>
-                        <th>Bus Type</th>
-                        <th>Bus A/C</th>
-                    </tr>
-                </thead>
-                <tbody>{renderTable()}</tbody>
-            </table>
-        </div>
+      <div style={{ textAlign: "center", backgroundColor: "GrayText" }}>
+        <h1>Viewall</h1>
+      </div>
+      <div className="card-container">
+        {renderCards()}
+      </div>
     </div>
   )
 }

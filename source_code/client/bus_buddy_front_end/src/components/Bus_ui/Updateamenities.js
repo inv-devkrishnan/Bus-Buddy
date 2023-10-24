@@ -53,7 +53,7 @@ export default function Updateamenities() {
       <Card style={{ width: '35rem', height: '35rem', paddingTop: '1rem' }}>
         <Card.Body>
           <Card.Title style={{ textAlign: 'center' }}>Update Amenities</Card.Title>
-          <Card.Text style={{ display: 'flex' }}>
+            <div style={{display: 'flex'}}>
             <Form onSubmit={handleSubmit}>
               {Object.keys(formState).map((amenity) => (
                 <div key={amenity} className="mb-3">
@@ -68,7 +68,7 @@ export default function Updateamenities() {
               ))}
               <Button type="submit">Update Amenities</Button>
             </Form>
-          </Card.Text>
+            </div>
         </Card.Body>
       </Card>
     </div>

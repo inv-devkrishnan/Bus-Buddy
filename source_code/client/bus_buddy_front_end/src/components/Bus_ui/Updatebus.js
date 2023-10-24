@@ -12,7 +12,8 @@ export default function Updatebus() {
   const [plate_no,setplate_no]=useState("");
   const [bus_type,setbus_type]=useState("");
   const [bus_ac,setbus_ac]=useState("");
-  const validated = useState(false);
+  const busTypes = ['0', '1', '2']; 
+  const busACOptions = ['0', '1'];
 
     const navi = useNavigate();
 
@@ -56,8 +57,8 @@ export default function Updatebus() {
             <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
             <Card.Body>
                 <Card.Title style={{textAlign:"center"}}>Update Bus</Card.Title>
-                <Card.Text style={{display:'flex',}}>
-            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
+                <div style={{display:'flex',}}>
+            <Form  onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
             <Row className="mb-1">
                 <Form.Group as={Col} md="3" controlId="validationCustom01">
                 <Form.Label>Bus ID</Form.Label>
@@ -75,7 +76,6 @@ export default function Updatebus() {
                 <Form.Control
                     
                     type="text"
-                    placeholder="Bus name"
                     onChange={(e)=>{setbus_name(e.target.value)}}
                 />
                 </Form.Group>
@@ -84,18 +84,31 @@ export default function Updatebus() {
                 <Form.Control
                     
                     type="text"
-                    placeholder="Plate Number"
                     onChange={(e)=>{setplate_no(e.target.value)}}
                 />
                 </Form.Group>
             
                 <Form.Group as={Col} md="4" controlId="validationCustom03">
-                <Form.Label>Bus Type</Form.Label>
-                <Form.Control type="number" placeholder="2"  onChange={(e)=>{setbus_type(e.target.value)}} />
+                  <Form.Label>Bus Type</Form.Label>
+                  <Form.Control as="select" onChange={(e) => setbus_type(e.target.value)} value={bus_type}>
+                    <option value="">Select a bus type</option>
+                    {busTypes.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
-                <Form.Label>Bus A/C</Form.Label>
-                <Form.Control type="number" placeholder="0"  onChange={(e)=>{setbus_ac(e.target.value)}}/>
+                  <Form.Label>Bus A/C</Form.Label>
+                  <Form.Control as="select" onChange={(e) => setbus_ac(e.target.value)} value={bus_ac}>
+                    <option value="">Select an A/C option</option>
+                    {busACOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 
             </Row>
@@ -106,7 +119,7 @@ export default function Updatebus() {
                  </div> 
             </Form>
            
-        </Card.Text>
+        </div>
       </Card.Body>
     </Card>
     </div>

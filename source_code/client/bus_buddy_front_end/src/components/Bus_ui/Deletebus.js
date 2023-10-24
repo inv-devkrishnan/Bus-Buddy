@@ -11,7 +11,6 @@ import Row from 'react-bootstrap/Row';
 export default function Delete() {
   const user=useState(1);
   const [id,setid]=useState();
-  const validated= useState(false);
   const navi = useNavigate();
 
   const handleSubmit = (e) => {
@@ -46,8 +45,8 @@ export default function Delete() {
             <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
             <Card.Body>
                 <Card.Title style={{textAlign:"center"}}>Delete Bus</Card.Title>
-                <Card.Text style={{display:'flex',}}>
-            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
+                <div style={{display:'flex',}} >
+            <Form onSubmit={handleSubmit} style={{paddingTop:'3rem'}}>
             <Row className="mb-1">
                 <Form.Group as={Col} md="7" controlId="validationCustom01" >
                 <Form.Label>Bus ID</Form.Label>
@@ -65,7 +64,7 @@ export default function Delete() {
                  </div> 
             </Form>
            
-        </Card.Text>
+        </div>
       </Card.Body>
     </Card>
     </div>

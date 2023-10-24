@@ -13,7 +13,8 @@ export default function Addbus() {
   const [plate_no, setPlateNo] = useState('');
   const [bus_type, setBusType] = useState('');
   const [bus_ac, setBusAC] = useState('');
-  const validated = useState(false);
+  const busTypes = ['0', '1', '2']; 
+  const busACOptions = ['0', '1'];
   const navi = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -58,8 +59,8 @@ export default function Addbus() {
       <Card style={{ width: '35rem', height: '30rem', paddingTop: '3rem' }}>
         <Card.Body>
           <Card.Title style={{ textAlign: 'center' }}>Add Bus</Card.Title>
-          <Card.Text style={{ display: 'flex' }}>
-            <Form noValidate validated={validated} onSubmit={handleSubmit} style={{ paddingTop: '3rem' }}>
+          <div style={{ display: 'flex' }}>
+            <Form  onSubmit={handleSubmit} style={{ paddingTop: '3rem' }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                   <Form.Label>Bus Name</Form.Label>
@@ -85,34 +86,34 @@ export default function Addbus() {
                 </Form.Group>
               </Row>
               <Row className="mb-5">
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+              <Form.Group as={Col} md="4" controlId="validationCustom03">
                   <Form.Label>Bus Type</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="2"
-                    required
-                    onChange={(e) => {
-                      setBusType(e.target.value);
-                    }}
-                  />
+                  <Form.Control as="select" onChange={(e) => setBusType(e.target.value)} value={bus_type}>
+                    <option value="">Select a bus type</option>
+                    {busTypes.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                   <Form.Label>Bus A/C</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="0"
-                    required
-                    onChange={(e) => {
-                      setBusAC(e.target.value);
-                    }}
-                  />
+                  <Form.Control as="select" onChange={(e) => setBusAC(e.target.value)} value={bus_ac}>
+                    <option value="">Select an A/C option</option>
+                    {busACOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
               </Row>
               <div style={{ paddingTop: '1.5rem' }}>
                 <Button type="submit">Add</Button>
               </div>
             </Form>
-          </Card.Text>
+          </div>
         </Card.Body>
       </Card>
     </div>
