@@ -88,6 +88,15 @@ class RegisterBusOwner(APIView):
 class UpdateBusOwner(APIView):
     permission_classes = (AllowAny,)
 
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=404)
+        
+        serialized_data=AllField(user)
+        return Response(serialized_data.data)
+
     def put(self, request, id):
         user_id = id
         entered_email = request.data.get("email")

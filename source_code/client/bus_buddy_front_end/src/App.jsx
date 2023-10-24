@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from 'react-router-dom';
 import OwnerUpdateCard from './components/OwnerUpdateCard';
 import OwnerRegisterCard from './components/OwnerRegisterCard';
-import RegisterCard from './Components/RegisterCard';
-import UpdateForm from './Components/UpdateFormCard'
+import RegisterCard from './components/RegisterCard';
+import UpdateForm from './components/UpdateFormCard'
 
 function App() {
   return (

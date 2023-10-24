@@ -88,7 +88,7 @@ class UpdateProfile(APIView):
         except User.DoesNotExist:
             return Response(status=404)
         
-        serialized_data=UMS(user)
+        serialized_data=AllField(user)
         return Response(serialized_data.data)
 
     def put(self, request, id):

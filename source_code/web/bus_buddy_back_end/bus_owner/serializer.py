@@ -89,6 +89,9 @@ class OwnerModelSerializer(serializers.ModelSerializer):
     )
     extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
 
+    
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
 
 
 class OwnerUpdateSerializer(serializers.ModelSerializer):

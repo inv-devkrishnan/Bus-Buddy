@@ -9,18 +9,27 @@ import { UpdateSchema } from "./UpdateSchema";
 import axios from "axios";
 
 export default function UpdateForm() {
-  const [currentUserData, setCurrentUserData] = useState([])
+  const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/user/update-profile/31")
       .then((res) => {
-        console.log(res.data);
-        setCurrentUserData(res.data)
+        setCurrentUserData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
+        alert("User does not exist!!")
       });
   }, []);
+
+  useEffect(() => {
+    formik.setValues({
+      firstName: currentUserData["first_name"],
+      lastName: currentUserData["last_name"],
+      email: currentUserData["email"],
+      phone: currentUserData["phone"],
+    });
+  }, [currentUserData]);
 
   const onSubmit = () => {
     axios
@@ -102,7 +111,7 @@ export default function UpdateForm() {
               <Form.Control
                 name="firstName"
                 type="text"
-                value={formik.values.firstName}
+                value={formik.values.firstName || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.firstName && formik.errors.firstName}
@@ -117,7 +126,7 @@ export default function UpdateForm() {
               <Form.Control
                 name="lastName"
                 type="text"
-                value={formik.values.lastName}
+                value={formik.values.lastName || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.lastName && formik.errors.lastName}
@@ -132,7 +141,7 @@ export default function UpdateForm() {
               <Form.Control
                 name="email"
                 type="email"
-                value={formik.values.email}
+                value={formik.values.email || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.email && formik.errors.email}
@@ -147,7 +156,7 @@ export default function UpdateForm() {
               <Form.Control
                 name="phone"
                 type="text"
-                value={formik.values.phone}
+                value={formik.values.phone || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.phone && formik.errors.phone}
