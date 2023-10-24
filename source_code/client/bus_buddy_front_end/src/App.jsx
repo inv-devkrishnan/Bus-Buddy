@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import ViewSeatDetails from "./Pages/ViewSeatDetails";
-import AddSeatDetails from "./Pages/AddSeatDetails";
+import ViewSeatDetails from "./pages/ViewSeatDetails";
+import AddSeatDetails from "./pages/AddSeatDetails";
 
 function App() {
   return (

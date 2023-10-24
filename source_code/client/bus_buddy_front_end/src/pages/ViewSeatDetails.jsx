@@ -1,7 +1,7 @@
 import {React,useState} from "react";
 import { useLocation } from "react-router-dom";
-import UserLayout from "../Components/User/UserLayout";
-import SeatDetailCard from "../Components/User/SeatDetailCard";
+import UserLayout from "../components/User/UserLayout";
+import SeatDetailCard from "../components/User/SeatDetailCard";
 export default function ViewSeatDetails() {
   const location = useLocation();
   const isClicked = location.state; //stores the value as true which is passed from sleeper

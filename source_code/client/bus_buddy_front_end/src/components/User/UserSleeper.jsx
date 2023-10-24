@@ -2,9 +2,9 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { IconButton } from "@mui/material";
-import Selected from "../../Assests/selectedSleeper.png";
-import Sleeper from "../../Assests/sleeper.png";
-import Booked from "../../Assests/bookedSleeper.png";
+import Selected from "../../assests/selectedSleeper.png";
+import Sleeper from "../../assests/sleeper.png";
+import Booked from "../../assests/bookedSleeper.png";
 
 function UserSleeper() {
   const [select, setSelect] = useState(false);

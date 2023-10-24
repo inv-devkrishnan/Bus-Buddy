@@ -2,9 +2,10 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
-import UserLayer from "./UserLayer";
-import driver from "../../Assests/driver.png";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+
+import UserLayer from "./UserLayer";
+import driver from "../../assests/driver.png";
 
 export default function UserLayout() {
   return (

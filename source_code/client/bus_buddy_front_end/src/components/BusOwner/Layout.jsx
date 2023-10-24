@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import Layer from "./Layer";
-import driver from "../../Assests/driver.png";
+import driver from "../../assests/driver.png";
 
 export default function Layout() {
   return (

@@ -1,7 +1,7 @@
 import { React } from "react";
 import { useLocation } from "react-router-dom";
-import Layout from "../Components/BusOwner/Layout";
-import FormComponent from "../Components/BusOwner/FormComponent";
+import Layout from "../components/BusOwner/Layout";
+import FormComponent from "../components/BusOwner/FormComponent";
 
 export default function AddSeatDetails() {
   const location = useLocation();

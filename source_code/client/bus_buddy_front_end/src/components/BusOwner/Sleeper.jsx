@@ -2,7 +2,7 @@ import { React, useState } from "react";
 
 import { IconButton } from "@mui/material";
 
-import SleeperImage from "../../Assests/sleeper.png";
+import SleeperImage from "../../assests/sleeper.png";
 import { useNavigate } from "react-router-dom";
 
 function Sleeper() {
