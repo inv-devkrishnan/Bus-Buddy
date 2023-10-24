@@ -1,15 +1,13 @@
 from django.urls import path
 from bus_owner import views
 urlpatterns = [
-    path('addbus/',views.Addbus.as_view(),name="addbus"),
-    path('updatebus/<int:id>/',views.Updatebus.as_view(),name="updatebus"),
-    path('deletebus/<int:id>/',views.Deletebus.as_view(),name="deletebus"),
-    path('viewbus/<int:pageNo>/',views.Viewbus.as_view(),name="viewbus"),
-    path('addamenities/',views.Addamenities.as_view(),name="addamenities"),
-    path('updateamenities/<int:id>/',views.Updateamenities.as_view(),name="updateamenities"),
-    path('addroutes/',views.Addroutes.as_view(),name="addroutes"),
-    path('viewroutes/<int:pageNo>/',views.Viewroutes.as_view(),name="viewroutes"),
-    path('deleteroutes/<int:id>/',views.Deleteroutes.as_view(),name="deleteroutes"),
-    path('updateroutes/<int:id>/',views.Updateroutes.as_view(),name="updateroutes"),
-    
+    path('Add-Bus/',views.Addbus.as_view(),name="Add-Bus"),
+    path('Update-Bus/<int:id>/',views.Updatebus.as_view(),name="Update-Bus"),
+    path('Delete-Bus/<int:id>/',views.Deletebus.as_view(),name="Delete-Bus"),
+    path('View-Bus/<int:pageNo>/',views.Viewbus.as_view(),name="View-Bus"),
+    path('Add-Amenities/',views.Addamenities.as_view(),name="Add-Amenities"),
+    path('Update-Amenities/<int:id>/',views.Updateamenities.as_view(),name="Update-Amenities"),
+    path('Add-Routes/',views.Addroutes.as_view(),name="Add-Routes"),
+    path('View-Routes/<int:pageNo>/',views.Viewroutes.as_view(),name="View-Routes"),
+    path('Delete-Routes/<int:id>/',views.Deleteroutes.as_view(),name="Delete-Routes"),
 ]

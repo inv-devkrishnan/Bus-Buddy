@@ -7,9 +7,9 @@ import logging
 from .models import Bus
 from .models import Routes
 from .models import Amenities
-from .serializers import busserializer
-from .serializers import amenitiesserializer
-from .serializers import buddyserializer,RoutesSerializer
+from .serializers import BusSerializer,BuddySerializer
+from .serializers import AmenitiesSerializer
+from .serializers import RoutesSerializer,StartStopLocationsSerializer,PickAndDropSerializer
 # from .serializers import routeserializer
 # from .serializers import routesserializer
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class Addbus(APIView):
     
     def post(self, request):
         try:
-            serializer = busserializer(data=request.data)
+            serializer = BusSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 logger.info("Inserted")
@@ -57,7 +57,7 @@ class Updatebus(APIView):
     def put(self, request,id):
         try:
             print("g")
-            serializer = buddyserializer(data=request.data)
+            serializer = BusSerializer(data=request.data)
             data=Bus.objects.get(id=id)
             print("h")
             if serializer.is_valid(): 
@@ -83,7 +83,7 @@ class Viewbus(APIView):
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
-            serializer = buddyserializer(page, many=True)
+            serializer = BuddySerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
@@ -94,7 +94,7 @@ class Addamenities(APIView):
     
     def post(self, request):
         try:
-            serializer = amenitiesserializer(data=request.data)
+            serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 bus_id=serializer.data.get('bus')
@@ -117,7 +117,7 @@ class Updateamenities(APIView):
         try:
             amenities_id=Amenities.objects.get(bus=id)
             print(amenities_id.id)
-            serializer = amenitiesserializer(data=request.data)
+            serializer = AmenitiesSerializer(data=request.data)
             data=Amenities.objects.get(bus=id)
             if serializer.is_valid():
                 data.emergency_no=serializer.validated_data['emergency_no']
@@ -145,10 +145,11 @@ class Addroutes(APIView):
 
     def post(self, request):
         try:
-            serializer = RoutesSerializer(data=request.data)
+            serializer =  RoutesSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save()
-                routes_id = serializer.data.get('id')  # Access the ID after saving
+                print(serializer.data)
+                # serializer.save()
+                routes_id = serializer.data.get('id') 
                 return Response({"message": "Route inserted", "routes_id": routes_id})
             else:
                 return Response(serializer.errors, status=400)
@@ -164,7 +165,7 @@ class Viewroutes(APIView):
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
-            serializer = routeserializer(page, many=True)
+            serializer = RoutesSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
@@ -184,28 +185,5 @@ class Deleteroutes(APIView):
             logger.info ("Inavlid")
             return Response(status=404)
         
-class Updateroutes(APIView):
-    # permission_classes=(AllowAny,)
-    def put(self, request,id):
-        try:
-            print("g")
-            serializer = routesserializer(data=request.data)
-            data=Routes.objects.get(id=id)
-            print("h")
-            if serializer.is_valid(): 
-                data.user = User.objects.get(id=1)
-                data.start_point=serializer.validated_data['start_point']
-                data.end_point=serializer.validated_data['end_point']
-                data.via=serializer.validated_data['via']
-                data.distance=serializer.validated_data['distance']
-                data.duration=serializer.validated_data['duration']
-                data.travel_fare=serializer.validated_data['travel_fare']
-                data.save()
-                logger.info("updated")
-                print("i")
-                return Response("Updated",status=200)
-            else:
-                return Response(serializer.errors, status=400)
-        except ObjectDoesNotExist:
-            return Response("Invalid Bus name",status=400)
+
         
