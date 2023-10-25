@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('registration/', views.RegisterUser.as_view(), name="register-user"),
     path('update-profile/<int:id>',views.UpdateProfile.as_view(), name="update-profile"),
+    path('update-user/<int:id>',views.UpdateUser.as_view(), name="update-user"),
 ]
