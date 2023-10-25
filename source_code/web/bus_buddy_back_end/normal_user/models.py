@@ -1,7 +1,7 @@
 from django.db import models
 from account_manage.models import User
 from bus_owner.models import Trip
-from bus_owner.models import PickUp, DropOff, SeatDetails
+from bus_owner.models import PickAndDrop, SeatDetails
 
 
 class UserReview(models.Model):
@@ -30,16 +30,16 @@ class UserComplaints(models.Model):
 
 
 class Bookings(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    seat_id = models.ForeignKey(SeatDetails, on_delete=models.CASCADE, null=False)
-    trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
-    pick_up_id = models.ForeignKey(PickUp, on_delete=models.CASCADE, null=False)
-    drop_off_id = models.ForeignKey(DropOff, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    seat = models.ForeignKey(SeatDetails, on_delete=models.CASCADE, null=False)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
+    pick_up = models.ForeignKey(PickAndDrop, on_delete=models.CASCADE, null=False, related_name='pick_up_id')
+    drop_off = models.ForeignKey(PickAndDrop, on_delete=models.CASCADE, null=False, related_name='drop_off_id')
     status = models.SmallIntegerField(default=0, null=False)
     total_amount = models.IntegerField(null=False)
     booking_id = models.CharField(max_length=255, null=False, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
-    updated_time = models.DateTimeField(auto_now=True, null=False)
+    updated_date = models.DateTimeField(auto_now=True, null=False)
 
     class Meta:
         db_table = "bookings"
