@@ -1,24 +1,31 @@
-import { React } from "react";
-import { useLocation } from "react-router-dom";
+import { React, useState, useMemo } from "react";
 import Layout from "../components/BusOwner/Layout";
 import FormComponent from "../components/BusOwner/FormComponent";
+import { ShowFormContext } from "../utils/ShowFormContext";
+import { Grid } from "@mui/material";
 
 export default function AddSeatDetails() {
-  const location = useLocation();
-  const isClicked = location.state.isClicked; //stores the value as true which is passed from sleeper
-  const row = location.state.row;
-  const column = location.state.column;
+  const [isClicked, setIsClicked] = useState(false);
+  const [propsData, setPropsData] = useState(0);
 
+  const contextValue = useMemo(
+    () => ({ isClicked, setIsClicked, propsData, setPropsData }),
+    [isClicked, setIsClicked, propsData, setPropsData]
+  );
   return (
-    <div className="container">
-      <div className="component">
-        <Layout />
-      </div>
-      <div className="component">
-        {isClicked && <FormComponent row={row} column={column} />}
+    <Grid container spacing={2}>
+      <Grid item md={6} xs={12} sm={12}>
+        <ShowFormContext.Provider value={contextValue}>
+          <Layout />
+        </ShowFormContext.Provider>
+      </Grid>
+      <Grid item md={6} xs={12} sm={12}>
+        <ShowFormContext.Provider value={contextValue}>
+          {isClicked && <FormComponent/>}
+        </ShowFormContext.Provider>
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }

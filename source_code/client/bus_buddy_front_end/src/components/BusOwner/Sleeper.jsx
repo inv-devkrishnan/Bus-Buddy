@@ -1,24 +1,22 @@
-import { React, useState } from "react";
-
+import { React, useContext } from "react";
 import { IconButton } from "@mui/material";
-
 import SleeperImage from "../../assests/sleeper.png";
-import { useNavigate } from "react-router-dom";
+import { ShowFormContext } from "../../utils/ShowFormContext";
 
-function Sleeper(position) {
-  const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(true);
+function Sleeper(props) {
+  const { isClicked, setIsClicked, setPropsData } =
+    useContext(ShowFormContext);
 
   const handleClick = () => {
     setIsClicked(!isClicked);
-    navigate("/", {
-      state: { isClicked: isClicked, row: position.row, column: position.column },
-    });
+    setPropsData((props.row*10)+props.column)
   };
 
   return (
     <>
-      <IconButton onClick={handleClick}>
+      <IconButton
+        onClick={handleClick}
+      >
         <img src={SleeperImage} alt="sleeper" />
       </IconButton>
     </>
@@ -26,4 +24,4 @@ function Sleeper(position) {
 }
 
 export default Sleeper;
-//Here in onClick the path to Layout component is set and this pass true when the sleeper is clicked
+//Here in onClick the true or false when the sleeper is clicked

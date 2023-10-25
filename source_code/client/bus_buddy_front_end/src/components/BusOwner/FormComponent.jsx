@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import {
   FormControl,
   TextField,
@@ -16,38 +16,38 @@ import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { FormComponentSchema } from "./FormComponentSchema";
 import axios from "axios";
+import { ShowFormContext } from "../../utils/ShowFormContext";
 
-export default function FormComponent(position) {
-  const [seatUiOrder, setSeatUiOrder] = useState(0);
+export default function FormComponent() {
+  const { propsData } = useContext(ShowFormContext);
   const [currentData, setCurrentData] = useState([]);
+  console.log(propsData);
 
-  useEffect(() => {  
-    const newSeatUiOrder = position.row * 10 + position.column;
-    setSeatUiOrder(newSeatUiOrder);  
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${newSeatUiOrder}`
-        );
-  
-        setCurrentData(response.data);
-        console.log(currentData);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    }
-  
-    fetchData(); 
-  
-  }, [position]);
-  
-  
+  useEffect(() => {
+    axios
+      .get(
+        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}`
+      )
+      .then((res) => {
+        setCurrentData(res.data);
+      })
+      .catch((err) => {});
+  }, [propsData]);
+
+  useEffect(() => {
+    formik.setValues({
+      seatNumber: currentData["seat_number"],
+      seatType: currentData["seat_type"],
+      deck: currentData["deck"],
+      seatCost: currentData["seat_cost"],
+    });
+  }, [currentData]);
 
   const onSubmit = () => {
     axios
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
         bus: 7,
-        seat_ui_order: seatUiOrder,
+        seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,
         seat_type: formik.values.seatType,
         deck: formik.values.deck,
@@ -67,7 +67,7 @@ export default function FormComponent(position) {
             title: "Oops...",
             text: err.response.data.seat_ui_order,
           });
-        }else{
+        } else {
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -177,14 +177,26 @@ export default function FormComponent(position) {
             Once submitted you cannot edit the content.
           </FormHelperText>
           <strong sx={{ color: "grey" }}>Submit carefully!!</strong>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Submit
-          </Button>
+          {currentData["seat_ui_order"] ? (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Submit
+            </Button>
+          )}
         </Box>
       </Card>
     </div>
