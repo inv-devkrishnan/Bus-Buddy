@@ -33,16 +33,17 @@ class CreateTest(BusApiTests):
         print(self.user.id)
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, 200)
-        print("ok")
+        if(response.status_code == 200):
+            print("ok")
 
     def test_delete_bus(self):
-        bus = Bus.objects.create(bus_name='Bus2', plate_no='CD456EF', user=bus.user)
+        bus = Bus.objects.create(bus_name='Bus2', plate_no='CD456EF', user=self.user)
         response = self.client.put('/api/Delete-Bus/{bus.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
 
     def test_update_bus(self):
-        bus = Bus.objects.create(bus_name='Bus3', plate_no='EF789GH', user=bus.user)
+        bus = Bus.objects.create(bus_name='Bus3', plate_no='EF789GH', user=self.user)
         data = {
             'bus_name': 'UpdatedBus',
             'plate_no': 'FG123HI',

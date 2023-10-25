@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
 export default function Updateamenities() {
     const location = useLocation();
     const bus = location.state;
-    console.log(bus.id," : id");
+    console.log(bus)
   const [formState, setFormState] = useState({
     emergency_no:0,
     water_bottle: 0,
@@ -36,8 +36,8 @@ export default function Updateamenities() {
 
     try {
       // Send a PUT request to update the amenities
-      const response = await axios.put(`http://127.0.0.1:8000/Update-Amenities/${bus.id}/`, {
-        bus: bus.idstat,
+      const response = await axios.put(`http://127.0.0.1:8000/Update-Amenities/${bus}/`, {
+        bus: bus,
         ...formState,
       });
 

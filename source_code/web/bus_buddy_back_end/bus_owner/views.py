@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 from django.core.exceptions import ObjectDoesNotExist 
 from rest_framework.exceptions import ValidationError
 from account_manage.models import User
+from rest_framework.generics import UpdateAPIView
+
 
 # Create your views here.
 
@@ -50,28 +52,24 @@ class Deletebus(APIView):
             logger.info ("Inavlid")
             return Response(status=404)
         
-class Updatebus(APIView):
+class Updatebus(UpdateAPIView):
     # permission_classes=(AllowAny,)
+    serializer_class = BusSerializer 
     def put(self, request,id):
         try:
             print("g")
-            serializer = BusSerializer(data=request.data)
-            data=Bus.objects.get(id=id)
+            instance = Bus.objects.get(id=id)
+            serializer = self.get_serializer(instance,data=request.data,partial=True)
             print("h")
-            if serializer.is_valid(): 
-                data.user = User.objects.get(id=1)
-                data.bus_name=serializer.validated_data['bus_name']
-                data.plate_no=serializer.validated_data['plate_no']
-                data.bus_type=serializer.validated_data['bus_type']
-                data.bus_ac=serializer.validated_data['bus_ac']
-                data.save()
+            if serializer.is_valid(raise_exception=True): 
+                self.perform_update(serializer)
                 logger.info("updated")
                 print("i")
-                return Response("Updated",status=200)
+                return Response("Updated",200,serializer.data)
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
-            return Response("Invalid Bus name",status=400)
+            return Response("Invalid Bus id",status=400)
         
 class Viewbus(APIView):
     permission_classes=(AllowAny,)
