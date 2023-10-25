@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.db.models import Q  # to check not equal in filter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from bus_owner.serializer import OwnerModelSerializer as OMS
+from bus_owner.serializer import OwnerDataSerializer as ODS
+
 
 
 class RegisterBusOwner(APIView):
@@ -24,6 +25,15 @@ class RegisterBusOwner(APIView):
 
 class UpdateBusOwner(UpdateAPIView):
     permission_classes = (AllowAny,)
+    
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=404)
+
+        serialized_data=ODS(user)
+        return Response(serialized_data.data)
     
     def update(self, request, id):
         try:

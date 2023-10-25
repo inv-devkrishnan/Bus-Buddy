@@ -48,25 +48,12 @@ export default function UpdateForm() {
       })
       .catch((err) => {
         console.log(err.response);
-        if (err.response.data.email && err.response.data.phone) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Email and phone is already registered",
+            text: err.response.data.email+err.response.data.phone,
           });
-        } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
-        }
+        
       });
   };
 

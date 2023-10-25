@@ -6,6 +6,8 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from normal_user.serializer import UserModelSerializer as UMS
+from normal_user.serializer import UserDataSerializer as UDS
+
 
 class RegisterUser(APIView):
     permission_classes = (AllowAny,)
@@ -21,6 +23,15 @@ class RegisterUser(APIView):
 
 class UpdateProfile(UpdateAPIView):
     permission_classes = (AllowAny,)
+    
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=404)
+
+        serialized_data=UDS(user)
+        return Response(serialized_data.data)
 
     def update(self, request, id):
         try:
