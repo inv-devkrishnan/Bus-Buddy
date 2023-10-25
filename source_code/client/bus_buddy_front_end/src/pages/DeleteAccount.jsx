@@ -5,6 +5,8 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import Swal from "sweetalert2";
+
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { deleteUserAccount } from "../utils/apiCalls";
 import { useLogout } from "../utils/hooks/useLogout";
@@ -28,6 +30,12 @@ function DeleteAccount() {
     if (authStatus()) {
       const response = await deleteUserAccount();
       if (response.status) {
+       handleClose();
+       await Swal.fire({
+          icon: 'success',
+          title: 'Account Deleted Successfully !',
+          text: 'Now you will be redirected to login page',
+        })
         logout();
       }
     } else {
