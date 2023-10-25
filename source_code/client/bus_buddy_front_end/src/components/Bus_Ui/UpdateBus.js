@@ -91,7 +91,7 @@ export default function Updatebus() {
                 <Form.Group as={Col} md="4" controlId="validationCustom03">
                   <Form.Label>Bus Type</Form.Label>
                   <Form.Control as="select" onChange={(e) => setbus_type(e.target.value)} value={bus_type}>
-                    <option value="">Select a bus type</option>
+                    <option value="">updated option</option>
                     {busTypes.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
@@ -99,10 +99,10 @@ export default function Updatebus() {
                     ))}
                   </Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Group as={Col} md="4" controlId="validationCustom04">
                   <Form.Label>Bus A/C</Form.Label>
                   <Form.Control as="select" onChange={(e) => setbus_ac(e.target.value)} value={bus_ac}>
-                    <option value="">Select an A/C option</option>
+                    <option value="">updated option</option>
                     {busACOptions.map((option, index) => (
                       <option key={index} value={option}>
                         {option}

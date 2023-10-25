@@ -22,15 +22,19 @@ export default function Addbus() {
 
     if (!bus_name) {
       alert('Bus name cannot be empty');
+      return;
     }
     if (!plate_no || plate_no.length > 10) {
       alert('Plate Number cannot exceed 10, and don’t leave spaces in between');
+      return;
     }
     if (bus_type < 0 || bus_type > 2) {
       alert('Bus type can only be 0: Sleeper, 1: Seater, 2: Both');
+      return;
     }
     if (bus_ac < 0 || bus_ac > 2) {
       alert('Bus A/C can only be 0: A/C, 1: Non A/C');
+      return;
     }
 
     try {
@@ -89,7 +93,7 @@ export default function Addbus() {
               <Form.Group as={Col} md="4" controlId="validationCustom03">
                   <Form.Label>Bus Type</Form.Label>
                   <Form.Control as="select" onChange={(e) => setBusType(e.target.value)} value={bus_type}>
-                    <option value="">Select a bus type</option>
+                    <option value="">Select option</option>
                     {busTypes.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
@@ -97,10 +101,10 @@ export default function Addbus() {
                     ))}
                   </Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Group as={Col} md="4" controlId="validationCustom04">
                   <Form.Label>Bus A/C</Form.Label>
                   <Form.Control as="select" onChange={(e) => setBusAC(e.target.value)} value={bus_ac}>
-                    <option value="">Select an A/C option</option>
+                    <option value="">Select option</option>
                     {busACOptions.map((option, index) => (
                       <option key={index} value={option}>
                         {option}
