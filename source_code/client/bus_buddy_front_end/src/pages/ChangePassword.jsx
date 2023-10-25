@@ -7,7 +7,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import Modal from "react-bootstrap/Modal";
+
+import Swal from "sweetalert2";
 
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { changePassword } from "../utils/apiCalls";
@@ -35,9 +36,6 @@ function ChangePassword() {
   const [errorMessage, setErrorMessage] = useState("");
   const passwordMatched = useRef(true);
   const oldNotNewPassword = useRef(true);
-  const [show, setShow] = useState(false);
-  const handleClose = () => {setShow(false); logout()}
-  const handleShow = () => setShow(true);
   const logout = useLogout();
 
   const handleSubmit = (event) => {
@@ -87,7 +85,12 @@ function ChangePassword() {
       };
       const response = await changePassword(passwordData);
       if (response.status) {
-        handleShow(); // shows the logout modal
+        await Swal.fire({
+          icon: 'success',
+          title: 'Password Changed Successfully',
+          text: 'Now you will be redirected to login page',
+        }) // shows the logout modal
+        logout();
       } else {
         const error = response?.message?.response?.data?.error_code;
         if (error) {
@@ -182,19 +185,6 @@ function ChangePassword() {
           </Card>
         </Col>
       </Row>
-
-      <Modal show={show} onHide={handleClose} backdrop="static"
-        keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Password change successful</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>You will be logged out</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={logout}>
-            Logout
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 }
