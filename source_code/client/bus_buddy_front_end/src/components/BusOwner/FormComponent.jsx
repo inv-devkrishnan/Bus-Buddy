@@ -19,9 +19,8 @@ import axios from "axios";
 import { ShowFormContext } from "../../utils/ShowFormContext";
 
 export default function FormComponent() {
-  const { propsData } = useContext(ShowFormContext);
+  const { propsData } = useContext(ShowFormContext);//holds seat ui order
   const [currentData, setCurrentData] = useState([]);
-  console.log(propsData);
 
   useEffect(() => {
     axios
@@ -34,6 +33,7 @@ export default function FormComponent() {
       .catch((err) => {});
   }, [propsData]);
 
+  console.log(currentData["deck"]);
   useEffect(() => {
     formik.setValues({
       seatNumber: currentData["seat_number"],
@@ -55,7 +55,7 @@ export default function FormComponent() {
       })
       .then((res) => {
         if (res.status === 201) {
-          Swal.fire("Success!", "Registered successfully!", "success");
+          Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
         }
       })
@@ -93,7 +93,7 @@ export default function FormComponent() {
   return (
     <div>
       <Card
-        sx={{ width: "20rem", margin: 5, border: 1, borderStyle: "dotted" }}
+        sx={{ width: "20rem", margin: 5,boxShadow:4 }}
       >
         <Box
           component="form"
@@ -107,7 +107,7 @@ export default function FormComponent() {
               label="Seat number"
               variant="outlined"
               name="seatNumber"
-              value={formik.values.seatNumber}
+              value={formik.values.seatNumber || ""}
               onChange={formik.handleChange}
               error={
                 formik.touched.seatNumber && Boolean(formik.errors.seatNumber)
@@ -123,7 +123,7 @@ export default function FormComponent() {
               name="seatType"
               label="Seat type"
               variant="outlined"
-              value={formik.values.seatType}
+              value={formik.values.seatType || ""}
               onChange={formik.handleChange}
               error={formik.touched.seatType && Boolean(formik.errors.seatType)}
             >
@@ -160,7 +160,7 @@ export default function FormComponent() {
               name="seatCost"
               label="Seat cost"
               variant="outlined"
-              value={formik.values.seatCost}
+              value={formik.values.seatCost || ""}
               onChange={formik.handleChange}
               error={formik.touched.seatCost && Boolean(formik.errors.seatCost)}
               helperText={formik.touched.seatCost && formik.errors.seatCost}

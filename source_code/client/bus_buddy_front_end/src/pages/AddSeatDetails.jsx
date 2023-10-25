@@ -11,7 +11,8 @@ export default function AddSeatDetails() {
   const contextValue = useMemo(
     () => ({ isClicked, setIsClicked, propsData, setPropsData }),
     [isClicked, setIsClicked, propsData, setPropsData]
-  );
+  ); // since the object passed as the value prop to the Context provider changes every render
+
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12} sm={12}>
@@ -21,7 +22,7 @@ export default function AddSeatDetails() {
       </Grid>
       <Grid item md={6} xs={12} sm={12}>
         <ShowFormContext.Provider value={contextValue}>
-          {isClicked && <FormComponent/>}
+          {isClicked && <FormComponent />}
         </ShowFormContext.Provider>
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}

@@ -4,19 +4,17 @@ import SleeperImage from "../../assests/sleeper.png";
 import { ShowFormContext } from "../../utils/ShowFormContext";
 
 function Sleeper(props) {
-  const { isClicked, setIsClicked, setPropsData } =
-    useContext(ShowFormContext);
+  const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext);
 
   const handleClick = () => {
     setIsClicked(!isClicked);
-    setPropsData((props.row*10)+props.column)
-  };
+    setPropsData(props.row * 10 + props.column);
+  }; // set true or false for isClicked useState
+  //also set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
 
   return (
     <>
-      <IconButton
-        onClick={handleClick}
-      >
+      <IconButton onClick={handleClick}>
         <img src={SleeperImage} alt="sleeper" />
       </IconButton>
     </>
@@ -24,4 +22,3 @@ function Sleeper(props) {
 }
 
 export default Sleeper;
-//Here in onClick the true or false when the sleeper is clicked
