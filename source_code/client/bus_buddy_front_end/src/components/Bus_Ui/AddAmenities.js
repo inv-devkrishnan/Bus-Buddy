@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function Addamenities() {
   const location = useLocation();
@@ -40,9 +41,19 @@ export default function Addamenities() {
 
       if (response.status === 200) {
         console.log('Amenities Inserted');
+        Swal.fire({
+          icon: 'success',
+          title: 'Added Successfully',
+          text: 'Bus Amenities added successfully',
+        })
       }
     } catch (error) {
       console.error('Error adding amenities:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error adding Bus Amenities',
+      })
     }
   };
 

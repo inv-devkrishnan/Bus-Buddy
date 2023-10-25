@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-
+import Swal from 'sweetalert2'
 
 export default function Delete() {
   const user=useState(1);
@@ -26,6 +26,11 @@ export default function Delete() {
         console.log("user:", user);
 
         console.log("bus deleted successfuly");
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted',
+          text: 'Bus Deleted successfully',
+        })
       })
       .catch(error => {
         if (error.response) {
@@ -35,6 +40,11 @@ export default function Delete() {
           console.error("An error occurred:", error.message);
           
         };
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error Deleting Bus',
+        })
     });
   }
 

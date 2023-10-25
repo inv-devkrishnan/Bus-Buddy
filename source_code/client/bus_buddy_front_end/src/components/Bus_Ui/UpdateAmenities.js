@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function Updateamenities() {
     const location = useLocation();
@@ -42,9 +43,19 @@ export default function Updateamenities() {
 
       if (response.status === 200) {
         console.log('Amenities Updated');
+        Swal.fire({
+          icon: 'success',
+          title: 'Updated Successfully',
+          text: 'Bus Amenities updated successfully',
+        })
       }
     } catch (error) {
       console.error('Error updating amenities:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error updating Bus Amenities',
+      })
     }
   };
 
