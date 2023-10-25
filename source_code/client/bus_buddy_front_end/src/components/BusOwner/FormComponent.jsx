@@ -142,7 +142,7 @@ export default function FormComponent() {
               name="deck"
               label="Deck"
               variant="outlined"
-              value={formik.values.deck}
+              value={formik.values.deck||""}
               onChange={formik.handleChange}
               error={formik.touched.deck && Boolean(formik.errors.deck)}
             >
