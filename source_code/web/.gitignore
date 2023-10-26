@@ -1,3 +1,4 @@
 /env
 .env
-__pycache__
+logData.log
+__pycache__/

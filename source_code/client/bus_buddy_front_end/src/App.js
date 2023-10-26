@@ -12,11 +12,14 @@ import Addroutes from './components/route_ui/Addroutes';
 import Deleteroutes from './components/route_ui/Deleteroutes';
 import Updateroutes from './components/route_ui/updateroutes';
 import Viewroutes from './components/route_ui/viewroutes';
+import LoginPage from "./pages/LoginPage";
+import DeleteAccountPage from "./pages/DeleteAccount";
+import ChangePassword from "./pages/ChangePassword";
+
 
 function App() {
   return (
     <div>
-        <Router>
           <React.Fragment>
             <Routes>
               <Route path='/' element={<BusHome/>}/>
@@ -30,9 +33,11 @@ function App() {
               <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
               <Route path='/Updateroutes' element={<Updateroutes/>}/>
               <Route path='/Viewroutes' element={<Viewroutes/>}/>
+              <Route path="/login" element={<LoginPage/>}/>
+              <Route path="/delete-account" element={<DeleteAccountPage/>}></Route>
+              <Route path="/change-password" element={<ChangePassword/>}></Route>
             </Routes>
           </React.Fragment>
-        </Router>
     </div>
   );
 }
