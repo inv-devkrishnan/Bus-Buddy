@@ -3,22 +3,20 @@ import { React, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import updateImage from "../assets/update.jpg";
 import { useFormik } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
-import axios from "axios";
-
+import { axiosApi } from "../utils/axiosApi";
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/user/update-profile/31")
+    axiosApi
+      .get("user/update-profile/31")
       .then((res) => {
         setCurrentUserData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
-        alert("User does not exist!!")
+        alert("User does not exist!!");
       });
   }, []);
 
@@ -32,8 +30,8 @@ export default function UpdateForm() {
   }, [currentUserData]);
 
   const onSubmit = () => {
-    axios
-      .put("http://127.0.0.1:8000/user/update-profile/31", {
+    axiosApi
+      .put("user/update-profile/31", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -48,12 +46,11 @@ export default function UpdateForm() {
       })
       .catch((err) => {
         console.log(err.response);
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email+err.response.data.phone,
-          });
-        
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.email + err.response.data.phone,
+        });
       });
   };
 
@@ -76,21 +73,6 @@ export default function UpdateForm() {
   return (
     <>
       <Card style={{ width: "50rem" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Card.Img
-            variant="top"
-            src={updateImage}
-            style={{ width: "20rem", height: "auto" }}
-          />
-          <div>
-            <Card.Title style={{ fontSize: "40px", fontWeight: "bold" }}>
-              Update Profile
-            </Card.Title>
-            <Card.Text style={{ color: "gray" }}>
-              Keep your information current and accurate.
-            </Card.Text>
-          </div>
-        </div>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

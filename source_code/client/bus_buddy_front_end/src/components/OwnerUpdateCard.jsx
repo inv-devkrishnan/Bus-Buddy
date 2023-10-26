@@ -3,16 +3,15 @@ import { React, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import updateImage from "../assets/update.jpg";
 import { useFormik } from "formik";
 import { OwnerUpdationSchema } from "./OwmerUpdationSchema";
-import axios from "axios";
+import { axiosApi } from "../utils/axiosApi";
 
 export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/bus-owner/update-profile/32")
+    axiosApi
+      .get("bus-owner/update-profile/32")
       .then((res) => {
         setCurrentUserData(res.data);
       })
@@ -33,8 +32,8 @@ export default function OwnerUpdateForm() {
   }, [currentUserData]);
 
   const onSubmit = () => {
-    axios
-      .put("http://127.0.0.1:8000/bus-owner/update-profile/32", {
+    axiosApi
+      .put("bus-owner/update-profile/32", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -96,21 +95,6 @@ export default function OwnerUpdateForm() {
   return (
     <>
       <Card style={{ width: "50rem" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Card.Img
-            variant="top"
-            src={updateImage}
-            style={{ width: "20rem", height: "auto" }}
-          />
-          <div>
-            <Card.Title style={{ fontSize: "40px", fontWeight: "bold" }}>
-              Update Profile
-            </Card.Title>
-            <Card.Text style={{ color: "gray" }}>
-              Keep your information current and accurate.
-            </Card.Text>
-          </div>
-        </div>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">
