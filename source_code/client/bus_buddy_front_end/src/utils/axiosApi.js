@@ -5,10 +5,15 @@ export const axiosApi = axios.create({
   baseURL: process.env.REACT_APP_BASEURL,
 });
 
+export const axiosOpenApi = axios.create({
+  baseURL: process.env.REACT_APP_BASEURL,
+});
+
 const noAuthUrls = [
   "account/local-login/",
   "account/google-login/", // urls for which auth header not required
   "user/registration/",
+  "normal-user/view-seats/",
 ];
 const loginUrl = "/login";
 axiosApi.interceptors.request.use(

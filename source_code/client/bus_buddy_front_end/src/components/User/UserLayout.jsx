@@ -3,10 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import axios from "axios";
 
 import UserLayer from "./UserLayer";
 import driver from "../../assets/images/driver.png";
+import { axiosOpenApi } from "../../utils/axiosApi";
 
 export default function UserLayout() {
   const [lowerDeck, setLowerDeck] = useState([]);
@@ -16,7 +16,7 @@ export default function UserLayout() {
   }, []);
 
   const getSeatDetails = async () => {
-    await axios.get("seat_details.json").then((result) => {
+    await axiosOpenApi.get("normal-user/view-seats/?bus_id=1").then((result) => {
       console.log(result.data);
       let layers = [];
       while (result.data.lower_deck.length > 0) {

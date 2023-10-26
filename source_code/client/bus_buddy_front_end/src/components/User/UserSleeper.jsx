@@ -17,7 +17,6 @@ function UserSleeper(props) {
     if (props.seat.booked.length > 0) {
       setSeatOccupied(true);
       if (props.seat.booked[0].traveller_gender === 2) {
-        
         setSeatFemaleOccupied(true);
       } else {
         setSeatFemaleOccupied(false);

@@ -17,7 +17,7 @@ export default function SeatDetailCard(props) {
     if (seatList.length > 0) {
       let sumOfCost = 0;
       seatList.forEach((element) => {
-        sumOfCost = element.seat_cost + sumOfCost;
+        sumOfCost = Number(element.seat_cost) + sumOfCost;
       });
       setTotalCost(sumOfCost);
     } else {
