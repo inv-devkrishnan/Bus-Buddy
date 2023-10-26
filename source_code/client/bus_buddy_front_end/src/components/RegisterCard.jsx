@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -9,15 +10,14 @@ import { ShieldLockFill, Eye, EyeSlash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { RegistrationSchema } from "./RegistrationSchema";
-import axios from "axios";
-
+import {axiosApi} from "../utils/axiosApi";
 export default function RegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = () => {
-    axios
-      .post("http://127.0.0.1:8000/user/registration/", {
+    axiosApi
+      .post("user/registration/", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -75,7 +75,7 @@ export default function RegisterCard() {
   return (
     <>
       <Card
-        className="p-5 shadow-lg p-3 mb-5 bg-body rounded"
+        className="p-5 shadow-lg p-3 mb-5 mt-5 bg-body rounded"
         style={{ width: "30rem", padding: 5, alignItems: "center" }}
       >
         <Card.Title>
@@ -221,13 +221,13 @@ export default function RegisterCard() {
                 <Button
                   variant="primary"
                   type="submit"
-                  style={{ margin: "4px" }}
+                  style={{ margin: "5x" }}
                 >
                   Submit
                 </Button>
                 <Button
                   variant="secondary"
-                  style={{ margin: "4px" }}
+                  style={{ margin: "5px" }}
                   onClick={handleClear}
                 >
                   Clear
@@ -235,6 +235,12 @@ export default function RegisterCard() {
               </Col>
             </Row>
           </Form>
+          <Card.Text style={{ alignContent: "center" }}>
+            Already have an account?
+            <Link to="/login" style={{ textDecoration: "none"}}>
+              Login
+            </Link>
+          </Card.Text>
         </Card.Body>
       </Card>
     </>

@@ -5,13 +5,7 @@ import RegisterCard from "../components/RegisterCard";
 
 export default function RegisterUser() {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="d-flex justify-content-center align-items-center vh-100">
       <Image
         src={RegisterImage}
         alt="register user"
