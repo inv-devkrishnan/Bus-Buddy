@@ -22,7 +22,6 @@ export default function Delete() {
 
     axios.put(`http://127.0.0.1:8000/Delete-Bus/${id}/`)
       .then(response => {
-        // navi('/Viewalltask');
         console.log("user:", user);
 
         console.log("bus deleted successfuly");

@@ -1205,3 +1205,133 @@ Traceback (most recent call last):
   File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
     assert self.serializer_class is not None, (
 AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-26 06:32:09,248 log 30665 140218958079552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'User' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:32:09,332 log 30665 140218949686848 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'User' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:34:38,179 log 31551 139815780607552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'Bus' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:34:38,221 log 31551 139815780607552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'Bus' object has no attribute 'data'
+django.request ERROR 2023-10-26 07:42:01,631 log 31768 139877077214784 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 74, in put
+    return Response("Updated",200,serializer.data,instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 46, in __init__
+    for name, value in headers.items():
+AttributeError: 'Bus' object has no attribute 'items'
+django.request ERROR 2023-10-26 07:43:56,392 log 43710 140263219521088 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 71, in put
+    return Response("Updated",200,serializer.data,instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 46, in __init__
+    for name, value in headers.items():
+AttributeError: 'Bus' object has no attribute 'items'
