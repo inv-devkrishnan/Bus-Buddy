@@ -2,9 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
+import RegisterUser from "./pages/RegisterUser";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import OwnerRegisterCard from "./components/OwnerRegisterCard";
-import RegisterCard from "./components/RegisterCard";
 import UpdateForm from "./components/UpdateFormCard";
 
 function App() {
@@ -15,10 +15,10 @@ function App() {
       <Route path="/change-password" element={<ChangePassword />}></Route>
       <Route path="/update-owner" element={<OwnerUpdateCard />} />
       <Route path="/register-owner" element={<OwnerRegisterCard />} />
-      <Route path="/register-user" element={<RegisterCard />} />
+      <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/update-user" element={<UpdateForm />} />
     </Routes>
   );
 }
 
-export default App;
+export default App
