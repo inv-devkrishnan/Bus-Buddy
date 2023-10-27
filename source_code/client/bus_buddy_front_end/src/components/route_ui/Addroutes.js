@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +15,6 @@ export default function Addbus() {
     const [duration,setduration]=useState("");
     const [travel_fare,settravel_fare]=useState("");
     const validated = useState(false);
-    const navi = useNavigate();
 
 
     const handleSubmit = async (e) => {

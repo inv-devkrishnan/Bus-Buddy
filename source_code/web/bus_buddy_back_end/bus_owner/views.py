@@ -29,7 +29,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import ValidationError
 from account_manage.models import User
 from rest_framework.generics import UpdateAPIView
-
+entry = "Invalid entry";
 
 
 class RegisterBusOwner(APIView):
@@ -76,7 +76,7 @@ class UpdateBusOwner(UpdateAPIView):
 
 
 
-class Addbus(APIView):
+class Addbus(APIView):                      #Function to add new bus from bus owner
     permission_classes = (AllowAny,)
     serializer = None
 
@@ -90,11 +90,11 @@ class Addbus(APIView):
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError:
-            logger.info("Invalid entry")
-            return Response("invalid Entry", status=400)
+            logger.info(entry)
+            return Response(entry, status=400)
 
 
-class Deletebus(APIView):
+class Deletebus(APIView):                  #function to change the status to 99 to perform logical error
     permission_classes = (AllowAny,)
 
     def put(self, request, id):
@@ -105,11 +105,11 @@ class Deletebus(APIView):
             logger.info("Deleted")
             return Response("Deleted the record")
         except ObjectDoesNotExist:
-            logger.info("Inavlid")
+            logger.info(entry)
             return Response(status=404)
 
 
-class Updatebus(UpdateAPIView):
+class Updatebus(UpdateAPIView):           #function to update bus details by bus owner
     permission_classes = (AllowAny,)
 
     def get(self, request, id):
@@ -135,7 +135,7 @@ class Updatebus(UpdateAPIView):
             return Response("Invalid Bus id", status=400)
 
 
-class Viewbus(APIView):
+class Viewbus(APIView):                    #function to list all bus of the bus owner
     permission_classes = (AllowAny,)
 
     def get(self, request, pageNo):
@@ -150,7 +150,7 @@ class Viewbus(APIView):
             return Response(status=404)
 
 
-class Addamenities(APIView):
+class Addamenities(APIView):                #funuction to add amenities of a bus 
     permission_classes = (AllowAny,)
     serializer = None
 
@@ -168,11 +168,11 @@ class Addamenities(APIView):
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError:
-            logger.info("Invalid entry")
-            return Response("invalid Entry", status=400)
+            logger.info(entry)
+            return Response(entry, status=400)
 
 
-class Updateamenities(APIView):
+class Updateamenities(APIView):                         #function to update the amenities of a bus
     def put(self, request, id):
         try:
             amenities_id = Amenities.objects.get(bus=id)
@@ -202,7 +202,7 @@ class Updateamenities(APIView):
             return Response("Invalid Bus ID", status=400)
 
 
-class Addroutes(APIView):
+class Addroutes(APIView):                       #function to add new route from a bus owner
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -218,7 +218,7 @@ class Addroutes(APIView):
             return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
 
 
-class Viewroutes(APIView):
+class Viewroutes(APIView):                  #function to list all routes added by the bus owner
     permission_classes = (AllowAny,)
 
     def get(self, request, pageNo):
@@ -233,7 +233,7 @@ class Viewroutes(APIView):
             return Response(status=404)
 
 
-class Deleteroutes(APIView):
+class Deleteroutes(APIView):                    #function to change status of the route to 99 to perform logical deletion
     permission_classes = (AllowAny,)
 
     def put(self, request, id):
@@ -244,5 +244,5 @@ class Deleteroutes(APIView):
             logger.info("Deleted")
             return Response("Deleted the record")
         except ObjectDoesNotExist:
-            logger.info("Inavlid")
+            logger.info(entry)
             return Response(status=404)
