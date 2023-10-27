@@ -25,7 +25,7 @@ export default function Viewalltask() {
           <h2>Bus Name: {viewbus.bus_name}</h2>
           <p>Bus ID: {viewbus.id}</p>
           <p>Plate No: {viewbus.plate_no}</p>
-          <p>Status: {viewbus.bus_type}</p>
+          <p>Bus Type: {viewbus.bus_type}</p>
           <p>Bus A/C: {viewbus.bus_ac}</p>
         </div>
       ));

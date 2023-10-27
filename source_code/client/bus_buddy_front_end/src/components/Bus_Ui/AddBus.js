@@ -105,14 +105,11 @@ export default function Addbus() {
                   <Form.Control
                     as="select"
                     onChange={(e) => setBusType(e.target.value)}
-                    value={bus_type}
                   >
                     <option value="">Select option</option>
-                    {busTypes.map((type, index) => (
-                      <option key={index} value={type}>
-                        {type}
-                      </option>
-                    ))}
+                    <option value="0"> Low floor </option>
+                    <option value="1"> Multi axel </option>
+                    <option value="2"> Both </option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="validationCustom03">
@@ -123,11 +120,9 @@ export default function Addbus() {
                     value={bus_seat_type}
                   >
                     <option value="">Select option</option>
-                    {busSeatType.map((type, index) => (
-                      <option key={index} value={type}>
-                        {type}
-                      </option>
-                    ))}
+                    <option value="0"> Sleeper </option>
+                    <option value="1"> Seater </option>
+                    <option value="2"> Both </option>
                   </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col} md="4" controlId="validationCustom04">
@@ -138,11 +133,8 @@ export default function Addbus() {
                     value={bus_ac}
                   >
                     <option value="">Select option</option>
-                    {busACOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
+                    <option value="0"> A/C </option>
+                    <option value="1"> Non A/C </option>
                   </Form.Control>
                 </Form.Group>
               </Row>
