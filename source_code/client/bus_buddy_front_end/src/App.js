@@ -6,22 +6,19 @@ import UserDashboard from "./pages/UserDashboard";
 import RegisterUser from "./pages/RegisterUser";
 import RegisterOwner from "./pages/RegisterOwner";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
-import UpdateForm from "./components/UpdateFormCard";
-
 
 function App() {
   return (
-   <Routes>
-    <Route path="/login" element={<LoginPage/>}/>
-    <Route path="/delete-account" element={<DeleteAccountPage/>}></Route>
-    <Route path="/change-password" element={<ChangePassword/>}></Route>
-    <Route path="/user-dashboard" element={<UserDashboard/>} />
-    <Route path="/update-owner" element={<OwnerUpdateCard />} />
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/delete-account" element={<DeleteAccountPage />}></Route>
+      <Route path="/change-password" element={<ChangePassword />}></Route>
+      <Route path="/user-dashboard" element={<UserDashboard />} />
+      <Route path="/update-owner" element={<OwnerUpdateCard />} />
       <Route path="/register-owner" element={<RegisterOwner />} />
       <Route path="/register-user" element={<RegisterUser />} />
-      <Route path="/update-user" element={<UpdateForm />} />
-   </Routes>
+    </Routes>
   );
 }
 
-export default App
+export default App;

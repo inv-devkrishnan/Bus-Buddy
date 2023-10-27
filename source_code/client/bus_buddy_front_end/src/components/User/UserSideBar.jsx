@@ -3,6 +3,8 @@ import "./UserSideBar.css";
 import ListGroup from "react-bootstrap/ListGroup";
 
 function UserSideBar(props) {
+  const logout = useLogout()
+
   return (
     <div className="sidebar">
       <div className="header">
@@ -12,11 +14,11 @@ function UserSideBar(props) {
         <ListGroup.Item>
           <p
             style={
-              props.profileSelect
+              props.myProfileSelect
                 ? { color: "#0275D8", fontWeight: "bold" }
                 : { color: "black" }
             }
-            onClick={props.profileSelected}
+            onClick={props.myProfileSelected}
           >
            My Profile
           </p>
@@ -24,20 +26,20 @@ function UserSideBar(props) {
         <ListGroup.Item>
           <p
             style={
-              props.listUserSelect
+              props.myTripSelect
                 ? { color: "#0275D8", fontWeight: "bold" }
                 : { color: "black" }
             }
-            onClick={props.listUserSelected}
+            onClick={props.myTripSelected}
           >
             My Trips
           </p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p className="text-danger" onClick={useLogout}>Log Out</p>
+          <p className="text-danger" onClick={logout}>Log Out</p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p className="text-danger">Delete Account</p>
+          <p className="text-danger" onClick={props.deleteSelected}>Delete Account</p>
         </ListGroup.Item>
       </ListGroup>
     </div>

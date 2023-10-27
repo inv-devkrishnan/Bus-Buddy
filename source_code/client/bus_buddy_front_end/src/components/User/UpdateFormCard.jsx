@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useFormik } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
-import { axiosApi } from "../utils/axiosApi";
+import { axiosApi } from "../../utils/axiosApi";
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {

@@ -10,7 +10,7 @@ import { ShieldLockFill, Eye, EyeSlash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { RegistrationSchema } from "./RegistrationSchema";
-import {axiosApi} from "../utils/axiosApi";
+import {axiosApi} from "../../utils/axiosApi";
 export default function RegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
