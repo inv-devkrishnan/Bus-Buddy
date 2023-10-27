@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SideBar from "../components/admin/SideBar";
+import SideBar from "../components/common/SideBar";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ProfileView from "../components/admin/ProfileView";
