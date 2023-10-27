@@ -3,3 +3,5 @@ logData.log
 logData.log
 __pycache__/
 *.pyc
+.env
+.pyc
