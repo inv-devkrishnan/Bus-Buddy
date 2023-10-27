@@ -1,7 +1,6 @@
 import { useLogout } from "../../utils/hooks/useLogout";
 import "./UserSideBar.css";
 import ListGroup from "react-bootstrap/ListGroup";
-import DeleteAccount from "../../pages/DeleteAccount";
 
 function UserSideBar(props) {
   return (

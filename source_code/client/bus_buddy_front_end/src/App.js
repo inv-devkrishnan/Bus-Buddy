@@ -2,11 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
+import UserDashboard from "./pages/UserDashboard";
 import RegisterUser from "./pages/RegisterUser";
 import RegisterOwner from "./pages/RegisterOwner";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateForm from "./components/UpdateFormCard";
-import UserDashboard from "./pages/UserDashboard";
+
 
 function App() {
   return (
