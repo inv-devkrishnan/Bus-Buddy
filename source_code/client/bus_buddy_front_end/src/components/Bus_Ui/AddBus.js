@@ -8,15 +8,11 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 export default function Addbus() {
-  const user = useState(1);
   const [bus_name, setBusName] = useState("");
   const [plate_no, setPlateNo] = useState("");
   const [bus_type, setBusType] = useState("");
   const [bus_seat_type, setBusSeatType] = useState("");
   const [bus_ac, setBusAC] = useState("");
-  const busTypes = ["0", "1", "2"];
-  const busACOptions = ["0", "1"];
-  const busSeatType = ["0", "1", "2"];
   const navi = useNavigate();
 
   const handleSubmit = async (e) => {
