@@ -1,6 +1,40 @@
 import re
 from rest_framework import serializers
-from .models import Routes,PickAndDrop,StartStopLocations
+from .models import Bus, Routes, Amenities, PickAndDrop, StartStopLocations
+
+
+class BusSerializer(serializers.ModelSerializer):
+    def validate_name(self, value):
+        if not re.match(r"^[A-Za-z]+$", value):
+            raise serializers.ValidationError(
+                "Invalid Name format. Only letters are allowed."
+            )
+        return value
+
+    class Meta:
+        model = Bus
+        fields = "__all__"
+
+
+class AmenitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amenities
+        fields = "__all__"
+
+
+class UpdateamenitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amenities
+        fields = "__all__"
+
+
+class ViewBusSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(required=False)
+
+    class Meta:
+        model = Bus
+        fields = "__all__"
+
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
     user = serializers.CharField(required=False)
