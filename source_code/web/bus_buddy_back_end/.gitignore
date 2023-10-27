@@ -2,4 +2,5 @@ logData.log
 .coverage
 logData.log
 __pycache__/
+.env
 .pyc

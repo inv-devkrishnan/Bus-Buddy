@@ -1,0 +1,1337 @@
+django.request ERROR 2023-10-19 11:54:30,733 log 60138 140054707037760 Internal Server Error: /addroutes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 153, in post
+    routes_id=serializer.data.id
+AttributeError: 'ReturnDict' object has no attribute 'id'
+django.request ERROR 2023-10-19 11:57:36,402 log 60658 139742409647680 Internal Server Error: /addroutes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 154, in post
+    print(serializer.data.id)
+AttributeError: 'ReturnDict' object has no attribute 'id'
+django.request ERROR 2023-10-19 12:25:33,113 log 62156 139631683958336 Internal Server Error: /addroutes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 150, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 981, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Routes.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Routes.objects.create()`. You may need to make the field read-only, or override the RoutesSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+django.request ERROR 2023-10-24 05:47:10,257 log 34356 140556202133056 Internal Server Error: /addroutes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 150, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 981, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Routes.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Routes.objects.create()`. You may need to make the field read-only, or override the RoutesSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+django.request ERROR 2023-10-24 06:47:56,254 log 40690 139931565418048 Internal Server Error: /Add-Routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 149, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 483, in to_internal_value
+    validated_value = field.run_validation(primitive_value)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 618, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 666, in to_internal_value
+    validated = self.child.run_validation(item)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 1052, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 1148, in get_field_names
+    assert field_name in fields, (
+AssertionError: The field 'pick_and_drop' was declared on serializer StartStopLocationsSerializer, but has not been included in the 'fields' option.
+django.request ERROR 2023-10-24 06:49:04,087 log 40845 140503422068288 Internal Server Error: /Add-Routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 150, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 981, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Routes.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Routes.objects.create()`. You may need to make the field read-only, or override the RoutesSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Routes() got unexpected keyword arguments: 'location'
+
+django.request ERROR 2023-10-24 10:19:24,280 log 57215 140483357566528 Internal Server Error: /View-Routes/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 94, in get_attribute
+    instance = instance[attr]
+KeyError: 'user'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 166, in get
+    return Response(serializer.data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/relations.py", line 190, in get_attribute
+    return super().get_attribute(instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+KeyError: "Got KeyError when attempting to get a value for field `user` on serializer `ViewRoutesSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `dict` instance.\nOriginal exception text was: 'user'."
+django.request ERROR 2023-10-24 10:21:39,292 log 57732 139716548617792 Internal Server Error: /View-Routes/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 94, in get_attribute
+    instance = instance[attr]
+KeyError: 'start_point'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 166, in get
+    return Response(serializer.data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/relations.py", line 190, in get_attribute
+    return super().get_attribute(instance)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+KeyError: "Got KeyError when attempting to get a value for field `start_point` on serializer `ViewRoutesSerializer`.\nThe serializer field might be named incorrectly and not match any attribute or key on the `dict` instance.\nOriginal exception text was: 'start_point'."
+django.request ERROR 2023-10-24 11:51:16,024 log 67662 140197709735488 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/connections.py", line 254, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1048, "Column 'plate_no' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 80, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-24 12:02:02,958 log 67662 140197709735488 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/connections.py", line 254, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1048, "Column 'plate_no' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 80, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-24 12:03:21,147 log 67662 140197709735488 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/connections.py", line 254, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1048, "Column 'plate_no' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 80, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-24 12:23:46,115 log 70330 140632889747008 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/cursors.py", line 319, in _query
+    db.query(q)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/MySQLdb/connections.py", line 254, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1048, "Column 'plate_no' cannot be null")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 80, in execute
+    raise IntegrityError(*tuple(e.args))
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-25 04:01:48,001 log 7483 139742727370304 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-25 04:02:16,631 log 7483 139742727370304 Internal Server Error: /Add-Bus/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 28, in post
+    serializer.save()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+django.db.utils.IntegrityError: (1048, "Column 'plate_no' cannot be null")
+django.request ERROR 2023-10-25 11:04:59,471 log 34257 139628027827776 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 61, in put
+    instance = self.get_object()
+AttributeError: 'Updatebus' object has no attribute 'get_object'
+django.request ERROR 2023-10-25 11:05:54,441 log 34679 139927723435584 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in put
+    instance = self.get_object()
+AttributeError: 'Updatebus' object has no attribute 'get_object'
+django.request ERROR 2023-10-25 11:09:37,803 log 35048 140509692552768 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in put
+    instance = self.objects.get()
+AttributeError: 'Updatebus' object has no attribute 'objects'
+django.request ERROR 2023-10-25 11:16:46,195 log 35523 140694672897600 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 66, in put
+    self.perform_update(serializer)
+AttributeError: 'Updatebus' object has no attribute 'perform_update'
+django.request ERROR 2023-10-25 11:39:43,470 log 37416 140423796352576 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:39:44,916 log 37416 140423796352576 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:40:27,365 log 37606 140097351575104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:41:58,748 log 37794 139904617014848 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:42:49,498 log 38019 139973616461376 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:42:50,939 log 38019 139973616461376 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:45,744 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:46,678 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:47,534 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:47,782 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:47,948 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:48,115 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:48,252 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:48,515 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:48,698 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:44:48,852 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:48:05,102 log 38138 140447838103104 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-25 11:49:28,910 log 38368 139971402917440 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatebus' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-26 06:32:09,248 log 30665 140218958079552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'User' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:32:09,332 log 30665 140218949686848 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'User' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:34:38,179 log 31551 139815780607552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'Bus' object has no attribute 'data'
+django.request ERROR 2023-10-26 06:34:38,221 log 31551 139815780607552 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 62, in get
+    return Response(serialized_data.data)
+AttributeError: 'Bus' object has no attribute 'data'
+django.request ERROR 2023-10-26 07:42:01,631 log 31768 139877077214784 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 74, in put
+    return Response("Updated",200,serializer.data,instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 46, in __init__
+    for name, value in headers.items():
+AttributeError: 'Bus' object has no attribute 'items'
+django.request ERROR 2023-10-26 07:43:56,392 log 43710 140263219521088 Internal Server Error: /Update-Bus/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 71, in put
+    return Response("Updated",200,serializer.data,instance)
+  File "/home/antony.jose/Bus_buddy_new/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 46, in __init__
+    for name, value in headers.items():
+AttributeError: 'Bus' object has no attribute 'items'
