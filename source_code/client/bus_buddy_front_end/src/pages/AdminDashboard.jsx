@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import AdmindSideBar from "../components/admin/AdminSideBar";
+import SideBar from "../components/admin/SideBar";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import ProfileView from "../components/admin/ProfileView";
 
 function AdminDashboard() {
   const [profileSelect, setProfileSelect] = useState(false);
@@ -25,28 +26,40 @@ function AdminDashboard() {
     setBusSelect(true);
   };
 
+  const options = [
+    {
+      name: "Profile",
+      state: profileSelect,
+      onChange: profileSelected,
+    },
+    {
+      name: "List User",
+      state: listUserSelect,
+      onChange: listUserSelected,
+    },
+
+    {
+      name: "Bus Owner Approval",
+      state: busSelect,
+      onChange: busSelected,
+    },
+  ];
+
   useEffect(() => {
-    if (useAuthStatus) { 
-      if (localStorage.getItem("user_role") !== "1") // if user is not admin redirect to login
-      {
+    if (useAuthStatus) {
+      if (localStorage.getItem("user_role") !== "1") {
+        // if user is not admin redirect to login
         navigate("/login");
-      } 
+      }
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
   }, [navigate]);
   return (
     <div className="d-flex">
-      <AdmindSideBar
-        profileSelected={profileSelected}
-        profileSelect={profileSelect}
-        listUserSelected={listUserSelected}
-        listUserSelect={listUserSelect}
-        busSelected={busSelected}
-        busSelect={busSelect}
-      />
+      <SideBar heading="Admin Profile" options={options} />
       <div>
-        {profileSelect && <h1>Profile Page</h1>}
+        {profileSelect && <ProfileView />}
         {listUserSelect && <h1>List User Page</h1>}
         {busSelect && <h1>Bus owner Approval Page</h1>}
       </div>
