@@ -231,18 +231,18 @@ class Viewroutes(APIView):
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
+                    
 
 
 class Deleteroutes(APIView):
-    permission_classes = (AllowAny,)
-
-    def put(self, request, id):
+    permission_classes=(AllowAny,)
+    def put(self, request,id):
         try:
-            data = Routes.objects.get(id=id)
-            data.status = 99
+            data=Routes.objects.get(id=id)
+            data.status=99
             data.save()
-            logger.info("Deleted")
+            logger.info ("Deleted")
             return Response("Deleted the record")
         except ObjectDoesNotExist:
-            logger.info("Inavlid")
+            logger.info ("Inavlid")
             return Response(status=404)
