@@ -16,7 +16,15 @@ export function getErrorMessage(errorCode) {
     case "D1004":
       return "Operation not allowed for this user";
     case "D1003":
-      return "Old password incorrect"  
+      return "Old password incorrect";
+    case "D1005":
+      return "No query param provided";
+    case "D1006":
+      return "Invalid query param";
+    case "D1007":
+      return "Email already registered";
+    case "D1008":
+      return "Phone number already registered";
     default:
       return "Unknown error";
   }

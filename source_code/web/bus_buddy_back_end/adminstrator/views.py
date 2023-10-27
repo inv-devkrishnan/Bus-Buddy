@@ -23,6 +23,7 @@ class AdminProfileUpdation(UpdateAPIView):
         serializer = AUS(instance, data=current_data, partial=True)
         if serializer.is_valid():
             self.perform_update(serializer)
+           
             return Response({"success_code": "D2002"})
         else:
             email_error = serializer._errors.get("email")  # gets email error
