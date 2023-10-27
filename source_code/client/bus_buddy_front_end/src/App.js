@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Route, Routes } from 'react-router-dom';
 import BusHome from "./components/Bus_Ui/BusHome";
 import AddBus from './components/Bus_Ui/AddBus';
 import DeleteBus from './components/Bus_Ui/DeleteBus';
@@ -15,7 +15,10 @@ import Viewroutes from './components/route_ui/viewroutes';
 import LoginPage from "./pages/LoginPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
-
+import RegisterUser from "./pages/RegisterUser";
+import RegisterOwner from "./pages/RegisterOwner";
+import OwnerUpdateCard from "./components/OwnerUpdateCard";
+import UpdateForm from "./components/UpdateFormCard";
 
 function App() {
   return (
@@ -33,13 +36,17 @@ function App() {
               <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
               <Route path='/Updateroutes' element={<Updateroutes/>}/>
               <Route path='/Viewroutes' element={<Viewroutes/>}/>
-              <Route path="/login" element={<LoginPage/>}/>
-              <Route path="/delete-account" element={<DeleteAccountPage/>}></Route>
-              <Route path="/change-password" element={<ChangePassword/>}></Route>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/delete-account" element={<DeleteAccountPage />}></Route>
+              <Route path="/change-password" element={<ChangePassword />}></Route>
+              <Route path="/update-owner" element={<OwnerUpdateCard />} />
+              <Route path="/register-owner" element={<RegisterOwner />} />
+              <Route path="/register-user" element={<RegisterUser />} />
+              <Route path="/update-user" element={<UpdateForm />} />
             </Routes>
           </React.Fragment>
     </div>
   );
 }
 
-export default App;
+export default App
