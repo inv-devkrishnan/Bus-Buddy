@@ -8,6 +8,7 @@ import UserProfilePage from "./UserProfilePage";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
+  const authStatus = useAuthStatus();
 
   const [myProfileSelect, setMyProfileSelect] = useState(false);
   const [myTripSelect, setMyTripSelect] = useState(false);
@@ -30,7 +31,7 @@ export default function UserDashboard() {
   };
 
   useEffect(() => {
-    if (useAuthStatus) {
+    if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not admin redirect to login
         navigate("/login");
@@ -38,10 +39,10 @@ export default function UserDashboard() {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, [navigate]);
+  }, [navigate,authStatus]);
 
   return (
-    <div className="d-flex justify-content-start">
+    <div className="d-flex">
         <UserSideBar
           myProfileSelected={myProfileSelected}
           myProfileSelect={myProfileSelect}
@@ -50,7 +51,7 @@ export default function UserDashboard() {
           deleteSelected={deleteSelected}
           deleteSelect={deleteSelect}
         />
-      <div className="p-2 bd-highlight">
+      <div className="p-2">
         {myProfileSelect && <UserProfilePage/>}
         {myTripSelect && <h1>List User Page</h1>}
         {deleteSelect && <DeleteAccount />}

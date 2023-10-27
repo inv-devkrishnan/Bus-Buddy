@@ -6,11 +6,12 @@ import Card from "react-bootstrap/Card";
 import { useFormik } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
 import { axiosApi } from "../../utils/axiosApi";
+
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {
     axiosApi
-      .get("user/update-profile/31")
+      .get("user/update-profile")
       .then((res) => {
         setCurrentUserData(res.data);
       })
@@ -31,7 +32,7 @@ export default function UpdateForm() {
 
   const onSubmit = () => {
     axiosApi
-      .put("user/update-profile/31", {
+      .put("user/update-profile", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
