@@ -11,6 +11,7 @@ import { axiosApi } from "../../utils/axiosApi";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 
 function UpdateProfile(props) {
+  // updates the profile when executed
   const update_profile = async (values) => {
     await axiosApi
       .put("adminstrator/update-profile/", values)
@@ -33,10 +34,11 @@ function UpdateProfile(props) {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col xs={5}>
           <h1>Update Profile</h1>
-          <Card className="p-5 mt-5 mb-5">
+          <Card className="p-5 mt-5 mb-5 shadow-lg" style={{width:"30rem"}} >
             <Formik
+             // filling initial from props
               initialValues={{
                 first_name: props.adminDetails.first_name,
                 last_name: props.adminDetails.last_name,
@@ -44,8 +46,9 @@ function UpdateProfile(props) {
                 phone: props.adminDetails.phone,
               }}
               validate={(values) => {
+                // validation for email,first_name,last_name,phone number
                 const errors = {};
-
+                
                 if (!values.email) {
                   errors.email = "Required";
                 } else if (
@@ -95,7 +98,7 @@ function UpdateProfile(props) {
 
                 isSubmitting,
 
-                /* and other goodies */
+              
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
@@ -171,7 +174,7 @@ function UpdateProfile(props) {
           </Card>
         </Col>
         <Col>
-          <Col className="ms-5">
+          <Col className="ms-5 mt-5">
             <img src={AdminProfileSplash} alt="admin_splash"></img>
           </Col>
         </Col>

@@ -10,6 +10,7 @@ class AdminProfileUpdation(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
     def get(self, request):
+        #  gets the current user profile information
         try:
             user = User.objects.get(id=request.user.id)
             serialized_data = AUS(user)
@@ -23,9 +24,10 @@ class AdminProfileUpdation(UpdateAPIView):
         serializer = AUS(instance, data=current_data, partial=True)
         if serializer.is_valid():
             self.perform_update(serializer)
-           
+
             return Response({"success_code": "D2002"})
         else:
+            # error handling
             email_error = serializer._errors.get("email")  # gets email error
             phone_error = serializer._errors.get("phone")  # gets phone error
 

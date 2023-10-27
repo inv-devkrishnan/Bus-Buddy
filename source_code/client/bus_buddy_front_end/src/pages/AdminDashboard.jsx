@@ -5,28 +5,34 @@ import { useNavigate } from "react-router-dom";
 import ProfileView from "../components/admin/ProfileView";
 
 function AdminDashboard() {
-  const [profileSelect, setProfileSelect] = useState(false);
-  const [listUserSelect, setListUserSelect] = useState(false);
-  const [busSelect, setBusSelect] = useState(false);
+  // three state variable for three options
+  const [profileSelect, setProfileSelect] = useState(false); // if true shows profile component
+  const [listUserSelect, setListUserSelect] = useState(false); // if true shows listuser component
+  const [busSelect, setBusSelect] = useState(false); // if true shows bus owner approval component
   const navigate = useNavigate();
+  const authStatus = useAuthStatus();
 
   const profileSelected = () => {
+    // when executed it displays the profile
     setProfileSelect(true);
     setListUserSelect(false);
     setBusSelect(false);
   };
   const listUserSelected = () => {
+    // when executed it displays the list user
     setProfileSelect(false);
     setListUserSelect(true);
     setBusSelect(false);
   };
   const busSelected = () => {
+    // when executed it displays the bus owner approval
     setProfileSelect(false);
     setListUserSelect(false);
     setBusSelect(true);
   };
 
   const options = [
+    // options list  for the sidebar component
     {
       name: "Profile",
       state: profileSelect,
@@ -46,7 +52,7 @@ function AdminDashboard() {
   ];
 
   useEffect(() => {
-    if (useAuthStatus) {
+    if (authStatus) {
       if (localStorage.getItem("user_role") !== "1") {
         // if user is not admin redirect to login
         navigate("/login");
@@ -54,7 +60,7 @@ function AdminDashboard() {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, [navigate]);
+  }, [navigate, authStatus]);
   return (
     <div className="d-flex">
       <SideBar heading="Admin Profile" options={options} />
