@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import UserSideBar from "../components/User/UserSideBar";
 import DeleteAccount from "../pages/DeleteAccount";
+import UserProfilePage from "./UserProfilePage";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ export default function UserDashboard() {
 
   return (
     <div className="d-flex justify-content-start">
-      <div className="p-2 bd-highlight">
         <UserSideBar
           myProfileSelected={myProfileSelected}
           myProfileSelect={myProfileSelect}
@@ -50,9 +50,8 @@ export default function UserDashboard() {
           deleteSelected={deleteSelected}
           deleteSelect={deleteSelect}
         />
-      </div>
       <div className="p-2 bd-highlight">
-        {myProfileSelect && <h1>Profile Page</h1>}
+        {myProfileSelect && <UserProfilePage/>}
         {myTripSelect && <h1>List User Page</h1>}
         {deleteSelect && <DeleteAccount />}
       </div>
