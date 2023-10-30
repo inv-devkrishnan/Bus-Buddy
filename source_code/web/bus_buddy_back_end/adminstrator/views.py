@@ -1,15 +1,26 @@
 from django.db.models import Q
-from operator import itemgetter
 from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from account_manage.models import User
 from .permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
 from .serializer import ListUserSerializer as LUS
 from .serializer import BanUserSerializer as BUS
 from .pagination import CustomPagination
+
+
+def update_status(self, user_id, status):
+    try:
+        instance = User.objects.get(id=user_id)
+        new_data = {"status": status}
+        serializer = BUS(instance, data=new_data, partial=True)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return Response({"success_code": "D2005"})
+
+    except User.DoesNotExist:
+        return Response({"error_code": "D1001"})
 
 
 class AdminProfileUpdation(UpdateAPIView):
@@ -62,29 +73,28 @@ class ListUsers(APIView, CustomPagination):
     permission_classes = (AllowAdminsOnly,)
 
     def search_user(self, keyword):
+        # function to search user by their first_name
         users = User.objects.filter(
             ~Q(role=1),
             first_name__icontains=keyword,
         ).order_by("created_date")
         return users
 
-    def ordering(self, order, serialized_data):
-        if order == 0:
-            newlist = sorted(serialized_data, key=lambda x: x["first_name"].lower())
-            return newlist
-        elif order == 1:
-            newlist = sorted(
-                serialized_data, key=lambda x: x["first_name"].lower(), reverse=True
+    def getUsersbyStatus(self, status, order):
+        # function to get user's based on thier status
+        current_ordering = "created_date"
+        if order == "1":
+            current_ordering = "-first_name"
+        elif order == "0":
+            current_ordering = "first_name"
+        if status == "0":
+            users = User.objects.filter(~Q(role=1), ~Q(status=99), status=0).order_by(
+                current_ordering
             )
-            return newlist
-
-    def getUsersbyStatus(self, status):
-        if status == 0:
-            users = User.objects.filter(~Q(role=1),~Q(status=99), status=0).order_by("created_date")
-        elif status == 2:
-            users = User.objects.filter(~Q(role=1),~Q(status=99), status=2).order_by("created_date")
-        elif status == 100:
-            users = User.objects.filter(~Q(role=1),~Q(status=99)).order_by("created_date")
+        elif status == "2":
+            users = User.objects.filter(~Q(role=1), ~Q(status=99), status=2).order_by(
+                current_ordering
+            )
         return users
 
     def get(self, request):
@@ -94,31 +104,29 @@ class ListUsers(APIView, CustomPagination):
         if keyword:
             users = self.search_user(keyword)
         elif status:
-            if status == "0" or status == "2" or status == "100":
-                users = self.getUsersbyStatus(eval(status))
+            if status == "0" or status == "2":
+                users = self.getUsersbyStatus(status, order)
             else:
                 return Response({"error_code": "D1006"})
 
         else:
-            users = User.objects.filter(~Q(role=1),~Q(status=99)).order_by("created_date")
+            if order == "0":
+                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+                    "first_name"
+                )
+            elif order == "1":
+                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+                    "-first_name"
+                )
+            else:
+                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+                    "created_date"
+                )
+
         serialized_data = LUS(
             CustomPagination.paginate_queryset(self, queryset=users, request=request),
             many=True,
         )
-        if order:
-            if order == "0" or order == "1":
-                ordered_data = self.ordering(
-                    eval(order), serialized_data=serialized_data.data
-                )
-                return Response(
-                    {
-                        "users": ordered_data,
-                        "pages": self.page.paginator.num_pages,
-                    }
-                )
-            else:
-                return Response({"error_code": "D1006"})
-
         return Response(
             {
                 "users": serialized_data.data,
@@ -130,53 +138,28 @@ class ListUsers(APIView, CustomPagination):
 class BanUser(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
-    def update(self, request,user_id):
-        try:
-            instance = User.objects.get(id=user_id)
-            new_data = {"status": 2}
-            serializer = BUS(instance, data=new_data, partial=True)
-            if serializer.is_valid():
-                self.perform_update(serializer)
-                return Response({"success_code": "D2003"})
+    def update(self, request, user_id):
+        return update_status(self, user_id, 2)
 
-        except User.DoesNotExist:
-            return Response({"error_code": "D1001"})
+    def put(self, request, user_id):
+        return self.update(request, user_id)
 
-    def put(self, request,user_id):
-        return self.update(request,user_id)
 
 class UnBanUser(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
-    def update(self, request,user_id):
-        try:
-            instance = User.objects.get(id=user_id)
-            new_data = {"status": 0}
-            serializer = BUS(instance, data=new_data, partial=True)
-            if serializer.is_valid():
-                self.perform_update(serializer)
-                return Response({"success_code": "D2004"})
+    def update(self, request, user_id):
+        return update_status(self, user_id, 0)
 
-        except User.DoesNotExist:
-            return Response({"error_code": "D1001"})
+    def put(self, request, user_id):
+        return self.update(request, user_id)
 
-    def put(self, request,user_id):
-        return self.update(request,user_id)
 
 class RemoveUser(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
-    def update(self, request,user_id):
-        try:
-            instance = User.objects.get(id=user_id)
-            new_data = {"status": 99}
-            serializer = BUS(instance, data=new_data, partial=True)
-            if serializer.is_valid():
-                self.perform_update(serializer)
-                return Response({"success_code": "D2005"})
+    def update(self, request, user_id):
+        return update_status(self, user_id, 99)
 
-        except User.DoesNotExist:
-            return Response({"error_code": "D1001"})
-
-    def put(self, request,user_id):
-        return self.update(request,user_id)    
+    def put(self, request, user_id):
+        return self.update(request, user_id)
