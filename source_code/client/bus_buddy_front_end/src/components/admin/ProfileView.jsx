@@ -1,24 +1,25 @@
+import { useEffect, useState } from "react";
+
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+
 import AdminProfileSplash from "../../assets/images/adminProfileView.png";
-import { useEffect, useState } from "react";
 import { axiosApi } from "../../utils/axiosApi";
 import ChangePassword from "../../pages/ChangePassword";
 import UpdateProfile from "./UpdateProfile";
-import { useNavigate } from "react-router-dom";
+
 
 function ProfileView() {
-  const [adminDetails, setAdminDetails] = useState();
-  const [showChangePassword, setShowChangePassword] = useState(false);
-  const [showProfile, setShowProfile] = useState(true);
-  const [showUpdateProfile, setshowUpdateProfile] = useState(false);
-  const navigate = useNavigate();
+  const [adminDetails, setAdminDetails] = useState(); // to store admin profile details
+  const [showChangePassword, setShowChangePassword] = useState(false);  // to show/hide Change password component
+  const [showProfile, setShowProfile] = useState(true); // to show/hide showProfile component
+  const [showUpdateProfile, setshowUpdateProfile] = useState(false); // to show/hide  updateProfile component
   useEffect(() => {
       getprofiledata();
-  }, [showProfile,navigate]);
+  }, [showProfile]);
 
   const getprofiledata = () => {
     // function to get profile data from backend
