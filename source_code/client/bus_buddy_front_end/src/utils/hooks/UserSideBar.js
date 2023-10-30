@@ -26,11 +26,11 @@ function UserSideBar(props) {
         <ListGroup.Item>
           <p
             style={
-              props.myTripSelect
+              props.myBusSelect
                 ? { color: "#0275D8", fontWeight: "bold" }
                 : { color: "black" }
             }
-            onClick={props.myTripSelected}
+            onClick={props.myBusSelected}
           >
             My Bus
           </p>
@@ -38,11 +38,11 @@ function UserSideBar(props) {
         <ListGroup.Item>
           <p
             style={
-              props.myTripSelect
+              props.myRouteSelect
                 ? { color: "#0275D8", fontWeight: "bold" }
                 : { color: "black" }
             }
-            onClick={props.myTripSelected}
+            onClick={props.myRouteSelected}
           >
             My Routes
           </p>

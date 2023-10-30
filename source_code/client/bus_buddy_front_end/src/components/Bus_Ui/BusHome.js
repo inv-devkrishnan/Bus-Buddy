@@ -1,100 +1,89 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import UserSideBar from "../../utils/hooks/UserSideBar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+import { useAuthStatus } from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/utils/hooks/useAuth.js";
+import UserSideBar from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/utils/hooks/UserSideBar.js";
+import DeleteAccount from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/pages/DeleteAccount.jsx";
+import ViewBus from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/Bus_Ui/ViewBus.js"
+import ViewRoutes from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/route_ui/ViewRoutes.js"
+
+export default function UserDashboard() {
+  const navigate = useNavigate();
+  // const authStatus = useAuthStatus();
+
+  const [myProfileSelect, setMyProfileSelect] = useState(false);
+  const [myBusSelect, setMyBusSelect] = useState(false);
+  const [myRouteSelect, setMyRouteSelect] = useState(false);
+  const [myTripSelect, setMyTripSelect] = useState(false);
+  const [deleteSelect, setDeleteSelect] = useState(false);
+
+  const myProfileSelected = () => {
+    setMyProfileSelect(true);
+    setMyBusSelect(false);
+    setMyRouteSelect(false)
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+  };
+  const myBusSelected = () => {
+    setMyProfileSelect(false);
+    setMyBusSelect(true);
+    setMyRouteSelect(false)
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+  };  
+  const myRouteSelected = () => {
+    setMyProfileSelect(false);
+    setMyBusSelect(false);
+    setMyRouteSelect(true)
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+  };
+  const myTripSelected = () => {
+    setMyProfileSelect(false);
+    setMyBusSelect(false);
+    setMyRouteSelect(false)
+    setMyTripSelect(true);
+    setDeleteSelect(false);
+  };
+  const deleteSelected = () => {
+    setMyProfileSelect(false);
+    setMyTripSelect(false);
+    setDeleteSelect(true);
+  };
+
+  // useEffect(() => {
+  //   if (authStatus) {
+  //     if (localStorage.getItem("user_role") !== "2") {
+  //       // if user is not admin redirect to login
+  //       navigate("/login");
+  //     }
+  //   } else {
+  //     navigate("/login"); // if user not logged in redirect to login
+  //   }
+  // }, [navigate,authStatus]);
+
   return (
-    <>
-      <div style={{ display: "flex"}}>
-        <UserSideBar />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center",justifyContent:"space-between"}}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "12%",
-          }}
-        >
-          <Card
-            style={{
-              width: "18rem",
-              borderRadius: "18px",
-              backgroundColor: "grey",
-              marginRight:"5%",
-              marginLeft:"15%",
-            }}
-          >
-            <Card.Body style={{ textAlign: "center" }}>
-              <Card.Title>Create Bus</Card.Title>
-              <Card.Text>Create new task and add them to todolist</Card.Text>
-              <Link to={"/Addbus"}>
-                <button className="btn btn-primary">Add Bus</button>
-              </Link>
-            </Card.Body>
-          </Card>
-          <Card
-            style={{
-              width: "18rem",
-              borderRadius: "18px",
-              backgroundColor: "grey",
-            }}
-          >
-            <Card.Body style={{ textAlign: "center" }}>
-              <Card.Title>Delete Bus</Card.Title>
-              <Card.Text>
-                Delete task from todolist according to the taskid
-              </Card.Text>
-              <Link to={"/Deletebus"}>
-                <button className="btn btn-primary">Delete Bus</button>
-              </Link>
-            </Card.Body>
-          </Card>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "12%",
-          }}
-        >
-          <Card
-            style={{
-              width: "18rem",
-              borderRadius: "18px",
-              backgroundColor: "grey",
-              // marginRight:"5%",
-              // marginLeft:"15%",
-            }}
-          >
-            <Card.Body style={{ textAlign: "center" }}>
-              <Card.Title>Viewall Bus</Card.Title>
-              <Card.Text>View all the tasks in the todolist in table</Card.Text>
-              <Link to={"/Viewbus"}>
-                <button className="btn btn-primary">Viewall Bus</button>
-              </Link>
-            </Card.Body>
-          </Card>
-          <Card
-            style={{
-              width: "18rem",
-              borderRadius: "18px",
-              backgroundColor: "grey",
-            }}
-          >
-            <Card.Body style={{ textAlign: "center" }}>
-              <Card.Title>Update Bus</Card.Title>
-              <Card.Text>
-                Update the task name of an existing task in the todolist
-              </Card.Text>
-              <Link to={"/Updatebus"}>
-                <button className="btn btn-primary">Update Bus</button>
-              </Link>
-            </Card.Body>
-          </Card>
-        </div>
+    <div className="d-flex">
+        <UserSideBar
+          myProfileSelected={myProfileSelected}
+          myProfileSelect={myProfileSelect}
+          myBusSelected={myBusSelected}
+          myBusSelect={myBusSelect}
+          myRouteSelected={myRouteSelected}
+          myRouteSelect={myRouteSelect}
+          myTripSelected={myTripSelected}
+          myTripSelect={myTripSelect}
+          deleteSelected={deleteSelected}
+          deleteSelect={deleteSelect}
+        />
+      <div className="d-flex">
+        {myProfileSelect && <h1>List User Page</h1>}
+        {myBusSelect && <ViewBus/>}
+        {myRouteSelect && <ViewRoutes/>}
+        {myTripSelect && <h1>List User Page</h1>}
+        {deleteSelect && <DeleteAccount />}
       </div>
-      </div>
-    </>
+    </div>
   );
 }
+
