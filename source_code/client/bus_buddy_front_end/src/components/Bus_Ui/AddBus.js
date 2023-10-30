@@ -61,7 +61,7 @@ export default function Addbus() {
     <div
       style={{
         display: "flex",
-        justifyContent: "right",
+        justifyContent: "center",
         marginRight: "5rem",
         paddingTop: "5rem",
       }}

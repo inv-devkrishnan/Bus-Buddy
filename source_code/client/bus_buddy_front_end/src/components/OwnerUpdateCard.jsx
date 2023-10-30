@@ -11,7 +11,7 @@ export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   useEffect(() => {
     axiosApi
-      .get("bus-owner/update-profile/32")
+      .get("bus-owner/update-profile")
       .then((res) => {
         setCurrentUserData(res.data);
       })

@@ -18,6 +18,7 @@ import RegisterUser from "./pages/RegisterUser";
 import RegisterOwner from "./pages/RegisterOwner";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateForm from "./components/UpdateFormCard";
+import UpdateOwnerProfile from './components/Bus_Ui/UpdateOwnerProfile';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               <Route path="/register-owner" element={<RegisterOwner />} />
               <Route path="/register-user" element={<RegisterUser />} />
               <Route path="/update-user" element={<UpdateForm />} />
+              <Route path="/Update-Profile" element={<UpdateOwnerProfile/>} />
             </Routes>
           </React.Fragment>
     </div>

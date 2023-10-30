@@ -29,55 +29,60 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import ValidationError
 from account_manage.models import User
 from rest_framework.generics import UpdateAPIView
-entry = "Invalid entry";
+from rest_framework.permissions import IsAuthenticated
+
+entry = "Invalid entry"
 
 
 class RegisterBusOwner(APIView):
-    permission_classes = (AllowAny,)
-    
-    def post(self,request):
+    # permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
         request_data = request.data
-        request_data["role"]=3
+        request_data["role"] = 3
         serialized_data = OMS(data=request_data)
         if serialized_data.is_valid():
             serialized_data.save()
-            return Response({"message":"registration successfull"},status=201)
+            return Response({"message": "registration successfull"}, status=201)
         else:
-            return Response(serialized_data._errors,status=400)
+            return Response(serialized_data._errors, status=400)
 
 
 class UpdateBusOwner(UpdateAPIView):
-    permission_classes = (AllowAny,)
-    
-    def get(self, request, id):
+    """
+    For displaying and updating bus owner details
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
         try:
-            user = User.objects.get(id=id)
+            user_id = request.user.id  # get id using token
+            user = User.objects.get(id=user_id)
         except User.DoesNotExist:
             return Response(status=404)
 
-        serialized_data=ODS(user)
+        serialized_data = ODS(user)
         return Response(serialized_data.data)
-    
-    def update(self, request, id):
+
+    def update(self, request):
         try:
-            instance = User.objects.get(id=id)
+            user_id = request.user.id  # get id using token
+            instance = User.objects.get(id=user_id)
             current_data = request.data
             serializer = OMS(instance, data=current_data, partial=True)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
             return Response({"message": "updated succesffully"}, status=200)
-        except TypeError:
-            return Response(serializer.errors,status=400)
+        except ValueError:
+            return Response(serializer.errors, status=400)
 
-    def put(self, request, id):
-        return self.update(request, id)
-
- 
+    def put(self, request):
+        return self.update(request)
 
 
-
-class Addbus(APIView):                      #Function to add new bus from bus owner
-    permission_classes = (AllowAny,)
+class Addbus(APIView):  # Function to add new bus from bus owner
+    # permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
@@ -94,8 +99,8 @@ class Addbus(APIView):                      #Function to add new bus from bus ow
             return Response(entry, status=400)
 
 
-class Deletebus(APIView):                  #function to change the status to 99 to perform logical error
-    permission_classes = (AllowAny,)
+class Deletebus(APIView):  # function to change the status to 99 to perform logical error
+    # permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
         try:
@@ -109,8 +114,8 @@ class Deletebus(APIView):                  #function to change the status to 99 
             return Response(status=404)
 
 
-class Updatebus(UpdateAPIView):           #function to update bus details by bus owner
-    permission_classes = (AllowAny,)
+class Updatebus(UpdateAPIView):  # function to update bus details by bus owner
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request, id):
         try:
@@ -135,12 +140,12 @@ class Updatebus(UpdateAPIView):           #function to update bus details by bus
             return Response("Invalid Bus id", status=400)
 
 
-class Viewbus(APIView):                    #function to list all bus of the bus owner
-    permission_classes = (AllowAny,)
+class Viewbus(APIView):  # function to list all bus of the bus owner
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request, pageNo):
         queryset = Bus.objects.filter(status=0).values()
-        paginator = Paginator(queryset, 3)
+        paginator = Paginator(queryset, 2)
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
@@ -150,8 +155,8 @@ class Viewbus(APIView):                    #function to list all bus of the bus 
             return Response(status=404)
 
 
-class Addamenities(APIView):                #funuction to add amenities of a bus 
-    permission_classes = (AllowAny,)
+class Addamenities(APIView):  # funuction to add amenities of a bus
+    # permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
@@ -172,7 +177,9 @@ class Addamenities(APIView):                #funuction to add amenities of a bus
             return Response(entry, status=400)
 
 
-class Updateamenities(APIView):                         #function to update the amenities of a bus
+class Updateamenities(APIView):  # function to update the amenities of a bus
+    # permission_classes = (IsAuthenticated,)
+
     def put(self, request, id):
         try:
             amenities_id = Amenities.objects.get(bus=id)
@@ -202,8 +209,8 @@ class Updateamenities(APIView):                         #function to update the 
             return Response("Invalid Bus ID", status=400)
 
 
-class Addroutes(APIView):                       #function to add new route from a bus owner
-    permission_classes = (AllowAny,)
+class Addroutes(APIView):  # function to add new route from a bus owner
+    # permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
@@ -218,8 +225,8 @@ class Addroutes(APIView):                       #function to add new route from 
             return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
 
 
-class Viewroutes(APIView):                  #function to list all routes added by the bus owner
-    permission_classes = (AllowAny,)
+class Viewroutes(APIView):  # function to list all routes added by the bus owner
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request, pageNo):
         queryset = Routes.objects.filter(status=0).values()
@@ -233,8 +240,10 @@ class Viewroutes(APIView):                  #function to list all routes added b
             return Response(status=404)
 
 
-class Deleteroutes(APIView):                    #function to change status of the route to 99 to perform logical deletion
-    permission_classes = (AllowAny,)
+class Deleteroutes(
+    APIView
+):  # function to change status of the route to 99 to perform logical deletion
+    # permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
         try:
