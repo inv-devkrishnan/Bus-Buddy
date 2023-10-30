@@ -57,7 +57,7 @@ class AdminUpdateSerializer(serializers.ModelSerializer):
 class ListUserSerializer(serializers.ModelSerializer):
     class Meta:
           model = User
-          fields = ("id","first_name", "last_name", "email", "phone","company_name","aadhaar_no","msme_no")
+          fields = ("id","first_name", "last_name", "email", "phone","company_name","aadhaar_no","msme_no","status")
           
 class BanUserSerializer(serializers.ModelSerializer):
     class Meta:

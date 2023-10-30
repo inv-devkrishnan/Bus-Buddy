@@ -75,7 +75,7 @@ class ListUsers(APIView, CustomPagination):
     def search_user(self, keyword):
         # function to search user by their first_name
         users = User.objects.filter(
-            ~Q(role=1),
+            ~Q(role=1),~Q(status=99),
             first_name__icontains=keyword,
         ).order_by("created_date")
         return users
@@ -131,6 +131,9 @@ class ListUsers(APIView, CustomPagination):
             {
                 "users": serialized_data.data,
                 "pages": self.page.paginator.num_pages,
+                "current_page":self.page.number,
+                "has_previous": self.page.has_previous(),
+                "has_next":self.page.has_next()
             }
         )
 

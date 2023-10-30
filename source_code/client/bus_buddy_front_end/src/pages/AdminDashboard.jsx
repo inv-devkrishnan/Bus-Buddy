@@ -3,6 +3,7 @@ import SideBar from "../components/common/SideBar";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ProfileView from "../components/admin/ProfileView";
+import ListUsers from "../components/admin/ListUsers";
 
 function AdminDashboard() {
   // three state variable for three options
@@ -66,7 +67,7 @@ function AdminDashboard() {
       <SideBar heading="Admin Profile" options={options} />
       <div>
         {profileSelect && <ProfileView />}
-        {listUserSelect && <h1>List User Page</h1>}
+        {listUserSelect && <ListUsers/>}
         {busSelect && <h1>Bus owner Approval Page</h1>}
       </div>
     </div>
