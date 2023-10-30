@@ -11,6 +11,19 @@ from .token import generate_token
 from .google_auth import Google
 
 
+def check_user_status(user):
+    # returns response based on the user account status
+    if user.status == 0:
+        token = generate_token(user)
+        return Response(token, status=200)
+    elif user.status == 2:
+        return Response({"error_code": "D1009"}, status=401)
+    elif user.status == 1:
+        return Response({"error_code": "D1010"}, status=401)
+    elif user.status == 99:
+        return Response({"error_code": "D1001"}, status=401)
+
+
 class LoginWithGoogle(APIView):
     # to login google users
     permission_classes = (AllowAny,)
@@ -26,9 +39,8 @@ class LoginWithGoogle(APIView):
                 # generate jwt token google users
                 try:
                     email = user_data["email"]
-                    user = User.objects.get(email=email, account_provider=1, status=0)
-                    token = generate_token(user)
-                    return Response(token, status=200)
+                    user = User.objects.get(email=email, account_provider=1)
+                    return check_user_status(user)
                 # if user doesn't exist in our db we create one
                 except User.DoesNotExist:
                     name = user_data["given_name"]
@@ -61,21 +73,19 @@ class LoginLocal(APIView):
     def post(self, request):
         user_credentials = LS(data=request.data)
 
-        if user_credentials.is_valid(): #  validation check
+        if user_credentials.is_valid():  #  validation check
             try:
                 user = User.objects.get(
                     email=user_credentials.validated_data["email"],
-                    account_provider=0,
-                    status=0,
+                    account_provider=0
                 )
                 # authenticates user
                 is_user_authenticated = authenticate(
                     email=user_credentials.validated_data["email"],
                     password=user_credentials.validated_data["password"],
-                ) 
+                )
                 if is_user_authenticated:
-                    token = generate_token(user)
-                    return Response(token, status=200)
+                    return(check_user_status(user))
                 else:
                     return Response({"error_code": "D1000"}, status=401)
             except User.DoesNotExist:
@@ -110,9 +120,7 @@ class ChangePassword(APIView):
             user_id = request.user.id
             try:
                 # limiting change password only to local users
-                user = User.objects.get(
-                    id=user_id, account_provider=0
-                )  
+                user = User.objects.get(id=user_id, account_provider=0)
                 old_password = password_data.validated_data["old_password"]
                 if user.check_password(old_password):
                     user.set_password(password_data.validated_data["new_password"])

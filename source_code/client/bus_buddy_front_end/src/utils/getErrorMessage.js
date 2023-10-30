@@ -25,6 +25,10 @@ export function getErrorMessage(errorCode) {
       return "Email already registered";
     case "D1008":
       return "Phone number already registered";
+    case "D1009":
+      return "User Banned Permanently";
+    case "D1010":
+      return "User Account Disabled";
     default:
       return "Unknown error";
   }

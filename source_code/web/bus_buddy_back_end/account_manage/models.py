@@ -15,6 +15,12 @@ class UserManager(BaseUserManager):
         user.set_unusable_password()
         user.save()
         return user
+    def create_superuser(self, password, **extra_fields):
+        user = self.model(**extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+    
 
 
 class User(AbstractBaseUser):
