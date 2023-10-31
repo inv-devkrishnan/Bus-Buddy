@@ -11,14 +11,13 @@ import { axiosApi } from "../../utils/axiosApi";
 import ChangePassword from "../../pages/ChangePassword";
 import UpdateProfile from "./UpdateProfile";
 
-
 function ProfileView() {
   const [adminDetails, setAdminDetails] = useState(); // to store admin profile details
-  const [showChangePassword, setShowChangePassword] = useState(false);  // to show/hide Change password component
+  const [showChangePassword, setShowChangePassword] = useState(false); // to show/hide Change password component
   const [showProfile, setShowProfile] = useState(true); // to show/hide showProfile component
   const [showUpdateProfile, setshowUpdateProfile] = useState(false); // to show/hide  updateProfile component
   useEffect(() => {
-      getprofiledata();
+    getprofiledata();
   }, [showProfile]);
 
   const getprofiledata = () => {

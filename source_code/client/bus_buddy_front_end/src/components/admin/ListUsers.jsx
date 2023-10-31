@@ -283,7 +283,7 @@ function ListUsers() {
         <Col>
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
-                   {/* shows current user status mode */}
+              {/* shows current user status mode */}
               Show {userStatus.current === 100 && "All Users"}
               {userStatus.current === 0 && "Unbanned Users"}
               {userStatus.current === 2 && "Banned Users"}
@@ -355,12 +355,14 @@ function ListUsers() {
           </div>
         </Col>
       </Row>
-     { // to show search results info
-      searchMode && (
-        <Row className="mt-5 ms-5">
-          <h2>Search Results for : {searchField}</h2>
-        </Row>
-      )}
+      {
+        // to show search results info
+        searchMode && (
+          <Row className="mt-5 ms-5">
+            <h2>Search Results for : {searchField}</h2>
+          </Row>
+        )
+      }
 
       <Row>
         <Col style={{ width: "70vw" }}>
@@ -434,13 +436,14 @@ function ListUsers() {
             }}
           />
           <Pagination.Prev
-          // checks if data have previous page then move to previous page
+            // checks if data have previous page then move to previous page
             onClick={() => {
               hasPrevious && getUsersbyPage(currentPage - 1);
             }}
           />
-          { // shows the page numbers
-          generatePaginator(totalPages)
+          {
+            // shows the page numbers
+            generatePaginator(totalPages)
           }
           <Pagination.Next
             // checks if data have next page then move to next page
@@ -449,8 +452,9 @@ function ListUsers() {
             }}
           />
           <Pagination.Last
-             // move to last  page
-           onClick={() => getUsersbyPage(totalPages)} />
+            // move to last  page
+            onClick={() => getUsersbyPage(totalPages)}
+          />
         </Pagination>
       </Row>
     </Container>

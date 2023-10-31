@@ -27,7 +27,7 @@ function UpdateProfile(props) {
         Swal.fire({
           icon: "error",
           title: "Profile Update Failed !",
-          text : getErrorMessage(error?.response?.data?.error_code)
+          text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
   };
@@ -36,9 +36,9 @@ function UpdateProfile(props) {
       <Row>
         <Col xs={5}>
           <h1>Update Profile</h1>
-          <Card className="p-5 mt-5 mb-5 shadow-lg" style={{width:"30rem"}} >
+          <Card className="p-5 mt-5 mb-5 shadow-lg" style={{ width: "30rem" }}>
             <Formik
-             // filling initial from props
+              // filling initial from props
               initialValues={{
                 first_name: props.adminDetails.first_name,
                 last_name: props.adminDetails.last_name,
@@ -48,7 +48,7 @@ function UpdateProfile(props) {
               validate={(values) => {
                 // validation for email,first_name,last_name,phone number
                 const errors = {};
-                
+
                 if (!values.email) {
                   errors.email = "Required";
                 } else if (
@@ -97,8 +97,6 @@ function UpdateProfile(props) {
                 handleSubmit,
 
                 isSubmitting,
-
-              
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
