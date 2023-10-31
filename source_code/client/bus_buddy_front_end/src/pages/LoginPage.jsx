@@ -64,6 +64,7 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
+      
       navigate("/");
     } else {
       // if login fail's it shows the error message

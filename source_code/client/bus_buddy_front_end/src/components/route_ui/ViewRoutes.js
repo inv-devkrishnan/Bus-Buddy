@@ -1,29 +1,37 @@
 import React, { useEffect, useState } from "react";
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./table.css";
+import Navbar from "react-bootstrap/Navbar";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export default function Viewalltask() {
-  const [pageno,setpageno] =useState(1)
-  const [data, setData] = useState([])
+  const [pageno, setpageno] = useState(1);
+  const [data, setData] = useState([]);
+  const navi = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`http://localhost:8000/View-Routes/${pageno}/`);
+      const response = await axios.get(
+        `http://localhost:8000/View-Routes/${pageno}/`
+      );
       setData(response.data);
     };
     fetchData();
   }, [pageno]);
-  
 
-  const next=(event)=>{
+  const next = (event) => {
     event.preventDefault();
-    setpageno(pageno+1);
+    setpageno(pageno + 1);
   };
-  
-  const prev=(event)=>{
+
+  const prev = (event) => {
     event.preventDefault();
-    pageno>1 && setpageno(pageno-1)
+    pageno > 1 && setpageno(pageno - 1);
   };
 
   const renderCards = () => {
@@ -36,27 +44,60 @@ export default function Viewalltask() {
         <p>Distance: {viewroutes.distance}</p>
         <p>Duration: {viewroutes.duration}</p>
         <p>Travel Fare: {viewroutes.travel_fare}</p>
+        <button
+          className="btn btn-primary"
+          onClick={() => deleted(viewroutes.id)}
+        >
+          Delete
+        </button>
       </div>
     ));
+  };
+  const deleted = (id) => {
+    navi("/DeleteBus", { state: `${id}` });
   };
 
   return (
     <div>
-      <div style={{display:"flex",justifyContent:"space-between",margin:"20px"}}>
-        <Link to={'/Addroutes'}>
-          <button className="btn btn-primary">Add Routes</button> 
-        </Link>  
-        <Link to={'/Deleteroutes'}>
-          <button className="btn btn-primary">Delete Routes</button> 
-        </Link>
-      </div>
-      <div style={{ textAlign: "center", backgroundColor: "GrayText" }}>
-        <h1>Viewall</h1>
-      </div>
+<Navbar className="bg-body-tertiary justify-content-between">
+        <Form
+          style={{ textAlign: "center",marginLeft:"25%" }}
+          inline
+        >
+          <h1>Viewall</h1>
+        </Form>
+        <Form inline>
+          <Row>
+            <Col xs="auto">
+              <Form.Control
+                type="text"
+                placeholder="Search"
+                className=" mr-sm-2"
+              />
+            </Col>
+            <Col xs="auto">
+              <Button type="submit">Submit</Button>
+            </Col>
+          </Row>
+        </Form>
+      </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div style={{display:"flex",justifyContent:"space-between",margin:"20px"}}>
-        <button className="btn btn-primary" onClick={prev}>prev</button> 
-        <button className="btn btn-primary" onClick={next} >next</button> 
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "20px",
+        }}
+      >
+        <button className="btn btn-primary" onClick={prev}>
+          prev
+        </button>
+        <Link to={"/Addroutes"}>
+          <button className="btn btn-primary">Add Routes</button>
+        </Link>
+        <button className="btn btn-primary" onClick={next}>
+          next
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -11,14 +11,15 @@ import { UpdateBusSchema } from "./UpdateBusSchema";
 
 export default function Updatebus() {
   const [id, setid] = useState(0);
-  const [plate_no, setplate_no] = useState("");
-
+  const location = useLocation();
+  const bus = location.state;
   const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
+  console.log(bus);
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/Update-Bus/1/")
+      .get(`http://127.0.0.1:8000/Update-Bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
       })

@@ -145,7 +145,7 @@ class Viewbus(APIView):  # function to list all bus of the bus owner
 
     def get(self, request, pageNo):
         queryset = Bus.objects.filter(status=0).values()
-        paginator = Paginator(queryset, 2)
+        paginator = Paginator(queryset, 3)
         try:
             Paginator.validate_number(paginator, pageNo)
             page = paginator.get_page(pageNo)
