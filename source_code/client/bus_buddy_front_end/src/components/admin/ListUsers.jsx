@@ -234,10 +234,10 @@ function ListUsers() {
   };
 
   return (
-    <Container>
+    <Container className="ms-2 mt-2">
       <Row>
         <Col>
-          <h1>List Users</h1>
+          <h1 className="ms-3">List Users</h1>
         </Col>
       </Row>
 
@@ -429,21 +429,28 @@ function ListUsers() {
         >
           <Pagination.First
             onClick={() => {
+              // move to first page
               getUsersbyPage(1);
             }}
           />
           <Pagination.Prev
+          // checks if data have previous page then move to previous page
             onClick={() => {
               hasPrevious && getUsersbyPage(currentPage - 1);
             }}
           />
-          {generatePaginator(totalPages)}
+          { // shows the page numbers
+          generatePaginator(totalPages)
+          }
           <Pagination.Next
+            // checks if data have next page then move to next page
             onClick={() => {
               hasNext && getUsersbyPage(currentPage + 1);
             }}
           />
-          <Pagination.Last onClick={() => getUsersbyPage(totalPages)} />
+          <Pagination.Last
+             // move to last  page
+           onClick={() => getUsersbyPage(totalPages)} />
         </Pagination>
       </Row>
     </Container>
