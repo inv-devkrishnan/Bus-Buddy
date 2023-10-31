@@ -5,7 +5,6 @@ import "./table.css";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -38,12 +37,18 @@ export default function Viewalltask() {
     return data.map((viewroutes) => (
       <div className="card" key={viewroutes.id}>
         <h2>Route ID: {viewroutes.id}</h2>
-        <p>Start Point: {viewroutes.start_point}</p>
-        <p>End Point: {viewroutes.end_point}</p>
-        <p>Via: {viewroutes.via}</p>
-        <p>Distance: {viewroutes.distance}</p>
-        <p>Duration: {viewroutes.duration}</p>
-        <p>Travel Fare: {viewroutes.travel_fare}</p>
+        <div style={{ display: "flex" }}>
+          <div>
+            <p>Start Point: {viewroutes.start_point}</p>
+            <p>End Point: {viewroutes.end_point}</p>
+            <p>Via: {viewroutes.via}</p>
+          </div>
+          <div style={{ marginLeft: "10%" }}>
+            <p>Distance: {viewroutes.distance}</p>
+            <p>Duration: {viewroutes.duration}</p>
+            <p>Travel Fare: {viewroutes.travel_fare}</p>
+          </div>
+        </div>
         <button
           className="btn btn-primary"
           onClick={() => deleted(viewroutes.id)}
@@ -59,11 +64,8 @@ export default function Viewalltask() {
 
   return (
     <div>
-<Navbar className="bg-body-tertiary justify-content-between">
-        <Form
-          style={{ textAlign: "center",marginLeft:"25%" }}
-          inline
-        >
+      <Navbar className="bg-body-tertiary justify-content-between">
+        <Form style={{ textAlign: "center", marginLeft: "25%" }} inline>
           <h1>Viewall</h1>
         </Form>
         <Form inline>

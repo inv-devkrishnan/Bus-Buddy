@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosApi } from "../../utils/axiosApi";
 import Card from "react-bootstrap/Card";
-import UpdateOwnerProfile from "./UpdateOwnerProfile";
 
 export default function Ownerprofile() {
   const [currentUserData, setCurrentUserData] = useState({});

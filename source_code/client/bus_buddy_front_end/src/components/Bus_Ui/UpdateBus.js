@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { UpdateBusSchema } from "./UpdateBusSchema";
 
 export default function Updatebus() {
-  const [id, setid] = useState(0);
+  let id=0;
   const location = useLocation();
   const bus = location.state;
   const navi = useNavigate();

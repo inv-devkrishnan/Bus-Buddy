@@ -48,16 +48,21 @@ class ViewBusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
         fields = "__all__"
+        
+class Locationdata(serializers.ModelField):
+    
+    class Meta:
+        model = LocationData;
+        fields = "__all__"
+    
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(required=False)
-    start_point = serializers.CharField(required=False)
-    end_point = serializers.CharField(required=False)
-
+    
     class Meta:
         model = Routes
         fields = "__all__"
+        depth=1
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):

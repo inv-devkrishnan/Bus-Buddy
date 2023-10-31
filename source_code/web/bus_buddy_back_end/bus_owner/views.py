@@ -3,38 +3,30 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny
-from account_manage.models import User
-from bus_owner.serializer import OwnerModelSerializer as OMS
-from bus_owner.serializer import OwnerDataSerializer as ODS
-
+from django.core.exceptions import ObjectDoesNotExist,ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAuthenticated
 from django.core.paginator import Paginator, Page
 from .models import Bus
 from .models import Routes
 from .models import Amenities
 from .models import Trip
-from .serializers import BusSerializer, ViewBusSerializer
-from .serializers import AmenitiesSerializer
+from account_manage.models import User
+from bus_owner.serializer import OwnerModelSerializer as OMS
+from bus_owner.serializer import OwnerDataSerializer as ODS
+from .serializers import BusSerializer, ViewBusSerializer,AmenitiesSerializer,TripSerializer
 from .serializers import (
     RoutesSerializer,
     StartStopLocationsSerializer,
     PickAndDropSerializer,
     ViewRoutesSerializer,
 )
-from .serializers import TripSerializer
 import logging
 
 logger = logging.getLogger(__name__)
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.exceptions import ValidationError
-from account_manage.models import User
-from rest_framework.generics import UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
-
 entry = "Invalid entry"
-
+dentry = "Deleted the record"
 
 class RegisterBusOwner(APIView):
     # permission_classes = (IsAuthenticated,)
@@ -110,7 +102,7 @@ class Deletebus(APIView):  # function to change the status to 99 to perform logi
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response("Deleted the record")
+            return Response(dentry)
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -145,12 +137,12 @@ class Updatebus(UpdateAPIView):  # function to update bus details by bus owner
 class Viewbus(APIView):  # function to list all bus of the bus owner
     # permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pageNo):
+    def get(self, request, pageno):
         queryset = Bus.objects.filter(status=0).values()
         paginator = Paginator(queryset, 3)
         try:
-            Paginator.validate_number(paginator, pageNo)
-            page = paginator.get_page(pageNo)
+            Paginator.validate_number(paginator, pageno)
+            page = paginator.get_page(pageno)
             serializer = ViewBusSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
@@ -228,14 +220,17 @@ class Addroutes(APIView):  # function to add new route from a bus owner
 
 
 class Viewroutes(APIView):  # function to list all routes added by the bus owner
+    """
+    function to list all routes added by the bus owner
+    """
     # permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pageNo):
+    def get(self, request, pageno):
         queryset = Routes.objects.filter(status=0).values()
         paginator = Paginator(queryset, 15)
         try:
-            Paginator.validate_number(paginator, pageNo)
-            page = paginator.get_page(pageNo)
+            Paginator.validate_number(paginator, pageno)
+            page = paginator.get_page(pageno)
             serializer = ViewRoutesSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
@@ -253,7 +248,7 @@ class Deleteroutes(
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response("Deleted the record")
+            return Response(dentry)
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -312,7 +307,7 @@ class Deletetrip(
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response("Deleted the record")
+            return Response(dentry)
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -320,12 +315,12 @@ class Deletetrip(
 class Viewtrip(APIView):  # function to list all Trips added by the bus owner
     # permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pageNo):
+    def get(self, request, pageno):
         queryset = Trip.objects.filter(status=0).values()
         paginator = Paginator(queryset, 15)
         try:
-            Paginator.validate_number(paginator, pageNo)
-            page = paginator.get_page(pageNo)
+            Paginator.validate_number(paginator, pageno)
+            page = paginator.get_page(pageno)
             serializer = TripSerializer(page, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:

@@ -12,7 +12,7 @@ export default function Viewalltask() {
   const [pageno, setpageno] = useState(1);
   const [data, setData] = useState([]);
   const navi = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
@@ -43,8 +43,21 @@ export default function Viewalltask() {
             <p>Plate No: {viewbus.plate_no}</p>
           </div>
           <div style={{ marginLeft: "10%" }}>
-            <p>Bus Type: {viewbus.bus_type}</p>
-            <p>Bus A/C: {viewbus.bus_ac}</p>
+            {viewbus.bus_type === 0 ? (
+              <p>Bus Type: Low Floor</p>
+            ) : viewbus.bus_type === 1 ? (
+              <p>Bus Type: Multi Axle</p>
+            ) : (
+              <p>Bus Type: Multi Axle Low Floor</p>
+            )}
+
+{viewbus.bus_ac === 0 ? (
+    <p>Bus A/C: A/C</p>
+  ) : viewbus.bus_ac === 1 ? (
+    <p>Bus A/C: Non A/C</p>
+  ) : (
+    <p>Bus A/C: Unknown</p>
+  )}
           </div>
         </div>
         <div
@@ -80,10 +93,7 @@ export default function Viewalltask() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form
-          style={{ textAlign: "center",marginLeft:"25%" }}
-          inline
-        >
+        <Form style={{ textAlign: "center", marginLeft: "25%" }} inline>
           <h1>Viewall</h1>
         </Form>
         <Form inline>

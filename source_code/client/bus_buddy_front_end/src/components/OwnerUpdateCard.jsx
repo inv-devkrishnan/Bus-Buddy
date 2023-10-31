@@ -33,7 +33,7 @@ export default function OwnerUpdateForm() {
 
   const onSubmit = () => {
     axiosApi
-      .put("bus-owner/update-profile/32", {
+      .put("bus-owner/update-profile/2", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
