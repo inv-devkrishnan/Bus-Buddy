@@ -30,6 +30,26 @@ function ListUsers() {
     getUsers();
   }, []);
 
+  const errorMessage = (error) => {
+    Swal.fire({
+      title: "Something went wrong !",
+      icon: "error",
+      text: getErrorMessage(error?.response?.data?.error_code),
+    });
+  };
+
+  const showDialog = (dialogData) => {
+    return Swal.fire({
+      title: dialogData.title,
+      text: dialogData.text,
+      icon: dialogData.icon,
+      confirmButtonText: dialogData.confirmButtonText,
+      confirmButtonColor: dialogData.confirmButtonColor,
+      showCancelButton: dialogData.showCancelButton,
+      cancelButtonText: dialogData.cancelButtonText,
+    });
+  };
+
   const getUsers = async (url) => {
     // url is provided for search,sort,and view by status if no url is provided all users is displayed
     if (url) {
@@ -100,7 +120,7 @@ function ListUsers() {
     // this function performs baning of user
 
     //shows dialog
-    const ban_dialog = Swal.fire({
+    const banDialogdata = {
       title: "Ban User",
       text: "Are you sure you want to ban this user",
       icon: "warning",
@@ -108,9 +128,10 @@ function ListUsers() {
       confirmButtonColor: "#f0ad4e",
       showCancelButton: true,
       cancelButtonText: "Cancel",
-    });
+    };
+
     // if dialog is confirmed
-    if ((await ban_dialog).isConfirmed) {
+    if ((await showDialog(banDialogdata)).isConfirmed) {
       await axiosApi
         .put(`adminstrator/ban-user/${user_id}/`)
         .then((result) => {
@@ -124,11 +145,7 @@ function ListUsers() {
           setSearchMode(false);
         })
         .catch(function (error) {
-          Swal.fire({
-            title: "Something went wrong !",
-            icon: "error",
-            text: getErrorMessage(error?.response?.data?.error_code),
-          });
+          errorMessage(error);
         });
     }
   };
@@ -137,17 +154,18 @@ function ListUsers() {
     // this function performs unbaning of user
 
     //shows dialog
-    const ban_dialog = Swal.fire({
+    const unBanUserDialog = {
       title: "UnBan User",
-      text: "Are you sure you want to ban this user",
+      text: "Are you sure you want to unban this user",
       icon: "warning",
       confirmButtonText: "UnBan user",
       confirmButtonColor: "#5cb85c",
       showCancelButton: true,
       cancelButtonText: "Cancel",
-    });
+    };
+
     // if confirmed
-    if ((await ban_dialog).isConfirmed) {
+    if ((await showDialog(unBanUserDialog)).isConfirmed) {
       await axiosApi
         .put(`adminstrator/unban-user/${user_id}/`)
         .then((result) => {
@@ -160,11 +178,7 @@ function ListUsers() {
           setSearchMode(false);
         })
         .catch(function (error) {
-          Swal.fire({
-            title: "Something went wrong !",
-            icon: "error",
-            text: getErrorMessage(error?.response?.data?.error_code),
-          });
+          errorMessage(error);
         });
     }
   };
@@ -173,7 +187,7 @@ function ListUsers() {
     // this function performs removal of user
 
     // shows dialog
-    const ban_dialog = Swal.fire({
+    const removeUserDialog = {
       title: "Remove User",
       text: "Are you sure you want to remove this user",
       icon: "warning",
@@ -181,9 +195,9 @@ function ListUsers() {
       confirmButtonColor: "#d9534f",
       showCancelButton: true,
       cancelButtonText: "Cancel",
-    });
+    };
     // if confirmed
-    if ((await ban_dialog).isConfirmed) {
+    if ((await showDialog(removeUserDialog)).isConfirmed) {
       await axiosApi
         .put(`adminstrator/remove-user/${user_id}/`)
         .then((result) => {
@@ -205,11 +219,7 @@ function ListUsers() {
           }
         })
         .catch(function (error) {
-          Swal.fire({
-            title: "Something went wrong !",
-            icon: "error",
-            text: getErrorMessage(error?.response?.data?.error_code),
-          });
+          errorMessage(error);
         });
     }
   };
