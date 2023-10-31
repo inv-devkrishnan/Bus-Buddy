@@ -146,3 +146,41 @@ class ListUsersTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+
+
+class BanUserTest(BaseTest):
+    def test_01_can_ban_user(self):
+        self.user = User.objects.create_user(
+            email="dummy1@gmail.com", password="12345678", account_provider=0, role=1
+        )
+        ban_user_url = reverse("ban_user", kwargs={"user_id": 1})
+
+        response = self.client.put(
+            ban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_ban_invalid_user(self):
+        self.user = User.objects.create_user(
+            email="dummy2@gmail.com", password="12345678", account_provider=0, role=1
+        )
+        ban_user_url = reverse("ban_user", kwargs={"user_id": 100})
+
+        response = self.client.put(
+            ban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_03_can_unban_user(self):
+        self.user = User.objects.create_user(
+            email="dummy3@gmail.com", password="12345678", account_provider=0, role=1
+        )
+        unban_user_url = reverse("unban_user", kwargs={"user_id": 6})
+
+        response = self.client.put(
+            unban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)

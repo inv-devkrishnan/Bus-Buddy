@@ -20,7 +20,7 @@ def update_status(self, user_id, status):
             return Response({"success_code": "D2005"})
 
     except User.DoesNotExist:
-        return Response({"error_code": "D1001"})
+        return Response({"error_code": "D1001"},status=400)
 
 
 class AdminProfileUpdation(UpdateAPIView):
