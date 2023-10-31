@@ -19,7 +19,7 @@ export default function Updatebus() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/Update-Bus/${bus}/`)
+      .get(`http://127.0.0.1:8000/bus-owner/Update-Bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
       })

@@ -33,7 +33,7 @@ export default function Addamenities() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/Add-Amenities/', {
+      const response = await axios.post('http://localhost:8000/bus-owner/Add-Amenities/', {
         bus: bus,
         ...formState,
       });

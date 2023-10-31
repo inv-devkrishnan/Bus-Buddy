@@ -14,6 +14,7 @@ from django.core.paginator import Paginator, Page
 from .models import Bus
 from .models import Routes
 from .models import Amenities
+from .models import Trip
 from .serializers import BusSerializer, ViewBusSerializer
 from .serializers import AmenitiesSerializer
 from .serializers import (
@@ -22,6 +23,7 @@ from .serializers import (
     PickAndDropSerializer,
     ViewRoutesSerializer,
 )
+from .serializers import TripSerializer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -254,4 +256,77 @@ class Deleteroutes(
             return Response("Deleted the record")
         except ObjectDoesNotExist:
             logger.info(entry)
+            return Response(status=404)
+
+class Addtrip(APIView):  # Function to add new trip from bus owner
+    # permission_classes = (IsAuthenticated,)
+    serializer = None
+
+    def post(self, request):
+        try:
+            serializer = TripSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                logger.info("Inserted")
+                return Response({"message": "Inserted", "trip": serializer.data["id"]})
+            else:
+                return Response(serializer.errors, status=400)
+        except ValidationError:
+            logger.info(entry)
+            return Response(entry, status=400)
+        
+class Updatetrip(UpdateAPIView):  # function to update trip details by bus owner
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = TripSerializer
+    def get(self, request, id):
+        try:
+            bus = Trip.objects.get(id=id)
+        except Trip.DoesNotExist:
+            return Response(status=404)
+        serialized_data = TripSerializer(bus)
+        return Response(serialized_data.data)
+
+    def put(self, request, id):
+        try:
+            instance = Trip.objects.get(id=id)
+            serializer = TripSerializer(instance, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                logger.info("updated")
+                print("i")
+                return Response("Updated", 200, serializer.data)
+            else:
+                return Response(serializer.errors, status=400)
+        except ObjectDoesNotExist:
+            return Response("Invalid Bus id", status=400)
+        
+
+class Deletetrip(
+    APIView
+):  # function to change status of the trip to 99 to perform logical deletion
+    # permission_classes = (IsAuthenticated,)
+
+    def put(self, request, id):
+        try:
+            data = Trip.objects.get(id=id)
+            data.status = 99
+            data.save()
+            logger.info("Deleted")
+            return Response("Deleted the record")
+        except ObjectDoesNotExist:
+            logger.info(entry)
+            return Response(status=404)
+
+class Viewtrip(APIView):  # function to list all Trips added by the bus owner
+    # permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pageNo):
+        queryset = Trip.objects.filter(status=0).values()
+        paginator = Paginator(queryset, 15)
+        try:
+            Paginator.validate_number(paginator, pageNo)
+            page = paginator.get_page(pageNo)
+            serializer = TripSerializer(page, many=True)
+            return Response(serializer.data)
+        except ObjectDoesNotExist:
             return Response(status=404)

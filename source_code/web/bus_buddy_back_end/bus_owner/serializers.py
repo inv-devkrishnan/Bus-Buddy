@@ -1,7 +1,10 @@
 import re
 from rest_framework import serializers
 from .models import Bus, Routes, Amenities, PickAndDrop, StartStopLocations,LocationData
-
+from .models import User
+from .models import Trip
+from .models import Bus  
+from .models import Routes  
 from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
@@ -172,3 +175,13 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
+        
+
+class TripSerializer(serializers.ModelSerializer):
+    bus = serializers.PrimaryKeyRelatedField(queryset=Bus.objects.all())
+    route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    class Meta:
+        model = Trip
+        fields = "__all__"

@@ -23,7 +23,7 @@ export default function Delete() {
     }
 
     axios
-      .put(`http://127.0.0.1:8000/Delete-Bus/${bus}/`)
+      .put(`http://127.0.0.1:8000/bus-owner/Delete-Bus/${bus}/`)
       .then((response) => {
         console.log("user:", user);
 

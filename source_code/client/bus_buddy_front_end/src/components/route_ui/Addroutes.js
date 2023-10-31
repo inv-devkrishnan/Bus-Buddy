@@ -28,7 +28,7 @@ export default function Addbus() {
         }
         try {
           // Send a POST request to add the task
-          const response = await axios.post("http://localhost:8000/addroutes/", {
+          const response = await axios.post("http://localhost:8000/bus-owner/addroutes/", {
             user:user,
             start_point: start_point,
             end_point:end_point,

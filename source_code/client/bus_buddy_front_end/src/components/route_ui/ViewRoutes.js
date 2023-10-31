@@ -17,7 +17,7 @@ export default function Viewalltask() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:8000/View-Routes/${pageno}/`
+        `http://localhost:8000/bus-owner/View-Routes/${pageno}/`
       );
       setData(response.data);
     };

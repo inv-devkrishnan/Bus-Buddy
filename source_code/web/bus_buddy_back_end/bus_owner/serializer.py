@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import User
+
+from .models import User 
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
@@ -95,6 +96,7 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
+
 
   
 

@@ -1627,3 +1627,104 @@ Traceback (most recent call last):
   File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 552, in _assert_mutable
     raise AttributeError("This QueryDict instance is immutable")
 AttributeError: This QueryDict instance is immutable
+django.request ERROR 2023-10-31 07:11:16,081 log 44819 140556983330368 Internal Server Error: /bus-owner/Update-trip/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+TypeError: Updatetrip.get() missing 1 required positional argument: 'id'
+django.request ERROR 2023-10-31 07:11:46,717 log 44916 140103913567808 Internal Server Error: /bus-owner/Update-trip/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+AttributeError: 'Trip' object has no attribute 'bus_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 287, in get
+    return Response(serialized_data.data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `bus_name` on serializer `BusSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `Trip` instance.
+Original exception text was: 'Trip' object has no attribute 'bus_name'.
+django.request ERROR 2023-10-31 07:12:21,223 log 44986 139834501883456 Internal Server Error: /bus-owner/Update-trip/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatetrip' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.
+django.request ERROR 2023-10-31 07:15:01,677 log 44986 139834501883456 Internal Server Error: /bus-owner/Update-trip/1/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 723, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 655, in get_context
+    raw_data_put_form = self.get_raw_data_form(data, view, 'PUT', request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 551, in get_raw_data_form
+    serializer = view.get_serializer(instance=instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 108, in get_serializer
+    serializer_class = self.get_serializer_class()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 122, in get_serializer_class
+    assert self.serializer_class is not None, (
+AssertionError: 'Updatetrip' should either include a `serializer_class` attribute, or override the `get_serializer_class()` method.

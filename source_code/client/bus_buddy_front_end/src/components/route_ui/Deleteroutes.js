@@ -21,7 +21,7 @@ export default function Delete() {
       alert("Id cannot be empty");
     }
     axios
-      .put(`http://127.0.0.1:8000/deletebus/${bus}/`)
+      .put(`http://127.0.0.1:8000/bus-owner/deletebus/${bus}/`)
       .then((response) => {
         console.log("user:", user);
 

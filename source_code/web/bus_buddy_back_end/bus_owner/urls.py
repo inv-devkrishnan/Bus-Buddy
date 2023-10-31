@@ -12,4 +12,8 @@ urlpatterns = [
     path('Add-Routes/',views.Addroutes.as_view(),name="Add-Routes"),
     path('View-Routes/<int:pageNo>/',views.Viewroutes.as_view(),name="View-Routes"),
     path('Delete-Routes/<int:id>/',views.Deleteroutes.as_view(),name="Delete-Routes"),
+    path('Add-trip/',views.Addtrip.as_view(),name="Add-trip"),
+    path('Update-trip/<int:id>/',views.Updatetrip.as_view(),name="Update-trip"),
+    path('Delete-trip/<int:id>/',views.Deletetrip.as_view(),name="Delete-trip"),
+    path('View-trip/<int:pageNo>/',views.Viewtrip.as_view(),name="View-trip"),
 ]
