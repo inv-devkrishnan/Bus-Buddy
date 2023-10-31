@@ -1,14 +1,17 @@
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 import { useLogout } from "../../utils/hooks/useLogout";
 import "./UserSideBar.css";
 import ListGroup from "react-bootstrap/ListGroup";
 
 function UserSideBar(props) {
-  const logout = useLogout()
+  const { userName } = useContext(UserContext);
+  const logout = useLogout();
 
   return (
     <div className="sidebar">
       <div className="header">
-        <h2 className="text-light text-center pt-3">User Name</h2>
+        <h2 className="text-light text-center pt-3">{userName}</h2>
       </div>
       <ListGroup>
         <ListGroup.Item>
@@ -20,7 +23,7 @@ function UserSideBar(props) {
             }
             onClick={props.myProfileSelected}
           >
-           My Profile
+            My Profile
           </p>
         </ListGroup.Item>
         <ListGroup.Item>
@@ -36,13 +39,17 @@ function UserSideBar(props) {
           </p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p className="text-danger" onClick={logout}>Log Out</p>
+          <p className="text-danger" onClick={logout}>
+            Log Out
+          </p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p className="text-danger" onClick={props.deleteSelected}>Delete Account</p>
+          <p className="text-danger" onClick={props.deleteSelected}>
+            Delete Account
+          </p>
         </ListGroup.Item>
       </ListGroup>
-    </div>
+      </div>
   );
 }
 export default UserSideBar;

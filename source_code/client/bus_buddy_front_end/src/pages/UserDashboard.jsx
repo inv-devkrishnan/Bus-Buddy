@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import UserSideBar from "../components/User/UserSideBar";
 import DeleteAccount from "../pages/DeleteAccount";
 import UserProfilePage from "./UserProfilePage";
+import UserBookingHistory from "./UserBookingHistory";
+import { UserContext } from "../components/User/UserContext";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
-
-  const [myProfileSelect, setMyProfileSelect] = useState(false);
+  const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myTripSelect, setMyTripSelect] = useState(false);
   const [deleteSelect, setDeleteSelect] = useState(false);
+  const [userName, setUserName] = useState("");
+  const contextValue = useMemo(
+    () => ({ userName, setUserName }),
+    [userName, setUserName]
+  );
 
   const myProfileSelected = () => {
     setMyProfileSelect(true);
@@ -39,22 +45,29 @@ export default function UserDashboard() {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, [navigate,authStatus]);
+  }, [navigate, authStatus]);
 
   return (
     <div className="d-flex">
-        <UserSideBar
-          myProfileSelected={myProfileSelected}
-          myProfileSelect={myProfileSelect}
-          myTripSelected={myTripSelected}
-          myTripSelect={myTripSelect}
-          deleteSelected={deleteSelected}
-          deleteSelect={deleteSelect}
-        />
-      <div className="p-2">
-        {myProfileSelect && <UserProfilePage/>}
-        {myTripSelect && <h1>List User Page</h1>}
-        {deleteSelect && <DeleteAccount />}
+      <div>
+        <UserContext.Provider value={contextValue}>
+          <UserSideBar
+            myProfileSelected={myProfileSelected}
+            myProfileSelect={myProfileSelect}
+            myTripSelected={myTripSelected}
+            myTripSelect={myTripSelect}
+            deleteSelected={deleteSelected}
+            deleteSelect={deleteSelect}
+            userName={userName}
+          />
+        </UserContext.Provider>
+      </div>
+      <div className="p-2 flex-fill bd-highlight">
+        <UserContext.Provider value={contextValue}>
+          {myProfileSelect && <UserProfilePage />}
+          {myTripSelect && <UserBookingHistory />}
+          {deleteSelect && <DeleteAccount />}
+        </UserContext.Provider>
       </div>
     </div>
   );

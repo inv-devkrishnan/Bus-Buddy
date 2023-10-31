@@ -1,8 +1,8 @@
-from rest_framework import serializers
-from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
-
+from rest_framework import serializers
+from .models import User
+from .models import Bookings
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -13,9 +13,13 @@ error_message_phone_exist = "Phone number is already registered"
 
 
 class UserModelSerializer(serializers.ModelSerializer):
+    """
+    For viewing the user details
+    """
+
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ("first_name", "last_name", "email", "password", "phone")
 
     first_name = serializers.CharField(
         max_length=100,
@@ -65,15 +69,28 @@ class UserModelSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    
+
     # password encryption
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
-    
-
 
 
 class UserDataSerializer(serializers.ModelSerializer):
+    """
+    For viewing the user details
+    """
+
     class Meta:
         model = User
-        fields = ("first_name","last_name","email","phone")
+        fields = ("first_name", "last_name", "email", "phone")
+
+
+class BookingHistoryDataSerializer(serializers.ModelSerializer):
+    """
+    For viewing user's booking history
+    """
+
+    class Meta:
+        model = Bookings
+        fields = "__all__"
+        depth = 2

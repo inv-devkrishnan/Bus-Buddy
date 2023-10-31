@@ -2,7 +2,7 @@ from django.urls import path
 from bus_owner import views
 urlpatterns = [
     path('registration/', views.RegisterBusOwner.as_view(), name="register-bus-owner"),
-    path('update-profile/<int:id>',views.UpdateBusOwner.as_view(), name="update-profile-owner"),
+    path('update-profile/',views.UpdateBusOwner.as_view(), name="update-profile-owner"),
     path('Add-Bus/',views.Addbus.as_view(),name="Add-Bus"),
     path('Update-Bus/<int:id>/',views.Updatebus.as_view(),name="Update-Bus"),
     path('Delete-Bus/<int:id>/',views.Deletebus.as_view(),name="Delete-Bus"),

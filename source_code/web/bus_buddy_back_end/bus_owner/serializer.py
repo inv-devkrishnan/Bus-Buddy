@@ -12,9 +12,22 @@ error_message_phone_exist = "Phone number is already registered"
 
 
 class OwnerModelSerializer(serializers.ModelSerializer):
+    """
+    For registering a bus owner
+    """
     class Meta:
         model = User
-        fields = "__all__"
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "password",
+            "phone",
+            "company_name",
+            "aadhaar_no",
+            "msme_no",
+            "extra_charges"
+        )
 
     first_name = serializers.CharField(
         max_length=100,
@@ -59,7 +72,8 @@ class OwnerModelSerializer(serializers.ModelSerializer):
                 queryset=User.objects.all(), message=error_message_phone_exist
             ),
             UniqueValidator(
-                queryset=User.objects.all(), message="Phone number is already registered"
+                queryset=User.objects.all(),
+                message="Phone number is already registered",
             ),
         ],
     )
@@ -88,13 +102,16 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
-
+    
+    # password encryption
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
 
 
 class OwnerDataSerializer(serializers.ModelSerializer):
+    """
+    For viewing the bus owner details
+    """
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
-
-  
-

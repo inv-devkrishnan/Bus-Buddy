@@ -9,26 +9,6 @@ import { axiosApi } from "../../utils/axiosApi";
 
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
-  useEffect(() => {
-    axiosApi
-      .get("user/update-profile")
-      .then((res) => {
-        setCurrentUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert("User does not exist!!");
-      });
-  }, []);
-
-  useEffect(() => {
-    formik.setValues({
-      firstName: currentUserData["first_name"],
-      lastName: currentUserData["last_name"],
-      email: currentUserData["email"],
-      phone: currentUserData["phone"],
-    });
-  }, [currentUserData]);
 
   const onSubmit = () => {
     axiosApi
@@ -54,7 +34,6 @@ export default function UpdateForm() {
         });
       });
   };
-
   const formik = useFormik({
     initialValues: {
       firstName: currentUserData["first_name"],
@@ -70,6 +49,33 @@ export default function UpdateForm() {
   const handleClear = () => {
     resetForm();
   };
+
+  useEffect(() => {
+    axiosApi
+      .get("user/update-profile")
+      .then((res) => {
+        setCurrentUserData(res.data);
+        formik.setValues({
+          firstName: currentUserData["first_name"],
+          lastName: currentUserData["last_name"],
+          email: currentUserData["email"],
+          phone: currentUserData["phone"],
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        alert("User does not exist!!");
+      });
+  }, []);
+
+  useEffect(() => {
+    formik.setValues({
+      firstName: currentUserData["first_name"],
+      lastName: currentUserData["last_name"],
+      email: currentUserData["email"],
+      phone: currentUserData["phone"],
+    });
+  }, [currentUserData]);
 
   return (
     <>
