@@ -2,6 +2,7 @@ from django.db.models import Q
 from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from .permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
@@ -11,6 +12,7 @@ from .pagination import CustomPagination
 
 
 def update_status(self, user_id, status):
+    # updates the status of the given user with the given status
     try:
         instance = User.objects.get(id=user_id)
         new_data = {"status": status}
@@ -20,11 +22,29 @@ def update_status(self, user_id, status):
             return Response({"success_code": "D2005"})
 
     except User.DoesNotExist:
-        return Response({"error_code": "D1001"},status=400)
+        return Response({"error_code": "D1001"}, status=400)
 
 
 class AdminProfileUpdation(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
+
+    def error_handling(self, email_error, phone_error):
+        if (
+            phone_error
+        ):  # if phone error is number already exists send different error code
+            if phone_error[0] == "D1008":
+                return Response({"error_code": phone_error[0]}, 400)
+            else:
+                return Response({"error_code": "D1002"}, 400)
+        if (
+            email_error
+        ):  # if email error is email already exists send different error code
+            if email_error[0] == "D1007":
+                return Response({"error_code": email_error[0]}, 400)
+            else:
+                return Response({"error_code": "D1002"}, 400)
+        else:
+            return Response({"error_code": "D1002"}, 400)
 
     def get(self, request):
         #  gets the current user profile information
@@ -36,34 +56,23 @@ class AdminProfileUpdation(UpdateAPIView):
             return Response({"error_code": "D1001"}, 400)
 
     def update(self, request):
-        instance = User.objects.get(id=request.user.id)
-        current_data = request.data
-        serializer = AUS(instance, data=current_data, partial=True)
-        if serializer.is_valid():
-            self.perform_update(serializer)
+        try:
+            instance = User.objects.get(id=request.user.id)
+            current_data = request.data
+            serializer = AUS(instance, data=current_data, partial=True)
+            if serializer.is_valid():
+                self.perform_update(serializer)
 
-            return Response({"success_code": "D2002"})
-        else:
-            # error handling
-            email_error = serializer._errors.get("email")  # gets email error
-            phone_error = serializer._errors.get("phone")  # gets phone error
-
-            if (
-                phone_error
-            ):  # if phone error is number already exists send different error code
-                if phone_error[0] == "D1008":
-                    return Response({"error_code": phone_error[0]}, 400)
-                else:
-                    return Response({"error_code": "D1002"}, 400)
-            if (
-                email_error
-            ):  # if email error is email already exists send different error code
-                if email_error[0] == "D1007":
-                    return Response({"error_code": email_error[0]}, 400)
-                else:
-                    return Response({"error_code": "D1002"}, 400)
+                return Response({"success_code": "D2002"})
             else:
-                return Response({"error_code": "D1002"}, 400)
+                # error handling
+                email_error = serializer._errors.get("email")  # gets email error
+                phone_error = serializer._errors.get("phone")  # gets phone error
+                return self.error_handling(
+                    email_error=email_error, phone_error=phone_error
+                )
+        except User.DoesNotExist:
+            return Response({"error_code": "D1001"}, status=400)
 
     def put(self, request):
         return self.update(request)
@@ -75,7 +84,8 @@ class ListUsers(APIView, CustomPagination):
     def search_user(self, keyword):
         # function to search user by their first_name
         users = User.objects.filter(
-            ~Q(role=1),~Q(status=99),
+            ~Q(role=1),
+            ~Q(status=99),
             first_name__icontains=keyword,
         ).order_by("created_date")
         return users
@@ -131,9 +141,10 @@ class ListUsers(APIView, CustomPagination):
             {
                 "users": serialized_data.data,
                 "pages": self.page.paginator.num_pages,
-                "current_page":self.page.number,
+                "current_page": self.page.number,
                 "has_previous": self.page.has_previous(),
-                "has_next":self.page.has_next()
+                "has_next": self.page.has_next(),
+                "total_count": self.page.paginator.count,
             }
         )
 

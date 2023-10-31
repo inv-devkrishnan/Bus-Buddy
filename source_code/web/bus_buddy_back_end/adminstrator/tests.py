@@ -18,6 +18,10 @@ class BaseTest(TestCase):
         # url
         self.admin_profile_update_url = reverse("update_profile")
         self.admin_list_user_url = reverse("list_users")
+        self.admin_list_user_asc = f"{reverse('list_users')}?order=0"
+        self.admin_list_user_desc = f"{reverse('list_users')}?order=1"
+        self.admin_list_ban_users = f"{reverse('list_users')}?status=2"
+        self.admin_list_unban_users = f"{reverse('list_users')}?status=0"
 
         # data
         self.valid_update_data = {
@@ -147,6 +151,34 @@ class ListUsersTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_02_can_list_users_asc(self):
+        response = self.client.get(
+            self.admin_list_user_asc,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_03_can_list_users_desc(self):
+        response = self.client.get(
+            self.admin_list_user_desc,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_can_list_ban_users(self):
+        response = self.client.get(
+            self.admin_list_ban_users,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_05_can_list_unban_users(self):
+        response = self.client.get(
+            self.admin_list_unban_users,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 class BanUserTest(BaseTest):
     def test_01_can_ban_user(self):
@@ -178,6 +210,18 @@ class BanUserTest(BaseTest):
             email="dummy3@gmail.com", password="12345678", account_provider=0, role=1
         )
         unban_user_url = reverse("unban_user", kwargs={"user_id": 6})
+
+        response = self.client.put(
+            unban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_can_remove_user(self):
+        self.user = User.objects.create_user(
+            email="dummy4@gmail.com", password="12345678", account_provider=0, role=1
+        )
+        unban_user_url = reverse("remove_user", kwargs={"user_id": 7})
 
         response = self.client.put(
             unban_user_url,
