@@ -31,6 +31,7 @@ class Amenities(models.Model):
     snacks = models.SmallIntegerField(default=0)
     tour_guide = models.SmallIntegerField(default=0)
     cctv = models.SmallIntegerField(default=0)
+    status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -45,6 +46,7 @@ class SeatDetails(models.Model):
     seat_type = models.SmallIntegerField(default=0)
     deck = models.SmallIntegerField(default=0)
     seat_cost = models.DecimalField(max_digits=10, decimal_places=3)
+    status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -63,11 +65,15 @@ class LocationData(models.Model):
 
 class Routes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_point = models.ForeignKey(LocationData,on_delete=models.CASCADE,related_name='start_point')
-    end_point = models.ForeignKey(LocationData,on_delete=models.CASCADE,related_name='end_point' )
+    start_point = models.ForeignKey(
+        LocationData, on_delete=models.CASCADE, related_name="start_point"
+    )
+    end_point = models.ForeignKey(
+        LocationData, on_delete=models.CASCADE, related_name="end_point"
+    )
     via = models.CharField(max_length=255, null=False)
     distance = models.DecimalField(max_digits=10, decimal_places=3)
-    duration = models.DecimalField(max_digits=10,decimal_places=3)
+    duration = models.DecimalField(max_digits=10, decimal_places=3)
     travel_fare = models.DecimalField(max_digits=10, decimal_places=3)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -84,6 +90,7 @@ class StartStopLocations(models.Model):
     arrival_date_offset = models.IntegerField(default=0)
     departure_time = models.TimeField(null=False)
     departure_date_offset = models.IntegerField(default=0)
+    status = models.SmallIntegerField(default=0)
     route = models.ForeignKey(Routes, on_delete=models.CASCADE)
 
     class Meta:
@@ -117,13 +124,14 @@ class Trip(models.Model):
     class Meta:
         db_table = "trip"
 
+
 class BusLayout(models.Model):
-    name = models.CharField(max_length=100,null=False)
-    bus = models.ForeignKey(Bus,on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False)
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
     type = models.SmallIntegerField(null=False)
+    status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_date = models.DateTimeField(auto_now=True, null=False)
-    
+
     class Meta:
         db_table = "bus_layout"
-            
