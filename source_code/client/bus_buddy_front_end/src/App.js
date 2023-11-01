@@ -12,11 +12,17 @@ import Addroutes from './components/route_ui/Addroutes';
 import Deleteroutes from './components/route_ui/Deleteroutes';
 import ViewRoutes from './components/route_ui/ViewRoutes';
 import LoginPage from "./pages/LoginPage";
+
 import DeleteAccountPage from "./pages/DeleteAccount";
+
 import ChangePassword from "./pages/ChangePassword";
+
 import RegisterUser from "./pages/RegisterUser";
+
 import RegisterOwner from "./pages/RegisterOwner";
+
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
+
 import UpdateForm from "./components/UpdateFormCard";
 import UpdateOwnerProfile from './components/Bus_Ui/UpdateOwnerProfile';
 
@@ -49,4 +55,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

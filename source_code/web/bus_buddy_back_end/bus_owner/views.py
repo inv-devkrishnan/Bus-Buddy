@@ -238,7 +238,7 @@ class Viewroutes(APIView):  # function to list all routes added by the bus owner
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
-
+                    
 
 class Deleteroutes(
     APIView
@@ -247,10 +247,10 @@ class Deleteroutes(
 
     def put(self, request, id):
         try:
-            data = Routes.objects.get(id=id)
-            data.status = 99
+            data=Routes.objects.get(id=id)
+            data.status=99
             data.save()
-            logger.info("Deleted")
+            logger.info ("Deleted")
             return Response("Deleted the record")
         except ObjectDoesNotExist:
             logger.info(entry)
