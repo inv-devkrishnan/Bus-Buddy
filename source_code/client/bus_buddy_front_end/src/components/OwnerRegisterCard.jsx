@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 export default function OwnerRegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
     axiosApi
@@ -38,24 +39,18 @@ export default function OwnerRegisterCard() {
       .catch((err) => {
         console.log(err.response);
         if (err.response.data.email && err.response.data.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone is already registered",
-          });
+          setSwalText("Email and phone is already registered");
         } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
+          setSwalText(err.response.data.email);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
+          setSwalText(err.response.data.phone);
         }
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: swalText,
+        });
       });
   };
 
