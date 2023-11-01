@@ -58,7 +58,7 @@ class Locationdata(serializers.ModelSerializer):
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
-    user_id=serializers.CharField(source='bu')
+    # user_id=serializers.CharField(source='bu')
     start_point_name = serializers.CharField(source='start_point.location_name', read_only=True)
     end_point_name = serializers.CharField(source='end_point.location_name', read_only=True)
     class Meta:

@@ -250,7 +250,7 @@ class Viewroutes(ListAPIView):
     def list(self, request):
         try:
             # user_id = request.user.id
-            queryset = Routes.objects.all()
+            queryset = Routes.objects.filter(status=0).values()
             # serializer = ViewRoutesSerializer(queryset)
             # page = self.paginate_queryset(queryset)
 
