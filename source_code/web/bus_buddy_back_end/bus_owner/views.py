@@ -9,7 +9,7 @@ from bus_owner.serializer import OwnerDataSerializer as ODS
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAuthenticated
 from django.core.paginator import Paginator, Page
 from .models import Bus
 from .models import Routes
@@ -203,11 +203,13 @@ class Updateamenities(APIView):
 
 
 class Addroutes(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        request_data = request.data.copy()
+        request_data["user"] = request.user.id
         try:
-            serializer = RoutesSerializer(data=request.data)
+            serializer = RoutesSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 routes_id = serializer.data.get("id")

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function ViewAllRoutes() {
   const [routes, setroutes] = useState([]);
   const getAllRoute = async () => {
-    axios.get("routeData.json").then((result) => {
+    axios.get("http://127.0.0.1:8000/bus-owner/View-Routes/1/").then((result) => {
       setroutes(result.data);
     });
   };

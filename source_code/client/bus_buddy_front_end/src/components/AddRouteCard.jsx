@@ -9,6 +9,7 @@ import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
 import { Container, Row, Col } from "react-bootstrap";
+import { axiosApi } from "../utils/axiosApi";
 
 export default function AddRouteCard() {
   const [locations, setLocations] = useState([]);
@@ -66,14 +67,14 @@ export default function AddRouteCard() {
     localStorage.setItem("stopLocationList", JSON.stringify(stoplocationArray));
   };
 
-  const addRoute = () => {
+  const addRoute = async () => {
     // can only add Route if it has two locations (start,end)
     if (stopLocations.length >= 2) {
       // removes auto save
       localStorage.removeItem("stopLocationList");
       localStorage.removeItem("locationStop");
 
-      const routeData = {
+      const routeData ={
         start_point: stopLocations[0].location,
         end_point: stopLocations[stopLocations.length - 1].location,
         via: document.getElementById("via").value,
@@ -83,6 +84,7 @@ export default function AddRouteCard() {
         status: 0,
         location: stopLocations,
       };
+      await axiosApi.post("http://127.0.0.1:8000/bus-owner/Add-Routes/",routeData)
       console.log(routeData);
       setErrorMessage("");
     } else {

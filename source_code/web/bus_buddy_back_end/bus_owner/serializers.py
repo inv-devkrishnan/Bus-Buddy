@@ -38,8 +38,8 @@ class ViewBusSerializer(serializers.ModelSerializer):
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
     user = serializers.CharField(required=False)
-    start_point = serializers.CharField(required=False)
-    end_point = serializers.CharField(required=False)
+    # start_point = serializers.CharField(required=False)
+    # end_point = serializers.CharField(required=False)
     class Meta:
         model = Routes
         fields = '__all__'
