@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardText from "react-bootstrap/esm/CardText";
 import { Image } from "react-bootstrap";
 
-import { axiosApi } from "../utils/axiosApi";
-import UpdateImage from "../assets/update.jpg";
-import ChangePassword from "../pages/ChangePassword";
-import UpdateFormCard from "../components/User/UpdateFormCard";
-import { UserContext } from "../components/User/UserContext";
+import { axiosApi } from "../../utils/axiosApi";
+import UpdateImage from "../../assets/update.jpg";
+import ChangePassword from "../../pages/ChangePassword";
+import UpdateFormCard from "./UpdateFormCard";
 
-export default function UserProfilePage() {
-  const {setUserName} = useContext(UserContext)
+export default function UserProfilePage(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
 
   const [myProfileView, setmyProfileView] = useState(true);
@@ -44,15 +42,19 @@ export default function UserProfilePage() {
       .get("user/update-profile")
       .then((res) => {
         setCurrentUserData(res.data);
-        setUserName(currentUserData["first_name"])
         if (localStorage.getItem("account_provider") === "1") {
           setGoogleUser(true);
         }
+        props.setUserName(
+          `${
+            currentUserData["first_name"] + " " + currentUserData["last_name"]
+          }`
+        );
       })
       .catch((err) => {
         console.log(err.reponse);
       });
-  }, []);
+  }, [props]);
 
   return (
     <>

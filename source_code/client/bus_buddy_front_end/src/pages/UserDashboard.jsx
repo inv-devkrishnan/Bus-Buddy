@@ -2,10 +2,10 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuthStatus } from "../utils/hooks/useAuth";
-import UserSideBar from "../components/User/UserSideBar";
+import SideBar from "../components/common/SideBar";
 import DeleteAccount from "../pages/DeleteAccount";
-import UserProfilePage from "./UserProfilePage";
-import UserBookingHistory from "./UserBookingHistory";
+import UserProfilePage from "../components/User/UserProfilePage";
+import UserBookingHistory from "../components/User/UserBookingHistory";
 import { UserContext } from "../components/User/UserContext";
 
 export default function UserDashboard() {
@@ -15,10 +15,18 @@ export default function UserDashboard() {
   const [myTripSelect, setMyTripSelect] = useState(false);
   const [deleteSelect, setDeleteSelect] = useState(false);
   const [userName, setUserName] = useState("");
-  const contextValue = useMemo(
-    () => ({ userName, setUserName }),
-    [userName, setUserName]
-  );
+
+  useEffect(() => {
+    if (authStatus) {
+      if (localStorage.getItem("user_role") !== "2") {
+        // if user is not admin redirect to login
+        navigate("/login");
+      }
+    } else {
+      navigate("/login"); // if user not logged in redirect to login
+    }
+  }, [navigate, authStatus]);
+
 
   const myProfileSelected = () => {
     setMyProfileSelect(true);
@@ -36,38 +44,35 @@ export default function UserDashboard() {
     setDeleteSelect(true);
   };
 
-  useEffect(() => {
-    if (authStatus) {
-      if (localStorage.getItem("user_role") !== "2") {
-        // if user is not admin redirect to login
-        navigate("/login");
-      }
-    } else {
-      navigate("/login"); // if user not logged in redirect to login
-    }
-  }, [navigate, authStatus]);
+  const options = [
+    // options list  for the sidebar component
+    {
+      name: "My Profile",
+      state: myProfileSelect,
+      onChange: myProfileSelected,
+    },
+    {
+      name: "My Trips",
+      state: myTripSelect,
+      onChange: myTripSelected,
+    },
+
+    {
+      name: "Delete Account",
+      state: deleteSelect,
+      onChange: deleteSelected,
+    },
+  ];
 
   return (
     <div className="d-flex">
       <div>
-        <UserContext.Provider value={contextValue}>
-          <UserSideBar
-            myProfileSelected={myProfileSelected}
-            myProfileSelect={myProfileSelect}
-            myTripSelected={myTripSelected}
-            myTripSelect={myTripSelect}
-            deleteSelected={deleteSelected}
-            deleteSelect={deleteSelect}
-            userName={userName}
-          />
-        </UserContext.Provider>
+          <SideBar heading={userName} options={options} />
       </div>
       <div className="p-2 flex-fill bd-highlight">
-        <UserContext.Provider value={contextValue}>
-          {myProfileSelect && <UserProfilePage />}
+          {myProfileSelect && <UserProfilePage setUserName={setUserName}/>}
           {myTripSelect && <UserBookingHistory />}
           {deleteSelect && <DeleteAccount />}
-        </UserContext.Provider>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -9,11 +10,14 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { ShieldLockFill, Eye, EyeSlash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
+
 import { RegistrationSchema } from "./RegistrationSchema";
-import {axiosApi} from "../../utils/axiosApi";
+import { axiosApi } from "../../utils/axiosApi";
+
 export default function RegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
     axiosApi
@@ -33,24 +37,18 @@ export default function RegisterCard() {
       .catch((err) => {
         console.log(err.response);
         if (err.response.data.email && err.response.data.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone is already registered",
-          });
+          setSwalText("Email and phone is already registered");
         } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
+          setSwalText(err.response.data.email);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
+          setSwalText(err.response.data.phone);
         }
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: swalText,
+        });
       });
   };
 
@@ -237,7 +235,7 @@ export default function RegisterCard() {
           </Form>
           <Card.Text style={{ alignContent: "center" }}>
             Already have an account?
-            <Link to="/login" style={{ textDecoration: "none"}}>
+            <Link to="/login" style={{ textDecoration: "none" }}>
               Login
             </Link>
           </Card.Text>

@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 
-import { axiosApi } from "../utils/axiosApi";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function UserBookingHistory() {
   const [bookingData, setbookingData] = useState([]);
