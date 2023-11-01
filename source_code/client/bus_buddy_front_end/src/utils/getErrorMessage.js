@@ -29,6 +29,8 @@ export function getErrorMessage(errorCode) {
       return "User Banned Permanently";
     case "D1010":
       return "User Account Disabled";
+    case "T0001":
+      return "Too many request please try again later"  
     default:
       return "Unknown error";
   }
