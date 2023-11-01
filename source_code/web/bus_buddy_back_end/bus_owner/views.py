@@ -220,11 +220,8 @@ class Addroutes(APIView):  # function to add new route from a bus owner
             return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
 
 
-# class Viewroutes(APIView):  # function to list all routes added by the bus owner
-#     """
-#     function to list all routes added by the bus owner
-#     """
-#     # permission_classes = (IsAuthenticated,)
+class Viewroutes(APIView):
+    permission_classes = (AllowAny,)
 
 #     def get(self, request, pageno):
 #         queryset = Routes.objects.all()
@@ -272,8 +269,8 @@ class Deleteroutes(
 
     def put(self, request, id):
         try:
-            data = Routes.objects.get(id=id)
-            data.status = 99
+            data=Routes.objects.get(id=id)
+            data.status=99
             data.save()
             logger.info("Deleted")
             return Response(dentry)
@@ -281,33 +278,11 @@ class Deleteroutes(
             logger.info(entry)
             return Response(status=404)
 
-class Addtrip(APIView):  # Function to add new trip from bus owner
-    # permission_classes = (IsAuthenticated,)
-    serializer = None
 
-    def post(self, request):
-        try:
-            serializer = TripSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                logger.info("Inserted")
-                return Response({"message": "Inserted", "trip": serializer.data["id"]})
-            else:
-                return Response(serializer.errors, status=400)
-        except ValidationError:
-            logger.info(entry)
-            return Response(entry, status=400)
-        
-class Updatetrip(UpdateAPIView):  # function to update trip details by bus owner
+class Deleteroutes(
+    APIView
+):  # function to change status of the route to 99 to perform logical deletion
     # permission_classes = (IsAuthenticated,)
-    serializer_class = TripSerializer
-    def get(self, request, id):
-        try:
-            bus = Trip.objects.get(id=id)
-        except Trip.DoesNotExist:
-            return Response(status=404)
-        serialized_data = TripSerializer(bus)
-        return Response(serialized_data.data)
 
     def put(self, request, id):
         try:
@@ -337,7 +312,7 @@ class Deletetrip(
             logger.info("Deleted")
             return Response(dentry)
         except ObjectDoesNotExist:
-            logger.info(entry)
+            logger.info ("Inavlid")
             return Response(status=404)
 
 class Viewtrip(APIView):  # function to list all Trips added by the bus owner
