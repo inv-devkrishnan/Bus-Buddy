@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import { axiosApi } from '../../utils/axiosApi';
 
 export default function Addamenities() {
   const location = useLocation();
@@ -33,7 +34,7 @@ export default function Addamenities() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/bus-owner/Add-Amenities/', {
+      const response = await axiosApi.post('http://localhost:8000/bus-owner/Add-Amenities/', {
         bus: bus,
         ...formState,
       });

@@ -6,6 +6,7 @@ import DeleteAccount from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_co
 import ViewBus from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/Bus_Ui/ViewBus.js"
 import ViewRoutes from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/route_ui/ViewRoutes.js"
 import Ownerprofile from "./Ownerprofile";
+import SideBar from "../common/SideBar";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -51,6 +52,31 @@ export default function UserDashboard() {
     setDeleteSelect(true);
   };
 
+  const options = [
+    // options list  for the sidebar component
+    {
+      name: " My Profile",
+      state: myProfileSelect,
+      onChange: myProfileSelected,
+    },
+    {
+      name: "My bus",
+      state: myBusSelect,
+      onChange: myBusSelected,
+    },
+
+    {
+      name: "My Routes",
+      state: myRouteSelect,
+      onChange: myRouteSelected,
+    },
+    {
+      name: "My Trips",
+      state: myTripSelect,
+      onChange: myTripSelected,
+    },
+  ];
+
   // useEffect(() => {
   //   if (authStatus) {
   //     if (localStorage.getItem("user_role") !== "3") {
@@ -65,17 +91,7 @@ export default function UserDashboard() {
   return (
     <div style={{display:"flex",justifyContent:"space-between"}}>
       <div>
-        <UserSideBar
-          myProfileSelected={myProfileSelected}
-          myProfileSelect={myProfileSelect}
-          myBusSelected={myBusSelected}
-          myBusSelect={myBusSelect}
-          myRouteSelected={myRouteSelected}
-          myRouteSelect={myRouteSelect}
-          myTripSelected={myTripSelected}
-          myTripSelect={myTripSelect}
-          deleteSelected={deleteSelected}
-          deleteSelect={deleteSelect}
+        <SideBar heading="Admin Profile" options={options} 
         />
       </div>
       <div style={{ flex: 1 }}>

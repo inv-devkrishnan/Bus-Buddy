@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny
 from django.core.exceptions import ObjectDoesNotExist,ValidationError
 from rest_framework.response import Response
@@ -110,7 +110,7 @@ class Deletebus(APIView):  # function to change the status to 99 to perform logi
 
 class Updatebus(UpdateAPIView):  # function to update bus details by bus owner
     # permission_classes = (IsAuthenticated,)
-
+    serializer_class = BusSerializer
     def get(self, request, id):
         try:
             bus = Bus.objects.get(id=id)
@@ -171,11 +171,12 @@ class Addamenities(APIView):  # funuction to add amenities of a bus
             return Response(entry, status=400)
 
 
+
 class Updateamenities(APIView):  # function to update the amenities of a bus
     # permission_classes = (IsAuthenticated,)
-
     def put(self, request, id):
         try:
+            print('frasana')
             amenities_id = Amenities.objects.get(bus=id)
             print(amenities_id.id)
             serializer = AmenitiesSerializer(data=request.data)
@@ -219,22 +220,49 @@ class Addroutes(APIView):  # function to add new route from a bus owner
             return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
 
 
-class Viewroutes(APIView):  # function to list all routes added by the bus owner
-    """
-    function to list all routes added by the bus owner
-    """
-    # permission_classes = (IsAuthenticated,)
+# class Viewroutes(APIView):  # function to list all routes added by the bus owner
+#     """
+#     function to list all routes added by the bus owner
+#     """
+#     # permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pageno):
-        queryset = Routes.objects.filter(status=0).values()
-        paginator = Paginator(queryset, 15)
+#     def get(self, request, pageno):
+#         queryset = Routes.objects.all()
+#         # paginator = Paginator(queryset, 15)
+#         try:
+#             import pdb;pdb.set_trace()
+#             # Paginator.validate_number(paginator, pageno)
+#             # page = paginator.get_page(pageno)
+#             serializer = ViewRoutesSerializer(queryset, many=True)
+#             print(serializer.data)
+#             return Response(serializer.data)
+#         except ObjectDoesNotExist:
+#             return Response(status=404)
+
+class Viewroutes(ListAPIView):
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = ViewRoutesSerializer
+    # pagination_class = CustomPagination
+    
+    def get_queryset(self):
+        return Routes.objects.all()
+
+    def list(self, request):
         try:
-            Paginator.validate_number(paginator, pageno)
-            page = paginator.get_page(pageno)
-            serializer = ViewRoutesSerializer(page, many=True)
+            # user_id = request.user.id
+            queryset = Routes.objects.all()
+            # serializer = ViewRoutesSerializer(queryset)
+            # page = self.paginate_queryset(queryset)
+
+            # if page is not None:
+            #     serializer = self.get_serializer(page, many=True)
+            #     return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
-        except ObjectDoesNotExist:
-            return Response(status=404)
+
+        except ValueError:
+            return Response(serializer._errors)
 
 
 class Deleteroutes(

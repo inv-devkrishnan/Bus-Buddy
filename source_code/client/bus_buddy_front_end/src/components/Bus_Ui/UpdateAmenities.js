@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import { axiosApi } from '../../utils/axiosApi';
 
 export default function Updateamenities() {
     const location = useLocation();
@@ -36,7 +37,7 @@ export default function Updateamenities() {
 
     try {
 
-      const response = await axios.put(`http://127.0.0.1:8000/bus-owner/Update-Amenities/${bus}/`, {
+      const response = await axiosApi.put(`http://127.0.0.1:8000/bus-owner/Update-Amenities/${bus}/`, {
         bus: bus,
         ...formState,
       });

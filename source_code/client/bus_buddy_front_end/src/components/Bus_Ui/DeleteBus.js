@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Swal from "sweetalert2";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function Delete() {
   const user = useState(1);
@@ -22,7 +23,7 @@ export default function Delete() {
       alert("ID cannot be blank");
     }
 
-    axios
+    axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/Delete-Bus/${bus}/`)
       .then((response) => {
         console.log("user:", user);

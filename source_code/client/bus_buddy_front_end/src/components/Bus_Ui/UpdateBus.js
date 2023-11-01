@@ -8,14 +8,16 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
 import { UpdateBusSchema } from "./UpdateBusSchema";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function Updatebus() {
-  let id=0;
+  
   const location = useLocation();
   const bus = location.state;
   const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
   console.log(bus);
+  let id=bus;
 
   useEffect(() => {
     axios
@@ -46,7 +48,7 @@ export default function Updatebus() {
     // }
 
     try {
-      axios.put(`http://127.0.0.1:8000/Update-Bus/${formik.values.id}/`, {
+      axiosApi.put(`http://127.0.0.1:8000/bus-owner/Update-Bus/${formik.values.id}/`, {
         user: 1,
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,

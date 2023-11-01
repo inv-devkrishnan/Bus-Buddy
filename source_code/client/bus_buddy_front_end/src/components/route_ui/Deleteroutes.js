@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function Delete() {
   const user = useState(1);
@@ -20,7 +21,7 @@ export default function Delete() {
     if (!id) {
       alert("Id cannot be empty");
     }
-    axios
+    axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/deletebus/${bus}/`)
       .then((response) => {
         console.log("user:", user);

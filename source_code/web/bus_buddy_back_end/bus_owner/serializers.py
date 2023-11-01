@@ -49,7 +49,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
         model = Bus
         fields = "__all__"
         
-class Locationdata(serializers.ModelField):
+class Locationdata(serializers.ModelSerializer):
     
     class Meta:
         model = LocationData;
@@ -58,10 +58,11 @@ class Locationdata(serializers.ModelField):
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
-    
+    start_point_name = serializers.CharField(source='start_point.location_name', read_only=True)
+    end_point_name = serializers.CharField(source='end_point.location_name', read_only=True)
     class Meta:
         model = Routes
-        fields = "__all__"
+        fields = ('start_point_name','end_point_name','via','distance','travel_fare','duration','id')
         depth=1
 
 

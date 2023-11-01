@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function Viewalltask() {
   const [pageno, setpageno] = useState(1);
@@ -15,8 +16,8 @@ export default function Viewalltask() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `http://localhost:8000/bus-owner/View-Routes/${pageno}/`
+      const response = await axiosApi.get(
+        `http://localhost:8000/bus-owner/View-Routes/`
       );
       setData(response.data);
     };
@@ -39,8 +40,8 @@ export default function Viewalltask() {
         <h2>Route ID: {viewroutes.id}</h2>
         <div style={{ display: "flex" }}>
           <div>
-            <p>Start Point: {viewroutes.start_point}</p>
-            <p>End Point: {viewroutes.end_point}</p>
+            <p>Start Point: {viewroutes.start_point_name}</p>
+            <p>End Point: {viewroutes.end_point_name}</p>
             <p>Via: {viewroutes.via}</p>
           </div>
           <div style={{ marginLeft: "10%" }}>

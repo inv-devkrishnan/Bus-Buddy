@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { axiosApi } from '../../utils/axiosApi';
 
 export default function Addbus() {
     const user=useState(1);
@@ -28,7 +29,7 @@ export default function Addbus() {
         }
         try {
           // Send a POST request to add the task
-          const response = await axios.post("http://localhost:8000/bus-owner/addroutes/", {
+          const response = await axiosApi.post("http://localhost:8000/bus-owner/addroutes/", {
             user:user,
             start_point: start_point,
             end_point:end_point,

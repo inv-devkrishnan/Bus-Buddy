@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { axiosApi } from "../../utils/axiosApi";
 
 export default function Addbus() {
   const [bus_name, setBusName] = useState("");
@@ -36,7 +37,7 @@ export default function Addbus() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/bus-owner/Add-Bus/", {
+      const response = await axiosApi.post("http://localhost:8000/bus-owner/Add-Bus/", {
         user: 1,
         bus_name: bus_name,
         plate_no: plate_no,
