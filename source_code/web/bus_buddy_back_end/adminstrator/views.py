@@ -108,9 +108,10 @@ class ListUsers(APIView, CustomPagination):
         return users
 
     def get(self, request):
-        keyword = request.GET.get("keyword")
-        order = request.GET.get("order")
-        status = request.GET.get("status")
+        # function to get user list
+        keyword = request.GET.get("keyword") # keyword for search
+        order = request.GET.get("order") # order for sorting
+        status = request.GET.get("status") # user status 
         if keyword:
             users = self.search_user(keyword)
         elif status:
@@ -150,6 +151,7 @@ class ListUsers(APIView, CustomPagination):
 
 
 class BanUser(UpdateAPIView):
+    # function to ban user
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
@@ -160,6 +162,7 @@ class BanUser(UpdateAPIView):
 
 
 class UnBanUser(UpdateAPIView):
+    # function to unban user
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
@@ -170,6 +173,7 @@ class UnBanUser(UpdateAPIView):
 
 
 class RemoveUser(UpdateAPIView):
+    #function to remove user
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
