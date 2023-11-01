@@ -65,7 +65,10 @@ class UpdateProfile(UpdateAPIView):
 
 
 class CustomPagination(PageNumberPagination):
-    page_size = 8
+    """
+    For paginating the query set
+    """
+    page_size = 5
     page_size_query_param = "page_size"
 
     def get_paginated_response(self, data):
@@ -85,6 +88,9 @@ class CustomPagination(PageNumberPagination):
 
 
 class BookingHistory(ListAPIView):
+    """
+    For viewing the user's booking history
+    """
     permission_classes = (IsAuthenticated,)
     serializer_class = BHDS
     pagination_class = CustomPagination

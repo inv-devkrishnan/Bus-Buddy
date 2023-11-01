@@ -15,7 +15,6 @@ import Updateroutes from "./components/route_ui/updateroutes";
 import Viewroutes from "./components/route_ui/viewroutes";
 
 import LoginPage from "./pages/LoginPage";
-import ChangePassword from "./pages/ChangePassword";
 import RegisterUser from "./pages/RegisterUser";
 import RegisterOwner from "./pages/RegisterOwner";
 import UserDashboard from "./pages/UserDashboard";
@@ -42,8 +41,6 @@ function App() {
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
-
-          <Route path="/change-password" element={<ChangePassword />}></Route>
 
 
 

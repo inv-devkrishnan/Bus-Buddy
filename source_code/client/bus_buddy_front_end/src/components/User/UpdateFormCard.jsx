@@ -79,7 +79,10 @@ export default function UpdateForm() {
 
   return (
     <>
-      <Card style={{ width: "50rem" }}>
+      <Card className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+                style={{
+                  boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+                }}>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

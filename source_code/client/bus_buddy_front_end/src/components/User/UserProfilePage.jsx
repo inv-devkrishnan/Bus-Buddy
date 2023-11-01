@@ -72,21 +72,37 @@ export default function UserProfilePage(props) {
                 }}
               >
                 <CardText>
-                  Your name:
-                  {" " +
-                    currentUserData["first_name"] +
-                    " " +
-                    currentUserData["last_name"]}
+                  <div className="d-flex flex-column m-2">
+                    Your name:
+                    <h5>
+                      {currentUserData["first_name"] +
+                        " " +
+                        currentUserData["last_name"]}
+                    </h5>
+                  </div>
                 </CardText>
-                <CardText style={{ color: "gray" }}>
-                  _______________ &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
-                  _______________
-                </CardText>
-                <CardText>
-                  Phone number:{" " + currentUserData["phone"]}
-                </CardText>
-                <CardText>Email:{" " + currentUserData["email"]}:</CardText>
-                <div className="d-flex justify-content-end">
+                <div className="d-flex">
+                  <CardText style={{ color: "gray" }}>
+                    &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
+                  </CardText>
+                </div>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12 col-lg-3">
+                      <CardText>
+                        Phone number:
+                        <h5>{currentUserData["phone"]}</h5>
+                      </CardText>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-9">
+                      <CardText>
+                        Email:
+                        <h5>{currentUserData["email"]}</h5>
+                      </CardText>
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="d-flex justify-content-md-end">
                   <div className="m-1">
                     {!googleUser && ( // for rendering change password button only for normal sign in
                       <Button onClick={changePasswordViewSelected}>
@@ -110,8 +126,12 @@ export default function UserProfilePage(props) {
           <Button onClick={myProfileViewSelected}>Back</Button>
         </div>
       )}
-      <div style={{ position: "absolute", bottom: 0, right: 0 }}>
-        <Image src={UpdateImage} style={{ width: "20rem" }} />
+      <div>
+        <Image
+          src={UpdateImage}
+          className="d-none d-md-block"
+          style={{ position: "absolute", bottom: 0, right: 0, width: "10rem" }}
+        />
       </div>
     </>
   );

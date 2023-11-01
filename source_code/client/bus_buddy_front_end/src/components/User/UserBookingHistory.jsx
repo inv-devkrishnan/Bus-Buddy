@@ -195,7 +195,6 @@ export default function UserBookingHistory() {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setModalShow(false)}>Close</Button>
           <Button variant="danger">Cancel Booking</Button>
         </Modal.Footer>
       </Modal>
