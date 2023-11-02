@@ -40,12 +40,24 @@ export default function SingleSeaterDoubleSleeperLayout() {
                 <AddCircleOutlineIcon sx={{ color: "white" }} />
               </Grid>
             </Grid>
-            <FullSleeperLayer layer={7} />
-            <FullSleeperLayer layer={8} />
-            <FullSleeperLayer layer={9} />
-            <FullSleeperLayer layer={10} />
-            <FullSleeperLayer layer={11} />
-            <FullSleeperLayer layer={12} />
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={7} />
+            </div>
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={8} />
+            </div>
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={9} />
+            </div>
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={10} />
+            </div>
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={11} />
+            </div>
+            <div style={{ margin: 11 }}>
+              <FullSleeperLayer layer={12} />
+            </div>
           </CardContent>
         </Card>
       </Grid>

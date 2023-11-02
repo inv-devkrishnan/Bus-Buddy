@@ -2,7 +2,6 @@ import { React } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FullSeaterLayer from "../Layers/FullSeaterLayer";
 import driver from "../../../../assests/driver.png";
 
@@ -24,24 +23,10 @@ export default function FullSeaterLayout() {
             <FullSeaterLayer layer={3} />
             <FullSeaterLayer layer={4} />
             <FullSeaterLayer layer={5} />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item md={6} xs={12} sm={6}>
-        <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
-        <Card sx={{ width: 300, border: 1 }}>
-          <CardContent>
-            <Grid container>
-              <Grid item xs={9}></Grid>
-              <Grid item xs={3}>
-                <AddCircleOutlineIcon sx={{ color: "white" }} />
-              </Grid>
-            </Grid>
             <FullSeaterLayer layer={6} />
             <FullSeaterLayer layer={7} />
             <FullSeaterLayer layer={8} />
             <FullSeaterLayer layer={9} />
-            <FullSeaterLayer layer={10} />
           </CardContent>
         </Card>
       </Grid>

@@ -25,7 +25,7 @@ export default function FormComponent() {
   useEffect(() => {
     axios
       .get(
-        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}&&bus_id=8`
+        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}&&bus_id=7`
       )
       .then((res) => {
         setCurrentData(res.data);
@@ -46,7 +46,7 @@ export default function FormComponent() {
   const onSubmit = () => {
     axios
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
-        bus: 8,
+        bus: 7,
         seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,
         seat_type: formik.values.seatType,
