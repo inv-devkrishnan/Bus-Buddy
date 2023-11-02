@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-bootstrap";
 import RegisterImage from "../assets/register.jpg";
-import RegisterCard from "../components/RegisterCard";
+import RegisterCard from "../components/User/RegisterCard";
 
 export default function RegisterUser() {
   return (
