@@ -11,14 +11,7 @@ import { UpdateBusSchema } from "./UpdateBusSchema";
 
 export default function Updatebus() {
   const [id, setid] = useState(0);
-  const [bus_name, setbus_name] = useState("");
   const [plate_no, setplate_no] = useState("");
-  const [bus_type, setbus_type] = useState("");
-  const [bus_seat_type, setBusSeatType] = useState("");
-  const [bus_ac, setbus_ac] = useState("");
-  const busTypes = ["0", "1", "2"];
-  const busACOptions = ["0", "1"];
-  const busSeatType = ["0", "1", "2"];
 
   const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
@@ -47,9 +40,9 @@ export default function Updatebus() {
   }, [currentBusData]);
 
   const onSubmit = () => {
-    if (plate_no < 0 || plate_no > 10) {
-      alert("Plate Number cannot exceed 10 , pleace remove Spaces in between ");
-    }
+    // if (plate_no < 0 || plate_no > 10) {
+    //   alert("Plate Number cannot exceed 10 , pleace remove Spaces in between ");
+    // }
 
     try {
       axios.put(`http://127.0.0.1:8000/Update-Bus/${formik.values.id}/`, {
@@ -86,7 +79,7 @@ export default function Updatebus() {
     <div
       style={{
         display: "flex",
-        justifyContent: "right",
+        justifyContent: "center",
         marginRight: "5rem",
         paddingTop: "5rem",
       }}

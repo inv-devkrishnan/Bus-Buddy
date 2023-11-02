@@ -50,7 +50,7 @@ export default function Delete() {
   return (
 
     
-    <div style={{display:"flex",justifyContent:"right",marginRight:'5rem',paddingTop:'5rem' }}>
+    <div style={{display:"flex",justifyContent:"center",marginRight:'5rem',paddingTop:'5rem' }}>
             <Card style={{ width: '35rem',height:'30rem',paddingTop:'3rem' }}>
             <Card.Body>
                 <Card.Title style={{textAlign:"center"}}>Delete Bus</Card.Title>
