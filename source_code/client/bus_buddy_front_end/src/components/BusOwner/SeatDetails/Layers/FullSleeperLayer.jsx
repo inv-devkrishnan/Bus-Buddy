@@ -1,8 +1,8 @@
 import { React } from "react";
 import Grid from "@mui/material/Grid";
-import Sleeper from "./Sleeper";
+import Sleeper from "../Sleeper";
 
-export default function Layer(layer) {
+export default function FullSleeperLayer(layer) {
   return (
     <div>
       <Grid container spacing={2}>

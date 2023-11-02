@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { FormComponentSchema } from "./FormComponentSchema";
 import axios from "axios";
-import { ShowFormContext } from "../../utils/ShowFormContext";
+import { ShowFormContext } from "../../../utils/ShowFormContext";
 
 export default function FormComponent() {
   const { propsData } = useContext(ShowFormContext);//holds seat ui order
@@ -25,7 +25,7 @@ export default function FormComponent() {
   useEffect(() => {
     axios
       .get(
-        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}`
+        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}&&bus_id=8`
       )
       .then((res) => {
         setCurrentData(res.data);
@@ -46,7 +46,7 @@ export default function FormComponent() {
   const onSubmit = () => {
     axios
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
-        bus: 7,
+        bus: 8,
         seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,
         seat_type: formik.values.seatType,
@@ -176,7 +176,6 @@ export default function FormComponent() {
           <FormHelperText>
             Once submitted you cannot edit the content.
           </FormHelperText>
-          <strong sx={{ color: "grey" }}>Submit carefully!!</strong>
           {currentData["seat_ui_order"] ? (
             <Button
               type="submit"

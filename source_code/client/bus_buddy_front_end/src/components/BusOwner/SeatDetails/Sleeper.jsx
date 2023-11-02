@@ -1,7 +1,7 @@
 import { React, useContext } from "react";
 import { IconButton } from "@mui/material";
-import SleeperImage from "../../assests/sleeper.png";
-import { ShowFormContext } from "../../utils/ShowFormContext";
+import SleeperImage from "../../../assests/sleeper.png";
+import { ShowFormContext } from "../../../utils/ShowFormContext";
 
 function Sleeper(props) {
   const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext);
@@ -13,11 +13,9 @@ function Sleeper(props) {
   //also set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
 
   return (
-    <>
-      <IconButton onClick={handleClick}>
-        <img src={SleeperImage} alt="sleeper" />
-      </IconButton>
-    </>
+    <IconButton onClick={handleClick}>
+      <img src={SleeperImage} alt="sleeper" />
+    </IconButton>
   );
 }
 

@@ -2,13 +2,13 @@ import { React } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import Layer from "./Layer";
-import driver from "../../assests/driver.png";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FullSeaterLayer from "../Layers/FullSeaterLayer";
+import driver from "../../../../assests/driver.png";
 
-export default function Layout() {
+export default function FullSeaterLayout() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={12} justifyContent="space-evenly">
       <Grid item md={6} xs={12} sm={6}>
         <span style={{ color: "cornflowerblue" }}>Lower Deck</span>
         <Card sx={{ width: 300, border: 1 }}>
@@ -16,15 +16,14 @@ export default function Layout() {
             <Grid container>
               <Grid item xs={9}></Grid>
               <Grid item xs={3}>
-                {" "}
                 <img src={driver} alt="driver" />
               </Grid>
             </Grid>
-            <Layer layer={1} />
-            <Layer layer={2} />
-            <Layer layer={3} />
-            <Layer layer={4} />
-            <Layer layer={5} />
+            <FullSeaterLayer layer={1} />
+            <FullSeaterLayer layer={2} />
+            <FullSeaterLayer layer={3} />
+            <FullSeaterLayer layer={4} />
+            <FullSeaterLayer layer={5} />
           </CardContent>
         </Card>
       </Grid>
@@ -35,15 +34,14 @@ export default function Layout() {
             <Grid container>
               <Grid item xs={9}></Grid>
               <Grid item xs={3}>
-                {" "}
-                <HorizontalRuleIcon sx={{ color: "white" }} />{" "}
+                <AddCircleOutlineIcon sx={{ color: "white" }} />
               </Grid>
             </Grid>
-            <Layer layer={6} />
-            <Layer layer={7} />
-            <Layer layer={8} />
-            <Layer layer={9} />
-            <Layer layer={10} />
+            <FullSeaterLayer layer={6} />
+            <FullSeaterLayer layer={7} />
+            <FullSeaterLayer layer={8} />
+            <FullSeaterLayer layer={9} />
+            <FullSeaterLayer layer={10} />
           </CardContent>
         </Card>
       </Grid>
