@@ -96,7 +96,7 @@ export default function UserBookingHistory() {
           <h1>My Trips</h1>
         </div>
         <div className="flex-fill m-3">
-          <Table striped hover>
+          <Table >
             <thead>
               <tr>
                 <th>SI No.</th>

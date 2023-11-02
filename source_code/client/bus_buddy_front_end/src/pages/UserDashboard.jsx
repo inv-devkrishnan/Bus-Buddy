@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuthStatus } from "../utils/hooks/useAuth";
@@ -6,7 +6,6 @@ import SideBar from "../components/common/SideBar";
 import DeleteAccount from "../pages/DeleteAccount";
 import UserProfilePage from "../components/User/UserProfilePage";
 import UserBookingHistory from "../components/User/UserBookingHistory";
-import { UserContext } from "../components/User/UserContext";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ export default function UserDashboard() {
 
   return (
     <div className="d-flex">
-      <div>
+      <div className="fixed-sidebar">
           <SideBar heading={userName} options={options} />
       </div>
       <div className="p-2 flex-fill bd-highlight">
