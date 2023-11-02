@@ -102,7 +102,7 @@ class Deletebus(APIView):  # function to change the status to 99 to perform logi
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response(dentry)
+            return Response({"message":dentry})
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -127,7 +127,7 @@ class Updatebus(UpdateAPIView):  # function to update bus details by bus owner
                 self.perform_update(serializer)
                 logger.info("updated")
                 print("i")
-                return Response("Updated", 200, serializer.data)
+                return Response({"message":"Updated","status":200},serializer.data)
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
@@ -163,7 +163,7 @@ class Addamenities(APIView):  # funuction to add amenities of a bus
                 current_bus.bus_details_status = 1
                 current_bus.save()
                 logger.info("Inserted")
-                return Response("Inserted")
+                return Response({"message":"Inserted"})
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError:
@@ -276,7 +276,7 @@ class Deleteroutes(
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response(dentry)
+            return Response({"message":dentry})
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -317,7 +317,7 @@ class Updatetrip(UpdateAPIView):  # function to update trip details by bus owner
                 self.perform_update(serializer)
                 logger.info("updated")
                 print("i")
-                return Response("Updated", 200, serializer.data)
+                return Response({"message":"Updated"}, 200, serializer.data)
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
@@ -335,7 +335,7 @@ class Deletetrip(
             data.status = 99
             data.save()
             logger.info("Deleted")
-            return Response(dentry)
+            return Response({"message":dentry})
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)

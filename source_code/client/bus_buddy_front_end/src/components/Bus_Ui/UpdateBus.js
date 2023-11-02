@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate,useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -20,7 +19,7 @@ export default function Updatebus() {
   let id=bus;
 
   useEffect(() => {
-    axios
+    axiosApi
       .get(`http://127.0.0.1:8000/bus-owner/Update-Bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
