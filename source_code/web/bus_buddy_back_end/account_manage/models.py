@@ -8,7 +8,6 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-    
 
     def create_google_user(self, **extra_fields):
         user = self.model(**extra_fields)

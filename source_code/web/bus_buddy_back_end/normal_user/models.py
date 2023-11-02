@@ -31,12 +31,15 @@ class UserComplaints(models.Model):
 
 class Bookings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    seat = models.ForeignKey(SeatDetails, on_delete=models.CASCADE, null=False)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
-    pick_up = models.ForeignKey(PickAndDrop, on_delete=models.CASCADE, null=False, related_name='pick_up_id')
-    drop_off = models.ForeignKey(PickAndDrop, on_delete=models.CASCADE, null=False, related_name='drop_off_id')
+    pick_up = models.ForeignKey(
+        PickAndDrop, on_delete=models.CASCADE, null=False, related_name="pick_up_id"
+    )
+    drop_off = models.ForeignKey(
+        PickAndDrop, on_delete=models.CASCADE, null=False, related_name="drop_off_id"
+    )
     status = models.SmallIntegerField(default=0, null=False)
-    total_amount = models.IntegerField(null=False)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=3)
     booking_id = models.CharField(max_length=255, null=False, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_date = models.DateTimeField(auto_now=True, null=False)
@@ -57,24 +60,15 @@ class Payment(models.Model):
         db_table = "payment"
 
 
-class Traveler(models.Model):
-    booking_id = models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
-    name = models.CharField(max_length=255, null=False)
-    gender = models.SmallIntegerField(default=0, null=False)
-    dob = models.DateField(auto_now=False, auto_now_add=False, null=False)
-    created_date = models.DateTimeField(auto_now_add=True, null=False)
-    updated_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = "traveler"
-
-
-class SeatAvailability(models.Model):
+class BookedSeats(models.Model):
     booking = models.ForeignKey(Bookings, on_delete=models.CASCADE)
+    traveller_name = models.CharField(max_length=255, null=False)
+    traveller_gender = models.SmallIntegerField(default=0, null=False)
+    traveller_dob = models.DateField(auto_now=False, auto_now_add=False, null=False)
     seat = models.ForeignKey(SeatDetails, on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=2)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "seat_availability"
+        db_table = "booked_seats"

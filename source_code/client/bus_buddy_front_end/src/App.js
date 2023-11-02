@@ -26,6 +26,8 @@ import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateForm from "./components/UpdateFormCard";
 import UpdateOwnerProfile from './components/Bus_Ui/UpdateOwnerProfile';
 
+import AdminDashboard from "./pages/AdminDashboard";
+
 function App() {
   return (
     <div>
@@ -49,6 +51,7 @@ function App() {
               <Route path="/register-user" element={<RegisterUser />} />
               <Route path="/update-user" element={<UpdateForm />} />
               <Route path="/Update-Profile" element={<UpdateOwnerProfile/>} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
             </Routes>
           </React.Fragment>
     </div>
