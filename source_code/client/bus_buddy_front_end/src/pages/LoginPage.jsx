@@ -66,6 +66,10 @@ function LoginPage() {
       localStorage.setItem("token_expire_time", expire_time);
       if(loginRes.message.user_role===2){
       navigate("/user-dashboard");}
+      else if(loginRes.message.user_role ===1)
+      {navigate("/admin-dashboard")}
+      else
+      {navigate("/");}
     } else {
       // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;
@@ -107,6 +111,7 @@ function LoginPage() {
                     setEmail(e.target.value);
                   }}
                   required
+                  style={{backgroundImage: "none"}}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid Email.
@@ -124,6 +129,7 @@ function LoginPage() {
                       setPassword(e.target.value);
                     }}
                     required
+                    style={{backgroundImage: "none"}}
                   />
                   <InputGroup.Text
                     id="basic-addon1"

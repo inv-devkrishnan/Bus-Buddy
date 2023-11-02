@@ -15,33 +15,40 @@ import LoginPage from "./pages/LoginPage";
 import RegisterUser from "./pages/RegisterUser";
 import RegisterOwner from "./pages/RegisterOwner";
 import UserDashboard from "./pages/UserDashboard";
-
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
-
 import UpdateForm from "./components/UpdateFormCard";
 import UpdateOwnerProfile from "./components/Bus_Ui/UpdateOwnerProfile";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<BusHome />} />
-      <Route path="/Addbus" element={<AddBus />} />
-      <Route path="/Deletebus" element={<DeleteBus />} />
-      <Route path="/Updatebus" element={<UpdateBus />} />
-      <Route path="/Viewbus" element={<ViewBus />} />
-      <Route path="/Addamenities" element={<AddAmenities />} />
-      <Route path="/Updateamenities" element={<UpdateAmenities />} />
-      <Route path="/Addroutes" element={<Addroutes />} />
-      <Route path="/Deleteroutes" element={<Deleteroutes />} />
-      <Route path="/ViewRoutes" element={<ViewRoutes />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/update-owner" element={<OwnerUpdateCard />} />
-      <Route path="/register-owner" element={<RegisterOwner />} />
-      <Route path="/register-user" element={<RegisterUser />} />
-      <Route path="/update-user" element={<UpdateForm />} />
-      <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
-      <Route path="/user-dashboard" element={<UserDashboard />} />
-    </Routes>
+    <div>
+          <React.Fragment>
+            <Routes>
+              <Route path='/' element={<BusHome/>}/>
+              <Route path='/Addbus' element={<AddBus/>}/>
+              <Route path='/Deletebus' element={<DeleteBus/>}/>
+              <Route path='/Updatebus' element={<UpdateBus/>}/>
+              <Route path='/Viewbus' element={<ViewBus/>}/>
+              <Route path='/Addamenities' element={<AddAmenities/>}/>
+              <Route path='/Updateamenities' element={<UpdateAmenities/>}/>
+              <Route path='/Addroutes' element={<Addroutes/>}/>
+              <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
+              <Route path='/ViewRoutes' element={<ViewRoutes/>}/>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/delete-account" element={<DeleteAccountPage />}></Route>
+              <Route path="/change-password" element={<ChangePassword />}></Route>
+              <Route path="/update-owner" element={<OwnerUpdateCard />} />
+              <Route path="/register-owner" element={<RegisterOwner />} />
+              <Route path="/register-user" element={<RegisterUser />} />
+              <Route path="/update-user" element={<UpdateForm />} />
+              <Route path="/Update-Profile" element={<UpdateOwnerProfile/>} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
+              <Route path="/user-dashboard" element={<UserDashboard />} />
+
+            </Routes>
+          </React.Fragment>
+    </div>
   );
 }
 
