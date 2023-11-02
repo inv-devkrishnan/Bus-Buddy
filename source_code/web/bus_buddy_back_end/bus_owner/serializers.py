@@ -305,3 +305,102 @@ class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = "__all__"
+
+
+class OwnerModelSerializer(serializers.ModelSerializer):
+    # For registering a bus owner
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "password",
+            "phone",
+            "company_name",
+        )
+
+    first_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    last_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_email_exist
+            ),
+        ]
+    )
+    password = serializers.CharField(
+        max_length=12,
+        validators=[
+            RegexValidator(
+                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
+                message="Password failed",
+            ),
+        ],
+    )
+    phone = serializers.CharField(
+        min_length=10,
+        max_length=10,
+        validators=[
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
+            UniqueValidator(
+                queryset=User.objects.all(), message=error_message_phone_exist
+            ),
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Phone number is already registered",
+            ),
+        ],
+    )
+    company_name = serializers.CharField(max_length=100)
+    aadhaar_no = serializers.CharField(
+        max_length=12,
+        min_length=12,
+        validators=[
+            RegexValidator(
+                regex=r"^[0-9\s]*$",
+                message="Aadhaar number can only contain numbers.",
+            ),
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="Adhaar number is already registered",
+            ),
+        ],
+    )
+    msme_no = serializers.CharField(
+        max_length=20,
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="MSME number is already registered",
+            ),
+        ],
+    )
+    extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
+    
+    # password encryption
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+
+class OwnerDataSerializer(serializers.ModelSerializer):
+    #For viewing the bus owner details
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "phone", "company_name")
