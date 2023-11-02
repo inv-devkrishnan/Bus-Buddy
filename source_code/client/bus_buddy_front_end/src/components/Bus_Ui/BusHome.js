@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStatus } from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/utils/hooks/useAuth.js";
-import UserSideBar from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/utils/hooks/UserSideBar.js";
-import DeleteAccount from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/pages/DeleteAccount.jsx";
-import ViewBus from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/Bus_Ui/ViewBus.js"
-import ViewRoutes from "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/client/bus_buddy_front_end/src/components/route_ui/ViewRoutes.js"
+import { useAuthStatus } from "../../utils/hooks/useAuth";
+import DeleteAccount from "../../pages/DeleteAccount";
+import ViewBus from "../Bus_Ui/ViewBus"
+import ViewRoutes from "../route_ui/ViewRoutes"
 import Ownerprofile from "./Ownerprofile";
 import SideBar from "../common/SideBar";
 

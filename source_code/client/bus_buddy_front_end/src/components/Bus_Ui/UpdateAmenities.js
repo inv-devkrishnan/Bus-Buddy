@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -7,9 +7,7 @@ import Swal from 'sweetalert2'
 import { axiosApi } from '../../utils/axiosApi';
 
 export default function Updateamenities() {
-    const location = useLocation();
-    const bus = location.state;
-    console.log(bus)
+  const [currentAmenitiesData, setCurrentAmenitiesData] = useState([]);
   const [formState, setFormState] = useState({
     emergency_no:0,
     water_bottle: 0,
@@ -22,8 +20,37 @@ export default function Updateamenities() {
     snacks: 0,
     tour_guide:0,
     cctv:0,
-  });
-
+  });;
+  const location = useLocation();
+    const bus = location.state;
+    useEffect(() => {
+      axiosApi
+        .get(`http://127.0.0.1:8000/bus-owner/Update-Amenities/${bus}/`)
+        .then((res) => {
+          setCurrentAmenitiesData(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+          alert("Bus does not exist!!");
+        });
+    }, []);
+  useEffect(() => {
+    setFormState({
+      emergency_no:currentAmenitiesData.emergency_no,
+      water_bottle: currentAmenitiesData.water_bottle,
+      charging_point: currentAmenitiesData.charging_point,
+      usb_port: currentAmenitiesData.usb_port,
+      blankets:currentAmenitiesData.blankets,
+      pillows: currentAmenitiesData.pillows,
+      reading_light: currentAmenitiesData.reading_light,
+      toilet: currentAmenitiesData.toilet,
+      snacks: currentAmenitiesData.snacks,
+      tour_guide:currentAmenitiesData.tour_guide,
+      cctv:currentAmenitiesData.cctv,
+    });
+  }, [currentAmenitiesData])
+  
   const handleCheckboxChange = (amenity) => {
     setFormState((prevFormState) => ({
       ...prevFormState,

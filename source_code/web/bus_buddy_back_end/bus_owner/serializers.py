@@ -19,7 +19,7 @@ error_message_phone_exist = "Phone number is already registered"
 
 class BusSerializer(serializers.ModelSerializer):
     def validate_name(self, value):
-        if not re.match(r"^[A-Za-z]+$", value):
+        if not re.match(r"^[A-Za-z():,\.]+$", value):
             raise serializers.ValidationError(
                 "Invalid Name format. Only letters are allowed."
             )
