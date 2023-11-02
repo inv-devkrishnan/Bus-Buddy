@@ -9,7 +9,7 @@ export const UpdateBusSchema = yup.object().shape({
   id: yup
     .string()
     .required("Last name is required"),
-  plateno: yup.string().required("Email is required"),
+  plateno: yup.string().min(10).max(10).required(),
   bustype: yup
     .string()
     .required("Phone number is required"),

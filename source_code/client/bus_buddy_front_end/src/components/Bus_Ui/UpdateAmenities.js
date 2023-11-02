@@ -60,7 +60,7 @@ export default function Updateamenities() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'right', marginRight: '5rem', paddingTop: '3rem' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', marginRight: '5rem', paddingTop: '3rem' }}>
       <Card style={{ width: '35rem', height: '35rem', paddingTop: '1rem' }}>
         <Card.Body>
           <Card.Title style={{ textAlign: 'center' }}>Update Amenities</Card.Title>

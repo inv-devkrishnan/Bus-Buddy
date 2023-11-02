@@ -24,9 +24,9 @@ import RegisterOwner from "./pages/RegisterOwner";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 
 import UpdateForm from "./components/UpdateFormCard";
+import UpdateOwnerProfile from './components/Bus_Ui/UpdateOwnerProfile';
 
 import AdminDashboard from "./pages/AdminDashboard";
-import UpdateOwnerProfile from './components/Bus_Ui/UpdateOwnerProfile';
 
 function App() {
   return (
