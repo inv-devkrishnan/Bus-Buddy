@@ -4,7 +4,7 @@ import FormComponent from "../components/BusOwner/SeatDetails/FormComponent";
 import { ShowFormContext } from "../utils/ShowFormContext";
 import { Grid } from "@mui/material";
 
-export default function AddSeatDetails() {
+export default function FullSleeperDetails() {
   const [isClicked, setIsClicked] = useState(false);
   const [propsData, setPropsData] = useState(0);
 
