@@ -3,10 +3,14 @@ import { Button } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { openAxiosApi } from "../utils/axiosApi";
 import splashscreen from "../assets/images/landing_splash.jpg";
+import ShowTrips from "../components/User/view_trips/ShowTrips";
 function LandingPage() {
   const [locations, setLocations] = useState([]); // to store the locations
   const [enableSearch, setEnableSearch] = useState(false); // to enable and disable search button
   const [showTripList, setShowTripList] = useState(false); // to show/hide the TripList
+  const [startLocation, setStartLocation] = useState(0); // to store start location id
+  const [endLocation, setEndLocation] = useState(0); // to store end location id
+  const [tripDate,setTripDate] = useState() // to store trip date
   useEffect(() => {
     getLocationData();
   }, []);
@@ -40,21 +44,25 @@ function LandingPage() {
 
   const validateSearchTerms = () => {
     // validation for start location , end_location and date_picker
-    let start_location = document
+    let startlocation = document
       .getElementById("start_text_box")
       ?.value.trim();
 
-    let end_location = document.getElementById("end_text_box")?.value.trim();
-    let trip_date = document.getElementById("trip_date_picker")?.value;
+    let endlocation = document.getElementById("end_text_box")?.value.trim();
+    let date = document.getElementById("trip_date_picker")?.value;
     if (
-      start_location !== end_location && // start and stop location cannot be same
-      start_location.length !== 0 && // start location can't be empty
-      end_location.length !== 0 && // stop location can't be empty
-      trip_date.length !== 0 // trip date can't be empty
+      startlocation !== endlocation && 
+      startlocation.length !== 0 && 
+      endlocation.length !== 0 && 
+      date.length !== 0
     ) {
-      let start_location_id = validLocation(start_location);
-      let end_location_id = validLocation(end_location);
+      let start_location_id = validLocation(startlocation); // gets the id of the given start location
+      let end_location_id = validLocation(endlocation); // gets the id of the given end location
       if (start_location_id !== -1 && end_location_id !== -1) {
+        // if the id's are valid then enable search and store id's in state variable
+        setStartLocation(start_location_id);
+        setEndLocation(end_location_id);
+        setTripDate(date);
         setEnableSearch(true);
       } else {
         setEnableSearch(false);
@@ -63,9 +71,14 @@ function LandingPage() {
       setEnableSearch(false);
     }
   };
+  const viewTrips = async () =>
+  {
+    setShowTripList(true);
 
+  }
   return (
-    <div className="m-5 d-flex justify-content-center">
+    <>
+     <div className="m-5 d-flex justify-content-center">
       <Card className="p-3" style={{ width: "50rem" }}>
         <div className="d-flex align-items-center">
           <img src={splashscreen} height={300} width={300} alt="splash"></img>
@@ -80,7 +93,7 @@ function LandingPage() {
             list="datalistOptions"
             id="start_text_box"
             onChange={validateSearchTerms}
-            placeholder="Type start location"
+            placeholder="Type from location"
           />
           <h5 className="me-3 ms-3">to</h5>
           <input
@@ -88,7 +101,7 @@ function LandingPage() {
             list="datalistOptions"
             id="end_text_box"
             onChange={validateSearchTerms}
-            placeholder="Type end location"
+            placeholder="Type to location"
           />
           <input
             className="form-control"
@@ -97,7 +110,7 @@ function LandingPage() {
             onChange={validateSearchTerms}
             min={getCurrentDate()}
           />
-          <Button className="ms-3" disabled={!enableSearch}>
+          <Button className="ms-3" disabled={!enableSearch} onClick={()=>{viewTrips()}}>
             Search
           </Button>
         </div>
@@ -110,6 +123,11 @@ function LandingPage() {
         </datalist>
       </Card>
     </div>
+     {showTripList &&
+      <ShowTrips startLocation={startLocation} endLocation={endLocation} tripDate={tripDate}/>
+     }
+    </>
+   
   );
 }
 export default LandingPage;
