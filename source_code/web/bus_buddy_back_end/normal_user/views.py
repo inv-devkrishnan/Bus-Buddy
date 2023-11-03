@@ -141,7 +141,7 @@ class ViewTrip(APIView):
                    t.id as trip_id, b.bus_name, b.id as bus_id
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
-              ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s
+              ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
             LEFT JOIN routes r
               ON r.id = s.route_id and r.status = 0
             INNER JOIN trip t
