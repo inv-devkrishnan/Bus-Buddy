@@ -56,7 +56,6 @@ function UserSleeper(props) {
       // shows snackbar if either the current seat is near a booked female or male seat
       if (props.nearFemale || props.nearMale) {
         setOpen(true);
-      } else if (props.nearMale) {
       }
       let newArray = [...seatList, selectedSeat];
       // update seat list array once seat is selected
