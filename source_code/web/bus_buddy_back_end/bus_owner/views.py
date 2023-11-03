@@ -3,11 +3,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.paginator import Paginator, Page
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import Bus
 from .models import Routes
 from .models import Amenities
@@ -150,6 +151,28 @@ class Updatebus(UpdateAPIView):
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
             return Response("Invalid Bus id", status=400)
+        
+class CustomPagination(PageNumberPagination):
+    """
+    For paginating the query set
+    """
+    page_size = 3
+    page_size_query_param = "page_size"
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                "page_size": self.page_size,
+                "total_objects": self.page.paginator.count,
+                "total_pages": self.page.paginator.num_pages,
+                "current_page_number": self.page.number,
+                "has_next": self.page.has_next(),
+                "next": self.get_next_link(),
+                "has_previous": self.page.has_previous(),
+                "previous": self.get_previous_link(),
+                "results": data,
+            }
+        )
 
 
 class Viewbus(ListAPIView):  
@@ -158,7 +181,7 @@ class Viewbus(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
 
     
     def get_queryset(self):
@@ -169,12 +192,12 @@ class Viewbus(ListAPIView):
             # user_id = request.user.id
             queryset = Bus.objects.filter(status=0)     #to filter out bus object which has been soft deleted 
             print(queryset)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -256,12 +279,12 @@ class ViewAmenities(ListAPIView):
             except Amenities.DoesNotExist:
                 return Response(status=404)
             
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -296,7 +319,7 @@ class Viewroutes(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         return Routes.objects.all()
@@ -305,12 +328,12 @@ class Viewroutes(ListAPIView):
         try:
             # user_id = request.user.id
             queryset = Routes.objects.filter(status=0)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
 
@@ -414,7 +437,7 @@ class Viewtrip(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = TripSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         return Trip.objects.all()       #to get all details of related child object of trip
@@ -423,12 +446,12 @@ class Viewtrip(ListAPIView):
         try:
             # user_id = request.user.id
             queryset = Trip.objects.filter(status=0)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
 

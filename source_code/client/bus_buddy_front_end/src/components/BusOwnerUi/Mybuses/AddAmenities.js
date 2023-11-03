@@ -24,7 +24,7 @@ export default function Addamenities() {
     cctv: 0,
   });
 
-  const handleCheckboxChange = (amenity) => {
+  const handleCheckboxChange = (amenity) => {     
     setFormState((prevFormState) => ({
       ...prevFormState,
       [amenity]: prevFormState[amenity] === 1 ? 0 : 1,
