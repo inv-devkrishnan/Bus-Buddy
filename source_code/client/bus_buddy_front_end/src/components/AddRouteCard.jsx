@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-
+import { axiosApi } from "../utils/axiosApi";
 import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
@@ -66,7 +66,7 @@ export default function AddRouteCard() {
     localStorage.setItem("stopLocationList", JSON.stringify(stoplocationArray));
   };
 
-  const addRoute = () => {
+  const addRoute = async () => {
     // can only add Route if it has two locations (start,end)
     if (stopLocations.length >= 2) {
       // removes auto save
@@ -83,7 +83,10 @@ export default function AddRouteCard() {
         status: 0,
         location: stopLocations,
       };
+      await axiosApi.post("http://127.0.0.1:8000/bus-owner/Add-Routes/",routeData)
+
       console.log(routeData);
+
       setErrorMessage("");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");
