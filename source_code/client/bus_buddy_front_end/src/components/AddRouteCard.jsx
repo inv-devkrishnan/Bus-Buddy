@@ -4,11 +4,12 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-import { axiosApi } from "../utils/axiosApi";
+import Swal from 'sweetalert2'
 import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
 import { Container, Row, Col } from "react-bootstrap";
+import { axiosApi } from "../utils/axiosApi";
 
 export default function AddRouteCard() {
   const [locations, setLocations] = useState([]);
@@ -18,6 +19,7 @@ export default function AddRouteCard() {
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
+  const user=useState(1);
   const handleClose = () => {
     setShow(false);
     setlocationAdded(false);
@@ -73,7 +75,7 @@ export default function AddRouteCard() {
       localStorage.removeItem("stopLocationList");
       localStorage.removeItem("locationStop");
 
-      const routeData = {
+      const routeData ={
         start_point: stopLocations[0].location,
         end_point: stopLocations[stopLocations.length - 1].location,
         via: document.getElementById("via").value,
@@ -81,12 +83,19 @@ export default function AddRouteCard() {
         duration: document.getElementById("duration").value,
         travel_fare: document.getElementById("travel_fare").value,
         status: 0,
+        user:1,
         location: stopLocations,
       };
-      await axiosApi.post("http://127.0.0.1:8000/bus-owner/Add-Routes/",routeData)
-
+      const response=await axiosApi.post("http://127.0.0.1:8000/bus-owner/add-routes/",routeData)
       console.log(routeData);
-
+      if (response.status === 200) {
+        console.log('Route Added');
+        Swal.fire({
+          icon: 'success',
+          title: 'Added Successfully',
+          text: 'Route added successfully',
+        })
+      }
       setErrorMessage("");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");

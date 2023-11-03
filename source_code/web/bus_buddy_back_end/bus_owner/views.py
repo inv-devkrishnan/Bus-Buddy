@@ -112,8 +112,8 @@ class Deletebus(APIView):
 
     def put(self, request, id):
         try:
-            data = Bus.objects.get(id=id)
-            data.status = 99
+            data = Bus.objects.get(id=id)  #to retrive bus object that matches the id 
+            data.status = 99        #soft delete    
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
@@ -129,7 +129,7 @@ class Updatebus(UpdateAPIView):
     # permission_classes = (IsAuthenticated,)
     serializer_class = BusSerializer
 
-    def get(self, request, id):
+    def get(self, request, id):     #checking for bus object that matches the id
         try:
             bus = Bus.objects.get(id=id)
         except Bus.DoesNotExist:
@@ -137,12 +137,12 @@ class Updatebus(UpdateAPIView):
         serialized_data = BusSerializer(bus)
         return Response(serialized_data.data)
 
-    def put(self, request, id):
+    def put(self, request, id):     #update function 
         try:
             instance = Bus.objects.get(id=id)
             serializer = BusSerializer(instance, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
-                self.perform_update(serializer)
+                self.perform_update(serializer)     #perform_update is a updateAPI function 
                 logger.info("updated")
                 print("i")
                 return Response({"message": "Updated","data":serializer.data},status=200)
@@ -162,16 +162,12 @@ class Viewbus(ListAPIView):
 
     
     def get_queryset(self):
-        
-        
         return Bus.objects.all()
     
     def list(self, request):
         try:
             # user_id = request.user.id
-            am=Bus.objects.prefetch_related('amenities_set').all()
-            print(am)
-            queryset = Bus.objects.filter(status=0)
+            queryset = Bus.objects.filter(status=0)     #to filter out bus object which has been soft deleted 
             print(queryset)
             # serializer = ViewRoutesSerializer(queryset)
             # page = self.paginate_queryset(queryset)
@@ -199,8 +195,8 @@ class Addamenities(APIView):
             serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                bus_id = serializer.data.get("bus")
-                current_bus = Bus.objects.get(id=bus_id)
+                bus_id = serializer.data.get("bus")     #to get bus id related to added amenities   
+                current_bus = Bus.objects.get(id=bus_id) # to get the bus object to change status of adding bus to 1
                 current_bus.bus_details_status = 1
                 current_bus.save()
                 logger.info("Inserted")
@@ -239,6 +235,39 @@ class Updateamenities(UpdateAPIView):
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
             return Response("Invalid  id", status=400)
+        
+class ViewAmenities(ListAPIView):  
+    """
+    function to list amenities of a bus
+    """
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = AmenitiesSerializer
+
+    
+    def get_queryset(self):
+        return Amenities.objects.all()
+    
+    def list(self, request,id):
+        try:
+            # user_id = request.user.id
+            try:
+                queryset = Amenities.objects.filter(bus=id)
+                print(queryset)
+            except Amenities.DoesNotExist:
+                return Response(status=404)
+            
+            # serializer = ViewRoutesSerializer(queryset)
+            # page = self.paginate_queryset(queryset)
+
+            # if page is not None:
+            #     serializer = self.get_serializer(page, many=True)
+            #     return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+
+        except ValueError:
+            return Response(serializer._errors)
  
 
 class Addroutes(APIView):
@@ -299,7 +328,7 @@ class Deleteroutes(APIView):
 
     def put(self, request, id):
         try:
-            data = Routes.objects.get(id=id)
+            data = Routes.objects.get(id=id)    #to get route object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
@@ -347,7 +376,7 @@ class Updatetrip(UpdateAPIView):
 
     def put(self, request, id):
         try:
-            instance = Trip.objects.get(id=id)
+            instance = Trip.objects.get(id=id)      #saving the present values to instance variable
             serializer = TripSerializer(instance, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
@@ -369,7 +398,7 @@ class Deletetrip(APIView):
 
     def put(self, request, id):
         try:
-            data = Trip.objects.get(id=id)
+            data = Trip.objects.get(id=id)      #to get trip object matching the id 
             data.status = 99
             data.save()
             logger.info("Deleted")
@@ -388,7 +417,7 @@ class Viewtrip(ListAPIView):
     # pagination_class = CustomPagination
 
     def get_queryset(self):
-        return Trip.objects.all()
+        return Trip.objects.all()       #to get all details of related child object of trip
 
     def list(self, request):
         try:

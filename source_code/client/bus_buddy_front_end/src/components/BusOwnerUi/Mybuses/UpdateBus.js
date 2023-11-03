@@ -20,7 +20,7 @@ export default function Updatebus() {
 
   useEffect(() => {
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/Update-Bus/${bus}/`)
+      .get(`http://127.0.0.1:8000/bus-owner/update-bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
       })
@@ -47,7 +47,7 @@ export default function Updatebus() {
     // }
 
     try {
-      axiosApi.put(`http://127.0.0.1:8000/bus-owner/Update-Bus/${formik.values.id}/`, {
+      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
         user: 1,
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,

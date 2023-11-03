@@ -8,7 +8,8 @@ import { axiosApi } from '../../../utils/axiosApi';
 
 export default function Addamenities() {
   const location = useLocation();
-  const { bus } = location.state;
+  const  bus  = location.state;
+  console.log(bus);
   const [formState, setFormState] = useState({
     emergency_no: 0,
     water_bottle: 0,
@@ -33,7 +34,7 @@ export default function Addamenities() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosApi.post('http://localhost:8000/bus-owner/Add-Amenities/', {
+      const response = await axiosApi.post('http://localhost:8000/bus-owner/add-amenities/', {
         bus: bus,
         ...formState,
       });

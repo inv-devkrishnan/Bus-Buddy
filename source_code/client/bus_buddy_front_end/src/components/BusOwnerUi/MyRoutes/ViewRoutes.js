@@ -5,7 +5,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { axiosApi } from '../../../utils/axiosApi';
+import { axiosApi } from "../../../utils/axiosApi";
+import Swal from "sweetalert2";
 
 export default function Viewalltask() {
   const [pageno, setpageno] = useState(1);
@@ -15,7 +16,7 @@ export default function Viewalltask() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/View-Routes/`
+        `http://localhost:8000/bus-owner/view-routes/`
       );
       setData(response.data);
     };
@@ -58,7 +59,18 @@ export default function Viewalltask() {
     ));
   };
   const deleted = (id) => {
-    navi("/DeleteBus", { state: `${id}` });
+    axiosApi
+      .put(`http://127.0.0.1:8000/bus-owner/Delete-Routes/${id}/`)
+      .then((response) => {
+        console.log("bus deleted successfuly");
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("HTTP status code:", error.response.status);
+        } else {
+          console.error("An error occurred:", error.message);
+        }
+      });
   };
 
   return (
