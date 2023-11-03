@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 export default function OwnerRegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
     axiosApi
@@ -38,24 +39,18 @@ export default function OwnerRegisterCard() {
       .catch((err) => {
         console.log(err.response);
         if (err.response.data.email && err.response.data.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone is already registered",
-          });
+          setSwalText("Email and phone is already registered");
         } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
+          setSwalText(err.response.data.email);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
+          setSwalText(err.response.data.phone);
         }
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: swalText,
+        });
       });
   };
 
@@ -84,8 +79,10 @@ export default function OwnerRegisterCard() {
   return (
     <>
       <Card
-        className="p-5 shadow-lg p-3 mb-5 mt-5 bg-body rounded"
-        style={{ width: "45rem", padding: 5, alignItems: "center" }}
+        className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+        style={{
+          boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+        }}
       >
         <Card.Title>
           Sign Up <ShieldLockFill color="cornflowerblue" />

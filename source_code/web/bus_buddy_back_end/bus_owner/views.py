@@ -2,14 +2,11 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from account_manage.models import User
 from bus_owner.serializer import OwnerModelSerializer as OMS
 from bus_owner.serializer import OwnerDataSerializer as ODS
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from django.core.paginator import Paginator, Page
 from .models import Bus
 from .models import Routes
@@ -33,18 +30,25 @@ from rest_framework.permissions import IsAuthenticated
 
 entry = "Invalid entry"
 
-
 class RegisterBusOwner(APIView):
-    # permission_classes = (IsAuthenticated,)
+    """
+    For registering bus owner locally
+    """
+
+    permission_classes = (AllowAny,)
 
     def post(self, request):
-        request_data = request.data
-        request_data["role"] = 3
-        serialized_data = OMS(data=request_data)
-        if serialized_data.is_valid():
-            serialized_data.save()
-            return Response({"message": "registration successfull"}, status=201)
-        else:
+        try:
+            request_data = request.data.copy()
+            request_data["role"] = 3
+            serialized_data = OMS(data=request_data)
+            if serialized_data.is_valid():
+                serialized_data.save()
+                return Response({"message": "registration successfull"}, status=201)
+            else:
+                return Response(serialized_data._errors, status=400)
+
+        except ValidationError:
             return Response(serialized_data._errors, status=400)
 
 
@@ -79,7 +83,6 @@ class UpdateBusOwner(UpdateAPIView):
 
     def put(self, request):
         return self.update(request)
-
 
 class Addbus(APIView):  # Function to add new bus from bus owner
     # permission_classes = (IsAuthenticated,)
@@ -238,19 +241,19 @@ class Viewroutes(APIView):  # function to list all routes added by the bus owner
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response(status=404)
-                    
 
 class Deleteroutes(
     APIView
 ):  # function to change status of the route to 99 to perform logical deletion
     # permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def put(self, request, id):
         try:
-            data=Routes.objects.get(id=id)
-            data.status=99
+            data = Routes.objects.get(id=id)
+            data.status = 99
             data.save()
-            logger.info ("Deleted")
+            logger.info("Deleted")
             return Response("Deleted the record")
         except ObjectDoesNotExist:
             logger.info(entry)

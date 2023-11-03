@@ -2,3 +2,4 @@
 .env
 logData.log
 __pycache__/
+*.pyc
