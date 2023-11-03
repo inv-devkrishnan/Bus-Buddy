@@ -6,8 +6,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
-import { UpdateBusSchema } from "./UpdateBusSchema";
-import { axiosApi } from "../../utils/axiosApi";
+import { UpdateBusSchema } from "../UpdateBusSchema";
+import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Updatebus() {
   

@@ -34,6 +34,7 @@ class AmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Amenities
         fields = "__all__"
+        depth=1
 
 
 class UpdateamenitiesSerializer(serializers.ModelSerializer):
@@ -43,11 +44,12 @@ class UpdateamenitiesSerializer(serializers.ModelSerializer):
 
 
 class ViewBusSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(required=False)
+    # user = serializers.CharField(required=False)
 
     class Meta:
         model = Bus
         fields = "__all__"
+        depth=1
         
 class Locationdata(serializers.ModelSerializer):
     

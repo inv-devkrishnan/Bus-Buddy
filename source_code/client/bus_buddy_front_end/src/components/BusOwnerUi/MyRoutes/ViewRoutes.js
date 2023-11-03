@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { axiosApi } from "../../utils/axiosApi";
+import { axiosApi } from '../../../utils/axiosApi';
 
 export default function Viewalltask() {
   const [pageno, setpageno] = useState(1);

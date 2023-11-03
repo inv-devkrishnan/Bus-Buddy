@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { axiosApi } from "../../utils/axiosApi";
+import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Addbus() {
   const [bus_name, setBusName] = useState("");

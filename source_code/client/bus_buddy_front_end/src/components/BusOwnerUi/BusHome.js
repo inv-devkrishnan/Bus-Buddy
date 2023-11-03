@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import DeleteAccount from "../../pages/DeleteAccount";
-import ViewBus from "../Bus_Ui/ViewBus"
-import ViewRoutes from "../route_ui/ViewRoutes"
+import ViewBus from "./Mybuses/ViewBus"
+import ViewRoutes from "../BusOwnerUi/MyRoutes/ViewRoutes"
 import Ownerprofile from "./Ownerprofile";
 import SideBar from "../common/SideBar";
 
@@ -59,7 +59,7 @@ export default function UserDashboard() {
       onChange: myProfileSelected,
     },
     {
-      name: "My bus",
+      name: "My buses",
       state: myBusSelect,
       onChange: myBusSelected,
     },
