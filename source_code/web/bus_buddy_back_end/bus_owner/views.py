@@ -22,6 +22,8 @@ class AddSeatDetails(APIView):
             if serialized_data.is_valid():
                 serialized_data.save()
                 return Response({"message": "details added successfully"}, status=201)
+            else:
+                return Response(serialized_data._errors, status=400)
         except ValidationError:
             return Response(serialized_data._errors, status=400)
 
@@ -37,8 +39,11 @@ class GetSeatDetails(APIView):
         ui_order = request.GET["seat_ui_order"]
         bus_id = request.GET["bus_id"]
         if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
-            request_data = SeatDetails.objects.get(seat_ui_order=ui_order, bus=bus_id)
-            serialized_data = SDS(request_data)
-            return Response(serialized_data.data)
-        else:
-            return Response({"message": "Seat detail not registered"})
+            try:
+                request_data = SeatDetails.objects.get(
+                    seat_ui_order=ui_order, bus=bus_id
+                )
+                serialized_data = SDS(request_data)
+                return Response(serialized_data.data)
+            except ValidationError:
+                return Response({"error": "Validation error"})

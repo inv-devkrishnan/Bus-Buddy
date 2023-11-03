@@ -23,7 +23,7 @@ export default function Layer(props) {
     <div>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Grid>
+          <Grid item xs={2}>
             <UserSleeper seat={props.seats[0]} nearFemale={false} />
           </Grid>
         </Grid>

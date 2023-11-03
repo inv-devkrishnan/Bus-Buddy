@@ -1,20 +1,28 @@
-import { React} from "react";
+import { React } from "react";
 import UserLayout from "../components/User/UserLayout";
 import SeatDetailCard from "../components/User/SeatDetailCard";
-import Grid from '@mui/material/Grid';
+import PickAndDrop from "../components/User/PickAndDrop";
+import Grid from "@mui/material/Grid";
+
 export default function ViewSeatDetails() {
   return (
-    <div>
-      <Grid container spacing={2} margin={1}>
-      <Grid item xs={8} md={6}>
+    <Grid
+      container
+      m={1}
+      p={1}
+      spacing={2}
+      alignItems="flex-start"
+      justifyContent="space-between"
+    >
+      <Grid item m={1} md={8} xs={12} sm={12} lg={6}>
         <UserLayout />
       </Grid>
+      <Grid item md={3} xs={12} sm={12} lg={6}>
+        <PickAndDrop />
+      </Grid>
+      <Grid item md={3} xs={12} sm={12} lg={6}>
+        <SeatDetailCard />
+      </Grid>
     </Grid>
-    <div style={{display:"flex"}}>
-        <SeatDetailCard/>
-    </div>
-
-    </div>
-    
   );
 }

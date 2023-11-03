@@ -16,7 +16,7 @@ export default function UserLayout() {
   }, []);
 
   const getSeatDetails = async () => {
-    await axiosOpenApi.get("normal-user/view-seats/?bus_id=1").then((result) => {
+    await axiosOpenApi.get("normal-user/view-seats/?bus_id=7").then((result) => {
       console.log(result.data);
       let layers = [];
       while (result.data.lower_deck.length > 0) {
@@ -34,8 +34,8 @@ export default function UserLayout() {
   };
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={5}>
+      <Grid container spacing={12} justifyContent="space-evenly">
+        <Grid item md={6} xs={12} sm={6}>
           <span style={{ color: "cornflowerblue" }}>Lower Deck</span>
           <Card sx={{ width: 300, border: 1 }}>
             {lowerDeck.length > 0 && (
@@ -57,7 +57,7 @@ export default function UserLayout() {
             )}
           </Card>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item md={6} xs={12} sm={6}>
           <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
           <Card sx={{ width: 300, border: 1 }}>
             {upperDeck.length > 0 && (

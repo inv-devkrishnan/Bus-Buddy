@@ -78,7 +78,7 @@ export default function SeatDetailCard() {
               </TableBody>
             </Table>
             <TablePagination
-              rowsPerPageOptions={NUMBER_OF_ROWS}
+              rowsPerPageOptions={[NUMBER_OF_ROWS]}
               component="div"
               count={seatList.length}
               rowsPerPage={rowsPerPage}
