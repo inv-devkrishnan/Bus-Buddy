@@ -1,10 +1,10 @@
 import { React, useState, useMemo } from "react";
-import FullSeaterLayout from "../components/BusOwner/SeatDetails/Layouts/FullSeaterLayout";
-import FormComponent from "../components/BusOwner/SeatDetails/FormComponent";
-import { ShowFormContext } from "../utils/ShowFormContext";
+import FullSleeperLayout from "../../components/BusOwner/SeatComponents/Layouts/FullSleeperLayout";
+import FormComponent from "../../components/BusOwner/SeatComponents/FormComponent";
+import { ShowFormContext } from "../../utils/ShowFormContext";
 import { Grid } from "@mui/material";
 
-export default function AddSeatDetails() {
+export default function FullSleeperDetails() {
   const [isClicked, setIsClicked] = useState(false);
   const [propsData, setPropsData] = useState(0);
 
@@ -23,7 +23,7 @@ export default function AddSeatDetails() {
     >
       <Grid item md={8} xs={12} sm={12} lg={6}>
         <ShowFormContext.Provider value={contextValue}>
-          <FullSeaterLayout />
+          <FullSleeperLayout />
         </ShowFormContext.Provider>
       </Grid>
       <Grid item md={4} xs={12} sm={12} lg={6}>
@@ -31,7 +31,7 @@ export default function AddSeatDetails() {
           {isClicked && <FormComponent />}
         </ShowFormContext.Provider>
         {/* to render the form component outside the layout 
-      but the isClicked value is determined by the Seater component */}
+      but the isClicked value is determined by the sleeper component */}
       </Grid>
     </Grid>
   );

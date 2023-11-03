@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import ViewSeatDetails from "./pages/ViewSeatDetails";
-import FullSleeperDetails from "./pages/FullSleeperDetails";
-import FullSeaterDetails from "./pages/FullSeaterDetails";
-import SingleSeaterDoubleSleeperDetails from "./pages/SingleSeaterDoubleSleeperDetails";
+import FullSleeperDetails from "./pages/AddSeatDetails/FullSleeperDetails";
+import FullSeaterDetails from "./pages/AddSeatDetails/FullSeaterDetails";
+import SingleSeaterDoubleSleeperDetails from "./pages/AddSeatDetails/SingleSeaterDoubleSleeperDetails";
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 import { React, useState, useMemo } from "react";
-import SingleSeaterDoubleSleeperLayout from "../components/BusOwner/SeatDetails/Layouts/SingleSeaterDoubleSleeperLayout";
-import FormComponent from "../components/BusOwner/SeatDetails/FormComponent";
-import { ShowFormContext } from "../utils/ShowFormContext";
+import SingleSeaterDoubleSleeperLayout from "../../components/BusOwner/SeatComponents/Layouts/SingleSeaterDoubleSleeperLayout";
+import FormComponent from "../../components/BusOwner/SeatComponents/FormComponent";
+import { ShowFormContext } from "../../utils/ShowFormContext";
 import { Grid } from "@mui/material";
 
 export default function SingleSeaterDoubleSleeperDetails() {
