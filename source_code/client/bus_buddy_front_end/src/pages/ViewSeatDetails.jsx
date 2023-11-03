@@ -1,21 +1,20 @@
-import {React,useState} from "react";
-import { useLocation } from "react-router-dom";
+import { React} from "react";
 import UserLayout from "../components/User/UserLayout";
 import SeatDetailCard from "../components/User/SeatDetailCard";
+import Grid from '@mui/material/Grid';
 export default function ViewSeatDetails() {
-  const location = useLocation();
-  const isClicked = location.state; //stores the value as true which is passed from sleeper
-
   return (
-    <div className="container">
-      <div className="component">
+    <div>
+      <Grid container spacing={2} margin={1}>
+      <Grid item xs={8} md={6}>
         <UserLayout />
-      </div>
-      <div className="component">
-        {isClicked && <SeatDetailCard />}
-        {/* to render the form component outside the user layout 
-      but the isClicked value is determined by the user sleeper component */}
-      </div>
+      </Grid>
+    </Grid>
+    <div style={{display:"flex"}}>
+        <SeatDetailCard/>
     </div>
+
+    </div>
+    
   );
 }

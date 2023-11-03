@@ -1,5 +1,6 @@
+logData.log
 .coverage
 logData.log
 __pycache__/
-
-*.pyc
+.pyc
+migrations/__pycache__/
