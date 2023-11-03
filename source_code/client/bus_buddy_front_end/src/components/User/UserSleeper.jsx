@@ -21,48 +21,77 @@ function UserSleeper(props) {
   const [seatOccupied, setSeatOccupied] = useState(false); // to identify if seat is occupied
   const [seatFemaleOccupied, setSeatFemaleOccupied] = useState(false); // to identify if seat is female occupied
   const [open, setOpen] = useState(false); // to show / hide the snackbar
+  const [uiOrder, setUiOrder] = useState(0); // to find the ui order of a particular seat
+  const [seatData, setSeatData] = useState([]); // for storing whole seat data
+  const [presentSeat, setPresentSeat] = useState([]); // for finding the current seat detail
 
   useEffect(() => {
-    if (props.seat.booked.length > 0) {
-      setSeatOccupied(true); // if booked field is not empty then seat is already booked
-      if (props.seat.booked[0].traveller_gender === 2) {
-        setSeatFemaleOccupied(true); // set female occupied if gender =2
-      } else {
-        setSeatFemaleOccupied(false);
+    // for finding seat ui order and the respective data
+    setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
+    setSeatData(props.data);
+    let loop = 0;
+    while (loop < seatData.length) {
+      if (seatData[loop]?.seat_ui_order === uiOrder) {
+        // checks for the seat ui order and store it into seatData
+        setPresentSeat(seatData[loop]);
       }
-    } else {
-      setSeatOccupied(false);
+      loop++;
     }
-  }, [props]);
+  }, [props, seatData, uiOrder]);
 
-  const handleClose = (event, reason) => {
+  useEffect(() => {
+    let loop = 0;
+
+    while (loop < seatData.length) {
+      if (
+        seatData[loop]?.seat_ui_order === uiOrder &&
+        seatData[loop]?.booked.length > 0
+      ) {
+        setSeatOccupied(true);
+        // if booked field is not empty then seat is already booked
+        if (seatData[loop]?.booked[0]?.traveller_gender === 2) {
+          setSeatFemaleOccupied(true);
+        } else {
+          setSeatFemaleOccupied(false);
+        }
+        break;
+      } else {
+        setSeatOccupied(false);
+      }
+      loop++;
+    }
+
+  }, [seatData, uiOrder]);
+
+  const handleClose = (reason) => {
     // function to close snackbar
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
+
   const handleSelect = () => {
     setSelect(!select);
-    let selectedSeat = props.seat;
+    let selectedSeat = presentSeat;
     // gets details of nearby seat and set them if they are male or female only
     selectedSeat["female_only"] = props.nearFemale;
     selectedSeat["male_only"] = props.nearMale;
-    if (seatList.includes(props.seat)) {
-      const newArray = seatList.filter((seat) => seat.id !== props.seat.id);
+    if (seatList.includes(presentSeat)) {
+      const newArray = seatList.filter((seat) => seat.id !== presentSeat.id);
       // update seat list array once seat is removed
       updateSeatList(newArray);
     } else {
       // shows snackbar if either the current seat is near a booked female or male seat
       if (props.nearFemale || props.nearMale) {
         setOpen(true);
-      } else if (props.nearMale) {
       }
       let newArray = [...seatList, selectedSeat];
       // update seat list array once seat is selected
       updateSeatList(newArray);
     }
   };
+
 
   return (
     <>

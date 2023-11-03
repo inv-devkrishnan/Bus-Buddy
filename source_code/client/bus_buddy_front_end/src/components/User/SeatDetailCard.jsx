@@ -18,7 +18,6 @@ export default function SeatDetailCard() {
   const [page, setPage] = useState(0); // to set current page
   const [rowsPerPage, setRowsPerPage] = useState(NUMBER_OF_ROWS); // to set number of rows in a page
   useEffect(() => {
-    console.log(seatList);
     if (seatList.length > 0) {
       let sumOfCost = 0;
       seatList.forEach((element) => {
@@ -30,7 +29,7 @@ export default function SeatDetailCard() {
     }
   }, [seatList]);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
@@ -40,9 +39,9 @@ export default function SeatDetailCard() {
   };
 
   return (
-      <Card sx={{ width: "40rem", margin: 3, padding: 2, boxShadow: 5 }}>
-        <div style={{display:"flex"}}>
-          <div>
+    <Card sx={{ width: "40rem", margin: 3, padding: 2, boxShadow: 5 }}>
+      <div style={{ display: "flex" }}>
+        <div>
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Seat Details
           </Typography>
@@ -94,10 +93,10 @@ export default function SeatDetailCard() {
           <Button type="submit" variant="contained" disabled={!seatList.length}>
             Book Tickets
           </Button>
-          </div>
-         
-        <SeatLegend />
         </div>
-      </Card>
+
+        <SeatLegend />
+      </div>
+    </Card>
   );
 }

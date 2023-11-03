@@ -25,7 +25,7 @@ function App() {
         />
 
         <Route path="/view-seats" element={<ViewSeatDetails />} />
-      </Routes>{" "}
+      </Routes>
     </SeatContextProvider>
   );
 }
