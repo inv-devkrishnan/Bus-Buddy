@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage
 from datetime import timedelta
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -70,6 +71,7 @@ class CustomPagination(PageNumberPagination):
     """
     For paginating the query set
     """
+
     page_size = 5
     page_size_query_param = "page_size"
 
@@ -93,6 +95,7 @@ class BookingHistory(ListAPIView):
     """
     For viewing the user's booking history
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = BHDS
     pagination_class = CustomPagination
@@ -114,20 +117,21 @@ class BookingHistory(ListAPIView):
         except ValueError:
             return Response(serializer._errors)
 
-class ViewTrip(ListAPIView):
+
+class ViewTrip(APIView):
     def add_date_offset(self, tripdate, offset):
         """Function to add days to start date of the trip to match the arrival time at the location"""
         return str(tripdate + timedelta(days=offset))
 
-    def list(self, request):
-        # route_ids = StartStopLocations.objects.filter(location_id=6).values_list('route_id', flat=True)
-        # # Perform self-join using route_id and location_id=8
-        # result = StartStopLocations.objects.filter(route_id__in=route_ids, location_id=7)
-        # return Response(result.values())
+    def get(self, request):
+        """Function to display trips to user based on his/her search"""
         start_location = request.GET.get("start")
         end_location = request.GET.get("end")
         date = request.GET.get("date")
-        if start_location and end_location and date:
+        page_number = request.GET.get("page", 1)
+        ITEMS_PER_PAGE = 3
+
+        if start_location and end_location and date:  # if all the params are available
             query = """
             SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
                    e.arrival_time as end_arrival_time,
@@ -150,9 +154,15 @@ class ViewTrip(ListAPIView):
             )
             trip_list = []
             for data in result:
-                arrival_date = self.add_date_offset(data.start_date, data.start_offset)
-                if date == str(arrival_date):
+                arrival_date = self.add_date_offset(
+                    data.start_date, data.start_offset
+                )  # gets the actual arrival date by adding the offset
+
+                if date == str(
+                    arrival_date
+                ):  # if the data provided by user is the same date the bus arrives at the given location
                     trip_data = {
+                        # stores each trip information
                         "route": data.route_id,
                         "start_location_arrival_time": data.start_arrival_time,
                         "end_location_arrival_time": data.end_arrival_time,
@@ -166,8 +176,28 @@ class ViewTrip(ListAPIView):
                         "bus_name": data.bus_name,
                         "bus": data.bus_id,
                     }
+                    # adds each trip data to a trip list
                     trip_list.append(trip_data)
 
-            return Response(trip_list)
+            paginator = Paginator(trip_list, ITEMS_PER_PAGE)  # pagination for trips
+
+            try:
+                current_page = paginator.page(page_number)
+            except EmptyPage:  # if page doesn't exist status is set to no content
+                return Response({}, status=204)
+            paginated_data = {
+                "total_pages": paginator.num_pages,
+                "total_items": paginator.count,
+                "items_per_page": ITEMS_PER_PAGE,
+                "current_page": current_page.number,
+                "has_previous": current_page.has_previous(),
+                "has_next": current_page.has_next(),
+                "data": list(current_page),
+            }
+
+            return Response(paginated_data)
+
         else:
-            return Response({"error_code:D1005"}, status=400)        
+            return Response(
+                {"error_code": "D1005"}, status=400
+            )  # returns if any one of query params is missing
