@@ -40,7 +40,7 @@ export default function SeatDetailCard() {
   };
 
   return (
-    <Card sx={{ width: "50rem", margin: 3, padding: 2, boxShadow: 5 }}>
+    <Card sx={{ width: "90%", margin: 1, padding: 2, boxShadow: 5 }}>
       <div style={{ display: "flex" }}>
         <div style={{width:"55%"}}>
           <Typography id="modal-modal-title" variant="h5" component="h2">

@@ -21,10 +21,8 @@ export default function ViewSeatDetails() {
       <Grid item m={1} md={8} xs={12} sm={12} lg={6}>
         <UserLayout />
       </Grid>
-      <Grid item md={3} xs={12} sm={12} lg={6}>
+      <Grid item m={1} md={8} xs={12} sm={12} lg={6}>
         {seatList.length ? <PickAndDrop /> : null}
-      </Grid>
-      <Grid item md={3} xs={12} sm={12} lg={6}>
         <SeatDetailCard />
       </Grid>
     </Grid>
