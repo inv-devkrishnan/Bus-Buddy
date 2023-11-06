@@ -197,7 +197,7 @@ class Viewbus(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
 
     
     def get_queryset(self):
@@ -208,12 +208,12 @@ class Viewbus(ListAPIView):
             # user_id = request.user.id
             queryset = Bus.objects.filter(status=0)     #to filter out bus objects which has been soft deleted 
             print(queryset)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -472,7 +472,7 @@ class Viewtrip(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = TripSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
 
     def get_queryset(self):
         return Trip.objects.all()       #to get all details of related child object of trip
@@ -481,12 +481,12 @@ class Viewtrip(ListAPIView):
         try:
             # user_id = request.user.id
             queryset = Trip.objects.filter(status=0)
-            serializer = ViewRoutesSerializer(queryset)
-            page = self.paginate_queryset(queryset)
+            # serializer = ViewRoutesSerializer(queryset)
+            # page = self.paginate_queryset(queryset)
 
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
+            # if page is not None:
+            #     serializer = self.get_serializer(page, many=True)
+            #     return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
 

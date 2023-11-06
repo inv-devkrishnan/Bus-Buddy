@@ -44,11 +44,11 @@ class UpdateamenitiesSerializer(serializers.ModelSerializer):
 
 class ViewBusSerializer(serializers.ModelSerializer):
     # user = serializers.CharField(required=False)
-
+    amenities_data=AmenitiesSerializer(many=True, read_only=True,source="amenities_set")
     class Meta:
         model = Bus
-        fields = "__all__"
-        depth=1
+        fields = ("id","plate_no","bus_type","bus_ac","amenities_data")
+        # depth=1
         
 class Locationdata(serializers.ModelSerializer):
     

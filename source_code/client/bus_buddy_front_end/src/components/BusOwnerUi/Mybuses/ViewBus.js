@@ -8,11 +8,19 @@ import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
+import { Pagination } from "react-bootstrap";
 
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
   const [amenitiesdata,setAmenitiesData] = useState([]);
+  const [pageSize, setPageSize] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [next, setNext] = useState(1);
+  const [previous, setPrevious] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [active, setActive] = useState(1);
 
   const navi = useNavigate();
 
@@ -21,25 +29,81 @@ export default function Viewallbus() {
       `http://127.0.0.1:8000/bus-owner/view-amenities/${id}/`
     );
     console.log(response.data);
-    setAmenitiesData(response.data.results);
+    setAmenitiesData(response.data);
   };
   console.log(amenitiesdata);
-  if(amenitiesdata.length>0){
-    console.log('it is there');
-  }
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-bus/`
+        `http://localhost:8000/bus-owner/view-bus/?page=${page}`
       );
-      setData(response.data);
+      setData(response.data.results);
       console.log(response.data);
+      setNext(response.data.has_next);
+      setPrevious(response.data.has_previous);
+      setTotalPages(response.data.total_pages);
+      setCurrentPage(response.data.current_page_number);
+      setPageSize(response.data.page_size);
     };
     fetchData();
-  }, []);
+  }, [page]);
   console.log(amenitiesdata);
-  console.log(amenitiesdata.length);
+  const handlePrevious = () => {
+    setActive(active - 1);
+    setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    setActive(active + 1);
+    setPage(page + 1);
+  };
+
+  let items = [];
+  for (let number = 1; number <= totalPages; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === active}
+        onClick={() => {
+          setActive(number);
+          setPage(number);
+        }}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+
+  const paginationBasic = (
+    <div>
+      <Pagination>
+        <Pagination.First
+          onClick={() => {
+            setActive(1);
+            setPage(1);
+          }}
+        />
+        {previous ? (
+          <Pagination.Prev onClick={handlePrevious} />
+        ) : (
+          <Pagination.Prev onClick={handlePrevious} disabled />
+        )}
+        {items}
+        {next ? (
+          <Pagination.Next onClick={handleNext} />
+        ) : (
+          <Pagination.Next onClick={handleNext} disabled />
+        )}
+        <Pagination.Last
+          onClick={() => {
+            setActive(totalPages);
+            setPage(totalPages);
+          }}
+        />
+      </Pagination>
+    </div>
+  );
 
   const renderCards = () => {
     return data.map((viewbus) => (
@@ -70,6 +134,7 @@ export default function Viewallbus() {
                     <p>Bus A/C : Non A/C</p>
                   ) : (
                     <p>Bus A/C : Unknown</p>
+                    <p>Amenites: {viewbus.amenities_data['id']</p>
                   )}
                 </div>
               </div>
@@ -195,8 +260,10 @@ export default function Viewallbus() {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
+          flexDirection:"column"
         }}
       >
+        {paginationBasic}
         <Link to={"/AddBus"}>
           <button className="btn btn-primary"> + Add Bus</button>
         </Link>

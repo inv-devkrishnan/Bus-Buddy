@@ -4,6 +4,7 @@ import { useAuthStatus } from "../../utils/hooks/useAuth";
 import DeleteAccount from "../../pages/DeleteAccount";
 import ViewBus from "./Mybuses/ViewBus"
 import ViewRoutes from "../BusOwnerUi/MyRoutes/ViewRoutes"
+import ViewTrips from "./MyTrips/ViewTrips.jsx"
 import Ownerprofile from "./Ownerprofile";
 import SideBar from "../common/SideBar";
 
@@ -97,7 +98,7 @@ export default function UserDashboard() {
         {myProfileSelect && <Ownerprofile/>}
         {myBusSelect && <ViewBus/>}
         {myRouteSelect && <ViewRoutes/>}
-        {myTripSelect && <h1>List User Page</h1>}
+        {myTripSelect && <ViewTrips/>}
         {deleteSelect && <DeleteAccount />}
       </div>
     </div>

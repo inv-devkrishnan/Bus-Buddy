@@ -40,6 +40,7 @@ function App() {
               <Route path="/register-user" element={<RegisterUser />} />
               <Route path="/update-user" element={<UpdateForm />} />
               <Route path="/Update-Profile" element={<UpdateOwnerProfile/>} />
+              <Route path="view-trips" element={<ViewRoutes/>}/>
             </Routes>
     </div>
   );
