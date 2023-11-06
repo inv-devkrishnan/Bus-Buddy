@@ -10,7 +10,9 @@ function LandingPage() {
   const [showTripList, setShowTripList] = useState(false); // to show/hide the TripList
   const [startLocation, setStartLocation] = useState(0); // to store start location id
   const [endLocation, setEndLocation] = useState(0); // to store end location id
-  const [tripDate,setTripDate] = useState() // to store trip date
+  const [startLocationName, setStartLocationName] = useState("");
+  const [endLocationName, setEndLocationName] = useState("");
+  const [tripDate, setTripDate] = useState(); // to store trip date
   useEffect(() => {
     getLocationData();
   }, []);
@@ -44,16 +46,14 @@ function LandingPage() {
 
   const validateSearchTerms = () => {
     // validation for start location , end_location and date_picker
-    let startlocation = document
-      .getElementById("start_text_box")
-      ?.value.trim();
+    let startlocation = document.getElementById("start_text_box")?.value.trim();
 
     let endlocation = document.getElementById("end_text_box")?.value.trim();
     let date = document.getElementById("trip_date_picker")?.value;
     if (
-      startlocation !== endlocation && 
-      startlocation.length !== 0 && 
-      endlocation.length !== 0 && 
+      startlocation !== endlocation &&
+      startlocation.length !== 0 &&
+      endlocation.length !== 0 &&
       date.length !== 0
     ) {
       let start_location_id = validLocation(startlocation); // gets the id of the given start location
@@ -62,6 +62,8 @@ function LandingPage() {
         // if the id's are valid then enable search and store id's in state variable
         setStartLocation(start_location_id);
         setEndLocation(end_location_id);
+        setStartLocationName(startlocation);
+        setEndLocationName(endlocation);
         setTripDate(date);
         setEnableSearch(true);
       } else {
@@ -71,63 +73,80 @@ function LandingPage() {
       setEnableSearch(false);
     }
   };
-  const viewTrips = async () =>
-  {
+  const viewTrips = async () => {
     setShowTripList(true);
-
-  }
+  };
   return (
     <>
-     <div className="m-5 d-flex justify-content-center">
-      <Card className="p-3" style={{ width: "50rem" }}>
-        <div className="d-flex align-items-center">
-          <img src={splashscreen} height={300} width={300} alt="splash"></img>
-          <div>
-            <h1>Find your Trip</h1>
-            <h1 className="text-primary mt-3">@ Affordable Prices</h1>
+      <div className="m-5 d-flex justify-content-center">
+        <Card className="p-3 ms-5" style={{ width: "50rem" }}>
+          {!showTripList && (
+            <div className="d-flex align-items-center">
+              <img
+                src={splashscreen}
+                height={300}
+                width={300}
+                alt="splash"
+              ></img>
+              <div>
+                <h1>Find your Trip</h1>
+                <h1 className="text-primary mt-3">@ Affordable Prices</h1>
+              </div>
+            </div>
+          )}
+
+          <div className="d-flex align-items-center">
+            <input
+              className="form-control"
+              list="datalistOptions"
+              id="start_text_box"
+              onChange={validateSearchTerms}
+              placeholder="Type from location"
+            />
+            <h5 className="me-3 ms-3">to</h5>
+            <input
+              className="form-control"
+              list="datalistOptions"
+              id="end_text_box"
+              onChange={validateSearchTerms}
+              placeholder="Type to location"
+            />
+            <input
+              className="form-control"
+              id="trip_date_picker"
+              type="date"
+              onChange={validateSearchTerms}
+              min={getCurrentDate()}
+            />
+            <Button
+              className="ms-3"
+              disabled={!enableSearch}
+              onClick={() => {
+                viewTrips();
+              }}
+            >
+              Search
+            </Button>
           </div>
-        </div>
-        <div className="d-flex align-items-center">
-          <input
-            className="form-control"
-            list="datalistOptions"
-            id="start_text_box"
-            onChange={validateSearchTerms}
-            placeholder="Type from location"
-          />
-          <h5 className="me-3 ms-3">to</h5>
-          <input
-            className="form-control"
-            list="datalistOptions"
-            id="end_text_box"
-            onChange={validateSearchTerms}
-            placeholder="Type to location"
-          />
-          <input
-            className="form-control"
-            id="trip_date_picker"
-            type="date"
-            onChange={validateSearchTerms}
-            min={getCurrentDate()}
-          />
-          <Button className="ms-3" disabled={!enableSearch} onClick={()=>{viewTrips()}}>
-            Search
-          </Button>
-        </div>
-        <datalist id="datalistOptions">
-          {locations.map((location) => (
-            <option key={location.id} value={location.location_name}>
-              {location.location_name}
-            </option>
-          ))}
-        </datalist>
-      </Card>
-    </div>
-     {showTripList &&
-      <ShowTrips startLocation={startLocation} endLocation={endLocation} tripDate={tripDate}/>
-     }
+          <datalist id="datalistOptions">
+            {locations.map((location) => (
+              <option key={location.id} value={location.location_name}>
+                {location.location_name}
+              </option>
+            ))}
+          </datalist>
+        </Card>
+      </div>
+      {showTripList && (
+        <ShowTrips
+          startLocation={startLocation}
+          startLocationName={startLocationName}
+          endLocationName={endLocationName}
+          endLocation={endLocation}
+          tripDate={tripDate}
+        />
+      )}
     </>
-   
   );
 }
 export default LandingPage;

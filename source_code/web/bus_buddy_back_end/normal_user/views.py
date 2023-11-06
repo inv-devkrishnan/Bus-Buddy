@@ -128,56 +128,54 @@ class ViewTrip(APIView):
         start_location = request.GET.get("start")
         end_location = request.GET.get("end")
         date = request.GET.get("date")
+        seat_type = request.GET.get("seat-type", 2)
+        bus_type = request.GET.get("bus-type", 0)
+        bus_ac = request.GET.get("bus-ac", 0)
         page_number = request.GET.get("page", 1)
         ITEMS_PER_PAGE = 3
 
         if start_location and end_location and date:  # if all the params are available
             query = """
-            SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
+           SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
                    e.arrival_time as end_arrival_time,
                    s.arrival_date_offset as start_offset,
                    e.arrival_date_offset as end_offset,
-                   r.via, r.travel_fare, t.start_date, t.end_date,
-                   t.id as trip_id, b.bus_name, b.id as bus_id
+                   r.via, r.travel_fare,DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
+                   DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
+                   t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
               ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
             LEFT JOIN routes r
               ON r.id = s.route_id and r.status = 0
             INNER JOIN trip t
-              ON t.route_id = s.route_id and t.start_date = %s and t.status = 0
+              ON t.route_id = s.route_id and t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and t.status = 0
             INNER JOIN bus b
-              ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2;
+              ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2 and b.bus_seat_type = %s and b.bus_type = %s and b.bus_ac =%s
+            INNER JOIN user u
+              ON b.user_id = u.id;  
         """
             result = StartStopLocations.objects.raw(
-                query, [start_location, end_location, date]
+                query, [start_location, end_location, date, seat_type, bus_type, bus_ac]
             )
             trip_list = []
             for data in result:
-                arrival_date = self.add_date_offset(
-                    data.start_date, data.start_offset
-                )  # gets the actual arrival date by adding the offset
-
-                if date == str(
-                    arrival_date
-                ):  # if the data provided by user is the same date the bus arrives at the given location
-                    trip_data = {
-                        # stores each trip information
-                        "route": data.route_id,
-                        "start_location_arrival_time": data.start_arrival_time,
-                        "end_location_arrival_time": data.end_arrival_time,
-                        "start_location_arrival_date": arrival_date,
-                        "end_location_arrival_date": self.add_date_offset(
-                            data.start_date, data.end_offset
-                        ),
-                        "via": data.via,
-                        "travel_fare": data.travel_fare,
-                        "trip": data.trip_id,
-                        "bus_name": data.bus_name,
-                        "bus": data.bus_id,
-                    }
-                    # adds each trip data to a trip list
-                    trip_list.append(trip_data)
+                trip_data = {
+                    # stores each trip information
+                    "route": data.route_id,
+                    "start_location_arrival_time": data.start_arrival_time,
+                    "end_location_arrival_time": data.end_arrival_time,
+                    "start_location_arrival_date": data.start_date,
+                    "end_location_arrival_date": data.end_date,
+                    "via": data.via,
+                    "travel_fare": data.travel_fare,
+                    "trip": data.trip_id,
+                    "bus_name": data.bus_name,
+                    "bus": data.bus_id,
+                    "company_name": data.company_name,
+                }
+                # adds each trip data to a trip list
+                trip_list.append(trip_data)
 
             paginator = Paginator(trip_list, ITEMS_PER_PAGE)  # pagination for trips
 
