@@ -132,28 +132,38 @@ class ViewTrip(APIView):
         bus_type = request.GET.get("bus-type", 0)
         bus_ac = request.GET.get("bus-ac", 0)
         page_number = request.GET.get("page", 1)
-        ITEMS_PER_PAGE = 3
+        ITEMS_PER_PAGE = 1
 
         if start_location and end_location and date:  # if all the params are available
             query = """
-           SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
+            SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
                    e.arrival_time as end_arrival_time,
                    s.arrival_date_offset as start_offset,
                    e.arrival_date_offset as end_offset,
-                   r.via, r.travel_fare,DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
+                   r.via, (r.travel_fare+seat_details.cost) as starting_cost,
+                   DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
                    DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
-                   t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name
+                   t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
+                   am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
+                   am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
               ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
             LEFT JOIN routes r
               ON r.id = s.route_id and r.status = 0
             INNER JOIN trip t
-              ON t.route_id = s.route_id and t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and t.status = 0
+              ON t.route_id = s.route_id and
+              t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and
+              t.status = 0
             INNER JOIN bus b
-              ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2 and b.bus_seat_type = %s and b.bus_type = %s and b.bus_ac =%s
+              ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2
+              and b.bus_seat_type = %s and b.bus_type = %s and b.bus_ac =%s
             INNER JOIN user u
-              ON b.user_id = u.id;  
+              ON b.user_id = u.id
+            INNER JOIN amenities am
+              ON am.bus_id = b.id
+            INNER JOIN (select bus_id, min(seat_cost) as cost from seat_details group by bus_id) as seat_details
+			 ON seat_details.bus_id = b.id; 
         """
             result = StartStopLocations.objects.raw(
                 query, [start_location, end_location, date, seat_type, bus_type, bus_ac]
@@ -168,11 +178,24 @@ class ViewTrip(APIView):
                     "start_location_arrival_date": data.start_date,
                     "end_location_arrival_date": data.end_date,
                     "via": data.via,
-                    "travel_fare": data.travel_fare,
+                    "travel_fare": data.starting_cost,
                     "trip": data.trip_id,
                     "bus_name": data.bus_name,
                     "bus": data.bus_id,
                     "company_name": data.company_name,
+                    "amenities": {
+                        "emergency_no": data.emergency_no,
+                        "water_bottle": data.water_bottle,
+                        "charging_point":data.charging_point,
+                        "usb_port":data.usb_port,
+                        "blankets":data.blankets,
+                        "pillows":data.pillows,
+                        "reading_light":data.reading_light,
+                        "toilet":data.toilet,
+                        "snacks":data.snacks,
+                        "tour_guide":data.tour_guide,
+                        "cctv":data.cctv,
+                    }
                 }
                 # adds each trip data to a trip list
                 trip_list.append(trip_data)
