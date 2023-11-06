@@ -62,6 +62,7 @@ class Payment(models.Model):
 
 class BookedSeats(models.Model):
     booking = models.ForeignKey(Bookings, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip,on_delete=models.CASCADE)
     traveller_name = models.CharField(max_length=255, null=False)
     traveller_gender = models.SmallIntegerField(default=0, null=False)
     traveller_dob = models.DateField(auto_now=False, auto_now_add=False, null=False)
