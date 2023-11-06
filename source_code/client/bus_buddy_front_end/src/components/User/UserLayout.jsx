@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
@@ -6,18 +6,20 @@ import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import UserLayer from "../User/UserLayer";
 import driver from "../../assets/images/driver.png";
 import { axiosApi } from "../../utils/axiosApi";
+import { SeatContext } from "../../utils/SeatContext";
 
 export default function UserLayout() {
-  const [seatDetails, setSeatDetails] = useState([]);
+  const {updateSeatData} = useContext(SeatContext)// use context for updating seat data
+  
   useEffect(() => {
     getSeatData();
   }, []);
 
   const getSeatData = async () => {
     await axiosApi
-      .get("normal-user/view-seats/?bus_id=7")
+      .get("normal-user/view-seats/?trip_id=2")
       .then((res) => {
-        setSeatDetails(res.data);
+        updateSeatData(res.data)
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -38,11 +40,11 @@ export default function UserLayout() {
                 </Grid>
               </Grid>
 
-              <UserLayer data={seatDetails} row={1} />
-              <UserLayer data={seatDetails} row={2} />
-              <UserLayer data={seatDetails} row={3} />
-              <UserLayer data={seatDetails} row={4} />
-              <UserLayer data={seatDetails} row={5} />
+              <UserLayer row={1} />
+              <UserLayer row={2} />
+              <UserLayer row={3} />
+              <UserLayer row={4} />
+              <UserLayer row={5} />
             </CardContent>
           </Card>
         </Grid>
@@ -56,11 +58,11 @@ export default function UserLayout() {
                   <HorizontalRuleIcon sx={{ color: "white" }} />{" "}
                 </Grid>
               </Grid>
-              <UserLayer data={seatDetails} row={6} />
-              <UserLayer data={seatDetails} row={7} />
-              <UserLayer data={seatDetails} row={8} />
-              <UserLayer data={seatDetails} row={9} />
-              <UserLayer data={seatDetails} row={10} />
+              <UserLayer row={6} />
+              <UserLayer row={7} />
+              <UserLayer row={8} />
+              <UserLayer row={9} />
+              <UserLayer row={10} />
             </CardContent>
           </Card>
         </Grid>

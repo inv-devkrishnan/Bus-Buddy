@@ -1,10 +1,14 @@
-import { React } from "react";
+import { React, useContext } from "react";
 import UserLayout from "../components/User/UserLayout";
 import SeatDetailCard from "../components/User/SeatDetailCard";
 import PickAndDrop from "../components/User/PickAndDrop";
 import Grid from "@mui/material/Grid";
 
+import { SeatContext } from "../utils/SeatContext";
+
 export default function ViewSeatDetails() {
+  const { seatList } = useContext(SeatContext);
+
   return (
     <Grid
       container
@@ -18,7 +22,7 @@ export default function ViewSeatDetails() {
         <UserLayout />
       </Grid>
       <Grid item md={3} xs={12} sm={12} lg={6}>
-        <PickAndDrop />
+        {seatList.length ? <PickAndDrop /> : null}
       </Grid>
       <Grid item md={3} xs={12} sm={12} lg={6}>
         <SeatDetailCard />

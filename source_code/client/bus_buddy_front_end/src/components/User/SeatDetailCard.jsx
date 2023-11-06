@@ -17,6 +17,7 @@ export default function SeatDetailCard() {
   const NUMBER_OF_ROWS = 3; // number of rows in seat details table
   const [page, setPage] = useState(0); // to set current page
   const [rowsPerPage, setRowsPerPage] = useState(NUMBER_OF_ROWS); // to set number of rows in a page
+  
   useEffect(() => {
     if (seatList.length > 0) {
       let sumOfCost = 0;
@@ -29,7 +30,7 @@ export default function SeatDetailCard() {
     }
   }, [seatList]);
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = (event,newPage) => {
     setPage(newPage);
   };
 
@@ -39,9 +40,9 @@ export default function SeatDetailCard() {
   };
 
   return (
-    <Card sx={{ width: "40rem", margin: 3, padding: 2, boxShadow: 5 }}>
+    <Card sx={{ width: "50rem", margin: 3, padding: 2, boxShadow: 5 }}>
       <div style={{ display: "flex" }}>
-        <div>
+        <div style={{width:"55%"}}>
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Seat Details
           </Typography>
@@ -87,7 +88,7 @@ export default function SeatDetailCard() {
             />
           </TableContainer>
 
-          <Typography align="right" margin={1} variant="subtitle1">
+          <Typography align="right" m={1} variant="subtitle1">
             Total Cost : ₹ {totalCost}
           </Typography>
           <Button type="submit" variant="contained" disabled={!seatList.length}>

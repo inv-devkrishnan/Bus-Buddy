@@ -4685,3 +4685,1018 @@ Traceback (most recent call last):
 AttributeError: Got AttributeError when attempting to get a value for field `seat_number` on serializer `SeatDetailsViewSerialzer`.
 The serializer field might be named incorrectly and not match any attribute or key on the `QuerySet` instance.
 Original exception text was: 'QuerySet' object has no attribute 'seat_number'.
+django.request ERROR 2023-11-06 05:39:35,711 log 18262 140244664968768 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 13, in get
+    bus_id = Trip.objects.get(id=trip_id).values_list('bus',flat=True).first()
+AttributeError: 'Trip' object has no attribute 'values_list'
+django.request ERROR 2023-11-06 05:45:03,150 log 18581 140542317946432 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 16, in get
+    trip = Trip.objects.get(id=trip_id)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 637, in get
+    raise self.model.DoesNotExist(
+bus_owner.models.Trip.DoesNotExist: Trip matching query does not exist.
+django.request ERROR 2023-11-06 06:23:07,672 log 21110 139658991232576 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 22, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1052, in get_fields
+    field_names = self.get_field_names(declared_fields, info)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1148, in get_field_names
+    assert field_name in fields, (
+AssertionError: The field 'trip' was declared on serializer BookedSeatsSerializer, but has not been included in the 'fields' option.
+django.request ERROR 2023-11-06 06:25:43,482 log 21403 140414322468416 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 22, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `trip` is not valid for model `BookedSeats`.
+django.request ERROR 2023-11-06 07:23:02,319 log 25997 140519198942784 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 21, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 17, in get_booked
+    trip_id = request.query_params.get('trip_id')
+AttributeError: 'NoneType' object has no attribute 'query_params'
+django.request ERROR 2023-11-06 07:23:11,292 log 25997 140519116109376 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 21, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 17, in get_booked
+    trip_id = request.query_params.get('trip_id')
+AttributeError: 'NoneType' object has no attribute 'query_params'
+django.request ERROR 2023-11-06 07:25:13,015 log 26202 139745216689728 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 24, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 17, in get_booked
+    trip_id = request.query_params.get('trip_id')
+AttributeError: 'NoneType' object has no attribute 'query_params'
+django.request ERROR 2023-11-06 07:25:15,134 log 26202 139745216689728 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 24, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 17, in get_booked
+    trip_id = request.query_params.get('trip_id')
+AttributeError: 'NoneType' object has no attribute 'query_params'
+django.request ERROR 2023-11-06 07:45:49,646 log 27759 140142366946880 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response(serializer.data, route_serializer.data, status=200)
+TypeError: Response.__init__() got multiple values for argument 'status'
+django.request ERROR 2023-11-06 07:46:14,780 log 27892 139715819861568 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response(serializer.data + route_serializer.data, status=200)
+TypeError: can only concatenate list (not "ReturnDict") to list
+django.request ERROR 2023-11-06 07:46:47,037 log 27971 140504956139072 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response({serializer.data} + {route_serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 07:47:01,329 log 28035 140515760666176 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response({serializer.data} ,{route_serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 07:47:04,036 log 28035 140515760666176 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response({serializer.data} ,{route_serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 07:47:07,508 log 28035 140515760666176 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 28, in get
+    return Response({serializer.data} ,{route_serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 07:47:35,048 log 28144 139629298705984 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 25, in get
+    return Response({serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 07:47:38,545 log 28144 139629298705984 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 25, in get
+    return Response({serializer.data}, status=200)
+TypeError: unhashable type: 'ReturnList'
+django.request ERROR 2023-11-06 08:28:37,925 log 32958 139649332799040 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 25, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 27, in get_pick_and_drop
+    bus_stops = obj.pick_and_drop_set.filter(route=route_id)
+AttributeError: 'SeatDetails' object has no attribute 'pick_and_drop_set'
+django.request ERROR 2023-11-06 08:32:43,357 log 33249 140630127797824 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+TypeError: 'Trip' object is not iterable
+django.request ERROR 2023-11-06 08:33:09,195 log 33337 140717502490176 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.pick_and_drop_set.filter(route=route_id)
+AttributeError: 'Trip' object has no attribute 'pick_and_drop_set'
+django.request ERROR 2023-11-06 08:33:30,421 log 33414 140295632053824 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.pickanddrop_set.filter(route=route_id)
+AttributeError: 'Trip' object has no attribute 'pickanddrop_set'
+django.request ERROR 2023-11-06 08:35:05,864 log 33574 140204237125184 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.route_set.filter(route=route_id)
+AttributeError: 'Trip' object has no attribute 'route_set'
+django.request ERROR 2023-11-06 08:37:22,692 log 33734 140253997295168 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.route_set.filter(route_id=route_id)
+AttributeError: 'Trip' object has no attribute 'route_set'
+django.request ERROR 2023-11-06 08:38:49,289 log 33862 139919805638208 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.trip_set.filter(route_id=route_id)
+AttributeError: 'Trip' object has no attribute 'trip_set'
+django.request ERROR 2023-11-06 08:40:50,048 log 34003 140071634204224 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 45, in get_pick_and_drop
+    bus_stops = obj.route_set.filter(id=route_id)
+AttributeError: 'Trip' object has no attribute 'route_set'
+django.request ERROR 2023-11-06 08:42:16,989 log 34184 140488756684352 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 1838, in to_representation
+    return method(value)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/serializer.py", line 47, in get_pick_and_drop
+    route = obj.route_set.get(id=route_id)
+AttributeError: 'Trip' object has no attribute 'route_set'
+django.request ERROR 2023-11-06 08:47:41,222 log 34475 140440109049408 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `Trip`.
+django.request ERROR 2023-11-06 08:47:57,242 log 34544 139890489550400 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `Trip`.
+django.request ERROR 2023-11-06 08:47:59,949 log 34544 139890489550400 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `Trip`.
+django.request ERROR 2023-11-06 08:48:00,716 log 34544 139890489550400 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 26, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `Trip`.
+django.request ERROR 2023-11-06 08:48:30,350 log 34648 139969618241088 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 25, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `SeatDetails`.
+django.request ERROR 2023-11-06 08:48:31,940 log 34648 139969618241088 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 25, in get
+    return Response(serializer.data, status=200)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 768, in data
+    ret = super().data
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 507, in to_representation
+    for field in fields:
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `SeatDetails`.

@@ -17,18 +17,16 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 function UserSleeper(props) {
   const [select, setSelect] = useState(false); // to identify if seat is selected or not
-  const { seatList, updateSeatList } = useContext(SeatContext); // seatlist from seatcontext
+  const { seatList, updateSeatList, seatData } = useContext(SeatContext); // seatlist and seat data from seatcontext
   const [seatOccupied, setSeatOccupied] = useState(false); // to identify if seat is occupied
   const [seatFemaleOccupied, setSeatFemaleOccupied] = useState(false); // to identify if seat is female occupied
   const [open, setOpen] = useState(false); // to show / hide the snackbar
   const [uiOrder, setUiOrder] = useState(0); // to find the ui order of a particular seat
-  const [seatData, setSeatData] = useState([]); // for storing whole seat data
   const [presentSeat, setPresentSeat] = useState([]); // for finding the current seat detail
 
   useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
-    setSeatData(props.data);
     let loop = 0;
     while (loop < seatData.length) {
       if (seatData[loop]?.seat_ui_order === uiOrder) {
