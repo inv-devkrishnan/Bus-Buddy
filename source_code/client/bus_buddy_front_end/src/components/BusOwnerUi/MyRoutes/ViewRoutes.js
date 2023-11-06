@@ -60,7 +60,7 @@ export default function Viewallroutes() {
   };
   const deleted = (id) => {
     axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/Delete-Routes/${id}/`)
+      .put(`http://127.0.0.1:8000/bus-owner/delete-routes/${id}/`)
       .then((response) => {
         console.log("bus deleted successfuly");
       })

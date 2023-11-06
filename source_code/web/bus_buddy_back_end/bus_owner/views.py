@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import Bus
-from .models import Routes
+from .models import Routes,PickAndDrop,StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User
@@ -367,7 +367,33 @@ class Deleteroutes(APIView):
             return Response({"message": dentry})
         except ObjectDoesNotExist:
             logger.info(entry)
-            return Response(status=404)
+        try:
+            data = Trip.objects.get(id=id)    #to get trips object matching the id
+            data.status = 99
+            data.save()
+            logger.info("Deleted")
+            return Response({"message": dentry})
+        except ObjectDoesNotExist:
+            logger.info(entry)
+   
+        try:
+            data = StartStopLocations.objects.get(id=id)    #to get start stop object matching the id
+            data.status = 99
+            data.save()
+            logger.info("Deleted")
+            return Response({"message": dentry})
+        except ObjectDoesNotExist:
+            logger.info(entry)
+   
+        try:
+            data = PickAndDrop.objects.get(id=id)    #to get pick&drop object matching the id
+            data.status = 99
+            data.save()
+            logger.info("Deleted")
+            return Response({"message": dentry})
+        except ObjectDoesNotExist:
+            logger.info(entry)
+        return Response(status=404)
 
 
 class Addtrip(APIView):
