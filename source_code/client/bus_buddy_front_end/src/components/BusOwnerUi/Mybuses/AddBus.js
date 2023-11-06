@@ -48,7 +48,7 @@ export default function Addbus() {
       if (response.status === 200) {
         console.log("Inserted");
         console.log(response);
-        const data = { bus: response.data.bus };
+        const data =  response.data.bus
         console.log(data);
         navi("/Addamenities", { state: data });
       }

@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { axiosApi } from '../../../utils/axiosApi';
+import "./Addamenities.css"; 
 
 
 export default function Updateamenities() {

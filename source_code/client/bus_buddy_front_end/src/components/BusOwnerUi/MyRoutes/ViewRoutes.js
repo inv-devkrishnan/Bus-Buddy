@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 
-export default function Viewalltask() {
+export default function Viewallroutes() {
   const [pageno, setpageno] = useState(1);
   const [data, setData] = useState([]);
   const navi = useNavigate();
@@ -76,8 +76,8 @@ export default function Viewalltask() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "25%" }} inline>
-          <h1>Viewall</h1>
+      <Form style={{ textAlign: "center", marginLeft: "25%" }}>
+        <h1>Viewall</h1>
         </Form>
         <Form inline>
           <Row>

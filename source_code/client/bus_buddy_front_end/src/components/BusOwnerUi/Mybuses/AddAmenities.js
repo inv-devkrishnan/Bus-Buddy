@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { axiosApi } from '../../../utils/axiosApi';
+import "./Addamenities.css"; 
+
+
 
 export default function Addamenities() {
   const location = useLocation();
@@ -59,13 +62,13 @@ export default function Addamenities() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginRight: '5rem', paddingTop: '3rem' }}>
-      <Card style={{ width: '35rem', height: '35rem', paddingTop: '1rem' }}>
+      <Card style={{ width: '35rem', height: '40rem', paddingTop: '1rem' }}>
         <Card.Body>
           <Card.Title style={{ textAlign: 'center' }}>Amenities</Card.Title>
           <div style={{display: 'flex'}}>
             <Form onSubmit={handleSubmit}>
               {Object.keys(formState).map((amenity) => (
-                <div key={amenity} className="mb-3">
+                <div key={amenity} className="mb-4">
                   <Form.Check
                     type="checkbox"
                     id={`amenity-${amenity}`}
@@ -75,7 +78,7 @@ export default function Addamenities() {
                   />
                 </div>
               ))}
-                           <Button type="submit">Add Amenities</Button>
+                           <Button type="submit" >Add Amenities</Button>
             </Form>
             </div>
         </Card.Body>

@@ -10,9 +10,9 @@ import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 
 
-export default function Viewalltask() {
+export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [amenitiesdata, setamenitiesData] = useState([]);
+  const [amenitiesdata,setAmenitiesData] = useState([]);
 
   const navi = useNavigate();
 
@@ -21,11 +21,12 @@ export default function Viewalltask() {
       `http://127.0.0.1:8000/bus-owner/view-amenities/${id}/`
     );
     console.log(response.data);
-    if (response.status === 200) {
-      setamenitiesData(response.data);
-    }
+    setAmenitiesData(response.data.results);
   };
   console.log(amenitiesdata);
+  if(amenitiesdata.length>0){
+    console.log('it is there');
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +38,8 @@ export default function Viewalltask() {
     };
     fetchData();
   }, []);
-  console.log(amenitiesdata[0]);
+  console.log(amenitiesdata);
+  console.log(amenitiesdata.length);
 
   const renderCards = () => {
     return data.map((viewbus) => (
@@ -84,9 +86,9 @@ export default function Viewalltask() {
                 >
                   Update
                 </button>
-                <button className="btn btn-primary" onClick={""}>
+                {/* <button className="btn btn-primary" onClick={""}>
                   Add seat details
-                </button>
+                </button> */}
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewbus.id)}
@@ -131,10 +133,8 @@ export default function Viewalltask() {
   };
 
   const addAmenities = (id) => {
-    const bus=id;
-    console.log("bus")
-    console.log(bus)
-    navi("/Addamenities", { state: bus });
+
+    navi("/Addamenities", { state: `${id}` });
   };
 
   const updateAmenities = (id) => {
@@ -171,7 +171,7 @@ export default function Viewalltask() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "25%" }} inline>
+      <Form style={{ textAlign: "center", marginLeft: "25%" }}>
           <h1>Viewall</h1>
         </Form>
         <Form inline>

@@ -110,18 +110,34 @@ class Deletebus(APIView):
     """
 
     # permission_classes = (IsAuthenticated,)
-
+    
     def put(self, request, id):
         try:
             data = Bus.objects.get(id=id)  #to retrive bus object that matches the id 
             data.status = 99        #soft delete    
             data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
+            logger.info("Deleted bus")
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
-
+        
+        try:
+            data = Amenities.objects.get(bus=id)   #to get the amenities obj associated with bus obj 
+            data.status = 99        #soft delete    
+            data.save()
+            logger.info("Deleted amenities")
+            return Response({"message": "Deleted Bus & Amenities"})
+        except ObjectDoesNotExist:
+            logger.info(entry)
+        try:
+            data = Trip.objects.get(bus=id)    #to get the trip obj associated with bus obj
+            data.status = 99        #soft delete    
+            data.save()
+            logger.info("Deleted trip")
+            return Response({"message": "Deleted Bus & Amenities & trip"})
+        except ObjectDoesNotExist:
+            logger.info(entry)
+        return Response({"message":"There are not trips or bus object for this particular bus"})
 
 class Updatebus(UpdateAPIView): 
     """
@@ -181,7 +197,7 @@ class Viewbus(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
 
     
     def get_queryset(self):
@@ -190,14 +206,14 @@ class Viewbus(ListAPIView):
     def list(self, request):
         try:
             # user_id = request.user.id
-            queryset = Bus.objects.filter(status=0)     #to filter out bus object which has been soft deleted 
+            queryset = Bus.objects.filter(status=0)     #to filter out bus objects which has been soft deleted 
             print(queryset)
-            serializer = ViewRoutesSerializer(queryset)
-            page = self.paginate_queryset(queryset)
+            # serializer = ViewRoutesSerializer(queryset)
+            # page = self.paginate_queryset(queryset)
 
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
+            # if page is not None:
+            #     serializer = self.get_serializer(page, many=True)
+            #     return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -278,20 +294,13 @@ class ViewAmenities(ListAPIView):
                 print(queryset)
             except Amenities.DoesNotExist:
                 return Response(status=404)
-            
-            serializer = ViewRoutesSerializer(queryset)
-            page = self.paginate_queryset(queryset)
-
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
-
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
 
         except ValueError:
             return Response(serializer._errors)
  
+
 
 class Addroutes(APIView):
     """
@@ -319,7 +328,7 @@ class Viewroutes(ListAPIView):
     """
     # permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
 
     def get_queryset(self):
         return Routes.objects.all()
@@ -328,12 +337,12 @@ class Viewroutes(ListAPIView):
         try:
             # user_id = request.user.id
             queryset = Routes.objects.filter(status=0)
-            serializer = ViewRoutesSerializer(queryset)
-            page = self.paginate_queryset(queryset)
+            # serializer = ViewRoutesSerializer(queryset)
+            # page = self.paginate_queryset(queryset)
 
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
+            # if page is not None:
+            #     serializer = self.get_serializer(page, many=True)
+            #     return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
 
