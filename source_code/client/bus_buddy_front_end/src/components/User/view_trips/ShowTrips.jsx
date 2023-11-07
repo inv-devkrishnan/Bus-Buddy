@@ -78,18 +78,18 @@ function ShowTrips(props) {
                   label="Seater"
                   value={1}
                   onChange={(e) => {
-                    setSeatType(e.target.value);
+                    setSeatType(Number(e.target.value));
                   }}
-                  checked={seatType === "1"}
+                  checked={seatType === 1}
                   name="seat-type"
                 />
                 <Form.Check
                   type="radio"
                   label="Sleeper"
                   value={0}
-                  checked={seatType === "0"}
+                  checked={seatType === 0}
                   onChange={(e) => {
-                    setSeatType(e.target.value);
+                    setSeatType(Number(e.target.value));
                   }}
                   name="seat-type"
                 />
@@ -97,9 +97,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="Both"
                   value={2}
-                  checked={seatType === "2"}
+                  checked={seatType === 2}
                   onChange={(e) => {
-                    setSeatType(e.target.value);
+                    setSeatType(Number(e.target.value));
                   }}
                   name="seat-type"
                 />
@@ -111,9 +111,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="Low Floor"
                   value={0}
-                  checked={busType === "0"}
+                  checked={busType === 0}
                   onChange={(e) => {
-                    setBusType(e.target.value);
+                    setBusType(Number(e.target.value));
                   }}
                   name="bus-type"
                 />
@@ -121,9 +121,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="Multi-Axle"
                   value={1}
-                  checked={busType === "1"}
+                  checked={busType === 1}
                   onChange={(e) => {
-                    setBusType(e.target.value);
+                    setBusType(Number(e.target.value));
                   }}
                   name="bus-type"
                 />
@@ -131,9 +131,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="both"
                   value={2}
-                  checked={busType === "2"}
+                  checked={busType === 2}
                   onChange={(e) => {
-                    setBusType(e.target.value);
+                    setBusType(Number(e.target.value));
                   }}
                   name="bus-type"
                 />
@@ -145,9 +145,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="Yes"
                   value={0}
-                  checked={busAc === "0"}
+                  checked={busAc === 0}
                   onChange={(e) => {
-                    setBusAc(e.target.value);
+                    setBusAc(Number(e.target.value));
                   }}
                   name="ac-type"
                 />
@@ -155,9 +155,9 @@ function ShowTrips(props) {
                   type="radio"
                   label="No"
                   value={1}
-                  checked={busAc === "1"}
+                  checked={busAc === 1}
                   onChange={(e) => {
-                    setBusAc(e.target.value);
+                    setBusAc(Number(e.target.value));
                   }}
                   name="ac-type"
                 />
