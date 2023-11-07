@@ -119,20 +119,42 @@ class BookingHistory(ListAPIView):
 
 
 class ViewTrip(APIView):
-    def add_date_offset(self, tripdate, offset):
-        """Function to add days to start date of the trip to match the arrival time at the location"""
-        return str(tripdate + timedelta(days=offset))
+    def filter_query(self, seat_type, bus_type, bus_ac):
+        """function to add where clause 
+        according to params passed in the
+        url """
+        condition = " where"
+        count = 0
+        if seat_type != "-1":
+            condition = condition + " b.bus_seat_type = " + str(seat_type)
+            count = count + 1
+        if bus_type != "-1":
+            if count > 0:
+                condition = condition + " and  b.bus_type = " + str(bus_type)
+                count = count + 1
+            else:
+                condition = condition + " b.bus_type = " + str(bus_type)
+                count = count + 1
+        if bus_ac != "-1":
+            if count > 0:
+                condition = condition + " and  b.bus_ac = " + str(bus_ac)
+                count = count + 1
+            else:
+                condition = condition + " b.bus_ac = " + str(bus_ac)
+                count = count + 1
+
+        return condition
 
     def get(self, request):
-        """Function to display trips to user based on his/her search"""
+        """Function to display trips to user based on search"""
         start_location = request.GET.get("start")
         end_location = request.GET.get("end")
         date = request.GET.get("date")
-        seat_type = request.GET.get("seat-type", 2)
-        bus_type = request.GET.get("bus-type", 0)
-        bus_ac = request.GET.get("bus-ac", 0)
+        seat_type = request.GET.get("seat-type", "-1")
+        bus_type = request.GET.get("bus-type", "-1")
+        bus_ac = request.GET.get("bus-ac", "-1")
         page_number = request.GET.get("page", 1)
-        ITEMS_PER_PAGE = 1
+        ITEMS_PER_PAGE = 3
 
         if start_location and end_location and date:  # if all the params are available
             query = """
@@ -157,16 +179,19 @@ class ViewTrip(APIView):
               t.status = 0
             INNER JOIN bus b
               ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2
-              and b.bus_seat_type = %s and b.bus_type = %s and b.bus_ac =%s
             INNER JOIN user u
               ON b.user_id = u.id
             INNER JOIN amenities am
               ON am.bus_id = b.id
             INNER JOIN (select bus_id, min(seat_cost) as cost from seat_details group by bus_id) as seat_details
-			 ON seat_details.bus_id = b.id; 
+			 ON seat_details.bus_id = b.id
         """
+            if seat_type != "-1" or bus_type != "-1" or bus_ac != "-1":
+                # if any query params provided filter the query
+                query = query + self.filter_query(seat_type, bus_type, bus_ac)
+
             result = StartStopLocations.objects.raw(
-                query, [start_location, end_location, date, seat_type, bus_type, bus_ac]
+                query, [start_location, end_location, date]
             )
             trip_list = []
             for data in result:
@@ -186,16 +211,16 @@ class ViewTrip(APIView):
                     "amenities": {
                         "emergency_no": data.emergency_no,
                         "water_bottle": data.water_bottle,
-                        "charging_point":data.charging_point,
-                        "usb_port":data.usb_port,
-                        "blankets":data.blankets,
-                        "pillows":data.pillows,
-                        "reading_light":data.reading_light,
-                        "toilet":data.toilet,
-                        "snacks":data.snacks,
-                        "tour_guide":data.tour_guide,
-                        "cctv":data.cctv,
-                    }
+                        "charging_point": data.charging_point,
+                        "usb_port": data.usb_port,
+                        "blankets": data.blankets,
+                        "pillows": data.pillows,
+                        "reading_light": data.reading_light,
+                        "toilet": data.toilet,
+                        "snacks": data.snacks,
+                        "tour_guide": data.tour_guide,
+                        "cctv": data.cctv,
+                    },
                 }
                 # adds each trip data to a trip list
                 trip_list.append(trip_data)
