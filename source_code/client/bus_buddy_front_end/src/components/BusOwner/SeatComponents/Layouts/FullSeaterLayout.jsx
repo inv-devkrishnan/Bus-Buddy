@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import FullSeaterLayer from "../Layers/FullSeaterLayer";
-import driver from "../../../../assests/driver.png";
+import driver from "../../../../assets/driver.png";
 
 export default function FullSeaterLayout() {
   return (

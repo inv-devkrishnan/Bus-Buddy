@@ -1,10 +1,10 @@
 import { React, useContext } from "react";
 import { IconButton } from "@mui/material";
-import SeaterImage from "../../../assests/seater.png";
+import SeaterImage from "../../../assets/seater.png";
 import { ShowFormContext } from "../../../utils/ShowFormContext";
 
 function Seater(props) {
-  const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext);
+  const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext);// use context for setting props data and button value
 
   const handleClick = () => {
     setIsClicked(!isClicked);

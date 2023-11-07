@@ -21,8 +21,10 @@ export default function ViewSeatDetails() {
       <Grid item m={1} md={8} xs={12} sm={12} lg={6}>
         <UserLayout />
       </Grid>
+
       <Grid item m={1} md={8} xs={12} sm={12} lg={6}>
         {seatList.length ? <PickAndDrop /> : null}
+        {/* component renders only when a seat is selected */}
         <SeatDetailCard />
       </Grid>
     </Grid>

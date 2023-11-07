@@ -12,17 +12,21 @@ import {
   FormHelperText,
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import Swal from "sweetalert2";
+
 import { useFormik } from "formik";
+import Swal from "sweetalert2";
+
 import { FormComponentSchema } from "./FormComponentSchema";
-import axios from "axios";
 import { ShowFormContext } from "../../../utils/ShowFormContext";
+import axios from "axios";
 
 export default function FormComponent() {
-  const { propsData } = useContext(ShowFormContext);//holds seat ui order
-  const [currentData, setCurrentData] = useState([]);
+  const { propsData } = useContext(ShowFormContext); // holds seat ui order
+  const [currentData, setCurrentData] = useState([]); // for storing the whole data from response
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    // api call and data storing
     axios
       .get(
         `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}&&bus_id=7`
@@ -33,8 +37,8 @@ export default function FormComponent() {
       .catch((err) => {});
   }, [propsData]);
 
-  console.log(currentData["deck"]);
   useEffect(() => {
+    // for setting values to test box after api call
     formik.setValues({
       seatNumber: currentData["seat_number"],
       seatType: currentData["seat_type"],
@@ -44,6 +48,7 @@ export default function FormComponent() {
   }, [currentData]);
 
   const onSubmit = () => {
+    // api call for storing seat details
     axios
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
         bus: 7,
@@ -60,41 +65,38 @@ export default function FormComponent() {
         }
       })
       .catch((err) => {
-        console.log(err.response);
         if (err.response.data.seat_ui_order) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.seat_ui_order,
-          });
+          setErrorMessage(err.response.data.seat_ui_order);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data,
-          });
+          setErrorMessage(err.response.data);
         }
+
+        Swal.fire({
+          // displays error message
+          icon: "error",
+          title: "Oops...",
+          text: errorMessage,
+        });
       });
   };
 
   const formik = useFormik({
+    // formik initialisation
     initialValues: {
       seatNumber: "",
       seatType: "",
-      deck: "",
+      deck: 0,
       seatCost: 0,
     },
     validationSchema: FormComponentSchema,
     onSubmit,
   });
 
-  const { resetForm } = formik;
+  const { resetForm } = formik; // when called resets the form
 
   return (
     <div>
-      <Card
-        sx={{ width: "20rem", margin: 5,boxShadow:4 }}
-      >
+      <Card sx={{ width: "20rem", margin: 5, boxShadow: 4 }}>
         <Box
           component="form"
           onSubmit={formik.handleSubmit}
@@ -142,8 +144,10 @@ export default function FormComponent() {
               name="deck"
               label="Deck"
               variant="outlined"
-              value={formik.values.deck}
-              onChange={formik.handleChange}
+              value={formik.values.deck || ""}
+              onChange={(e) =>
+                formik.setFieldValue("deck", parseInt(e.target.value))
+              }
               error={formik.touched.deck && Boolean(formik.errors.deck)}
             >
               <MenuItem value={0}>Lower deck</MenuItem>

@@ -1,10 +1,10 @@
 import { React, useContext } from "react";
 import { IconButton } from "@mui/material";
-import SleeperImage from "../../../assests/sleeper.png";
+import SleeperImage from "../../../assets/sleeper.png";
 import { ShowFormContext } from "../../../utils/ShowFormContext";
 
 function Sleeper(props) {
-  const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext);
+  const { isClicked, setIsClicked, setPropsData } = useContext(ShowFormContext); // use context that for setting props data and button value
 
   const handleClick = () => {
     setIsClicked(!isClicked);

@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Sleeper from "../Sleeper";
 import Seater from "../Seater";
 
-export default function TwoSeaterForTwoSleeperLayout(layer) {
+export default function TwoSeaterForTwoSleeperLayer(layer) {
   return (
     <div>
       <Grid container spacing={2}>
@@ -13,10 +13,13 @@ export default function TwoSeaterForTwoSleeperLayout(layer) {
             <Seater column={2} row={layer.layer} />
           </Grid>
         </Grid>
+
         <Grid item xs={2}></Grid>
+
         <Grid item xs={2}>
           <Sleeper column={3} row={layer.layer} />
         </Grid>
+        
         <Grid item xs={2}>
           <Sleeper column={4} row={layer.layer} />
         </Grid>

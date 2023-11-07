@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FullSleeperLayer from "../Layers/FullSleeperLayer";
-import driver from "../../../../assests/driver.png";
+import driver from "../../../../assets/driver.png";
 
 export default function FullSleeperLayout() {
   return (
@@ -27,6 +27,7 @@ export default function FullSleeperLayout() {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item md={6} xs={12} sm={6}>
         <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
         <Card sx={{ width: 300, border: 1 }}>

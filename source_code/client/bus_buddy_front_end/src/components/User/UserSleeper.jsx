@@ -4,10 +4,10 @@ import { IconButton } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-import Selected from "../../assets/images/selectedSleeper.png";
-import Sleeper from "../../assets/images/sleeper.png";
-import FemaleSleeper from "../../assets/images/femaleSleeper.png";
-import MaleSleeper from "../../assets/images/maleSleeper.png";
+import Selected from "../../assets/selectedSleeper.png";
+import Sleeper from "../../assets/sleeper.png";
+import FemaleSleeper from "../../assets/femaleSleeper.png";
+import MaleSleeper from "../../assets/maleSleeper.png";
 import { SeatContext } from "../../utils/SeatContext";
 
 const Alert = forwardRef(function Alert(props, ref) {

@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import UserLayer from "../User/UserLayer";
-import driver from "../../assets/images/driver.png";
+import driver from "../../assets/driver.png";
 import { axiosApi } from "../../utils/axiosApi";
 import { SeatContext } from "../../utils/SeatContext";
 
@@ -22,7 +22,7 @@ export default function UserLayout() {
         updateSeatData(res.data)
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log("error");
       });
   };
 

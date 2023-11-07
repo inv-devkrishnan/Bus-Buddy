@@ -7,32 +7,41 @@ export default function UserLayer(props) {
   const { seatData } = useContext(SeatContext); // use context which contain the seat data
   const [nearFemale, setNearFemale] = useState(false); // true if current seat is near a female booked seat
   const [nearMale, setNearMale] = useState(false); // true if current seat is near a male booked seat
+
   useEffect(() => {
-    // checks if nearby seat is booked by female
-    let layerData = [];
-    let loop = 0;
-    while (loop < seatData.length) {
-      let layerFromUiOrder = Math.floor(seatData[loop]?.seat_ui_order / 10);// to check whether the seat is in same layer
-      if (layerFromUiOrder === props.row) {
-        layerData.push(seatData[loop]);
-      }
+    let layerData = []; // for storing seat data of same layer
+    let hasMale = false; // for checking male traveller
+    let hasFemale = false; // for checking female traveller
 
-      if (
-        layerData[1]?.booked[0]?.traveller_gender === 2 ||
-        layerData[2]?.booked[0]?.traveller_gender === 2
-      ) {
-        setNearFemale(true);
-      } else if (
-        // checks if nearby seat is booked by male
-        layerData[1]?.booked[0]?.traveller_gender === 1 ||
-        layerData[2]?.booked[0]?.traveller_gender === 1
-      ) {
-        setNearMale(true);
-      }
+    for (let loop = 1; loop < seatData.length; loop++) {
+      // Loop through the seat data
+      const seat = seatData[loop]; // current seat data
+      const seatUiOrder = seat?.seat_ui_order;
+      const layerFromUiOrder = Math.floor(seatUiOrder / 10);
 
-      loop++;
+      if (layerFromUiOrder === props.row && seatUiOrder % 10 !== 1) {
+        // grouping seats on the same layer but avoids the single seats
+        layerData.push(seat);
+
+        if (seat.booked.length > 0) {
+          // Check if the current seat has been booked by a male or female traveler
+          if (seat.booked[0].traveller_gender === 1) {
+            hasMale = true;
+          } else if (seat.booked[0].traveller_gender === 2) {
+            hasFemale = true;
+          }
+        }
+      }
     }
-  }, [props, seatData]);
+
+    if (layerData.length === 2 && hasMale) {
+      // Male has booked nearby seats
+      setNearMale(true);
+    } else if (hasFemale) {
+      // Female has booked nearby seats
+      setNearFemale(true);
+    }
+  }, [props.row, seatData]);
 
   return (
     <div>

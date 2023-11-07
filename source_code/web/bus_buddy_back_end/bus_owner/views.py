@@ -38,12 +38,14 @@ class GetSeatDetails(APIView):
     def get(self, request):
         ui_order = request.GET["seat_ui_order"]
         bus_id = request.GET["bus_id"]
-        if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
-            try:
+        try:
+            if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
                 request_data = SeatDetails.objects.get(
                     seat_ui_order=ui_order, bus=bus_id
                 )
                 serialized_data = SDS(request_data)
                 return Response(serialized_data.data)
-            except ValidationError:
-                return Response({"error": "Validation error"})
+            else:
+                return Response({"error": "Validation error"},status=400)
+        except ValidationError:
+            return Response({"error":"Not registered"},status=400)

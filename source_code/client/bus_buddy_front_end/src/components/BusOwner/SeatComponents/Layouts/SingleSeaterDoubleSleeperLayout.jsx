@@ -5,8 +5,8 @@ import { Grid } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FullSleeperLayer from "../Layers/FullSleeperLayer";
 import SingleSeaterDoubleSleeperLayer from "../Layers/SingleSeaterDoubleSleeperLayer";
-import TwoSeaterForTwoSleeperLayout from "../Layers/TwoSeaterForTwoSleeperLayout";
-import driver from "../../../../assests/driver.png";
+import TwoSeaterForTwoSleeperLayer from "../Layers/TwoSeaterForTwoSleeperLayer";
+import driver from "../../../../assets/driver.png";
 
 export default function SingleSeaterDoubleSleeperLayout() {
   return (
@@ -21,15 +21,16 @@ export default function SingleSeaterDoubleSleeperLayout() {
                 <img src={driver} alt="driver" />
               </Grid>
             </Grid>
-            <TwoSeaterForTwoSleeperLayout layer={1} />
-            <TwoSeaterForTwoSleeperLayout layer={2} />
-            <TwoSeaterForTwoSleeperLayout layer={3} />
-            <TwoSeaterForTwoSleeperLayout layer={4} />
-            <TwoSeaterForTwoSleeperLayout layer={5} />
+            <TwoSeaterForTwoSleeperLayer layer={1} />
+            <TwoSeaterForTwoSleeperLayer layer={2} />
+            <TwoSeaterForTwoSleeperLayer layer={3} />
+            <TwoSeaterForTwoSleeperLayer layer={4} />
+            <TwoSeaterForTwoSleeperLayer layer={5} />
             <SingleSeaterDoubleSleeperLayer layer={6} />
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item md={6} xs={12} sm={6}>
         <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
         <Card sx={{ width: 300, border: 1 }}>

@@ -5,8 +5,8 @@ import { ShowFormContext } from "../../utils/ShowFormContext";
 import { Grid } from "@mui/material";
 
 export default function SingleSeaterDoubleSleeperDetails() {
-  const [isClicked, setIsClicked] = useState(false);
-  const [propsData, setPropsData] = useState(0);
+  const [isClicked, setIsClicked] = useState(false); // for seat onClick function
+  const [propsData, setPropsData] = useState(0); // holds the ui order
 
   const contextValue = useMemo(
     () => ({ isClicked, setIsClicked, propsData, setPropsData }),
@@ -26,6 +26,7 @@ export default function SingleSeaterDoubleSleeperDetails() {
           <SingleSeaterDoubleSleeperLayout />
         </ShowFormContext.Provider>
       </Grid>
+
       <Grid item md={4} xs={12} sm={12} lg={6}>
         <ShowFormContext.Provider value={contextValue}>
           {isClicked && <FormComponent />}

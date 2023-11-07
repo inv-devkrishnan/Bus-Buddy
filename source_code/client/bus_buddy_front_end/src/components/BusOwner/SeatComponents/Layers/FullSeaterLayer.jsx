@@ -10,12 +10,14 @@ export default function FullSleeperLayer(layer) {
           <Grid item xs={2}>
             <Seater column={2} row={layer.layer} />
           </Grid>
-
         </Grid>
+
         <Grid item xs={2}></Grid>
+
         <Grid item xs={2}>
           <Seater column={2} row={layer.layer} />
         </Grid>
+
         <Grid item xs={2}>
           <Seater column={3} row={layer.layer} />
         </Grid>

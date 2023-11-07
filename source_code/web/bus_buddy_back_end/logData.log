@@ -5700,3 +5700,73 @@ Traceback (most recent call last):
   File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
     raise ImproperlyConfigured(
 django.core.exceptions.ImproperlyConfigured: Field name `pick_and_drop` is not valid for model `SeatDetails`.
+django.request ERROR 2023-11-06 12:09:04,200 log 44158 139734796985920 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-06 12:09:33,242 log 44158 139734796985920 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-06 12:21:55,256 log 44158 139734796985920 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-06 12:30:19,958 log 58808 140366040790592 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 42, in get
+    if SeatDetails.objects.get(seat_ui_order=ui_order, bus=bus_id):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 637, in get
+    raise self.model.DoesNotExist(
+bus_owner.models.SeatDetails.DoesNotExist: SeatDetails matching query does not exist.
