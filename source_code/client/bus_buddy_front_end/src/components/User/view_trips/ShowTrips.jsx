@@ -12,9 +12,9 @@ function ShowTrips(props) {
   const [currentPage, setCurrentPage] = useState(1); // to get current page
   const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
-  const [seatType, setSeatType] = useState(-1);
-  const [busType, setBusType] = useState(-1);
-  const [busAc, setBusAc] = useState(-1);
+  const [seatType, setSeatType] = useState(-1); // to filter record's based of seat type (-1 = disable)
+  const [busType, setBusType] = useState(-1); // to filter record's based of bus type (-1 = disable)
+  const [busAc, setBusAc] = useState(-1); // to filter record's based of ac or not (-1 = disable)
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
   }, [props, seatType, busType, busAc]);
@@ -38,6 +38,7 @@ function ShowTrips(props) {
     return pageItem;
   };
   const getTrips = async (value, page, seatType, busType, busAc) => {
+    // function to get trip details from backend
     await openAxiosApi
       .get(
         `user/view-trips/?start=${value?.startLocation}&end=${value?.endLocation}&date=${value.tripDate}&page=${page}&seat-type=${seatType}&bus-type=${busType}&bus-ac=${busAc}`
@@ -52,6 +53,7 @@ function ShowTrips(props) {
       });
   };
   const clearFilters = () => {
+    // function to clear filters
     setBusType(-1);
     setSeatType(-1);
     setBusAc(-1);
@@ -64,7 +66,7 @@ function ShowTrips(props) {
             <Card style={{ width: "20rem" }} className="m-3 p-3">
               <div className="d-flex justify-content-between">
                 <h5 className="mt-2">Filters</h5>
-                <Button variant="outline-danger" size="sm" onClick={clearFilters}>
+                <Button variant="danger" size="sm" onClick={clearFilters}>
                   Clear All
                 </Button>
               </div>
@@ -109,7 +111,7 @@ function ShowTrips(props) {
                   type="radio"
                   label="Low Floor"
                   value={0}
-                  checked={busType ==="0"}
+                  checked={busType === "0"}
                   onChange={(e) => {
                     setBusType(e.target.value);
                   }}
@@ -119,7 +121,7 @@ function ShowTrips(props) {
                   type="radio"
                   label="Multi-Axle"
                   value={1}
-                  checked={busType ==="1"}
+                  checked={busType === "1"}
                   onChange={(e) => {
                     setBusType(e.target.value);
                   }}
@@ -129,7 +131,7 @@ function ShowTrips(props) {
                   type="radio"
                   label="both"
                   value={2}
-                  checked={busType ==="2"}
+                  checked={busType === "2"}
                   onChange={(e) => {
                     setBusType(e.target.value);
                   }}
@@ -173,7 +175,7 @@ function ShowTrips(props) {
                 />
               ))
             ) : (
-              <div className="d-flex mt-5">
+              <div className="d-flex mt-5 ms-5">
                 <ExclamationCircle color="red" size={96}></ExclamationCircle>
                 <div className="ms-3">
                   <h2>No Matching Trips Found !!</h2>

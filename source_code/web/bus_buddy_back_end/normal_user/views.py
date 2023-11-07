@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
-from datetime import timedelta
+from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
@@ -120,9 +120,9 @@ class BookingHistory(ListAPIView):
 
 class ViewTrip(APIView):
     def filter_query(self, seat_type, bus_type, bus_ac):
-        """function to add where clause 
+        """function to add where clause
         according to params passed in the
-        url """
+        url"""
         condition = " where"
         count = 0
         if seat_type != "-1":
@@ -145,8 +145,43 @@ class ViewTrip(APIView):
 
         return condition
 
+    def validate_params(
+        self,
+        start_location,
+        end_location,
+        date,
+        seat_type,
+        bus_type,
+        bus_ac,
+        page_number,
+    ):
+        """function to validate the query params to ensure sanity"""
+        date_format = "%Y-%m-%d"
+        try:
+            if (
+                start_location.isdigit()
+                and end_location.isdigit()
+                and page_number.isdigit()
+                and seat_type.strip("-").isdigit()
+                and bus_type.strip("-").isdigit()
+                and bus_ac.strip("-").isdigit()
+                and bool(datetime.strptime(date, date_format))
+            ):
+                return True
+            else:
+                return False
+        except ValueError:
+            return False
+        except AttributeError:
+            return False
+        except TypeError:
+            return False
+
     def get(self, request):
         """Function to display trips to user based on search"""
+        ITEMS_PER_PAGE = 3  # no of items to be display in page
+
+        # storing query params
         start_location = request.GET.get("start")
         end_location = request.GET.get("end")
         date = request.GET.get("date")
@@ -154,37 +189,44 @@ class ViewTrip(APIView):
         bus_type = request.GET.get("bus-type", "-1")
         bus_ac = request.GET.get("bus-ac", "-1")
         page_number = request.GET.get("page", 1)
-        ITEMS_PER_PAGE = 3
 
-        if start_location and end_location and date:  # if all the params are available
+        if self.validate_params(
+            start_location,
+            end_location,
+            date,
+            seat_type,
+            bus_type,
+            bus_ac,
+            page_number,
+        ):
             query = """
             SELECT s.id, s.route_id, s.arrival_time as start_arrival_time,
-                   e.arrival_time as end_arrival_time,
-                   s.arrival_date_offset as start_offset,
-                   e.arrival_date_offset as end_offset,
-                   r.via, (r.travel_fare+seat_details.cost) as starting_cost,
-                   DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
-                   DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
-                   t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
-                   am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
-                   am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows
+                e.arrival_time as end_arrival_time,
+                s.arrival_date_offset as start_offset,
+                e.arrival_date_offset as end_offset,
+                r.via, (r.travel_fare+seat_details.cost) as starting_cost,
+                DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
+                DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
+                t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
+                am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
+                am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
-              ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
+            ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
             LEFT JOIN routes r
-              ON r.id = s.route_id and r.status = 0
+            ON r.id = s.route_id and r.status = 0
             INNER JOIN trip t
-              ON t.route_id = s.route_id and
-              t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and
-              t.status = 0
+            ON t.route_id = s.route_id and
+            t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and
+            t.status = 0
             INNER JOIN bus b
-              ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2
+            ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2
             INNER JOIN user u
-              ON b.user_id = u.id
+            ON b.user_id = u.id
             INNER JOIN amenities am
-              ON am.bus_id = b.id
+            ON am.bus_id = b.id
             INNER JOIN (select bus_id, min(seat_cost) as cost from seat_details group by bus_id) as seat_details
-			 ON seat_details.bus_id = b.id
+            ON seat_details.bus_id = b.id
         """
             if seat_type != "-1" or bus_type != "-1" or bus_ac != "-1":
                 # if any query params provided filter the query
@@ -242,8 +284,5 @@ class ViewTrip(APIView):
             }
 
             return Response(paginated_data)
-
         else:
-            return Response(
-                {"error_code": "D1005"}, status=400
-            )  # returns if any one of query params is missing
+            return Response({"error_code": "D1006"}, status=400)

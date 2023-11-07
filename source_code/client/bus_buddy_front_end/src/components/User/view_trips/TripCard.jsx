@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import {
   ArrowRight,
   CheckCircleFill,

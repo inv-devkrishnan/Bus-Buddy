@@ -80,24 +80,24 @@ function LandingPage() {
   return (
     <>
       <div className=" mt-2 d-flex justify-content-center align-items-center">
-        <Card className="p-3" style={{width:"50rem"}}>
-          <Container fluid>
+        <Card className="p-3">
+          <Container>
             <Row>
               {!showTripList && (
                 <>
-                  <Col  md={4}>
-                  <Image src={splashscreen} fluid></Image>
+                  <Col md={3}>
+                    <Image src={splashscreen} fluid></Image>
                   </Col>
-                  <Col className="mt-5" md={6}>
-                      <h1>Find your Trip</h1>
-                      <h3 className="text-primary mt-3">@ Affordable Prices</h3>
+                  <Col className="mt-5" md={4}>
+                    <h1>Find your Trip</h1>
+                    <h2 className="text-primary mt-3">@ Affordable Prices</h2>
                   </Col>
                 </>
               )}
             </Row>
 
-            <Row>
-              <Col xs={12}  md={3}>
+            <Row className="justify-content-end">
+              <Col xs={12} md={3}>
                 <input
                   className="form-control mb-1"
                   list="datalistOptions"
@@ -115,7 +115,7 @@ function LandingPage() {
                   placeholder="to location"
                 />
               </Col>
-              <Col xs={12}  md={3}>
+              <Col xs={12} md={3}>
                 <input
                   className="form-control  mb-1"
                   id="trip_date_picker"
@@ -124,7 +124,7 @@ function LandingPage() {
                   min={getCurrentDate()}
                 />
               </Col>
-              <Col  xs={12}  md={2}>
+              <Col xs={12} md={2}>
                 <Button
                   disabled={!enableSearch}
                   onClick={() => {
