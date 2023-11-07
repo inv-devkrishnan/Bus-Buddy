@@ -2425,3 +2425,1113 @@ Traceback (most recent call last):
     raise EmptyPage(_("That page contains no results"))
 django.core.paginator.EmptyPage: That page contains no results
 >>>>>>> 589fd90f05e60b1df237edd6629b56ab0a507d8d
+django.request ERROR 2023-11-07 06:44:22,095 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,307 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,338 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,353 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,364 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,374 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,385 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,397 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,407 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:44:22,417 log 28711 140534354472960 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 06:53:07,592 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,625 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,637 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,648 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,657 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,667 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,676 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,686 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,697 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,706 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,716 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,726 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,735 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,746 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 06:53:07,756 log 29750 140629947727872 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'str' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:26,973 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:26,991 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,002 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,012 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,023 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,034 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,044 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,055 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,065 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,075 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,087 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,099 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,108 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,122 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:00:27,137 log 30300 140402776223744 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 497, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 416, in initial
+    self.check_throttles(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 359, in check_throttles
+    if not throttle.allow_request(request, self):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 119, in allow_request
+    self.key = self.get_cache_key(request, view)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/throttling.py", line 174, in get_cache_key
+    if request.user and request.user.is_authenticated:
+AttributeError: 'dict' object has no attribute 'is_authenticated'
+django.request ERROR 2023-11-07 07:04:18,629 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,647 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,658 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,669 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,680 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,692 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,702 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,713 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,723 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 07:04:18,734 log 30496 140050562670592 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`

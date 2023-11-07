@@ -27,8 +27,10 @@ class RegisterUser(APIView):
             if serialized_data.is_valid():
                 serialized_data.save()
                 return Response({"message": "registration successfull"}, status=201)
+            else:
+                return Response(serialized_data.errors,status=400)
         except ValidationError:
-            return Response(serialized_data._errors, status=400)
+            return Response(serialized_data.errors, status=400)
 
 
 class UpdateProfile(UpdateAPIView):
