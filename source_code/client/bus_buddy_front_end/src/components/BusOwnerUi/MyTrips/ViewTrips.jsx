@@ -108,7 +108,7 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-      <Form style={{ textAlign: "center", marginLeft: "25%" }}>
+      <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }}>
           <h1>Viewall</h1>
         </Form>
         <Form inline>

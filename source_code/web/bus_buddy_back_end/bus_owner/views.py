@@ -274,33 +274,7 @@ class Updateamenities(UpdateAPIView):
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
             return Response("Invalid  id", status=400)
-        
-class ViewAmenities(ListAPIView):  
-    """
-    function to list amenities of a bus
-    """
-    # permission_classes = (IsAuthenticated,)
-    serializer_class = AmenitiesSerializer
-
-    
-    def get_queryset(self):
-        return Amenities.objects.all()
-    
-    def list(self, request,id):
-        try:
-            # user_id = request.user.id
-            try:
-                queryset = Amenities.objects.filter(bus=id)
-                print(queryset)
-            except Amenities.DoesNotExist:
-                return Response(status=404)
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
-
-        except ValueError:
-            return Response(serializer._errors)
- 
-
+         
 
 class Addroutes(APIView):
     """

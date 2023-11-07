@@ -2991,3 +2991,42 @@ Traceback (most recent call last):
   File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
     assert isinstance(response, HttpResponseBase), (
 AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-07 10:56:37,333 log 53017 139656429565504 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 288, in post
+    if serializer.is_valid():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `route` is not valid for model `Routes`.

@@ -64,9 +64,10 @@ export default function Addbus() {
         justifyContent: "center",
         marginRight: "5rem",
         paddingTop: "5rem",
+
       }}
     >
-      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem" }}>
+      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Bus</Card.Title>
           <div style={{ display: "flex" }}>

@@ -16,5 +16,4 @@ urlpatterns = [
     path('update-trip/<int:id>/',views.Updatetrip.as_view(),name="update-trip"),
     path('delete-trip/<int:id>/',views.Deletetrip.as_view(),name="delete-trip"),
     path('view-trip/',views.Viewtrip.as_view(),name="view-trip"),
-    path('view-amenities/<int:id>/',views.ViewAmenities.as_view(),name="view-amenities"),
 ]

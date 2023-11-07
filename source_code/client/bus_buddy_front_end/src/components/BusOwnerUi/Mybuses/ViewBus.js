@@ -10,10 +10,9 @@ import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { Pagination } from "react-bootstrap";
 
-
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [amenitiesdata,setAmenitiesData] = useState([]);
+  const [amenitiesData, setAmenitiesData] = useState([]);
   const [pageSize, setPageSize] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
@@ -24,31 +23,25 @@ export default function Viewallbus() {
 
   const navi = useNavigate();
 
-  const busAmenities = async (id) => {
-    const response = await axiosApi.get(
-      `http://127.0.0.1:8000/bus-owner/view-amenities/${id}/`
-    );
-    console.log(response.data);
-    setAmenitiesData(response.data);
-  };
-  console.log(amenitiesdata);
- 
+
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
         `http://localhost:8000/bus-owner/view-bus/?page=${page}`
       );
       setData(response.data.results);
-      console.log(response.data);
+      console.log(response.data.results);
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
       setPageSize(response.data.page_size);
+      setAmenitiesData(response.data.results);
     };
     fetchData();
   }, [page]);
-  console.log(amenitiesdata);
+  const list=amenitiesData[0];
   const handlePrevious = () => {
     setActive(active - 1);
     setPage(page - 1);
@@ -107,7 +100,10 @@ export default function Viewallbus() {
 
   const renderCards = () => {
     return data.map((viewbus) => (
-      <div key={viewbus.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>
+      <div
+        key={viewbus.id}
+        style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
+      >
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
@@ -134,7 +130,6 @@ export default function Viewallbus() {
                     <p>Bus A/C : Non A/C</p>
                   ) : (
                     <p>Bus A/C : Unknown</p>
-                    <p>Amenites: {viewbus.amenities_data['id']</p>
                   )}
                 </div>
               </div>
@@ -163,10 +158,10 @@ export default function Viewallbus() {
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => busAmenities(viewbus.id)}>
+          <Accordion.Item eventKey="0" onClick={() => (viewbus.id)}>
             <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
-              {amenitiesdata.length > 0  ? (
+              {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
                 <>
                   <p>Do you want to update the existing amenities?</p>
                   <button
@@ -198,7 +193,6 @@ export default function Viewallbus() {
   };
 
   const addAmenities = (id) => {
-
     navi("/Addamenities", { state: `${id}` });
   };
 
@@ -236,7 +230,7 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-      <Form style={{ textAlign: "center", marginLeft: "25%" }}>
+        <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }}>
           <h1>Viewall</h1>
         </Form>
         <Form inline>
@@ -260,7 +254,7 @@ export default function Viewallbus() {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
-          flexDirection:"column"
+          flexDirection: "column",
         }}
       >
         {paginationBasic}

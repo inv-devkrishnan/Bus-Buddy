@@ -47,7 +47,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
     amenities_data=AmenitiesSerializer(many=True, read_only=True,source="amenities_set")
     class Meta:
         model = Bus
-        fields = ("id","plate_no","bus_type","bus_ac","amenities_data")
+        fields = ("id","bus_name","plate_no","bus_type","bus_ac","amenities_data")
         # depth=1
         
 class Locationdata(serializers.ModelSerializer):
@@ -82,10 +82,33 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
         fields = '__all__' 
         
 class RoutesSerializer(serializers.ModelSerializer):
+    location = StartStopLocationsSerializer(many=True)
+    pick_and_drop = PickAndDropSerializer(many=True)
+    user = serializers.CharField(required=False)
 
+    
+    
     class Meta:
         model = Routes
-        fields = "__all__"
+        fields = ("user","start_point","end_point","via","distance","duration","travel_fare","status","created_date","updated_date","location","pick_and_drop")
+        
+    def create(self, validated_data):
+        startstoplocations_data = validated_data.pop('location')
+        pickanddrop_data = validated_data.pop('pick_and_drop')
+
+
+        routes = Routes.objects.create(**validated_data)
+        for startstoplocation_data in startstoplocations_data:
+            startstoplocation_data['routes'] = routes
+            StartStopLocations.objects.create(routes=routes, **startstoplocation_data)
+
+        # Create related PickAndDrop
+        for pickanddrop_data_item in pickanddrop_data:
+            pickanddrop_data_item['routes'] = routes
+            PickAndDrop.objects.create(routes=routes, **pickanddrop_data_item)
+        
+        # StartStopLocations.objects.create(routes=routes, **startstoplocations_data)
+        return routes
 
 
         
