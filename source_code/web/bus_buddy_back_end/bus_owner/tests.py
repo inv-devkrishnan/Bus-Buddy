@@ -8,7 +8,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework.test import APIClient
 from rest_framework import status
-from .models import Bus,User
+from .models import Bus, User
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -168,6 +168,20 @@ class BaseTest(TestCase):
             "extra_charges": valid_extra_charges,
         }
 
+        self.user = User.objects.create_user(
+            first_name=valid_first_name,
+            last_name=valid_last_name,
+            email=valid_email,
+            password=valid_password,
+            phone=valid_phone,
+            company_name=valid_company_name,
+            aadhaar_no=valid_aadhaar,
+            msme_no=valid_msme,
+            extra_charges=valid_extra_charges,
+        )
+
+        self.client.force_authenticate(self.user)
+
         self.update_valid_data = {
             "first_name": valid_first_name,
             "last_name": valid_last_name,
@@ -315,50 +329,46 @@ class RegisterOwnerTest(BaseTest):
 
 class UpdateOwnerTest(BaseTest):
     def test_can_register_user(self):
-        self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
-            reverse("update-profile-owner", kwargs={"id": 2}),
+            reverse("update-profile-owner"),
             self.update_valid_data,
             format="json",
         )
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_names(self):
-        self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
-            reverse("update-profile-owner", kwargs={"id": 4}),
+            reverse("update-profile-owner"),
             self.update_invalid_names,
             format="json",
         )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_email(self):
-        self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
-            reverse("update-profile-owner", kwargs={"id": 3}),
+            reverse("update-profile-owner"),
             self.update_invalid_email,
             format="json",
         )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_length(self):
-        self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
-            reverse("update-profile-owner", kwargs={"id": 6}),
+            reverse("update-profile-owner"),
             self.update_invalid_phone_alphabet,
             format="json",
         )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_alphabet(self):
-        self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
-            reverse("update-profile-owner", kwargs={"id": 5}),
+            reverse("update-profile-owner"),
             self.update_invalid_phone_length,
             format="json",
         )
         self.assertEqual(response.status_code, 400)
-        
+
+
 class BusApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -367,50 +377,51 @@ class BusApiTests(TestCase):
             last_name="Doe",
             email="john.doe@example.com",
             password="12345678",
-            account_provider=0
+            account_provider=0,
         )
         print(self.user.id)
-class CreateTest(BusApiTests):
 
+
+class CreateTest(BusApiTests):
     def test_add_bus(self):
-        url=reverse("Add-Bus")
+        url = reverse("Add-Bus")
         data = {
-            'bus_name': 'Bus1',
-            'plate_no': 'AB123CD',
-            'user': self.user.id,
-            'bus_type': 2,
-            'bus_ac': 0,
-            'status': 0,
+            "bus_name": "Bus1",
+            "plate_no": "AB123CD",
+            "user": self.user.id,
+            "bus_type": 2,
+            "bus_ac": 0,
+            "status": 0,
         }
         print(self.user.id)
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code,200)
-        if(response.status_code == 200):
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+        if response.status_code == 200:
             print("ok")
 
     def test_update_bus(self):
-        bus = Bus.objects.create(bus_name='Bus3', plate_no='EF789GH', user=self.user)
+        bus = Bus.objects.create(bus_name="Bus3", plate_no="EF789GH", user=self.user)
         data = {
-            'bus_name': 'UpdatedBus',
-            'plate_no': 'FG123HI',
-            'user': bus.user,
-            'bus_type': 2,
-            'bus_ac': 0,
-            'status': 0,
+            "bus_name": "UpdatedBus",
+            "plate_no": "FG123HI",
+            "user": bus.user,
+            "bus_type": 2,
+            "bus_ac": 0,
+            "status": 0,
         }
-        response = self.client.put( '/api/Update-Bus/{bus.id}/' , data, format='json')
+        response = self.client.put("/api/Update-Bus/{bus.id}/", data, format="json")
         print(bus.id)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
         updated_bus = Bus.objects.get(id=bus.id)
         print(updated_bus)
-        self.assertEqual(updated_bus.bus_name, 'UpdatedBus')
-        self.assertEqual(updated_bus.plate_no, 'FG123HI')
-    
+        self.assertEqual(updated_bus.bus_name, "UpdatedBus")
+        self.assertEqual(updated_bus.plate_no, "FG123HI")
+
     def test_delete_bus(self):
-        bus = Bus.objects.create(bus_name='Bus2', plate_no='CD456EF', user=self.user)
-        response = self.client.put('/api/Delete-Bus/{bus.id}/')
+        bus = Bus.objects.create(bus_name="Bus2", plate_no="CD456EF", user=self.user)
+        response = self.client.put("/api/Delete-Bus/{bus.id}/")
         print(bus.id)
-        delete_bus=Bus.objects.filter(id=bus.id)
+        delete_bus = Bus.objects.filter(id=bus.id)
         print(delete_bus)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
