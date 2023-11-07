@@ -223,3 +223,21 @@ class UpdateUserTest(BaseTest):
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.put(reverse("update-profile",kwargs={"id":4}), self.invalid_phone_alphabet, format="json")
         self.assertEqual(response.status_code, 400)
+
+class ViewTripsTest(BaseTest):
+    def test_01_can_view_trips(self):
+        view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=1"
+        response = self.client.get(view_trips_url,format="json")
+        self.assertEqual(response.status_code,200)
+    
+    def test_02_cant_view_trips_with_missing_params(self):
+        view_trips_url = f"{reverse('view-trip')}"
+        response = self.client.get(view_trips_url,format="json")
+        self.assertEqual(response.status_code,400)
+        
+    def test_03_cant_view_trips_with_invalid_page(self):
+        view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=-1"
+        response = self.client.get(view_trips_url,format="json")
+        self.assertEqual(response.status_code,204)         
+    
+        
