@@ -33,7 +33,6 @@ export default function FormComponent() {
         break;
       } else{
         updateCurrentSeatData([]);
-        resetForm();
       }
     }
   }, [propsData, currentSeatData]);
@@ -46,13 +45,6 @@ export default function FormComponent() {
         seatType: currentSeatData["seat_type"],
         deck: currentSeatData["deck"],
         seatCost: currentSeatData["seat_cost"],
-      });
-    } else {
-      formik.setValues({
-        seatNumber: "",
-        seatType: 0,
-        deck: 0,
-        seatCost: "",
       });
     }
   }, [currentSeatData]);
@@ -119,7 +111,7 @@ export default function FormComponent() {
               label="Seat number"
               variant="outlined"
               name="seatNumber"
-              value={formik?.values?.seatNumber}
+              value={formik.values.seatNumber}
               onChange={formik.handleChange}
               error={
                 formik.touched.seatNumber && Boolean(formik.errors.seatNumber)
@@ -135,7 +127,7 @@ export default function FormComponent() {
               name="seatType"
               label="Seat type"
               variant="outlined"
-              value={formik?.values?.seatType}
+              value={formik.values.seatType}
               onChange={formik.handleChange}
               error={formik.touched.seatType && Boolean(formik.errors.seatType)}
             >
@@ -154,7 +146,7 @@ export default function FormComponent() {
               name="deck"
               label="Deck"
               variant="outlined"
-              value={formik?.values?.deck}
+              value={formik.values.deck}
               onChange={(e) =>
                 formik.setFieldValue("deck", parseInt(e.target.value))
               }
@@ -174,7 +166,7 @@ export default function FormComponent() {
               name="seatCost"
               label="Seat cost"
               variant="outlined"
-              value={formik?.values?.seatCost}
+              value={formik.values.seatCost}
               onChange={formik.handleChange}
               error={formik.touched.seatCost && Boolean(formik.errors.seatCost)}
               helperText={formik.touched.seatCost && formik.errors.seatCost}
