@@ -94,17 +94,17 @@ function UserSleeper(props) {
       {seatOccupied ? (
         <IconButton onClick={handleSelect} disabled>
           {seatFemaleOccupied ? (
-            <img src={FemaleSleeper} alt="female booked" />
+            <img src={FemaleSleeper} alt="female booked" draggable="false" />
           ) : (
-            <img src={MaleSleeper} alt="male booked" />
+            <img src={MaleSleeper} alt="male booked" draggable="false" />
           )}
         </IconButton>
       ) : (
         <IconButton onClick={handleSelect}>
           {select ? (
-            <img src={Selected} alt="sleeper" />
+            <img src={Selected} alt="sleeper" draggable="false" />
           ) : (
-            <img src={Sleeper} alt="selected" />
+            <img src={Sleeper} alt="selected" draggable="false" />
           )}
         </IconButton>
       )}

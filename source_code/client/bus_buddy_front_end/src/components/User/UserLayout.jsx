@@ -9,8 +9,8 @@ import { axiosApi } from "../../utils/axiosApi";
 import { SeatContext } from "../../utils/SeatContext";
 
 export default function UserLayout() {
-  const {updateSeatData} = useContext(SeatContext)// use context for updating seat data
-  
+  const { updateSeatData } = useContext(SeatContext); // use context for updating seat data
+
   useEffect(() => {
     getSeatData();
   }, []);
@@ -19,10 +19,10 @@ export default function UserLayout() {
     await axiosApi
       .get("normal-user/view-seats/?trip_id=2")
       .then((res) => {
-        updateSeatData(res.data)
+        updateSeatData(res.data);
       })
       .catch((err) => {
-        console.log("error");
+        console.log("error:" + err.response.data);
       });
   };
 

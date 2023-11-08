@@ -9,11 +9,11 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import axios from "axios";
 
 export default function FullSleeperLayout() {
-  const { updateCurrentData } = useContext(AddSeatContext);
+  const { updateCurrentData,reRender } = useContext(AddSeatContext);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [reRender]);
 
   const getData = async () => {
     await axios

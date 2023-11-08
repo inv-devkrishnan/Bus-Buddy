@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   FormHelperText,
+  Typography,
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
@@ -21,8 +22,14 @@ import { AddSeatContext } from "../../../utils/AddSeatContext";
 import axios from "axios";
 
 export default function FormComponent() {
-  const { propsData, currentData, currentSeatData, updateCurrentSeatData } =
-    useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
+  const {
+    propsData,
+    currentData,
+    currentSeatData,
+    updateCurrentSeatData,
+    reRender,
+    updateReRender,
+  } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -31,11 +38,12 @@ export default function FormComponent() {
       if (propsData === i.seat_ui_order) {
         updateCurrentSeatData(i);
         break;
-      } else{
+      } else {
         updateCurrentSeatData([]);
+        resetForm();
       }
     }
-  }, [propsData, currentSeatData]);
+  }, [propsData]);
 
   useEffect(() => {
     // for setting values to test box after api call
@@ -64,6 +72,7 @@ export default function FormComponent() {
         if (res.status === 201) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
+          updateReRender(!reRender);
         }
       })
       .catch((err) => {
@@ -98,13 +107,14 @@ export default function FormComponent() {
 
   return (
     <div>
-      <Card sx={{ width: "20rem", margin: 4, boxShadow: 4 }}>
+      <Card sx={{ width: "20rem", margin: 5, boxShadow: 4 }}>
         <Box
           component="form"
           onSubmit={formik.handleSubmit}
           noValidate
           sx={{ margin: 2 }}
         >
+          <Typography>id: {propsData}</Typography>
           <FormControl fullWidth margin="normal">
             <TextField
               id="seatNumber"

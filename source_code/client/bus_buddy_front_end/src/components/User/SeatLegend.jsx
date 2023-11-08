@@ -9,23 +9,20 @@ import "./SeatLegend.css";
 function SeatLegend() {
   // component which shows the different seat symbols and their meaning
   return (
-    <Card
-      variant="outlined"
-      className="card"
-    >
+    <Card variant="outlined" className="card">
       <Typography id="modal-modal-subtitle" variant="h6" component="h5">
         Seat Legend
       </Typography>
       <div className="d-flex align-items-center flex-sm-row  flex-md-row">
-        <img src={Sleeper} alt="sleeper"></img>
+        <img src={Sleeper} alt="sleeper" draggable="false"></img>
         <p>Available Sleeper</p>
       </div>
       <div className="d-flex align-items-center flex-sm-row flex-md-row">
-        <img src={MaleSleeper} alt="sleeper"></img>
+        <img src={MaleSleeper} alt="sleeper" draggable="false"></img>
         <p>Sleeper Booked by Male</p>
       </div>
       <div className="d-flex align-items-center flex-sm-row flex-md-row">
-        <img src={FemaleSleeper} alt="sleeper"></img>
+        <img src={FemaleSleeper} alt="sleeper" draggable="false"></img>
         <p>Sleeper Booked by Female</p>
       </div>
     </Card>

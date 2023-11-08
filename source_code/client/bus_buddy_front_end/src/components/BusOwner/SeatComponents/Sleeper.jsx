@@ -6,14 +6,10 @@ import AddedSleeper from "../../../assets/maleSleeper.png";
 import { AddSeatContext } from "../../../utils/AddSeatContext";
 
 function Sleeper(props) {
-  const [select, setSelect] = useState(false);// flag for selecting sleeper
-  const [hasAdded, setHasAdded] = useState(false);// flag to check data is added or not
-  const {
-    updateIsClicked,
-    propsData,
-    updatePropsData,
-    currentData,
-  } = useContext(AddSeatContext); // use context that for setting props data and button value
+  const [select, setSelect] = useState(false); // flag for selecting sleeper
+  const [hasAdded, setHasAdded] = useState(false); // flag to check data is added or not
+  const { updateIsClicked, propsData, updatePropsData, currentData } =
+    useContext(AddSeatContext); // use context that for setting props data and button value
 
   useEffect(() => {
     // for checking seat details is added or not
@@ -23,7 +19,7 @@ function Sleeper(props) {
         setHasAdded(true);
       }
     }
-  }, [updatePropsData, props]);
+  }, [currentData, props]);
 
   const handleSelect = () => {
     // calls form and also set prop data for current seat
@@ -37,18 +33,18 @@ function Sleeper(props) {
     <>
       {hasAdded ? (
         <IconButton onClick={handleSelect}>
-          {select && (propsData=== props.row * 10 + props.column) ? (
-            <img src={SelectedSleeper} alt="sleeper" />
+          {select && propsData === props.row * 10 + props.column ? (
+            <img src={SelectedSleeper} alt="sleeper" draggable="false" />
           ) : (
-            <img src={AddedSleeper} alt="sleeper" />
+            <img src={AddedSleeper} alt="sleeper" draggable="false"/>
           )}
         </IconButton>
       ) : (
         <IconButton onClick={handleSelect}>
-          {select && (propsData=== props.row * 10 + props.column) ? (
-            <img src={SelectedSleeper} alt="sleeper" />
+          {select && propsData === props.row * 10 + props.column ? (
+            <img src={SelectedSleeper} alt="sleeper" draggable="false"/>
           ) : (
-            <img src={SleeperImage} alt="sleeper" />
+            <img src={SleeperImage} alt="sleeper" draggable="false"/>
           )}
         </IconButton>
       )}
