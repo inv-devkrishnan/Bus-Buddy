@@ -5,33 +5,14 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useFormik } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
-import { axiosApi } from "../utils/axiosApi";
+import { axiosApi } from "../../utils/axiosApi";
+
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
-  useEffect(() => {
-    axiosApi
-      .get("user/update-profile/31")
-      .then((res) => {
-        setCurrentUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert("User does not exist!!");
-      });
-  }, []);
-
-  useEffect(() => {
-    formik.setValues({
-      firstName: currentUserData["first_name"],
-      lastName: currentUserData["last_name"],
-      email: currentUserData["email"],
-      phone: currentUserData["phone"],
-    });
-  }, [currentUserData]);
 
   const onSubmit = () => {
     axiosApi
-      .put("user/update-profile/31", {
+      .put("user/update-profile", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -53,7 +34,6 @@ export default function UpdateForm() {
         });
       });
   };
-
   const formik = useFormik({
     initialValues: {
       firstName: currentUserData["first_name"],
@@ -70,9 +50,39 @@ export default function UpdateForm() {
     resetForm();
   };
 
+  useEffect(() => {
+    axiosApi
+      .get("user/update-profile")
+      .then((res) => {
+        setCurrentUserData(res.data);
+        formik.setValues({
+          firstName: currentUserData["first_name"],
+          lastName: currentUserData["last_name"],
+          email: currentUserData["email"],
+          phone: currentUserData["phone"],
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        alert("User does not exist!!");
+      });
+  }, []);
+
+  useEffect(() => {
+    formik.setValues({
+      firstName: currentUserData["first_name"],
+      lastName: currentUserData["last_name"],
+      email: currentUserData["email"],
+      phone: currentUserData["phone"],
+    });
+  }, [currentUserData]);
+
   return (
     <>
-      <Card style={{ width: "50rem" }}>
+      <Card className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+                style={{
+                  boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+                }}>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

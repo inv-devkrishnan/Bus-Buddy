@@ -36,16 +36,24 @@ dentry = "Deleted the record"
 
 
 class RegisterBusOwner(APIView):
-    # permission_classes = (IsAuthenticated,)
+    """
+    For registering bus owner locally
+    """
+
+    permission_classes = (AllowAny,)
 
     def post(self, request):
-        request_data = request.data
-        request_data["role"] = 3
-        serialized_data = OMS(data=request_data)
-        if serialized_data.is_valid():
-            serialized_data.save()
-            return Response({"message": "registration successfull"}, status=201)
-        else:
+        try:
+            request_data = request.data.copy()
+            request_data["role"] = 3
+            serialized_data = OMS(data=request_data)
+            if serialized_data.is_valid():
+                serialized_data.save()
+                return Response({"message": "registration successfull"}, status=201)
+            else:
+                return Response(serialized_data._errors, status=400)
+
+        except ValidationError:
             return Response(serialized_data._errors, status=400)
 
 
@@ -427,6 +435,7 @@ class Deletetrip(APIView):
 
     """
     # permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def put(self, request, id):
         try:

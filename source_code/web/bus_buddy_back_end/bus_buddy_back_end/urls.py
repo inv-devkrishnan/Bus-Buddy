@@ -24,4 +24,6 @@ urlpatterns = [
     path("account/", include("account_manage.urls")),
     path("bus-owner/", include("bus_owner.urls")),
     path("user/", include("normal_user.urls")),
+    path("adminstrator/",include("adminstrator.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
