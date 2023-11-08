@@ -27,7 +27,7 @@ function App() {
     <div>
           <Routes>
               <Route path='/' element={<LandingPage/>}/>
-              <Route path='/' element={<BusHome/>}/>
+              <Route path='/BusHome' element={<BusHome/>}/>
               <Route path='/Addbus' element={<AddBus/>}/>
               <Route path='/Updatebus' element={<UpdateBus/>}/>
               <Route path='/Viewbus' element={<ViewBus/>}/>

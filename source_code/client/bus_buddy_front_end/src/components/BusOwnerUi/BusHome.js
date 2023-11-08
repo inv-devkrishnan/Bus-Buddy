@@ -77,16 +77,16 @@ export default function UserDashboard() {
     },
   ];
 
-  // useEffect(() => {
-  //   if (authStatus) {
-  //     if (localStorage.getItem("user_role") !== "3") {
-  //       // if user is not admin redirect to login
-  //       navigate("/login");
-  //     }
-  //   } else {
-  //     navigate("/login"); // if user not logged in redirect to login
-  //   }
-  // }, [navigate,authStatus]);
+  useEffect(() => {
+    if (authStatus) {
+      if (localStorage.getItem("user_role") !== "3") {
+        // if user is not admin redirect to login
+        navigate("/login");
+      }
+    } else {
+      navigate("/login"); // if user not logged in redirect to login
+    }
+  }, [navigate,authStatus]);
 
   return (
     <div style={{display:"flex",justifyContent:"space-between"}}>

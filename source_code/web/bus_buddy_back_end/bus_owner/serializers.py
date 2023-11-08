@@ -59,7 +59,6 @@ class Locationdata(serializers.ModelSerializer):
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
-    # user_id=serializers.CharField(source='bu')
     start_point_name = serializers.CharField(source='start_point.location_name', read_only=True)        #to get name matchin the id from location
     end_point_name = serializers.CharField(source='end_point.location_name', read_only=True)         #to get name matchin the id from location
     class Meta:
@@ -84,13 +83,13 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
     pick_and_drop = PickAndDropSerializer(many=True)
-    user = serializers.CharField(required=False)
+    # user = serializers.CharField(required=False)
 
     
     
     class Meta:
         model = Routes
-        fields = ("user","start_point","end_point","via","distance","duration","travel_fare","status","created_date","updated_date","location","pick_and_drop")
+        fields = '__all__'
         
     def create(self, validated_data):
         startstoplocations_data = validated_data.pop('location')
@@ -124,7 +123,9 @@ class TripSerializer(serializers.ModelSerializer):
 
 
 class OwnerModelSerializer(serializers.ModelSerializer):
-    # For registering a bus owner
+    """
+    For registering a bus owner
+    """
     class Meta:
         model = User
         fields = (
@@ -134,6 +135,9 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "password",
             "phone",
             "company_name",
+            "aadhaar_no",
+            "msme_no",
+            "extra_charges","role"
         )
 
     first_name = serializers.CharField(
@@ -216,7 +220,9 @@ class OwnerModelSerializer(serializers.ModelSerializer):
 
 
 class OwnerDataSerializer(serializers.ModelSerializer):
-    #For viewing the bus owner details
+    """
+    For viewing the bus owner details
+    """
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")

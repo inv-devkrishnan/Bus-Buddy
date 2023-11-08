@@ -3877,3 +3877,518 @@ Traceback (most recent call last):
   File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
     raise ImproperlyConfigured(
 django.core.exceptions.ImproperlyConfigured: Field name `route` is not valid for model `Routes`.
+django.request ERROR 2023-11-08 04:25:17,060 log 14220 140539580118592 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 327, in post
+    if route_serializer.is_valid():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `location` is not valid for model `Routes`.
+django.request ERROR 2023-11-08 04:25:26,682 log 14220 140539580118592 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 327, in post
+    if route_serializer.is_valid():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 227, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 426, in run_validation
+    value = self.to_internal_value(data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 479, in to_internal_value
+    for field in fields:
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 362, in _writable_fields
+    for field in self.fields.values():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `location` is not valid for model `Routes`.
+django.request ERROR 2023-11-08 04:40:49,441 log 17059 139780873512512 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/request.py", line 416, in __getattr__
+    return getattr(self._request, attr)
+AttributeError: 'WSGIRequest' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 295, in post
+    "routes":request.get("routes"),
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/request.py", line 418, in __getattr__
+    return self.__getattribute__(attr)
+AttributeError: 'Request' object has no attribute 'get'
+django.request ERROR 2023-11-08 04:52:53,614 log 17856 140061702092352 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1048, "Column 'user_id' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 333, in post
+    route_serializer.save()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/debug_toolbar/panels/sql/tracking.py", line 252, in execute
+    return self._record(super().execute, sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/debug_toolbar/panels/sql/tracking.py", line 177, in _record
+    return method(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+django.db.utils.IntegrityError: (1048, "Column 'user_id' cannot be null")
+django.request ERROR 2023-11-08 04:56:24,517 log 18204 140601852950080 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 295, in post
+    "route":request.data.location.get("route"),
+AttributeError: 'dict' object has no attribute 'location'
+django.request ERROR 2023-11-08 05:02:09,096 log 18633 139723994555968 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 304, in post
+    "route":request.data.get("location")[0].get("pick_and_drop").get("route"),
+AttributeError: 'list' object has no attribute 'get'
+django.request ERROR 2023-11-08 05:03:37,593 log 18732 140149541303872 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+MySQLdb.IntegrityError: (1048, "Column 'user_id' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 333, in post
+    route_serializer.save()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/debug_toolbar/panels/sql/tracking.py", line 252, in execute
+    return self._record(super().execute, sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/debug_toolbar/panels/sql/tracking.py", line 177, in _record
+    return method(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 75, in execute
+    return self.cursor.execute(query, args)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/MySQLdb/connections.py", line 255, in query
+    _mysql.connection.query(self, query)
+django.db.utils.IntegrityError: (1048, "Column 'user_id' cannot be null")
+django.request ERROR 2023-11-08 05:06:05,312 log 19021 140008246732352 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 334, in post
+    route_serializer.save()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/base.py", line 543, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "'1'": "Routes.user" must be a "User" instance.
+django.request ERROR 2023-11-08 05:49:09,428 log 19573 139813153920576 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 295, in post
+    "route":request.data.get("location")[0].get("route"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 06:59:50,146 log 22942 139715394127424 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
+    "route":request.data.get("location")[0].get("route"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:01:53,628 log 24901 140670558791232 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
+    "seq_id":request.data.get("location")[0].get("seq_id"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:28:46,906 log 26936 140666887730752 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
+    "seq_id":request.POST.get("location")[0].get("seq_id"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:32:06,123 log 27194 139702570051136 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
+    "seq_id": request.data.get("location")[0].get("seq_id"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:34:46,015 log 27475 139801958278720 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
+    "seq_id": request.data.get("location")[0].get("seq_id"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:38:01,113 log 27667 139690872137280 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 307, in post
+    "location": location_data[0]["pick_and_drop"][0].get("location"),
+TypeError: 'NoneType' object is not subscriptable
+django.request ERROR 2023-11-08 07:41:05,678 log 28408 140289192752704 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 307, in post
+    if "pick_and_drop" in location_data[0]:
+TypeError: 'NoneType' object is not subscriptable
