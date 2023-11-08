@@ -14,13 +14,14 @@ from .models import Routes,PickAndDrop,StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User
-from bus_owner.serializer import OwnerModelSerializer as OMS
-from bus_owner.serializer import OwnerDataSerializer as ODS
+from bus_owner.serializers import OwnerModelSerializer as OMS
+from bus_owner.serializers import OwnerDataSerializer as ODS
 from .serializers import (
     BusSerializer,
     ViewBusSerializer,
     AmenitiesSerializer,
     TripSerializer,
+    ViewTripSerializer,
 )
 from .serializers import (
     RoutesSerializer,
@@ -209,8 +210,7 @@ class Viewbus(ListAPIView):
     pagination_class = CustomPagination
 
     
-    def get_queryset(self):
-        return Bus.objects.all()
+
     
     def list(self, request):
         try:
@@ -287,93 +287,24 @@ class Updateamenities(UpdateAPIView):
 
 class Addroutes(APIView):
     """
-    function to add new route from a bus owner
+    Function to add new route from a bus owner
     """
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        startstop_data={
-            "route":request.data.get("location")[0].get("route"),
-            "seq_id":request.data.get("location")[0].get("seq_id"),
-            "location":request.data.get("location")[0].get("location"),
-            "arrival_time":request.data.get("location")[0].get("arrival_time"),
-            "departure_time":request.data.get("location")[0].get("arrival_time"),
-            "departure_date":request.data.get("location")[0].get("arrival_date"),
-            "departure_date_offset":request.data.get("location")[0].get("arrival_time"),
-        }
-        pickdrop_data={
-            "route":request.data.get("location")[0]["pick_and_drop"][0].get("route"),
-            "location":request.data.get("location")[0]["pick_and_drop"][0].get("location"),
-            "bus_stop":request.data.get("location")[0]["pick_and_drop"][0].get("bus_stop"),
-            "arrival_time":request.data.get("location")[0]["pick_and_drop"][0].get("arrival_time"),
-            "landmark":request.data.get("location")[0]["pick_and_drop"][0].get("landmark"),
-        }
-        routes_data={
-            "user":request.data.get("user"),
-            "start_point":request.data.get("start_point"),
-            "end_point":request.data.get("end_point"),
-            "via":request.data.get("via"),
-            "distance":request.data.get("distance"),
-            "duration":request.data.get("duration"),
-            "travel_fare":request.data.get("travel_fare"),
-        }
-        
         try:
-            startstop_serializer = StartStopLocationsSerializer(data=startstop_data)
-            print("startstop")
-            pickdrop_serializer = PickAndDropSerializer(data=pickdrop_data)
-            print("pickdrop")
-            route_serializer = RoutesSerializer(data=routes_data)
-            print("route")
-            user_id = request.user.id
-            print(user_id)
-            if startstop_serializer.is_valid():
-                startstop_serializer.save()
-                print("startstop ok")
-            if pickdrop_serializer.is_valid():
-    
-                pickdrop_serializer.save()
-                print("pickdrop ok")
-            if route_serializer.is_valid():
-                route_serializer.save()
-                routes_id = route_serializer.data.get("id")
+            data = request.data
+            data["user"] = request.user.id
+            serializer = RoutesSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                routes_id = serializer.data.get("id")
                 return Response({"message": "Route inserted", "routes_id": routes_id})
             else:
-                return Response(route_serializer.errors, status=400)
-           
+                return Response(serializer.errors, status=400)
         except ValidationError as e:
             return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
 
-
-
-class Viewroutes(ListAPIView):
-    """
-    function to list all routes added by the bus owner
-    """
-    permission_classes = (IsAuthenticated,)
-    serializer_class = ViewRoutesSerializer
-    # pagination_class = CustomPagination
-
-    def get_queryset(self):
-        return Routes.objects.all()
-
-    def list(self, request):
-        try:
-            # user_id = request.user.id
-            queryset = Routes.objects.filter(status=0)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
-
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
-
-            serializer = self.get_serializer(queryset, many=True)
-
-            return Response(serializer.data)
-
-        except ValueError:
-            return Response(serializer._errors)
 
 
 class Deleteroutes(APIView):  
@@ -495,12 +426,11 @@ class Viewtrip(ListAPIView):
     """
     function to list all Trips added by the bus owner
     """
-    # permission_classes = (IsAuthenticated,)
-    serializer_class = TripSerializer
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ViewTripSerializer
     # pagination_class = CustomPagination
 
-    def get_queryset(self):
-        return Trip.objects.all()       #to get all details of related child object of trip
+
 
     def list(self, request):
         try:
@@ -514,6 +444,7 @@ class Viewtrip(ListAPIView):
             #     return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
+            print(serializer.data)
 
             return Response(serializer.data)
 

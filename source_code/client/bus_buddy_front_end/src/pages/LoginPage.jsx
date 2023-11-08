@@ -69,7 +69,7 @@ function LoginPage() {
       else if(loginRes.message.user_role ===1)
       {navigate("/admin-dashboard")}
       else
-      {navigate("/");}
+      {navigate("/BusHome");}
     } else {
       // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;

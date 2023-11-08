@@ -62,10 +62,8 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
     start_point_name = serializers.CharField(source='start_point.location_name', read_only=True)        #to get name matchin the id from location
     end_point_name = serializers.CharField(source='end_point.location_name', read_only=True)         #to get name matchin the id from location
     class Meta:
-        model = Routes
-        fields = '__all__'
-        
-        fields = ('start_point_name','end_point_name','via','distance','travel_fare','duration','id')
+        model = Routes        
+        fields = ('start_point_name','end_point_name','via','distance','travel_fare','duration','id','user')
         depth=1
 
 
@@ -82,7 +80,7 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
         
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
-    pick_and_drop = PickAndDropSerializer(many=True)
+    # pick_and_drop = PickAndDropSerializer(many=True)
     # user = serializers.CharField(required=False)
 
     
@@ -92,21 +90,10 @@ class RoutesSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def create(self, validated_data):
-        startstoplocations_data = validated_data.pop('location')
-        pickanddrop_data = validated_data.pop('pick_and_drop')
-
-
+        start_stop_locations = validated_data.pop('location')
         routes = Routes.objects.create(**validated_data)
-        for startstoplocation_data in startstoplocations_data:
-            startstoplocation_data['routes'] = routes
-            StartStopLocations.objects.create(routes=routes, **startstoplocation_data)
-
-        # Create related PickAndDrop
-        for pickanddrop_data_item in pickanddrop_data:
-            pickanddrop_data_item['routes'] = routes
-            PickAndDrop.objects.create(routes=routes, **pickanddrop_data_item)
-        
-        # StartStopLocations.objects.create(routes=routes, **startstoplocations_data)
+        for data in start_stop_locations:
+            StartStopLocations.objects.create(route=routes, **data)
         return routes
 
 
@@ -116,10 +103,21 @@ class TripSerializer(serializers.ModelSerializer):
     bus = serializers.PrimaryKeyRelatedField(queryset=Bus.objects.all())
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    
 
     class Meta:
         model = Trip
         fields = "__all__"
+        
+class ViewTripSerializer(serializers.ModelSerializer):
+    start_point_name = serializers.CharField(source='route.start_point.location_name', read_only=True)        #to get name matchin the id from location
+    end_point_name = serializers.CharField(source='route.end_point.location_name', read_only=True)         #to get name matchin the id from location
+    bus_name = serializers.CharField(source = 'bus.bus_name',read_only=True)
+
+    class Meta:
+        model = Trip
+        fields = ("start_point_name","end_point_name","id","start_date","end_date","bus_name")
+
 
 
 class OwnerModelSerializer(serializers.ModelSerializer):

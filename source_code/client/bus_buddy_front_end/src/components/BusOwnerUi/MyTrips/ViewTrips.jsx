@@ -31,7 +31,7 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h5>Name : {trip.id}</h5>
+              <h5>Name : {trip.start_point_name}-{trip.end_point_name}</h5>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
