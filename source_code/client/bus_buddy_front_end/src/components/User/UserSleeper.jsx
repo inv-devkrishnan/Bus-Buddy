@@ -58,7 +58,6 @@ function UserSleeper(props) {
       }
       loop++;
     }
-
   }, [seatData, uiOrder]);
 
   const handleClose = (reason) => {
@@ -73,8 +72,8 @@ function UserSleeper(props) {
     setSelect(!select);
     let selectedSeat = presentSeat;
     // gets details of nearby seat and set them if they are male or female only
-    selectedSeat["female_only"] = props.nearFemale;
-    selectedSeat["male_only"] = props.nearMale;
+    selectedSeat.female_only = props.nearFemale;
+    selectedSeat.male_only = props.nearMale;
     if (seatList.includes(presentSeat)) {
       const newArray = seatList.filter((seat) => seat.id !== presentSeat.id);
       // update seat list array once seat is removed
@@ -89,7 +88,6 @@ function UserSleeper(props) {
       updateSeatList(newArray);
     }
   };
-
 
   return (
     <>
