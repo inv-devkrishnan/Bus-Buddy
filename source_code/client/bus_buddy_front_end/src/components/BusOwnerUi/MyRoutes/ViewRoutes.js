@@ -27,7 +27,7 @@ export default function Viewallroutes() {
       const response = await axiosApi.get(
         `http://localhost:8000/bus-owner/view-routes/`
       );
-      setData(response.data);
+      setData(response.data.results);
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
@@ -36,6 +36,7 @@ export default function Viewallroutes() {
     };
     fetchData();
   }, [pageno]);
+  console.log(data)
 
   const handlePrevious = () => {
     setActive(active - 1);
@@ -95,7 +96,8 @@ export default function Viewallroutes() {
 
   const renderCards = () => {
     return data.map((viewroutes) => (
-      <div key={viewroutes.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>        <Accordion defaultActiveKey="1">
+      <div key={viewroutes.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>        
+        <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
               <h2>Route ID: {viewroutes.id}</h2>
@@ -170,7 +172,7 @@ export default function Viewallroutes() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }}>
+        <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }} >
           <h1>Viewall</h1>
         </Form>
         <Form inline>
@@ -205,3 +207,4 @@ export default function Viewallroutes() {
     </div>
   );
 }
+

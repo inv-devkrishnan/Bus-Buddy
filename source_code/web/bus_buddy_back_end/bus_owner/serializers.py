@@ -64,7 +64,7 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Routes        
         fields = ('start_point_name','end_point_name','via','distance','travel_fare','duration','id','user')
-        depth=1
+        # depth=1
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):
@@ -81,7 +81,7 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
     # pick_and_drop = PickAndDropSerializer(many=True)
-    # user = serializers.CharField(required=False)
+    user = serializers.CharField(required=False)
 
     
     
@@ -91,9 +91,12 @@ class RoutesSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         start_stop_locations = validated_data.pop('location')
+        # pick_and_drop=validated_data.pop('pick_and_drop')
         routes = Routes.objects.create(**validated_data)
         for data in start_stop_locations:
             StartStopLocations.objects.create(route=routes, **data)
+        # for pickanddrop_data in pick_and_drop:
+            # PickAndDrop.objects.create(route=routes, **pickanddrop_data)
         return routes
 
 

@@ -293,7 +293,7 @@ class Addroutes(APIView):
 
     def post(self, request):
         try:
-            data = request.data
+            data=request.data
             data["user"] = request.user.id
             serializer = RoutesSerializer(data=data)
             if serializer.is_valid():
@@ -349,6 +349,34 @@ class Deleteroutes(APIView):
         except ObjectDoesNotExist:
             logger.info(entry)
         return Response(status=404)
+    
+
+class Viewroutes(ListAPIView):
+    """
+    function to list all routes added by the bus owner
+    """
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = ViewRoutesSerializer
+    pagination_class = CustomPagination
+
+    def list(self, request):
+        try:
+            # user_id = request.user.id
+            queryset = Routes.objects.filter(status=0)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+
+            return Response(serializer.data)
+
+        except ValueError:
+            return Response(serializer._errors)
+
 
 
 class Addtrip(APIView):
