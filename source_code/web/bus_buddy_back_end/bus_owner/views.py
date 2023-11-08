@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
 from .serializer import SeatDetailSerializer as SDS
 from .serializer import GetSeatSerializer as GSS
 from .models import SeatDetails
@@ -44,11 +43,10 @@ class GetSeatDetails(APIView):
     API for fetching seat details
 
     Args:
-        ui_order (integer): ui order of the seat(it determines the seat data to be fetched)
         bus_id (integer): id of the bus that the seat data belong to
 
     Returns:
-        json: details of the seat data
+        json: whole seat data for the corresponding bus id
     """
 
     permission_classes = (AllowAny,)

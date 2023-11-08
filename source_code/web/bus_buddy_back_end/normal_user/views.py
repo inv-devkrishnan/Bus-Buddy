@@ -8,9 +8,14 @@ from bus_owner.models import SeatDetails, Trip, PickAndDrop
 
 class ViewSeats(ListAPIView):
     """
-    For viewing seat by user perspective and to view pick and drop points
-    """
+    For viewing seat details in a trip
 
+    Args:
+        trip_id (integer): id of the trip
+
+    Returns:
+        json: pick and drop and complete seat details corresponding to the trip id
+    """
     permission_classes = (AllowAny,)
 
     def get(self, request):

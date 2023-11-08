@@ -6,10 +6,9 @@ import AddedSleeper from "../../../assets/maleSleeper.png";
 import { AddSeatContext } from "../../../utils/AddSeatContext";
 
 function Sleeper(props) {
-  const [select, setSelect] = useState(false);
-  const [hasAdded, setHasAdded] = useState(false);
+  const [select, setSelect] = useState(false);// flag for selecting sleeper
+  const [hasAdded, setHasAdded] = useState(false);// flag to check data is added or not
   const {
-    isClicked,
     updateIsClicked,
     propsData,
     updatePropsData,
@@ -17,6 +16,7 @@ function Sleeper(props) {
   } = useContext(AddSeatContext); // use context that for setting props data and button value
 
   useEffect(() => {
+    // for checking seat details is added or not
     for (let i of currentData) {
       const seat = i;
       if (seat.seat_ui_order === props.row * 10 + props.column) {
@@ -26,17 +26,18 @@ function Sleeper(props) {
   }, [updatePropsData, props]);
 
   const handleSelect = () => {
+    // calls form and also set prop data for current seat
     updateIsClicked(true);
     updatePropsData(props.row * 10 + props.column);
-    setSelect(!select);
-  }; // set true or false for isClicked useState
-  //also set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
+    setSelect(true);
+  };
+  //set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
 
   return (
     <>
       {hasAdded ? (
         <IconButton onClick={handleSelect}>
-          {select ? (
+          {select && (propsData=== props.row * 10 + props.column) ? (
             <img src={SelectedSleeper} alt="sleeper" />
           ) : (
             <img src={AddedSleeper} alt="sleeper" />
@@ -44,7 +45,7 @@ function Sleeper(props) {
         </IconButton>
       ) : (
         <IconButton onClick={handleSelect}>
-          {select ? (
+          {select && (propsData=== props.row * 10 + props.column) ? (
             <img src={SelectedSleeper} alt="sleeper" />
           ) : (
             <img src={SleeperImage} alt="sleeper" />
