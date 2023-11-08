@@ -5770,3 +5770,334 @@ Traceback (most recent call last):
   File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 637, in get
     raise self.model.DoesNotExist(
 bus_owner.models.SeatDetails.DoesNotExist: SeatDetails matching query does not exist.
+django.request WARNING 2023-11-07 09:33:04,859 log 40641 140442086663744 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-07 09:37:42,328 log 41335 140241796064832 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 09:38:18,642 log 41335 140241796064832 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 09:38:51,003 log 41335 140241796064832 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 09:39:30,806 log 41335 140241786623552 Method Not Allowed: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 09:39:31,035 log 41335 140241419630144 Not Found: /favicon.ico
+django.request WARNING 2023-11-07 09:52:13,370 log 42237 140188022990400 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 09:52:36,887 log 42237 140188022990400 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 10:07:56,095 log 44931 140114882717248 Not Found: /user/booking-history
+django.request WARNING 2023-11-07 10:08:14,532 log 44931 140114882717248 Not Found: /normal-user/booking-history
+django.request WARNING 2023-11-07 10:25:21,745 log 45227 140086892029504 Not Found: /user/register/
+django.request WARNING 2023-11-07 10:27:05,436 log 45227 140086892029504 Unauthorized: /account/local-login/
+django.request WARNING 2023-11-07 10:28:30,770 log 45227 140086892029504 Not Found: /user/view-seat-details
+django.request WARNING 2023-11-07 10:28:52,622 log 45227 140086892029504 Not Found: /user/get-seat-details
+django.request WARNING 2023-11-07 10:30:12,362 log 47662 139741180716608 Not Found: /user/view-seats/
+django.request ERROR 2023-11-07 10:30:26,864 log 47662 139741180716608 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 20, in get
+    trip = Trip.objects.get(id=trip_id)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 637, in get
+    raise self.model.DoesNotExist(
+bus_owner.models.Trip.DoesNotExist: Trip matching query does not exist.
+django.request ERROR 2023-11-07 10:30:26,864 log 47662 139741180716608 Internal Server Error: /normal-user/view-seats/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 20, in get
+    trip = Trip.objects.get(id=trip_id)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/db/models/query.py", line 637, in get
+    raise self.model.DoesNotExist(
+bus_owner.models.Trip.DoesNotExist: Trip matching query does not exist.
+django.request WARNING 2023-11-07 10:46:53,066 log 49197 140290831672896 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-07 10:46:57,082 log 49197 140290831672896 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-07 10:47:20,813 log 49197 140290831672896 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-07 10:48:18,819 log 49446 139997872121408 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-07 10:52:53,519 log 50313 140203078444608 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 10:54:06,723 log 52418 140275106182720 Bad Request: /bus-owner/add-seat-details
+django.request ERROR 2023-11-07 10:54:24,027 log 52504 140513049044544 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request_data.bus)
+AttributeError: 'dict' object has no attribute 'bus'
+django.request ERROR 2023-11-07 10:54:24,027 log 52504 140513049044544 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request_data.bus)
+AttributeError: 'dict' object has no attribute 'bus'
+django.request WARNING 2023-11-07 10:54:55,462 log 52621 140040314283584 Bad Request: /bus-owner/add-seat-details
+django.request ERROR 2023-11-07 10:55:20,473 log 52734 140411443078720 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request.data.bus)
+AttributeError: 'dict' object has no attribute 'bus'
+django.request ERROR 2023-11-07 10:55:20,473 log 52734 140411443078720 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request.data.bus)
+AttributeError: 'dict' object has no attribute 'bus'
+django.request ERROR 2023-11-07 10:56:06,492 log 52921 140028098373184 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'bus'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request.GET["bus"])
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'bus'
+django.request ERROR 2023-11-07 10:56:06,492 log 52921 140028098373184 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'bus'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request.GET["bus"])
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'bus'
+django.request WARNING 2023-11-07 11:01:26,266 log 53296 140122362213952 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 11:01:55,536 log 53413 140681631753792 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-07 11:02:31,252 log 53542 139822244030016 Bad Request: /bus-owner/add-seat-details
+django.request ERROR 2023-11-07 11:04:53,345 log 54081 139743805306432 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request_data.deck)
+AttributeError: 'dict' object has no attribute 'deck'
+django.request ERROR 2023-11-07 11:04:53,345 log 54081 139743805306432 Internal Server Error: /bus-owner/add-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 23, in post
+    print(request_data.deck)
+AttributeError: 'dict' object has no attribute 'deck'
+django.request WARNING 2023-11-07 11:07:45,179 log 54726 140558039250496 Bad Request: /bus-owner/add-seat-details
+django.request WARNING 2023-11-08 04:13:28,398 log 12082 139844278806080 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:14:36,015 log 12577 139660364867136 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:14:56,504 log 12668 140391938520640 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:15:09,769 log 12668 140391938520640 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:16:20,168 log 13389 140215072056896 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:16:49,653 log 13389 140215072056896 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:17:30,240 log 13517 140358492087872 Bad Request: /bus-owner/get-seat-details
+django.request ERROR 2023-11-08 04:17:40,983 log 13579 140339447850560 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 99, in render
+    ret = json.dumps(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/utils/json.py", line 25, in dumps
+    return json.dumps(*args, **kwargs)
+  File "/usr/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/usr/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/utils/encoders.py", line 67, in default
+    return super().default(obj)
+  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type SeatDetails is not JSON serializable
+django.request ERROR 2023-11-08 04:17:40,983 log 13579 140339447850560 Internal Server Error: /bus-owner/get-seat-details
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/response.py", line 70, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/renderers.py", line 99, in render
+    ret = json.dumps(
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/utils/json.py", line 25, in dumps
+    return json.dumps(*args, **kwargs)
+  File "/usr/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/usr/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/utils/encoders.py", line 67, in default
+    return super().default(obj)
+  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type SeatDetails is not JSON serializable
+django.request WARNING 2023-11-08 04:18:17,878 log 13707 139841030317632 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:19:09,834 log 13805 140586459850304 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:19:16,742 log 13843 140094476379712 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:19:38,104 log 13961 140370834875968 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:20:12,949 log 14083 140215806060096 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:20:31,130 log 14148 139749570373184 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:20:32,624 log 14148 139749570373184 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:20:33,930 log 14148 139749570373184 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:21:04,482 log 14212 140206419207744 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:21:28,775 log 14327 140413271795264 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:25:25,673 log 14869 140654593173056 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-08 04:25:43,461 log 14936 140365669590592 Bad Request: /bus-owner/get-seat-details

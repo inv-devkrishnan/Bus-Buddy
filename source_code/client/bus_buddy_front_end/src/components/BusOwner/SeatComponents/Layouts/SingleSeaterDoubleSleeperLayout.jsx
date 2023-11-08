@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useEffect, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
@@ -7,8 +7,26 @@ import FullSleeperLayer from "../Layers/FullSleeperLayer";
 import SingleSeaterDoubleSleeperLayer from "../Layers/SingleSeaterDoubleSleeperLayer";
 import TwoSeaterForTwoSleeperLayer from "../Layers/TwoSeaterForTwoSleeperLayer";
 import driver from "../../../../assets/driver.png";
+import { AddSeatContext } from "../../../../utils/AddSeatContext";
+import axios from "axios";
 
 export default function SingleSeaterDoubleSleeperLayout() {
+  const { updateCurrentData } = useContext(AddSeatContext);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/bus-owner/get-seat-details?bus_id=9")
+      .then((res) => {
+        updateCurrentData(res.data);
+      })
+      .catch((err) => {
+        console.log("error");
+      });
+  };
   return (
     <Grid container spacing={12} justifyContent="space-evenly">
       <Grid item md={6} xs={12} sm={6}>

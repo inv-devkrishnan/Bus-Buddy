@@ -17,41 +17,48 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 
 import { FormComponentSchema } from "./FormComponentSchema";
-import { ShowFormContext } from "../../../utils/ShowFormContext";
+import { AddSeatContext } from "../../../utils/AddSeatContext";
 import axios from "axios";
 
 export default function FormComponent() {
-  const { propsData } = useContext(ShowFormContext); // holds seat ui order
-  const [currentData, setCurrentData] = useState([]); // for storing the whole data from response
+  const { propsData, currentData, currentSeatData, updateCurrentSeatData } =
+    useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [errorMessage, setErrorMessage] = useState("");
-
   useEffect(() => {
-    // api call and data storing
-    axios
-      .get(
-        `http://127.0.0.1:8000/bus-owner/get-seat-details?seat_ui_order=${propsData}&&bus_id=7`
-      )
-      .then((res) => {
-        setCurrentData(res.data);
-      })
-      .catch((err) => {});
+    for (let i of currentData) {
+      if (propsData === i.seat_ui_order) {
+        updateCurrentSeatData(i);
+      } else {
+        resetForm();
+      }
+    }
   }, [propsData]);
+  console.log(currentSeatData);
 
   useEffect(() => {
     // for setting values to test box after api call
-    formik.setValues({
-      seatNumber: currentData["seat_number"],
-      seatType: currentData["seat_type"],
-      deck: currentData["deck"],
-      seatCost: currentData["seat_cost"],
-    });
-  }, [currentData]);
+    if (currentSeatData["seat_ui_order"] === propsData) {
+      formik.setValues({
+        seatNumber: currentSeatData["seat_number"],
+        seatType: currentSeatData["seat_type"],
+        deck: currentSeatData["deck"],
+        seatCost: currentSeatData["seat_cost"],
+      });
+    } else {
+      formik.setValues({
+        seatNumber: "",
+        seatType: 0,
+        deck: 0,
+        seatCost: "",
+      });
+    }
+  }, [currentSeatData]);
 
   const onSubmit = () => {
     // api call for storing seat details
     axios
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
-        bus: 7,
+        bus: 9,
         seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,
         seat_type: formik.values.seatType,
@@ -84,9 +91,9 @@ export default function FormComponent() {
     // formik initialisation
     initialValues: {
       seatNumber: "",
-      seatType: "",
+      seatType: 0,
       deck: 0,
-      seatCost: 0,
+      seatCost: "",
     },
     validationSchema: FormComponentSchema,
     onSubmit,
@@ -109,7 +116,7 @@ export default function FormComponent() {
               label="Seat number"
               variant="outlined"
               name="seatNumber"
-              value={formik.values.seatNumber || ""}
+              value={formik?.values?.seatNumber}
               onChange={formik.handleChange}
               error={
                 formik.touched.seatNumber && Boolean(formik.errors.seatNumber)
@@ -125,7 +132,7 @@ export default function FormComponent() {
               name="seatType"
               label="Seat type"
               variant="outlined"
-              value={formik.values.seatType || ""}
+              value={formik?.values?.seatType}
               onChange={formik.handleChange}
               error={formik.touched.seatType && Boolean(formik.errors.seatType)}
             >
@@ -144,7 +151,7 @@ export default function FormComponent() {
               name="deck"
               label="Deck"
               variant="outlined"
-              value={formik.values.deck || ""}
+              value={formik?.values?.deck}
               onChange={(e) =>
                 formik.setFieldValue("deck", parseInt(e.target.value))
               }
@@ -164,7 +171,7 @@ export default function FormComponent() {
               name="seatCost"
               label="Seat cost"
               variant="outlined"
-              value={formik.values.seatCost || ""}
+              value={formik?.values?.seatCost}
               onChange={formik.handleChange}
               error={formik.touched.seatCost && Boolean(formik.errors.seatCost)}
               helperText={formik.touched.seatCost && formik.errors.seatCost}
@@ -180,7 +187,7 @@ export default function FormComponent() {
           <FormHelperText>
             Once submitted you cannot edit the content.
           </FormHelperText>
-          {currentData["seat_ui_order"] ? (
+          {currentSeatData["seat_ui_order"] === propsData ? (
             <Button
               type="submit"
               fullWidth

@@ -10,12 +10,12 @@ export default function UserLayer(props) {
 
   useEffect(() => {
     let layerData = []; // for storing seat data of same layer
-    let hasMale = false; // for checking male traveller
-    let hasFemale = false; // for checking female traveller
+    let hasMale = false; 
+    let hasFemale = false;
 
     for (let loop = 1; loop < seatData.length; loop++) {
       // Loop through the seat data
-      const seat = seatData[loop]; // current seat data
+      const seat = seatData[loop];
       const seatUiOrder = seat?.seat_ui_order;
       const layerFromUiOrder = Math.floor(seatUiOrder / 10);
 

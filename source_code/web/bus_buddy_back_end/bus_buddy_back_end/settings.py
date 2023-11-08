@@ -190,7 +190,7 @@ LOGGING = {
         },
     },
     "root": {
-        "handlers": ["file"],
+        "handlers": ["file","terminal"],
         "level": "DEBUG",
     },
 }

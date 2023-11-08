@@ -10,42 +10,57 @@ from .models import SeatDetails
 
 class AddSeatDetails(APIView):
     """
-    For adding individual seat details
+    API for adding seat details
+
+    Returns:
+        json: success message
     """
 
     permission_classes = (AllowAny,)
 
     def post(self, request):
         request_data = request.data
+        bus_id = request.data.get("bus")
+        ui_order = request.data.get("seat_ui_order")
         serialized_data = SDS(data=request_data)
         try:
-            if serialized_data.is_valid():
-                serialized_data.save()
-                return Response({"message": "details added successfully"}, status=201)
+            if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
+                return Response({"data": "seat detail already registered"}, status=200)
             else:
-                return Response(serialized_data._errors, status=400)
-        except ValidationError:
-            return Response(serialized_data._errors, status=400)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    return Response(
+                        {"message": "details added successfully"}, status=201
+                    )
+
+                else:
+                    return Response(serialized_data.errors, status=200)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
 
 
 class GetSeatDetails(APIView):
     """
-    For viewing seat details
+    API for fetching seat details
+
+    Args:
+        ui_order (integer): ui order of the seat(it determines the seat data to be fetched)
+        bus_id (integer): id of the bus that the seat data belong to
+
+    Returns:
+        json: details of the seat data
     """
 
     permission_classes = (AllowAny,)
 
     def get(self, request):
-        ui_order = request.GET["seat_ui_order"]
         bus_id = request.GET["bus_id"]
         try:
-            if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
-                request_data = SeatDetails.objects.get(
-                    seat_ui_order=ui_order, bus=bus_id
-                )
-                serialized_data = SDS(request_data)
+            if SeatDetails.objects.filter(bus=bus_id):
+                request_data = SeatDetails.objects.filter(bus=bus_id)
+                serialized_data = GSS(request_data, many=True)
                 return Response(serialized_data.data)
             else:
-                return Response({"error": "Validation error"},status=400)
-        except ValidationError:
-            return Response({"error":"Not registered"},status=400)
+                return Response({"data": "no data"}, status=200)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)

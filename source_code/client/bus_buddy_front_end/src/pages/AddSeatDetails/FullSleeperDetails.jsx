@@ -1,18 +1,14 @@
-import { React, useState, useMemo } from "react";
-import FullSleeperLayout from "../../components/BusOwner/SeatComponents/Layouts/FullSleeperLayout";
-import FormComponent from "../../components/BusOwner/SeatComponents/FormComponent";
-import { ShowFormContext } from "../../utils/ShowFormContext";
+import { React, useContext } from "react";
+
 import { Grid } from "@mui/material";
 
+import FullSleeperLayout from "../../components/BusOwner/SeatComponents/Layouts/FullSleeperLayout";
+import FormComponent from "../../components/BusOwner/SeatComponents/FormComponent";
+import { AddSeatContext } from "../../utils/AddSeatContext";
+import SeatDescription from "../../components/BusOwner/SeatComponents/SeatDescription";
+
 export default function FullSleeperDetails() {
-  const [isClicked, setIsClicked] = useState(false); // for seat onClick function
-  const [propsData, setPropsData] = useState(0); // holds the ui order
-
-  const contextValue = useMemo(
-    () => ({ isClicked, setIsClicked, propsData, setPropsData }),
-    [isClicked, setIsClicked, propsData, setPropsData]
-  ); // since the object passed as the value prop to the Context provider changes every render
-
+  const { isClicked } = useContext(AddSeatContext);
   return (
     <Grid
       container
@@ -21,16 +17,15 @@ export default function FullSleeperDetails() {
       alignItems="flex-start"
       justifyContent="space-between"
     >
-      <Grid item md={8} xs={12} sm={12} lg={6}>
-        <ShowFormContext.Provider value={contextValue}>
-          <FullSleeperLayout />
-        </ShowFormContext.Provider>
+      <Grid item md={12} xs={12} sm={12} lg={12}>
+        <SeatDescription/>
+      </Grid>
+      <Grid item md={9} xs={12} sm={12} lg={6}>
+        <FullSleeperLayout />
       </Grid>
 
       <Grid item md={4} xs={12} sm={12} lg={6}>
-        <ShowFormContext.Provider value={contextValue}>
-          {isClicked && <FormComponent />}
-        </ShowFormContext.Provider>
+        {isClicked && <FormComponent />}
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}
       </Grid>

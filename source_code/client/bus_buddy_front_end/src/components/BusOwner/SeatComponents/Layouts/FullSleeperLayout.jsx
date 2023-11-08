@@ -1,12 +1,31 @@
-import { React } from "react";
+import { React, useEffect, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FullSleeperLayer from "../Layers/FullSleeperLayer";
 import driver from "../../../../assets/driver.png";
+import { AddSeatContext } from "../../../../utils/AddSeatContext";
+import axios from "axios";
 
 export default function FullSleeperLayout() {
+  const { updateCurrentData } = useContext(AddSeatContext);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/bus-owner/get-seat-details?bus_id=9")
+      .then((res) => {
+        updateCurrentData(res.data);
+      })
+      .catch((err) => {
+        console.log("error");
+      });
+  };
+
   return (
     <Grid container spacing={12} justifyContent="space-evenly">
       <Grid item md={6} xs={12} sm={6}>
@@ -19,11 +38,11 @@ export default function FullSleeperLayout() {
                 <img src={driver} alt="driver" />
               </Grid>
             </Grid>
-            <FullSleeperLayer layer={1} />
-            <FullSleeperLayer layer={2} />
-            <FullSleeperLayer layer={3} />
-            <FullSleeperLayer layer={4} />
-            <FullSleeperLayer layer={5} />
+            <FullSleeperLayer row={1} />
+            <FullSleeperLayer row={2} />
+            <FullSleeperLayer row={3} />
+            <FullSleeperLayer row={4} />
+            <FullSleeperLayer row={5} />
           </CardContent>
         </Card>
       </Grid>
@@ -38,11 +57,11 @@ export default function FullSleeperLayout() {
                 <AddCircleOutlineIcon sx={{ color: "white" }} />
               </Grid>
             </Grid>
-            <FullSleeperLayer layer={6} />
-            <FullSleeperLayer layer={7} />
-            <FullSleeperLayer layer={8} />
-            <FullSleeperLayer layer={9} />
-            <FullSleeperLayer layer={10} />
+            <FullSleeperLayer row={6} />
+            <FullSleeperLayer row={7} />
+            <FullSleeperLayer row={8} />
+            <FullSleeperLayer row={9} />
+            <FullSleeperLayer row={10} />
           </CardContent>
         </Card>
       </Grid>
