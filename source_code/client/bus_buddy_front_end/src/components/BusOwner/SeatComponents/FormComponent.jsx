@@ -21,26 +21,22 @@ import { AddSeatContext } from "../../../utils/AddSeatContext";
 import axios from "axios";
 
 export default function FormComponent() {
-  const {
-    propsData,
-    currentData,
-    currentSeatData,
-    updateCurrentSeatData,
-  } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
+  const { propsData, currentData, currentSeatData, updateCurrentSeatData } =
+    useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   useEffect(() => {
     // for setting current seat data using ui order(propsData)
     for (let i of currentData) {
       if (propsData === i.seat_ui_order) {
         updateCurrentSeatData(i);
-      } else {
+        break;
+      } else{
+        updateCurrentSeatData([]);
         resetForm();
       }
     }
-  }, [propsData,currentSeatData]);
-
-
+  }, [propsData, currentSeatData]);
 
   useEffect(() => {
     // for setting values to test box after api call
