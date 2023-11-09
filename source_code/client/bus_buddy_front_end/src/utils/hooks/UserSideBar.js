@@ -6,7 +6,7 @@ function UserSideBar(props) {
   const logout = useLogout()
 
   return (
-    <div className="sidebar">
+    <div className="sidebar" style={{height:"42.5rem"}}>
       <div className="header">
         <h2 className="text-light text-center pt-3">User Name</h2>
       </div>
