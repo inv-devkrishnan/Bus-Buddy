@@ -2,13 +2,14 @@ import axios from "axios";
 import { getAcessToken } from "./apiCalls";
 
 export const axiosApi = axios.create({
+  // for api call's which requrires authentication
   baseURL: process.env.REACT_APP_BASEURL,
 });
 
-export const axiosOpenApi = axios.create({
+export const openAxiosApi = axios.create({
+  // for open api calls
   baseURL: process.env.REACT_APP_BASEURL,
 });
-
 const noAuthUrls = [
   "account/local-login/",
   "account/google-login/", // urls for which auth header not required

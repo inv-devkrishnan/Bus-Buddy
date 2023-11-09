@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { axiosApi } from "../../utils/axiosApi";
+import Card from "react-bootstrap/Card";
+import UpdateOwnerProfile from "./UpdateOwnerProfile";
+
+export default function Ownerprofile() {
+  const [currentUserData, setCurrentUserData] = useState({});
+
+  useEffect(() => {
+    axiosApi
+      .get("bus-owner/update-profile")
+      .then((res) => {
+        setCurrentUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        alert("User does not exist!!");
+      });
+  }, []);
+
+//   const renderProfile = () => {
+//     const { first_name, last_name, phone, email, company_name } =
+//       currentUserData;
+
+//     return (
+//       <div className="card" style={{ marginBottom: "2%" }}>
+//         <Card style={{ width: "25rem", height: "20rem" }}>
+//           <Card.Body>
+//             <Card.Title style={{ display: "flex", justifyContent: "center" }}>
+//               {first_name}
+//               {last_name}
+//             </Card.Title>
+//             <p>Name: {first_name}</p>
+//             <p>Last name: {last_name}</p>
+//             <p>Phone Number: {phone}</p>
+//             <p>Email ID: {email}</p>
+//             <p>Company Name: {company_name}</p>
+//             <Link to={"/UpdateOwnerProfile"}>
+//               <button className="btn btn-primary">Update Profile</button>
+//             </Link>
+//           </Card.Body>
+//         </Card>
+//       </div>
+    // );
+//   };
+
+  return (
+    <div style={{display:"flex",justifyContent:"center",margin:"5%" }}>
+      <div className="card" style={{ marginBottom: "2%"}}>
+        <Card style={{ width: "25rem", height: "20rem" }}>
+          <Card.Body>
+            <Card.Title style={{ display: "flex", justifyContent: "center" }}>
+              {currentUserData['first_name']}
+              {currentUserData['last_name']}
+            </Card.Title>
+            <p>Name: {currentUserData['first_name']}</p>
+            <p>Last name: {currentUserData['last_name']}</p>
+            <p>Phone Number: {currentUserData['phone']}</p>
+            <p>Email ID: {currentUserData['email']}</p>
+            <p>Company Name: {currentUserData['company_name']}</p>
+            <Link to="/Update-Profile">
+              <button className="btn btn-primary">Update Profile</button>
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
+    </div>
+  );
+}
