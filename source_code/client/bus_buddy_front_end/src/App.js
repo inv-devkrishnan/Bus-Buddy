@@ -21,6 +21,7 @@ import UpdateOwnerProfile from './components/BusOwnerUi/UpdateOwnerProfile';
 import AdminDashboard from "./pages/AdminDashboard";
 import LandingPage from "./pages/LandingPage";
 import UpdateForm from './components/User/UpdateFormCard';
+import Addtrips from './components/BusOwnerUi/MyTrips/Addtrips';
 
 function App() {
   return (   
@@ -45,6 +46,7 @@ function App() {
               <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
               <Route path="/user-dashboard" element={<UserDashboard />} />
               <Route path="view-trips" element={<ViewRoutes/>}/>
+              <Route path="add-trips" element={<Addtrips/>}/>
             </Routes>
     </div>
   );

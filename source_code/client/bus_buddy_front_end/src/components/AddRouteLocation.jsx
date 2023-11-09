@@ -91,6 +91,7 @@ function AddRouteLocation(props) {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,
+        location: locationValue,
         arrival_time: stopArrivalTime,
         landmark: landmark,
         status: 0,
