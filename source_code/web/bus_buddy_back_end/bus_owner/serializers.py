@@ -1,10 +1,18 @@
 import re
 from rest_framework import serializers
-from .models import Bus, Routes, Amenities, PickAndDrop, StartStopLocations,LocationData
+from rest_framework.fields import empty
+from .models import (
+    Bus,
+    Routes,
+    Amenities,
+    PickAndDrop,
+    StartStopLocations,
+    LocationData,
+)
 from .models import User
 from .models import Trip
-from .models import Bus  
-from .models import Routes  
+from .models import Bus
+from .models import Routes
 from .models import User
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
@@ -16,6 +24,7 @@ error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
 error_message_phone_exist = "Phone number is already registered"
+
 
 class BusSerializer(serializers.ModelSerializer):
     def validate_name(self, value):
@@ -44,89 +53,139 @@ class UpdateamenitiesSerializer(serializers.ModelSerializer):
 
 class ViewBusSerializer(serializers.ModelSerializer):
     # user = serializers.CharField(required=False)
-    amenities_data=AmenitiesSerializer(many=True, read_only=True,source="amenities_set")
+    amenities_data = AmenitiesSerializer(
+        many=True, read_only=True, source="amenities_set"
+    )
+
     class Meta:
         model = Bus
-        fields = ("id","bus_name","plate_no","bus_type","bus_ac","amenities_data")
+        fields = ("id", "bus_name", "plate_no", "bus_type", "bus_ac", "amenities_data")
         # depth=1
-        
+
+
 class Locationdata(serializers.ModelSerializer):
-    
     class Meta:
-        model = LocationData;
+        model = LocationData
         fields = "__all__"
-    
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
-    start_point_name = serializers.CharField(source='start_point.location_name', read_only=True)        #to get name matchin the id from location
-    end_point_name = serializers.CharField(source='end_point.location_name', read_only=True)         #to get name matchin the id from location
+    start_point_name = serializers.CharField(
+        source="start_point.location_name", read_only=True
+    )  # to get name matchin the id from location
+    end_point_name = serializers.CharField(
+        source="end_point.location_name", read_only=True
+    )  # to get name matchin the id from location
+
     class Meta:
-        model = Routes        
-        fields = ('start_point_name','end_point_name','via','distance','travel_fare','duration','id','user')
+        model = Routes
+        fields = (
+            "start_point_name",
+            "end_point_name",
+            "via",
+            "distance",
+            "travel_fare",
+            "duration",
+            "id",
+            "user",
+        )
         # depth=1
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickAndDrop
-        fields = '__all__'
+        fields = "__all__"
+
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
+
+    # pick_and_drop = PickAndDropSerializer(many=True)
+    # seq_id = serializers.IntegerField()
+    # location = serializers.PrimaryKeyRelatedField(queryset=LocationData.objects.all())
+    # arrival_time = serializers.TimeField()
+    # arrival_date_offset = serializers.IntegerField()
+    # departure_time = serializers.TimeField()
+    # departure_date_offset = serializers.IntegerField()
+    # route = serializers.PKOnlyObject(Routes)
     
+    # def create(self, validated_data):
+    #     profile_data = validated_data.pop('pick_and_drop')
+    #     obj = StartStopLocations.objects.create(**validated_data)
+    #     for val in profile_data:
+    #         PickAndDrop.objects.create(route=obj.route,start_stop_location=obj, **val)
+    #     return obj
+
     class Meta:
         model = StartStopLocations
-        fields = '__all__' 
-        
+        fields = (
+            "seq_id",
+            "location",
+            "arrival_time",
+            "arrival_date_offset",
+            "departure_time",
+            "departure_date_offset",
+            "route",
+        )    
+
+
+
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
-    # pick_and_drop = PickAndDropSerializer(many=True)
-    user = serializers.CharField(required=False)
+    pick_and_drop = PickAndDropSerializer(many=True)
 
-    
-    
     class Meta:
         model = Routes
-        fields = '__all__'
-        
+        fields = "__all__"
+
     def create(self, validated_data):
-        start_stop_locations = validated_data.pop('location')
-        # pick_and_drop=validated_data.pop('pick_and_drop')
+        start_stop_locations = validated_data.pop("location")
         routes = Routes.objects.create(**validated_data)
         for data in start_stop_locations:
-            StartStopLocations.objects.create(route=routes, **data)
-        # for pickanddrop_data in pick_and_drop:
-            # PickAndDrop.objects.create(route=routes, **pickanddrop_data)
+            import pdb;pdb.set_trace()
+            pad_obj = data.pop("pick_and_drop")
+            ssl_obj = StartStopLocations.objects.create(route=routes, **data)
+            for i in pad_obj:
+                PickAndDrop.objects.create(route=routes, start_stop_location=ssl_obj, **i)
         return routes
 
-
-        
 
 class TripSerializer(serializers.ModelSerializer):
     bus = serializers.PrimaryKeyRelatedField(queryset=Bus.objects.all())
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    
 
     class Meta:
         model = Trip
         fields = "__all__"
-        
+
+
 class ViewTripSerializer(serializers.ModelSerializer):
-    start_point_name = serializers.CharField(source='route.start_point.location_name', read_only=True)        #to get name matchin the id from location
-    end_point_name = serializers.CharField(source='route.end_point.location_name', read_only=True)         #to get name matchin the id from location
-    bus_name = serializers.CharField(source = 'bus.bus_name',read_only=True)
+    start_point_name = serializers.CharField(
+        source="route.start_point.location_name", read_only=True
+    )  # to get name matchin the id from location
+    end_point_name = serializers.CharField(
+        source="route.end_point.location_name", read_only=True
+    )  # to get name matchin the id from location
+    bus_name = serializers.CharField(source="bus.bus_name", read_only=True)
 
     class Meta:
         model = Trip
-        fields = ("start_point_name","end_point_name","id","start_date","end_date","bus_name")
-
+        fields = (
+            "start_point_name",
+            "end_point_name",
+            "id",
+            "start_date",
+            "end_date",
+            "bus_name",
+        )
 
 
 class OwnerModelSerializer(serializers.ModelSerializer):
     """
     For registering a bus owner
     """
+
     class Meta:
         model = User
         fields = (
@@ -138,7 +197,8 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "company_name",
             "aadhaar_no",
             "msme_no",
-            "extra_charges","role"
+            "extra_charges",
+            "role",
         )
 
     first_name = serializers.CharField(
@@ -214,7 +274,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
-    
+
     # password encryption
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
@@ -224,10 +284,7 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     """
     For viewing the bus owner details
     """
+
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
-        
-
-
-
