@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "bus_owner",
     "normal_user",
     "debug_toolbar",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -173,7 +174,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "anon": "50/minute",  # Allow 50 requests per minute for anonymous clients
+        "anon": "1000/minute",  # Allow 50 requests per minute for anonymous clients
     },
     "EXCEPTION_HANDLER": "bus_buddy_back_end.exceptions.custom_throttle_exception_handler",
 }

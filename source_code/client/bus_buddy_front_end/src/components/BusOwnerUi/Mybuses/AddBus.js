@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -6,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Addbus() {
   const [bus_name, setBusName] = useState("");
@@ -36,7 +36,7 @@ export default function Addbus() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/Add-Bus/", {
+      const response = await axiosApi.post("http://localhost:8000/bus-owner/add-bus/", {
         user: 1,
         bus_name: bus_name,
         plate_no: plate_no,
@@ -48,7 +48,7 @@ export default function Addbus() {
       if (response.status === 200) {
         console.log("Inserted");
         console.log(response);
-        const data = { bus: response.data.bus };
+        const data =  response.data.bus
         console.log(data);
         navi("/Addamenities", { state: data });
       }
@@ -64,9 +64,10 @@ export default function Addbus() {
         justifyContent: "center",
         marginRight: "5rem",
         paddingTop: "5rem",
+
       }}
     >
-      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem" }}>
+      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Bus</Card.Title>
           <div style={{ display: "flex" }}>

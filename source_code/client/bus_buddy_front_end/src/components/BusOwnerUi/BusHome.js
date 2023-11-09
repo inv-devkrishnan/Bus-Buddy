@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import DeleteAccount from "../../pages/DeleteAccount";
-import ViewBus from "../Bus_Ui/ViewBus"
-import ViewRoutes from "../route_ui/ViewRoutes"
-import UserSideBar from "../../utils/hooks/UserSideBar"
+import ViewBus from "./Mybuses/ViewBus"
+import ViewRoutes from "../BusOwnerUi/MyRoutes/ViewRoutes"
+import ViewTrips from "./MyTrips/ViewTrips.jsx"
 import Ownerprofile from "./Ownerprofile";
-
+import SideBar from "../common/SideBar";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -52,38 +52,53 @@ export default function UserDashboard() {
     setDeleteSelect(true);
   };
 
-  // useEffect(() => {
-  //   if (authStatus) {
-  //     if (localStorage.getItem("user_role") !== "3") {
-  //       // if user is not admin redirect to login
-  //       navigate("/login");
-  //     }
-  //   } else {
-  //     navigate("/login"); // if user not logged in redirect to login
-  //   }
-  // }, [navigate,authStatus]);
+  const options = [
+    // options list  for the sidebar component
+    {
+      name: " My Profile",
+      state: myProfileSelect,
+      onChange: myProfileSelected,
+    },
+    {
+      name: "My buses",
+      state: myBusSelect,
+      onChange: myBusSelected,
+    },
+
+    {
+      name: "My Routes",
+      state: myRouteSelect,
+      onChange: myRouteSelected,
+    },
+    {
+      name: "My Trips",
+      state: myTripSelect,
+      onChange: myTripSelected,
+    },
+  ];
+
+  useEffect(() => {
+    if (authStatus) {
+      if (localStorage.getItem("user_role") !== "3") {
+        // if user is not admin redirect to login
+        navigate("/login");
+      }
+    } else {
+      navigate("/login"); // if user not logged in redirect to login
+    }
+  }, [navigate,authStatus]);
 
   return (
     <div style={{display:"flex",justifyContent:"space-between"}}>
       <div>
-        <UserSideBar
-          myProfileSelected={myProfileSelected}
-          myProfileSelect={myProfileSelect}
-          myBusSelected={myBusSelected}
-          myBusSelect={myBusSelect}
-          myRouteSelected={myRouteSelected}
-          myRouteSelect={myRouteSelect}
-          myTripSelected={myTripSelected}
-          myTripSelect={myTripSelect}
-          deleteSelected={deleteSelected}
-          deleteSelect={deleteSelect}
+        <SideBar heading="Admin Profile" options={options} 
         />
       </div>
       <div style={{ flex: 1 }}>
         {myProfileSelect && <Ownerprofile/>}
         {myBusSelect && <ViewBus/>}
         {myRouteSelect && <ViewRoutes/>}
-        {myTripSelect && <h1>List User Page</h1>}
+        {myTripSelect && <ViewTrips/>}
         {deleteSelect && <DeleteAccount />}
       </div>
     </div>

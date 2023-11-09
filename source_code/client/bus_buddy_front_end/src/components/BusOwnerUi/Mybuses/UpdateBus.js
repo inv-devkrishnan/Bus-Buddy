@@ -1,24 +1,26 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
-import { UpdateBusSchema } from "./UpdateBusSchema";
+import { UpdateBusSchema } from "../UpdateBusSchema";
+import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Updatebus() {
-  const [id, setid] = useState(0);
-  const [plate_no, setplate_no] = useState("");
-
+  
+  const location = useLocation();
+  const bus = location.state;
   const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
+  console.log(bus);
+  let id=bus;
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/Update-Bus/1/")
+    axiosApi
+      .get(`http://127.0.0.1:8000/bus-owner/update-bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
       })
@@ -45,7 +47,7 @@ export default function Updatebus() {
     // }
 
     try {
-      axios.put(`http://127.0.0.1:8000/Update-Bus/${formik.values.id}/`, {
+      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
         user: 1,
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
@@ -84,7 +86,7 @@ export default function Updatebus() {
         paddingTop: "5rem",
       }}
     >
-      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem" }}>
+      <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Update Bus</Card.Title>
           <div style={{ display: "flex" }}>

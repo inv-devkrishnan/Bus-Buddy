@@ -87,7 +87,7 @@ class StartStopLocations(models.Model):
     departure_time = models.TimeField(null=False)
     departure_date_offset = models.IntegerField(default=0)
     status = models.SmallIntegerField(default=0)
-    route = models.ForeignKey(Routes, on_delete=models.CASCADE)
+    route = models.ForeignKey(Routes, on_delete=models.CASCADE, related_name='location', null=True)
 
     class Meta:
         db_table = "start_stop_locations"
@@ -95,7 +95,7 @@ class StartStopLocations(models.Model):
 
 class PickAndDrop(models.Model):
     location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
-    route = models.ForeignKey(Routes, on_delete=models.CASCADE)
+    route = models.ForeignKey(Routes, on_delete=models.CASCADE, related_name='pick_and_drop', null=True)
     bus_stop = models.CharField(max_length=255, null=False)
     arrival_time = models.TimeField()
     landmark = models.CharField(max_length=255, null=False)
