@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SeatDetails,User
+from .models import SeatDetails, User
 from rest_framework.validators import UniqueValidator
 from django.core.validators import RegexValidator
 
@@ -16,6 +16,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
     """
     For registering a bus owner
     """
+
     class Meta:
         model = User
         fields = (
@@ -27,7 +28,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "company_name",
             "aadhaar_no",
             "msme_no",
-            "extra_charges"
+            "extra_charges",
         )
 
     first_name = serializers.CharField(
@@ -59,7 +60,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         max_length=12,
         validators=[
             RegexValidator(
-                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
+                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
                 message="Password failed",
             ),
         ],
@@ -103,7 +104,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
-    
+
     # password encryption
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
@@ -113,10 +114,10 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     """
     For viewing the bus owner details
     """
+
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
-
 
 
 class SeatDetailSerializer(serializers.ModelSerializer):

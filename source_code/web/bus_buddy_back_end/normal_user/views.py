@@ -71,8 +71,11 @@ class RegisterUser(APIView):
             if serialized_data.is_valid():
                 serialized_data.save()
                 return Response({"message": "registration successfull"}, status=201)
-        except ValidationError:
-            return Response(serialized_data._errors, status=400)
+            else:
+                print(serialized_data.errors)
+                return Response(serialized_data.errors,status=200)
+        except Exception as e:
+            return Response("errors:" f"{e}", status=400)
 
 
 class UpdateProfile(UpdateAPIView):
@@ -94,15 +97,18 @@ class UpdateProfile(UpdateAPIView):
 
     def update(self, request):
         try:
-            user_id = request.user.id  # get id using token
-            instance = User.objects.get(id=user_id)
-            current_data = request.data
-            serializer = UMS(instance, data=current_data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
-            return Response({"message": "updated succesffully"}, status=200)
-        except ValueError:
-            return Response(serializer.errors, status=400)
+            if(request.user.id):
+                user_id = request.user.id  # get id using token
+                instance = User.objects.get(id=user_id)
+                current_data = request.data
+                serializer = UMS(instance, data=current_data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                self.perform_update(serializer)
+                return Response({"message": "updated succesffully"}, status=200)
+            else:
+                return Response(serializer.errors, status=400)
+        except Exception as e:
+            return Response("errors:" f"{e}", status=400)
 
     def put(self, request):
         return self.update(request)

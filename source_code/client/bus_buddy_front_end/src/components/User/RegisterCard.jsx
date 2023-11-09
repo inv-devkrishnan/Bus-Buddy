@@ -71,7 +71,6 @@ export default function RegisterCard() {
   };
 
   return (
-    <>
       <Card
         className="p-5 shadow-lg p-3 mb-5 mt-5 bg-body rounded"
         style={{ width: "30rem", padding: 5, alignItems: "center" }}
@@ -241,6 +240,5 @@ export default function RegisterCard() {
           </Card.Text>
         </Card.Body>
       </Card>
-    </>
   );
 }

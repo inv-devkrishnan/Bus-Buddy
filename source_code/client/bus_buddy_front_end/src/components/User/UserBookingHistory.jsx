@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
+import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
 
@@ -32,7 +33,7 @@ export default function UserBookingHistory() {
       })
       .catch((err) => {});
   }, [page]);
-
+  console.log(bookingData);
   const handlePrevious = () => {
     setActive(active - 1);
     setPage(page - 1);
@@ -96,7 +97,7 @@ export default function UserBookingHistory() {
           <h1>My Trips</h1>
         </div>
         <div className="flex-fill m-3">
-          <Table >
+          <Table>
             <thead>
               <tr>
                 <th>SI No.</th>
@@ -106,7 +107,7 @@ export default function UserBookingHistory() {
                 <th>Departure time</th>
                 <th>Action</th>
               </tr>
-              {bookingData ? (
+              {bookingData.length!==0 ? (
                 <>
                   {bookingData.map((data, key) => (
                     <tr key={data?.id}>
@@ -133,7 +134,13 @@ export default function UserBookingHistory() {
                   ))}
                 </>
               ) : (
-                <span>No data to display</span>
+                <div className="d-flex m-5">
+                  <ExclamationCircle color="grey" size={96}></ExclamationCircle>
+                  <div className="ms-3">
+                    <h2>No booking data Found !!</h2>
+                    <h6>Your booking history is empty</h6>
+                  </div>
+                </div>
               )}
             </thead>
           </Table>
@@ -172,9 +179,8 @@ export default function UserBookingHistory() {
             Departure Date:&nbsp;<strong>{modalData?.trip?.start_date}</strong>
           </p>
           <p>
-            Travel Time:&nbsp;
-            <strong>{modalData?.trip?.start_time}</strong>&nbsp; to &nbsp;
-            <strong>{modalData?.trip?.end_time}</strong>
+            Travel Time:&nbsp;<strong>{modalData?.trip?.start_time}</strong>
+            &nbsp; to &nbsp;<strong>{modalData?.trip?.end_time}</strong>
           </p>
           <p>
             Pick up point:&nbsp;<strong>{modalData?.pick_up?.bus_stop}</strong>

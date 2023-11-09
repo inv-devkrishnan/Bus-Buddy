@@ -6101,3 +6101,40 @@ django.request WARNING 2023-11-08 04:21:04,482 log 14212 140206419207744 Bad Req
 django.request WARNING 2023-11-08 04:21:28,775 log 14327 140413271795264 Bad Request: /bus-owner/get-seat-details
 django.request WARNING 2023-11-08 04:25:25,673 log 14869 140654593173056 Bad Request: /bus-owner/get-seat-details
 django.request WARNING 2023-11-08 04:25:43,461 log 14936 140365669590592 Bad Request: /bus-owner/get-seat-details
+django.request WARNING 2023-11-09 04:01:42,264 log 10695 140396121286208 Not Found: /normal-user/view-seats/
+django.request WARNING 2023-11-09 04:03:23,953 log 10695 140396121286208 Unauthorized: /user/view-seats/
+django.request WARNING 2023-11-09 09:15:43,619 log 14098 140439270188608 Unauthorized: /user/view-seats/
+django.request WARNING 2023-11-09 09:15:43,895 log 14098 140439270188608 Unauthorized: /user/view-seats/
+django.request WARNING 2023-11-09 09:16:02,095 log 14098 140439270188608 Unauthorized: /account/local-login/
+django.request ERROR 2023-11-09 09:17:16,160 log 14098 140439270188608 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request ERROR 2023-11-09 09:17:16,160 log 14098 140439270188608 Internal Server Error: /user/registration/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `HttpStreamingResponse` to be returned from the view, but received a `<class 'NoneType'>`
+django.request WARNING 2023-11-09 09:31:09,366 log 25939 139973834565184 Unauthorized: /account/local-login/
+django.request WARNING 2023-11-09 09:33:19,196 log 25939 139973834565184 Unauthorized: /account/local-login/

@@ -38,7 +38,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/delete-account" element={<DeleteAccountPage />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/" element={<FullSleeperDetails />} />
+          <Route path="/full-sleeper-details" element={<FullSleeperDetails />} />
           <Route path="/full-seater-details" element={<FullSeaterDetails />} />
           <Route
             path="/single-seater-double-sleeper-details"
@@ -64,7 +64,7 @@ function App() {
           <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
           <Route path="/user-dashboard" element={<UserDashboard />} />
-        </Routes>{" "}
+        </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>
   );

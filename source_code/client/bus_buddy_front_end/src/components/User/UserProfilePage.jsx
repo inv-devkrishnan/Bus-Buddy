@@ -66,21 +66,20 @@ export default function UserProfilePage(props) {
           {myProfileView && (
             <div>
               <Card
-                className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+                className="d-grid gap-1 gap-sm-3 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
                 style={{
+                  width: "75%",
                   boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
                 }}
               >
-                <CardText>
-                  <div className="d-flex flex-column m-2">
-                    Your name:
-                    <h5>
-                      {currentUserData["first_name"] +
-                        " " +
-                        currentUserData["last_name"]}
-                    </h5>
-                  </div>
-                </CardText>
+                <div className="d-flex flex-column m-2">
+                  <CardText>Your name:</CardText>
+                  <CardText as="h5">
+                    {currentUserData["first_name"] +
+                      " " +
+                      currentUserData["last_name"]}
+                  </CardText>
+                </div>
                 <div className="d-flex">
                   <CardText style={{ color: "gray" }}>
                     &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
@@ -89,20 +88,16 @@ export default function UserProfilePage(props) {
                 <div className="container">
                   <div className="row">
                     <div className="col-sm-12 col-md-12 col-lg-3">
-                      <CardText>
-                        Phone number:
-                        <h5>{currentUserData["phone"]}</h5>
-                      </CardText>
+                      <CardText>Phone number:</CardText>
+                      <CardText as="h5">{currentUserData["phone"]}</CardText>
                     </div>
                     <div className="col-sm-12 col-md-12 col-lg-9">
-                      <CardText>
-                        Email:
-                        <h5>{currentUserData["email"]}</h5>
-                      </CardText>
+                      <CardText>Email: </CardText>
+                      <CardText as="h5">{currentUserData["email"]}</CardText>
                     </div>{" "}
                   </div>
                 </div>
-                <div className="d-flex justify-content-md-end">
+                <div className="d-flex justify-content-md-end flex-md-row">
                   <div className="m-1">
                     {!googleUser && ( // for rendering change password button only for normal sign in
                       <Button onClick={changePasswordViewSelected}>

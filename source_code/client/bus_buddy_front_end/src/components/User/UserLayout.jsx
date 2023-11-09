@@ -17,7 +17,7 @@ export default function UserLayout() {
 
   const getSeatData = async () => {
     await axiosApi
-      .get("normal-user/view-seats/?trip_id=2")
+      .get("user/view-seats/?trip_id=2")
       .then((res) => {
         updateSeatData(res.data);
       })
