@@ -330,38 +330,46 @@ class Deleteroutes(APIView):
 
     def put(self, request, id):
         try:
+            logger.info("fetching the route obj")
             data = Routes.objects.get(id=id)    #to get route object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("no route obj present")
             logger.info(entry)
         try:
+            logger.info("fetching the trip obj associated with route ")
             data = Trip.objects.get(id=id)    #to get trips object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("no trip obj associated with route")
             logger.info(entry)
    
         try:
+            logger.info("fetching the startstoplocations associated with routes")
             data = StartStopLocations.objects.get(id=id)    #to get start stop object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("there are no start stop locations associated with routes")
             logger.info(entry)
    
         try:
+            logger.info("fetching pickdroppoints associated with routes")
             data = PickAndDrop.objects.get(id=id)    #to get pick&drop object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("there are no pickupdropoff points associated with routes")
             logger.info(entry)
         return Response(status=404)
     
@@ -376,7 +384,9 @@ class Viewroutes(ListAPIView):
 
     def list(self, request):
         try:
+            logger.info("fetching user id ")
             # user_id = request.user.id
+            logger.info("fetching all data from routes model matching the conditions")
             queryset = Routes.objects.filter(status=0)
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -424,14 +434,17 @@ class Updatetrip(UpdateAPIView):
 
     def get(self, request, id):
         try:
+            logger.info("checking for trip obj matching the requested id")
             bus = Trip.objects.get(id=id)
         except Trip.DoesNotExist:
+            logger.info("no trip obj matching the requested id")
             return Response(status=404)
         serialized_data = TripSerializer(bus)
         return Response(serialized_data.data)
 
     def put(self, request, id):
         try:
+            logger.info("fetching the trip obj matching the id")
             instance = Trip.objects.get(id=id)      #saving the present values to instance variable
             serializer = TripSerializer(instance, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
@@ -440,8 +453,10 @@ class Updatetrip(UpdateAPIView):
                 print("i")
                 return Response({"message": "Updated"}, 200, serializer.data)
             else:
+                logger.info("serializer validation failed")
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
+            logger.info("no trip obj for the given id")
             return Response("Invalid Bus id", status=400)
 
 
@@ -455,6 +470,7 @@ class Deletetrip(APIView):
 
     def put(self, request, id):
         try:
+            logger.info("fetching the trip obj for the obj")
             data = Trip.objects.get(id=id)      #to get trip object matching the id 
             data.status = 99
             data.save()

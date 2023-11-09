@@ -100,7 +100,7 @@ class PickAndDropSerializer(serializers.ModelSerializer):
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
 
-    pick_and_drop = PickAndDropSerializer(many=True)
+    # pick_and_drop = PickAndDropSerializer(many=True)
     # seq_id = serializers.IntegerField()
     # location = serializers.PrimaryKeyRelatedField(queryset=LocationData.objects.all())
     # arrival_time = serializers.TimeField()
@@ -108,6 +108,13 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     # departure_time = serializers.TimeField()
     # departure_date_offset = serializers.IntegerField()
     # route = serializers.PKOnlyObject(Routes)
+    
+    # def create(self, validated_data):
+    #     profile_data = validated_data.pop('pick_and_drop')
+    #     obj = StartStopLocations.objects.create(**validated_data)
+    #     for val in profile_data:
+    #         PickAndDrop.objects.create(route=obj.route,start_stop_location=obj, **val)
+    #     return obj
 
     class Meta:
         model = StartStopLocations
@@ -119,14 +126,13 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
             "departure_time",
             "departure_date_offset",
             "route",
-            "pick_and_drop",
         )    
 
 
 
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
-    # pick_and_drop = PickAndDropSerializer(many=True)
+    pick_and_drop = PickAndDropSerializer(many=True)
 
     class Meta:
         model = Routes
@@ -136,21 +142,11 @@ class RoutesSerializer(serializers.ModelSerializer):
         start_stop_locations = validated_data.pop("location")
         routes = Routes.objects.create(**validated_data)
         for data in start_stop_locations:
-            # print(count)
-            # print("before pop")
-            # print(data)
-            print(data)
-            pick_and_drop = data.pop("pick_and_drop")
-            # print("after pop")
-            # print("pick and drop")
-            # print(pick_and_drop)
-            # print("data")
-            # print(data)
-            # pick_and_drop_items = start_stop_locations.pop('pick_and_drop', [])
-            startstop_location = StartStopLocations.objects.create(route=routes,**data)
-            for pickanddrop_data in pick_and_drop:
-                PickAndDrop.objects.create(route=routes,start_stop_location=startstop_location, **pickanddrop_data)
-                print(pickanddrop_data)
+            import pdb;pdb.set_trace()
+            pad_obj = data.pop("pick_and_drop")
+            ssl_obj = StartStopLocations.objects.create(route=routes, **data)
+            for i in pad_obj:
+                PickAndDrop.objects.create(route=routes, start_stop_location=ssl_obj, **i)
         return routes
 
 

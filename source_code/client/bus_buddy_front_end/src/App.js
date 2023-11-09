@@ -8,7 +8,6 @@ import ViewBus from './components/BusOwnerUi/Mybuses/ViewBus';
 import AddAmenities from './components/BusOwnerUi/Mybuses/AddAmenities';
 import UpdateAmenities from './components/BusOwnerUi/Mybuses/UpdateAmenities';
 import Addroutes from './components/BusOwnerUi/MyRoutes/Addroutes';
-import Deleteroutes from './components/BusOwnerUi/MyRoutes/Deleteroutes';
 import ViewRoutes from './components/BusOwnerUi/MyRoutes/ViewRoutes';
 import LoginPage from "./pages/LoginPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
@@ -35,7 +34,6 @@ function App() {
               <Route path='/Addamenities' element={<AddAmenities/>}/>
               <Route path='/Updateamenities' element={<UpdateAmenities/>}/>
               <Route path='/Addroutes' element={<Addroutes/>}/>
-              <Route path='/Deleteroutes' element={<Deleteroutes/>}/>
               <Route path='/ViewRoutes' element={<ViewRoutes/>}/>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/update-owner" element={<OwnerUpdateCard />} />
