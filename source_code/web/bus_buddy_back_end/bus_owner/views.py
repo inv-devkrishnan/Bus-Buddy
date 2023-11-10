@@ -125,34 +125,42 @@ class Deletebus(APIView):
     def put(self, request, id):
         try:
             logger.info("fetching bus obj matching the requested id")
-            data = Bus.objects.get(id=id)  #to retrive bus object that matches the id 
-            data.status = 99        #soft delete    
-            data.save()
-            logger.info("Deleted bus")
+            data = Bus.objects.get(id=id)  #to retrive bus object that matches the id
+            if(data.status == 99): 
+                return Response({"message":"bus already deleted"})
+            else:
+                data.status = 99        #soft delete    
+                data.save()
+                logger.info("Deleted bus")
+            try:
+                logger.info("fetching the amenities obj associated with the bus obj")
+                data = Amenities.objects.get(bus=id)   #to get the amenities obj associated with bus obj 
+                if(data.status == 99):
+                    return Response({"message":"already deleted"})
+                else:
+                    data.status = 99        #soft delete    
+                    data.save()
+                    logger.info("Deleted amenities")
+                    return Response({"message": "Deleted Bus & Amenities"})
+            except ObjectDoesNotExist:
+                logger.info(entry)
+            try:
+                print(" inside trip delete")
+                logger.info("fetching the trip associated with the bus")
+                data = Trip.objects.filter(bus_id=id)    #to get the trip obj associated with bus obj
+                for trip in data:
+                    print(trip)
+                    if (trip.status == 0):
+                        trip.status = 99
+                        trip.save()
+                return Response({"message": "Deleted Bus & Amenities & trip"})
+            except ObjectDoesNotExist:
+                logger.info(entry)
+            return Response({"message":"There are not trips or bus object for this particular bus"})
         except ObjectDoesNotExist:
-            logger.info("there is no bus obj matchin gthe id")
+            logger.info("there is no bus obj matching the id")
             logger.info(entry)
             return Response(status=404)
-        
-        try:
-            logger.info("fetching the amenities obj associated with the bus obj")
-            data = Amenities.objects.get(bus=id)   #to get the amenities obj associated with bus obj 
-            data.status = 99        #soft delete    
-            data.save()
-            logger.info("Deleted amenities")
-            return Response({"message": "Deleted Bus & Amenities"})
-        except ObjectDoesNotExist:
-            logger.info(entry)
-        try:
-            logger.info("fetching the trip associated with the bus")
-            data = Trip.objects.get(bus=id)    #to get the trip obj associated with bus obj
-            data.status = 99        #soft delete    
-            data.save()
-            logger.info("Deleted trip")
-            return Response({"message": "Deleted Bus & Amenities & trip"})
-        except ObjectDoesNotExist:
-            logger.info(entry)
-        return Response({"message":"There are not trips or bus object for this particular bus"})
 
 class Updatebus(UpdateAPIView): 
     """
@@ -307,14 +315,14 @@ class Addroutes(APIView):
 
     def post(self, request):
         try:
-            data=request.data
+            data=request.data.copy()
             logger.info("fetching user obj ")
             data["user"] = request.user.id
             serializer = RoutesSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                routes_id = serializer.data.get("id")
-                return Response({"message": "Route inserted", "routes_id": routes_id})
+                id = serializer.data['id']
+                return Response({"message": f"Route inserted : {id}"}, status=200)
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError as e:
@@ -331,47 +339,58 @@ class Deleteroutes(APIView):
     def put(self, request, id):
         try:
             logger.info("fetching the route obj")
-            data = Routes.objects.get(id=id)    #to get route object matching the id
-            data.status = 99
-            data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
+            data = Routes.objects.get(id=id)    #to get route object matching the id 
+            print(data)
+            if(data.status == 99):
+                return Response("route already deleted")
+            else:
+                data.status = 99
+                data.save()
+                logger.info("Deleted")
+            try:
+                import pdb;pdb.set_trace()
+                logger.info("fetching the trip obj associated with route ")
+                data = Trip.objects.filter(route=id)    #to get trips object matching the id
+                for trip in data:
+                    print(trip)
+                    if (trip.status == 0):
+                        trip.status = 99
+                        trip.save()
+                logger.info("Deleted")
+                return Response({"message": dentry})
+            except ObjectDoesNotExist:
+                logger.info("no trip obj associated with route")
+                logger.info(entry)
+            try:
+                logger.info("fetching the startstoplocations associated with routes")
+                data = StartStopLocations.objects.filter(route=id)    #to get start stop object matching the id
+                for ssl in data:
+                    print(ssl)
+                    if (ssl.status == 0):
+                        ssl.status = 99
+                        ssl.save()
+                logger.info("Deleted")
+                return Response({"message": dentry})
+            except ObjectDoesNotExist:
+                logger.info("there are no start stop locations associated with routes")
+                logger.info(entry)
+            try:
+                logger.info("fetching pickdroppoints associated with routes")
+                data = PickAndDrop.objects.filter(route=id)    #to get pick&drop object matching the id
+                for pad in data:
+                    print(pad)
+                    if (pad.status == 0):
+                        pad.status = 99
+                        pad.save()
+                logger.info("Deleted")
+                return Response({"message": dentry})
+            except ObjectDoesNotExist:
+                logger.info("there are no pickupdropoff points associated with routes")
+                logger.info(entry)
+            return Response(status=404)
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)
-        try:
-            logger.info("fetching the trip obj associated with route ")
-            data = Trip.objects.get(id=id)    #to get trips object matching the id
-            data.status = 99
-            data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
-        except ObjectDoesNotExist:
-            logger.info("no trip obj associated with route")
-            logger.info(entry)
-   
-        try:
-            logger.info("fetching the startstoplocations associated with routes")
-            data = StartStopLocations.objects.get(id=id)    #to get start stop object matching the id
-            data.status = 99
-            data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
-        except ObjectDoesNotExist:
-            logger.info("there are no start stop locations associated with routes")
-            logger.info(entry)
-   
-        try:
-            logger.info("fetching pickdroppoints associated with routes")
-            data = PickAndDrop.objects.get(id=id)    #to get pick&drop object matching the id
-            data.status = 99
-            data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
-        except ObjectDoesNotExist:
-            logger.info("there are no pickupdropoff points associated with routes")
-            logger.info(entry)
-        return Response(status=404)
     
 
 class Viewroutes(ListAPIView):

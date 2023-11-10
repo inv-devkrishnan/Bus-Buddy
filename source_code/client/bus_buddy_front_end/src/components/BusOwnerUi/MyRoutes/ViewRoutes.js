@@ -123,15 +123,6 @@ export default function Viewallroutes() {
                 }}
               >
                 <button
-                  className="btn btn-primary"
-                  // onClick={() => update(trip.id)}
-                >
-                  Update
-                </button>
-                {/* <button className="btn btn-primary" onClick={""}>
-                  Add seat details
-                </button> */}
-                <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewroutes.id)}
                 >

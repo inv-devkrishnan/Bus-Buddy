@@ -4875,3 +4875,346 @@ Traceback (most recent call last):
   File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 296, in post
     data=request.data.results
 AttributeError: 'QueryDict' object has no attribute 'results'
+django.request ERROR 2023-11-10 04:12:05,847 log 10114 139926961120832 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+AttributeError: 'StartStopLocations' object has no attribute 'pick_and_drop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 316, in post
+    routes_id = serializer.data.get("id")
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `pick_and_drop` on serializer `StartStopLocationsSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `StartStopLocations` instance.
+Original exception text was: 'StartStopLocations' object has no attribute 'pick_and_drop'.
+django.request ERROR 2023-11-10 04:14:02,508 log 10547 139980225640000 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+AttributeError: 'StartStopLocations' object has no attribute 'pick_and_drop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 318, in post
+    routes_id = serializer.data.get("id")
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `pick_and_drop` on serializer `StartStopLocationsSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `StartStopLocations` instance.
+Original exception text was: 'StartStopLocations' object has no attribute 'pick_and_drop'.
+django.request ERROR 2023-11-10 04:14:19,459 log 10547 139980225640000 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+AttributeError: 'StartStopLocations' object has no attribute 'pick_and_drop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 318, in post
+    routes_id = serializer.data.get("id")
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 555, in data
+    ret = super().data
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 686, in to_representation
+    return [
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/fields.py", line 479, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `pick_and_drop` on serializer `StartStopLocationsSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `StartStopLocations` instance.
+Original exception text was: 'StartStopLocations' object has no attribute 'pick_and_drop'.
+django.request ERROR 2023-11-10 04:28:07,570 log 13100 139882177492544 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 315, in post
+    serializer.save()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/serializers.py", line 137, in create
+    pad_obj = data.pop("pick_and_drop")
+KeyError: 'pick_and_drop'
+django.request ERROR 2023-11-10 04:37:50,315 log 14550 140377919059520 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 312, in post
+    data["user"] = request.user.id
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 555, in __setitem__
+    self._assert_mutable()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 552, in _assert_mutable
+    raise AttributeError("This QueryDict instance is immutable")
+AttributeError: This QueryDict instance is immutable
+django.request ERROR 2023-11-10 04:39:29,467 log 14550 140377919059520 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 312, in post
+    data["user"] = request.user.id
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 555, in __setitem__
+    self._assert_mutable()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 552, in _assert_mutable
+    raise AttributeError("This QueryDict instance is immutable")
+AttributeError: This QueryDict instance is immutable
+django.request ERROR 2023-11-10 04:42:29,829 log 14963 140004876609088 Internal Server Error: /bus-owner/add-routes/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 313, in post
+    data["user"] = request.user.id
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 555, in __setitem__
+    self._assert_mutable()
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/http/request.py", line 552, in _assert_mutable
+    raise AttributeError("This QueryDict instance is immutable")
+AttributeError: This QueryDict instance is immutable
+django.request ERROR 2023-11-10 10:57:09,827 log 42123 140589974681152 Internal Server Error: /bus-owner/delete-routes/161/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 357, in put
+    data.save()
+AttributeError: 'QuerySet' object has no attribute 'save'
+django.request ERROR 2023-11-10 11:02:51,112 log 42242 139908999013952 Internal Server Error: /bus-owner/delete-routes/164/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 357, in put
+    data.save()
+AttributeError: 'QuerySet' object has no attribute 'save'
+django.request ERROR 2023-11-10 11:09:08,088 log 44235 140050889176640 Internal Server Error: /bus-owner/delete-routes/165/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 358, in put
+    data.save()
+AttributeError: 'QuerySet' object has no attribute 'save'
+django.request ERROR 2023-11-10 11:15:06,825 log 45510 140420376946240 Internal Server Error: /bus-owner/delete-routes/167/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 359, in put
+    data.save()
+AttributeError: 'QuerySet' object has no attribute 'save'
+django.request ERROR 2023-11-10 11:57:55,571 log 48002 139657157273152 Internal Server Error: /bus-owner/delete-routes/168/
+Traceback (most recent call last):
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/antony.jose/mock_bus_budddy/Bus-Buddy/source_code/web/bus_buddy_back_end/bus_owner/views.py", line 358, in put
+    data.save()
+AttributeError: 'QuerySet' object has no attribute 'save'
