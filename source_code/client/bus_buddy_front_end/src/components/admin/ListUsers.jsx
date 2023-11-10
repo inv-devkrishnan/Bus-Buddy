@@ -8,7 +8,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 
@@ -16,16 +15,21 @@ import Swal from "sweetalert2";
 
 import { axiosApi } from "../../utils/axiosApi";
 import { getErrorMessage } from "../../utils/getErrorMessage";
+import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
+import CustomPaginator from "../common/paginator/CustomPaginator";
 
 function ListUsers(props) {
   const [users, setUsers] = useState([]); // to store user list
 
+  const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
   const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
+  const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
+  const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
+  
   const [searchField, setSearchField] = useState(""); // to store search key words
-
   const [searchMode, setSearchMode] = useState(false);
   const listOrder = useRef(-1); // to store the sorting order
   const userStatus = useRef(props.busApproval ? 3 : 100); // to store the user status
@@ -274,20 +278,11 @@ function ListUsers(props) {
     };
     // if confirmed
     if ((await showDialog(approveUserDialog)).isConfirmed) {
-      Swal.showLoading();
-      Swal.fire({
-        title: "Please Wait",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showCancelButton: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });
+      showLoadingAlert("Approving Bus Owner"); // shows loading screen because sending email can take some time
       await axiosApi
         .put(`adminstrator/approve-bus-owner/${user_id}/`)
         .then((result) => {
+          Swal.close();
           Swal.fire({
             title: "Bus Owner Approved !",
             icon: "success",
@@ -324,26 +319,6 @@ function ListUsers(props) {
     }
     return [];
   };
-
-  const generatePaginator = (pages) => {
-    // function to show pages at bottom
-    let pageItem = [];
-    for (let i = 1; i <= pages; ++i) {
-      pageItem.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => {
-            getUsersbyPage(i);
-          }}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
-    return pageItem;
-  };
-
   return (
     <Container className="ms-2 mt-2">
       <Row>
@@ -546,43 +521,19 @@ function ListUsers(props) {
         </Col>
       </Row>
       <Row>
-        <Pagination
-          size="md"
-          style={{
-            width: "70%",
-            position: "fixed",
-            bottom: 0,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Pagination.First
-            onClick={() => {
-              // move to first page
-              getUsersbyPage(1);
-            }}
-          />
-          <Pagination.Prev
-            // checks if data have previous page then move to previous page
-            onClick={() => {
-              hasPrevious && getUsersbyPage(currentPage - 1);
-            }}
-          />
-          {
-            // shows the page numbers
-            generatePaginator(totalPages)
-          }
-          <Pagination.Next
-            // checks if data have next page then move to next page
-            onClick={() => {
-              hasNext && getUsersbyPage(currentPage + 1);
-            }}
-          />
-          <Pagination.Last
-            // move to last  page
-            onClick={() => getUsersbyPage(totalPages)}
-          />
-        </Pagination>
+        <CustomPaginator
+         PAGE_LIMIT={PAGE_LIMIT}
+         totalPages={totalPages}
+         currentPage={currentPage}
+         hasPrevious={hasPrevious}
+         hasNext={hasNext}
+         pageStartLimit={pageStartLimit}
+         pageEndLimit={pageEndLimit}
+         setPageStartLimit={setPageStartLimit}
+         setPageEndLimit={setPageEndLimit}
+         viewPage={getUsersbyPage}
+         width={"70%"}
+        ></CustomPaginator>
       </Row>
       <Modal
         show={show}
