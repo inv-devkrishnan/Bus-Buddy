@@ -142,7 +142,11 @@ function ListUsers(props) {
     // this function allows us to search users
     if (searchField) {
       setSearchMode(true);
-      getUsers(`adminstrator/list-users/?keyword=${keyword}`);
+      // check if its bus owner approval page or not if yes only search for busowners
+      props.busApproval
+        ? getUsers(`adminstrator/list-users/?keyword=${keyword}&type=1`)
+        : getUsers(`adminstrator/list-users/?keyword=${keyword}&type=0`);
+
       listOrder.current = -1;
       userStatus.current = 100;
     }
@@ -259,7 +263,7 @@ function ListUsers(props) {
     // this function performs removal of user
 
     // shows dialog
-    const removeUserDialog = {
+    const approveUserDialog = {
       title: "Approve Bus Owner",
       text: "Are you sure you want to Approve this Bus owner",
       icon: "warning",
@@ -269,7 +273,18 @@ function ListUsers(props) {
       cancelButtonText: "Cancel",
     };
     // if confirmed
-    if ((await showDialog(removeUserDialog)).isConfirmed) {
+    if ((await showDialog(approveUserDialog)).isConfirmed) {
+      Swal.showLoading();
+      Swal.fire({
+        title: "Please Wait",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
       await axiosApi
         .put(`adminstrator/approve-bus-owner/${user_id}/`)
         .then((result) => {
@@ -434,6 +449,7 @@ function ListUsers(props) {
                 className="d-block ms-3"
                 onClick={() => {
                   setSearchField("");
+                  props.busApproval && (userStatus.current = 3);
                   getUsersbyPage(1);
                   setSearchMode(false);
                 }}
@@ -499,7 +515,7 @@ function ListUsers(props) {
                         Ban User
                       </Button>
                     )}
-                    {user.status === 3 && (
+                    {user.status === 3 && props.busApproval && (
                       <Button
                         variant="primary"
                         onClick={() => {
@@ -610,7 +626,9 @@ function ListUsers(props) {
               <p className="m-0">:</p>
               <div className="d-flex ms-3">
                 {formatAadhaarNumber(busOwnerInfo.aadhaar_no).map((block) => (
-                  <p  className="m-0" key={block}>{block}&nbsp;</p>
+                  <p className="m-0" key={block}>
+                    {block}&nbsp;
+                  </p>
                 ))}
               </div>
             </ListGroup.Item>
@@ -625,7 +643,15 @@ function ListUsers(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={()=>{approveBusOwner(busOwnerInfo.id); handleClose();}}>Approve Bus Owner</Button>
+          <Button
+            variant="success"
+            onClick={() => {
+              approveBusOwner(busOwnerInfo.id);
+              handleClose();
+            }}
+          >
+            Approve Bus Owner
+          </Button>
         </Modal.Footer>
       </Modal>
     </Container>

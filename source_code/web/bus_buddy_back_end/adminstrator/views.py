@@ -10,6 +10,7 @@ from .serializer import AdminUpdateSerializer as AUS
 from .serializer import ListUserSerializer as LUS
 from .serializer import BanUserSerializer as BUS
 from .pagination import CustomPagination
+from bus_buddy_back_end.email import send_email_with_template
 
 
 logger = logging.getLogger("django")
@@ -28,9 +29,24 @@ def update_status(self, user_id, status):
         new_data = {"status": status}
         serializer = BUS(instance, data=new_data, partial=True)
         if serializer.is_valid():
-            if status != instance.status:
+            if status != instance.status:  # checks if status is already same
+                old_status = instance.status
                 self.perform_update(serializer)
                 logger.info("user status changed to " + str(status))
+                if (
+                    old_status == 3 and status == 0
+                ):  # if status change was from 3 to 0 then send mail to bus owner about approval
+                    subject = "You are Approved"
+                    context = {
+                        "recipient_name": instance.first_name,
+                    }
+                    recipient_list = ["devanaswinikumar8@gmail.com"]
+                    send_email_with_template(
+                        subject=subject,
+                        context=context,
+                        recipient_list=recipient_list,
+                        template="bus_approval_template.html",
+                    )
                 return Response({"success_code": "D2005"})
             else:
                 logger.info(
@@ -99,15 +115,24 @@ class AdminProfileUpdation(UpdateAPIView):
 class ListUsers(APIView, CustomPagination):
     permission_classes = (AllowAdminsOnly,)
 
-    def search_user(self, keyword):
-        logger.info("Searching user with keyword '" + str(keyword)+"'")
+    def search_user(self, keyword, search_type):
         # function to search user by their first_name
-        users = User.objects.filter(
-            ~Q(role=1),
-            ~Q(status=99),
-            first_name__icontains=keyword,
-        ).order_by("created_date")
-        return users
+        if search_type == "0":
+            logger.info("Searching user with keyword '" + str(keyword) + "'")
+            users = User.objects.filter(
+                ~Q(role=1),
+                ~Q(status=99),
+                first_name__icontains=keyword,
+            ).order_by("created_date")
+            return users
+        else:
+            logger.info("Searching bus owner with keyword '" + str(keyword) + "'")
+            users = User.objects.filter(
+                ~Q(status=99),
+                role=3,
+                first_name__icontains=keyword,
+            ).order_by("created_date")
+            return users
 
     def getUsersbyStatus(self, status, order):
         # function to get user's based on thier status
@@ -140,8 +165,11 @@ class ListUsers(APIView, CustomPagination):
         keyword = request.GET.get("keyword")  # keyword for search
         order = request.GET.get("order")  # order for sorting
         status = request.GET.get("status")  # user status
-        if keyword:
-            users = self.search_user(keyword)
+        search_type = request.GET.get(
+            "type"
+        )  # 0 means search all user 1 means search only bus owner
+        if keyword and (search_type == "0" or search_type == "1"):
+            users = self.search_user(keyword, search_type)
         elif status:
             if status == "0" or status == "2" or status == "3":
                 users = self.getUsersbyStatus(status, order)
@@ -169,7 +197,9 @@ class ListUsers(APIView, CustomPagination):
             CustomPagination.paginate_queryset(self, queryset=users, request=request),
             many=True,
         )
-        logger.info("returned user list with "+str(self.page.paginator.count)+" Entries")
+        logger.info(
+            "returned user list with " + str(self.page.paginator.count) + " Entries"
+        )
         return Response(
             {
                 "users": serialized_data.data,
