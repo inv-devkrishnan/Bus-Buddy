@@ -222,7 +222,7 @@ class ApproveBusOwner(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
-        return update_status(self, user_id, 4)
+        return update_status(self, user_id, 0)
 
     def put(self, request, user_id):
         logger.info("Approving Bus Owner with id " + str(user_id))
