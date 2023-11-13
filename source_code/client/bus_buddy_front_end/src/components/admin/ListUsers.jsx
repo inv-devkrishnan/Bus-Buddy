@@ -63,41 +63,26 @@ function ListUsers(props) {
             });
           });
       } else {
-        props.busApproval
-          ? await axiosApi
-              .get("adminstrator/list-users/?status=3")
-              .then((result) => {
-                setUsers(result?.data?.users);
-                setTotalPages(result?.data?.pages);
-                setCurrentPage(result?.data?.current_page);
-                setHasPrevious(Boolean(result?.data?.has_previous));
-                setHasNext(Boolean(result?.data?.has_next));
-                console.log(result.data);
-              })
-              .catch(function (error) {
-                Swal.fire({
-                  title: "Something went wrong !",
-                  icon: "error",
-                  text: getErrorMessage(error?.response?.data?.error_code),
-                });
-              })
-          : await axiosApi
-              .get("adminstrator/list-users/")
-              .then((result) => {
-                setUsers(result?.data?.users);
-                setTotalPages(result?.data?.pages);
-                setCurrentPage(result?.data?.current_page);
-                setHasPrevious(Boolean(result?.data?.has_previous));
-                setHasNext(Boolean(result?.data?.has_next));
-                console.log(result.data);
-              })
-              .catch(function (error) {
-                Swal.fire({
-                  title: "Something went wrong !",
-                  icon: "error",
-                  text: getErrorMessage(error?.response?.data?.error_code),
-                });
-              });
+        let default_url = props.busApproval
+          ? "adminstrator/list-users/?status=3"
+          : "adminstrator/list-users/";
+        await axiosApi
+          .get(default_url)
+          .then((result) => {
+            setUsers(result?.data?.users);
+            setTotalPages(result?.data?.pages);
+            setCurrentPage(result?.data?.current_page);
+            setHasPrevious(Boolean(result?.data?.has_previous));
+            setHasNext(Boolean(result?.data?.has_next));
+            console.log(result.data);
+          })
+          .catch(function (error) {
+            Swal.fire({
+              title: "Something went wrong !",
+              icon: "error",
+              text: getErrorMessage(error?.response?.data?.error_code),
+            });
+          });
       }
     },
     [props.busApproval]
