@@ -134,7 +134,7 @@ export default function Viewallbus() {
           margin: "20px",
         }}
       >
-        <Link to={"/AddBus"}>
+        <Link to={"/add-trips"}>
           <button className="btn btn-primary"> + Add Trip</button>
         </Link>
       </div>

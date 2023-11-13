@@ -175,6 +175,7 @@ class Addbus(APIView):
                 logger.info("Inserted")
                 return Response({"message": "Inserted", "bus": serializer.data["id"]})
             else:
+                logger.info("data failed validation")
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
@@ -190,29 +191,29 @@ class Deletebus(APIView):
 
     def put(self, request, id):
         try:
-            data = Bus.objects.get(id=id)  # to retrive bus object that matches the id
-            data.status = 99  # soft delete
+            logger.info("fetching bus obj matching the requested id")
+            data = Bus.objects.get(id=id)  #to retrive bus object that matches the id 
+            data.status = 99        #soft delete    
             data.save()
             logger.info("Deleted bus")
         except ObjectDoesNotExist:
+            logger.info("there is no bus obj matchin gthe id")
             logger.info(entry)
             return Response(status=404)
 
         try:
-            data = Amenities.objects.get(
-                bus=id
-            )  # to get the amenities obj associated with bus obj
-            data.status = 99  # soft delete
+            logger.info("fetching the amenities obj associated with the bus obj")
+            data = Amenities.objects.get(bus=id)   #to get the amenities obj associated with bus obj 
+            data.status = 99        #soft delete    
             data.save()
             logger.info("Deleted amenities")
             return Response({"message": "Deleted Bus & Amenities"})
         except ObjectDoesNotExist:
             logger.info(entry)
         try:
-            data = Trip.objects.get(
-                bus=id
-            )  # to get the trip obj associated with bus obj
-            data.status = 99  # soft delete
+            logger.info("fetching the trip associated with the bus")
+            data = Trip.objects.get(bus=id)    #to get the trip obj associated with bus obj
+            data.status = 99        #soft delete    
             data.save()
             logger.info("Deleted trip")
             return Response({"message": "Deleted Bus & Amenities & trip"})
@@ -233,8 +234,10 @@ class Updatebus(UpdateAPIView):
 
     def get(self, request, id):  # checking for bus object that matches the id
         try:
+            logger.info("checking for the bus obj matching the requested id")
             bus = Bus.objects.get(id=id)
         except Bus.DoesNotExist:
+            logger.info("bus obj does not exist")
             return Response(status=404)
         serialized_data = BusSerializer(bus)
         return Response(serialized_data.data)
@@ -253,6 +256,7 @@ class Updatebus(UpdateAPIView):
                     {"message": "Updated", "data": serializer.data}, status=200
                 )
             else:
+                logger.info("bus didn't update")
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
             return Response("Invalid Bus id", status=400)
@@ -293,10 +297,10 @@ class Viewbus(ListAPIView):
 
     def list(self, request):
         try:
+            logger.info("gettin the user is from user model")
             # user_id = request.user.id
-            queryset = Bus.objects.filter(
-                status=0
-            )  # to filter out bus objects which has been soft deleted
+            logger.info("fetching all the data from Bus model matching the condition")
+            queryset = Bus.objects.filter(status=0)     #to filter out bus objects which has been soft deleted 
             print(queryset)
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -325,12 +329,10 @@ class Addamenities(APIView):
             serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                bus_id = serializer.data.get(
-                    "bus"
-                )  # to get bus id related to added amenities
-                current_bus = Bus.objects.get(
-                    id=bus_id
-                )  # to get the bus object to change status of adding bus to 1
+                logger.info("fetchin the bus id from amenities model")
+                bus_id = serializer.data.get("bus")     #to get bus id related to added amenities   
+                logger.info("fetching the bus by foreignkey ")
+                current_bus = Bus.objects.get(id=bus_id) # to get the bus object to change status of adding bus to 1
                 current_bus.bus_details_status = 1
                 current_bus.save()
                 logger.info("Inserted")
@@ -352,8 +354,10 @@ class Updateamenities(UpdateAPIView):
 
     def get(self, request, id):
         try:
+            logger.info("checking if amenities obj present for the bus obj ")
             amenities = Amenities.objects.get(bus=id)
         except Amenities.DoesNotExist:
+            logger.info("amenities obj is not present ")
             return Response(status=404)
         serialized_data = AmenitiesSerializer(amenities)
         return Response(serialized_data.data)
@@ -365,10 +369,8 @@ class Updateamenities(UpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
                 logger.info("updated")
-                print("i")
-                return Response(
-                    {"message": "Updated", "data": serializer.data}, status=200
-                )
+                print("updated")
+                return Response({"message": "Updated","data":serializer.data},status=200)
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
@@ -384,7 +386,8 @@ class Addroutes(APIView):
 
     def post(self, request):
         try:
-            data = request.data
+            data=request.data
+            logger.info("fetching user obj ")
             data["user"] = request.user.id
             serializer = RoutesSerializer(data=data)
             if serializer.is_valid():
@@ -406,42 +409,46 @@ class Deleteroutes(APIView):
 
     def put(self, request, id):
         try:
-            data = Routes.objects.get(id=id)  # to get route object matching the id
+            logger.info("fetching the route obj")
+            data = Routes.objects.get(id=id)    #to get route object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("no route obj present")
             logger.info(entry)
         try:
-            data = Trip.objects.get(id=id)  # to get trips object matching the id
+            logger.info("fetching the trip obj associated with route ")
+            data = Trip.objects.get(id=id)    #to get trips object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
-            logger.info(entry)
-
-        try:
-            data = StartStopLocations.objects.get(
-                id=id
-            )  # to get start stop object matching the id
-            data.status = 99
-            data.save()
-            logger.info("Deleted")
-            return Response({"message": dentry})
-        except ObjectDoesNotExist:
+            logger.info("no trip obj associated with route")
             logger.info(entry)
 
         try:
-            data = PickAndDrop.objects.get(
-                id=id
-            )  # to get pick&drop object matching the id
+            logger.info("fetching the startstoplocations associated with routes")
+            data = StartStopLocations.objects.get(id=id)    #to get start stop object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
         except ObjectDoesNotExist:
+            logger.info("there are no start stop locations associated with routes")
+            logger.info(entry)
+
+        try:
+            logger.info("fetching pickdroppoints associated with routes")
+            data = PickAndDrop.objects.get(id=id)    #to get pick&drop object matching the id
+            data.status = 99
+            data.save()
+            logger.info("Deleted")
+            return Response({"message": dentry})
+        except ObjectDoesNotExist:
+            logger.info("there are no pickupdropoff points associated with routes")
             logger.info(entry)
         return Response(status=404)
 
@@ -457,7 +464,9 @@ class Viewroutes(ListAPIView):
 
     def list(self, request):
         try:
+            logger.info("fetching user id ")
             # user_id = request.user.id
+            logger.info("fetching all data from routes model matching the conditions")
             queryset = Routes.objects.filter(status=0)
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -506,17 +515,18 @@ class Updatetrip(UpdateAPIView):
 
     def get(self, request, id):
         try:
+            logger.info("checking for trip obj matching the requested id")
             bus = Trip.objects.get(id=id)
         except Trip.DoesNotExist:
+            logger.info("no trip obj matching the requested id")
             return Response(status=404)
         serialized_data = TripSerializer(bus)
         return Response(serialized_data.data)
 
     def put(self, request, id):
         try:
-            instance = Trip.objects.get(
-                id=id
-            )  # saving the present values to instance variable
+            logger.info("fetching the trip obj matching the id")
+            instance = Trip.objects.get(id=id)      #saving the present values to instance variable
             serializer = TripSerializer(instance, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
@@ -524,8 +534,10 @@ class Updatetrip(UpdateAPIView):
                 print("i")
                 return Response({"message": "Updated"}, 200, serializer.data)
             else:
+                logger.info("serializer validation failed")
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
+            logger.info("no trip obj for the given id")
             return Response("Invalid Bus id", status=400)
 
 
@@ -540,7 +552,8 @@ class Deletetrip(APIView):
 
     def put(self, request, id):
         try:
-            data = Trip.objects.get(id=id)  # to get trip object matching the id
+            logger.info("fetching the trip obj for the obj")
+            data = Trip.objects.get(id=id)      #to get trip object matching the id 
             data.status = 99
             data.save()
             logger.info("Deleted")
