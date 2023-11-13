@@ -40,7 +40,7 @@ def update_status(self, user_id, status):
                     context = {
                         "recipient_name": instance.first_name,
                     }
-                    recipient_list = ["devanaswinikumar8@gmail.com"]
+                    recipient_list = [instance.email]
                     send_email_with_template(
                         subject=subject,
                         context=context,
@@ -67,17 +67,22 @@ class AdminProfileUpdation(UpdateAPIView):
             phone_error
         ):  # if phone error is number already exists send different error code
             if phone_error[0] == "D1008":
+                logger.warn(phone_error[0])
                 return Response({"error_code": phone_error[0]}, 400)
             else:
+                logger.warn("phone number validation error")
                 return Response({"error_code": "D1002"}, 400)
         if (
             email_error
         ):  # if email error is email already exists send different error code
             if email_error[0] == "D1007":
+                logger.warn(email_error[0])
                 return Response({"error_code": email_error[0]}, 400)
             else:
+                logger.warn("email validation error")
                 return Response({"error_code": "D1002"}, 400)
         else:
+            logger.warn("validation error")
             return Response({"error_code": "D1002"}, 400)
 
     def get(self, request):
@@ -85,18 +90,23 @@ class AdminProfileUpdation(UpdateAPIView):
         try:
             user = User.objects.get(id=request.user.id)
             serialized_data = AUS(user)
+            logger.info("displaying current admin profile information")
             return Response(serialized_data.data)
         except User.DoesNotExist:
+            logger.warn("admin doesn't exist !")
             return Response({"error_code": "D1001"}, 400)
 
     def update(self, request):
         try:
+            logger.info("trying to update admin profile id " + str(request.user.id))
             instance = User.objects.get(id=request.user.id)
+            logger.info("accquired user instance for id " + str(request.user.id))
             current_data = request.data
             serializer = AUS(instance, data=current_data, partial=True)
             if serializer.is_valid():
+                logger.info("validated incoming data")
                 self.perform_update(serializer)
-
+                logger.info("update performed successfully")
                 return Response({"success_code": "D2002"})
             else:
                 # error handling
@@ -175,7 +185,7 @@ class ListUsers(APIView, CustomPagination):
                 users = self.getUsersbyStatus(status, order)
             else:
                 logger.warn("Invalid query param")
-                return Response({"error_code": "D1006"})
+                return Response({"error_code": "D1006"},status=400)
 
         else:
             if order == "0":

@@ -21,8 +21,11 @@ class BaseTest(TestCase):
         self.admin_list_user_asc = f"{reverse('list_users')}?order=0"
         self.admin_list_user_desc = f"{reverse('list_users')}?order=1"
         self.admin_list_ban_users = f"{reverse('list_users')}?status=2"
+        self.admin_list_unapproved_users = f"{reverse('list_users')}?status=3"
         self.admin_list_unban_users = f"{reverse('list_users')}?status=0"
-
+        self.admin_search_user = f"{reverse('list_users')}?keyword=0&type=0"
+        self.admin_search_bus_owner = f"{reverse('list_users')}?keyword=0&type=1"
+        self.admin_list_invalid_query_param = f"{reverse('list_users')}?status=34"
         # data
         self.valid_update_data = {
             "first_name": "Devkrishnan",
@@ -179,6 +182,34 @@ class ListUsersTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_06_can_search_all_users(self):
+        response = self.client.get(
+            self.admin_search_user,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_07_can_search_bus_owners(self):
+        response = self.client.get(
+            self.admin_search_bus_owner,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_08_cant_search_with_invalid_query_param(self):
+        response = self.client.get(
+            self.admin_list_invalid_query_param,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_09_list_unapproved_users(self):
+        response = self.client.get(
+            self.admin_list_unapproved_users,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 class BanUserTest(BaseTest):
     def test_01_can_ban_user(self):
@@ -228,3 +259,29 @@ class BanUserTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+
+
+class BusOwnerApprovalTest(BaseTest):
+    def test_01_can_approve_bus_owner(self):
+        self.user = User.objects.create_user(
+            first_name="dev",
+            email="devanaswinikumar8@gmail.com",
+            password="12345678",
+            account_provider=0,
+            role=3,
+            status=3,
+        )
+        approve_url = reverse("approve_bus_owner", kwargs={"user_id": 10})
+        response = self.client.put(
+            approve_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_approve_invalid_bus_owner(self):
+        approve_url = reverse("approve_bus_owner", kwargs={"user_id": 100})
+        response = self.client.put(
+            approve_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
