@@ -23,6 +23,7 @@ function UserSleeper(props) {
   const [open, setOpen] = useState(false); // to show / hide the snackbar
   const [uiOrder, setUiOrder] = useState(0); // to find the ui order of a particular seat
   const [presentSeat, setPresentSeat] = useState([]); // for finding the current seat detail
+  console.log(seatData);
   useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
@@ -35,7 +36,7 @@ function UserSleeper(props) {
       }
       loop++;
     }
-    console.log(presentSeat);
+    // console.log(presentSeat);
   }, [props, seatData, uiOrder]);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import UserLayer from "../User/UserLayer";
 import driver from "../../assets/driver.png";
-import { axiosApi } from "../../utils/axiosApi";
+import { openAxiosApi } from "../../utils/axiosApi";
 import { SeatContext } from "../../utils/SeatContext";
 
 export default function UserLayout(props) {
@@ -16,10 +16,11 @@ export default function UserLayout(props) {
   }, []);
 
   const getSeatData = async () => {
-    await axiosApi
+    await openAxiosApi
       .get(`user/view-seats/?trip_id=${props?.trip}`)
       .then((res) => {
         updateSeatData(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log("error:" + err.response.data);

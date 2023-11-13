@@ -8830,3 +8830,23 @@ django.request WARNING 2023-11-09 12:53:29,149 log 51622 140275207890496 Unautho
 django.request WARNING 2023-11-13 03:35:35,267 log 7122 140697121318464 Unauthorized: /user/view-seats/
 django.request WARNING 2023-11-13 03:35:35,390 log 7122 140697121318464 Bad Request: /account/refresh/
 django.request WARNING 2023-11-13 03:35:35,442 log 7122 140697121318464 Unauthorized: /user/view-seats/
+django.request WARNING 2023-11-13 03:50:33,858 log 10012 140454892926528 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 03:50:45,222 log 10012 140454892926528 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 03:59:22,884 log 10012 140454892926528 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 03:59:42,715 log 10012 140454892926528 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 03:59:51,172 log 10012 140454892926528 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:02:58,908 log 10012 140454884533824 Not Found: /normal-user/view-seats/
+django.request WARNING 2023-11-13 04:03:21,087 log 10012 140454884533824 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:04:03,077 log 10012 140454884533824 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:05:43,667 log 12360 139827665167936 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:06:34,413 log 12444 140114376259136 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:07:08,508 log 12527 140240967689792 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:07:34,904 log 12602 140594107115072 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:08:18,551 log 12726 139855699895872 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:09:56,282 log 12873 139621727991360 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:11:27,886 log 13017 140002727028288 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:17:04,399 log 13017 140002727028288 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:20:00,131 log 13298 139979735950912 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:21:33,107 log 13403 139780046190144 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:50:06,870 log 15339 139945567053376 Bad Request: /user/view-seats/
+django.request WARNING 2023-11-13 04:50:43,573 log 15339 139945567053376 Bad Request: /user/view-seats/

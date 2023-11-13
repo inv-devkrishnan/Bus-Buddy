@@ -44,11 +44,12 @@ class ViewSeats(ListAPIView):
                 context={"trip_id": trip_id},
                 many=True,
             )
-
+            # print(trip.route)
             pick_and_drop = PickAndDrop.objects.filter(route=trip.route)
             pick_and_drop_serializer = PickAndDropSerializer(
                 pick_and_drop, many=True
             )  # data from pick and drop with the route id from trip table
+            print(pick_and_drop_serializer.data)
             pick_and_drop_array = [pick_and_drop_serializer.data]
             total_data = (
                 pick_and_drop_array + serializer.data

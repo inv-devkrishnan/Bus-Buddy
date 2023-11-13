@@ -15,7 +15,6 @@ function TripCard(props) {
   const handleClose = () => setShow(false); // function to close amenties modal
   const handleShow = () => setShow(true); // function to show amenties modal
   const [viewSeatFlag, setViewSeatFlag] = useState(false);
-  console.log(viewSeatFlag);
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
