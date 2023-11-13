@@ -23,18 +23,19 @@ function UserSleeper(props) {
   const [open, setOpen] = useState(false); // to show / hide the snackbar
   const [uiOrder, setUiOrder] = useState(0); // to find the ui order of a particular seat
   const [presentSeat, setPresentSeat] = useState([]); // for finding the current seat detail
-
   useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
     let loop = 0;
     while (loop < seatData.length) {
+      console.log(seatData[loop]?.seat_ui_order);
       if (seatData[loop]?.seat_ui_order === uiOrder) {
         // checks for the seat ui order and store it into seatData
         setPresentSeat(seatData[loop]);
       }
       loop++;
     }
+    console.log(presentSeat);
   }, [props, seatData, uiOrder]);
 
   useEffect(() => {
@@ -49,6 +50,7 @@ function UserSleeper(props) {
         // if booked field is not empty then seat is already booked
         if (seatData[loop]?.booked[0]?.traveller_gender === 2) {
           setSeatFemaleOccupied(true);
+          break;
         } else {
           setSeatFemaleOccupied(false);
         }

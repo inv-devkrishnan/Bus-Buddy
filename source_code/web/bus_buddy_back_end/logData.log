@@ -8824,3 +8824,9 @@ Traceback (most recent call last):
     data=request.data.results
 AttributeError: 'QueryDict' object has no attribute 'results'
 >>>>>>> 2fbbd9b9f73fa9e4c17eee4ca39feabc0f65eba9
+django.request WARNING 2023-11-09 12:53:29,026 log 51622 140275207890496 Unauthorized: /bus-owner/registration/
+django.request WARNING 2023-11-09 12:53:29,089 log 51622 140275207890496 Bad Request: /account/refresh/
+django.request WARNING 2023-11-09 12:53:29,149 log 51622 140275207890496 Unauthorized: /bus-owner/registration/
+django.request WARNING 2023-11-13 03:35:35,267 log 7122 140697121318464 Unauthorized: /user/view-seats/
+django.request WARNING 2023-11-13 03:35:35,390 log 7122 140697121318464 Bad Request: /account/refresh/
+django.request WARNING 2023-11-13 03:35:35,442 log 7122 140697121318464 Unauthorized: /user/view-seats/

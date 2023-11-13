@@ -87,8 +87,8 @@ export default function PickAndDrop() {
 
   return (
     <Card
-      className="m-2 p-3"
-      sx={{ width: "90%", height: "auto", boxShadow: 5 }}
+      className="p-3"
+      sx={{ width: "90%", height: "auto",margin:4, boxShadow: 5 }}
     >
       <Typography gutterBottom variant="h5">
         Pick up and Drop off points
