@@ -348,7 +348,7 @@ class Deleteroutes(APIView):
                 data.save()
                 logger.info("Deleted")
             try:
-                import pdb;pdb.set_trace()
+                
                 logger.info("fetching the trip obj associated with route ")
                 data = Trip.objects.filter(route=id)    #to get trips object matching the id
                 for trip in data:
@@ -357,11 +357,11 @@ class Deleteroutes(APIView):
                         trip.status = 99
                         trip.save()
                 logger.info("Deleted")
-                return Response({"message": dentry})
             except ObjectDoesNotExist:
                 logger.info("no trip obj associated with route")
                 logger.info(entry)
-            try:
+                return Response({"message": entry},status=400)
+            try:                
                 logger.info("fetching the startstoplocations associated with routes")
                 data = StartStopLocations.objects.filter(route=id)    #to get start stop object matching the id
                 for ssl in data:
@@ -370,10 +370,11 @@ class Deleteroutes(APIView):
                         ssl.status = 99
                         ssl.save()
                 logger.info("Deleted")
-                return Response({"message": dentry})
             except ObjectDoesNotExist:
                 logger.info("there are no start stop locations associated with routes")
                 logger.info(entry)
+                return Response({"message": entry},status=400)
+
             try:
                 logger.info("fetching pickdroppoints associated with routes")
                 data = PickAndDrop.objects.filter(route=id)    #to get pick&drop object matching the id
@@ -383,11 +384,11 @@ class Deleteroutes(APIView):
                         pad.status = 99
                         pad.save()
                 logger.info("Deleted")
-                return Response({"message": dentry})
             except ObjectDoesNotExist:
                 logger.info("there are no pickupdropoff points associated with routes")
                 logger.info(entry)
-            return Response(status=404)
+
+            return Response({"message": "Deletion successful"}, status=200)
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)

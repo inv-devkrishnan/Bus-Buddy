@@ -37,6 +37,8 @@ export default function Viewallbus() {
               <div style={{ display: "flex" }}>
                 <div>
                 <p>trip ID : {trip.id}</p>
+                <p>bus Id : {trip.bus}</p>
+                <p>route ID : {trip.route}</p>
                 <p>Start Date : {trip.start_date}</p>
                 <p>Stop Date : {trip.end_date}</p>
                 </div>
