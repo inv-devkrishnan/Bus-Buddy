@@ -144,15 +144,29 @@ class ListUsers(APIView, CustomPagination):
             ).order_by("created_date")
             return users
 
+    def ordering(self, order):
+        current_ordering = "created_date"
+        if order:
+            if order == "1":
+                current_ordering = "-first_name"
+                logger.info("ordering list by descending order")
+
+            elif order == "0":
+                current_ordering = "first_name"
+                logger.info("ordering list by ascending order")
+
+            elif order == "-1":
+                current_ordering = "created_date"
+                logger.info("default ordering")
+            else:
+                current_ordering = "created_date"
+                logger.warn("invalid order given reverting to default ordering")
+
+        return current_ordering
+
     def getUsersbyStatus(self, status, order):
         # function to get user's based on thier status
-        current_ordering = "created_date"
-        if order == "1":
-            current_ordering = "-first_name"
-            logger.info("ordering list by descending order")
-        elif order == "0":
-            current_ordering = "first_name"
-            logger.info("ordering list by ascending order")
+        current_ordering = self.ordering(order)
         if status == "0":
             users = User.objects.filter(~Q(role=1), ~Q(status=99), status=0).order_by(
                 current_ordering
@@ -171,45 +185,30 @@ class ListUsers(APIView, CustomPagination):
         return users
 
     def get(self, request):
-        # function to get user list
-        keyword = request.GET.get("keyword")  # keyword for search
-        order = request.GET.get("order")  # order for sorting
-        status = request.GET.get("status")  # user status
-        search_type = request.GET.get(
-            "type"
-        )  # 0 means search all user 1 means search only bus owner
-        if keyword and (search_type == "0" or search_type == "1"):
+        # extract query parameters
+        keyword = request.GET.get("keyword")
+        order = request.GET.get("order")
+        status = request.GET.get("status")
+        search_type = request.GET.get("type")
+        # validate and handle query parameters
+        if keyword and search_type in {"0", "1"}:
             users = self.search_user(keyword, search_type)
-        elif status:
-            if status == "0" or status == "2" or status == "3":
-                users = self.getUsersbyStatus(status, order)
-            else:
-                logger.warn("Invalid query param")
-                return Response({"error_code": "D1006"},status=400)
-
+        elif status in {"0", "2", "3"}:
+            users = self.getUsersbyStatus(status, order)
         else:
-            if order == "0":
-                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
-                    "first_name"
-                )
-                logger.info("ordering list by ascending order")
-            elif order == "1":
-                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
-                    "-first_name"
-                )
-                logger.info("ordering list by descending order")
-            else:
-                users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
-                    "created_date"
-                )
+            users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+                self.ordering(order)
+            )
 
+        # Serialize and return response
         serialized_data = LUS(
             CustomPagination.paginate_queryset(self, queryset=users, request=request),
             many=True,
         )
-        logger.info(
-            "returned user list with " + str(self.page.paginator.count) + " Entries"
-        )
+
+        # Logging
+        logger.info(f"Returned user list with {self.page.paginator.count} entries")
+
         return Response(
             {
                 "users": serialized_data.data,

@@ -25,6 +25,7 @@ class BaseTest(TestCase):
         self.admin_list_unban_users = f"{reverse('list_users')}?status=0"
         self.admin_search_user = f"{reverse('list_users')}?keyword=0&type=0"
         self.admin_search_bus_owner = f"{reverse('list_users')}?keyword=0&type=1"
+        self.admin_invalid_search = f"{reverse('list_users')}?keyword=0"
         self.admin_list_invalid_query_param = f"{reverse('list_users')}?status=34"
         # data
         self.valid_update_data = {
@@ -196,14 +197,7 @@ class ListUsersTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_08_cant_search_with_invalid_query_param(self):
-        response = self.client.get(
-            self.admin_list_invalid_query_param,
-            format="json",
-        )
-        self.assertEqual(response.status_code, 400)
-
-    def test_09_list_unapproved_users(self):
+    def test_08_list_unapproved_users(self):
         response = self.client.get(
             self.admin_list_unapproved_users,
             format="json",
