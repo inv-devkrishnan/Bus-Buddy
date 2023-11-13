@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
+import { ExclamationCircle } from "react-bootstrap-icons";
 
 import Swal from "sweetalert2";
 
@@ -28,7 +29,7 @@ function ListUsers(props) {
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
   const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
   const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
-  
+
   const [searchField, setSearchField] = useState(""); // to store search key words
   const [searchMode, setSearchMode] = useState(false);
   const listOrder = useRef(-1); // to store the sorting order
@@ -455,84 +456,93 @@ function ListUsers(props) {
 
       <Row>
         <Col style={{ width: "70vw" }}>
-          <Table bordered hover variant="light" className="m-5">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    {user.status === 2 && (
-                      <Button
-                        variant="success"
-                        onClick={() => {
-                          unBanUser(user.id);
-                        }}
-                      >
-                        Unban User
-                      </Button>
-                    )}
-                    {user.status === 0 && (
-                      <Button
-                        variant="warning"
-                        onClick={() => {
-                          banUser(user.id);
-                        }}
-                      >
-                        Ban User
-                      </Button>
-                    )}
-                    {user.status === 3 && props.busApproval && (
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          setBusOwnerInfo(user);
-                          handleShow();
-                        }}
-                      >
-                        View Details
-                      </Button>
-                    )}
-                  </td>
-                  {!props.busApproval && (
-                    <td>
-                      <Button
-                        variant="danger"
-                        onClick={() => {
-                          removeUser(user.id);
-                        }}
-                      >
-                        Remove User
-                      </Button>
-                    </td>
-                  )}
+          {users.length > 0 ? (
+            <Table bordered hover variant="light" className="m-5">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      {user.status === 2 && (
+                        <Button
+                          variant="success"
+                          onClick={() => {
+                            unBanUser(user.id);
+                          }}
+                        >
+                          Unban User
+                        </Button>
+                      )}
+                      {user.status === 0 && (
+                        <Button
+                          variant="warning"
+                          onClick={() => {
+                            banUser(user.id);
+                          }}
+                        >
+                          Ban User
+                        </Button>
+                      )}
+                      {user.status === 3 && props.busApproval && (
+                        <Button
+                          variant="primary"
+                          onClick={() => {
+                            setBusOwnerInfo(user);
+                            handleShow();
+                          }}
+                        >
+                          View Details
+                        </Button>
+                      )}
+                    </td>
+                    {!props.busApproval && (
+                      <td>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            removeUser(user.id);
+                          }}
+                        >
+                          Remove User
+                        </Button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <div className="mt-5">
+              <div className="d-flex justify-content-center">
+                <ExclamationCircle size={36}></ExclamationCircle>
+              </div>
+              <h3 className="text-center mt-3">List empty !</h3>
+            </div>
+          )}
         </Col>
       </Row>
       <Row>
         <CustomPaginator
-         PAGE_LIMIT={PAGE_LIMIT}
-         totalPages={totalPages}
-         currentPage={currentPage}
-         hasPrevious={hasPrevious}
-         hasNext={hasNext}
-         pageStartLimit={pageStartLimit}
-         pageEndLimit={pageEndLimit}
-         setPageStartLimit={setPageStartLimit}
-         setPageEndLimit={setPageEndLimit}
-         viewPage={getUsersbyPage}
-         width={"70%"}
+          PAGE_LIMIT={PAGE_LIMIT}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          hasPrevious={hasPrevious}
+          hasNext={hasNext}
+          pageStartLimit={pageStartLimit}
+          pageEndLimit={pageEndLimit}
+          setPageStartLimit={setPageStartLimit}
+          setPageEndLimit={setPageEndLimit}
+          viewPage={getUsersbyPage}
+          width={"70%"}
         ></CustomPaginator>
       </Row>
       <Modal
