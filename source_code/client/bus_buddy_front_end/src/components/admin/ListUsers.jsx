@@ -40,50 +40,39 @@ function ListUsers(props) {
   const handleShow = () => setShow(true);
   const [busOwnerInfo, setBusOwnerInfo] = useState({});
 
+  const displayErrorMessage = (error) => {
+    Swal.fire({
+      title: "Something went wrong !",
+      icon: "error",
+      text: getErrorMessage(error?.response?.data?.error_code),
+    });
+  };
+
   const getUsers = useCallback(
     async (url) => {
       // url is provided for search,sort,and view by status if no url is provided all users is displayed
+      let default_url;
       if (url) {
-        await axiosApi
-          .get(url)
-          .then((result) => {
-            setUsers(result?.data?.users);
-            setTotalPages(result?.data?.pages);
-            setCurrentPage(result?.data?.current_page);
-            setCurrentPage(result?.data?.current_page);
-            setHasPrevious(Boolean(result?.data?.has_previous));
-            setHasNext(Boolean(result?.data?.has_next));
-            console.log(result.data);
-          })
-          .catch(function (error) {
-            Swal.fire({
-              title: "Something went wrong !",
-              icon: "error",
-              text: getErrorMessage(error?.response?.data?.error_code),
-            });
-          });
+        default_url = url;
       } else {
-        let default_url = props.busApproval
+        default_url = props.busApproval
           ? "adminstrator/list-users/?status=3"
           : "adminstrator/list-users/";
-        await axiosApi
-          .get(default_url)
-          .then((result) => {
-            setUsers(result?.data?.users);
-            setTotalPages(result?.data?.pages);
-            setCurrentPage(result?.data?.current_page);
-            setHasPrevious(Boolean(result?.data?.has_previous));
-            setHasNext(Boolean(result?.data?.has_next));
-            console.log(result.data);
-          })
-          .catch(function (error) {
-            Swal.fire({
-              title: "Something went wrong !",
-              icon: "error",
-              text: getErrorMessage(error?.response?.data?.error_code),
-            });
-          });
       }
+      await axiosApi
+        .get(default_url)
+        .then((result) => {
+          setUsers(result?.data?.users);
+          setTotalPages(result?.data?.pages);
+          setCurrentPage(result?.data?.current_page);
+          setCurrentPage(result?.data?.current_page);
+          setHasPrevious(Boolean(result?.data?.has_previous));
+          setHasNext(Boolean(result?.data?.has_next));
+          console.log(result.data);
+        })
+        .catch(function (error) {
+          displayErrorMessage(error);
+        });
     },
     [props.busApproval]
   );
@@ -92,14 +81,6 @@ function ListUsers(props) {
     // loads the users during page startup
     getUsers();
   }, [getUsers]);
-
-  const errorMessage = (error) => {
-    Swal.fire({
-      title: "Something went wrong !",
-      icon: "error",
-      text: getErrorMessage(error?.response?.data?.error_code),
-    });
-  };
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -170,7 +151,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
-          errorMessage(error);
+          displayErrorMessage(error);
         });
     }
   };
@@ -203,7 +184,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
-          errorMessage(error);
+          displayErrorMessage(error);
         });
     }
   };
@@ -244,7 +225,7 @@ function ListUsers(props) {
           }
         })
         .catch(function (error) {
-          errorMessage(error);
+          displayErrorMessage(error);
         });
     }
   };
@@ -275,6 +256,8 @@ function ListUsers(props) {
           });
           // sets search mode false if user removal done through search
           setSearchMode(false);
+          // setting user status to 3 if user removal done through search
+          userStatus.current =3;
           // loads the current page only if current page is not empty after deletion
           if (users.length > 1) {
             getUsersbyPage(currentPage);
@@ -287,7 +270,7 @@ function ListUsers(props) {
           }
         })
         .catch(function (error) {
-          errorMessage(error);
+          displayErrorMessage(error);
         });
     }
   };
