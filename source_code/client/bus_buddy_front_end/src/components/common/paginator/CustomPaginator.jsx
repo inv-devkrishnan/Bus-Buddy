@@ -1,7 +1,6 @@
 import Pagination from "react-bootstrap/Pagination";
 import Proptypes from "prop-types";
 function CustomPaginator(props) {
-
   const generatePaginator = (pages) => {
     // function to show pages at bottom
     if (pages <= props.PAGE_LIMIT) {
@@ -13,7 +12,7 @@ function CustomPaginator(props) {
             key={i}
             active={i === props.currentPage}
             onClick={() => {
-              props.viewPage(i)
+              props.viewPage(i);
             }}
           >
             {i}
@@ -28,10 +27,11 @@ function CustomPaginator(props) {
          so show the previous page ellipsis */
         pageItem.push(
           <Pagination.Ellipsis
+            key={-2}
             onClick={() => {
               decrementPageLimit(props.pageStartLimit);
               // the last page of the new page list will get automatically selected
-              props.viewPage(props.pageStartLimit-1)
+              props.viewPage(props.pageStartLimit - 1);
             }}
           ></Pagination.Ellipsis>
         );
@@ -43,7 +43,7 @@ function CustomPaginator(props) {
             key={i}
             active={i === props.currentPage}
             onClick={() => {
-              props.viewPage(i)
+              props.viewPage(i);
             }}
           >
             {i}
@@ -56,10 +56,11 @@ function CustomPaginator(props) {
       if (!isPageNumberVisible(props.totalPages)) {
         pageItem.push(
           <Pagination.Ellipsis
+            key={-1}
             onClick={() => {
               incrementPageLimit(props.pageEndLimit, pages);
               // the first page of the new page list will get automatically selected
-              props.viewPage(props.pageEndLimit+1)
+              props.viewPage(props.pageEndLimit + 1);
             }}
           ></Pagination.Ellipsis>
         );
@@ -132,7 +133,7 @@ function CustomPaginator(props) {
       <Pagination.First
         onClick={() => {
           // move to first page
-             props.viewPage(1)
+          props.viewPage(1);
           // set the first section of page numbers
           props.totalPages >= props.PAGE_LIMIT && viewFirstPageNumbers();
         }}
@@ -140,9 +141,9 @@ function CustomPaginator(props) {
       <Pagination.Prev
         // checks if data have previous page then move to previous page
         onClick={() => {
-          props.hasPrevious &&
-            props.viewPage(props.currentPage - 1)
-          props.totalPages >= props.PAGE_LIMIT && viewPreviousPageNumbers(props.currentPage);
+          props.hasPrevious && props.viewPage(props.currentPage - 1);
+          props.totalPages >= props.PAGE_LIMIT &&
+            viewPreviousPageNumbers(props.currentPage);
         }}
       />
       {
@@ -152,15 +153,15 @@ function CustomPaginator(props) {
       <Pagination.Next
         // checks if data have next page then move to next page
         onClick={() => {
-          props.hasNext &&
-          props.viewPage(props.currentPage + 1)
-          props.totalPages >= props.PAGE_LIMIT && viewNextPageNumbers(props.currentPage);
+          props.hasNext && props.viewPage(props.currentPage + 1);
+          props.totalPages >= props.PAGE_LIMIT &&
+            viewNextPageNumbers(props.currentPage);
         }}
       />
       <Pagination.Last
         // move to last  page
         onClick={() => {
-           props.viewPage(props.totalPages)
+          props.viewPage(props.totalPages);
           // set the last section of page numbers
           props.totalPages >= props.PAGE_LIMIT && viewLastPageNumbers();
         }}
@@ -170,16 +171,16 @@ function CustomPaginator(props) {
 }
 
 CustomPaginator.propTypes = {
-  PAGE_LIMIT: Proptypes.number,  // initial number of page numbers that should be shown in the pagination
-  totalPages: Proptypes.number,  // to store total pages
-  currentPage:Proptypes.number, // to get current page
-  hasPrevious:Proptypes.bool, // to check if current page has previous page
-  hasNext:Proptypes.bool, // to check if current page has next page
-  pageStartLimit: Proptypes.number, // start limit of page numbers to be shown in pagination  
-  pageEndLimit:Proptypes.number, // end limit of page numbers to be shown in pagination
-  setPageStartLimit:Proptypes.func, // function to set start limit of page numbers to be shown in pagination  
-  setPageEndLimit:Proptypes.func,  // function to set end limit of page numbers to be shown in pagination
+  PAGE_LIMIT: Proptypes.number, // initial number of page numbers that should be shown in the pagination
+  totalPages: Proptypes.number, // to store total pages
+  currentPage: Proptypes.number, // to get current page
+  hasPrevious: Proptypes.bool, // to check if current page has previous page
+  hasNext: Proptypes.bool, // to check if current page has next page
+  pageStartLimit: Proptypes.number, // start limit of page numbers to be shown in pagination
+  pageEndLimit: Proptypes.number, // end limit of page numbers to be shown in pagination
+  setPageStartLimit: Proptypes.func, // function to set start limit of page numbers to be shown in pagination
+  setPageEndLimit: Proptypes.func, // function to set end limit of page numbers to be shown in pagination
   viewPage: Proptypes.func, // returns the page number
-  width: Proptypes.string // to adjust horizontal position of paginator
+  width: Proptypes.string, // to adjust horizontal position of paginator
 };
 export default CustomPaginator;
