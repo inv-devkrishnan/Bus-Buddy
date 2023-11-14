@@ -139,6 +139,7 @@ class ListUsers(APIView, CustomPagination):
             logger.info("Searching bus owner with keyword '" + str(keyword) + "'")
             users = User.objects.filter(
                 ~Q(status=99),
+                ~Q(status=0),
                 role=3,
                 first_name__icontains=keyword,
             ).order_by("created_date")
@@ -261,7 +262,12 @@ class ApproveBusOwner(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
-        return update_status(self, user_id, 0)
+        # only perform update if the given user is a bus owner
+        user = User.objects.get(id=user_id)
+        if user.role == 3:
+            return update_status(self, user_id, 0)
+        else:
+            return Response({"error_code": "D1012"}, status=400)
 
     def put(self, request, user_id):
         logger.info("Approving Bus Owner with id " + str(user_id))

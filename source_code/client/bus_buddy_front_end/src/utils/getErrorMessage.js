@@ -30,9 +30,11 @@ export function getErrorMessage(errorCode) {
     case "D1010":
       return "User Account Disabled";
     case "D1011":
-      return "Account Not Approved Please Try again Later";  
+      return "Account Not Approved Please Try again Later";
+    case "D1012":
+      return "The given user is not a bus owner";
     case "T0001":
-      return "Too many request please try again later"  
+      return "Too many request please try again later";
     default:
       return "Unknown error";
   }
