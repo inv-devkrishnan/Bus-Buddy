@@ -13,8 +13,16 @@ from .serializer import BanUserSerializer as BUS
 from .pagination import CustomPagination
 
 
-
 logger = logging.getLogger("django")
+
+
+def mail_sent_response(mailfunction):
+    # function which returns response based on bus owner approval along with mail confirmation
+    logger.info("bus approval mail sent")
+    if mailfunction:
+        return Response({"success_code": "D2005"})
+    else:
+        return Response({"error_code": "D1014"}, status=400)
 
 
 def update_status(self, user_id, status):
@@ -43,12 +51,14 @@ def update_status(self, user_id, status):
                             "recipient_name": instance.first_name,
                         }
                         recipient_list = [instance.email]
-                        send_email_with_template(
-                            subject=subject,
-                            context=context,
-                            recipient_list=recipient_list,
-                            template="bus_approval_template.html",
-                            status=2,
+                        mail_sent_response(
+                            send_email_with_template(
+                                subject=subject,
+                                context=context,
+                                recipient_list=recipient_list,
+                                template="bus_approval_template.html",
+                                status=2,
+                            )
                         )
                     return Response({"success_code": "D2005"})
                 else:
@@ -59,7 +69,7 @@ def update_status(self, user_id, status):
             else:
                 logger.warn(serializer.error_messages)
                 return Response({"error_code": "D1002"})
-                
+
         else:
             logger.warn("Operation can't be performed on admin account")
             return Response({"error_code": "D1013"}, status=400)

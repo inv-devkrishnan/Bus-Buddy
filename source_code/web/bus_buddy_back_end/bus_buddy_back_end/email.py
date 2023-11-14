@@ -20,7 +20,7 @@ def send_email_with_template(subject, template, context, recipient_list,status):
     - status: indicates the type of mail 0->booking confirmation,1->booking cancelation,2->bus owner approval
 
     Returns:
-    None
+    Boolean
     
     Raises:
     - smtplib.SMTPAuthenticationError: If there is an SMTP authentication error while sending the email.
@@ -34,9 +34,12 @@ def send_email_with_template(subject, template, context, recipient_list,status):
         for to_email in recipient_list:
             Email.objects.create(from_email=from_email, to_email=to_email, status=status)
         logger.info("added Entry to mail table")
+        return True;
 
     except smtplib.SMTPAuthenticationError as e:
         logger.warn("Authentication Error Occured while Sending mail\n" + str(e))
+        return False;
 
     except Exception as e:
         logger.warn("unknown Error Occured " + str(e))
+        return False;
