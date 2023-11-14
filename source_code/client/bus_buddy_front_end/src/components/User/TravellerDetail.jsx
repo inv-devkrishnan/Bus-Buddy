@@ -45,6 +45,7 @@ const TravellerDetail = () => {
     // stores data to bookings table and remove data from local storage
     let bookedSeats = [];
     for (let seatId in formik.values) {
+      // traveller data in json format
       let traveller = {
         traveller_name: formik.values[seatId]?.[`name_${seatId}`],
         traveller_dob: formik.values[seatId]?.[`dob_${seatId}`],
@@ -55,12 +56,14 @@ const TravellerDetail = () => {
     }
 
     const data = {
+      // whole data in json format
       total_amount: parseInt(localStorage.getItem("total_amount")),
       trip: parseInt(currentTrip.data.trip),
       pick_up: parseInt(localStorage.getItem("pick_up")),
       drop_off: parseInt(localStorage.getItem("drop_off")),
       booked_seats: bookedSeats,
     };
+
     axiosApi
       .post("user/book-seat/", data)
       .then((res) => {
@@ -88,6 +91,7 @@ const TravellerDetail = () => {
   };
 
   const formik = useFormik({
+    // dynamic formik initialisation
     initialValues: selectedSeats.reduce((acc, seat) => {
       acc[seat.id] = {
         [`name_${seat.id}`]: "",
@@ -101,6 +105,7 @@ const TravellerDetail = () => {
   });
 
   const handleInputChange = (seatId, field, value) => {
+    // for saving data dynamically using formik eith on change property
     formik.setFieldValue(`${seatId}.${field}`, value);
     formik.handleBlur(`${seatId}.${field}`);
   };

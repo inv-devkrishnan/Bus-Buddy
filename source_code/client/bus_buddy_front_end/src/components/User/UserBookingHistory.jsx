@@ -11,20 +11,21 @@ import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
 
 export default function UserBookingHistory() {
-  const [bookingData, setBookingData] = useState([]);
-  const [pageSize, setPageSize] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [page, setPage] = useState(1);
-  const [status, setStatus] = useState();
-  const [next, setNext] = useState(1);
-  const [previous, setPrevious] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [active, setActive] = useState(1);
-  const [modalShow, setModalShow] = useState(false);
-  const [modalData, setModalData] = useState(null);
-  const [confirmModalShow, setConfirmModalShow] = useState(false);
+  const [bookingData, setBookingData] = useState([]); // for storing booking data
+  const [pageSize, setPageSize] = useState(1); // for storing page size
+  const [currentPage, setCurrentPage] = useState(1); // for finding current page
+  const [page, setPage] = useState(1);// for storing page number
+  const [status, setStatus] = useState(); // for storing status
+  const [next, setNext] = useState(1); // for finding next
+  const [previous, setPrevious] = useState(1); // for finding previous
+  const [totalPages, setTotalPages] = useState(0); // for finding total number of pages
+  const [active, setActive] = useState(1); // for setting current page activate
+  const [modalShow, setModalShow] = useState(false); // for dealing modal visibility
+  const [modalData, setModalData] = useState(null); // for storing data for modal
+  const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
 
   useEffect(() => {
+    // for fetching user's booking history
     axiosApi
       .get(`user/booking-history?page=${page}&&status=${status}`)
       .then((res) => {
@@ -38,19 +39,20 @@ export default function UserBookingHistory() {
       .catch((err) => {});
   }, [page,status]);
 
-  console.log(bookingData);
-
   const handlePrevious = () => {
+    // for moving to previous page
     setActive(active - 1);
     setPage(page - 1);
   };
 
   const handleNext = () => {
+    // for moving to next page
     setActive(active + 1);
     setPage(page + 1);
   };
 
   const handleCancel = () => {
+    // for cancelling a booking
     axiosApi
       .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
       .then((res) => {
@@ -72,6 +74,7 @@ export default function UserBookingHistory() {
 
   let items = [];
   for (let number = 1; number <= totalPages; number++) {
+    // for generating pagination 
     items.push(
       <Pagination.Item
         key={number}
@@ -87,6 +90,7 @@ export default function UserBookingHistory() {
   }
 
   const paginationBasic = (
+    // pagination with previous and next buttons
     <div>
       <Pagination>
         <Pagination.First
