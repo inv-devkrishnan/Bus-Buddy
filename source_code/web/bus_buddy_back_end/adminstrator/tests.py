@@ -208,9 +208,9 @@ class ListUsersTest(BaseTest):
 class BanUserTest(BaseTest):
     def test_01_can_ban_user(self):
         self.user = User.objects.create_user(
-            email="dummy1@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy1@gmail.com", password="12345678", account_provider=0, role=2
         )
-        ban_user_url = reverse("ban_user", kwargs={"user_id": 1})
+        ban_user_url = reverse("ban_user", kwargs={"user_id": 2})
 
         response = self.client.put(
             ban_user_url,
@@ -220,7 +220,7 @@ class BanUserTest(BaseTest):
 
     def test_02_cant_ban_invalid_user(self):
         self.user = User.objects.create_user(
-            email="dummy2@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy2@gmail.com", password="12345678", account_provider=0, role=2
         )
         ban_user_url = reverse("ban_user", kwargs={"user_id": 100})
 
@@ -232,7 +232,7 @@ class BanUserTest(BaseTest):
 
     def test_03_can_unban_user(self):
         self.user = User.objects.create_user(
-            email="dummy3@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy3@gmail.com", password="12345678", account_provider=0, role=2
         )
         unban_user_url = reverse("unban_user", kwargs={"user_id": 6})
 
@@ -244,9 +244,9 @@ class BanUserTest(BaseTest):
 
     def test_04_can_remove_user(self):
         self.user = User.objects.create_user(
-            email="dummy4@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy4@gmail.com", password="12345678", account_provider=0, role=2
         )
-        unban_user_url = reverse("remove_user", kwargs={"user_id": 7})
+        unban_user_url = reverse("remove_user", kwargs={"user_id": 8})
 
         response = self.client.put(
             unban_user_url,
