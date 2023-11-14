@@ -4,27 +4,31 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
+import Dropdown from "react-bootstrap/Dropdown";
 import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
+import Swal from "sweetalert2";
 
 export default function UserBookingHistory() {
-  const [bookingData, setbookingData] = useState([]);
+  const [bookingData, setBookingData] = useState([]);
   const [pageSize, setPageSize] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState();
   const [next, setNext] = useState(1);
   const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [active, setActive] = useState(1);
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [confirmModalShow, setConfirmModalShow] = useState(false);
 
   useEffect(() => {
     axiosApi
-      .get(`user/booking-history?page=${page}`)
+      .get(`user/booking-history?page=${page}&&status=${status}`)
       .then((res) => {
-        setbookingData(res.data.results);
+        setBookingData(res.data.results);
         setNext(res.data.has_next);
         setPrevious(res.data.has_previous);
         setTotalPages(res.data.total_pages);
@@ -32,8 +36,10 @@ export default function UserBookingHistory() {
         setPageSize(res.data.page_size);
       })
       .catch((err) => {});
-  }, [page]);
+  }, [page,status]);
+
   console.log(bookingData);
+
   const handlePrevious = () => {
     setActive(active - 1);
     setPage(page - 1);
@@ -42,6 +48,26 @@ export default function UserBookingHistory() {
   const handleNext = () => {
     setActive(active + 1);
     setPage(page + 1);
+  };
+
+  const handleCancel = () => {
+    axiosApi
+      .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
+      .then((res) => {
+        Swal.fire({
+          title: "Success",
+          text: "Cancelled Successfully",
+          icon: "success",
+        });
+        setConfirmModalShow(false);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Oops",
+          text: "Something went wrong",
+          icon: "error",
+        });
+      });
   };
 
   let items = [];
@@ -96,6 +122,44 @@ export default function UserBookingHistory() {
         <div className="mb-auto p-2 bd-highlight m-3">
           <h1>My Trips</h1>
         </div>
+        <div className="d-flex m-3 justify-content-end">
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic">
+              Show
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  setStatus(99);
+                }}
+              >
+                Cancelled
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setStatus(0);
+                }}
+              >
+                Pending
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setStatus(1);
+                }}
+              >
+                Completed
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setStatus("");
+                }}
+              >
+                All
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
         <div className="flex-fill m-3">
           <Table>
             <thead>
@@ -107,14 +171,24 @@ export default function UserBookingHistory() {
                 <th>Departure time</th>
                 <th>Action</th>
               </tr>
-              {bookingData.length!==0 ? (
+              {bookingData.length !== 0 ? (
                 <>
                   {bookingData.map((data, key) => (
                     <tr key={data?.id}>
                       <th>{key + (currentPage - 1) * pageSize + 1}</th>
                       <th>{data?.booking_id}</th>
-                      <th>{data?.pick_up?.location?.location_name}</th>
-                      <th>{data?.drop_off?.location?.location_name}</th>
+                      <th>
+                        {
+                          data?.pick_up?.start_stop_location?.location
+                            ?.location_name
+                        }
+                      </th>
+                      <th>
+                        {
+                          data?.drop_off?.start_stop_location?.location
+                            ?.location_name
+                        }
+                      </th>
                       <th>
                         {data?.trip?.start_date}
                         <br />
@@ -135,7 +209,7 @@ export default function UserBookingHistory() {
                 </>
               ) : (
                 <div className="d-flex m-5">
-                  <ExclamationCircle color="grey" size={96}></ExclamationCircle>
+                  <ExclamationCircle color="grey" size={90}></ExclamationCircle>
                   <div className="ms-3">
                     <h2>No booking data Found !!</h2>
                     <h6>Your booking history is empty</h6>
@@ -162,46 +236,93 @@ export default function UserBookingHistory() {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <strong>{modalData?.booking_id}</strong>
+            <strong>
+              {modalData?.booking_id}
+              {modalData?.status === 99 && <span>(Cancelled)</span>}
+            </strong>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
           <p>
-            From:&nbsp;
-            <strong>{modalData?.pick_up?.location?.location_name}</strong>
+            From:{" "}
+            <strong>
+              {modalData?.pick_up?.start_stop_location?.location?.location_name}
+            </strong>
           </p>
           <p>
-            To:&nbsp;
-            <strong>{modalData?.drop_off?.location?.location_name}</strong>
+            To:{" "}
+            <strong>
+              {
+                modalData?.drop_off?.start_stop_location?.location
+                  ?.location_name
+              }
+            </strong>
           </p>
           <p>
-            Departure Date:&nbsp;<strong>{modalData?.trip?.start_date}</strong>
+            Departure Date: <strong>{modalData?.trip?.start_date}</strong>
           </p>
           <p>
-            Travel Time:&nbsp;<strong>{modalData?.trip?.start_time}</strong>
-            &nbsp; to &nbsp;<strong>{modalData?.trip?.end_time}</strong>
+            Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
+            <strong>{modalData?.trip?.end_time}</strong>
           </p>
           <p>
-            Pick up point:&nbsp;<strong>{modalData?.pick_up?.bus_stop}</strong>
+            Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
           </p>
           <p>
-            Drop off point:&nbsp;
-            <strong>{modalData?.drop_off?.bus_stop}</strong>
+            Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
           </p>
 
           <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
           <p>
-            Bus Name:&nbsp;<strong>{modalData?.trip?.bus?.bus_name}</strong>
+            Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
           </p>
-
+          <p>
+            Bus Plate Number: <strong>{modalData?.trip?.bus?.plate_no}</strong>
+          </p>
           <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
           <p>
-            Total amount:&nbsp;<strong>{modalData?.total_amount}</strong>
+            Total amount: <strong>{modalData?.total_amount}</strong>
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger">Cancel Booking</Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              setConfirmModalShow(true);
+            }}
+            disabled={modalData?.status === 99}
+          >
+            Cancel Booking
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={confirmModalShow}
+        onHide={() => setConfirmModalShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <Modal.Title id="confirm-modal-title-vcenter">
+            Cancel the booking
+          </Modal.Title>
+          Are you sure you want to cancel this booking?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setConfirmModalShow(false);
+            }}
+          >
+            Close
+          </Button>
+
+          <Button variant="danger" onClick={handleCancel}>
+            Confirm Cancel
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

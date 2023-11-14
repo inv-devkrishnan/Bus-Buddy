@@ -19,9 +19,9 @@ import Swal from "sweetalert2";
 
 import { FormComponentSchema } from "./FormComponentSchema";
 import { AddSeatContext } from "../../../utils/AddSeatContext";
-import axios from "axios";
+import { axiosApi } from "../../../utils/axiosApi";
 
-export default function FormComponent() {
+export default function FormComponent(props) {
   const {
     propsData,
     currentData,
@@ -59,9 +59,9 @@ export default function FormComponent() {
 
   const onSubmit = () => {
     // api call for storing seat details
-    axios
+    axiosApi
       .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
-        bus: 9,
+        bus: props.bus,
         seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,
         seat_type: formik.values.seatType,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import {
@@ -9,12 +9,14 @@ import {
 import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import ViewSeatDetails from "../../../pages/ViewSeatDetails";
+import { SeatContext } from "../../../utils/SeatContext";
 
 function TripCard(props) {
   const [show, setShow] = useState(false); // to show/hide the amenities modal
   const handleClose = () => setShow(false); // function to close amenties modal
   const handleShow = () => setShow(true); // function to show amenties modal
   const [viewSeatFlag, setViewSeatFlag] = useState(false);
+  const { updateTripID } = useContext(SeatContext);
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -29,7 +31,7 @@ function TripCard(props) {
       <Container>
         <Row>
           <Col md={12}>
-            <Card className="p-3 mt-3 mb-3" style={{width:"80%"}}>
+            <Card className="p-3 mt-3 mb-3" style={{ width: "80%" }}>
               <CardBody>
                 <Container>
                   <Row>
@@ -105,9 +107,10 @@ function TripCard(props) {
                             size="sm"
                             onClick={() => {
                               setViewSeatFlag(true);
+                              updateTripID(props.data.trip);
                             }}
                           >
-                            View Seats
+                            Select Seats
                           </Button>
                         )}
                       </div>
@@ -148,11 +151,7 @@ function TripCard(props) {
           </Col>
         </Row>
       </Container>
-      <>
-        {viewSeatFlag && (
-            <ViewSeatDetails trip={props.data.trip} />
-        )}
-      </>
+      <>{viewSeatFlag && <ViewSeatDetails currentTrip={props}/>}</>
     </>
   );
 }

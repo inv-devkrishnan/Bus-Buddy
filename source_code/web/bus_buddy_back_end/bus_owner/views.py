@@ -11,13 +11,14 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from .models import Bus
+from .models import Bus,SeatDetails
 from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
+
 from .serializers import (
     BusSerializer,
     ViewBusSerializer,
@@ -31,6 +32,7 @@ from .serializers import (
     AmenitiesSerializer,
     BusSerializer,
     ViewBusSerializer,
+    SeatDetailSerializer,GetSeatSerializer
 )
 import logging
 
@@ -47,13 +49,13 @@ class AddSeatDetails(APIView):
         json: success message
     """
 
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         request_data = request.data
         bus_id = request.data.get("bus")
         ui_order = request.data.get("seat_ui_order")
-        serialized_data = SDS(data=request_data)
+        serialized_data = SeatDetailSerializer(data=request_data)
         try:
             if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
                 return Response({"data": "seat detail already registered"}, status=200)
@@ -81,14 +83,14 @@ class GetSeatDetails(APIView):
         json: whole seat data for the corresponding bus id
     """
 
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         bus_id = request.GET["bus_id"]
         try:
             if SeatDetails.objects.filter(bus=bus_id):
                 request_data = SeatDetails.objects.filter(bus=bus_id)
-                serialized_data = GSS(request_data, many=True)
+                serialized_data = GetSeatSerializer(request_data, many=True)
                 return Response(serialized_data.data)
             else:
                 return Response({"data": "no data"}, status=200)

@@ -20,7 +20,6 @@ export default function UserLayout(props) {
       .get(`user/view-seats/?trip_id=${props?.trip}`)
       .then((res) => {
         updateSeatData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("error:" + err.response.data);

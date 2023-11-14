@@ -6,25 +6,24 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FullSleeperLayer from "../Layers/FullSleeperLayer";
 import driver from "../../../../assets/driver.png";
 import { AddSeatContext } from "../../../../utils/AddSeatContext";
-import axios from "axios";
+import { axiosApi } from "../../../../utils/axiosApi";
 
-export default function FullSleeperLayout() {
-  const { updateCurrentData,reRender } = useContext(AddSeatContext);
+export default function FullSleeperLayout(props) {
+  const { updateCurrentData, reRender } = useContext(AddSeatContext);
 
   useEffect(() => {
-    getData();
-  }, [reRender]);
-
-  const getData = async () => {
-    await axios
-      .get("http://127.0.0.1:8000/bus-owner/get-seat-details?bus_id=9")
+    console.log(reRender);
+    axiosApi
+      .get(
+        `http://127.0.0.1:8000/bus-owner/get-seat-details?bus_id=${props.bus}`
+      )
       .then((res) => {
         updateCurrentData(res.data);
       })
       .catch((err) => {
         console.log("error");
       });
-  };
+  }, [reRender, props.bus]);
 
   return (
     <Grid container spacing={12} justifyContent="space-evenly">

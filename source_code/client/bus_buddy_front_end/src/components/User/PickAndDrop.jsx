@@ -5,13 +5,11 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import { SeatContext } from "../../utils/SeatContext";
 
-export default function PickAndDrop() {
+export default function PickAndDrop(props) {
   const { seatData } = useContext(SeatContext); // use context with seat data
-  const [selectionModelPick, setSelectionModelPick] = useState([]); // for storing pick up point id
-  const [selectionModelDrop, setSelectionModelDrop] = useState([]); // for stroring drop off point id
-
   const rows = seatData[0].map((stop) => ({
     // for mapping pick and drop point data as rows according to columns
+    // seatData[0] holds pick and drop points
     id: stop.id,
     stops: stop.bus_stop,
   }));
@@ -28,12 +26,12 @@ export default function PickAndDrop() {
       hideable: false,
       renderCell: (params) => (
         <Radio
-          checked={selectionModelPick.includes(params.id)}
+          checked={props.selectionModelPick.includes(params.id)}
           onChange={() => {
-            if (selectionModelPick.includes(params.id)) {
-              setSelectionModelPick([]);
+            if (props.selectionModelPick.includes(params.id)) {
+              props.setSelectionModelPick([]);
             } else {
-              setSelectionModelPick([params.id]);
+              props.setSelectionModelPick([params.id]);
             }
           }}
           value={params.id}
@@ -48,6 +46,7 @@ export default function PickAndDrop() {
       hideable: false,
     },
   ];
+
 
   const columnsDrop = [
     // holds the column details of drop off point datagrid
@@ -61,12 +60,12 @@ export default function PickAndDrop() {
       hideable: false,
       renderCell: (params) => (
         <Radio
-          checked={selectionModelDrop.includes(params.id)}
+          checked={props.selectionModelDrop.includes(params.id)}
           onChange={() => {
-            if (selectionModelDrop.includes(params.id)) {
-              setSelectionModelDrop([]);
+            if (props.selectionModelDrop.includes(params.id)) {
+              props.setSelectionModelDrop([]);
             } else {
-              setSelectionModelDrop([params.id]);
+              props.setSelectionModelDrop([params.id]);
             }
           }}
           value={params.id}
@@ -82,13 +81,10 @@ export default function PickAndDrop() {
     },
   ];
 
-  console.log(selectionModelPick[0]);
-  console.log(selectionModelDrop[0]);
-
   return (
     <Card
       className="p-3"
-      sx={{ width: "90%", height: "auto",margin:4, boxShadow: 5 }}
+      sx={{ width: "90%", height: "auto", margin: 4, boxShadow: 5 }}
     >
       <Typography gutterBottom variant="h5">
         Pick up and Drop off points
@@ -104,9 +100,9 @@ export default function PickAndDrop() {
             pagination
             autoPageSize
             getRowHeight={() => "auto"}
-            selectionModel={selectionModelPick}
+            selectionModel={props.selectionModelPick}
             onSelectionModelChange={(newSelectionModel) => {
-              setSelectionModelPick(newSelectionModel);
+              props.setSelectionModelPick(newSelectionModel);
             }}
             sx={{
               "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
@@ -130,9 +126,9 @@ export default function PickAndDrop() {
             columns={columnsDrop}
             autoPageSize
             getRowHeight={() => "auto"}
-            selectionModel={selectionModelDrop}
+            selectionModel={props.selectionModelDrop}
             onSelectionModelChange={(newSelectionModel) => {
-              setSelectionModelDrop(newSelectionModel);
+              props.setSelectionModelDrop(newSelectionModel);
             }}
             sx={{
               "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {

@@ -16,7 +16,12 @@ from bus_owner.models import SeatDetails, Trip, PickAndDrop
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
 from .serializer import BookingHistoryDataSerializer as BHDS
-from .serializer import SeatDetailsViewSerialzer, PickAndDropSerializer
+from .serializer import (
+    SeatDetailsViewSerialzer,
+    PickAndDropSerializer,
+    BookSeatSerializer,
+    CancelBookingSerializer,
+)
 
 
 class ViewSeats(ListAPIView):
@@ -74,7 +79,7 @@ class RegisterUser(APIView):
                 return Response({"message": "registration successfull"}, status=201)
             else:
                 print(serialized_data.errors)
-                return Response(serialized_data.errors,status=200)
+                return Response(serialized_data.errors, status=200)
         except Exception as e:
             return Response("errors:" f"{e}", status=400)
 
@@ -98,7 +103,7 @@ class UpdateProfile(UpdateAPIView):
 
     def update(self, request):
         try:
-            if(request.user.id):
+            if request.user.id:
                 user_id = request.user.id  # get id using token
                 instance = User.objects.get(id=user_id)
                 current_data = request.data
@@ -151,7 +156,12 @@ class BookingHistory(ListAPIView):
     def list(self, request):
         try:
             user_id = request.user.id
-            queryset = Bookings.objects.filter(user=user_id)
+            status = request.GET["status"]
+            if (status in {"0", "1", "99"}):
+                queryset = Bookings.objects.filter(user=user_id, status=status)
+            else:
+                queryset = Bookings.objects.filter(user=user_id)
+
             serializer = BHDS(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -335,3 +345,62 @@ class ViewTrip(APIView):
             return Response(paginated_data)
         else:
             return Response({"error_code": "D1006"}, status=400)
+
+
+class BookSeat(APIView):
+    """
+    For booking seats
+
+    Returns:
+        json : success message
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user_id = request.user.id
+        now = datetime.now()
+        date_string = now.strftime("%Y%M")
+
+        try:
+            request_data = request.data.copy()
+            request_data["user"] = user_id
+            request_data["booking_id"] = "BK" + str(user_id) + "Y" + date_string # for generating unique booking id
+            serializer = BookSeatSerializer(data=request_data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Seat booked successfully"}, status=201)
+            else:
+                print(serializer.errors)
+                return Response(serializer.errors, status=200)
+        except Exception as e:
+            return Response("errors:" f"{e}", status=400)
+
+
+class CancelBooking(UpdateAPIView):
+    """
+    For cancelling booking
+
+    Args:
+        booking_id (int): query param for identifying booking
+
+    Returns:
+        json : success message
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request):
+        booking_id = request.GET["booking_id"]
+
+        try:
+            instance = Bookings.objects.get(id=booking_id)
+            current_data = {"status": 99} # status 99 denotes the cancelled bookings
+            serializer = CancelBookingSerializer(
+                instance, data=current_data, partial=True
+            )
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                return Response({"message": "cancelled succesffully"}, status=200)
+            else:
+                return Response(serializer.errors, status=400)
+        except Exception as e:
+            return Response("errors:" f"{e}", status=400)

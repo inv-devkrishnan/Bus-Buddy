@@ -14,4 +14,6 @@ urlpatterns = [
         views.BookingHistory.as_view(),
         name="booking-history",
     ),
+    path("book-seat/", views.BookSeat.as_view(), name="book-seat"),
+    path("cancel-booking/", views.CancelBooking.as_view(), name="cancel-booking"),
 ]

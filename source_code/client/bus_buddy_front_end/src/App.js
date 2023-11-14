@@ -26,38 +26,46 @@ import { SeatContextProvider } from "./utils/SeatContext";
 import { AddSeatContextProvider } from "./utils/AddSeatContext";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateOwnerProfile from "./components/BusOwnerUi/UpdateOwnerProfile";
+import TravellerDetail from "./components/User/TravellerDetail";
+
 function App() {
   return (
     <SeatContextProvider>
       <AddSeatContextProvider>
         <Routes>
-  <Route path="/" element={<LandingPage />} />
-  <Route path='/BusHome' element={<BusHome/>}/>
-  <Route path="/Addbus" element={<AddBus />} />
-  <Route path="/Updatebus" element={<UpdateBus />} />
-  <Route path="/Viewbus" element={<ViewBus />} />
-  <Route path="/Addamenities" element={<AddAmenities />} />
-  <Route path="/Updateamenities" element={<UpdateAmenities />} />
-  <Route path="/Addroutes" element={<Addroutes />} />
-  <Route path="/ViewRoutes" element={<ViewRoutes />} />
-  <Route path="/view-trips" element={<ViewRoutes />} />
-  
-  <Route path="/login" element={<LoginPage />} />
-  <Route path="/delete-account" element={<DeleteAccountPage />} />
-  <Route path="/change-password" element={<ChangePassword />} />
-  <Route path="/full-sleeper-details" element={<FullSleeperDetails />} />
-  <Route path="/full-seater-details" element={<FullSeaterDetails />} />
-  <Route path="/single-seater-double-sleeper-details" element={<SingleSeaterDoubleSleeperDetails />} />
-  <Route path="/view-seats" element={<ViewSeatDetails />} />
-  
-  <Route path="/update-owner" element={<OwnerUpdateCard />} />
-  <Route path="/register-owner" element={<RegisterOwner />} />
-  <Route path="/register-user" element={<RegisterUser />} />
-  <Route path="/update-user" element={<UpdateForm />} />
-  <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
-  <Route path="/admin-dashboard" element={<AdminDashboard/>} />
-  <Route path="/user-dashboard" element={<UserDashboard/>} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/BusHome" element={<BusHome />} />
+          <Route path="/Addbus" element={<AddBus />} />
+          <Route path="/Updatebus" element={<UpdateBus />} />
+          <Route path="/Viewbus" element={<ViewBus />} />
+          <Route path="/Addamenities" element={<AddAmenities />} />
+          <Route path="/Updateamenities" element={<UpdateAmenities />} />
+          <Route path="/Addroutes" element={<Addroutes />} />
+          <Route path="/ViewRoutes" element={<ViewRoutes />} />
+          <Route path="/view-trips" element={<ViewRoutes />} />
 
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/delete-account" element={<DeleteAccountPage />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route
+            path="/full-sleeper-details"
+            element={<FullSleeperDetails />}
+          />
+          <Route path="/full-seater-details" element={<FullSeaterDetails />} />
+          <Route
+            path="/single-seater-double-sleeper-details"
+            element={<SingleSeaterDoubleSleeperDetails />}
+          />
+          <Route path="/view-seats" element={<ViewSeatDetails />} />
+          <Route path="/traveller-data" element={<TravellerDetail />} />
+
+          <Route path="/update-owner" element={<OwnerUpdateCard />} />
+          <Route path="/register-owner" element={<RegisterOwner />} />
+          <Route path="/register-user" element={<RegisterUser />} />
+          <Route path="/update-user" element={<UpdateForm />} />
+          <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>

@@ -157,6 +157,7 @@ function ShowTrips(props) {
         setHasNext(result.data?.has_next);
         setHasPrevious(result.data?.has_previous);
         setCurrentPage(result.data?.current_page);
+        console.log(result.data);
       })
       .catch(function (error) {
         Swal.fire({

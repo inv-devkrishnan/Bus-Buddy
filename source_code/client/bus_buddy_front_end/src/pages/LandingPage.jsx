@@ -13,8 +13,13 @@ function LandingPage() {
   const [startLocationName, setStartLocationName] = useState(""); // to pass the startlocation name  to trip card
   const [endLocationName, setEndLocationName] = useState(""); // to pass the end location name to trip card
   const [tripDate, setTripDate] = useState(); // to store trip date
+  
   useEffect(() => {
     getLocationData();
+    localStorage.removeItem("pick_up");
+    localStorage.removeItem("drop_off");
+    localStorage.removeItem("trip");
+    localStorage.removeItem("total_amount");
   }, []);
 
   const getLocationData = async () => {

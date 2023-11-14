@@ -13,9 +13,22 @@ const SeatContextProvider = ({ children }) => {
     setSeatData(newValue);
   };
 
+
+  const [tripID, setTripID] = useState();
+  const updateTripID = (newValue) => {
+    setTripID(newValue);
+  };
+
   const value = useMemo(
-    () => ({ seatList, updateSeatList, seatData, updateSeatData }),
-    [seatList, seatData]
+    () => ({
+      seatList,
+      updateSeatList,
+      seatData,
+      updateSeatData,
+      tripID,
+      updateTripID,
+    }),
+    [seatList, seatData, tripID]
   );
 
   return <SeatContext.Provider value={value}>{children}</SeatContext.Provider>;
