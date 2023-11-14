@@ -5,12 +5,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
-from .permissions import AllowAdminsOnly
+from bus_buddy_back_end.email import send_email_with_template
+from bus_buddy_back_end.permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
 from .serializer import ListUserSerializer as LUS
 from .serializer import BanUserSerializer as BUS
 from .pagination import CustomPagination
-from bus_buddy_back_end.email import send_email_with_template
+
 
 
 logger = logging.getLogger("django")
