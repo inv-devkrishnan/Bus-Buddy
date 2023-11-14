@@ -46,6 +46,7 @@ def update_status(self, user_id, status):
                         context=context,
                         recipient_list=recipient_list,
                         template="bus_approval_template.html",
+                        status=2,
                     )
                 return Response({"success_code": "D2005"})
             else:
