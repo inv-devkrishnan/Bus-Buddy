@@ -1,3 +1,4 @@
+from datetime import datetime, date
 import re
 from rest_framework import serializers
 from rest_framework.fields import empty
@@ -32,6 +33,9 @@ error_message_phone_exist = "Phone number is already registered"
 
 
 class BusSerializer(serializers.ModelSerializer):
+    """
+    serializer for model Bus.For post and update
+    """
     bus_name = serializers.CharField(
         max_length=100,
         validators=[
@@ -71,18 +75,18 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Bus status must be 0, 1, or 2."),
+            RegexValidator(regex=r"^[0-2]$", message="Bus type must be 0, 1, or 2."),
         ]
     )
     bus_ac = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=r"^[0-1]$", message="Bus status must be 0 or 1"),
+            RegexValidator(regex=r"^[0-1]$", message="Bus A/c must be 0 or 1"),
         ]
     )
     bus_details_status = serializers.IntegerField(
         required=False,
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Bus status must be 0, 1, or 99."),
+            RegexValidator(regex=r"^[0-2]$", message="Bus details status must be 0, 1, or 99."),
         ],
     )
 
@@ -97,6 +101,9 @@ def validate_zero_or_one(value):
 
 
 class AmenitiesSerializer(serializers.ModelSerializer):
+    """
+    serilizer for Amenities model.For post and update
+    """
     emergency_no = serializers.IntegerField(validators=[validate_zero_or_one])
     water_bottle = serializers.IntegerField(validators=[validate_zero_or_one])
     charging_point = serializers.IntegerField(validators=[validate_zero_or_one])
@@ -115,10 +122,13 @@ class AmenitiesSerializer(serializers.ModelSerializer):
 
 
 class ViewBusSerializer(serializers.ModelSerializer):
+    """
+    serilizer for bus model.For listing 
+    """
     # user = serializers.CharField(required=False)
     amenities_data = AmenitiesSerializer(
         many=True, read_only=True, source="amenities_set"
-    )
+    )                                                                   #to list amenities list associated with the bus 
 
     class Meta:
         model = Bus
@@ -133,10 +143,13 @@ class Locationdata(serializers.ModelSerializer):
 
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
+    """
+    serilizer for routes model.for listing
+    """
     start_point_name = serializers.CharField(
-        source="start_point.location_name", read_only=True
+        source="start_point.location_name", read_only=True    # to get the name of startponit from locations_data model
     )  # to get name matchin the id from location
-    end_point_name = serializers.CharField(
+    end_point_name = serializers.CharField(                   # to get the name of endpoint from locations_data model
         source="end_point.location_name", read_only=True
     )  # to get name matchin the id from location
 
@@ -156,6 +169,9 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):
+    """
+    serilizer for Pickanddropserilizer
+    """
     arrival_time = serializers.TimeField(
         format="%H:%M",
     )
@@ -181,6 +197,9 @@ class PickAndDropSerializer(serializers.ModelSerializer):
 
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
+    """
+    serilizer for startstoplocations model
+    """
     pick_and_drop = PickAndDropSerializer(many=True, source="stops")
     arrival_time = serializers.TimeField(
         format="%H:%M",
@@ -190,17 +209,17 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     )
     seq_id = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="sequence id should be an integer"),
+            RegexValidator(r"^[0-9\s]*$", message="sequence id should be an positive integer"),
         ]
     )
     arrival_date_offset = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="arrival date offset should be an integer"),
+            RegexValidator(r"^[0-9\s]*$", message="arrival date offset should be an positive integer"),
         ]
     )
     departure_date_offset = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="departure date offset should be an integer"),
+            RegexValidator(r"^[0-9\s]*$", message="departure date offset should be an positive integer"),
         ]
     )
 
@@ -224,7 +243,7 @@ class RoutesSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                r"^[A-Za-z]+$", message="Invalid Name format. Only letters are allowed."
+                r"^[A-Za-z0-9 \.]", message="landmark can only have alphabets and numbers"
             )
         ],
     )
@@ -289,6 +308,31 @@ class TripSerializer(serializers.ModelSerializer):
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
+    start_date = serializers.DateField(format="%Y-%m-%d")
+    end_date = serializers.DateField(format="%Y-%m-%d")
+    
+    def validate_start_date(self, value):
+        today = datetime.now().date()
+        if value <= today:
+            raise serializers.ValidationError("Start date must be in the future.")
+        return value
+    def validate_end_date(self,value):
+        # today = datetime.now().date()
+        start_date_str = self.initial_data.get('start_date')      
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        if value < start_date:
+            raise serializers.ValidationError("End date should be in the future or the same day as start sate.") 
+        return value
+    
+    start_time = serializers.TimeField(format="%H:%M")
+    end_time = serializers.TimeField(format="%H:%M")
+    
+    # def validate_end_time(self, value):
+    #     start_time = self.initial_data.get('start_time')  # Access start_time from the input data
+    #     if start_time and value <= start_time:
+    #         raise serializers.ValidationError("End time must be after the start time.")
+    #     return value
+    
     status = serializers.IntegerField(
         required=False,
         validators=[
