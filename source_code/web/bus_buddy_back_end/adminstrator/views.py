@@ -26,34 +26,38 @@ def update_status(self, user_id, status):
     )
     try:
         instance = User.objects.get(id=user_id)
-        new_data = {"status": status}
-        serializer = BUS(instance, data=new_data, partial=True)
-        if serializer.is_valid():
-            if status != instance.status:  # checks if status is already same
-                old_status = instance.status
-                self.perform_update(serializer)
-                logger.info("user status changed to " + str(status))
-                if (
-                    old_status == 3 and status == 0
-                ):  # if status change was from 3 to 0 then send mail to bus owner about approval
-                    subject = "You are Approved"
-                    context = {
-                        "recipient_name": instance.first_name,
-                    }
-                    recipient_list = [instance.email]
-                    send_email_with_template(
-                        subject=subject,
-                        context=context,
-                        recipient_list=recipient_list,
-                        template="bus_approval_template.html",
-                        status=2,
+        if instance.role != 1:  # to prevent status change on admin accounts
+            new_data = {"status": status}
+            serializer = BUS(instance, data=new_data, partial=True)
+            if serializer.is_valid():
+                if status != instance.status:  # checks if status is already same
+                    old_status = instance.status
+                    self.perform_update(serializer)
+                    logger.info("user status changed to " + str(status))
+                    if (
+                        old_status == 3 and status == 0
+                    ):  # if status change was from 3 to 0 then send mail to bus owner about approval
+                        subject = "You are Approved"
+                        context = {
+                            "recipient_name": instance.first_name,
+                        }
+                        recipient_list = [instance.email]
+                        send_email_with_template(
+                            subject=subject,
+                            context=context,
+                            recipient_list=recipient_list,
+                            template="bus_approval_template.html",
+                            status=2,
+                        )
+                    return Response({"success_code": "D2005"})
+                else:
+                    logger.info(
+                        "user status is already " + str(status) + " no change needed"
                     )
-                return Response({"success_code": "D2005"})
-            else:
-                logger.info(
-                    "user status is already " + str(status) + " no change needed"
-                )
-                return Response({"success_code": "D2006"})
+                    return Response({"success_code": "D2006"})
+        else:
+            logger.warn("Operation can't be performed on admin account")
+            return Response({"error_code": "D1013"}, status=400)
 
     except User.DoesNotExist:
         logger.warning("user with id " + str(user_id) + " Doesn't exist !")
