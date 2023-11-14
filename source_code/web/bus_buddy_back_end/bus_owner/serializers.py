@@ -292,7 +292,7 @@ class SeatDetailSerializer(serializers.ModelSerializer):
     seat_number = serializers.CharField(max_length=50)
     seat_type = serializers.IntegerField(default=0)
     deck = serializers.IntegerField(default=0)
-    seat_cost = serializers.DecimalField(max_digits=7, decimal_places=5)
+    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
 
 
 class GetSeatSerializer(serializers.ModelSerializer):
