@@ -55,6 +55,10 @@ def update_status(self, user_id, status):
                         "user status is already " + str(status) + " no change needed"
                     )
                     return Response({"success_code": "D2006"})
+            else:
+                logger.warn(serializer.error_messages)
+                return Response({"error_code": "D1002"})
+                
         else:
             logger.warn("Operation can't be performed on admin account")
             return Response({"error_code": "D1013"}, status=400)

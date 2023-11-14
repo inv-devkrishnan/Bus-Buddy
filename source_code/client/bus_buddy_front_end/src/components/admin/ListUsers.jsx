@@ -536,7 +536,7 @@ function ListUsers(props) {
               <p className="m-0 ms-3">{busOwnerInfo.last_name}</p>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex">
-              <p className="m-0 me-5">Email</p>
+              <p className="m-0 me-3">Email</p>
               <p className="m-0">:</p>
               <p className="m-0 ms-3">{busOwnerInfo.email}</p>
             </ListGroup.Item>
