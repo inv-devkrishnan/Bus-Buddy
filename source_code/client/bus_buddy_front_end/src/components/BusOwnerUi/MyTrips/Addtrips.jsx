@@ -11,7 +11,8 @@ import { axiosApi } from "../../../utils/axiosApi";
 export default function Addtrips() {
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
-  
+  const [bus,setBus] = useState("")
+  const [route,setRoute] = useState("")
   const [selectedDate, setSelectedDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -40,6 +41,14 @@ export default function Addtrips() {
     try {
       const response = await axiosApi.post(
         "http://127.0.0.1:8000/bus-owner/add-trip/",
+        {
+          bus: bus,
+          route: route,
+          start_date: selectedDate, 
+          end_date: selectedDate, 
+          start_time: startTime,
+          end_time: endTime,
+        }
       );
 
       if (response.status === 200) {
@@ -80,6 +89,9 @@ export default function Addtrips() {
                     <Form.Label>Bus</Form.Label>
                     <Form.Control
                       as="select"
+                      onChange={(e) => {
+                        setBus(e.target.value);
+                      }}
                     >
                       <option value="">Select option</option>
                       {busData.map((bus) => (
@@ -94,6 +106,9 @@ export default function Addtrips() {
                   <Form.Label>Route</Form.Label>
                   <Form.Control
                     as="select"
+                    onChange={(e) => {
+                      setRoute(e.target.value);
+                    }}
                   >
                     <option value="">Select option</option>
                     {routeData.map((route) => (
