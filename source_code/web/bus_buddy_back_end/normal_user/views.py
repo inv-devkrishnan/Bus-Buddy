@@ -166,6 +166,7 @@ class ViewTrip(APIView):
                 and bus_type.strip("-").isdigit()
                 and bus_ac.strip("-").isdigit()
                 and bool(datetime.strptime(date, date_format))
+                and start_location != end_location
             ):
                 return True
             else:
@@ -179,7 +180,7 @@ class ViewTrip(APIView):
 
     def get(self, request):
         """Function to display trips to user based on search"""
-        ITEMS_PER_PAGE = 3  # no of items to be display in page
+        ITEMS_PER_PAGE = 10  # no of items to be display in page
 
         # storing query params
         start_location = request.GET.get("start")
