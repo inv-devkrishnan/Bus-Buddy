@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
@@ -15,6 +15,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import { login, loginWithGoogle } from "../utils/apiCalls";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
+import { useAuthStatus } from "../utils/hooks/useAuth";
+import { useHome } from "../utils/hooks/useHome";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -23,7 +25,13 @@ function LoginPage() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const authstatus = useAuthStatus();
+  const goHome = useHome();
+  useEffect(() => {
+    if (authstatus()) {
+      goHome();
+    }
+  }, [authstatus, goHome]);
   const authenicateGoogleUser = async (response) => {
     // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)
     console.log(response);
@@ -64,13 +72,14 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
-      localStorage.setItem("user_name",loginRes.message.user_name)
-      if(loginRes.message.user_role===2){
-      navigate("/user-dashboard");}
-      else if(loginRes.message.user_role ===1)
-      {navigate("/admin-dashboard")}
-      else
-      {navigate("/BusHome");}
+      localStorage.setItem("user_name", loginRes.message.user_name);
+      if (loginRes.message.user_role === 2) {
+        navigate("/user-dashboard");
+      } else if (loginRes.message.user_role === 1) {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/BusHome");
+      }
     } else {
       // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;
@@ -99,7 +108,7 @@ function LoginPage() {
           <Image src={LoginSplash} fluid></Image>
         </Col>
         <Col>
-          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded" >
+          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
             <h1>Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -112,7 +121,7 @@ function LoginPage() {
                     setEmail(e.target.value);
                   }}
                   required
-                  style={{backgroundImage: "none"}}
+                  style={{ backgroundImage: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid Email.
@@ -130,7 +139,7 @@ function LoginPage() {
                       setPassword(e.target.value);
                     }}
                     required
-                    style={{backgroundImage: "none"}}
+                    style={{ backgroundImage: "none" }}
                   />
                   <InputGroup.Text
                     id="basic-addon1"

@@ -51,7 +51,7 @@ function BusNavBar() {
   return (
     <Navbar expand="lg" bg="primary" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand className="fw-bold"> Bus Buddy</Navbar.Brand>
+        <Navbar.Brand className="fw-bold">Bus Buddy</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <div className="ms-auto d-flex align-items-center">
