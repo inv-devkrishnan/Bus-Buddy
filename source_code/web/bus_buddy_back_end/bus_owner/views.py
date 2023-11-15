@@ -486,7 +486,7 @@ class Updatetrip(UpdateAPIView):
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
             logger.info("no trip obj for the given id")
-            return Response("Invalid Bus id", status=400)
+            return Response("Invalid trip id", status=400)
 
 
 class Deletetrip(APIView): 

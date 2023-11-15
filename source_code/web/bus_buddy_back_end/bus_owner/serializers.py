@@ -175,12 +175,12 @@ class PickAndDropSerializer(serializers.ModelSerializer):
     arrival_time = serializers.TimeField(
         format="%H:%M",
     )
-    bus_stop = serializers.IntegerField(
+    bus_stop = serializers.CharField(
         validators=[
             RegexValidator(r"^[A-Za-z0-9 \.]+$", message="bus stop can only have alphabets and numbers"),
         ]
     )
-    landmark = serializers.IntegerField(
+    landmark = serializers.CharField(
         validators=[
             RegexValidator(r"^[A-Za-z0-9 \.]+$", message="landmark can only have alphabets and numbers"),
         ]
@@ -328,7 +328,7 @@ class TripSerializer(serializers.ModelSerializer):
         start_date_str = self.initial_data.get('start_date')      
         start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
         if value < start_date:
-            raise serializers.ValidationError("End date should be in the future or the same day as start sate.") 
+            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
         return value
     
     start_time = serializers.TimeField(format="%H:%M")
@@ -344,7 +344,7 @@ class TripSerializer(serializers.ModelSerializer):
         required=False,
         validators=[
             RegexValidator(
-                regex=r"^(0|99)$", message="Bus status must be 0 or 99."
+                regex=r"^(0|99)$", message="trip status must be 0 or 99."
             ),
         ],
     )

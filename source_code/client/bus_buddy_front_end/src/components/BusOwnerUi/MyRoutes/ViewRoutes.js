@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { Pagination } from "react-bootstrap";
 
 export default function Viewallroutes() {
-  const [pageno, setpageno] = useState(1);
   const [data, setData] = useState([]);
   const [pageSize, setPageSize] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +24,7 @@ export default function Viewallroutes() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-routes/`
+        `http://localhost:8000/bus-owner/view-routes/?page=${page}`
       );
       setData(response.data.results);
       setNext(response.data.has_next);
@@ -35,7 +34,7 @@ export default function Viewallroutes() {
       setPageSize(response.data.page_size);
     };
     fetchData();
-  }, [pageno]);
+  }, [page]);
   console.log(data)
 
   const handlePrevious = () => {
