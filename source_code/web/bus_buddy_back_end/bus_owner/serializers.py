@@ -238,6 +238,9 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
 
 
 class RoutesSerializer(serializers.ModelSerializer):
+    """
+    serializer for route model.for post and update
+    """
     location = StartStopLocationsSerializer(many=True)
     via = serializers.CharField(
         max_length=100,
@@ -290,20 +293,24 @@ class RoutesSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        start_stop_locations = validated_data.pop("location")
-        routes = Routes.objects.create(**validated_data)
+        # overwriting create method to handle nested input  
+        start_stop_locations = validated_data.pop("location")    #storing loction data for startstoplocation model into variable
+        routes = Routes.objects.create(**validated_data)        #creating route object
         for data in start_stop_locations:
             pad_obj = data.pop("stops")
-            ssl_obj = StartStopLocations.objects.create(route=routes, **data)
+            ssl_obj = StartStopLocations.objects.create(route=routes, **data)   #creating startstoplocations object
             for i in pad_obj:
                 PickAndDrop.objects.create(
                     route=routes, start_stop_location=ssl_obj, **i
-                )
+                )                                                           #creatinig pickanddrop objects
 
         return routes
 
 
 class TripSerializer(serializers.ModelSerializer):
+    """
+    serializer for trip model.for post and update
+    """
     bus = serializers.PrimaryKeyRelatedField(queryset=Bus.objects.all())
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
@@ -347,6 +354,9 @@ class TripSerializer(serializers.ModelSerializer):
 
 
 class ViewTripSerializer(serializers.ModelSerializer):
+    """
+    serializer for trip model.for listing
+    """
     start_point_name = serializers.CharField(
         source="route.start_point.location_name", read_only=True
     )  # to get name matchin the id from location
