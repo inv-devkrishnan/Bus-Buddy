@@ -48,7 +48,6 @@ export default function Updatebus() {
 
     try {
       axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
-        user: 1,
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,

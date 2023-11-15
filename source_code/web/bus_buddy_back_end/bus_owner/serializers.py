@@ -132,7 +132,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bus
-        fields = ("id", "bus_name", "plate_no", "bus_type", "bus_ac", "amenities_data")
+        fields = ("id", "bus_name", "plate_no", "bus_type", "bus_ac", "amenities_data","user")
         # depth=1
 
 

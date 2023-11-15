@@ -83,7 +83,6 @@ export default function AddRouteCard() {
         duration: document.getElementById("duration").value,
         travel_fare: document.getElementById("travel_fare").value,
         status: 0,
-        user:1,
         location: stopLocations,
       };
       console.log(routeData);

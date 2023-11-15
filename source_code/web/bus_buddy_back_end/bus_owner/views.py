@@ -102,7 +102,9 @@ class Addbus(APIView):
 
     def post(self, request):
         try:
-            serializer = BusSerializer(data=request.data)
+            request_data = (request.data.copy())
+            request_data['user'] = request.user.id
+            serializer = BusSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 logger.info("Inserted")
@@ -182,7 +184,9 @@ class Updatebus(UpdateAPIView):
     def put(self, request, id):     #update function 
         try:
             instance = Bus.objects.get(id=id)
-            serializer = BusSerializer(instance, data=request.data, partial=True)
+            request_data = (request.data.copy())
+            request_data['user'] = request.user.id
+            serializer = BusSerializer(instance, data=request_data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)     #perform_update is a updateAPI function 
                 logger.info("updated")
@@ -231,11 +235,12 @@ class Viewbus(ListAPIView):
     def list(self, request):
         try:
             logger.info("gettin the user is from user model")
-            # user_id = request.user.id
+            user_id = request.user.id
+            print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0)     #to filter out bus objects which has been soft deleted 
+            queryset = Bus.objects.filter(status=0,user=user_id)     #to filter out bus objects which has been soft deleted 
             print(queryset)
-            serializer = ViewRoutesSerializer(queryset)
+            serializer = ViewBusSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
             if page is not None:
@@ -280,7 +285,7 @@ class Updateamenities(UpdateAPIView):
     """
     function to update the amenities of a bus
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = AmenitiesSerializer
     def get(self, request, id):
         try:
@@ -315,10 +320,10 @@ class Addroutes(APIView):
 
     def post(self, request):
         try:
-            data=request.data.copy()
+            request_data=request.data.copy()
             logger.info("fetching user obj ")
-            data["user"] = request.user.id
-            serializer = RoutesSerializer(data=data)
+            request_data["user"] = request.user.id
+            serializer = RoutesSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 id = serializer.data['id']
@@ -334,7 +339,7 @@ class Deleteroutes(APIView):
     """
     function to change status of the route to 99 to perform logical deletion
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
         try:
@@ -398,16 +403,16 @@ class Viewroutes(ListAPIView):
     """
     function to list all routes added by the bus owner
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
     pagination_class = CustomPagination
 
     def list(self, request):
         try:
             logger.info("fetching user id ")
-            # user_id = request.user.id
+            user_id = request.user.id
             logger.info("fetching all data from routes model matching the conditions")
-            queryset = Routes.objects.filter(status=0)
+            queryset = Routes.objects.filter(status=0,user=user_id)
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -433,7 +438,9 @@ class Addtrip(APIView):
 
     def post(self, request):
         try:
-            serializer = TripSerializer(data=request.data)
+            request_data=request.data.copy()
+            request_data["user"] = request.user.id
+            serializer = TripSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
                 logger.info("Inserted")
@@ -466,7 +473,9 @@ class Updatetrip(UpdateAPIView):
         try:
             logger.info("fetching the trip obj matching the id")
             instance = Trip.objects.get(id=id)      #saving the present values to instance variable
-            serializer = TripSerializer(instance, data=request.data, partial=True)
+            request_data=(request.data.copy())
+            request_data['user']=request.user.id
+            serializer = TripSerializer(instance, data=request_data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
                 logger.info("updated")
@@ -514,7 +523,8 @@ class Viewtrip(ListAPIView):
     def list(self, request):
         try:
             # user_id = request.user.id
-            queryset = Trip.objects.filter(status=0)
+            user_id=request.user.id
+            queryset = Trip.objects.filter(status=0,user=user_id)
             # serializer = ViewRoutesSerializer(queryset)
             # page = self.paginate_queryset(queryset)
 
