@@ -2798,3 +2798,4 @@ Traceback (most recent call last):
   File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
     status = request.GET.get["status"]
 TypeError: 'method' object is not subscriptable
+django.request WARNING 2023-11-16 08:50:19,846 log 37662 140313864693312 Bad Request: /bus-owner/add-seat-details
