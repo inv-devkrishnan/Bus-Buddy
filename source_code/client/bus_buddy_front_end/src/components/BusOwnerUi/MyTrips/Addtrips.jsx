@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Addtrips() {
@@ -13,7 +14,8 @@ export default function Addtrips() {
   const [routeData, setRouteData] = useState([]);
   const [bus,setBus] = useState("")
   const [route,setRoute] = useState("")
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
@@ -39,26 +41,40 @@ export default function Addtrips() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formattedStartDate = selectedStartDate
+        ? selectedStartDate.toISOString().split("T")[0]
+        : null;
+      const formattedEndDate = selectedEndDate
+        ? selectedEndDate.toISOString().split("T")[0]
+        : null;
+
       const response = await axiosApi.post(
         "http://127.0.0.1:8000/bus-owner/add-trip/",
         {
           bus: bus,
           route: route,
-          start_date: selectedDate, 
-          end_date: selectedDate, 
+          start_date: formattedStartDate, 
+          end_date: formattedEndDate, 
           start_time: startTime,
           end_time: endTime,
         }
       );
 
       if (response.status === 200) {
-        console.log("Inserted");
-        console.log(response);
-        const data = response.data.bus;
-        console.log(data);
+        console.log("Amenities Inserted");
+        Swal.fire({
+          icon: "success",
+          title: "Added Successfully",
+          text: "Bus Amenities added successfully",
+        });
       }
     } catch (error) {
-      console.error("Error adding trip:", error);
+      console.error("Error adding amenities:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error adding Bus Amenities",
+      });
     }
   };
 
@@ -123,16 +139,16 @@ export default function Addtrips() {
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>Start Date :</Form.Label>
                   <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
+                    selected={selectedStartDate}
+                    onChange={(date) => setSelectedStartDate(date)}
                     dateFormat="yyyy-MM-dd"
                   />
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>End Date:</Form.Label>
                   <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
+                    selected={selectedEndDate}
+                    onChange={(date) => setSelectedEndDate(date)}
                     dateFormat="yyyy-MM-dd"
                   />
                 </Form.Group>
