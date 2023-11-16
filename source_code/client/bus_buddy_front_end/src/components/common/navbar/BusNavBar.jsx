@@ -64,7 +64,7 @@ function BusNavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <div className="ms-auto d-flex align-items-center">
             <PersonCircle className="me-3" color="white"></PersonCircle>
-            {user.name === "Guest" ? (
+            {user.name === "Guest" ? ( // based on the guest or registered user the drop down would change
               <NavDropdown title="Hello Guest" className="text-light fw-bold" data-bs-theme="light">
                 <NavDropdown.Item
                   onClick={() => {

@@ -26,6 +26,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<NavbarLayout />}>
+          {/* pages which have navbar */}
           <Route index element={<LandingPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
           <Route path="/BusHome" element={<BusHome />} />
@@ -43,6 +44,7 @@ function App() {
           <Route path="/update-user" element={<UpdateForm />} />
           <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
         </Route>
+         {/* pages which doesn't have navbar */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register-owner" element={<RegisterOwner />} />
         <Route path="/register-user" element={<RegisterUser />} />
