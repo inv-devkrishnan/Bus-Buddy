@@ -13,24 +13,24 @@ import UpdateFormCard from "./UpdateFormCard";
 export default function UserProfilePage(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
 
-  const [myProfileView, setmyProfileView] = useState(true);
+  const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
   const [updateProfileView, setUpdateProfileView] = useState(false);
 
   const myProfileViewSelected = () => {
-    setmyProfileView(true);
+    setMyProfileView(true);
     setChangePasswordView(false);
     setUpdateProfileView(false);
   };
 
   const changePasswordViewSelected = () => {
-    setmyProfileView(false);
+    setMyProfileView(false);
     setChangePasswordView(true);
     setUpdateProfileView(false);
   };
 
   const updateProfileViewSelected = () => {
-    setmyProfileView(false);
+    setMyProfileView(false);
     setChangePasswordView(false);
     setUpdateProfileView(true);
   };
@@ -77,7 +77,9 @@ export default function UserProfilePage(props) {
                   <CardText as="h5">
                     {currentUserData["first_name"] +
                       " " +
-                      currentUserData["last_name"]}
+                      (currentUserData["last_name"]
+                        ? currentUserData["last_name"]
+                        : "")}
                   </CardText>
                 </div>
                 <div className="d-flex">
@@ -87,10 +89,12 @@ export default function UserProfilePage(props) {
                 </div>
                 <div className="container">
                   <div className="row">
-                    <div className="col-sm-12 col-md-12 col-lg-3">
-                      <CardText>Phone number:</CardText>
-                      <CardText as="h5">{currentUserData["phone"]}</CardText>
-                    </div>
+                    {currentUserData["phone"] && (
+                      <div className="col-sm-12 col-md-12 col-lg-3">
+                        <CardText>Phone number:</CardText>
+                        <CardText as="h5">{currentUserData["phone"]}</CardText>
+                      </div>
+                    )}
                     <div className="col-sm-12 col-md-12 col-lg-9">
                       <CardText>Email: </CardText>
                       <CardText as="h5">{currentUserData["email"]}</CardText>

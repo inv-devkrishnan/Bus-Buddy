@@ -10,18 +10,28 @@ import {
   CardText,
 } from "react-bootstrap";
 import { ArrowRight } from "react-bootstrap-icons";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+
 import { axiosApi } from "../../utils/axiosApi";
+import { useAuthStatus } from "../../utils/hooks/useAuth";
 
 const TravellerDetail = () => {
-  const [selectedSeats, setSelectedSeats] = useState([]);// to store the selected seat data
-  const [currentTrip, setCurrentTrip] = useState([]);// to store the current trip details
+  const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
+  const [currentTrip, setCurrentTrip] = useState([]); // to store the current trip details
   const navigate = useNavigate();
+  const authStatus = useAuthStatus();
 
   useEffect(() => {
+    if (authStatus) {
+      if (localStorage.getItem("user_role") !== "2") {
+        // if user is not user redirect to login
+        navigate("/login");
+      }
+    } else {
+      navigate("/login"); // if user not logged in redirect to login
+    }
     // stores data from local storage to use states
     const storedSeats = localStorage.getItem("seat_list");
     setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
@@ -49,6 +59,7 @@ const TravellerDetail = () => {
       let traveller = {
         traveller_name: formik.values[seatId]?.[`name_${seatId}`],
         traveller_dob: formik.values[seatId]?.[`dob_${seatId}`],
+        traveller_gender: formik.values[seatId]?.[`gender_${seatId}`],
         trip: parseInt(currentTrip.data.trip),
         seat: parseInt(seatId),
       };
@@ -96,7 +107,7 @@ const TravellerDetail = () => {
       acc[seat.id] = {
         [`name_${seat.id}`]: "",
         [`dob_${seat.id}`]: "",
-        [`gender_${seat.id}`]: "",
+        [`gender_${seat.id}`]: 1,
       };
       return acc;
     }, {}),
@@ -185,6 +196,7 @@ const TravellerDetail = () => {
                       onChange={() =>
                         handleInputChange(seatId, `gender_${seatId}`, 1)
                       }
+                      isInvalid={formik.errors[seatId]?.[`gender_${seatId}`]}
                     />
                     <Form.Check
                       name={`gender_${seatId}`}
@@ -198,10 +210,10 @@ const TravellerDetail = () => {
                       onChange={() =>
                         handleInputChange(seatId, `gender_${seatId}`, 2)
                       }
+                      isInvalid={formik.errors[seatId]?.[`gender_${seatId}`]}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {!formik.touched[seatId]?.[`gender_${seatId}`] &&
-                        formik.errors[seatId]?.[`gender_${seatId}`]}
+                      {formik.errors[seatId]?.[`gender_${seatId}`]}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Form.Group>
@@ -211,6 +223,7 @@ const TravellerDetail = () => {
           </Form>
         </CardBody>
       </Card>
+
       <Card style={{ width: "75%", padding: 10 }}>
         <CardTitle>Trip Details</CardTitle>
         <CardBody>
@@ -223,6 +236,7 @@ const TravellerDetail = () => {
               {currentTrip?.data?.start_location_arrival_time}
             </CardText>
             <CardText>
+              <br />
               <ArrowRight />
             </CardText>
             <CardText>
@@ -235,6 +249,7 @@ const TravellerDetail = () => {
           </div>
         </CardBody>
       </Card>
+
       <Card style={{ width: "75%", padding: 10 }}>
         <CardTitle>Payment Details</CardTitle>
         <CardBody>

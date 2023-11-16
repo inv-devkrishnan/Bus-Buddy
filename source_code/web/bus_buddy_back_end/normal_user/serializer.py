@@ -150,7 +150,7 @@ class TravellerDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookedSeats
-        fields = ["trip","traveller_name","traveller_dob","seat"]
+        fields = ["trip", "traveller_name", "traveller_dob", "traveller_gender", "seat"]
 
 
 class BookSeatSerializer(serializers.ModelSerializer):
@@ -158,7 +158,7 @@ class BookSeatSerializer(serializers.ModelSerializer):
     For booking seats
     """
 
-    booked_seats = TravellerDataSerializer(many=True,source="bookedseats_set")
+    booked_seats = TravellerDataSerializer(many=True, source="bookedseats_set")
 
     class Meta:
         model = Bookings
@@ -169,7 +169,7 @@ class BookSeatSerializer(serializers.ModelSerializer):
             "drop_off",
             "booking_id",
             "total_amount",
-            "booked_seats"
+            "booked_seats",
         ]
 
     def create(self, validated_data):
@@ -184,7 +184,7 @@ class CancelBookingSerializer(serializers.ModelSerializer):
     """
     For cancelling bookings
     """
-    
+
     class Meta:
         model = Bookings
         fields = ["status"]

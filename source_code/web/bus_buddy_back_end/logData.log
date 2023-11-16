@@ -1834,3 +1834,967 @@ UnboundLocalError: local variable 'serializer' referenced before assignment
 django.request WARNING 2023-11-14 10:33:34,021 log 55970 140111982356032 Unauthorized: /bus-owner/add-seat-details
 django.request WARNING 2023-11-14 10:35:15,168 log 55970 140111982356032 Unauthorized: /bus-owner/add-seat-details
 django.request WARNING 2023-11-14 10:36:04,713 log 56454 139736941323840 Unauthorized: /bus-owner/add-seat-details
+django.request WARNING 2023-11-14 12:07:58,697 log 57490 140720053675584 Unauthorized: /user/book-seat/
+django.request ERROR 2023-11-14 12:42:31,927 log 68488 139752927917632 Internal Server Error: /user/cancel-booking/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'booking_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 226, in put
+    return self.update(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 392, in update
+    booking_id = request.GET["booking_id"]
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'booking_id'
+django.request ERROR 2023-11-14 12:42:31,927 log 68488 139752927917632 Internal Server Error: /user/cancel-booking/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'booking_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 226, in put
+    return self.update(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 392, in update
+    booking_id = request.GET["booking_id"]
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'booking_id'
+django.request ERROR 2023-11-14 12:43:46,590 log 68488 139752927917632 Internal Server Error: /user/cancel-booking/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'booking_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 226, in put
+    return self.update(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 392, in update
+    booking_id = request.GET["booking_id"]
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'booking_id'
+django.request ERROR 2023-11-14 12:43:46,590 log 68488 139752927917632 Internal Server Error: /user/cancel-booking/
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+    list_ = super().__getitem__(key)
+KeyError: 'booking_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 226, in put
+    return self.update(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 392, in update
+    booking_id = request.GET["booking_id"]
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+    raise MultiValueDictKeyError(key)
+django.utils.datastructures.MultiValueDictKeyError: 'booking_id'
+django.request WARNING 2023-11-14 12:45:30,959 log 71976 140253458327104 Bad Request: /user/cancel-booking/
+django.request WARNING 2023-11-14 12:45:45,206 log 71976 140253458327104 Bad Request: /user/cancel-booking/
+django.request ERROR 2023-11-14 12:49:49,205 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:49:49,205 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:49:57,069 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:49:57,069 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:49:59,818 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:49:59,818 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:50:04,479 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:50:04,479 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:50:41,359 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:50:41,359 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:00,764 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:00,764 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:45,477 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:45,477 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:55,613 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-14 12:52:55,613 log 72515 140581308196416 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request WARNING 2023-11-16 04:28:17,490 log 11743 139834803877440 Unauthorized: /user/update-profile
+django.request WARNING 2023-11-16 04:28:26,810 log 11743 139834803877440 Unauthorized: /user/booking-history
+django.request ERROR 2023-11-16 04:28:26,999 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 04:28:26,999 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request WARNING 2023-11-16 04:30:05,129 log 11743 139834803877440 Unauthorized: /account/google-login/
+django.request WARNING 2023-11-16 04:30:18,384 log 11743 139834803877440 Unauthorized: /account/google-login/
+django.request WARNING 2023-11-16 04:30:36,875 log 11743 139834803877440 Unauthorized: /account/google-login/
+django.request ERROR 2023-11-16 05:05:19,177 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:05:19,177 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:07:14,179 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:07:14,179 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:09,393 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:09,393 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:40,413 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:40,413 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:42,115 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:42,115 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:44,082 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:08:44,082 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:09:01,761 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:09:01,761 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:09:05,609 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:09:05,609 log 11743 139834803877440 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 160, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:12:59,186 log 16750 139729240585792 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable
+django.request ERROR 2023-11-16 05:12:59,186 log 16750 139729240585792 Internal Server Error: /user/booking-history
+Traceback (most recent call last):
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/env/lib/python3.10/site-packages/rest_framework/generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+  File "/home/farsana.ka/Documents/Bus Buddy/source_code/web/bus_buddy_back_end/normal_user/views.py", line 159, in list
+    status = request.GET.get["status"]
+TypeError: 'method' object is not subscriptable

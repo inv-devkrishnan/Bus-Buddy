@@ -78,7 +78,6 @@ export default function UpdateForm() {
   }, [currentUserData]);
 
   return (
-    <>
       <Card className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
                 style={{
                   boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
@@ -159,6 +158,5 @@ export default function UpdateForm() {
           </Form>
         </Card.Body>
       </Card>
-    </>
   );
 }

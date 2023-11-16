@@ -20,6 +20,8 @@ function LandingPage() {
     localStorage.removeItem("drop_off");
     localStorage.removeItem("trip");
     localStorage.removeItem("total_amount");
+    localStorage.removeItem("current_trip");
+    localStorage.removeItem("seat_list");
   }, []);
 
   const getLocationData = async () => {

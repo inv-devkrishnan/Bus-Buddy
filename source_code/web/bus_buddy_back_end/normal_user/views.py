@@ -22,6 +22,7 @@ from .serializer import (
     BookSeatSerializer,
     CancelBookingSerializer,
 )
+import random
 
 
 class ViewSeats(ListAPIView):
@@ -154,10 +155,10 @@ class BookingHistory(ListAPIView):
     pagination_class = CustomPagination
 
     def list(self, request):
+        user_id = request.user.id
+        status = request.GET.get("status")
         try:
-            user_id = request.user.id
-            status = request.GET["status"]
-            if (status in {"0", "1", "99"}):
+            if status in {"0", "1", "99"}:
                 queryset = Bookings.objects.filter(user=user_id, status=status)
             else:
                 queryset = Bookings.objects.filter(user=user_id)
@@ -354,24 +355,34 @@ class BookSeat(APIView):
     Returns:
         json : success message
     """
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         user_id = request.user.id
+        role = request.user.role
         now = datetime.now()
-        date_string = now.strftime("%Y%M")
+        year_string = now.strftime("%Y")
+        random_number = random.randrange(0, 99999)
 
         try:
-            request_data = request.data.copy()
-            request_data["user"] = user_id
-            request_data["booking_id"] = "BK" + str(user_id) + "Y" + date_string # for generating unique booking id
-            serializer = BookSeatSerializer(data=request_data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"message": "Seat booked successfully"}, status=201)
+            if role == 2:
+                request_data = request.data.copy()
+                request_data["user"] = user_id
+                request_data["booking_id"] = (
+                    "BK" + str(user_id) + "YR" + year_string + str(random_number)
+                )  # for generating unique booking id
+                serializer = BookSeatSerializer(data=request_data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"message": "Seat booked successfully"}, status=201)
+                else:
+                    print(serializer.errors)
+                    return Response(serializer.errors, status=200)
             else:
-                print(serializer.errors)
-                return Response(serializer.errors, status=200)
+                return Response(
+                    {"authorization failed": "Unauthorized user"}, status=401
+                )
         except Exception as e:
             return Response("errors:" f"{e}", status=400)
 
@@ -386,14 +397,15 @@ class CancelBooking(UpdateAPIView):
     Returns:
         json : success message
     """
+
     permission_classes = (IsAuthenticated,)
 
     def update(self, request):
-        booking_id = request.GET["booking_id"]
+        booking_id = request.GET.get("booking_id")
 
         try:
             instance = Bookings.objects.get(id=booking_id)
-            current_data = {"status": 99} # status 99 denotes the cancelled bookings
+            current_data = {"status": 99}  # status 99 denotes the cancelled bookings
             serializer = CancelBookingSerializer(
                 instance, data=current_data, partial=True
             )

@@ -23,7 +23,7 @@ class BaseTest(TestCase):
             "phone": "9495130217",
         }
 
-        self.invalid_names = { 
+        self.invalid_names = {
             "first_name": "56",
             "last_name": "789",
             "email": valid_email,
@@ -102,15 +102,15 @@ class BaseTest(TestCase):
             "password": "AJghjDFHGUSH1",
             "phone": valid_phone,
         }
-        
+
         self.update_valid_all_values = {
             "first_name": valid_first_name,
             "last_name": valid_last_name,
             "email": valid_email,
             "phone": valid_phone,
         }
-        
-        self.update_invalid_names = { 
+
+        self.update_invalid_names = {
             "first_name": "56",
             "last_name": "789",
             "email": valid_email,
@@ -138,6 +138,27 @@ class BaseTest(TestCase):
             "phone": "987654321o",
         }
 
+        # self.book_seat_valid_data = {
+        #     "total_amount": 175,
+        #     "trip": 4,
+        #     "pick_up": 1,
+        #     "drop_off": 3,
+        #     "booked_seats": [
+        #         {
+        #             "traveller_name": "Anand",
+        #             "traveller_dob": "1987-11-12",
+        #             "trip": 4,
+        #             "seat": 31,
+        #         },
+        #         {
+        #             "traveller_name": "Priya",
+        #             "traveller_dob": "1990-12-01",
+        #             "trip": 4,
+        #             "seat": 32,
+        #         },
+        #     ],
+        # }
+
         return super().setUp()
 
 
@@ -160,84 +181,120 @@ class RegisterUserTest(BaseTest):
 
     def test_cant_register_user_with_invalid_phone_length(self):
         print("4")
-        response = self.client.post(self.register, self.invalid_phone_length, format="json")
+        response = self.client.post(
+            self.register, self.invalid_phone_length, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_phone_alphabet(self):
         print("5")
-        response = self.client.post(self.register, self.invalid_phone_alphabet, format="json")
+        response = self.client.post(
+            self.register, self.invalid_phone_alphabet, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_length_less_than_eight(self):
         print("6")
-        response = self.client.post(self.register, self.invalid_password_length_less_than_eight, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_length_less_than_eight, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_length_more_than_twenty(self):
         print("7")
-        response = self.client.post(self.register, self.invalid_password_length_more_than_twenty, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_length_more_than_twenty, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_capital_letter(self):
         print("8")
-        response = self.client.post(self.register, self.invalid_password_no_capital_letter, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_no_capital_letter, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_small_letter(self):
         print("9")
-        response = self.client.post(self.register, self.invalid_password_no_small_letter, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_no_small_letter, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_number(self):
         print("10")
-        response = self.client.post(self.register, self.invalid_password_no_number, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_no_number, format="json"
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_register_user_with_invalid_password_no_special_character(self):
         print("11")
-        response = self.client.post(self.register, self.invalid_password_no_special_character, format="json")
+        response = self.client.post(
+            self.register, self.invalid_password_no_special_character, format="json"
+        )
         self.assertEqual(response.status_code, 400)
-        
-        
+
+
 class UpdateUserTest(BaseTest):
     def test_can_update_user(self):
         print("12")
         self.client.post(self.register, self.valid_all_values, format="json")
-        response = self.client.put(reverse("update-profile",kwargs={"id":2}), self.update_valid_all_values, format="json")
+        response = self.client.put(
+            reverse("update-profile", kwargs={"id": 2}),
+            self.update_valid_all_values,
+            format="json",
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_cant_update_user_with_invalid_names(self):
         print("13")
         self.client.post(self.register, self.valid_all_values, format="json")
-        response = self.client.put(reverse("update-profile",kwargs={"id":3}), self.invalid_names, format="json")
+        response = self.client.put(
+            reverse("update-profile", kwargs={"id": 3}),
+            self.invalid_names,
+            format="json",
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_length(self):
         print("14")
         self.client.post(self.register, self.valid_all_values, format="json")
-        response = self.client.put(reverse("update-profile",kwargs={"id":5}), self.invalid_phone_length, format="json")
+        response = self.client.put(
+            reverse("update-profile", kwargs={"id": 5}),
+            self.invalid_phone_length,
+            format="json",
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_alphabet(self):
         print("15")
         self.client.post(self.register, self.valid_all_values, format="json")
-        response = self.client.put(reverse("update-profile",kwargs={"id":4}), self.invalid_phone_alphabet, format="json")
+        response = self.client.put(
+            reverse("update-profile", kwargs={"id": 4}),
+            self.invalid_phone_alphabet,
+            format="json",
+        )
         self.assertEqual(response.status_code, 400)
+
 
 class ViewTripsTest(BaseTest):
     def test_01_can_view_trips(self):
         view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=1"
-        response = self.client.get(view_trips_url,format="json")
-        self.assertEqual(response.status_code,200)
-    
+        response = self.client.get(view_trips_url, format="json")
+        self.assertEqual(response.status_code, 200)
+
     def test_02_cant_view_trips_with_missing_params(self):
         view_trips_url = f"{reverse('view-trip')}"
-        response = self.client.get(view_trips_url,format="json")
-        self.assertEqual(response.status_code,400)
-        
+        response = self.client.get(view_trips_url, format="json")
+        self.assertEqual(response.status_code, 400)
+
     def test_03_cant_view_trips_with_invalid_page(self):
         view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=-1"
-        response = self.client.get(view_trips_url,format="json")
-        self.assertEqual(response.status_code,204)         
-    
-        
+        response = self.client.get(view_trips_url, format="json")
+        self.assertEqual(response.status_code, 204)
+
+
+# class BookingSeatTest(BaseTest):
+#     def test_01_can_book_seat(self):
+#         self.client.post()

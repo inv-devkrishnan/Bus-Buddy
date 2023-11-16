@@ -18,7 +18,7 @@ export default function UserDashboard() {
   useEffect(() => {
     if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
-        // if user is not admin redirect to login
+        // if user is not user redirect to login
         navigate("/login");
       }
     } else {

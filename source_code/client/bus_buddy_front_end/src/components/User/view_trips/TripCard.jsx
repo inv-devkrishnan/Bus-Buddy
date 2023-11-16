@@ -30,8 +30,8 @@ function TripCard(props) {
     <>
       <Container>
         <Row>
-          <Col md={12}>
-            <Card className="p-3 mt-3 mb-3" style={{ width: "80%" }}>
+          <Col md={12} lg={16}>
+            <Card className="p-3 mt-3 mb-3" style={{ width: "100%" }}>
               <CardBody>
                 <Container>
                   <Row>

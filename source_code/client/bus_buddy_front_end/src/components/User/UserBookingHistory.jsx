@@ -215,7 +215,7 @@ export default function UserBookingHistory() {
                 <div className="d-flex m-5">
                   <ExclamationCircle color="grey" size={90}></ExclamationCircle>
                   <div className="ms-3">
-                    <h2>No booking data Found !!</h2>
+                    <h3>No booking data Found !!</h3>
                     <h6>Your booking history is empty</h6>
                   </div>
                 </div>

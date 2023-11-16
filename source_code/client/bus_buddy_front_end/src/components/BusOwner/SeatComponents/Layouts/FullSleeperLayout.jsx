@@ -9,7 +9,8 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import { axiosApi } from "../../../../utils/axiosApi";
 
 export default function FullSleeperLayout(props) {
-  const { updateCurrentData, reRender } = useContext(AddSeatContext);
+  const { updateCurrentData, currentData, reRender } =
+    useContext(AddSeatContext);
 
   useEffect(() => {
     console.log(reRender);
@@ -24,6 +25,7 @@ export default function FullSleeperLayout(props) {
         console.log("error");
       });
   }, [reRender, props.bus]);
+  console.log(currentData);
 
   return (
     <Grid container spacing={12} justifyContent="space-evenly">
