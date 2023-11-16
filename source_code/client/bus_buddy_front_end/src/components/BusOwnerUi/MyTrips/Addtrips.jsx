@@ -141,6 +141,7 @@ export default function Addtrips() {
                   <DatePicker
                     selected={selectedStartDate}
                     onChange={(date) => setSelectedStartDate(date)}
+                    className="form-control" 
                     dateFormat="yyyy-MM-dd"
                   />
                 </Form.Group>
@@ -149,6 +150,7 @@ export default function Addtrips() {
                   <DatePicker
                     selected={selectedEndDate}
                     onChange={(date) => setSelectedEndDate(date)}
+                    className="form-control" 
                     dateFormat="yyyy-MM-dd"
                   />
                 </Form.Group>

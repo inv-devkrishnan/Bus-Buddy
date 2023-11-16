@@ -21,7 +21,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import LandingPage from "./pages/LandingPage";
 import UpdateForm from './components/User/UpdateFormCard';
 import Addtrips from './components/BusOwnerUi/MyTrips/Addtrips';
-
+import UpdateTrips from './components/BusOwnerUi/MyTrips/UpdateTrips';
 function App() {
   return (   
     <div>
@@ -45,6 +45,7 @@ function App() {
               <Route path="/user-dashboard" element={<UserDashboard />} />
               <Route path="view-trips" element={<ViewRoutes/>}/>
               <Route path="add-trips" element={<Addtrips/>}/>
+              <Route path="update-trips" element={<UpdateTrips/>}/>
             </Routes>
     </div>
   );

@@ -9,37 +9,59 @@ import { useFormik } from "formik";
 import { UpdateBusSchema } from "../UpdateBusSchema";
 import { axiosApi } from "../../../utils/axiosApi";
 
-export default function Updatebus() {
+export default function Updatetrips() {
   
   const location = useLocation();
   const bus = location.state;
+  const [busData, setBusData] = useState([]);
+  const [routeData, setRouteData] = useState([]);
   const navi = useNavigate();
-  const [currentBusData, setCurrentBusData] = useState([]);
+  const [currentTripData, setCurrentTripData] = useState([]);
   console.log(bus);
   let id=bus;
 
+
+  useEffect(() => {
+    // Fetch Bus data
+    axiosApi
+      .get("http://localhost:8000/bus-owner/view-bus/")
+      .then((response) => {
+        setBusData(response.data.results);
+      })
+      .catch((error) => console.error("Error fetching Bus data:", error));
+
+    // Fetch Route data
+    axiosApi
+      .get("http://127.0.0.1:8000/bus-owner/view-routes/")
+      .then((response) => {
+        setRouteData(response.data.results);
+      })
+      .catch((error) => console.error("Error fetching Route data:", error));
+  }, []);
+
   useEffect(() => {
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/update-bus/${bus}/`)
+      .get(`http://127.0.0.1:8000/bus-owner/update-trip/${bus}/`)
       .then((res) => {
-        setCurrentBusData(res.data);
+        setCurrentTripData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
-        alert("Bus does not exist!!");
+        alert("trip does not exist!!");
       });
   }, []);
 
   useEffect(() => {
     formik.setValues({
-      id: currentBusData["id"],
-      busName: currentBusData["bus_name"],
-      plateno: currentBusData["plate_no"],
-      bustype: currentBusData["bus_type"],
-      busac: currentBusData["bus_ac"],
-      busseattype: currentBusData["bus_seat_type"],
+      id: currentTripData["id"],
+      bus: currentTripData["bus"],
+      route: currentTripData["route"],
+      start_date: currentTripData["start_date"],
+      end_date: currentTripData["end_date"],
+      start_time: currentTripData["start_time"],
+      end_time: currentTripData["end_time"],
     });
-  }, [currentBusData]);
+  }, [currentTripData]);
 
   const onSubmit = () => {
     // if (plate_no < 0 || plate_no > 10) {
@@ -47,30 +69,30 @@ export default function Updatebus() {
     // }
 
     try {
-      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
-        bus_name:formik.values.busName,
-        plate_no: formik.values.plateno,
-        bus_type: formik.values.bustype,
-        bus_ac: formik.values.busac,
-        bus_seat_type: formik.values.busseattype,
-
+      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`, {
+        bus:formik.values.busName,
+        route: formik.values.routeName,
+        start_date: formik.values.startdate,
+        end_date: formik.values.enddate,
+        start_time: formik.values.starttime,
+        end_time: formik.values.endtime,
       });
       console.log("updated");
       const bus = { id: id };
       console.log(bus);
-      navi("/Updateamenities", { state: id });
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error updating:", error);
     }
   };
   const formik = useFormik({
     initialValues: {
-      id: "",
-      busName: "",
-      plateno: "",
-      bustype: "",
-      busac: "",
-      busseattype:""
+        bus: "",
+        route: "",
+        start_date: "",
+        end_date: "",
+        start_time: "",
+        end_time:""
     },
     validationSchema: UpdateBusSchema,
     onSubmit,
@@ -87,93 +109,84 @@ export default function Updatebus() {
     >
       <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
-          <Card.Title style={{ textAlign: "center" }}>Update Bus</Card.Title>
+          <Card.Title style={{ textAlign: "center" }}>Update Trip</Card.Title>
           <div style={{ display: "flex" }}>
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "3rem" }}>
-              <Row className="mb-1">
-                <Form.Group as={Col} md="3" controlId="validationCustom01">
-                  <Form.Label>Bus</Form.Label>
-                  <Form.Control
-                    required
-                    name="id"
-                    type="text"
-                    value={formik.values.id || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.id && formik.errors.id}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.id}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
               <Row className="mb-5">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                   <Form.Label>Bus Name</Form.Label>
                   <Form.Control
-                    name="busName"
-                    type="text"
-                    value={formik.values.busName || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.busName && formik.errors.busName}
-                  />
-
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.busName}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom02">
-                  <Form.Label>Plate Number</Form.Label>
-                  <Form.Control
-                    name="plateno"
-                    type="text"
-                    value={formik.values.plateno || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.plateno && formik.errors.plateno}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.plateno}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
-                  <Form.Label>Bus Type</Form.Label>
-                  <Form.Control
-                    name="bustype"
-                    as="select"
-                    value={formik.values.bustype || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.bustype && formik.errors.bustype}
-                  >
-                    <option value="">updated option</option>
-                    <option value="0"> Low floor </option>
-                    <option value="1"> Multi axel </option>
-                    <option value="2"> Both </option>
-                  </Form.Control>
-
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.bustype}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
-                  <Form.Label>Bus Seat Type</Form.Label>
-                  <Form.Control
                     name="busseattype"
                     as="select"
-                    value={formik.values.busseattype || ""}
+                    value={formik.values.busName || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isInvalid={
                       formik.touched.busseattype && formik.errors.busseattype
                     }
                   >
-                    <option value="">updated option</option>
-                    <option value="0"> Sleeper </option>
-                    <option value="1"> Seater </option>
-                    <option value="2"> Both </option>
+                  <option value="">Select option</option>
+                  {busData.map((bus) => (
+                    <option key={bus.id} value={bus.id}>
+                      {bus.bus_name}
+                    </option>
+                    ))}
+                    </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.busName}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                  <Form.Label>Route</Form.Label>
+                  <Form.Control
+                    name="busseattype"
+                    as="select"
+                    value={formik.values.routeName || ""}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isInvalid={
+                      formik.touched.busseattype && formik.errors.busseattype
+                    }
+                  >
+                  <option value="">Select option</option>
+                    {routeData.map((route) => (
+                      <option key={route.id} value={route.id}>
+                        {route.start_point_name} - {route.end_point_name}
+                      </option>
+                    ))}
+                    </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.plateno}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                  <Form.Label>Start Date</Form.Label>
+                  <Form.Control
+                    name="bustype"
+                    as="text"
+                    value={formik.values.startdate || ""}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.bustype && formik.errors.bustype}
+                  >
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.bustype}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                  <Form.Label>End Date</Form.Label>
+                  <Form.Control
+                    name="busseattype"
+                    as="text"
+                    value={formik.values.enddate || ""}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isInvalid={
+                      formik.touched.busseattype && formik.errors.busseattype
+                    }
+                  >
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.busseattype}
