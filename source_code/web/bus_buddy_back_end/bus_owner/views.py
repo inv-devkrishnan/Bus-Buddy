@@ -61,27 +61,30 @@ class AddSeatDetails(APIView):
 
         try:
             bus_instance = get_object_or_404(Bus, id=bus_id, user=user_id)
+            logger.info(bus_instance, "current bus")
             count = SeatDetails.objects.filter(bus=bus_id).count()
             if count == 30:
                 bus_instance.bus_details_status = 2
                 bus_instance.save()
-                return Response(
-                    {"data": "All seats have been registered"}, status=200
-                )
+                logger.info("seat detail complete")
+                return Response({"data": "All seats have been registered"}, status=200)
             else:
                 if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
+                    logger.info("seat already registered")
                     return Response(
                         {"data": "seat detail already registered"}, status=200
                     )
                 else:
                     if serialized_data.is_valid():
                         serialized_data.save()
+                        logger.info("seat data saved successfully")
                         return Response(
                             {"message": "details added successfully"}, status=201
                         )
                     else:
                         return Response(serialized_data.errors, status=200)
         except Exception as e:
+            logger.info(e)
             return Response({"error": f"{e}"}, status=400)
 
 
@@ -104,8 +107,10 @@ class GetSeatDetails(APIView):
             if SeatDetails.objects.filter(bus=bus_id):
                 request_data = SeatDetails.objects.filter(bus=bus_id)
                 serialized_data = GetSeatSerializer(request_data, many=True)
+                logger.info(serialized_data)
                 return Response(serialized_data.data)
             else:
+                logger.info(serialized_data.errors)
                 return Response({"data": "no data"}, status=200)
         except Exception as e:
             return Response({"error": f"{e}"}, status=400)
@@ -128,15 +133,18 @@ class RegisterBusOwner(APIView):
         try:
             request_data = request.data.copy()
             request_data["role"] = 3
-            print(request_data)
+            logger.info(request_data)
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()
+                logger.info(serialized_data.data)
                 return Response({"message": "registration successfull"}, status=201)
             else:
+                logger.info(serialized_data.errors)
                 return Response(serialized_data._errors, status=400)
 
         except Exception as e:
+            logger.info(e)
             return Response("error:" f"{e}", status=400)
 
 
@@ -158,6 +166,7 @@ class UpdateBusOwner(UpdateAPIView):
             return Response(status=404)
 
         serialized_data = ODS(user)
+        logger.info(serialized_data.data)
         return Response(serialized_data.data)
 
     def update(self, request):
@@ -168,8 +177,10 @@ class UpdateBusOwner(UpdateAPIView):
             serializer = OMS(instance, data=current_data, partial=True)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
+            logger.info(serializer.data)
             return Response({"message": "updated succesffully"}, status=200)
         except ValueError:
+            logger.info(serializer.errors)
             return Response(serializer.errors, status=400)
 
     def put(self, request):

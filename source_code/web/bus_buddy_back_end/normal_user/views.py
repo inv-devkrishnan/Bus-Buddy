@@ -23,6 +23,9 @@ from .serializer import (
     CancelBookingSerializer,
 )
 import random
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ViewSeats(ListAPIView):
@@ -60,6 +63,7 @@ class ViewSeats(ListAPIView):
             total_data = (
                 pick_and_drop_array + serializer.data
             )  # both seat data and pick and drop data
+            logger.info(total_data)
             return Response(total_data, status=200)
         except Exception as e:
             return Response("errors:" f"{e}", status=400)
@@ -77,11 +81,13 @@ class RegisterUser(APIView):
             serialized_data = UMS(data=request.data)
             if serialized_data.is_valid():
                 serialized_data.save()
+                logger.info("user registered")
                 return Response({"message": "registration successfull"}, status=201)
             else:
-                print(serialized_data.errors)
+                logger.info(serialized_data.errors)
                 return Response(serialized_data.errors, status=200)
         except Exception as e:
+            logger.info(e)
             return Response("errors:" f"{e}", status=400)
 
 
@@ -100,6 +106,7 @@ class UpdateProfile(UpdateAPIView):
             return Response(status=404)
 
         serialized_data = UDS(user)
+        logger.info(serialized_data.data)
         return Response(serialized_data.data)
 
     def update(self, request):
@@ -111,10 +118,13 @@ class UpdateProfile(UpdateAPIView):
                 serializer = UMS(instance, data=current_data, partial=True)
                 serializer.is_valid(raise_exception=True)
                 self.perform_update(serializer)
+                logger.info(serializer.data)
                 return Response({"message": "updated succesffully"}, status=200)
             else:
+                logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
         except Exception as e:
+            logger.info(e)
             return Response("errors:" f"{e}", status=400)
 
     def put(self, request):
@@ -171,9 +181,11 @@ class BookingHistory(ListAPIView):
                 return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "bookimg history")
             return Response(serializer.data)
 
         except ValueError:
+            logger.info(serializer.errors)
             return Response(serializer._errors)
 
 
@@ -375,15 +387,17 @@ class BookSeat(APIView):
                 serializer = BookSeatSerializer(data=request_data)
                 if serializer.is_valid():
                     serializer.save()
+                    logger.info("seat booked")
                     return Response({"message": "Seat booked successfully"}, status=201)
                 else:
-                    print(serializer.errors)
+                    logger.info(serializer.errors)
                     return Response(serializer.errors, status=200)
             else:
                 return Response(
                     {"authorization failed": "Unauthorized user"}, status=401
                 )
         except Exception as e:
+            logger.info(e)
             return Response("errors:" f"{e}", status=400)
 
 
@@ -411,8 +425,11 @@ class CancelBooking(UpdateAPIView):
             )
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
+                logger.info("booking cancelled")
                 return Response({"message": "cancelled succesffully"}, status=200)
             else:
+                logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
         except Exception as e:
+            logger.info(e)
             return Response("errors:" f"{e}", status=400)
