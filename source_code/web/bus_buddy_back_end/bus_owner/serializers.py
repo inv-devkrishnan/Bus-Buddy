@@ -201,6 +201,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "aadhaar_no",
             "msme_no",
             "extra_charges",
+            "status",
             "role",
         )
 

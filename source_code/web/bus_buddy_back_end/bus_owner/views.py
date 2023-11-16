@@ -132,6 +132,7 @@ class RegisterBusOwner(APIView):
     def post(self, request):
         try:
             request_data = request.data.copy()
+            request_data["status"] = 3
             request_data["role"] = 3
             logger.info(request_data)
             serialized_data = OMS(data=request_data)
