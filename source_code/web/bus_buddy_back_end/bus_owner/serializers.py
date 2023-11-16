@@ -8,7 +8,7 @@ from .models import (
     PickAndDrop,
     StartStopLocations,
     LocationData,
-    SeatDetails
+    SeatDetails,
 )
 from .models import User
 from .models import Trip
@@ -102,12 +102,11 @@ class PickAndDropSerializer(serializers.ModelSerializer):
             "landmark",
             "start_stop_location",
             "route",
-        )    
+        )
 
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
-
-    pick_and_drop = PickAndDropSerializer(many=True, source='stops')
+    pick_and_drop = PickAndDropSerializer(many=True, source="stops")
 
     class Meta:
         model = StartStopLocations
@@ -119,9 +118,8 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
             "departure_time",
             "departure_date_offset",
             "route",
-            "pick_and_drop"
-        )    
-
+            "pick_and_drop",
+        )
 
 
 class RoutesSerializer(serializers.ModelSerializer):
@@ -129,7 +127,17 @@ class RoutesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Routes
-        fields = ['id', 'user','start_point', 'end_point', 'via', 'travel_fare', 'duration', 'distance', 'location']
+        fields = [
+            "id",
+            "user",
+            "start_point",
+            "end_point",
+            "via",
+            "travel_fare",
+            "duration",
+            "distance",
+            "location",
+        ]
 
     def create(self, validated_data):
         start_stop_locations = validated_data.pop("location")
@@ -138,8 +146,10 @@ class RoutesSerializer(serializers.ModelSerializer):
             pad_obj = data.pop("stops")
             ssl_obj = StartStopLocations.objects.create(route=routes, **data)
             for i in pad_obj:
-                PickAndDrop.objects.create(route=routes, start_stop_location=ssl_obj, **i)
-                
+                PickAndDrop.objects.create(
+                    route=routes, start_stop_location=ssl_obj, **i
+                )
+
         return routes
 
 
@@ -284,18 +294,25 @@ class OwnerDataSerializer(serializers.ModelSerializer):
 
 
 class SeatDetailSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = SeatDetails
-        fields = "__all__"
-    
+        fields = ("seat_number", "seat_ui_order", "seat_type", "deck", "seat_cost")
+
     seat_number = serializers.CharField(max_length=50)
     seat_type = serializers.IntegerField(default=0)
     deck = serializers.IntegerField(default=0)
     seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
+    seat_ui_order = serializers.IntegerField()
 
 
 class GetSeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeatDetails
-        fields=('id', 'seat_number', 'seat_ui_order', 'seat_type', 'deck', 'seat_cost')
+        fields = (
+            "id",
+            "seat_number",
+            "seat_ui_order",
+            "seat_type",
+            "deck",
+            "seat_cost",
+        )
