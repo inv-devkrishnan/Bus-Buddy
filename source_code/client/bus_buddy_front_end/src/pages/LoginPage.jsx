@@ -118,7 +118,7 @@ function LoginPage() {
     setValidated(true);
   };
   return (
-    <Container className="mt-5">
+    <Container fluid className="mt-5">
       <Row>
         <Col>
           <Image src={LoginSplash} fluid></Image>

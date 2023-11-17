@@ -20,12 +20,11 @@ function ChangePassword() {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (!authStatus()) {   // if user not logged in redirect to login page
+    if (!authStatus()) {
+      // if user not logged in redirect to login page
       navigate("/login");
-    }
-    else if(localStorage.getItem("account_provider")==="1")
-    {
-      navigate("/login") // if user is a google user redirect to login page
+    } else if (localStorage.getItem("account_provider") === "1") {
+      navigate("/login"); // if user is a google user redirect to login page
     }
   }, [authStatus, navigate]);
 
@@ -86,10 +85,10 @@ function ChangePassword() {
       const response = await changePassword(passwordData);
       if (response.status) {
         await Swal.fire({
-          icon: 'success',
-          title: 'Password Changed Successfully',
-          text: 'Now you will be redirected to login page',
-        }) // shows the logout modal
+          icon: "success",
+          title: "Password Changed Successfully",
+          text: "Now you will be redirected to login page",
+        }); // shows the logout modal
         logout();
       } else {
         const error = response?.message?.response?.data?.error_code;
@@ -102,7 +101,7 @@ function ChangePassword() {
     }
   };
   return (
-    <Container className="mt-3">
+    <Container fluid className="mt-3">
       <Row>
         <Col>
           <h1>Change password</h1>
@@ -168,8 +167,9 @@ function ChangePassword() {
             </Button>
           </Form>
         </Col>
+
         <Col>
-          <Card className="p-5 m-5">
+          <Card className="p-3 m-2" style={{ width: "100%" }}>
             <Card.Title className="text-center">
               Password Requirements
             </Card.Title>

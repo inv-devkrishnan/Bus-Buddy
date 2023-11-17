@@ -64,7 +64,7 @@ export default function UserDashboard() {
   ];
 
   return (
-    <div className="d-flex">
+    <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
           <SideBar heading={userName} options={options} />
       </div>

@@ -14,7 +14,7 @@ export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
   const [pageSize, setPageSize] = useState(1); // for storing page size
   const [currentPage, setCurrentPage] = useState(1); // for finding current page
-  const [page, setPage] = useState(1);// for storing page number
+  const [page, setPage] = useState(1); // for storing page number
   const [status, setStatus] = useState(); // for storing status
   const [next, setNext] = useState(1); // for finding next
   const [previous, setPrevious] = useState(1); // for finding previous
@@ -37,7 +37,7 @@ export default function UserBookingHistory() {
         setPageSize(res.data.page_size);
       })
       .catch((err) => {});
-  }, [page,status]);
+  }, [page, status]);
 
   const handlePrevious = () => {
     // for moving to previous page
@@ -74,7 +74,7 @@ export default function UserBookingHistory() {
 
   let items = [];
   for (let number = 1; number <= totalPages; number++) {
-    // for generating pagination 
+    // for generating pagination
     items.push(
       <Pagination.Item
         key={number}
@@ -120,6 +120,17 @@ export default function UserBookingHistory() {
     </div>
   );
 
+  const getStatusColor = (data) => {
+    // for colours in table
+    if (data?.status === 99) {
+      return "tomato";
+    } else if (data?.status === 1) {
+      return "yellowgreen";
+    } else {
+      return "cornflowerblue";
+    }
+  };
+
   return (
     <>
       <div className="d-flex flex-column p-2 bd-highlight">
@@ -128,9 +139,7 @@ export default function UserBookingHistory() {
         </div>
         <div className="d-flex m-3 justify-content-end">
           <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic">
-              Show
-            </Dropdown.Toggle>
+            <Dropdown.Toggle id="dropdown-basic">Show</Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item
@@ -165,22 +174,30 @@ export default function UserBookingHistory() {
           </Dropdown>
         </div>
         <div className="flex-fill m-3">
-          <Table>
-            <thead>
+          <Table hover responsive="sm">
+            <thead style={{color:"blueviolet"}}>
               <tr>
                 <th>SI No.</th>
                 <th>Booking Id</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Departure time</th>
-                <th>Action</th>
+                <th>Details</th>
               </tr>
+            </thead>
+            <tbody>
               {bookingData.length !== 0 ? (
                 <>
                   {bookingData.map((data, key) => (
                     <tr key={data?.id}>
                       <th>{key + (currentPage - 1) * pageSize + 1}</th>
-                      <th>{data?.booking_id}</th>
+                      <th
+                        style={{
+                          color: getStatusColor(data),
+                        }}
+                      >
+                        {data?.booking_id}
+                      </th>
                       <th>
                         {
                           data?.pick_up?.start_stop_location?.location
@@ -214,13 +231,12 @@ export default function UserBookingHistory() {
               ) : (
                 <div className="d-flex m-5">
                   <ExclamationCircle color="grey" size={90}></ExclamationCircle>
-                  <div className="ms-3">
+                  <div className="m-3">
                     <h3>No booking data Found !!</h3>
-                    <h6>Your booking history is empty</h6>
                   </div>
                 </div>
               )}
-            </thead>
+            </tbody>
           </Table>
         </div>
         <div
