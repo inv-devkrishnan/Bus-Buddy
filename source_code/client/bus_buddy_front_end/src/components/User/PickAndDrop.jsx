@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-
+import "./PickAndDrop.css"
 import { Typography, Card, CardContent, Radio } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -47,7 +47,6 @@ export default function PickAndDrop(props) {
     },
   ];
 
-
   const columnsDrop = [
     // holds the column details of drop off point datagrid
     {
@@ -89,8 +88,8 @@ export default function PickAndDrop(props) {
       <Typography gutterBottom variant="h5">
         Pick up and Drop off points
       </Typography>
-      <CardContent className="d-flex flex-lg-row flex-sm-column flex-xs-column flex-md-row">
-        <div style={{ height: 375, width: "50%", margin: 4 }}>
+      <CardContent className="d-flex flex-column flex-lg-row justify-content-around m-3 p-1">
+        <div className="media-query-div">
           <Typography gutterBottom variant="body1" component="div">
             Pick Up point
           </Typography>
@@ -117,7 +116,7 @@ export default function PickAndDrop(props) {
             }}
           />
         </div>
-        <div style={{ height: 375, width: "50%", margin: 4 }}>
+        <div className="media-query-div">
           <Typography gutterBottom variant="body1" component="div">
             Drop Off point
           </Typography>

@@ -18,17 +18,15 @@ export default function ViewSeatDetails(props) {
   return (
     <Grid
       container
-      m={1}
-      p={1}
       spacing={2}
       alignItems="flex-start"
-      justifyContent="space-between"
+      // justifyContent="space-between"
     >
-      <Grid item md={12} xs={12} sm={12} lg={4} xl={4}>
+      <Grid item md={12} sm={12} lg={4} xl={4}>
         <UserLayout trip={props.currentTrip.data.trip} />
       </Grid>
 
-      <Grid item md={12} xs={12} sm={12} lg={8} xl={8}>
+      <Grid item md={12} sm={12} lg={8} xl={8}>
         {seatList.length ? (
           <PickAndDrop
             selectionModelPick={selectionModelPick}

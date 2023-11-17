@@ -122,8 +122,8 @@ const TravellerDetail = () => {
   };
 
   return (
-    <div className="d-flex align-items-center justify-conyent-center flex-column m-5">
-      <Card style={{ width: "75%", padding: 10 }}>
+    <div className="d-flex align-items-center justify-conyent-center flex-column m-2">
+      <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Traveller Details</CardTitle>
         <CardBody>
           <Form onSubmit={formik.handleSubmit}>
@@ -133,7 +133,7 @@ const TravellerDetail = () => {
               return (
                 <Form.Group
                   key={seatId}
-                  className="d-flex m-3 p-1"
+                  className="d-flex flex-column flex-lg-row m-3 p-1"
                   controlId={`form_${seatId}`}
                 >
                   <Form.Group className="d-flex align-self-center flex-column m-2">
@@ -224,7 +224,7 @@ const TravellerDetail = () => {
         </CardBody>
       </Card>
 
-      <Card style={{ width: "75%", padding: 10 }}>
+      <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Trip Details</CardTitle>
         <CardBody>
           <div className="d-flex justify-content-around">
@@ -250,7 +250,7 @@ const TravellerDetail = () => {
         </CardBody>
       </Card>
 
-      <Card style={{ width: "75%", padding: 10 }}>
+      <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
           <CardText style={{ margin: 5 }}>

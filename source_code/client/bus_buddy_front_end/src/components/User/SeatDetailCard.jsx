@@ -58,8 +58,8 @@ export default function SeatDetailCard(props) {
 
   return (
     <Card sx={{ width: "90%", margin: 4, padding: 2, boxShadow: 5 }}>
-      <div style={{ display: "flex" }}>
-        <div style={{ width: "55%" }}>
+      <div className="d-flex flex-column flex-lg-row">
+        <div style={{ width: "100%" }}>
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Seat Details
           </Typography>

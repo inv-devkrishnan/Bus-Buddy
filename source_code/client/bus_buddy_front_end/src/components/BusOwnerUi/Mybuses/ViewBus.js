@@ -148,7 +148,7 @@ export default function Viewallbus() {
                   className="btn btn-primary"
                   onClick={()=>addSeatDetails(viewbus.id)}
                 >
-                  Add Seat Details
+                  Seat Details
                 </button>
                 <button
                   className="btn btn-danger"

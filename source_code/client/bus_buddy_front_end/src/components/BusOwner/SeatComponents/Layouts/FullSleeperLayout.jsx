@@ -16,7 +16,7 @@ export default function FullSleeperLayout(props) {
     console.log(reRender);
     axiosApi
       .get(
-        `http://127.0.0.1:8000/bus-owner/get-seat-details?bus_id=${props.bus}`
+        `bus-owner/get-seat-details?bus_id=${props.bus}`
       )
       .then((res) => {
         updateCurrentData(res.data);
