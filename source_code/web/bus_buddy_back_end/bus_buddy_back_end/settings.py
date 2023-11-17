@@ -192,6 +192,18 @@ CORS_ORIGIN_WHITELIST = [
 
 # Logging
 
+import logging
+
+class FileFilter(logging.Filter):
+    def __init__(self, included_files):
+        super(FileFilter, self).__init__()
+        self.included_files = included_files
+
+    def filter(self, record):
+        # Check if the record's filename is in the list of included files
+        return any(record.filename.endswith(file) for file in self.included_files)
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -201,23 +213,29 @@ LOGGING = {
             "style": "{",
         },
         "simple": {
-            "format": "{levelname} {message}",
+            "format": "{name} {module} {levelname} {message}",
             "style": "{",
         },
     },
     "handlers": {
         "file": {
-            "level": "ERROR",
+            "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "logData.log",
             "formatter": "verbose",
+            "filters":["file_filter"],
         },
         "terminal": {
-            "level": "WARNING",
-            "class": "logging.FileHandler",
-            "filename": "logData.log",
-            "formatter": "verbose",
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
         },
+    },
+    "filters":{
+      "file_filter":{
+          "()":FileFilter,
+          "included_files":["views.py","serializer.py"]
+      },  
     },
     "root": {
         "handlers": ["file"],

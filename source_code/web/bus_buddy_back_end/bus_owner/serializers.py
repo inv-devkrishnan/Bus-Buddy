@@ -86,7 +86,7 @@ class BusSerializer(serializers.ModelSerializer):
     bus_details_status = serializers.IntegerField(
         required=False,
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Bus details status must be 0, 1, or 99."),
+            RegexValidator(regex=r"^[0-2]$", message="Bus details status must be 0, 1, or 2."),
         ],
     )
 

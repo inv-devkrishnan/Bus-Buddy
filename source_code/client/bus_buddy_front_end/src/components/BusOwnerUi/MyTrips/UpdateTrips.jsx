@@ -8,23 +8,24 @@ import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
 import { UpdateBusSchema } from "../UpdateBusSchema";
 import { axiosApi } from "../../../utils/axiosApi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Updatetrips() {
   
   const location = useLocation();
-  const bus = location.state;
+  const trip = location.state;
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
-  const navi = useNavigate();
   const [currentTripData, setCurrentTripData] = useState([]);
-  console.log(bus);
-  let id=bus;
+  console.log(trip);
+  let id=trip;
 
 
   useEffect(() => {
     // Fetch Bus data
     axiosApi
-      .get("http://localhost:8000/bus-owner/view-bus/")
+      .get("bus-owner/view-bus/")
       .then((response) => {
         setBusData(response.data.results);
       })
@@ -41,7 +42,7 @@ export default function Updatetrips() {
 
   useEffect(() => {
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/update-trip/${bus}/`)
+      .get(`http://127.0.0.1:8000/bus-owner/update-trip/${trip}/`)
       .then((res) => {
         setCurrentTripData(res.data);
       })
@@ -50,7 +51,7 @@ export default function Updatetrips() {
         alert("trip does not exist!!");
       });
   }, []);
-
+  console.log(currentTripData)
   useEffect(() => {
     formik.setValues({
       id: currentTripData["id"],
@@ -63,13 +64,13 @@ export default function Updatetrips() {
     });
   }, [currentTripData]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // if (plate_no < 0 || plate_no > 10) {
     //   alert("Plate Number cannot exceed 10 , pleace remove Spaces in between ");
     // }
 
     try {
-      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`, {
+      await axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`, {
         bus:formik.values.busName,
         route: formik.values.routeName,
         start_date: formik.values.startdate,
@@ -87,12 +88,12 @@ export default function Updatetrips() {
   };
   const formik = useFormik({
     initialValues: {
-        bus: "",
-        route: "",
-        start_date: "",
-        end_date: "",
-        start_time: "",
-        end_time:""
+      busName: "",
+      routeName: "",
+      startdate: "",
+      enddate: "",
+      starttime: "",
+      endtime:""
     },
     validationSchema: UpdateBusSchema,
     onSubmit,
@@ -116,7 +117,7 @@ export default function Updatetrips() {
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                   <Form.Label>Bus Name</Form.Label>
                   <Form.Control
-                    name="busseattype"
+                    name="busName"
                     as="select"
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
@@ -139,7 +140,7 @@ export default function Updatetrips() {
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>Route</Form.Label>
                   <Form.Control
-                    name="busseattype"
+                    name="routeName"
                     as="select"
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
@@ -160,56 +161,25 @@ export default function Updatetrips() {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="6" controlId="validationCustom03">
                   <Form.Label>Start Date</Form.Label>
-                  <Form.Control
-                    name="bustype"
-                    as="text"
+                  <DatePicker
+                    selected={formik.values.startdate}
                     value={formik.values.startdate || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.bustype && formik.errors.bustype}
-                  >
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.bustype}
-                  </Form.Control.Feedback>
+                    onChange={(date) => formik.setFieldValue("startdate", date)}
+                    className="form-control"
+                    dateFormat="yyyy-MM-dd"
+                  />
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="6" controlId="validationCustom04">
                   <Form.Label>End Date</Form.Label>
-                  <Form.Control
-                    name="busseattype"
-                    as="text"
+                  <DatePicker
+                    selected={formik.values.enddate}
                     value={formik.values.enddate || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={
-                      formik.touched.busseattype && formik.errors.busseattype
-                    }
-                  >
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.busseattype}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="validationCustom04">
-                  <Form.Label>Bus A/C</Form.Label>
-                  <Form.Control
-                    name="busac"
-                    as="select"
-                    value={formik.values.busac || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.busac && formik.errors.busac}
-                  >
-                    <option value="">updated option</option>
-                    <option value="0"> A/C </option>
-                    <option value="1"> Non A/C </option>
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.busac}
-                  </Form.Control.Feedback>
+                    onChange={(date) => formik.setFieldValue("enddate", date)}
+                    className="form-control"
+                    dateFormat="yyyy-MM-dd"
+                  />
                 </Form.Group>
               </Row>
               <div style={{ paddingTop: "1.5rem" }}>

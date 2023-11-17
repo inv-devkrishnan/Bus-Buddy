@@ -130,7 +130,7 @@ export default function Viewallbus() {
               >
                 <button
                   className="btn btn-primary"
-                  // onClick={() => update(trip.id)}
+                  onClick={() => update(trip.id)}
                 >
                   Update
                 </button>
@@ -152,9 +152,9 @@ export default function Viewallbus() {
   };
 
 
-  // const update = (id) => {
-  //   navi("/UpdateBus", { state: `${id}` });
-  // };
+  const update = (id) => {
+    navi("/update-trips", { state: `${id}` });
+  };
   const deleted = (id) => {
     axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${id}/`)

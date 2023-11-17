@@ -97,7 +97,7 @@ class Addbus(APIView):
     Function to add new bus from bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
@@ -122,7 +122,7 @@ class Deletebus(APIView):
     function to change the status to 99 to perform logical error
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     
     def put(self, request, id):
         try:
@@ -174,7 +174,7 @@ class Updatebus(UpdateAPIView):
     def get(self, request, id):     #checking for bus object that matches the id
         try:
             logger.info("checking for the bus obj matching the requested id")
-            bus = Bus.objects.get(id=id)
+            bus = Bus.objects.get(id=id,status=0)
         except Bus.DoesNotExist:
             logger.info("bus obj does not exist")
             return Response(status=404)
@@ -183,18 +183,21 @@ class Updatebus(UpdateAPIView):
 
     def put(self, request, id):     #update function 
         try:
-            instance = Bus.objects.get(id=id)
-            request_data = (request.data.copy())
-            request_data['user'] = request.user.id
-            serializer = BusSerializer(instance, data=request_data, partial=True)
-            if serializer.is_valid(raise_exception=True):
-                self.perform_update(serializer)     #perform_update is a updateAPI function 
-                logger.info("updated")
-                print("i")
-                return Response({"message": "Updated","data":serializer.data},status=200)
+            instance = Bus.objects.get(id=id,status=0)
+            if instance:
+                request_data = (request.data.copy())
+                request_data['user'] = request.user.id
+                serializer = BusSerializer(instance, data=request_data, partial=True)
+                if serializer.is_valid(raise_exception=True):
+                    self.perform_update(serializer)     #perform_update is a updateAPI function 
+                    logger.info("updated")
+                    print("i")
+                    return Response({"message": "Updated","data":serializer.data},status=200)
+                else:
+                    logger.info("bus didn't update")
+                    return Response(serializer.errors, status=400)
             else:
-                logger.info("bus didn't update")
-                return Response(serializer.errors, status=400)
+                return Response({"message":"bus not found"},status=404)
         except ObjectDoesNotExist:
             return Response("Invalid Bus id", status=400)
         
@@ -262,20 +265,25 @@ class Addamenities(APIView):
     serializer = None
 
     def post(self, request):
+        bus = request.data.get("bus")
+        print(bus)
         try:
-            serializer = AmenitiesSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                logger.info("fetchin the bus id from amenities model")
-                bus_id = serializer.data.get("bus")     #to get bus id related to added amenities   
-                logger.info("fetching the bus by foreignkey ")
-                current_bus = Bus.objects.get(id=bus_id) # to get the bus object to change status of adding bus to 1
-                current_bus.bus_details_status = 1
-                current_bus.save()
-                logger.info("Inserted")
-                return Response({"message": "Inserted"})
+            if (Bus.objects.get(id=bus,status=0)): 
+                serializer = AmenitiesSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    logger.info("fetchin the bus id from amenities model")
+                    bus_id = serializer.data.get("bus")     #to get bus id related to added amenities   
+                    logger.info("fetching the bus by foreignkey ")
+                    current_bus = Bus.objects.get(id=bus_id) # to get the bus object to change status of adding bus to 1
+                    current_bus.bus_details_status = 1
+                    current_bus.save()
+                    logger.info("Inserted")
+                    return Response({"message": "Inserted"})
+                else:
+                    return Response(serializer.errors, status=400)
             else:
-                return Response(serializer.errors, status=400)
+                return Response({"message":"bus not found"},status=404)
         except ValidationError:
             logger.info(entry)
             return Response(entry, status=400)
