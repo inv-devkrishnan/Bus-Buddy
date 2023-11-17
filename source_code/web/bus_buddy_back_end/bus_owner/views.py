@@ -202,7 +202,7 @@ class CustomPagination(PageNumberPagination):
     """
     For paginating the query set
     """
-    page_size = 3
+    page_size = 15
     page_size_query_param = "page_size"
 
     def get_paginated_response(self, data):
@@ -225,7 +225,7 @@ class Viewbus(ListAPIView):
     """
     function to list all bus of the bus owner
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
     pagination_class = CustomPagination
 
@@ -258,7 +258,7 @@ class Addamenities(APIView):
     """
     funuction to add amenities of a bus
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
