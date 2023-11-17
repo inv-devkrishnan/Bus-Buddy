@@ -231,6 +231,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ]
     )
     password = serializers.CharField(
+        min_length=8,
         max_length=12,
         validators=[
             RegexValidator(
@@ -259,17 +260,17 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         min_length=12,
         validators=[
             RegexValidator(
-                regex=r"^[0-9\s]*$",
+                regex=regex_number_only,
                 message="Aadhaar number can only contain numbers.",
             ),
             UniqueValidator(
                 queryset=User.objects.all(),
-                message="Adhaar number is already registered",
+                message="Aadhaar number is already registered",
             ),
         ],
     )
     msme_no = serializers.CharField(
-        max_length=20,
+        max_length=25,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(),

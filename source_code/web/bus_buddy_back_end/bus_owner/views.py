@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
@@ -37,7 +36,7 @@ from .serializers import (
     GetSeatSerializer,
 )
 import logging
-
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 entry = "Invalid entry"
 dentry = "Deleted the record"
@@ -60,11 +59,11 @@ class AddSeatDetails(APIView):
         serialized_data = SeatDetailSerializer(data=request.data)
 
         try:
-            bus_instance = get_object_or_404(Bus, id=bus_id, user=user_id)
+            bus_instance = get_object_or_404(Bus, id=bus_id, user=user_id) # get the object or raise 404 error
             logger.info(bus_instance, "current bus")
             count = SeatDetails.objects.filter(bus=bus_id).count()
             if count == 30:
-                bus_instance.bus_details_status = 2
+                bus_instance.bus_details_status = 2 # to mark the finish of bus detail entry
                 bus_instance.save()
                 logger.info("seat detail complete")
                 return Response({"data": "All seats have been registered"}, status=200)
@@ -82,9 +81,10 @@ class AddSeatDetails(APIView):
                             {"message": "details added successfully"}, status=201
                         )
                     else:
+                        logger.warning(serialized_data.errors)
                         return Response(serialized_data.errors, status=200)
         except Exception as e:
-            logger.info(e)
+            logger.error(e)
             return Response({"error": f"{e}"}, status=400)
 
 
@@ -110,13 +110,11 @@ class GetSeatDetails(APIView):
                 logger.info(serialized_data)
                 return Response(serialized_data.data)
             else:
-                logger.info(serialized_data.errors)
+                logger.warning(serialized_data.errors)
                 return Response({"data": "no data"}, status=200)
         except Exception as e:
+            logger.error(e)
             return Response({"error": f"{e}"}, status=400)
-
-
-entry = "Invalid entry"
 
 
 class RegisterBusOwner(APIView):
@@ -132,7 +130,7 @@ class RegisterBusOwner(APIView):
     def post(self, request):
         try:
             request_data = request.data.copy()
-            request_data["status"] = 3
+            request_data["status"] = 3 # waiting for approval
             request_data["role"] = 3
             logger.info(request_data)
             serialized_data = OMS(data=request_data)
@@ -141,11 +139,11 @@ class RegisterBusOwner(APIView):
                 logger.info(serialized_data.data)
                 return Response({"message": "registration successfull"}, status=201)
             else:
-                logger.info(serialized_data.errors)
+                logger.warning(serialized_data.errors)
                 return Response(serialized_data._errors, status=400)
 
         except Exception as e:
-            logger.info(e)
+            logger.error(e)
             return Response("error:" f"{e}", status=400)
 
 
@@ -164,6 +162,7 @@ class UpdateBusOwner(UpdateAPIView):
             user_id = request.user.id  # get id using token
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
+            logger.error("User does not exist")
             return Response(status=404)
 
         serialized_data = ODS(user)
@@ -181,7 +180,7 @@ class UpdateBusOwner(UpdateAPIView):
             logger.info(serializer.data)
             return Response({"message": "updated succesffully"}, status=200)
         except ValueError:
-            logger.info(serializer.errors)
+            logger.error(serializer.errors)
             return Response(serializer.errors, status=400)
 
     def put(self, request):
@@ -438,7 +437,7 @@ class Addroutes(APIView):
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError as e:
-            return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
+            return Response({"message": entry, "errors": str(e)}, status=400)
 
 
 class Deleteroutes(APIView):
