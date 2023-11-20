@@ -1,6 +1,13 @@
 import { React, useContext, useEffect, useState, forwardRef } from "react";
 
-import { IconButton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Modal,
+  Popover,
+  Typography,
+} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -23,6 +30,7 @@ function UserSleeper(props) {
   const [open, setOpen] = useState(false); // to show / hide the snackbar
   const [uiOrder, setUiOrder] = useState(0); // to find the ui order of a particular seat
   const [presentSeat, setPresentSeat] = useState([]); // for finding the current seat detail
+  const [containerEl, setContainerEl] = useState(null);
 
   useEffect(() => {
     // for finding seat ui order and the respective data
@@ -90,6 +98,16 @@ function UserSleeper(props) {
     }
   };
 
+  const handleMouseOver = (e) => {
+    setContainerEl(e.currentTarget);
+  };
+
+  const handleMouseOut = () => {
+    setContainerEl(null);
+  };
+
+  const PopOpen = Boolean(containerEl);
+
   return (
     <>
       {seatOccupied ? (
@@ -101,7 +119,11 @@ function UserSleeper(props) {
           )}
         </IconButton>
       ) : (
-        <IconButton onClick={handleSelect}>
+        <IconButton
+          onClick={handleSelect}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
           {select ? (
             <img src={Selected} alt="sleeper" draggable="false" />
           ) : (
@@ -109,6 +131,30 @@ function UserSleeper(props) {
           )}
         </IconButton>
       )}
+
+      <Popover
+        sx={{
+          pointerEvents: "none",
+        }}
+        open={PopOpen}
+        anchorEl={containerEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        onClose={handleMouseOut}
+        disableRestoreFocus
+      >
+        <Typography sx={{ p: 1 }}>
+          {" "}
+          seat: {presentSeat.seat_number} | fare: ₹ {presentSeat.seat_cost}
+        </Typography>
+      </Popover>
+
       <div>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert
