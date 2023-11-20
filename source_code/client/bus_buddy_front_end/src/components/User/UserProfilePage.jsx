@@ -6,31 +6,32 @@ import CardText from "react-bootstrap/esm/CardText";
 import { Image } from "react-bootstrap";
 
 import { axiosApi } from "../../utils/axiosApi";
-import UpdateImage from "../../assets/update.jpg";
+import UpdateImage from "../../assets/update.png";
+import ProfileImage from "../../assets/profile.png";
 import ChangePassword from "../../pages/ChangePassword";
 import UpdateFormCard from "./UpdateFormCard";
 
 export default function UserProfilePage(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
 
-  const [myProfileView, setmyProfileView] = useState(true);
+  const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
   const [updateProfileView, setUpdateProfileView] = useState(false);
 
   const myProfileViewSelected = () => {
-    setmyProfileView(true);
+    setMyProfileView(true);
     setChangePasswordView(false);
     setUpdateProfileView(false);
   };
 
   const changePasswordViewSelected = () => {
-    setmyProfileView(false);
+    setMyProfileView(false);
     setChangePasswordView(true);
     setUpdateProfileView(false);
   };
 
   const updateProfileViewSelected = () => {
-    setmyProfileView(false);
+    setMyProfileView(false);
     setChangePasswordView(false);
     setUpdateProfileView(true);
   };
@@ -47,7 +48,9 @@ export default function UserProfilePage(props) {
         }
         props.setUserName(
           `${
-            currentUserData["first_name"] + " " + currentUserData["last_name"]
+            currentUserData["first_name"] +
+            " " +
+            (currentUserData["last_name"] ? currentUserData["last_name"] : "")
           }`
         );
       })
@@ -66,21 +69,22 @@ export default function UserProfilePage(props) {
           {myProfileView && (
             <div>
               <Card
-                className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+                className="d-flex flex-column"
                 style={{
+                  width: "100%",
                   boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
                 }}
               >
-                <CardText>
-                  <div className="d-flex flex-column m-2">
-                    Your name:
-                    <h5>
-                      {currentUserData["first_name"] +
-                        " " +
-                        currentUserData["last_name"]}
-                    </h5>
-                  </div>
-                </CardText>
+                <div className="d-flex flex-column m-2 p-1">
+                  <CardText>Your name:</CardText>
+                  <CardText as="h5">
+                    {currentUserData["first_name"] +
+                      " " +
+                      (currentUserData["last_name"]
+                        ? currentUserData["last_name"]
+                        : "")}
+                  </CardText>
+                </div>
                 <div className="d-flex">
                   <CardText style={{ color: "gray" }}>
                     &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
@@ -88,22 +92,20 @@ export default function UserProfilePage(props) {
                 </div>
                 <div className="container">
                   <div className="row">
-                    <div className="col-sm-12 col-md-12 col-lg-3">
-                      <CardText>
-                        Phone number:
-                        <h5>{currentUserData["phone"]}</h5>
-                      </CardText>
-                    </div>
+                    {currentUserData["phone"] && (
+                      <div className="col-sm-12 col-md-12 col-lg-3">
+                        <CardText>Phone number:</CardText>
+                        <CardText as="h5">{currentUserData["phone"]}</CardText>
+                      </div>
+                    )}
                     <div className="col-sm-12 col-md-12 col-lg-9">
-                      <CardText>
-                        Email:
-                        <h5>{currentUserData["email"]}</h5>
-                      </CardText>
+                      <CardText>Email: </CardText>
+                      <CardText as="h5">{currentUserData["email"]}</CardText>
                     </div>{" "}
                   </div>
                 </div>
-                <div className="d-flex justify-content-md-end">
-                  <div className="m-1">
+                <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
+                  <div className="d-flex m-1">
                     {!googleUser && ( // for rendering change password button only for normal sign in
                       <Button onClick={changePasswordViewSelected}>
                         Change password
@@ -122,15 +124,17 @@ export default function UserProfilePage(props) {
         </div>{" "}
       </div>
       {myProfileView ? null : (
-        <div className="m-4">
+        <div className="m-2">
           <Button onClick={myProfileViewSelected}>Back</Button>
         </div>
       )}
       <div>
         <Image
-          src={UpdateImage}
-          className="d-none d-md-block"
-          style={{ position: "absolute", bottom: 0, right: 0, width: "10rem" }}
+          src={
+            changePasswordView || updateProfileView ? UpdateImage : ProfileImage
+          }
+          className="d-none d-md-block d-sm-block"
+          style={{ position: "absolute", bottom: 0, right: 0, width: "15%" }}
         />
       </div>
     </>

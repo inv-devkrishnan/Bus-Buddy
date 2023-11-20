@@ -9,6 +9,7 @@ from .models import (
     PickAndDrop,
     StartStopLocations,
     LocationData,
+    SeatDetails,
 )
 from django.db import models
 from .models import User
@@ -396,6 +397,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "aadhaar_no",
             "msme_no",
             "extra_charges",
+            "status",
             "role",
         )
 
@@ -425,6 +427,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ]
     )
     password = serializers.CharField(
+        min_length=8,
         max_length=12,
         validators=[
             RegexValidator(
@@ -453,17 +456,17 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         min_length=12,
         validators=[
             RegexValidator(
-                regex=r"^[0-9\s]*$",
+                regex=regex_number_only,
                 message="Aadhaar number can only contain numbers.",
             ),
             UniqueValidator(
                 queryset=User.objects.all(),
-                message="Adhaar number is already registered",
+                message="Aadhaar number is already registered",
             ),
         ],
     )
     msme_no = serializers.CharField(
-        max_length=20,
+        max_length=25,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(),
@@ -486,3 +489,28 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
+
+
+class SeatDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeatDetails
+        fields = ("seat_number", "seat_ui_order", "seat_type", "deck", "seat_cost")
+
+    seat_number = serializers.CharField(max_length=50)
+    seat_type = serializers.IntegerField(default=0)
+    deck = serializers.IntegerField(default=0)
+    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
+    seat_ui_order = serializers.IntegerField()
+
+
+class GetSeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeatDetails
+        fields = (
+            "id",
+            "seat_number",
+            "seat_ui_order",
+            "seat_type",
+            "deck",
+            "seat_cost",
+        )

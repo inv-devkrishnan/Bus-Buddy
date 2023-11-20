@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from rest_framework.response import Response
+from django.shortcuts import render,get_object_or_404
+from django.core.paginator import Paginator, Page
+from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny
@@ -9,36 +11,118 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from .models import Bus
-from .models import Routes,PickAndDrop,StartStopLocations
+from .models import Bus, SeatDetails
+from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
+
 from .serializers import (
     BusSerializer,
     ViewBusSerializer,
     AmenitiesSerializer,
     TripSerializer,
     ViewTripSerializer,
-)
-from .serializers import (
     RoutesSerializer,
     StartStopLocationsSerializer,
     PickAndDropSerializer,
     ViewRoutesSerializer,
+    AmenitiesSerializer,
+    BusSerializer,
+    ViewBusSerializer,
+    SeatDetailSerializer,
+    GetSeatSerializer,
 )
 import logging
-
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 entry = "Invalid entry"
 dentry = "Deleted the record"
 
 
+class AddSeatDetails(APIView):
+    """
+    API for adding seat details
+
+    Returns:
+        json: success message
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user_id = request.user.id
+        bus_id = request.data.get("bus")
+        ui_order = request.data.get("seat_ui_order")
+        serialized_data = SeatDetailSerializer(data=request.data)
+
+        try:
+            bus_instance = get_object_or_404(Bus, id=bus_id, user=user_id) # get the object or raise 404 error
+            logger.info(bus_instance, "current bus")
+            count = SeatDetails.objects.filter(bus=bus_id).count()
+            if count == 30:
+                bus_instance.bus_details_status = 2 # to mark the finish of bus detail entry
+                bus_instance.save()
+                logger.info("seat detail complete")
+                return Response({"data": "All seats have been registered"}, status=200)
+            else:
+                if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
+                    logger.info("seat already registered")
+                    return Response(
+                        {"data": "seat detail already registered"}, status=200
+                    )
+                else:
+                    if serialized_data.is_valid():
+                        serialized_data.save()
+                        logger.info("seat data saved successfully")
+                        return Response(
+                            {"message": "details added successfully"}, status=201
+                        )
+                    else:
+                        logger.warning(serialized_data.errors)
+                        return Response(serialized_data.errors, status=200)
+        except Exception as e:
+            logger.error(e)
+            return Response({"error": f"{e}"}, status=400)
+
+
+class GetSeatDetails(APIView):
+    """
+    API for fetching seat details
+
+    Args:
+        bus_id (integer): id of the bus that the seat data belong to
+
+    Returns:
+        json: whole seat data for the corresponding bus id
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        bus_id = request.GET.get("bus_id")
+        try:
+            if SeatDetails.objects.filter(bus=bus_id):
+                request_data = SeatDetails.objects.filter(bus=bus_id)
+                serialized_data = GetSeatSerializer(request_data, many=True)
+                logger.info(serialized_data)
+                return Response(serialized_data.data)
+            else:
+                logger.warning(serialized_data.errors)
+                return Response({"data": "no data"}, status=200)
+        except Exception as e:
+            logger.error(e)
+            return Response({"error": f"{e}"}, status=400)
+
+
 class RegisterBusOwner(APIView):
     """
-    For registering bus owner locally
+    API for registering bus owner
+
+    Returns:
+        json: success message
     """
 
     permission_classes = (AllowAny,)
@@ -46,22 +130,29 @@ class RegisterBusOwner(APIView):
     def post(self, request):
         try:
             request_data = request.data.copy()
+            request_data["status"] = 3 # waiting for approval
             request_data["role"] = 3
-            print(request_data)
+            logger.info(request_data)
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()
+                logger.info(serialized_data.data)
                 return Response({"message": "registration successfull"}, status=201)
             else:
+                logger.warning(serialized_data.errors)
                 return Response(serialized_data._errors, status=400)
 
-        except ValidationError:
-            return Response(serialized_data._errors, status=400)
+        except Exception as e:
+            logger.error(e)
+            return Response("error:" f"{e}", status=400)
 
 
 class UpdateBusOwner(UpdateAPIView):
     """
-    For displaying and updating bus owner details
+    API for updating bus owner details
+
+    Returns:
+        json: success message
     """
 
     permission_classes = (IsAuthenticated,)
@@ -71,9 +162,11 @@ class UpdateBusOwner(UpdateAPIView):
             user_id = request.user.id  # get id using token
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
+            logger.error("User does not exist")
             return Response(status=404)
 
         serialized_data = ODS(user)
+        logger.info(serialized_data.data)
         return Response(serialized_data.data)
 
     def update(self, request):
@@ -84,8 +177,10 @@ class UpdateBusOwner(UpdateAPIView):
             serializer = OMS(instance, data=current_data, partial=True)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
+            logger.info(serializer.data)
             return Response({"message": "updated succesffully"}, status=200)
         except ValueError:
+            logger.error(serializer.errors)
             return Response(serializer.errors, status=400)
 
     def put(self, request):
@@ -164,14 +259,16 @@ class Deletebus(APIView):
             logger.info(entry)
             return Response(status=404)
 
-class Updatebus(UpdateAPIView): 
+
+class Updatebus(UpdateAPIView):
     """
     function to update bus details by bus owner
     """
+
     # permission_classes = (IsAuthenticated,)
     serializer_class = BusSerializer
 
-    def get(self, request, id):     #checking for bus object that matches the id
+    def get(self, request, id):  # checking for bus object that matches the id
         try:
             logger.info("checking for the bus obj matching the requested id")
             bus = Bus.objects.get(id=id,status=0)
@@ -181,7 +278,7 @@ class Updatebus(UpdateAPIView):
         serialized_data = BusSerializer(bus)
         return Response(serialized_data.data)
 
-    def put(self, request, id):     #update function 
+    def put(self, request, id):  # update function
         try:
             instance = Bus.objects.get(id=id,status=0)
             if instance:
@@ -200,7 +297,8 @@ class Updatebus(UpdateAPIView):
                 return Response({"message":"bus not found"},status=404)
         except ObjectDoesNotExist:
             return Response("Invalid Bus id", status=400)
-        
+
+
 class CustomPagination(PageNumberPagination):
     """
     For paginating the query set
@@ -224,7 +322,7 @@ class CustomPagination(PageNumberPagination):
         )
 
 
-class Viewbus(ListAPIView):  
+class Viewbus(ListAPIView):
     """
     function to list all bus of the bus owner
     """
@@ -232,9 +330,6 @@ class Viewbus(ListAPIView):
     serializer_class = ViewBusSerializer
     pagination_class = CustomPagination
 
-    
-
-    
     def list(self, request):
         try:
             logger.info("gettin the user is from user model")
@@ -304,6 +399,7 @@ class Updateamenities(UpdateAPIView):
     """
     permission_classes = (IsAuthenticated,)
     serializer_class = AmenitiesSerializer
+
     def get(self, request, id):
         try:
             logger.info("checking if amenities obj present for the bus obj ")
@@ -322,7 +418,9 @@ class Updateamenities(UpdateAPIView):
                 self.perform_update(serializer)
                 logger.info("updated")
                 print("updated")
-                return Response({"message": "Updated","data":serializer.data},status=200)
+                return Response(
+                    {"message": "Updated", "data": serializer.data}, status=200
+                )
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
@@ -333,6 +431,7 @@ class Addroutes(APIView):
     """
     Function to add new route from a bus owner
     """
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
@@ -348,11 +447,10 @@ class Addroutes(APIView):
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError as e:
-            return Response({"message": "Invalid entry", "errors": str(e)}, status=400)
+            return Response({"message": entry, "errors": str(e)}, status=400)
 
 
-
-class Deleteroutes(APIView):  
+class Deleteroutes(APIView):
     """
     function to change status of the route to 99 to perform logical deletion
     """
@@ -445,11 +543,11 @@ class Viewroutes(ListAPIView):
             return Response(serializer._errors)
 
 
-
 class Addtrip(APIView):
     """
     Function to add new trip from bus owner
     """
+
     # permission_classes = (IsAuthenticated,)
     serializer = None
 
@@ -469,10 +567,11 @@ class Addtrip(APIView):
             return Response(entry, status=400)
 
 
-class Updatetrip(UpdateAPIView): 
+class Updatetrip(UpdateAPIView):
     """
     function to update trip details by bus owner
     """
+
     # permission_classes = (IsAuthenticated,)
     serializer_class = TripSerializer
 
@@ -515,18 +614,19 @@ class Updatetrip(UpdateAPIView):
             return Response("Invalid trip id", status=400)
 
 
-class Deletetrip(APIView): 
+class Deletetrip(APIView):
     """
     function to change status of the trip to 99 to perform logical deletion
 
     """
+
     # permission_classes = (IsAuthenticated,)
     permission_classes = (AllowAny,)
 
     def put(self, request, id):
         try:
             logger.info("fetching the trip obj for the obj")
-            data = Trip.objects.get(id=id)      #to get trip object matching the id 
+            data = Trip.objects.get(id=id)  # to get trip object matching the id
             data.status = 99
             data.save()
             logger.info("Deleted")
@@ -540,11 +640,10 @@ class Viewtrip(ListAPIView):
     """
     function to list all Trips added by the bus owner
     """
+
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewTripSerializer
     # pagination_class = CustomPagination
-
-
 
     def list(self, request):
         try:

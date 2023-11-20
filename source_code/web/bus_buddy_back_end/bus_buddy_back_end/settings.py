@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,7 +55,6 @@ INSTALLED_APPS = [
     "bus_owner",
     "normal_user",
     "debug_toolbar",
-    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -191,6 +191,17 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 # Logging
+import logging
+
+class FileFilter(logging.Filter):
+    def __init__(self, included_files):
+        super(FileFilter, self).__init__()
+        self.included_files = included_files
+
+    def filter(self, record):
+        # Check if the record's filename is in the list of included files
+        return any(record.filename.endswith(file) for file in self.included_files)
+
 
 import logging
 
@@ -242,3 +253,27 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# template folder path
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT") 
+EMAIL_USE_TLS = config("EMAIL_USE_TLS") 
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

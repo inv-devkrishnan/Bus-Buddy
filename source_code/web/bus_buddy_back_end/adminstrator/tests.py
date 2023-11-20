@@ -21,8 +21,12 @@ class BaseTest(TestCase):
         self.admin_list_user_asc = f"{reverse('list_users')}?order=0"
         self.admin_list_user_desc = f"{reverse('list_users')}?order=1"
         self.admin_list_ban_users = f"{reverse('list_users')}?status=2"
+        self.admin_list_unapproved_users = f"{reverse('list_users')}?status=3"
         self.admin_list_unban_users = f"{reverse('list_users')}?status=0"
-
+        self.admin_search_user = f"{reverse('list_users')}?keyword=0&type=0"
+        self.admin_search_bus_owner = f"{reverse('list_users')}?keyword=0&type=1"
+        self.admin_invalid_search = f"{reverse('list_users')}?keyword=0"
+        self.admin_list_invalid_query_param = f"{reverse('list_users')}?status=34"
         # data
         self.valid_update_data = {
             "first_name": "Devkrishnan",
@@ -179,14 +183,35 @@ class ListUsersTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_06_can_search_all_users(self):
+        response = self.client.get(
+            self.admin_search_user,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_07_can_search_bus_owners(self):
+        response = self.client.get(
+            self.admin_search_bus_owner,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_08_list_unapproved_users(self):
+        response = self.client.get(
+            self.admin_list_unapproved_users,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 class BanUserTest(BaseTest):
     def test_01_can_ban_user(self):
         self.user = User.objects.create_user(
-            email="dummy1@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy1@gmail.com", password="12345678", account_provider=0, role=2
         )
-        ban_user_url = reverse("ban_user", kwargs={"user_id": 1})
-
+        cur_user = User.objects.get(email="dummy1@gmail.com")
+        ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
         response = self.client.put(
             ban_user_url,
             format="json",
@@ -195,7 +220,7 @@ class BanUserTest(BaseTest):
 
     def test_02_cant_ban_invalid_user(self):
         self.user = User.objects.create_user(
-            email="dummy2@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy2@gmail.com", password="12345678", account_provider=0, role=2
         )
         ban_user_url = reverse("ban_user", kwargs={"user_id": 100})
 
@@ -207,9 +232,10 @@ class BanUserTest(BaseTest):
 
     def test_03_can_unban_user(self):
         self.user = User.objects.create_user(
-            email="dummy3@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy3@gmail.com", password="12345678", account_provider=0, role=2
         )
-        unban_user_url = reverse("unban_user", kwargs={"user_id": 6})
+        cur_user = User.objects.get(email="dummy3@gmail.com")
+        unban_user_url = reverse("unban_user", kwargs={"user_id": cur_user.id})
 
         response = self.client.put(
             unban_user_url,
@@ -219,12 +245,40 @@ class BanUserTest(BaseTest):
 
     def test_04_can_remove_user(self):
         self.user = User.objects.create_user(
-            email="dummy4@gmail.com", password="12345678", account_provider=0, role=1
+            email="dummy4@gmail.com", password="12345678", account_provider=0, role=2
         )
-        unban_user_url = reverse("remove_user", kwargs={"user_id": 7})
+        cur_user = User.objects.get(email="dummy4@gmail.com")
+        unban_user_url = reverse("remove_user", kwargs={"user_id": cur_user.id})
 
         response = self.client.put(
             unban_user_url,
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+
+
+class BusOwnerApprovalTest(BaseTest):
+    def test_01_can_approve_bus_owner(self):
+        self.user = User.objects.create_user(
+            first_name="dev",
+            email="devanaswinikumar8@gmail.com",
+            password="12345678",
+            account_provider=0,
+            role=3,
+            status=3,
+        )
+        cur_user = User.objects.get(email="devanaswinikumar8@gmail.com")
+        approve_url = reverse("approve_bus_owner", kwargs={"user_id": cur_user.id})
+        response = self.client.put(
+            approve_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_approve_invalid_bus_owner(self):
+        approve_url = reverse("approve_bus_owner", kwargs={"user_id": 100})
+        response = self.client.put(
+            approve_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
