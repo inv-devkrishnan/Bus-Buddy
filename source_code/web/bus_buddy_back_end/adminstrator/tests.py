@@ -210,8 +210,8 @@ class BanUserTest(BaseTest):
         self.user = User.objects.create_user(
             email="dummy1@gmail.com", password="12345678", account_provider=0, role=2
         )
-        ban_user_url = reverse("ban_user", kwargs={"user_id": 2})
-
+        cur_user = User.objects.get(email="dummy1@gmail.com")
+        ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
         response = self.client.put(
             ban_user_url,
             format="json",
@@ -234,7 +234,8 @@ class BanUserTest(BaseTest):
         self.user = User.objects.create_user(
             email="dummy3@gmail.com", password="12345678", account_provider=0, role=2
         )
-        unban_user_url = reverse("unban_user", kwargs={"user_id": 6})
+        cur_user = User.objects.get(email="dummy3@gmail.com")
+        unban_user_url = reverse("unban_user", kwargs={"user_id": cur_user.id})
 
         response = self.client.put(
             unban_user_url,
@@ -246,7 +247,8 @@ class BanUserTest(BaseTest):
         self.user = User.objects.create_user(
             email="dummy4@gmail.com", password="12345678", account_provider=0, role=2
         )
-        unban_user_url = reverse("remove_user", kwargs={"user_id": 8})
+        cur_user = User.objects.get(email="dummy4@gmail.com")
+        unban_user_url = reverse("remove_user", kwargs={"user_id": cur_user.id})
 
         response = self.client.put(
             unban_user_url,
@@ -265,7 +267,8 @@ class BusOwnerApprovalTest(BaseTest):
             role=3,
             status=3,
         )
-        approve_url = reverse("approve_bus_owner", kwargs={"user_id": 10})
+        cur_user = User.objects.get(email="devanaswinikumar8@gmail.com")
+        approve_url = reverse("approve_bus_owner", kwargs={"user_id": cur_user.id})
         response = self.client.put(
             approve_url,
             format="json",
