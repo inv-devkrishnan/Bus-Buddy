@@ -263,30 +263,39 @@ class Addamenities(APIView):
     """
     permission_classes = (IsAuthenticated,)
     serializer = None
-
+    def get(self, request, id):
+        try:
+            logger.info("checking if amenities obj present for the bus obj ")
+            amenities = Amenities.objects.get(bus=id)
+        except Amenities.DoesNotExist:
+            logger.info("amenities obj is not present ")
+            return Response(status=404)
+        serialized_data = AmenitiesSerializer(amenities)
+        return Response(serialized_data.data)
     def post(self, request):
         bus = request.data.get("bus")
         print(bus)
         try:
-            if (Bus.objects.get(id=bus,status=0)): 
-                serializer = AmenitiesSerializer(data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    logger.info("fetchin the bus id from amenities model")
-                    bus_id = serializer.data.get("bus")     #to get bus id related to added amenities   
-                    logger.info("fetching the bus by foreignkey ")
-                    current_bus = Bus.objects.get(id=bus_id) # to get the bus object to change status of adding bus to 1
-                    current_bus.bus_details_status = 1
-                    current_bus.save()
-                    logger.info("Inserted")
-                    return Response({"message": "Inserted"})
-                else:
-                    return Response(serializer.errors, status=400)
+            if not Bus.objects.filter(id=bus, status=0).exists():
+                return Response({"message": "Bus not found"}, status=404)
+            serializer = AmenitiesSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+
+                logger.info("Fetching the bus id from amenities model")
+                bus_id = serializer.data.get("bus")  # to get bus id related to added amenities
+                logger.info("Fetching the bus by foreign key ")
+                current_bus = Bus.objects.get(id=bus_id)  # to get the bus object to change the status of adding bus to 1
+                current_bus.bus_details_status = 1
+                current_bus.save()
+
+                logger.info("Inserted")
+                return Response({"message": "Inserted"})
             else:
-                return Response({"message":"bus not found"},status=404)
+                return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response(entry, status=400)
+            return Response({"message":"bus not found"}, status=400)
 
 
 class Updateamenities(UpdateAPIView):
@@ -298,7 +307,7 @@ class Updateamenities(UpdateAPIView):
     def get(self, request, id):
         try:
             logger.info("checking if amenities obj present for the bus obj ")
-            amenities = Amenities.objects.get(bus=id)
+            amenities = Amenities.objects.get(bus=id).first()
         except Amenities.DoesNotExist:
             logger.info("amenities obj is not present ")
             return Response(status=404)
@@ -317,7 +326,7 @@ class Updateamenities(UpdateAPIView):
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
-            return Response("Invalid  id", status=400)
+            return Response("bus not found", status=400)
          
 
 class Addroutes(APIView):
@@ -470,17 +479,26 @@ class Updatetrip(UpdateAPIView):
     def get(self, request, id):
         try:
             logger.info("checking for trip obj matching the requested id")
-            bus = Trip.objects.get(id=id)
+            trip = Trip.objects.get(id=id)
         except Trip.DoesNotExist:
             logger.info("no trip obj matching the requested id")
             return Response(status=404)
-        serialized_data = TripSerializer(bus)
+        serialized_data = TripSerializer(trip)
         return Response(serialized_data.data)
 
     def put(self, request, id):
         try:
+            import pdb;pdb.set_trace();
             logger.info("fetching the trip obj matching the id")
-            instance = Trip.objects.get(id=id)      #saving the present values to instance variable
+            instance = Trip.objects.get(id=id,status=0)
+            #saving the present values to instance variable
+            buses=instance.bus_id
+            routes=instance.route_id
+            # rouptes=instance.route
+            if not Bus.objects.filter(id=buses, status=0).exists():
+                return Response({"message": "Bus not found"}, status=404)
+            if not Routes.objects.filter(id=routes, status=0).exists():
+                return Response({"message": "Bus not found"}, status=404)
             request_data=(request.data.copy())
             request_data['user']=request.user.id
             serializer = TripSerializer(instance, data=request_data, partial=True)
