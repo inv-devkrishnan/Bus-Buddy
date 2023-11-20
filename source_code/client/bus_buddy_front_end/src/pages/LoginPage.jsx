@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,6 +9,7 @@ import { Container, Card, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
+import Swal from "sweetalert2";
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -23,6 +24,27 @@ function LoginPage() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("current_trip")) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+
+      Toast.fire({
+        icon: "info",
+        title: "Sign in to continue booking",
+      });
+    }
+  }, []);
 
   const authenicateGoogleUser = async (response) => {
     // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)
@@ -64,12 +86,16 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
-      if(loginRes.message.user_role===2){
-      navigate("/user-dashboard");}
-      else if(loginRes.message.user_role ===1)
-      {navigate("/admin-dashboard")}
-      else
-      {navigate("/BusHome");}
+      
+      if (localStorage.getItem("current_trip")) {
+        navigate("/traveller-data");
+      } else if (loginRes.message.user_role === 2) {
+        navigate("/user-dashboard");
+      } else if (loginRes.message.user_role === 1) {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/BusHome");
+      }
     } else {
       // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;
@@ -92,13 +118,13 @@ function LoginPage() {
     setValidated(true);
   };
   return (
-    <Container className="mt-5">
+    <Container fluid className="mt-5">
       <Row>
         <Col>
           <Image src={LoginSplash} fluid></Image>
         </Col>
         <Col>
-          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded" >
+          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
             <h1>Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -111,13 +137,12 @@ function LoginPage() {
                     setEmail(e.target.value);
                   }}
                   required
-                  style={{backgroundImage: "none"}}
+                  style={{ backgroundImage: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid Email.
                 </Form.Control.Feedback>
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <InputGroup>
@@ -129,7 +154,7 @@ function LoginPage() {
                       setPassword(e.target.value);
                     }}
                     required
-                    style={{backgroundImage: "none"}}
+                    style={{ backgroundImage: "none" }}
                   />
                   <InputGroup.Text
                     id="basic-addon1"
@@ -152,6 +177,15 @@ function LoginPage() {
               <Button variant="primary" type="submit" className="mb-3">
                 Login
               </Button>
+              <Card.Text>
+                Not registered?
+                <Link to="/register-user" style={{ textDecoration: "none" }}>
+                  Register
+                </Link>
+              </Card.Text>
+              <Card.Text className="d-flex justify-content-around">
+                or
+              </Card.Text>
               <GoogleLogin
                 onSuccess={authenicateGoogleUser}
                 onError={googleLoginFail}

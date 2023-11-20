@@ -20,7 +20,7 @@ export const RegistrationSchema = yup.object().shape({
     .matches(/^(?=.*[a-z])/, "At least one small letter is required")
     .matches(/^(?=.*\d)/, "At least one number is required")
     .matches(
-      /^(?=.*[!@#$%^&*()_+])/,
+      /^(?=.*[!@#$%^&*()\-_=+{};:,<.>])/,
       "At least one special character is required"
     )
     .required("Password is required"),

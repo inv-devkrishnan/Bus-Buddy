@@ -23,8 +23,6 @@ export default function Viewallbus() {
 
   const navi = useNavigate();
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
@@ -41,7 +39,7 @@ export default function Viewallbus() {
     };
     fetchData();
   }, [page]);
-  const list=amenitiesData[0];
+  const list = amenitiesData[0];
   const handlePrevious = () => {
     setActive(active - 1);
     setPage(page - 1);
@@ -146,9 +144,12 @@ export default function Viewallbus() {
                 >
                   Update
                 </button>
-                {/* <button className="btn btn-primary" onClick={""}>
-                  Add seat details
-                </button> */}
+                <button
+                  className="btn btn-primary"
+                  onClick={()=>addSeatDetails(viewbus.id)}
+                >
+                  Seat Details
+                </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewbus.id)}
@@ -158,7 +159,7 @@ export default function Viewallbus() {
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => (viewbus.id)}>
+          <Accordion.Item eventKey="0" onClick={() => viewbus.id}>
             <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
               {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
@@ -202,6 +203,10 @@ export default function Viewallbus() {
   const update = (id) => {
     navi("/UpdateBus", { state: `${id}` });
   };
+  const addSeatDetails = (id) => {
+    navi("/full-sleeper-details", {
+      state:  `${id}` })
+  }
   const deleted = (id) => {
     axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/delete-bus/${id}/`)
@@ -230,7 +235,9 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }}>
+        <Form
+          style={{ textAlign: "center", marginLeft: "25%", marginTop: "1%" }}
+        >
           <h1>Viewall</h1>
         </Form>
         <Form inline>

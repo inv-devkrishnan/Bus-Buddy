@@ -19,7 +19,7 @@ export const OwnerRegistrationSchema = yup.object().shape({
   .matches(/^(?=.*[A-Z])/, "At least one capital letter is required")
   .matches(/^(?=.*[a-z])/, "At least one small letter is required")
   .matches(/^(?=.*\d)/, "At least one number is required")
-  .matches(/^(?=.*[!@#$%^&*()_+])/, "At least one special character is required")
+  .matches(/^(?=.*[!@#$%^&*()\-_=+{};:,<.>])/, "At least one special character is required")
   .required("Password is required"),
   confirmPassword: yup
     .string()

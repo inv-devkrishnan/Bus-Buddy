@@ -157,7 +157,7 @@ function ShowTrips(props) {
         setHasNext(result.data?.has_next);
         setHasPrevious(result.data?.has_previous);
         setCurrentPage(result.data?.current_page);
-        console.log(result);
+        console.log(result.data);
       })
       .catch(function (error) {
         Swal.fire({
@@ -175,9 +175,9 @@ function ShowTrips(props) {
   };
   return (
     <div>
-      <Container className="mb-5 ms-0 me-0">
+      <Container fluid className="mb-5 ms-0 me-0">
         <Row>
-          <Col md={3}>
+          <Col md={6} lg={3}>
             <Card style={{ width: "20rem" }} className="m-3 p-3">
               <div className="d-flex justify-content-between">
                 <h5 className="mt-2">Filters</h5>
@@ -279,7 +279,7 @@ function ShowTrips(props) {
               </Form>
             </Card>
           </Col>
-          <Col>
+          <Col md={6} lg={9} className="col-offset-auto">
             {trips.length > 0 ? (
               trips.map((trip) => (
                 <TripCard

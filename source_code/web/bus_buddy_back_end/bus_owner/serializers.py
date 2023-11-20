@@ -8,6 +8,7 @@ from .models import (
     PickAndDrop,
     StartStopLocations,
     LocationData,
+    SeatDetails,
 )
 from .models import User
 from .models import Trip
@@ -95,26 +96,17 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
 class PickAndDropSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickAndDrop
-        fields = "__all__"
+        fields = (
+            "bus_stop",
+            "arrival_time",
+            "landmark",
+            "start_stop_location",
+            "route",
+        )
 
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
-
-    # pick_and_drop = PickAndDropSerializer(many=True)
-    # seq_id = serializers.IntegerField()
-    # location = serializers.PrimaryKeyRelatedField(queryset=LocationData.objects.all())
-    # arrival_time = serializers.TimeField()
-    # arrival_date_offset = serializers.IntegerField()
-    # departure_time = serializers.TimeField()
-    # departure_date_offset = serializers.IntegerField()
-    # route = serializers.PKOnlyObject(Routes)
-    
-    # def create(self, validated_data):
-    #     profile_data = validated_data.pop('pick_and_drop')
-    #     obj = StartStopLocations.objects.create(**validated_data)
-    #     for val in profile_data:
-    #         PickAndDrop.objects.create(route=obj.route,start_stop_location=obj, **val)
-    #     return obj
+    pick_and_drop = PickAndDropSerializer(many=True, source="stops")
 
     class Meta:
         model = StartStopLocations
@@ -126,27 +118,38 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
             "departure_time",
             "departure_date_offset",
             "route",
-        )    
-
+            "pick_and_drop",
+        )
 
 
 class RoutesSerializer(serializers.ModelSerializer):
     location = StartStopLocationsSerializer(many=True)
-    pick_and_drop = PickAndDropSerializer(many=True)
 
     class Meta:
         model = Routes
-        fields = "__all__"
+        fields = [
+            "id",
+            "user",
+            "start_point",
+            "end_point",
+            "via",
+            "travel_fare",
+            "duration",
+            "distance",
+            "location",
+        ]
 
     def create(self, validated_data):
         start_stop_locations = validated_data.pop("location")
         routes = Routes.objects.create(**validated_data)
         for data in start_stop_locations:
-            import pdb;pdb.set_trace()
-            pad_obj = data.pop("pick_and_drop")
+            pad_obj = data.pop("stops")
             ssl_obj = StartStopLocations.objects.create(route=routes, **data)
             for i in pad_obj:
-                PickAndDrop.objects.create(route=routes, start_stop_location=ssl_obj, **i)
+                PickAndDrop.objects.create(
+                    route=routes, start_stop_location=ssl_obj, **i
+                )
+
         return routes
 
 
@@ -198,6 +201,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             "aadhaar_no",
             "msme_no",
             "extra_charges",
+            "status",
             "role",
         )
 
@@ -227,6 +231,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ]
     )
     password = serializers.CharField(
+        min_length=8,
         max_length=12,
         validators=[
             RegexValidator(
@@ -255,17 +260,17 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         min_length=12,
         validators=[
             RegexValidator(
-                regex=r"^[0-9\s]*$",
+                regex=regex_number_only,
                 message="Aadhaar number can only contain numbers.",
             ),
             UniqueValidator(
                 queryset=User.objects.all(),
-                message="Adhaar number is already registered",
+                message="Aadhaar number is already registered",
             ),
         ],
     )
     msme_no = serializers.CharField(
-        max_length=20,
+        max_length=25,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(),
@@ -288,3 +293,28 @@ class OwnerDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone", "company_name")
+
+
+class SeatDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeatDetails
+        fields = ("seat_number", "seat_ui_order", "seat_type", "deck", "seat_cost")
+
+    seat_number = serializers.CharField(max_length=50)
+    seat_type = serializers.IntegerField(default=0)
+    deck = serializers.IntegerField(default=0)
+    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
+    seat_ui_order = serializers.IntegerField()
+
+
+class GetSeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeatDetails
+        fields = (
+            "id",
+            "seat_number",
+            "seat_ui_order",
+            "seat_type",
+            "deck",
+            "seat_cost",
+        )
