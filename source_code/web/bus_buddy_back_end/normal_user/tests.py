@@ -236,7 +236,7 @@ class ViewTripsTest(BaseTest):
         self.assertEqual(response.status_code,400)
         
     def test_03_cant_view_trips_with_invalid_page(self):
-        view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=-1"
+        view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=100"
         response = self.client.get(view_trips_url,format="json")
         self.assertEqual(response.status_code,204)         
     

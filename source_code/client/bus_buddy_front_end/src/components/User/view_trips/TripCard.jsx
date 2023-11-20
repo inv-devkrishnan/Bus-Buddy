@@ -94,7 +94,7 @@ function TripCard(props) {
                 <ListGroup>
                   {Object.entries(props?.data?.amenities).map((amenity) => (
                     <ListGroup.Item
-                      key={amenity.key}
+                      key={amenity[0]}
                       className="d-flex justify-content-between "
                     >
                       <p className="text-start m-0">{formatKey(amenity[0])}</p>

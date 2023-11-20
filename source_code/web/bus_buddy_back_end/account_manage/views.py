@@ -20,6 +20,8 @@ def check_user_status(user):
         return Response({"error_code": "D1009"}, status=401)
     elif user.status == 1:
         return Response({"error_code": "D1010"}, status=401)
+    elif user.status == 3:
+        return Response({"error_code": "D1011"}, status=401)
     elif user.status == 99:
         return Response({"error_code": "D1001"}, status=401)
 
@@ -76,8 +78,7 @@ class LoginLocal(APIView):
         if user_credentials.is_valid():  #  validation check
             try:
                 user = User.objects.get(
-                    email=user_credentials.validated_data["email"],
-                    account_provider=0
+                    email=user_credentials.validated_data["email"], account_provider=0
                 )
                 # authenticates user
                 is_user_authenticated = authenticate(
@@ -85,7 +86,7 @@ class LoginLocal(APIView):
                     password=user_credentials.validated_data["password"],
                 )
                 if is_user_authenticated:
-                    return(check_user_status(user))
+                    return check_user_status(user)
                 else:
                     return Response({"error_code": "D1000"}, status=401)
             except User.DoesNotExist:
