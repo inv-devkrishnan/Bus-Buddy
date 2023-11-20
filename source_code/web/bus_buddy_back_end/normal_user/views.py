@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.views import APIView
@@ -7,6 +8,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import ValidationError
 from datetime import datetime
+from decouple import config
 
 from account_manage.models import User
 from normal_user.models import Bookings
@@ -21,11 +23,12 @@ from .serializer import (
     PickAndDropSerializer,
     BookSeatSerializer,
     CancelBookingSerializer,
+    CostSerializer,
 )
 import random
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django")
 
 
 class ViewSeats(ListAPIView):
@@ -433,3 +436,27 @@ class CancelBooking(UpdateAPIView):
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
+
+
+class CreatePaymentIntent(APIView):
+    permission_classes = (IsAuthenticated,)
+    stripe.api_key = config('STRIPE_API_KEY')
+    def post(self, request):
+        serialized_data = CostSerializer(data=request.data)
+        if serialized_data.is_valid():
+            total_cost = serialized_data._validated_data["total_cost"]
+            try:
+                intent = stripe.PaymentIntent.create(
+                    amount=int(total_cost*100), # to convert rupee to paise
+                    currency="inr",
+                    payment_method_types=["card"],
+                    description="Bus ticket Booking",
+                )
+                return Response({"client_secret":intent.client_secret}, status=200)
+            except Exception as e:
+                logger.warn("Payment Intent Creation Failed ! Reason :"+str(e))
+                return Response({"error_code":"D1016"},status=400)
+        else:
+            logger.warn("Serializer validation Failed")
+            logger.warn(serialized_data.errors)
+            return Response({"error_code":"D1002"},status=400)

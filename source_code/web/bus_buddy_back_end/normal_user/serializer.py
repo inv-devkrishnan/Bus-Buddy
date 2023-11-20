@@ -188,3 +188,13 @@ class CancelBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = ["status"]
+        
+class NonNegativeFloatField(serializers.FloatField):
+    def to_internal_value(self, data):
+        value = super().to_internal_value(data)
+        if value < 0:
+            raise serializers.ValidationError("total cost must be non-negative.")
+        return value        
+        
+class CostSerializer(serializers.Serializer):
+    total_cost = NonNegativeFloatField()        
