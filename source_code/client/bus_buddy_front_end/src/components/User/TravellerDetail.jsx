@@ -9,6 +9,7 @@ import {
   Button,
   CardText,
 } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -16,10 +17,12 @@ import Swal from "sweetalert2";
 
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
   const [currentTrip, setCurrentTrip] = useState([]); // to store the current trip details
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
 
@@ -37,7 +40,7 @@ const TravellerDetail = () => {
     setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
     const storedTrip = localStorage.getItem("current_trip");
     setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
-  }, []);
+  }, [authStatus, navigate]);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
@@ -51,7 +54,7 @@ const TravellerDetail = () => {
     }, {})
   );
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // stores data to bookings table and remove data from local storage
     let bookedSeats = [];
     for (let seatId in formik.values) {
@@ -74,31 +77,29 @@ const TravellerDetail = () => {
       drop_off: parseInt(localStorage.getItem("drop_off")),
       booked_seats: bookedSeats,
     };
-
-    axiosApi
-      .post("user/book-seat/", data)
+    const amountData = {
+      total_cost: parseInt(localStorage.getItem("total_amount")),
+    };
+    setIsLoading(true);
+    await axiosApi
+      .post("user/create-payment-intent/", amountData)
       .then((res) => {
-        Swal.fire({
-          title: "Success",
-          text: "Seat booked successfully",
-          icon: "success",
+        navigate("/payment", {
+          state: {
+            clientSecret: res.data.client_secret,
+            data: data,
+            payment: true,
+          },
         });
-
-        localStorage.removeItem("pick_up");
-        localStorage.removeItem("drop_off");
-        localStorage.removeItem("total_amount");
-        localStorage.removeItem("seat_list");
-        localStorage.removeItem("current_trip");
-
-        navigate("/user-dashboard");
       })
-      .catch((err) => {
+      .catch(function (error) {
         Swal.fire({
-          title: "Oops!!",
-          text: err.response.data,
+          title: "Something went wrong !",
           icon: "error",
+          text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -219,7 +220,20 @@ const TravellerDetail = () => {
                 </Form.Group>
               );
             })}
-            <Button type="submit">Book Seats</Button>
+            <Button type="submit" disabled={isLoading}> {isLoading ? (
+                  <div>
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    Loading...
+                  </div>
+                ) : (
+                  "Book Seat"
+                )}</Button>
           </Form>
         </CardBody>
       </Card>

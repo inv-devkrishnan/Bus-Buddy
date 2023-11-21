@@ -27,6 +27,7 @@ import SingleSeaterDoubleSleeperDetails from "./pages/AddSeatDetails/SingleSeate
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateOwnerProfile from "./components/BusOwnerUi/UpdateOwnerProfile";
 import TravellerDetail from "./components/User/TravellerDetail";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             element={<SingleSeaterDoubleSleeperDetails />}
           />
           <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
+          <Route path="/payment" element={<PaymentPage/>}/>
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>

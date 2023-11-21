@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 
 import { RegistrationSchema } from "./RegistrationSchema";
 import axios from "axios";
+import { openAxiosApi } from "../../utils/axiosApi";
 
 export default function RegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +21,7 @@ export default function RegisterCard() {
   const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
-    axios
+    openAxiosApi
       .post("user/registration/", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
