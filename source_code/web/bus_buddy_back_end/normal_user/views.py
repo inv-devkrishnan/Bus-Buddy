@@ -11,7 +11,7 @@ from datetime import datetime
 from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings
+from normal_user.models import Bookings, Payment
 from bus_owner.models import StartStopLocations
 from bus_owner.models import SeatDetails, Trip, PickAndDrop
 
@@ -417,9 +417,28 @@ class CancelBooking(UpdateAPIView):
 
     permission_classes = (IsAuthenticated,)
 
+    def refund(self, booking_id):
+        stripe.api_key = config("STRIPE_API_KEY")
+        try:
+            payment_instance = Payment.objects.get(booking_id=booking_id,status=0)
+            payment_intent = payment_instance.payment_intend
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("refund initiated for booking id : "+str(booking_id))
+                payment_instance.status =3 #updating status of payment from paid to refund
+                payment_instance.save()
+                return True
+            except Exception as e:
+                logger.warn("Stripe Refund Creation Failed ! Reason :" + str(e))
+                return False
+        except Payment.DoesNotExist:
+            logger.warn(
+                "No entry for booking_id : " + str(booking_id) + "in payment table"
+            )
+            return False
+
     def update(self, request):
         booking_id = request.GET.get("booking_id")
-
         try:
             instance = Bookings.objects.get(id=booking_id)
             current_data = {"status": 99}  # status 99 denotes the cancelled bookings
@@ -427,9 +446,12 @@ class CancelBooking(UpdateAPIView):
                 instance, data=current_data, partial=True
             )
             if serializer.is_valid(raise_exception=True):
-                self.perform_update(serializer)
-                logger.info("booking cancelled")
-                return Response({"message": "cancelled succesffully"}, status=200)
+                if self.refund(booking_id):
+                    self.perform_update(serializer)
+                    logger.info("booking cancelled")
+                    return Response({"message": "cancelled succesffully"}, status=200)
+                else:
+                    return Response({"message": "cancel failed"}, status=400)
             else:
                 logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
@@ -440,23 +462,25 @@ class CancelBooking(UpdateAPIView):
 
 class CreatePaymentIntent(APIView):
     permission_classes = (IsAuthenticated,)
-    stripe.api_key = config('STRIPE_API_KEY')
+    stripe.api_key = config("STRIPE_API_KEY")
+
     def post(self, request):
         serialized_data = CostSerializer(data=request.data)
         if serialized_data.is_valid():
             total_cost = serialized_data._validated_data["total_cost"]
             try:
                 intent = stripe.PaymentIntent.create(
-                    amount=int(total_cost*100), # to convert rupee to paise
+                    amount=int(total_cost * 100),  # to convert rupee to paise
                     currency="inr",
                     payment_method_types=["card"],
                     description="Bus ticket Booking",
                 )
-                return Response({"client_secret":intent.client_secret}, status=200)
+                logger.info("PaymentIntent Created !")
+                return Response({"client_secret": intent.client_secret}, status=200)
             except Exception as e:
-                logger.warn("Payment Intent Creation Failed ! Reason :"+str(e))
-                return Response({"error_code":"D1016"},status=400)
+                logger.warn("Payment Intent Creation Failed ! Reason :" + str(e))
+                return Response({"error_code": "D1016"}, status=400)
         else:
             logger.warn("Serializer validation Failed")
             logger.warn(serialized_data.errors)
-            return Response({"error_code":"D1002"},status=400)
+            return Response({"error_code": "D1002"}, status=400)

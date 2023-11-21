@@ -17,9 +17,15 @@ function CardPayment(props) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // to check wether a payment is ongoing
 
-  const bookSeat = async () => {
+  const bookSeat = async (paymentIntentId) => {
+    let newData = props.data;
+    let payment ={
+      payment_intend : paymentIntentId,
+      status : 0,
+    }
+    newData['payment'] = payment;
     axiosApi
-      .post("user/book-seat/", props.data)
+      .post("user/book-seat/", newData)
       .then((res) => {
         Swal.fire({
           title: "Success",
@@ -71,7 +77,8 @@ function CardPayment(props) {
       });
     } else {
       console.log("success");
-      bookSeat();
+      const paymentIntentId = result?.paymentIntent?.id
+      bookSeat(paymentIntentId);
     }
     setIsLoading(false); // payment completed
   };
