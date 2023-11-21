@@ -403,7 +403,7 @@ class Updateamenities(UpdateAPIView):
     def get(self, request, id):
         try:
             logger.info("checking if amenities obj present for the bus obj ")
-            amenities = Amenities.objects.get(bus=id).first()
+            amenities = Amenities.objects.get(bus=id)
         except Amenities.DoesNotExist:
             logger.info("amenities obj is not present ")
             return Response(status=404)
@@ -587,7 +587,6 @@ class Updatetrip(UpdateAPIView):
 
     def put(self, request, id):
         try:
-            import pdb;pdb.set_trace();
             logger.info("fetching the trip obj matching the id")
             instance = Trip.objects.get(id=id,status=0)
             #saving the present values to instance variable
