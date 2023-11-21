@@ -20,6 +20,7 @@ class BaseTest(TestCase):
         self.client.force_authenticate(self.user)
 
         self.register = reverse("register-user")
+        self.create_payment_intent = reverse("create-payment-intent")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -277,6 +278,23 @@ class ViewTripsTest(BaseTest):
     def test_03_cant_view_trips_with_invalid_page(self):
         view_trips_url = f"{reverse('view-trip')}?start=6&end=7&date=2023-11-11&page=100"
         response = self.client.get(view_trips_url,format="json")
-        self.assertEqual(response.status_code,204)         
+        self.assertEqual(response.status_code,204)
+        
+        
+class CreatePaymentIntentTest(BaseTest):
+    def test_01_can_create_paymentIntent_with_valid_cost(self):
+        data ={
+            "total_cost" : 500,
+        }
+        response = self.client.post(self.create_payment_intent,data=data,format="json")
+        self.assertEqual(response.status_code,200)
+        
+    def test_02_cant_create_paymentIntent_with_invalid_cost(self):
+        data ={
+            "total_cost" : "dfasf3r",
+        }
+        response = self.client.post(self.create_payment_intent,data=data,format="json")
+        self.assertEqual(response.status_code,400)    
+                         
     
         
