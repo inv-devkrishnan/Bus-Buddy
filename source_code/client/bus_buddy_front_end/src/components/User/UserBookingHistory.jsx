@@ -65,6 +65,7 @@ export default function UserBookingHistory() {
           icon: "success",
         });
         setConfirmModalShow(false);
+        setModalShow(false);
       })
       .catch((err) => {
         Swal.fire({
@@ -338,6 +339,7 @@ export default function UserBookingHistory() {
             variant="primary"
             onClick={() => {
               setConfirmModalShow(false);
+              setModalShow(false);
             }}
           >
             Close
