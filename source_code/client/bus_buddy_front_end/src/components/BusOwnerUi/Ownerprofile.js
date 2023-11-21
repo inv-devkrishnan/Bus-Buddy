@@ -21,8 +21,8 @@ export default function Ownerprofile() {
 
   return (
     <div style={{display:"flex",justifyContent:"center",margin:"5%" }}>
-      <div className="card" style={{ marginBottom: "2%"}}>
-        <Card style={{ width: "25rem", height: "20rem" }}>
+      <div style={{ marginBottom: "2%"}}>
+        <Card style={{ width: "25rem", height: "20rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
           <Card.Body>
             <Card.Title style={{ display: "flex", justifyContent: "center" }}>
               {currentUserData['first_name']}
