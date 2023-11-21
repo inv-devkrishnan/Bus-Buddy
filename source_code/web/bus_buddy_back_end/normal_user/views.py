@@ -472,6 +472,7 @@ class CreatePaymentIntent(APIView):
                 intent = stripe.PaymentIntent.create(
                     amount=int(total_cost * 100),  # to convert rupee to paise
                     currency="inr",
+                    receipt_email= request.user.email,
                     payment_method_types=["card"],
                     description="Bus ticket Booking",
                 )
