@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CardPayment from "../components/User/payment/CardPayment";
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 function PaymentPage() {
   const location = useLocation();
@@ -28,7 +28,7 @@ function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      {location.state !== null && <CardPayment data={location?.state?.data} />}
+      {location.state !== null && <CardPayment data={location?.state?.data}/>}
     </Elements>
   );
 }

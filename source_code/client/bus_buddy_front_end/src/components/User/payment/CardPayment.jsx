@@ -41,7 +41,9 @@ function CardPayment(props) {
         localStorage.removeItem("seat_list");
         localStorage.removeItem("current_trip");
 
-        navigate("/user-dashboard", { replace: true }); // clears previous history
+        window.history.replaceState({}, '', '/');
+        window.history.pushState({}, '', '/');  // clears previous history
+        navigate("/user-dashboard");
       })
       .catch((err) => {
         Swal.fire({
@@ -54,7 +56,7 @@ function CardPayment(props) {
 
   const dopay = async (e) => {
     // function to perform payment on stripe
-    
+
     e.preventDefault();   
 
     if (!stripe || !elements) {
