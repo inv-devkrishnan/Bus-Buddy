@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
@@ -659,6 +660,40 @@ class Viewtrip(ListAPIView):
             serializer = self.get_serializer(queryset, many=True)
             print(serializer.data)
 
+            return Response(serializer.data)
+
+        except ValueError:
+            return Response(serializer._errors)
+
+
+class Viewavailablebus(ListAPIView):
+    """
+    function to list all bus of the bus owner
+    """
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ViewBusSerializer
+
+    def list(self, request,start,end):
+        try:
+            import pdb;pdb.set_trace()
+            logger.info("gettin the user is from user model")
+            user_id = request.user.id
+            print(user_id)
+            # start = self.request.query_params.get('start_date')
+            # end = self.request.query_params.get('end_date')
+            startdate = datetime.strptime(start, '%Y-%m-%d').date()
+            enddate = datetime.strptime(end, '%Y-%m-%d').date()
+            trips = Trip.objects.filter(
+                user=user_id, start_date=startdate,end_date=enddate
+            )
+            buses = trips.values_list('bus', flat=True)
+            print(buses)
+           # Filter Buses Based on Usage
+            queryset = Bus.objects.filter(status=0, user=user_id).exclude(id__in=buses)
+            logger.info("fetching all the data from Bus model matching the condition")
+            print(queryset)
+            serializer = ViewBusSerializer(queryset)
+            serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
 
         except ValueError:
