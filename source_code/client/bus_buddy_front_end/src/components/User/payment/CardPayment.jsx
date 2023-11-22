@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import {
   useElements,
@@ -59,27 +60,36 @@ function CardPayment(props) {
       return;
     }
     setIsLoading(true); // payment is ongoing
-    const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
-      elements,
-      confirmParams: {},
-      redirect: "if_required",
-    });
-
-    console.log(result);
-    if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
-      Swal.fire({
-        title: "Payment Failed !",
-        text: result.error.message,
-        icon: "error",
-      });
-    } else {
-      console.log("success");
-      const paymentIntentId = result?.paymentIntent?.id
-      bookSeat(paymentIntentId);
+    await elements.submit().then(async function(result){
+    if(result.error)
+    {
+      console.log(result.error)
     }
+    else
+    {
+      const result = await stripe.confirmPayment({
+        //`Elements` instance that was used to create the Payment Element
+        elements,
+        confirmParams: {},
+        redirect: "if_required",
+      });
+  
+      console.log(result);
+      if (result.error) {
+        // Show error to your customer (for example, payment details incomplete)
+        console.log(result.error.message);
+        Swal.fire({
+          title: "Payment Failed !",
+          text: result.error.message,
+          icon: "error",
+        });
+      } else {
+        const paymentIntentId = result?.paymentIntent?.id
+        bookSeat(paymentIntentId);
+      }
+    }
+    });
+   
     setIsLoading(false); // payment completed
   };
 
@@ -92,14 +102,14 @@ function CardPayment(props) {
       </Row>
       <Row>
         <div className="d-flex justify-content-center">
-          <Card className="p-5">
-            <h3 className="text-center">
+          <Card className="p-5 shadow-lg">
+            <h3 className="text-center mb-3">
               Payment Amount : ₹ {props.data.total_amount}
             </h3>
             <form onSubmit={dopay} className="ml-auto mr-auto">
               <PaymentElement></PaymentElement>
               <Button
-                className="mt-2"
+                className="mt-3"
                 type="submit"
                 disabled={isLoading || !stripe || !elements}
               >
@@ -109,7 +119,7 @@ function CardPayment(props) {
                       as="span"
                       animation="grow"
                       size="sm"
-                      role="status"
+                      role="output"
                       aria-hidden="true"
                     />
                     Loading...
@@ -124,5 +134,8 @@ function CardPayment(props) {
       </Row>
     </Container>
   );
+}
+CardPayment.propTypes ={
+  data : PropTypes.object,
 }
 export default CardPayment;

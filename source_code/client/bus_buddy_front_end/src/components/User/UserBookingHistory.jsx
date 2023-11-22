@@ -61,7 +61,7 @@ export default function UserBookingHistory() {
         Swal.close();
         Swal.fire({
           title: "Success",
-          text: "Cancelled Successfully",
+          text: "Cancelled Successfully, Refund has been initiated",
           icon: "success",
         });
         setConfirmModalShow(false);
@@ -339,7 +339,6 @@ export default function UserBookingHistory() {
             variant="primary"
             onClick={() => {
               setConfirmModalShow(false);
-              setModalShow(false);
             }}
           >
             Close

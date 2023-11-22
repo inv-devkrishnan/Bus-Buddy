@@ -40,7 +40,7 @@ const TravellerDetail = () => {
     setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
     const storedTrip = localStorage.getItem("current_trip");
     setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
-  }, [authStatus, navigate]);
+  }, [navigate,]);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
@@ -220,20 +220,23 @@ const TravellerDetail = () => {
                 </Form.Group>
               );
             })}
-            <Button type="submit" disabled={isLoading}> {isLoading ? (
-                  <div>
-                    <Spinner
-                      as="span"
-                      animation="grow"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    Loading...
-                  </div>
-                ) : (
-                  "Book Seat"
-                )}</Button>
+            <Button type="submit" disabled={isLoading}>
+              {" "}
+              {isLoading ? (
+                <div>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="output"
+                    aria-hidden="true"
+                  />
+                  Loading...
+                </div>
+              ) : (
+                "Book Seat"
+              )}
+            </Button>
           </Form>
         </CardBody>
       </Card>
