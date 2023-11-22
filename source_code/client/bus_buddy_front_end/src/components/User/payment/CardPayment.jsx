@@ -13,18 +13,19 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
 import { useState } from "react";
 function CardPayment(props) {
-  const stripe = useStripe();
-  const elements = useElements();
+  const stripe = useStripe(); // using stripe hook  initialize stripe
+  const elements = useElements();  // using elements hook to initialize element
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // to check wether a payment is ongoing
 
   const bookSeat = async (paymentIntentId) => {
+    // function to book seat and added payment info to db
     let newData = props.data;
     let payment ={
-      payment_intend : paymentIntentId,
+      payment_intend : paymentIntentId,     
       status : 0,
     }
-    newData['payment'] = payment;
+    newData['payment'] = payment;  // appends payment info to existing booking data
     axiosApi
       .post("user/book-seat/", newData)
       .then((res) => {
@@ -52,7 +53,9 @@ function CardPayment(props) {
   };
 
   const dopay = async (e) => {
-    e.preventDefault();
+    // function to perform payment on stripe
+    
+    e.preventDefault();   
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.

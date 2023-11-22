@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 function PaymentPage() {
   const location = useLocation();
-  const val = process.env.REACT_APP_STRIPE_API_KEY;
-  const stripePromise = loadStripe(val);
+  const apiKey = process.env.REACT_APP_STRIPE_API_KEY;
+  const stripePromise = loadStripe(apiKey);
   const authStatus = useAuthStatus();
   const navigate = useNavigate();
   const options = {

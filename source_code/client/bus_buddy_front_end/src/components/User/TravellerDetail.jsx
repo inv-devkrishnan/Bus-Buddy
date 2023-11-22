@@ -81,14 +81,16 @@ const TravellerDetail = () => {
       total_cost: parseInt(localStorage.getItem("total_amount")),
     };
     setIsLoading(true);
+    // creates a new payment intent
     await axiosApi
       .post("user/create-payment-intent/", amountData)
       .then((res) => {
+        // once payment intent is created navigate to payment page with client secret
         navigate("/payment", {
           state: {
             clientSecret: res.data.client_secret,
             data: data,
-            payment: true,
+            payment: true, // to ensure this page is called with a valid payment
           },
         });
       })
