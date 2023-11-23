@@ -242,6 +242,7 @@ class ViewTrip(APIView):
                 and bool(datetime.strptime(date, date_format))
                 and start_location != end_location
             ):
+                logger.info("query param validation suceeded")
                 return True
             else:
                 return False
@@ -347,6 +348,7 @@ class ViewTrip(APIView):
             try:
                 current_page = paginator.page(page_number)
             except EmptyPage:  # if page doesn't exist status is set to no content
+                logger.warn("Page requested is Empty !")
                 return Response({}, status=204)
             paginated_data = {
                 "total_pages": paginator.num_pages,
@@ -357,9 +359,13 @@ class ViewTrip(APIView):
                 "has_next": current_page.has_next(),
                 "data": list(current_page),
             }
-
+            logger.info(
+                "returned trip list total entries :"
+                + str(paginator.count)
+            )
             return Response(paginated_data)
         else:
+            logger.warn("request failed ! reason : invalid query params")
             return Response({"error_code": "D1006"}, status=400)
 
 
@@ -428,12 +434,14 @@ class CancelBooking(UpdateAPIView):
         """
         stripe.api_key = config("STRIPE_API_KEY")
         try:
-            payment_instance = Payment.objects.get(booking_id=booking_id,status=0)
+            payment_instance = Payment.objects.get(booking_id=booking_id, status=0)
             payment_intent = payment_instance.payment_intend
             try:
                 stripe.Refund.create(payment_intent=payment_intent)
-                logger.info("refund initiated for booking id : "+str(booking_id))
-                payment_instance.status =3 #updating status of payment from paid to refund
+                logger.info("refund initiated for booking id : " + str(booking_id))
+                payment_instance.status = (
+                    3  # updating status of payment from paid to refund
+                )
                 payment_instance.save()
                 return True
             except Exception as e:
@@ -441,7 +449,9 @@ class CancelBooking(UpdateAPIView):
                 return False
         except Payment.DoesNotExist:
             logger.warn(
-                "Cancel booking failed ! Reason : No entry for booking_id : " + str(booking_id) + "in payment table"
+                "Cancel booking failed ! Reason : No entry for booking_id : "
+                + str(booking_id)
+                + "in payment table"
             )
             return False
 
@@ -472,6 +482,7 @@ class CreatePaymentIntent(APIView):
     """
     api to create payment Intent
     """
+
     permission_classes = (AllowNormalUsersOnly,)
     stripe.api_key = config("STRIPE_API_KEY")
 
@@ -484,7 +495,7 @@ class CreatePaymentIntent(APIView):
                 intent = stripe.PaymentIntent.create(
                     amount=int(total_cost * 100),  # to convert rupee to paise
                     currency="inr",
-                    receipt_email= request.user.email,
+                    receipt_email=request.user.email,
                     payment_method_types=["card"],
                     description="Bus ticket Booking",
                 )
