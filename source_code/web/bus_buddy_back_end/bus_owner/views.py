@@ -675,7 +675,7 @@ class Viewavailablebus(ListAPIView):
 
     def list(self, request,start,end):
         try:
-            import pdb;pdb.set_trace()
+            # import pdb;pdb.set_trace()
             logger.info("gettin the user is from user model")
             user_id = request.user.id
             print(user_id)
@@ -684,12 +684,14 @@ class Viewavailablebus(ListAPIView):
             startdate = datetime.strptime(start, '%Y-%m-%d').date()
             enddate = datetime.strptime(end, '%Y-%m-%d').date()
             trips = Trip.objects.filter(
-                user=user_id, start_date=startdate,end_date=enddate
+                user=user_id, start_date__lte=enddate, end_date__gte=startdate
             )
             buses = trips.values_list('bus', flat=True)
             print(buses)
            # Filter Buses Based on Usage
             queryset = Bus.objects.filter(status=0, user=user_id).exclude(id__in=buses)
+            if not queryset.exists():
+                return Response({"message":"There are no available buses for the given dates"},status=404) 
             logger.info("fetching all the data from Bus model matching the condition")
             print(queryset)
             serializer = ViewBusSerializer(queryset)
@@ -697,4 +699,4 @@ class Viewavailablebus(ListAPIView):
             return Response(serializer.data)
 
         except ValueError:
-            return Response(serializer._errors)
+            return Response({"error": "Invalid date format for 'start' or 'end'"}, status=400)

@@ -18,6 +18,7 @@ export default function Addtrips() {
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [searchMode, setSearchMode] = useState(true);
 
   // useEffect(() => {
   //   // Fetch Bus data
@@ -37,12 +38,19 @@ export default function Addtrips() {
   //     .catch((error) => console.error("Error fetching Route data:", error));
   // }, []);
 
-  const dates =  () => {
+  const dates = (selectedStartDate, selectedEndDate) => {
+    const start = selectedStartDate
+        ? selectedStartDate.toISOString().split("T")[0]
+        : null;
+    const end = selectedEndDate
+        ? selectedEndDate.toISOString().split("T")[0]
+        : null;
+
     // Fetch Bus data
     axiosApi
-      .get("http://localhost:8000/bus-owner/view-bus/")
+      .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/${start}/${end}/`)
       .then((response) => {
-        setBusData(response.data.results);
+        setBusData(response.data);
       })
       .catch((error) => console.error("Error fetching Bus data:", error));
 
@@ -51,6 +59,7 @@ export default function Addtrips() {
       .get("http://127.0.0.1:8000/bus-owner/view-routes/")
       .then((response) => {
         setRouteData(response.data.results);
+        setSearchMode(false)
       })
       .catch((error) => console.error("Error fetching Route data:", error));
   };
@@ -108,15 +117,15 @@ export default function Addtrips() {
       <Card
         style={{
           width: "35rem",
-          height: "33.5rem",
+          height: "35rem",
           paddingTop: "3rem",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
         }}
       >
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Trip</Card.Title>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Form onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>Start Date :</Form.Label>
@@ -136,6 +145,9 @@ export default function Addtrips() {
                     dateFormat="yyyy-MM-dd"
                   />
                 </Form.Group>
+                <div style={{display:"flex",justifyContent:"center"}}>
+                  <Button style={{marginTop:"2%",width:"35%",}} type="submit" onClick={() => dates(selectedStartDate, selectedEndDate)}>search</Button>
+                </div>
               </Row>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
@@ -179,7 +191,7 @@ export default function Addtrips() {
                       onChange={(e) => {
                         setStartTime(e.target.value);
                       }}
-                      required
+                      required={searchMode}
                     />
                   </Form.Group>
                   <Form.Group className="mb-5">
@@ -191,7 +203,7 @@ export default function Addtrips() {
                       onChange={(e) => {
                         setEndTime(e.target.value);
                       }}
-                      required
+                      required={searchMode}
                     />
                   </Form.Group>
               </Row>

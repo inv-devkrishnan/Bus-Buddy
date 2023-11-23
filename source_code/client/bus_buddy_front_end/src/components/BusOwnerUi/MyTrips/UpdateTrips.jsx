@@ -17,7 +17,7 @@ export default function Updatetrips() {
   const trip = location.state;
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
-  const [currentTripData, setCurrentTripData] = useState([]);
+  const [cuwrrentTripData, setCurrentTripData] = useState([]);
   let id = trip;
 
   const onSubmit = async (e) => {
@@ -53,15 +53,33 @@ export default function Updatetrips() {
     onSubmit
   });
 
-  useEffect(() => {
+  const dates = (selectedStartDate, selectedEndDate) => {
     // Fetch Bus data
+    if (formik.values.startdate && formik.values.enddate) {
+      const start = new Date(formik.values.startdate).toISOString().split("T")[0];
+      const end = new Date(formik.values.enddate).toISOString().split("T")[0];
+  
+      axiosApi
+        .get(`bus-owner/view-available-bus/${start}/${end}/`)
+        .then((response) => {
+          setBusData(response.data);
+          console.log(response.data)
+        })
+        .catch((error) => console.error("Error fetching Bus data:", error));
+    }
+  };
+
+  useEffect(() => {
+    // Fetch Bus data without date filtering
     axiosApi
-      .get("bus-owner/view-bus/")
+      .get(`bus-owner/view-bus/`)
       .then((response) => {
         setBusData(response.data.results);
       })
       .catch((error) => console.error("Error fetching Bus data:", error));
-
+    },[]);
+  
+  useEffect(() => {
     // Fetch Route data
     axiosApi
       .get("bus-owner/view-routes/")
@@ -69,7 +87,9 @@ export default function Updatetrips() {
         setRouteData(response.data.results);
       })
       .catch((error) => console.error("Error fetching Route data:", error));
-
+  }, []);
+  
+  useEffect(() => {
     // Fetch current trip data
     axiosApi
       .get(`bus-owner/update-trip/${trip}/`)
@@ -83,13 +103,14 @@ export default function Updatetrips() {
           enddate: new Date(res.data["end_date"]),
           starttime: res.data["start_time"],
           endtime: res.data["end_time"],
-        });
+        },
+        );
       })
       .catch((err) => {
         console.log(err.response);
         alert("Trip does not exist!!");
       });
-  }, []);
+  }, [trip]);
 
   console.log(formik.errors);
   return (
@@ -104,7 +125,7 @@ export default function Updatetrips() {
       <Card
         style={{
           width: "35rem",
-          height: "30rem",
+          height: "33.5rem",
           paddingTop: "3rem",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
         }}
@@ -112,8 +133,34 @@ export default function Updatetrips() {
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Update Trip</Card.Title>
           <div style={{ display: "flex" }}>
-            <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "3rem" }}>
+            <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-5">
+                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                  <Form.Label>Start Date</Form.Label>
+                  <DatePicker
+                    selected={formik.values.startdate}
+                    onChange={(date) =>
+                      formik.setFieldValue("startdate", date)
+                    }
+                    className="form-control"
+                    dateFormat="yyyy-MM-dd"
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md="6" controlId="validationCustom04">
+                  <Form.Label>End Date</Form.Label>
+                  <DatePicker
+                    selected={formik.values.enddate}
+                    onChange={(date) =>
+                      formik.setFieldValue("enddate", date,false)
+                    }
+                    className="form-control"
+                    dateFormat="yyyy-MM-dd"
+                  />
+                </Form.Group>
+                <div style={{display:"flex",justifyContent:"center"}}>
+                  <Button style={{marginTop:"2%",width:"35%",}} type="submit" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>search</Button>
+                </div>
+                <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the new dates you have entered<br/>Please Select the bus once again if you have changed the dates</p>
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                   <Form.Label>Bus Name</Form.Label>
                   <Form.Control
@@ -124,7 +171,7 @@ export default function Updatetrips() {
                     onBlur={formik.handleBlur}
                   >
                     <option value="">Select option</option>
-                    {busData.map((bus) => (
+                    { busData.map((bus) => (
                       <option key={bus.id} value={bus.id}>
                         {bus.bus_name}
                       </option>
@@ -155,28 +202,6 @@ export default function Updatetrips() {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                  <Form.Label>Start Date</Form.Label>
-                  <DatePicker
-                    selected={formik.values.startdate}
-                    onChange={(date) =>
-                      formik.setFieldValue("startdate", date)
-                    }
-                    className="form-control"
-                    dateFormat="yyyy-MM-dd"
-                  />
-                </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom04">
-                  <Form.Label>End Date</Form.Label>
-                  <DatePicker
-                    selected={formik.values.enddate}
-                    onChange={(date) =>
-                      formik.setFieldValue("enddate", date,false)
-                    }
-                    className="form-control"
-                    dateFormat="yyyy-MM-dd"
-                  />
-                </Form.Group>
                 <div style={{ display: "flex", justifyContent: "space-around" }}>
                   <Form.Group as={Col} md="6" controlId="validationCustom05">
                     <Form.Label>Arrival Time</Form.Label>
@@ -204,7 +229,7 @@ export default function Updatetrips() {
                   </Form.Group>
                 </div>
               </Row>
-              <div style={{ paddingTop: "1.5rem" }}>
+              <div style={{ paddingTop: "1rem",display:"flex",justifyContent:"center"}}>
                 <Button type="submit">Update</Button>
               </div>
             </Form>
