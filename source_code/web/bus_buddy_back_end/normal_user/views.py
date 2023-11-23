@@ -526,10 +526,10 @@ class CancelBooking(UpdateAPIView):
         try:
             instance = Bookings.objects.get(id=booking_id)
             if instance.user != request.user:
-                logger.info("already cancelled booking")
-                return Response({"error": "Unauthorized user"})
-            elif instance.status == 0:
                 logger.info("another user")
+                return Response({"error": "Unauthorized user"})
+            elif instance.status == 99:
+                logger.info("already cancelled booking")
                 return Response({"message": "Booking is already cancelled"})
             elif request.user.role != 2:
                 logger.info("not a user")

@@ -378,3 +378,19 @@ normal_user.views INFO 2023-11-23 10:54:57,660 views 8010 139721028658752 {'firs
 normal_user.views INFO 2023-11-23 10:54:57,730 views 8010 139721028658752 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
 normal_user.views INFO 2023-11-23 10:55:02,041 views 8010 139720923280960 seat booked and email send
 normal_user.views INFO 2023-11-23 10:55:02,109 views 8010 139720923280960 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 10:58:22,405 views 8010 139720923280960 another user
+normal_user.views INFO 2023-11-23 11:02:02,927 views 8010 139720923280960 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:02:02,947 views 8010 139720923280960 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:02:03,051 views 8010 139720923280960 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:52:42,323 views 8010 139720923280960 another user
+normal_user.views INFO 2023-11-23 11:54:31,246 views 8010 139721028658752 another user
+normal_user.views INFO 2023-11-23 11:55:50,156 views 12793 139838823589440 booking cancelled mail sent
+normal_user.views INFO 2023-11-23 11:55:50,156 views 12793 139838823589440 Booking cancelled successfully
+normal_user.views INFO 2023-11-23 11:58:00,218 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:58:00,241 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:58:00,305 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:58:20,017 views 12793 139838812051008 booking cancelled mail sent
+normal_user.views INFO 2023-11-23 11:58:20,018 views 12793 139838812051008 Booking cancelled successfully
+normal_user.views INFO 2023-11-23 11:59:30,041 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:59:30,066 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
+normal_user.views INFO 2023-11-23 11:59:30,125 views 12793 139838812051008 {'first_name': 'Farsana', 'last_name': 'Hassis', 'email': 'farsanahassis01@gmail.com', 'phone': '8921949460'}
