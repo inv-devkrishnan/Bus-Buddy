@@ -195,6 +195,16 @@ class BookSeatSerializer(serializers.ModelSerializer):
         return booking_id
 
 
+class CancelTravellerDataSerializer(serializers.ModelSerializer):
+    """
+    For cancelling traveller data
+    """
+
+    class Meta:
+        model = BookedSeats
+        fields = ["status"]
+
+
 class CancelBookingSerializer(serializers.ModelSerializer):
     """
     For cancelling bookings

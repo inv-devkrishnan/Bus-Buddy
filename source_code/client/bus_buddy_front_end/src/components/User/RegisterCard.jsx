@@ -12,7 +12,6 @@ import Swal from "sweetalert2";
 import { useFormik } from "formik";
 
 import { RegistrationSchema } from "./RegistrationSchema";
-import axios from "axios";
 import { openAxiosApi } from "../../utils/axiosApi";
 
 export default function RegisterCard() {
