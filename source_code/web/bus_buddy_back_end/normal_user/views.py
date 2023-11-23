@@ -477,6 +477,7 @@ class BookSeat(APIView):
                         pdf_content,
                         pdf_filename,
                         content_type,
+                        status=0,
                     )
 
                     if email_send:

@@ -175,7 +175,7 @@ export default function UserBookingHistory() {
         </div>
         <div className="flex-fill m-3">
           <Table hover responsive="sm">
-            <thead style={{color:"blueviolet"}}>
+            <thead style={{ color: "blueviolet" }}>
               <tr>
                 <th>SI No.</th>
                 <th>Booking Id</th>

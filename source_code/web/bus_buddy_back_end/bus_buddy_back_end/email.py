@@ -54,6 +54,7 @@ def send_email_with_attachment(
     attachment_content,
     attachment_filename,
     content_type,
+    status,
 ):
     """
     Sends an email with attachment like pdf
@@ -65,6 +66,8 @@ def send_email_with_attachment(
         attachment_content (bytes): The attachment(document,text file,pdf or image)
         attachment_filename (str): The attachment name
         content_type (str): The MIME type of the file
+        status (int): indicates the type of mail 0->booking confirmation,1->booking cancelation,2->bus owner approval
+
 
     Returns:
     Boolean: true if mail has been send else false
@@ -79,6 +82,9 @@ def send_email_with_attachment(
 
     try:
         email.send()
+        Email.objects.create(
+            from_email=from_email, to_email=recipient_list, status=status
+        )
         logger.info("Email sent successfully!")
         return True
 
