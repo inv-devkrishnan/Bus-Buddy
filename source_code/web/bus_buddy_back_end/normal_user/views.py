@@ -39,6 +39,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def mail_sent_response(mailfunction):
+    if mailfunction:
+        logger.info("booking cancelled mail sent")
+        return "mail send successfully"
+    else:
+        logger.info("booking cancelled mail failed")
+        return "mail send failed"
+
+
 class ViewSeats(ListAPIView):
     """
     For viewing seat details in a trip
@@ -515,7 +524,16 @@ class CancelBooking(UpdateAPIView):
         today = now.strftime("%Y-%m-%d")
         try:
             instance = Bookings.objects.get(id=booking_id)
-            if instance.status == 0:
+            if instance.user != request.user:
+                logger.info("already cancelled booking")
+                return Response({"error": "Unauthorized user"})
+            elif instance.status == 0:
+                logger.info("another user")
+                return Response({"message": "Booking is already cancelled"})
+            elif request.user.role != 2:
+                logger.info("not a user")
+                return Response({"error": "Unauthorized user"})
+            else:
                 booked_seats = BookedSeats.objects.filter(booking=booking_id)
                 status_data = {"status": 99}  # status 99 denotes the cancelled bookings
                 serializer = CancelBookingSerializer(
@@ -540,15 +558,15 @@ class CancelBooking(UpdateAPIView):
                     email_send = send_email_with_template(
                         subject, template, context, recipient_list, status=1
                     )
-                    logger.info("booking cancelled")
-                    return Response({"message": "cancelled succesffully"}, status=200)
+
+                    email = mail_sent_response(email_send)
+                    logger.info("Booking cancelled successfully")
+                    return Response(
+                        {"message": "Booking cancelled successfully", "email": email}
+                    )
                 else:
                     logger.info(serializer.errors)
                     return Response(serializer.errors, status=400)
-            else:
-                logger.info("already cancelled booking")
-                return Response({"message": "booking is already cancelled"}, status=200)
-
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)

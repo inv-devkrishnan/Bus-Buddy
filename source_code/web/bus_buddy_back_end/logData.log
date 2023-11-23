@@ -351,3 +351,14 @@ normal_user.views INFO 2023-11-23 08:52:40,481 views 37252 140071002433088 booki
 normal_user.views INFO 2023-11-23 08:57:10,370 views 37423 140378680845888 booking cancelled
 normal_user.views INFO 2023-11-23 09:00:45,711 views 38379 139673839593024 booking cancelled
 normal_user.views INFO 2023-11-23 09:01:00,888 views 38485 140596622652992 already cancelled booking
+normal_user.views INFO 2023-11-23 09:44:35,332 views 42816 139919282923072 already cancelled booking
+normal_user.views INFO 2023-11-23 09:46:28,907 views 42935 139734226036288 already cancelled booking
+normal_user.views INFO 2023-11-23 09:53:25,601 views 43691 140619242534464 cancel_booking_confirmation.html
+normal_user.views INFO 2023-11-23 10:00:16,127 views 44525 139945720669760 some error
+normal_user.views INFO 2023-11-23 10:00:37,578 views 44525 139945720669760 already cancelled booking
+normal_user.views INFO 2023-11-23 10:01:03,656 views 44643 140279637599808 already cancelled booking
+normal_user.views INFO 2023-11-23 10:01:34,273 views 44643 140279637599808 already cancelled booking
+normal_user.views INFO 2023-11-23 10:07:51,044 views 45170 140073296717376 already cancelled booking
+normal_user.views INFO 2023-11-23 10:08:38,779 views 45276 139803952145984 already cancelled booking
+normal_user.views INFO 2023-11-23 10:13:56,929 views 45276 139803952145984 booking cancelled mail sent
+normal_user.views INFO 2023-11-23 10:13:56,929 views 45276 139803952145984 Booking cancelled successfully
