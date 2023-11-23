@@ -370,10 +370,7 @@ class ViewTrip(APIView):
                 "has_next": current_page.has_next(),
                 "data": list(current_page),
             }
-            logger.info(
-                "returned trip list total entries :"
-                + str(paginator.count)
-            )
+            logger.info("returned trip list total entries :" + str(paginator.count))
             return Response(paginated_data)
         else:
             logger.warn("request failed ! reason : invalid query params")
@@ -389,6 +386,26 @@ class BookSeat(APIView):
     """
 
     permission_classes = (IsAuthenticated,)
+
+    def refund_if_booking_fail(self, payment_intent):
+        """function to refund payment if booking failed
+
+        Args:
+            payment_intent (_type_): payment_intent to be refunded
+        """
+        stripe.api_key = config("STRIPE_API_KEY")
+        if payment_intent:
+            logger.info("payment Intent to be Refunded :" + payment_intent)
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("Refund Initiated for Failed Booking")
+                return True
+            except Exception as e:
+                logger.error("Refund Initiation Failed Reason :" + str(e))
+                return False
+        else:
+            logger.error(" Refund Failed payment Intent is empty ")
+            return False
 
     def get_context_for_ticket_template(self, request, request_data):
         # getting objects
@@ -495,14 +512,36 @@ class BookSeat(APIView):
                         )
                 else:
                     logger.info(serializer.errors)
-                    return Response(serializer.errors, status=200)
+                    return Response(
+                        {
+                            "error": str(serializer.errors),
+                            "refund_performed": self.refund_if_booking_fail(
+                                request_data.get("payment").get("payment_intend")
+                            ),
+                        },
+                        status=400,
+                    )
             else:
                 return Response(
-                    {"authorization failed": "Unauthorized user"}, status=401
+                    {
+                        "error": "Unauthorized user",
+                        "refund_performed": self.refund_if_booking_fail(
+                            request_data.get("payment").get("payment_intend")
+                        ),
+                    },
+                    status=401,
                 )
         except Exception as e:
             logger.info(e)
-            return Response("errors:" f"{e}", status=400)
+            return Response(
+                {
+                    "error:": str(e),
+                    "refund_performed": self.refund_if_booking_fail(
+                        request_data.get("payment").get("payment_intend")
+                    ),
+                },
+                status=400,
+            )
 
 
 class CancelBooking(UpdateAPIView):
@@ -570,7 +609,9 @@ class CancelBooking(UpdateAPIView):
                                 self.perform_update(sub_serializer)
                         self.perform_update(serializer)
                         logger.info("booking cancelled")
-                        return Response({"message": "cancelled succesffully"}, status=200)
+                        return Response(
+                            {"message": "cancelled succesffully"}, status=200
+                        )
                     else:
                         return Response({"message": "cancel failed"}, status=400)
                 else:

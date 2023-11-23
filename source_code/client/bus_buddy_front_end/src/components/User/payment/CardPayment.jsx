@@ -14,18 +14,18 @@ import { axiosApi } from "../../../utils/axiosApi";
 import { useState } from "react";
 function CardPayment(props) {
   const stripe = useStripe(); // using stripe hook  initialize stripe
-  const elements = useElements();  // using elements hook to initialize element
+  const elements = useElements(); // using elements hook to initialize element
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // to check wether a payment is ongoing
 
   const bookSeat = async (paymentIntentId) => {
     // function to book seat and added payment info to db
     let newData = props.data;
-    let payment ={
-      payment_intend : paymentIntentId,     
-      status : 0,
-    }
-    newData['payment'] = payment;  // appends payment info to existing booking data
+    let payment = {
+      payment_intend: paymentIntentId,
+      status: 0,
+    };
+    newData["payment"] = payment; // appends payment info to existing booking data
     axiosApi
       .post("user/book-seat/", newData)
       .then((res) => {
@@ -41,23 +41,26 @@ function CardPayment(props) {
         localStorage.removeItem("seat_list");
         localStorage.removeItem("current_trip");
 
-        window.history.replaceState({}, '', '/');
-        window.history.pushState({}, '', '/');  // clears previous history
+        window.history.replaceState({}, "", "/");
+        window.history.pushState({}, "", "/"); // clears previous history
         navigate("/user-dashboard");
       })
       .catch((err) => {
         Swal.fire({
-          title: "Oops!!",
-          text: err.response.data,
+          title: "Booking Failed",
+          text:(err.response.data?.refund_performed
+              ? "Amount Deducted will be refunded within few days "
+              : "Couldn't perform refund Call customer support"),
           icon: "error",
         });
+        navigate("/")
       });
   };
 
   const dopay = async (e) => {
     // function to perform payment on stripe
 
-    e.preventDefault();   
+    e.preventDefault();
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -65,39 +68,34 @@ function CardPayment(props) {
       return;
     }
     setIsLoading(true); // payment is ongoing
-    await elements.submit().then(async function(result){
-    if(result.error)
-    {
-      console.log(result.error)
-      setIsLoading(false);
-    }
-    else
-    {
-      const result = await stripe.confirmPayment({
-        //`Elements` instance that was used to create the Payment Element
-        elements,
-        confirmParams: {},
-        redirect: "if_required",
-      });
-  
-      console.log(result);
+    await elements.submit().then(async function (result) {
       if (result.error) {
-        // Show error to your customer (for example, payment details incomplete)
-        console.log(result.error.message);
+        console.log(result.error);
         setIsLoading(false);
-        Swal.fire({
-          title: "Payment Failed !",
-          text: result.error.message,
-          icon: "error",
-        });
       } else {
-        const paymentIntentId = result?.paymentIntent?.id
-        await bookSeat(paymentIntentId);
+        const result = await stripe.confirmPayment({
+          //`Elements` instance that was used to create the Payment Element
+          elements,
+          confirmParams: {},
+          redirect: "if_required",
+        });
+
+        console.log(result);
+        if (result.error) {
+          // Show error to your customer (for example, payment details incomplete)
+          console.log(result.error.message);
+          setIsLoading(false);
+          Swal.fire({
+            title: "Payment Failed !",
+            text: result.error.message,
+            icon: "error",
+          });
+        } else {
+          const paymentIntentId = result?.paymentIntent?.id;
+          await bookSeat(paymentIntentId);
+        }
       }
-    }
     });
-   
-   
   };
 
   return (
@@ -133,7 +131,7 @@ function CardPayment(props) {
                     Loading...
                   </div>
                 ) : (
-                  "Pay ₹ "+props.data.total_amount
+                  "Pay ₹ " + props.data.total_amount
                 )}
               </Button>
             </form>
@@ -143,7 +141,7 @@ function CardPayment(props) {
     </Container>
   );
 }
-CardPayment.propTypes ={
-  data : PropTypes.object,
-}
+CardPayment.propTypes = {
+  data: PropTypes.object,
+};
 export default CardPayment;
