@@ -30,7 +30,10 @@ from .serializer import (
     CostSerializer,
     CancelTravellerDataSerializer,
 )
-from bus_buddy_back_end.email import send_email_with_attachment
+from bus_buddy_back_end.email import (
+    send_email_with_attachment,
+    send_email_with_template,
+)
 from bus_buddy_back_end.utils import render_template, convert_template_to_pdf
 import random
 import os
@@ -413,7 +416,7 @@ class BookSeat(APIView):
         # getting required data
         context = {
             "booking_id": request_data["booking_id"],
-            "recipient": request.user.first_name + " " + request.user.last_name,
+            "recipient": request.user.first_name,
             "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
             "trip_start": trip.start_date,
             "bus": bus.bus_name,
