@@ -387,7 +387,7 @@ class BookSeat(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def refund_if_booking_fail(self, payment_intent):
+    def refund_if_booking_fail(self, payment_intent,user):
         """function to refund payment if booking failed
 
         Args:
@@ -399,6 +399,18 @@ class BookSeat(APIView):
             try:
                 stripe.Refund.create(payment_intent=payment_intent)
                 logger.info("Refund Initiated for Failed Booking")
+                subject = "Booking Failed"
+                context = {
+                    "recipient_name": user.first_name,
+                }
+                recipient_list = [user.email]
+                send_email_with_template(
+                    subject=subject,
+                    context=context,
+                    recipient_list=recipient_list,
+                    template="booking_fail.html",
+                    status=3,
+                )   
                 return True
             except Exception as e:
                 logger.error("Refund Initiation Failed Reason :" + str(e))
@@ -516,7 +528,8 @@ class BookSeat(APIView):
                         {
                             "error": str(serializer.errors),
                             "refund_performed": self.refund_if_booking_fail(
-                                request_data.get("payment").get("payment_intend")
+                                request_data.get("payment").get("payment_intend"),
+                                request.user
                             ),
                         },
                         status=400,
@@ -526,7 +539,8 @@ class BookSeat(APIView):
                     {
                         "error": "Unauthorized user",
                         "refund_performed": self.refund_if_booking_fail(
-                            request_data.get("payment").get("payment_intend")
+                            request_data.get("payment").get("payment_intend"),
+                            request.user
                         ),
                     },
                     status=401,
@@ -537,7 +551,8 @@ class BookSeat(APIView):
                 {
                     "error:": str(e),
                     "refund_performed": self.refund_if_booking_fail(
-                        request_data.get("payment").get("payment_intend")
+                        request_data.get("payment").get("payment_intend"),
+                        request.user
                     ),
                 },
                 status=400,
