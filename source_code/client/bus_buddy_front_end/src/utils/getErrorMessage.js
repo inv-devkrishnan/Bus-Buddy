@@ -37,6 +37,8 @@ export function getErrorMessage(errorCode) {
       return "Operation can't be performed on admin account";
     case "D1014":
       return "Mail Operation Failed ";
+    case "D1015":
+    return "Please login using different sign in method";
     case "D1016":
       return "Payment Intent Creation Failed";      
     case "T0001":
