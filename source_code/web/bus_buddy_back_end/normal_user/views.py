@@ -462,7 +462,6 @@ class CancelBooking(UpdateAPIView):
                     return Response({"message": "cancel failed"}, status=400)
             else:
                 logger.info(serializer.errors)
-                print("Entering")
                 return Response(serializer.errors, status=400)
         except Exception as e:
             logger.info(e)
