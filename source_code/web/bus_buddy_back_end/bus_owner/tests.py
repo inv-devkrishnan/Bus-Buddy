@@ -29,14 +29,26 @@ class BaseTest(TestCase):
         self.client = APIClient()
 
         self.register_bus_owner = reverse("register-bus-owner")
+        self.add_seat = reverse("add-seat-details")
 
         self.user = User.objects.create_user(
-            email=valid_email, password=valid_password, account_provider=0, role=1
+            email=valid_email,
+            password=valid_password,
+            phone=valid_phone,
+            company_name=valid_company_name,
+            aadhaar_no=valid_aadhaar,
+            msme_no=valid_msme,
+            account_provider=0,
+            role=3,
         )
+
         self.client.force_authenticate(self.user)
+        self.bus = Bus.objects.create(
+            bus_name="Bus2", plate_no="CD456EF", user=self.user
+        )
 
         self.valid_all_values_seat_details = {
-            "bus": 1,
+            "bus": self.bus,
             "seat_ui_order": 11,
             "seat_number": "1",
             "seat_type": 0,
@@ -432,3 +444,11 @@ class CreateTest(BusApiTests):
         print(delete_bus)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
+
+
+class SeatDetailTest(TestCase):
+    def test_01_can_add_seat_detai(self):
+        response = self.client.post(
+            self.add_seat, self.valid_all_values_seat_details, format="json"
+        )
+        print(response.content, response.status_code)

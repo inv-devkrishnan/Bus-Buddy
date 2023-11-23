@@ -9,9 +9,13 @@ from rest_framework.exceptions import ValidationError
 from datetime import datetime
 
 from account_manage.models import User
-from normal_user.models import Bookings
-from bus_owner.models import StartStopLocations
-from bus_owner.models import SeatDetails, Trip, PickAndDrop
+from normal_user.models import Bookings, BookedSeats
+from bus_owner.models import (
+    SeatDetails,
+    Trip,
+    PickAndDrop,
+    StartStopLocations,
+)
 
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
@@ -21,8 +25,12 @@ from .serializer import (
     PickAndDropSerializer,
     BookSeatSerializer,
     CancelBookingSerializer,
+    CancelTravellerDataSerializer,
 )
+from bus_buddy_back_end.email import send_email_with_attachment
+from bus_buddy_back_end.utils import render_template, convert_template_to_pdf
 import random
+import os
 import logging
 
 logger = logging.getLogger(__name__)
@@ -370,12 +378,54 @@ class BookSeat(APIView):
 
     permission_classes = (IsAuthenticated,)
 
+    def get_context_for_ticket_template(self, request, request_data):
+        # getting objects
+        trip = Trip.objects.get(id=request_data["trip"])
+        bus = trip.bus
+        owner = bus.user
+        route = trip.route
+        route_start = route.start_point
+        route_end = route.end_point
+        pick_up = PickAndDrop.objects.get(id=request_data["pick_up"])
+
+        # getting seat ids and objects
+        seats = []
+        for data in request_data["booked_seats"]:
+            seats.append(data["seat"])
+        seat_objects = []
+        for seat in seats:
+            seat_objects.append(SeatDetails.objects.get(id=seat))
+
+        # total seat cost
+        seat_cost = 0
+        for data in seat_objects:
+            seat_cost = seat_cost + data.seat_cost
+
+        # getting required data
+        context = {
+            "booking_id": request_data["booking_id"],
+            "recipient": request.user.first_name + " " + request.user.last_name,
+            "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
+            "trip_start": trip.start_date,
+            "bus": bus.bus_name,
+            "route": {"from": route_start.location_name, "to": route_end.location_name},
+            "travellers": request_data["booked_seats"],
+            "seat_cost": float(seat_cost),
+            "route_cost": float(route.travel_fare),
+            "gst": owner.extra_charges,
+            "total": (
+                float(seat_cost) + float(route.travel_fare) + owner.extra_charges
+            ),
+        }
+        return context
+
     def post(self, request):
         user_id = request.user.id
         role = request.user.role
         now = datetime.now()
+        today = now.strftime("%Y-%m-%d")
         year_string = now.strftime("%Y")
-        random_number = random.randrange(0, 99999)
+        random_number = random.randrange(0, 9999)
 
         try:
             if role == 2:
@@ -387,8 +437,50 @@ class BookSeat(APIView):
                 serializer = BookSeatSerializer(data=request_data)
                 if serializer.is_valid():
                     serializer.save()
-                    logger.info("seat booked")
-                    return Response({"message": "Seat booked successfully"}, status=201)
+                    # path of the folder
+                    current_dir = os.path.dirname(os.path.abspath(__file__))
+                    parent_dir = os.path.dirname(current_dir)
+                    templates_folder = os.path.join(parent_dir, "templates")
+
+                    template_file = "ticket_format.html"
+                    context = self.get_context_for_ticket_template(
+                        request, request_data
+                    )
+
+                    template = render_template(templates_folder, template_file, context)
+
+                    subject = "Booking Confirmation - Bus Buddy"
+                    message = (
+                        message
+                    ) = f"Dear {request.user.first_name},\n\nThank you for choosing Bus Buddy for your travel needs! We're excited to confirm your booking with booking ID: {request_data['booking_id']} has been successful.\n\nYour ticket is attached to this email. Please ensure you have it with you during your journey. If you have any questions or need further assistance, feel free to reach out to us.\n\nSafe travels, and thank you for using Bus Buddy!\n\nBest regards,\nBus Buddy Team"
+
+                    recipient_list = [request.user.email]
+                    pdf_content = convert_template_to_pdf(template)
+                    pdf_filename = f"{request.user.first_name}_ticket_{today}.pdf"
+                    content_type = "application/pdf"
+                    email_send = send_email_with_attachment(
+                        subject,
+                        message,
+                        recipient_list,
+                        pdf_content,
+                        pdf_filename,
+                        content_type,
+                    )
+
+                    if email_send:
+                        logger.info("seat booked and email send")
+                        return Response(
+                            {"message": "Seat booked successfully"}, status=201
+                        )
+                    else:
+                        logger.error("seat booked and email send failled")
+                        return Response(
+                            {
+                                "message": "Seat booked successfully",
+                                "email": "Failed to send email",
+                            },
+                            status=200,
+                        )
                 else:
                     logger.info(serializer.errors)
                     return Response(serializer.errors, status=200)
@@ -419,17 +511,29 @@ class CancelBooking(UpdateAPIView):
 
         try:
             instance = Bookings.objects.get(id=booking_id)
-            current_data = {"status": 99}  # status 99 denotes the cancelled bookings
-            serializer = CancelBookingSerializer(
-                instance, data=current_data, partial=True
-            )
-            if serializer.is_valid(raise_exception=True):
-                self.perform_update(serializer)
-                logger.info("booking cancelled")
-                return Response({"message": "cancelled succesffully"}, status=200)
+            if instance.status == 0:
+                booked_seats = BookedSeats.objects.filter(booking=booking_id)
+                status_data = {"status": 99}  # status 99 denotes the cancelled bookings
+                serializer = CancelBookingSerializer(
+                    instance, data=status_data, partial=True
+                )
+                if serializer.is_valid(raise_exception=True):
+                    for object in booked_seats:
+                        sub_serializer = CancelTravellerDataSerializer(
+                            object, data=status_data, partial=True
+                        )
+                        if sub_serializer.is_valid():
+                            self.perform_update(sub_serializer)
+                    self.perform_update(serializer)
+                    logger.info("booking cancelled")
+                    return Response({"message": "cancelled succesffully"}, status=200)
+                else:
+                    logger.info(serializer.errors)
+                    return Response(serializer.errors, status=400)
             else:
-                logger.info(serializer.errors)
-                return Response(serializer.errors, status=400)
+                logger.info("already cancelled booking")
+                return Response({"message": "booking is already cancelled"}, status=200)
+
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)

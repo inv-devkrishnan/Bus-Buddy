@@ -254,7 +254,7 @@ const TravellerDetail = () => {
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
           <CardText style={{ margin: 5 }}>
-            <h6>Total Amount:</h6>
+            <strong>Total Amount:</strong>{" "}
             {localStorage.getItem("total_amount")}
           </CardText>
         </CardBody>
