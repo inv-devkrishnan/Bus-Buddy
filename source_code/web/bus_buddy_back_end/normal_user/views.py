@@ -14,7 +14,7 @@ from account_manage.models import User
 from normal_user.models import Bookings, Payment
 from bus_owner.models import StartStopLocations
 from bus_owner.models import SeatDetails, Trip, PickAndDrop
-
+from bus_buddy_back_end.permissions import AllowNormalUsersOnly
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
 from .serializer import BookingHistoryDataSerializer as BHDS
@@ -418,6 +418,14 @@ class CancelBooking(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def refund(self, booking_id):
+        """function to provide refund once booking is cancelled
+
+        Args:
+            booking_id (_type_): the id of the booking to be cancelled
+
+        Returns:
+        Boolean: True =>refund sucessful False => refund faild
+        """
         stripe.api_key = config("STRIPE_API_KEY")
         try:
             payment_instance = Payment.objects.get(booking_id=booking_id,status=0)
@@ -433,7 +441,7 @@ class CancelBooking(UpdateAPIView):
                 return False
         except Payment.DoesNotExist:
             logger.warn(
-                "No entry for booking_id : " + str(booking_id) + "in payment table"
+                "Cancel booking failed ! Reason : No entry for booking_id : " + str(booking_id) + "in payment table"
             )
             return False
 
@@ -454,6 +462,7 @@ class CancelBooking(UpdateAPIView):
                     return Response({"message": "cancel failed"}, status=400)
             else:
                 logger.info(serializer.errors)
+                print("Entering")
                 return Response(serializer.errors, status=400)
         except Exception as e:
             logger.info(e)
@@ -461,7 +470,10 @@ class CancelBooking(UpdateAPIView):
 
 
 class CreatePaymentIntent(APIView):
-    permission_classes = (IsAuthenticated,)
+    """
+    api to create payment Intent
+    """
+    permission_classes = (AllowNormalUsersOnly,)
     stripe.api_key = config("STRIPE_API_KEY")
 
     def post(self, request):
@@ -469,6 +481,7 @@ class CreatePaymentIntent(APIView):
         if serialized_data.is_valid():
             total_cost = serialized_data._validated_data["total_cost"]
             try:
+                # creates the payment Intent
                 intent = stripe.PaymentIntent.create(
                     amount=int(total_cost * 100),  # to convert rupee to paise
                     currency="inr",

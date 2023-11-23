@@ -17,6 +17,10 @@ function PaymentPage() {
 
   useEffect(() => {
     if (authStatus()) {
+      if (localStorage.getItem("user_role") !== "2") {
+        // if user is not normal user redirect to login
+        navigate("/login");
+      }
       if (location.state === null) {
         // if payment is false navigate to home
         navigate("/");

@@ -69,6 +69,7 @@ function CardPayment(props) {
     if(result.error)
     {
       console.log(result.error)
+      setIsLoading(false);
     }
     else
     {
@@ -83,6 +84,7 @@ function CardPayment(props) {
       if (result.error) {
         // Show error to your customer (for example, payment details incomplete)
         console.log(result.error.message);
+        setIsLoading(false);
         Swal.fire({
           title: "Payment Failed !",
           text: result.error.message,
@@ -90,12 +92,12 @@ function CardPayment(props) {
         });
       } else {
         const paymentIntentId = result?.paymentIntent?.id
-        bookSeat(paymentIntentId);
+        await bookSeat(paymentIntentId);
       }
     }
     });
    
-    setIsLoading(false); // payment completed
+   
   };
 
   return (
@@ -116,6 +118,7 @@ function CardPayment(props) {
               <Button
                 className="mt-3"
                 type="submit"
+                variant="success"
                 disabled={isLoading || !stripe || !elements}
               >
                 {isLoading ? (
@@ -130,7 +133,7 @@ function CardPayment(props) {
                     Loading...
                   </div>
                 ) : (
-                  "Pay Amount"
+                  "Pay ₹ "+props.data.total_amount
                 )}
               </Button>
             </form>
