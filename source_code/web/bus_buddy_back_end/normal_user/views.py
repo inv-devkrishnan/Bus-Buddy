@@ -27,7 +27,10 @@ from .serializer import (
     CancelBookingSerializer,
     CancelTravellerDataSerializer,
 )
-from bus_buddy_back_end.email import send_email_with_attachment
+from bus_buddy_back_end.email import (
+    send_email_with_attachment,
+    send_email_with_template,
+)
 from bus_buddy_back_end.utils import render_template, convert_template_to_pdf
 import random
 import os
@@ -404,7 +407,7 @@ class BookSeat(APIView):
         # getting required data
         context = {
             "booking_id": request_data["booking_id"],
-            "recipient": request.user.first_name + " " + request.user.last_name,
+            "recipient": request.user.first_name,
             "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
             "trip_start": trip.start_date,
             "bus": bus.bus_name,
@@ -508,7 +511,8 @@ class CancelBooking(UpdateAPIView):
 
     def update(self, request):
         booking_id = request.GET.get("booking_id")
-
+        now = datetime.now()
+        today = now.strftime("%Y-%m-%d")
         try:
             instance = Bookings.objects.get(id=booking_id)
             if instance.status == 0:
@@ -525,6 +529,17 @@ class CancelBooking(UpdateAPIView):
                         if sub_serializer.is_valid():
                             self.perform_update(sub_serializer)
                     self.perform_update(serializer)
+                    subject = "Booking Cancellation Confirmation - Bus Buddy"
+                    template = "cancel_booking_confirmation.html"
+                    context = {
+                        "recipient_name": request.user.first_name,
+                        "booking_id": instance.booking_id,
+                        "cancellation_date": today,
+                    }
+                    recipient_list = [request.user.email]
+                    email_send = send_email_with_template(
+                        subject, template, context, recipient_list, status=1
+                    )
                     logger.info("booking cancelled")
                     return Response({"message": "cancelled succesffully"}, status=200)
                 else:
