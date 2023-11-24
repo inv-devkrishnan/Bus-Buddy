@@ -124,7 +124,7 @@ class SeatDetailsViewSerialzer(serializers.ModelSerializer):
     def get_booked(self, obj):
         # Filter the BookedSeats to include only those with 'trp_id'
         trip_id = self.context.get("trip_id")
-        booked_seats = obj.bookedseats_set.filter(trip_id=trip_id)
+        booked_seats = obj.bookedseats_set.filter(trip_id=trip_id, status=2)
         return BookedSeatsSerializer(booked_seats, many=True).data
 
     booked = serializers.SerializerMethodField(method_name="get_booked")
