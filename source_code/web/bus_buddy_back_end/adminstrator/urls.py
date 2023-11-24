@@ -9,4 +9,5 @@ urlpatterns = [
     path("ban-user/<int:user_id>/", views.BanUser.as_view(), name="ban_user"),
     path("unban-user/<int:user_id>/", views.UnBanUser.as_view(), name="unban_user"),
     path("remove-user/<int:user_id>/", views.RemoveUser.as_view(), name="remove_user"),
+    path("approve-bus-owner/<int:user_id>/",views.ApproveBusOwner.as_view(),name="approve_bus_owner"),
 ]

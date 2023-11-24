@@ -1,20 +1,72 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
-from datetime import datetime
-from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import UpdateAPIView
-from rest_framework.generics import ListAPIView
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import ValidationError
+from datetime import datetime
 
 from account_manage.models import User
 from normal_user.models import Bookings
 from bus_owner.models import StartStopLocations
+from bus_owner.models import SeatDetails, Trip, PickAndDrop
+
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
 from .serializer import BookingHistoryDataSerializer as BHDS
+from .serializer import (
+    SeatDetailsViewSerialzer,
+    PickAndDropSerializer,
+    BookSeatSerializer,
+    CancelBookingSerializer,
+)
+import random
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class ViewSeats(ListAPIView):
+    """
+    For viewing seat details in a trip
+
+    Args:
+        trip_id (integer): id of the trip
+
+    Returns:
+        json: pick and drop and complete seat details corresponding to the trip id
+    """
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        trip_id = request.GET.get("trip_id")
+
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            serializer = SeatDetailsViewSerialzer(
+                SeatDetails.objects.filter(
+                    bus_id=trip.bus_id
+                ),  # data from seat details with bus id from trip table
+                context={"trip_id": trip_id},
+                many=True,
+            )
+            # print(trip.route)
+            pick_and_drop = PickAndDrop.objects.filter(route=trip.route)
+            pick_and_drop_serializer = PickAndDropSerializer(
+                pick_and_drop, many=True
+            )  # data from pick and drop with the route id from trip table
+            print(pick_and_drop_serializer.data)
+            pick_and_drop_array = [pick_and_drop_serializer.data]
+            total_data = (
+                pick_and_drop_array + serializer.data
+            )  # both seat data and pick and drop data
+            logger.info(total_data)
+            return Response(total_data, status=200)
+        except Exception as e:
+            return Response("errors:" f"{e}", status=400)
 
 
 class RegisterUser(APIView):
@@ -29,9 +81,14 @@ class RegisterUser(APIView):
             serialized_data = UMS(data=request.data)
             if serialized_data.is_valid():
                 serialized_data.save()
+                logger.info("user registered")
                 return Response({"message": "registration successfull"}, status=201)
-        except ValidationError:
-            return Response(serialized_data._errors, status=400)
+            else:
+                logger.info(serialized_data.errors)
+                return Response(serialized_data.errors, status=200)
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)
 
 
 class UpdateProfile(UpdateAPIView):
@@ -49,19 +106,26 @@ class UpdateProfile(UpdateAPIView):
             return Response(status=404)
 
         serialized_data = UDS(user)
+        logger.info(serialized_data.data)
         return Response(serialized_data.data)
 
     def update(self, request):
         try:
-            user_id = request.user.id  # get id using token
-            instance = User.objects.get(id=user_id)
-            current_data = request.data
-            serializer = UMS(instance, data=current_data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
-            return Response({"message": "updated succesffully"}, status=200)
-        except ValueError:
-            return Response(serializer.errors, status=400)
+            if request.user.id:
+                user_id = request.user.id  # get id using token
+                instance = User.objects.get(id=user_id)
+                current_data = request.data
+                serializer = UMS(instance, data=current_data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                self.perform_update(serializer)
+                logger.info(serializer.data)
+                return Response({"message": "updated succesffully"}, status=200)
+            else:
+                logger.info(serializer.errors)
+                return Response(serializer.errors, status=400)
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)
 
     def put(self, request):
         return self.update(request)
@@ -101,9 +165,14 @@ class BookingHistory(ListAPIView):
     pagination_class = CustomPagination
 
     def list(self, request):
+        user_id = request.user.id
+        status = request.GET.get("status")
         try:
-            user_id = request.user.id
-            queryset = Bookings.objects.filter(user=user_id)
+            if status in {"0", "1", "99"}:
+                queryset = Bookings.objects.filter(user=user_id, status=status)
+            else:
+                queryset = Bookings.objects.filter(user=user_id)
+
             serializer = BHDS(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -112,9 +181,11 @@ class BookingHistory(ListAPIView):
                 return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "bookimg history")
             return Response(serializer.data)
 
         except ValueError:
+            logger.info(serializer.errors)
             return Response(serializer._errors)
 
 
@@ -287,3 +358,78 @@ class ViewTrip(APIView):
             return Response(paginated_data)
         else:
             return Response({"error_code": "D1006"}, status=400)
+
+
+class BookSeat(APIView):
+    """
+    For booking seats
+
+    Returns:
+        json : success message
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user_id = request.user.id
+        role = request.user.role
+        now = datetime.now()
+        year_string = now.strftime("%Y")
+        random_number = random.randrange(0, 99999)
+
+        try:
+            if role == 2:
+                request_data = request.data.copy()
+                request_data["user"] = user_id
+                request_data["booking_id"] = (
+                    "BK" + str(user_id) + "YR" + year_string + str(random_number)
+                )  # for generating unique booking id
+                serializer = BookSeatSerializer(data=request_data)
+                if serializer.is_valid():
+                    serializer.save()
+                    logger.info("seat booked")
+                    return Response({"message": "Seat booked successfully"}, status=201)
+                else:
+                    logger.info(serializer.errors)
+                    return Response(serializer.errors, status=200)
+            else:
+                return Response(
+                    {"authorization failed": "Unauthorized user"}, status=401
+                )
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)
+
+
+class CancelBooking(UpdateAPIView):
+    """
+    For cancelling booking
+
+    Args:
+        booking_id (int): query param for identifying booking
+
+    Returns:
+        json : success message
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request):
+        booking_id = request.GET.get("booking_id")
+
+        try:
+            instance = Bookings.objects.get(id=booking_id)
+            current_data = {"status": 99}  # status 99 denotes the cancelled bookings
+            serializer = CancelBookingSerializer(
+                instance, data=current_data, partial=True
+            )
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                logger.info("booking cancelled")
+                return Response({"message": "cancelled succesffully"}, status=200)
+            else:
+                logger.info(serializer.errors)
+                return Response(serializer.errors, status=400)
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)

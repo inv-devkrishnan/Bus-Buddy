@@ -1,6 +1,9 @@
 from django.urls import path
-from bus_owner import views
+from . import views
+
 urlpatterns = [
+    path('add-seat-details', views.AddSeatDetails.as_view(), name="add-seat-details"),
+    path('get-seat-details',views.GetSeatDetails.as_view(), name="get-seat-details"),
     path('registration/', views.RegisterBusOwner.as_view(), name="register-bus-owner"),
     path('update-profile',views.UpdateBusOwner.as_view(), name="update-profile-owner"),
     path('add-bus/',views.Addbus.as_view(),name="add-bus"),

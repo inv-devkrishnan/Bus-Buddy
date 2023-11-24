@@ -14,6 +14,7 @@ const noAuthUrls = [
   "account/local-login/",
   "account/google-login/", // urls for which auth header not required
   "user/registration/",
+  "normal-user/view-seats/",
 ];
 const loginUrl = "/login";
 axiosApi.interceptors.request.use(
@@ -21,7 +22,7 @@ axiosApi.interceptors.request.use(
     if (noAuthUrls.includes(config.url)) {
       // no need auth header for registration
       config.headers["Accept"] = `application/json`;
-      config.headers["Content-Type"] = `application/x-www-form-urlencoded`;
+      config.headers["Content-Type"] = `application/json`;
       return config;
     } else {
       console.log(config.url);
@@ -29,7 +30,7 @@ axiosApi.interceptors.request.use(
         "access_token"
       )}`;
       config.headers["Accept"] = `application/json`;
-      config.headers["Content-Type"] = `application/x-www-form-urlencoded`;
+      config.headers["Content-Type"] = `application/json`;
       return config;
     }
   },

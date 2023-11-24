@@ -9,7 +9,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { ShieldLockFill, Eye, EyeSlash } from "react-bootstrap-icons";
 import { useFormik } from "formik";
 import { OwnerRegistrationSchema } from "./OwnerRegistrationSchema";
-import { axiosApi } from "../utils/axiosApi";
+import { openAxiosApi } from "../utils/axiosApi";
 import Swal from "sweetalert2";
 
 export default function OwnerRegisterCard() {
@@ -18,7 +18,7 @@ export default function OwnerRegisterCard() {
   const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
-    axiosApi
+    openAxiosApi
       .post("bus-owner/registration/", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
@@ -77,7 +77,6 @@ export default function OwnerRegisterCard() {
   };
 
   return (
-    <>
       <Card
         className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
         style={{
@@ -326,6 +325,5 @@ export default function OwnerRegisterCard() {
           </Card.Body>
         </Col>
       </Card>
-    </>
   );
 }

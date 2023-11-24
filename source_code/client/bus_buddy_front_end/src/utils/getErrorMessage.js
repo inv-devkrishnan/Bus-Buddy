@@ -29,8 +29,16 @@ export function getErrorMessage(errorCode) {
       return "User Banned Permanently";
     case "D1010":
       return "User Account Disabled";
+    case "D1011":
+      return "Account Not Approved Please Try again Later";
+    case "D1012":
+      return "The given user is not a bus owner";
+    case "D1013":
+      return "Operation can't be performed on admin account";
+    case "D1014":
+      return "Mail Operation Failed ";    
     case "T0001":
-      return "Too many request please try again later"  
+      return "Too many request please try again later";
     default:
       return "Unknown error";
   }

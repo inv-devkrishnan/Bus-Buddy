@@ -1,0 +1,380 @@
+{
+    "lower_deck":[
+        {
+            "id": 1,
+            "seat_number": "a1",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 25.500,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 0,
+            "booked": [
+                {
+                    "traveller_gender": 1
+                    
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "seat_number": "a2",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 1,
+            "booked": [
+                {
+                    "traveller_gender": 2
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "seat_number": "a3",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 2,
+            "booked": []
+        },
+        {
+            "id": 4,
+            "seat_number": "a4",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 3,
+            "booked": []
+        },
+        {
+            "id": 5,
+            "seat_number": "a5",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 4,
+            "booked": []
+        },
+        {
+            "id": 6,
+            "seat_number": "a6",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 5,
+            "booked": [
+                {
+                    "traveller_gender": 2
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "seat_number": "a7",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 6,
+            "booked": []
+        },
+        {
+            "id": 8,
+            "seat_number": "a8",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 7,
+            "booked": []
+        },
+        {
+            "id": 9,
+            "seat_number": "a9",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 8,
+            "booked": []
+        },
+        {
+            "id": 10,
+            "seat_number": "a10",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 9,
+            "booked": []
+        },
+        {
+            "id": 11,
+            "seat_number": "a11",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 10,
+            "booked": []
+        },
+        {
+            "id": 12,
+            "seat_number": "a12",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 11,
+            "booked": []
+        },
+        {
+            "id": 13,
+            "seat_number": "a13",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 12,
+            "booked": []
+        },
+        {
+            "id": 14,
+            "seat_number": "a14",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 13,
+            "booked": []
+        },
+        {
+            "id": 15,
+            "seat_number": "a15",
+            "seat_type": 0,
+            "deck": 0,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-11 13:23:44.000000",
+            "updated_date": "2008-11-11 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 14,
+            "booked": []
+        }
+    ],
+
+    "upper_deck":[
+        {
+            "id": 16,
+            "seat_number": "b1",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 16,
+            "booked": []
+        },
+        {
+            "id": 17,
+            "seat_number": "b2",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 17,
+            "booked": []
+        },
+        {
+            "id": 18,
+            "seat_number": "b3",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 18,
+            "booked": []
+        },
+        {
+            "id": 19,
+            "seat_number": "b4",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 19,
+            "booked": []
+        },
+        {
+            "id": 20,
+            "seat_number": "b5",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 20,
+            "booked": []
+        },
+        {
+            "id": 21,
+            "seat_number": "b6",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 21,
+            "booked": []
+        },
+        {
+            "id": 22,
+            "seat_number": "b7",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 22,
+            "booked": []
+        },
+        {
+            "id": 23,
+            "seat_number": "b8",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 23,
+            "booked": []
+        },
+        {
+            "id": 24,
+            "seat_number": "b9",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 24,
+            "booked": []
+        },
+        {
+            "id": 25,
+            "seat_number": "b10",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 25,
+            "booked": []
+        },
+        {
+            "id": 26,
+            "seat_number": "b11",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 26,
+            "booked": []
+        },
+        {
+            "id": 27,
+            "seat_number": "b12",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 27,
+            "booked": []
+        },
+        {
+            "id": 28,
+            "seat_number": "b13",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 28,
+            "booked": []
+        },
+        {
+            "id": 29,
+            "seat_number": "b14",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 29,
+            "booked": []
+        },
+        {
+            "id": 30,
+            "seat_number": "b15",
+            "seat_type": 0,
+            "deck": 1,
+            "seat_cost": 250.000,
+            "created_date": "2008-11-12 13:23:44.000000",
+            "updated_date": "2008-11-12 13:23:44.000000",
+            "bus_id": 1,
+            "seat_ui_order": 30,
+            "booked": []
+        }
+    ]    
+}
