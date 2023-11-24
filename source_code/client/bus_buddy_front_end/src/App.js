@@ -43,9 +43,7 @@ function App() {
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/BusHome" element={<BusHome />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
-
             <Route path="/traveller-data" element={<TravellerDetail />} />
-
             <Route path="/update-owner" element={<OwnerUpdateCard />} />
             <Route path="/Addbus" element={<AddBus />} />
             <Route path="/Updatebus" element={<UpdateBus />} />
@@ -69,6 +67,7 @@ function App() {
             />
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
           </Route>
+          {/* pages which don't have navbar */}
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />

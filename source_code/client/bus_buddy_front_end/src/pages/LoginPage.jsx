@@ -129,9 +129,9 @@ function LoginPage() {
     <Container fluid className="mt-5">
       <Row>
         <Col>
-          <Image src={LoginSplash} fluid></Image>
+          <Image src={LoginSplash} draggable={false} fluid></Image>
         </Col>
-        <Col>
+        <Col lg={6} md={8} sm={12} >
           <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
             <h1>Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -186,8 +186,8 @@ function LoginPage() {
                 Login
               </Button>
               <Card.Text>
-                Not registered?
-                <Link to="/register-user" style={{ textDecoration: "none" }}>
+                Not registered ?
+                <Link className="ms-2" to="/register-user" style={{ textDecoration: "none" }}>
                   Register
                 </Link>
               </Card.Text>
