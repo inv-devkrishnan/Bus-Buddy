@@ -498,9 +498,7 @@ class BookSeat(APIView):
                     logger.info(serializer.errors)
                     return Response(serializer.errors, status=200)
             else:
-                return Response(
-                    {"authorization failed": "Unauthorized user"}, status=401
-                )
+                return Response({"error": "Authorization failed"}, status=401)
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
@@ -519,55 +517,64 @@ class CancelBooking(UpdateAPIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def update(self, request):
-        booking_id = request.GET.get("booking_id")
-        now = datetime.now()
+    def cancelBooking(self, request, now, booking_id, instance):
+        # for cancelling already booked id
         today = now.strftime("%Y-%m-%d")
-        try:
-            instance = Bookings.objects.get(id=booking_id)
-            if instance.user != request.user:
-                logger.info("another user")
-                return Response({"error": "Unauthorized user"})
-            elif instance.status == 99:
-                logger.info("already cancelled booking")
-                return Response({"message": "Booking is already cancelled"})
-            elif request.user.role != 2:
-                logger.info("not a user")
-                return Response({"error": "Unauthorized user"})
-            else:
-                booked_seats = BookedSeats.objects.filter(booking=booking_id)
-                status_data = {"status": 99}  # status 99 denotes the cancelled bookings
-                serializer = CancelBookingSerializer(
-                    instance, data=status_data, partial=True
+        booked_seats = BookedSeats.objects.filter(booking=booking_id)
+        status_data = {"status": 99}  # status 99 denotes the cancelled bookings
+        booked_status = {"status": 1}  # status 1 denotes the seat is available
+        serializer = CancelBookingSerializer(instance, data=status_data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            for object in booked_seats:
+                sub_serializer = CancelTravellerDataSerializer(
+                    object, data=booked_status, partial=True
                 )
-                if serializer.is_valid(raise_exception=True):
-                    for object in booked_seats:
-                        sub_serializer = CancelTravellerDataSerializer(
-                            object, data=status_data, partial=True
-                        )
-                        if sub_serializer.is_valid():
-                            self.perform_update(sub_serializer)
-                    self.perform_update(serializer)
-                    subject = "Booking Cancellation Confirmation - Bus Buddy"
-                    template = "cancel_booking_confirmation.html"
-                    context = {
-                        "recipient_name": request.user.first_name,
-                        "booking_id": instance.booking_id,
-                        "cancellation_date": today,
-                    }
-                    recipient_list = [request.user.email]
-                    email_send = send_email_with_template(
-                        subject, template, context, recipient_list, status=1
-                    )
+                if sub_serializer.is_valid():
+                    self.perform_update(sub_serializer)
+            self.perform_update(serializer)
+            subject = "Booking Cancellation Confirmation - Bus Buddy"
+            template = "cancel_booking_confirmation.html"
+            context = {
+                "recipient_name": request.user.first_name,
+                "booking_id": instance.booking_id,
+                "cancellation_date": today,
+            }
+            recipient_list = [request.user.email]
+            email_send = send_email_with_template(
+                subject, template, context, recipient_list, status=1
+            )
 
-                    email = mail_sent_response(email_send)
-                    logger.info("Booking cancelled successfully")
-                    return Response(
-                        {"message": "Booking cancelled successfully", "email": email}
-                    )
+            email = mail_sent_response(email_send)
+            message = "Booking cancelled successfully"
+            logger.info("Booking cancelled successfully")
+            return (message, email)
+
+        else:
+            logger.info(serializer.errors)
+            return serializer.errors
+
+    def update(self, request):
+        booking_id = int(request.GET.get("booking_id"))
+        now = datetime.now()
+        try:
+            if booking_id <= 0:
+                return Response({"error": "Invalid booking id"})
+            else:
+                instance = Bookings.objects.get(id=booking_id)
+                if instance.user != request.user:
+                    logger.info("another user")
+                    return Response({"error": "Unauthorized user"})
+                elif instance.status == 99:
+                    logger.info("already cancelled booking")
+                    return Response({"message": "Booking is already cancelled"})
+                elif request.user.role != 2:
+                    logger.info("not a user")
+                    return Response({"error": "Unauthorized user"})
                 else:
-                    logger.info(serializer.errors)
-                    return Response(serializer.errors, status=400)
+                    message, email = self.cancelBooking(
+                        request, now, booking_id, instance
+                    )
+                    return Response({"message": message, "email": email}, status=200)
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
