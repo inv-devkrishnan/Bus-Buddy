@@ -1,7 +1,8 @@
 import Container from "react-bootstrap/Container";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
-import { PersonCircle,BusFrontFill } from "react-bootstrap-icons";
+import Nav from "react-bootstrap/Nav";
+import { PersonCircle, BusFrontFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLogout } from "../../../utils/hooks/useLogout";
@@ -62,10 +63,24 @@ function BusNavBar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Search Trips
+            </Nav.Link>
+          </Nav>
+
           <div className="ms-auto d-flex align-items-center">
             <PersonCircle className="me-3" color="white"></PersonCircle>
             {user.name === "Guest" ? ( // based on the guest or registered user the drop down would change
-              <NavDropdown title="Hello Guest" className="text-light fw-bold" data-bs-theme="light">
+              <NavDropdown
+                title="Hello Guest"
+                className="text-light fw-bold"
+                data-bs-theme="light"
+              >
                 <NavDropdown.Item
                   onClick={() => {
                     navigate("/login");
