@@ -404,7 +404,7 @@ class BookSeat(APIView):
                     "recipient_name": user.first_name,
                 }
                 recipient_list = [user.email]
-                send_email_with_template(
+                send_email_with_template(   # sends a mail to customer about failed booking
                     subject=subject,
                     context=context,
                     recipient_list=recipient_list,
@@ -643,7 +643,7 @@ class CancelBooking(UpdateAPIView):
 
 class CreatePaymentIntent(APIView):
     """
-    api to create payment Intent
+    api to create payment Intent for stripe
     """
 
     permission_classes = (AllowNormalUsersOnly,)

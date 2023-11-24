@@ -402,7 +402,7 @@ class CancelBookingTestCase(BaseTest):
 
             # Call the API using client.put
             response = self.client.put(request_url, data=request_data, format="json")
-
+        print(response.content)
         self.assertEqual(response.status_code, 200)
 
         # Clean up the mocks
