@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import {
@@ -16,7 +16,7 @@ function TripCard(props) {
   const handleClose = () => setShow(false); // function to close amenties modal
   const handleShow = () => setShow(true); // function to show amenties modal
   const [viewSeatFlag, setViewSeatFlag] = useState(false);
-  const { updateTripID } = useContext(SeatContext);
+  const { updateTripID, updateSeatList } = useContext(SeatContext);
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -26,6 +26,7 @@ function TripCard(props) {
 
     return stringWithSpaces;
   };
+
   return (
     <>
       <Container>
@@ -98,6 +99,9 @@ function TripCard(props) {
                             size="sm"
                             onClick={() => {
                               setViewSeatFlag(false);
+                              props.setSeatViewOpen(false);
+                              localStorage.removeItem("current_trip");
+                              updateSeatList([]);
                             }}
                           >
                             Close
@@ -107,6 +111,7 @@ function TripCard(props) {
                             size="sm"
                             onClick={() => {
                               setViewSeatFlag(true);
+                              props.setSeatViewOpen(true);
                               updateTripID(props.data.trip);
                             }}
                           >
@@ -126,7 +131,7 @@ function TripCard(props) {
                   <ListGroup>
                     {Object.entries(props?.data?.amenities).map((amenity) => (
                       <ListGroup.Item
-                      key={amenity[0]}
+                        key={amenity[0]}
                         className="d-flex justify-content-between "
                       >
                         <p className="text-start m-0">
@@ -151,7 +156,11 @@ function TripCard(props) {
           </Col>
         </Row>
       </Container>
-      <>{viewSeatFlag && <ViewSeatDetails currentTrip={props}/>}</>
+      <>
+        {viewSeatFlag && props.openChild === "This Seat" && (
+          <ViewSeatDetails currentTrip={props} />
+        )}
+      </>
     </>
   );
 }

@@ -145,6 +145,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(99);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Cancelled
@@ -152,6 +154,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(0);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Pending
@@ -159,6 +163,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(1);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Completed
@@ -166,6 +172,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus("");
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 All
@@ -263,6 +271,27 @@ export default function UserBookingHistory() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <h5 style={{ color: "cornflowerblue" }}>Booking Details</h5>
+          <p>
+            Booking date:{" "}
+            <strong>
+              {new Date(modalData?.created_date).toLocaleDateString()}
+            </strong>
+          </p>
+          <p>
+            Booking status:{" "}
+            <strong>
+              {modalData?.status === 99 && (
+                <span style={{ color: "red" }}>Cancelled</span>
+              )}
+              {modalData?.status === 1 && (
+                <span style={{ color: "green" }}>Completed</span>
+              )}
+              {modalData?.status === 0 && (
+                <span style={{ color: "ligthblue" }}>Pending</span>
+              )}
+            </strong>
+          </p>
           <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
           <p>
             From:{" "}

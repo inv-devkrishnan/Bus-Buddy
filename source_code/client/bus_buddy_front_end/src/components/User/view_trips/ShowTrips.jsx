@@ -10,6 +10,8 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 
 function ShowTrips(props) {
   const [trips, setTrips] = useState([]); // to store trips list
+  const [seatViewOpen, setSeatViewOpen] = useState(false);
+  const [openChild, setOpenChild] = useState(null);
 
   const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
@@ -28,7 +30,7 @@ function ShowTrips(props) {
     setPageStartLimit(1);
     setPageEndLimit(PAGE_LIMIT);
   }, [props, seatType, busType, busAc]);
-
+  console.log(seatViewOpen, "seat");
   const generatePaginator = (pages) => {
     // function to show pages at bottom
     if (pages <= PAGE_LIMIT) {
@@ -287,6 +289,10 @@ function ShowTrips(props) {
                   data={trip}
                   startLocationName={props?.startLocationName}
                   endLocationName={props?.endLocationName}
+                  seatViewOpen={seatViewOpen}
+                  setSeatViewOpen={setSeatViewOpen}
+                  openChild={openChild}
+                  setOpenChild={setOpenChild}
                 />
               ))
             ) : (

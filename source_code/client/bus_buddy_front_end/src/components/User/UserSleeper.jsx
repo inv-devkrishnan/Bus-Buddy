@@ -1,10 +1,7 @@
 import { React, useContext, useEffect, useState, forwardRef } from "react";
 
 import {
-  Card,
-  CardContent,
   IconButton,
-  Modal,
   Popover,
   Typography,
 } from "@mui/material";
@@ -150,7 +147,9 @@ function UserSleeper(props) {
         disableRestoreFocus
       >
         <Typography sx={{ p: 1 }}>
-          seat: {presentSeat.seat_number} | fare: ₹ {presentSeat.seat_cost}
+          seat: {presentSeat.seat_number} <br />
+          fare: ₹ {presentSeat.seat_cost} <br />
+          type: {presentSeat.seat_type === 0 ? "Sleeper" : "Seater"}
         </Typography>
       </Popover>
 
