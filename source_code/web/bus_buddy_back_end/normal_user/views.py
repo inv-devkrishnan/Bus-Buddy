@@ -547,7 +547,7 @@ class BookSeat(APIView):
             else:
                 return Response(
                     {
-                        "error": "Unauthorized user",
+                        "error": "Unauthorized",
                         "refund_performed": self.refund_if_booking_fail(
                             request_data.get("payment").get("payment_intend"),
                             request.user,
