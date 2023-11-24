@@ -16,7 +16,7 @@ function ProfileView() {
   const [adminDetails, setAdminDetails] = useState(); // to store admin profile details
   const [showChangePassword, setShowChangePassword] = useState(false); // to show/hide Change password component
   const [showProfile, setShowProfile] = useState(true); // to show/hide showProfile component
-  const [showUpdateProfile, setshowUpdateProfile] = useState(false); // to show/hide  updateProfile component
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false); // to show/hide  updateProfile component
   useEffect(() => {
     getprofiledata();
   }, [showProfile]);
@@ -37,20 +37,20 @@ function ProfileView() {
     // shows the change password component when clicked
     setShowChangePassword(true);
     setShowProfile(false);
-    setshowUpdateProfile(false);
+    setShowUpdateProfile(false);
   };
 
   const showOnlyUpdateProfile = () => {
     // shows the update profile component when clicked
     setShowChangePassword(false);
     setShowProfile(false);
-    setshowUpdateProfile(true);
+    setShowUpdateProfile(true);
   };
   const showOnlyProfile = () => {
     // shows the profile component when clicked
     setShowChangePassword(false);
     setShowProfile(true);
-    setshowUpdateProfile(false);
+    setShowUpdateProfile(false);
   };
   return (
     <Container className="ms-2 mt-2">
