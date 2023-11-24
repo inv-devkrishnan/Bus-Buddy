@@ -68,9 +68,8 @@ function App() {
               element={<SingleSeaterDoubleSleeperDetails />}
             />
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
-            <Route path="/payment" element={<PaymentPage />} />
           </Route>
-
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
