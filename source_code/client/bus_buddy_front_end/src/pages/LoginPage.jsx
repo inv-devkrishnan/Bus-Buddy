@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
@@ -15,8 +15,6 @@ import { GoogleLogin } from "@react-oauth/google";
 import { login, loginWithGoogle } from "../utils/apiCalls";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
-import { useAuthStatus } from "../utils/hooks/useAuth";
-import { useHome } from "../utils/hooks/useHome";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -25,13 +23,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const authstatus = useAuthStatus();
-  const goHome = useHome();
-  useEffect(() => {
-    if (authstatus()) {
-      goHome();
-    }
-  }, [authstatus, goHome]);
+
   const authenicateGoogleUser = async (response) => {
     // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)
     console.log(response);
