@@ -86,6 +86,14 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
+      localStorage.setItem("user_name", loginRes.message.user_name);
+      if (loginRes.message.user_role === 2) {
+        navigate("/user-dashboard");
+      } else if (loginRes.message.user_role === 1) {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/BusHome");
+      }
       
       if (localStorage.getItem("current_trip")) {
         navigate("/traveller-data");
