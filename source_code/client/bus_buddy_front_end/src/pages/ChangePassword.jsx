@@ -24,7 +24,9 @@ function ChangePassword() {
     if (!authStatus()) {
       // if user not logged in redirect to login page
       navigate("/login");
-    } else if (localStorage.getItem("account_provider") === "1") {
+    }
+
+    if (localStorage.getItem("account_provider") === "1") {
       navigate("/login"); // if user is a google user redirect to login page
     }
   }, [authStatus, navigate]);
@@ -83,9 +85,9 @@ function ChangePassword() {
         old_password: oldpassword,
         new_password: newpassword,
       };
-      showLoadingAlert("Changing Password")
+      showLoadingAlert("Changing Password");
       const response = await changePassword(passwordData);
-      Swal.close()
+      Swal.close();
       if (response.status) {
         await Swal.fire({
           icon: "success",
