@@ -9,6 +9,7 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
+import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -53,15 +54,18 @@ export default function UserBookingHistory() {
 
   const handleCancel = () => {
     // for cancelling a booking
+    showLoadingAlert("Cancelling Booking")
     axiosApi
       .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
       .then((res) => {
+        Swal.close();
         Swal.fire({
           title: "Success",
-          text: "Cancelled Successfully",
+          text: "Cancelled Successfully, Refund has been initiated",
           icon: "success",
         });
         setConfirmModalShow(false);
+        setModalShow(false);
       })
       .catch((err) => {
         Swal.fire({

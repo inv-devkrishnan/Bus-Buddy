@@ -14,6 +14,7 @@ import { useAuthStatus } from "../utils/hooks/useAuth";
 import { changePassword } from "../utils/apiCalls";
 import { useLogout } from "../utils/hooks/useLogout";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
 
 function ChangePassword() {
   const navigate = useNavigate();
@@ -82,7 +83,9 @@ function ChangePassword() {
         old_password: oldpassword,
         new_password: newpassword,
       };
+      showLoadingAlert("Changing Password")
       const response = await changePassword(passwordData);
+      Swal.close()
       if (response.status) {
         await Swal.fire({
           icon: "success",
@@ -101,9 +104,9 @@ function ChangePassword() {
     }
   };
   return (
-    <Container fluid className="mt-3">
+    <Container fluid className="mt-3 mb-5">
       <Row>
-        <Col>
+        <Col xs={8} md={6}>
           <h1>Change password</h1>
           <Form
             noValidate
@@ -168,8 +171,8 @@ function ChangePassword() {
           </Form>
         </Col>
 
-        <Col>
-          <Card className="p-3 m-2" style={{ width: "100%" }}>
+        <Col md={6}>
+          <Card className="p-3 m-2 mt-5" style={{ width: "100%" }}>
             <Card.Title className="text-center">
               Password Requirements
             </Card.Title>

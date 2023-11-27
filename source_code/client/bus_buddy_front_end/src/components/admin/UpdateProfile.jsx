@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import Image from "react-bootstrap/Image";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
 import AdminProfileSplash from "../../assets/images/adminProfileView.png";
@@ -34,9 +35,9 @@ function UpdateProfile(props) {
   return (
     <Container>
       <Row>
-        <Col xs={5}>
+        <Col xs={12} lg={8}>
           <h1>Update Profile</h1>
-          <Card className="p-5 mt-5 mb-5 shadow-lg" style={{ width: "30rem" }}>
+          <Card className="p-5 mt-5 mb-5 shadow-lg">
             <Formik
               // filling initial from props
               initialValues={{
@@ -171,10 +172,8 @@ function UpdateProfile(props) {
             </Formik>
           </Card>
         </Col>
-        <Col>
-          <Col className="ms-5 mt-5">
-            <img src={AdminProfileSplash} alt="admin_splash"></img>
-          </Col>
+        <Col xs={8} lg={4}>
+            <Image className="mt-5" src={AdminProfileSplash} alt="admin_splash"></Image>
         </Col>
       </Row>
     </Container>

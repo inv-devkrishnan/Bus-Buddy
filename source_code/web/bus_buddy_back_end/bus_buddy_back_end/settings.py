@@ -203,6 +203,18 @@ class FileFilter(logging.Filter):
         return any(record.filename.endswith(file) for file in self.included_files)
 
 
+import logging
+
+class FileFilter(logging.Filter):
+    def __init__(self, included_files):
+        super(FileFilter, self).__init__()
+        self.included_files = included_files
+
+    def filter(self, record):
+        # Check if the record's filename is in the list of included files
+        return any(record.filename.endswith(file) for file in self.included_files)
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.views import APIView
@@ -6,16 +7,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from datetime import datetime
+from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings, BookedSeats
+from normal_user.models import Bookings, Payment, BookedSeats
 from bus_owner.models import (
     SeatDetails,
     Trip,
     PickAndDrop,
     StartStopLocations,
 )
-
+from bus_buddy_back_end.permissions import AllowNormalUsersOnly
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
 from .serializer import BookingHistoryDataSerializer as BHDS
@@ -24,6 +26,7 @@ from .serializer import (
     PickAndDropSerializer,
     BookSeatSerializer,
     CancelBookingSerializer,
+    CostSerializer,
     CancelTravellerDataSerializer,
 )
 from bus_buddy_back_end.email import (
@@ -35,7 +38,7 @@ import random
 import os
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django")
 
 
 def mail_sent_response(mailfunction):
@@ -258,6 +261,7 @@ class ViewTrip(APIView):
                 and bool(datetime.strptime(date, date_format))
                 and start_location != end_location
             ):
+                logger.info("query param validation suceeded")
                 return True
             else:
                 return False
@@ -365,6 +369,7 @@ class ViewTrip(APIView):
             try:
                 current_page = paginator.page(page_number)
             except EmptyPage:  # if page doesn't exist status is set to no content
+                logger.warn("Page requested is Empty !")
                 return Response({}, status=204)
             paginated_data = {
                 "total_pages": paginator.num_pages,
@@ -375,9 +380,10 @@ class ViewTrip(APIView):
                 "has_next": current_page.has_next(),
                 "data": list(current_page),
             }
-
+            logger.info("returned trip list total entries :" + str(paginator.count))
             return Response(paginated_data)
         else:
+            logger.warn("request failed ! reason : invalid query params")
             return Response({"error_code": "D1006"}, status=400)
 
 
@@ -390,6 +396,38 @@ class BookSeat(APIView):
     """
 
     permission_classes = (IsAuthenticated,)
+
+    def refund_if_booking_fail(self, payment_intent, user):
+        """function to refund payment if booking failed
+
+        Args:
+            payment_intent (_type_): payment_intent to be refunded
+        """
+        stripe.api_key = config("STRIPE_API_KEY")
+        if payment_intent:
+            logger.info("payment Intent to be Refunded :" + payment_intent)
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("Refund Initiated for Failed Booking")
+                subject = "Booking Failed"
+                context = {
+                    "recipient_name": user.first_name,
+                }
+                recipient_list = [user.email]
+                send_email_with_template(  # sends a mail to customer about failed booking
+                    subject=subject,
+                    context=context,
+                    recipient_list=recipient_list,
+                    template="booking_fail.html",
+                    status=3,
+                )
+                return True
+            except Exception as e:
+                logger.error("Refund Initiation Failed Reason :" + str(e))
+                return False
+        else:
+            logger.error(" Refund Failed payment Intent is empty ")
+            return False
 
     def get_context_for_ticket_template(self, request, request_data):
         # getting objects
@@ -497,12 +535,38 @@ class BookSeat(APIView):
                         )
                 else:
                     logger.info(serializer.errors)
-                    return Response(serializer.errors, status=200)
+                    return Response(
+                        {
+                            "error": str(serializer.errors),
+                            "refund_performed": self.refund_if_booking_fail(
+                                request_data.get("payment").get("payment_intend"),
+                                request.user,
+                            ),
+                        },
+                        status=400,
+                    )
             else:
-                return Response({"error": "Authorization failed"}, status=401)
+                return Response(
+                    {
+                        "error": "Unauthorized",
+                        "refund_performed": self.refund_if_booking_fail(
+                            request_data.get("payment").get("payment_intend"),
+                            request.user,
+                        ),
+                    },
+                    status=401,
+                )
         except Exception as e:
             logger.info(e)
-            return Response("errors:" f"{e}", status=400)
+            return Response(
+                {
+                    "error:": str(e),
+                    "refund_performed": self.refund_if_booking_fail(
+                        request_data.get("payment").get("payment_intend"), request.user
+                    ),
+                },
+                status=400,
+            )
 
 
 class CancelBooking(UpdateAPIView):
@@ -518,6 +582,38 @@ class CancelBooking(UpdateAPIView):
 
     permission_classes = (IsAuthenticated,)
 
+    def refund(self, booking_id):
+        """function to provide refund once booking is cancelled
+
+        Args:
+            booking_id (_type_): the id of the booking to be cancelled
+
+        Returns:
+        Boolean: True =>refund sucessful False => refund faild
+        """
+        stripe.api_key = config("STRIPE_API_KEY")
+        try:
+            payment_instance = Payment.objects.get(booking_id=booking_id, status=0)
+            payment_intent = payment_instance.payment_intend
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("refund initiated for booking id : " + str(booking_id))
+                payment_instance.status = (
+                    3  # updating status of payment from paid to refund
+                )
+                payment_instance.save()
+                return True
+            except Exception as e:
+                logger.warn("Stripe Refund Creation Failed ! Reason :" + str(e))
+                return False
+        except Payment.DoesNotExist:
+            logger.warn(
+                "Cancel booking failed ! Reason : No entry for booking_id : "
+                + str(booking_id)
+                + "in payment table"
+            )
+            return False
+
     def cancelBooking(self, request, now, booking_id, instance):
         # for cancelling already booked id
         today = now.strftime("%Y-%m-%d")
@@ -526,29 +622,37 @@ class CancelBooking(UpdateAPIView):
         booked_status = {"status": 1}  # status 1 denotes the seat is available
         serializer = CancelBookingSerializer(instance, data=status_data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            for object in booked_seats:
-                sub_serializer = CancelTravellerDataSerializer(
-                    object, data=booked_status, partial=True
+            if self.refund(booking_id=booking_id):
+                for object in booked_seats:
+                    sub_serializer = CancelTravellerDataSerializer(
+                        object, data=booked_status, partial=True
+                    )
+                    if sub_serializer.is_valid():
+                        self.perform_update(sub_serializer)
+                self.perform_update(serializer)
+                subject = "Booking Cancellation Confirmation - Bus Buddy"
+                template = "cancel_booking_confirmation.html"
+                context = {
+                    "recipient_name": request.user.first_name,
+                    "booking_id": instance.booking_id,
+                    "cancellation_date": today,
+                }
+                recipient_list = [request.user.email]
+                email_send = send_email_with_template(
+                    subject, template, context, recipient_list, status=1
                 )
-                if sub_serializer.is_valid():
-                    self.perform_update(sub_serializer)
-            self.perform_update(serializer)
-            subject = "Booking Cancellation Confirmation - Bus Buddy"
-            template = "cancel_booking_confirmation.html"
-            context = {
-                "recipient_name": request.user.first_name,
-                "booking_id": instance.booking_id,
-                "cancellation_date": today,
-            }
-            recipient_list = [request.user.email]
-            email_send = send_email_with_template(
-                subject, template, context, recipient_list, status=1
-            )
 
-            email = mail_sent_response(email_send)
-            message = "Booking cancelled successfully"
-            logger.info("Booking cancelled successfully")
-            return (message, email)
+                email = mail_sent_response(email_send)
+                message = "Booking cancelled successfully"
+                logger.info("Booking cancelled successfully")
+                return (message, email)
+            else:
+                logger.warn("Cancelation Failed")
+                email = mail_sent_response(
+                    False
+                )  # mail will not be send for failed cancellation
+                message = "Booking Cancelling Failed"
+                return (message, email)
 
         else:
             logger.info(serializer.errors)
@@ -579,3 +683,35 @@ class CancelBooking(UpdateAPIView):
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
+
+
+class CreatePaymentIntent(APIView):
+    """
+    api to create payment Intent for stripe
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+    stripe.api_key = config("STRIPE_API_KEY")
+
+    def post(self, request):
+        serialized_data = CostSerializer(data=request.data)
+        if serialized_data.is_valid():
+            total_cost = serialized_data._validated_data["total_cost"]
+            try:
+                # creates the payment Intent
+                intent = stripe.PaymentIntent.create(
+                    amount=int(total_cost * 100),  # to convert rupee to paise
+                    currency="inr",
+                    receipt_email=request.user.email,
+                    payment_method_types=["card"],
+                    description="Bus ticket Booking",
+                )
+                logger.info("PaymentIntent Created !")
+                return Response({"client_secret": intent.client_secret}, status=200)
+            except Exception as e:
+                logger.warn("Payment Intent Creation Failed ! Reason :" + str(e))
+                return Response({"error_code": "D1016"}, status=400)
+        else:
+            logger.warn("Serializer validation Failed")
+            logger.warn(serialized_data.errors)
+            return Response({"error_code": "D1002"}, status=400)

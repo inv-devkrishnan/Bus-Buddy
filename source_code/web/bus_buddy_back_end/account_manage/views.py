@@ -55,7 +55,7 @@ class LoginWithGoogle(APIView):
                         )
                     except IntegrityError:
                         return Response(
-                            {"error_code": "D1001"},
+                            {"error_code": "D1015"},
                             status=401,
                         )
                     user = User.objects.get(email=email, account_provider=1)

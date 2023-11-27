@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Image from "react-bootstrap/Image";
 
 import AdminProfileSplash from "../../assets/images/adminProfileView.png";
 import { axiosApi } from "../../utils/axiosApi";
@@ -15,7 +16,7 @@ function ProfileView() {
   const [adminDetails, setAdminDetails] = useState(); // to store admin profile details
   const [showChangePassword, setShowChangePassword] = useState(false); // to show/hide Change password component
   const [showProfile, setShowProfile] = useState(true); // to show/hide showProfile component
-  const [showUpdateProfile, setshowUpdateProfile] = useState(false); // to show/hide  updateProfile component
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false); // to show/hide  updateProfile component
   useEffect(() => {
     getprofiledata();
   }, [showProfile]);
@@ -36,20 +37,20 @@ function ProfileView() {
     // shows the change password component when clicked
     setShowChangePassword(true);
     setShowProfile(false);
-    setshowUpdateProfile(false);
+    setShowUpdateProfile(false);
   };
 
   const showOnlyUpdateProfile = () => {
     // shows the update profile component when clicked
     setShowChangePassword(false);
     setShowProfile(false);
-    setshowUpdateProfile(true);
+    setShowUpdateProfile(true);
   };
   const showOnlyProfile = () => {
     // shows the profile component when clicked
     setShowChangePassword(false);
     setShowProfile(true);
-    setshowUpdateProfile(false);
+    setShowUpdateProfile(false);
   };
   return (
     <Container className="ms-2 mt-2">
@@ -59,7 +60,7 @@ function ProfileView() {
           <Container>
             <Row>
               <Col className="mt-5">
-                <Card className="p-5 shadow-lg">
+                <Card className="p-5 shadow-lg w-100">
                   <Card.Text>First Name : {adminDetails?.first_name}</Card.Text>
                   <Card.Text>Last Name : {adminDetails?.last_name}</Card.Text>
                   <Card.Text>Email : {adminDetails?.email}</Card.Text>
@@ -75,7 +76,7 @@ function ProfileView() {
                 </Card>
               </Col>
               <Col className="ms-5">
-                <img src={AdminProfileSplash} alt="admin_splash"></img>
+                <Image fluid src={AdminProfileSplash} alt="admin_splash"></Image>
               </Col>
             </Row>
           </Container>

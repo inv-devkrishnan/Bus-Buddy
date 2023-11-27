@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import { Container, Card, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
+import Dropdown from "react-bootstrap/Dropdown";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
@@ -89,6 +90,7 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
+      localStorage.setItem("user_name", loginRes.message.user_name);
 
       if (localStorage.getItem("current_trip") && seatList.length > 0) {
         navigate("/traveller-data");
@@ -120,13 +122,19 @@ function LoginPage() {
 
     setValidated(true);
   };
+
+  const browseAsGuest = () => {
+    // enables to view website in guest mode
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <Container fluid className="mt-5">
       <Row>
         <Col>
-          <Image src={LoginSplash} fluid></Image>
+          <Image src={LoginSplash} draggable={false} fluid></Image>
         </Col>
-        <Col>
+        <Col lg={6} md={8} sm={12}>
           <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
             <h1>Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -135,6 +143,7 @@ function LoginPage() {
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
+                  maxLength={254}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -152,6 +161,7 @@ function LoginPage() {
                   <Form.Control
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
+                    maxLength={100}
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -180,13 +190,44 @@ function LoginPage() {
               <Button variant="primary" type="submit" className="mb-3">
                 Login
               </Button>
+              <Card.Link
+                onClick={() => {
+                  browseAsGuest();
+                }}
+                className="ms-3"
+                style={{ cursor: "pointer" }}
+              >
+                Browse as guest
+              </Card.Link>
               <Card.Text>
-                Not registered?
-                <Link to="/register-user" style={{ textDecoration: "none" }}>
-                  Register
-                </Link>
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="light"
+                    className="text-primary"
+                    id="dropdown-basic"
+                  >
+                    Not registered ?
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/register-user");
+                      }}
+                    >
+                      Register as user
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/register-owner");
+                      }}
+                    >
+                      Register as bus owner
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Card.Text>
-              <Card.Text className="d-flex justify-content-around">
+              <Card.Text className="d-flex justify-content-around mt-0">
                 or
               </Card.Text>
               <GoogleLogin

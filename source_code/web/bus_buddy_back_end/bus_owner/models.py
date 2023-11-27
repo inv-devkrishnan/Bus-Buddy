@@ -100,7 +100,7 @@ class PickAndDrop(models.Model):
     arrival_time = models.TimeField()
     landmark = models.CharField(max_length=255, null=False)
     status = models.SmallIntegerField(default=0)
-    start_stop_location=models.ForeignKey(StartStopLocations,on_delete=models.CASCADE,null=True)
+    start_stop_location=models.ForeignKey(StartStopLocations,on_delete=models.CASCADE,null=True, related_name='stops')
 
     class Meta:
         db_table = "pick_and_drop"
