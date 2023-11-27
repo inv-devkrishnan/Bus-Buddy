@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
@@ -17,6 +17,8 @@ import { login, loginWithGoogle } from "../utils/apiCalls";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
 
+import { SeatContext } from "../utils/SeatContext";
+
 function LoginPage() {
   const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState("");
@@ -24,9 +26,10 @@ function LoginPage() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { seatList } = useContext(SeatContext);
 
   useEffect(() => {
-    if (localStorage.getItem("current_trip")) {
+    if (localStorage.getItem("current_trip") && seatList) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -86,8 +89,8 @@ function LoginPage() {
       const expire_time =
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
-      
-      if (localStorage.getItem("current_trip")) {
+
+      if (localStorage.getItem("current_trip") && seatList) {
         navigate("/traveller-data");
       } else if (loginRes.message.user_role === 2) {
         navigate("/user-dashboard");
