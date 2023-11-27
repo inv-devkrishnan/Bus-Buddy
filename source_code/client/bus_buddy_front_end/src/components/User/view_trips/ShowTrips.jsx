@@ -33,7 +33,7 @@ function ShowTrips(props) {
     setPageStartLimit(1);
     setPageEndLimit(PAGE_LIMIT);
   }, [props, seatType, busType, busAc]);
-  console.log(seatViewOpen, "seat");
+
   const generatePaginator = (pages) => {
     // function to show pages at bottom
     if (pages <= PAGE_LIMIT) {
@@ -162,7 +162,6 @@ function ShowTrips(props) {
         setHasNext(result.data?.has_next);
         setHasPrevious(result.data?.has_previous);
         setCurrentPage(result.data?.current_page);
-        console.log(result.data);
       })
       .catch(function (error) {
         Swal.fire({

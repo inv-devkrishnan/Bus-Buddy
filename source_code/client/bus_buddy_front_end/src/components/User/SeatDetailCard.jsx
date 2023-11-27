@@ -163,9 +163,3 @@ export default function SeatDetailCard(props) {
     </>
   );
 }
-SeatDetailCard.propTypes = {
-  routeCost: propTypes.string,
-  gst: propTypes.string,
-  selectionModelPick: propTypes.array,
-  selectionModelDrop: propTypes.array,
-};

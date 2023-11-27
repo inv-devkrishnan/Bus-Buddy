@@ -54,7 +54,7 @@ export default function UserBookingHistory() {
 
   const handleCancel = () => {
     // for cancelling a booking
-    showLoadingAlert("Cancelling Booking")
+    showLoadingAlert("Cancelling Booking");
     axiosApi
       .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
       .then((res) => {
@@ -268,75 +268,81 @@ export default function UserBookingHistory() {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <strong>
-              {modalData?.booking_id}
-              {modalData?.status === 99 && <span>(Cancelled)</span>}
-            </strong>
+            <strong>{modalData?.booking_id}</strong>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5 style={{ color: "cornflowerblue" }}>Booking Details</h5>
-          <p>
-            Booking date:{" "}
-            <strong>
-              {new Date(modalData?.created_date).toLocaleDateString()}
-            </strong>
-          </p>
-          <p>
-            Booking status:{" "}
-            <strong>
-              {modalData?.status === 99 && (
-                <span style={{ color: "red" }}>Cancelled</span>
-              )}
-              {modalData?.status === 1 && (
-                <span style={{ color: "green" }}>Completed</span>
-              )}
-              {modalData?.status === 0 && (
-                <span style={{ color: "ligthblue" }}>Pending</span>
-              )}
-            </strong>
-          </p>
-          <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
-          <p>
-            From:{" "}
-            <strong>
-              {modalData?.pick_up?.start_stop_location?.location?.location_name}
-            </strong>
-          </p>
-          <p>
-            To:{" "}
-            <strong>
-              {
-                modalData?.drop_off?.start_stop_location?.location
-                  ?.location_name
-              }
-            </strong>
-          </p>
-          <p>
-            Departure Date: <strong>{modalData?.trip?.start_date}</strong>
-          </p>
-          <p>
-            Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
-            <strong>{modalData?.trip?.end_time}</strong>
-          </p>
-          <p>
-            Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
-          </p>
-          <p>
-            Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
-          </p>
-
-          <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
-          <p>
-            Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
-          </p>
-          <p>
-            Bus Plate Number: <strong>{modalData?.trip?.bus?.plate_no}</strong>
-          </p>
-          <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
-          <p>
-            Total amount: <strong>{modalData?.total_amount}</strong>
-          </p>
+          <div className="d-flex flex-row justify-content-around">
+            <div className="m-2">
+              <h5 style={{ color: "cornflowerblue" }}>Booking Details</h5>
+              <p>
+                Booking date:{" "}
+                <strong>
+                  {new Date(modalData?.created_date).toLocaleDateString()}
+                </strong>
+              </p>
+              <p>
+                Booking status:{" "}
+                <strong>
+                  {modalData?.status === 99 && (
+                    <span style={{ color: "tomato" }}>Cancelled</span>
+                  )}
+                  {modalData?.status === 1 && (
+                    <span style={{ color: "yellowgreen" }}>Completed</span>
+                  )}
+                  {modalData?.status === 0 && (
+                    <span style={{ color: "#7CB9E8" }}>Pending</span>
+                  )}
+                </strong>
+              </p>
+              <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
+              <p>
+                From:{" "}
+                <strong>
+                  {
+                    modalData?.pick_up?.start_stop_location?.location
+                      ?.location_name
+                  }
+                </strong>
+              </p>
+              <p>
+                To:{" "}
+                <strong>
+                  {
+                    modalData?.drop_off?.start_stop_location?.location
+                      ?.location_name
+                  }
+                </strong>
+              </p>
+              <p>
+                Departure Date: <strong>{modalData?.trip?.start_date}</strong>
+              </p>
+              <p>
+                Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
+                <strong>{modalData?.trip?.end_time}</strong>
+              </p>
+              <p>
+                Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
+              </p>
+              <p>
+                Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
+              </p>
+            </div>
+            <div className="m-2">
+              <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
+              <p>
+                Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
+              </p>
+              <p>
+                Bus Plate Number:{" "}
+                <strong>{modalData?.trip?.bus?.plate_no}</strong>
+              </p>
+              <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
+              <p>
+                Total amount: <strong>{modalData?.total_amount}</strong>
+              </p>
+            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button
