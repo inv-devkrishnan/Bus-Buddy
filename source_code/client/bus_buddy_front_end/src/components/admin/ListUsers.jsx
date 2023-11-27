@@ -426,7 +426,6 @@ function ListUsers(props) {
         <div className="d-flex" >
           {users.length > 0 ? (
             <Table
-              bordered
               hover
               variant="light"
               responsive
@@ -435,15 +434,17 @@ function ListUsers(props) {
             >
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>User ID</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td>{user.id}</td>
+                    <td className="fw-bold">{user.id}</td>
                     <td>{user.first_name}</td>
                     <td>{user.email}</td>
                     <td>
