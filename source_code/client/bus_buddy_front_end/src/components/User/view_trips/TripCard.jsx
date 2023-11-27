@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import {
@@ -25,6 +25,19 @@ function TripCard(props) {
       stringWithSpaces.charAt(0).toUpperCase() + stringWithSpaces.slice(1);
 
     return stringWithSpaces;
+  };
+
+  const handleSelectSeat = () => {
+    props.onClick();
+    setViewSeatFlag(true);
+    updateTripID(props.data.trip);
+  };
+
+  const handleSelectSeatClose = () => {
+    props.onClick();
+    setViewSeatFlag(false);
+    localStorage.removeItem("current_trip");
+    updateSeatList([]);
   };
 
   return (
@@ -94,27 +107,12 @@ function TripCard(props) {
                         >
                           View Amenities
                         </Button>
-                        {viewSeatFlag ? (
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              setViewSeatFlag(false);
-                              props.setSeatViewOpen(false);
-                              localStorage.removeItem("current_trip");
-                              updateSeatList([]);
-                            }}
-                          >
+                        {viewSeatFlag && props.isOpen ? (
+                          <Button size="sm" onClick={handleSelectSeatClose}>
                             Close
                           </Button>
                         ) : (
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              setViewSeatFlag(true);
-                              props.setSeatViewOpen(true);
-                              updateTripID(props.data.trip);
-                            }}
-                          >
+                          <Button size="sm" onClick={handleSelectSeat}>
                             Select Seats
                           </Button>
                         )}
@@ -157,8 +155,12 @@ function TripCard(props) {
         </Row>
       </Container>
       <>
-        {viewSeatFlag && props.openChild === "This Seat" && (
-          <ViewSeatDetails currentTrip={props} />
+        {viewSeatFlag && props.isOpen && (
+          <ViewSeatDetails
+            currentTrip={props}
+            routeCost={props?.data?.route_cost}
+            gst={props?.data?.gst}
+          />
         )}
       </>
     </>
@@ -168,5 +170,7 @@ TripCard.propTypes = {
   data: PropTypes.object,
   startLocationName: PropTypes.string,
   endLocationName: PropTypes.string,
+  isOpen: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 export default TripCard;

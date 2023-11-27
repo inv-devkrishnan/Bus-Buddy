@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Modal, Button } from "react-bootstrap";
 import SeatLegend from "./SeatLegend";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 export default function SeatDetailCard(props) {
   const { seatList } = useContext(SeatContext); // context that stores list of seats
@@ -28,11 +29,11 @@ export default function SeatDetailCard(props) {
       seatList.forEach((element) => {
         sumOfCost = Number(element.seat_cost) + sumOfCost; // adds the cost of all seats
       });
-      setTotalCost(sumOfCost);
+      setTotalCost(sumOfCost + Number(props?.routeCost) + Number(props?.gst));
     } else {
       setTotalCost(0);
     }
-  }, [seatList]);
+  }, [seatList, props?.routeCost, props?.gst]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,6 +116,12 @@ export default function SeatDetailCard(props) {
             </TableContainer>
 
             <Typography align="right" m={1} variant="subtitle1">
+              Travel fare : ₹ {props?.routeCost}
+              <br />
+              GST : ₹ {props?.gst}
+              <br />
+              ________________
+              <br />
               Total Cost : ₹ {totalCost}
             </Typography>
             <Button
@@ -156,3 +163,9 @@ export default function SeatDetailCard(props) {
     </>
   );
 }
+SeatDetailCard.propTypes = {
+  routeCost: propTypes.string,
+  gst: propTypes.string,
+  selectionModelPick: propTypes.array,
+  selectionModelDrop: propTypes.array,
+};

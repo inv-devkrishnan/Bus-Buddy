@@ -10,8 +10,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 
 function ShowTrips(props) {
   const [trips, setTrips] = useState([]); // to store trips list
-  const [seatViewOpen, setSeatViewOpen] = useState(false);
-  const [openChild, setOpenChild] = useState(null);
+  const [seatViewOpen, setSeatViewOpen] = useState(null); // to open only one child
 
   const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
@@ -24,6 +23,10 @@ function ShowTrips(props) {
   const [seatType, setSeatType] = useState(-1); // to filter record's based of seat type (-1 = disable)
   const [busType, setBusType] = useState(-1); // to filter record's based of bus type (-1 = disable)
   const [busAc, setBusAc] = useState(-1); // to filter record's based of ac or not (-1 = disable)
+
+  const handleTripCardClick = (index) => {
+    setSeatViewOpen(index);
+  };
 
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
@@ -283,7 +286,7 @@ function ShowTrips(props) {
           </Col>
           <Col md={6} lg={9} className="col-offset-auto">
             {trips.length > 0 ? (
-              trips.map((trip) => (
+              trips.map((trip, index) => (
                 <TripCard
                   key={trip.trip}
                   data={trip}
@@ -291,8 +294,8 @@ function ShowTrips(props) {
                   endLocationName={props?.endLocationName}
                   seatViewOpen={seatViewOpen}
                   setSeatViewOpen={setSeatViewOpen}
-                  openChild={openChild}
-                  setOpenChild={setOpenChild}
+                  isOpen={index === seatViewOpen}
+                  onClick={() => handleTripCardClick(index)}
                 />
               ))
             ) : (

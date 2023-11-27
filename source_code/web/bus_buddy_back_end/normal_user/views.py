@@ -300,7 +300,7 @@ class ViewTrip(APIView):
                 DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
                 t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
                 am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
-                am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows
+                am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows,r.travel_fare as route_cost, u.extra_charges as gst
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
             ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
@@ -341,6 +341,8 @@ class ViewTrip(APIView):
                     "bus_name": data.bus_name,
                     "bus": data.bus_id,
                     "company_name": data.company_name,
+                    "route_cost": data.route_cost,
+                    "gst": data.gst,
                     "amenities": {
                         "emergency_no": data.emergency_no,
                         "water_bottle": data.water_bottle,
