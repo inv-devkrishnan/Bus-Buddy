@@ -362,18 +362,18 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_start_date(self, value):
         today = datetime.now().date()
-        if value <= today:
-            raise serializers.ValidationError("Start date must be in the future.")
+        print(today)
+        print (value)
+        if value < today:
+            raise serializers.ValidationError("Start date must be today or in the future.")
         return value
 
     def validate_end_date(self, value):
         # today = datetime.now().date()
-        start_date_str = self.initial_data.get("start_date")
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
-        if value < start_date:
-            raise serializers.ValidationError(
-                "End date should be in the future or the same day as start date."
-            )
+        start_date_str = self.initial_data.get('start_date')      
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        if value <= start_date:
+            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
         return value
 
     start_time = serializers.TimeField(format="%H:%M")

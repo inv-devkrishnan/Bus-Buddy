@@ -3,9 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Pagination } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
@@ -29,7 +27,7 @@ export default function Viewallbus() {
       const response = await axiosApi.get(
         `http://localhost:8000/bus-owner/view-trip/?page=${page}`
       );
-      setData(response.data);
+      setData(response.data.results);
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
@@ -184,22 +182,8 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-      <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }}>
+      <Form style={{ textAlign: "center", marginLeft: "40%",marginTop:"1%" }}>
           <h1>Viewall</h1>
-        </Form>
-        <Form inline>
-          <Row>
-            <Col xs="auto">
-              <Form.Control
-                type="text"
-                placeholder="Search"
-                className=" mr-sm-2"
-              />
-            </Col>
-            <Col xs="auto">
-              <Button type="submit">Submit</Button>
-            </Col>
-          </Row>
         </Form>
       </Navbar>
       <div className="card-container">{renderCards()}</div>

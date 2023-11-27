@@ -645,19 +645,19 @@ class Viewtrip(ListAPIView):
 
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewTripSerializer
-    # pagination_class = CustomPagination
+    pagination_class = CustomPagination
 
     def list(self, request):
         try:
             # user_id = request.user.id
             user_id=request.user.id
             queryset = Trip.objects.filter(status=0,user=user_id)
-            # serializer = ViewRoutesSerializer(queryset)
-            # page = self.paginate_queryset(queryset)
+            serializer = ViewRoutesSerializer(queryset)
+            page = self.paginate_queryset(queryset)
 
-            # if page is not None:
-            #     serializer = self.get_serializer(page, many=True)
-            #     return self.get_paginated_response(serializer.data)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             print(serializer.data)
@@ -675,7 +675,7 @@ class Viewavailablebus(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
 
-    def list(self, request,start,end):
+    def list(self, request,):
         try:
             # import pdb;pdb.set_trace()
             logger.info("gettin the user is from user model")
@@ -683,6 +683,8 @@ class Viewavailablebus(ListAPIView):
             print(user_id)
             # start = self.request.query_params.get('start_date')
             # end = self.request.query_params.get('end_date')
+            start=request.GET.get('start')
+            end=request.GET.get('end')
             startdate = datetime.strptime(start, '%Y-%m-%d').date()
             enddate = datetime.strptime(end, '%Y-%m-%d').date()
             trips = Trip.objects.filter(
@@ -713,7 +715,6 @@ class Addtreccuringrip(APIView):
 
     def post(self, request,):
         try:
-            import pdb;pdb.set_trace()
             recurrence_type = 1
             request_data=request.data.copy()
             print(request_data)
@@ -745,15 +746,15 @@ class Addtreccuringrip(APIView):
             if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
                 trip_objects = []
                 print("it is in the range ")
-                if recurrence_type == 0:
+                if recurrence_type == 1:
                     iterations = (ped - psd).days + 1  # Daily recurrence
-                elif recurrence_type == 1:
+                elif recurrence_type == 2:
                     iterations = (ped - psd).days // 7 + 1  # Weekly recurrence
                 else:
                     return Response({"error": "Invalid recurrence type"}, status=400)
-                if recurrence_type == 0:
+                if recurrence_type == 1:
                     period = timedelta(days=1)
-                elif recurrence_type == 1:
+                elif recurrence_type == 2:
                     period = timedelta(weeks=1)
                 else:
                     return Response({"error": "Invalid recurrence type"}, status=400)

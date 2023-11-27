@@ -11,6 +11,8 @@ import { axiosApi } from "../../../utils/axiosApi";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
+
 
 export default function Updatetrips() {
   const location = useLocation();
@@ -22,7 +24,7 @@ export default function Updatetrips() {
 
   const onSubmit = async (e) => {
     try {
-      await axiosApi.put(
+      const response = await axiosApi.put(
         `http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`,
         {
           bus: formik.values.busName,
@@ -34,10 +36,23 @@ export default function Updatetrips() {
         }
       );
       console.log("updated");
+      if (response.status === 200) {
+        console.log("Amenities Inserted");
+        Swal.fire({
+          icon: "success",
+          title: "Added Successfully",
+          text: "trip added successfully",
+        });
+      }
       const bus = { id: id };
       console.log(bus);
     } catch (error) {
       console.error("Error updating:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error adding trip",
+      });
     }
   };
   const formik = useFormik({
@@ -60,7 +75,7 @@ export default function Updatetrips() {
       const end = new Date(formik.values.enddate).toISOString().split("T")[0];
   
       axiosApi
-        .get(`bus-owner/view-available-bus/${start}/${end}/`)
+        .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
         .then((response) => {
           setBusData(response.data);
           console.log(response.data)
@@ -105,7 +120,8 @@ export default function Updatetrips() {
           endtime: res.data["end_time"],
         },
         );
-      })
+      }
+      )
       .catch((err) => {
         console.log(err.response);
         alert("Trip does not exist!!");
@@ -158,7 +174,7 @@ export default function Updatetrips() {
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
-                  <Button style={{marginTop:"2%",width:"35%",}} type="submit" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>search</Button>
+                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>search</Button>
                 </div>
                 <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the new dates you have entered<br/>Please Select the bus once again if you have changed the dates</p>
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
