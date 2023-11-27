@@ -62,7 +62,12 @@ export default function SeatDetailCard(props) {
     localStorage.setItem("total_amount", totalCost);
     let seat = JSON.stringify(seatList);
     localStorage.setItem("seat_list", seat);
-    setLoginModal(true);
+    if (localStorage.getItem("refresh_token")) {
+      setLoginModal(false);
+      navigate("/traveller-data");
+    } else {
+      setLoginModal(true);
+    }
   };
 
   return (
