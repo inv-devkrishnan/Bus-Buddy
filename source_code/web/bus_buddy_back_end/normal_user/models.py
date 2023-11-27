@@ -49,8 +49,7 @@ class Bookings(models.Model):
 
 
 class Payment(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    booking_id = models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
+    booking= models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
     payment_intend = models.CharField(max_length=255, null=False)
     status = models.SmallIntegerField(default=0, null=False)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
