@@ -27,6 +27,7 @@ const AddSeatContextProvider = ({ children }) => {
   const updateReRender = (newValue) => {
     setReRender(newValue);
   };
+  
 
   const value = useMemo(
     () => ({

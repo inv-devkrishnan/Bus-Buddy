@@ -9,23 +9,24 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import { axiosApi } from "../../../../utils/axiosApi";
 
 export default function FullSleeperLayout(props) {
-  const { updateCurrentData, currentData, reRender } =
+  const { updateCurrentData, reRender } =
     useContext(AddSeatContext);
+
+  useEffect(() => {
+    console.log(props.bus);
+  });
 
   useEffect(() => {
     console.log(reRender);
     axiosApi
-      .get(
-        `bus-owner/get-seat-details?bus_id=${props.bus}`
-      )
+      .get(`bus-owner/get-seat-details?bus_id=${props.bus}`)
       .then((res) => {
         updateCurrentData(res.data);
       })
       .catch((err) => {
         console.log("error");
       });
-  }, [reRender, props.bus]);
-  console.log(currentData);
+  }, [props.bus, reRender]);
 
   return (
     <Grid container spacing={12} justifyContent="space-evenly">

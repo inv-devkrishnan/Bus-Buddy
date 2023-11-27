@@ -7,7 +7,7 @@ import ListUsers from "../components/admin/ListUsers";
 
 function AdminDashboard() {
   // three state variable for three options
-  const [profileSelect, setProfileSelect] = useState(false); // if true shows profile component
+  const [profileSelect, setProfileSelect] = useState(true); // if true shows profile component
   const [listUserSelect, setListUserSelect] = useState(false); // if true shows listuser component
   const [busSelect, setBusSelect] = useState(false); // if true shows bus owner approval component
   const navigate = useNavigate();
@@ -63,8 +63,10 @@ function AdminDashboard() {
     }
   }, [navigate, authStatus]);
   return (
-    <div className="d-flex">
+    <div className="d-flex flex-column flex-md-row flex-lg-row">
+      <div className="fixed-sidebar">
       <SideBar heading="Admin Profile" options={options} />
+      </div>
       <div>
         {profileSelect && <ProfileView />}
         {listUserSelect && <ListUsers busApproval={false}/>}

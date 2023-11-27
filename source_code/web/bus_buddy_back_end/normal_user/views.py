@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.views import APIView
@@ -5,14 +6,18 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.exceptions import ValidationError
 from datetime import datetime
+from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings
-from bus_owner.models import StartStopLocations
-from bus_owner.models import SeatDetails, Trip, PickAndDrop
-
+from normal_user.models import Bookings, Payment, BookedSeats
+from bus_owner.models import (
+    SeatDetails,
+    Trip,
+    PickAndDrop,
+    StartStopLocations,
+)
+from bus_buddy_back_end.permissions import AllowNormalUsersOnly
 from .serializer import UserModelSerializer as UMS
 from .serializer import UserDataSerializer as UDS
 from .serializer import BookingHistoryDataSerializer as BHDS
@@ -21,11 +26,28 @@ from .serializer import (
     PickAndDropSerializer,
     BookSeatSerializer,
     CancelBookingSerializer,
+    CostSerializer,
+    CancelTravellerDataSerializer,
 )
+from bus_buddy_back_end.email import (
+    send_email_with_attachment,
+    send_email_with_template,
+)
+from bus_buddy_back_end.utils import render_template, convert_template_to_pdf
 import random
+import os
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django")
+
+
+def mail_sent_response(mailfunction):
+    if mailfunction:
+        logger.info("booking cancelled mail sent")
+        return "mail send successfully"
+    else:
+        logger.info("booking cancelled mail failed")
+        return "mail send failed"
 
 
 class ViewSeats(ListAPIView):
@@ -239,6 +261,7 @@ class ViewTrip(APIView):
                 and bool(datetime.strptime(date, date_format))
                 and start_location != end_location
             ):
+                logger.info("query param validation suceeded")
                 return True
             else:
                 return False
@@ -281,7 +304,7 @@ class ViewTrip(APIView):
                 DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
                 t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
                 am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
-                am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows
+                am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows,r.travel_fare as route_cost, u.extra_charges as gst
             FROM start_stop_locations s
             INNER JOIN start_stop_locations e
             ON s.route_id = e.route_id and s.location_id=%s and e.location_id=%s and s.seq_id < e.seq_id 
@@ -322,6 +345,8 @@ class ViewTrip(APIView):
                     "bus_name": data.bus_name,
                     "bus": data.bus_id,
                     "company_name": data.company_name,
+                    "route_cost": data.route_cost,
+                    "gst": data.gst,
                     "amenities": {
                         "emergency_no": data.emergency_no,
                         "water_bottle": data.water_bottle,
@@ -344,6 +369,7 @@ class ViewTrip(APIView):
             try:
                 current_page = paginator.page(page_number)
             except EmptyPage:  # if page doesn't exist status is set to no content
+                logger.warn("Page requested is Empty !")
                 return Response({}, status=204)
             paginated_data = {
                 "total_pages": paginator.num_pages,
@@ -354,9 +380,10 @@ class ViewTrip(APIView):
                 "has_next": current_page.has_next(),
                 "data": list(current_page),
             }
-
+            logger.info("returned trip list total entries :" + str(paginator.count))
             return Response(paginated_data)
         else:
+            logger.warn("request failed ! reason : invalid query params")
             return Response({"error_code": "D1006"}, status=400)
 
 
@@ -370,12 +397,86 @@ class BookSeat(APIView):
 
     permission_classes = (IsAuthenticated,)
 
+    def refund_if_booking_fail(self, payment_intent, user):
+        """function to refund payment if booking failed
+
+        Args:
+            payment_intent (_type_): payment_intent to be refunded
+        """
+        stripe.api_key = config("STRIPE_API_KEY")
+        if payment_intent:
+            logger.info("payment Intent to be Refunded :" + payment_intent)
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("Refund Initiated for Failed Booking")
+                subject = "Booking Failed"
+                context = {
+                    "recipient_name": user.first_name,
+                }
+                recipient_list = [user.email]
+                send_email_with_template(  # sends a mail to customer about failed booking
+                    subject=subject,
+                    context=context,
+                    recipient_list=recipient_list,
+                    template="booking_fail.html",
+                    status=3,
+                )
+                return True
+            except Exception as e:
+                logger.error("Refund Initiation Failed Reason :" + str(e))
+                return False
+        else:
+            logger.error(" Refund Failed payment Intent is empty ")
+            return False
+
+    def get_context_for_ticket_template(self, request, request_data):
+        # getting objects
+        trip = Trip.objects.get(id=request_data["trip"])
+        bus = trip.bus
+        owner = bus.user
+        route = trip.route
+        route_start = route.start_point
+        route_end = route.end_point
+        pick_up = PickAndDrop.objects.get(id=request_data["pick_up"])
+
+        # getting seat ids and objects
+        seats = []
+        for data in request_data["booked_seats"]:
+            seats.append(data["seat"])
+        seat_objects = []
+        for seat in seats:
+            seat_objects.append(SeatDetails.objects.get(id=seat))
+
+        # total seat cost
+        seat_cost = 0
+        for data in seat_objects:
+            seat_cost = seat_cost + data.seat_cost
+
+        # getting required data
+        context = {
+            "booking_id": request_data["booking_id"],
+            "recipient": request.user.first_name,
+            "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
+            "trip_start": trip.start_date,
+            "bus": bus.bus_name,
+            "route": {"from": route_start.location_name, "to": route_end.location_name},
+            "travellers": request_data["booked_seats"],
+            "seat_cost": float(seat_cost),
+            "route_cost": float(route.travel_fare),
+            "gst": owner.extra_charges,
+            "total": (
+                float(seat_cost) + float(route.travel_fare) + owner.extra_charges
+            ),
+        }
+        return context
+
     def post(self, request):
         user_id = request.user.id
         role = request.user.role
         now = datetime.now()
+        today = now.strftime("%Y-%m-%d")
         year_string = now.strftime("%Y")
-        random_number = random.randrange(0, 99999)
+        random_number = random.randrange(0, 9999)
 
         try:
             if role == 2:
@@ -387,18 +488,85 @@ class BookSeat(APIView):
                 serializer = BookSeatSerializer(data=request_data)
                 if serializer.is_valid():
                     serializer.save()
-                    logger.info("seat booked")
-                    return Response({"message": "Seat booked successfully"}, status=201)
+                    # path of the folder
+                    current_dir = os.path.dirname(os.path.abspath(__file__))
+                    parent_dir = os.path.dirname(current_dir)
+                    templates_folder = os.path.join(parent_dir, "templates")
+
+                    template_file = "ticket_format.html"
+                    context = self.get_context_for_ticket_template(
+                        request, request_data
+                    )
+
+                    template = render_template(templates_folder, template_file, context)
+
+                    subject = "Booking Confirmation - Bus Buddy"
+                    message = (
+                        message
+                    ) = f"Dear {request.user.first_name},\n\nThank you for choosing Bus Buddy for your travel needs! We're excited to confirm your booking with booking ID: {request_data['booking_id']} has been successful.\n\nYour ticket is attached to this email. Please ensure you have it with you during your journey. If you have any questions or need further assistance, feel free to reach out to us.\n\nSafe travels, and thank you for using Bus Buddy!\n\nBest regards,\nBus Buddy Team"
+
+                    recipient_list = [request.user.email]
+                    pdf_content = convert_template_to_pdf(template)
+                    pdf_filename = f"{request.user.first_name}_ticket_{today}.pdf"
+                    content_type = "application/pdf"
+                    email_send = send_email_with_attachment(
+                        subject,
+                        message,
+                        recipient_list,
+                        pdf_content,
+                        pdf_filename,
+                        content_type,
+                        status=0,
+                    )
+
+                    if email_send:
+                        logger.info("seat booked and email send")
+                        return Response(
+                            {"message": "Seat booked successfully"}, status=201
+                        )
+                    else:
+                        logger.error("seat booked and email send failled")
+                        return Response(
+                            {
+                                "message": "Seat booked successfully",
+                                "email": "Failed to send email",
+                            },
+                            status=200,
+                        )
                 else:
                     logger.info(serializer.errors)
-                    return Response(serializer.errors, status=200)
+                    return Response(
+                        {
+                            "error": str(serializer.errors),
+                            "refund_performed": self.refund_if_booking_fail(
+                                request_data.get("payment").get("payment_intend"),
+                                request.user,
+                            ),
+                        },
+                        status=400,
+                    )
             else:
                 return Response(
-                    {"authorization failed": "Unauthorized user"}, status=401
+                    {
+                        "error": "Unauthorized",
+                        "refund_performed": self.refund_if_booking_fail(
+                            request_data.get("payment").get("payment_intend"),
+                            request.user,
+                        ),
+                    },
+                    status=401,
                 )
         except Exception as e:
             logger.info(e)
-            return Response("errors:" f"{e}", status=400)
+            return Response(
+                {
+                    "error:": str(e),
+                    "refund_performed": self.refund_if_booking_fail(
+                        request_data.get("payment").get("payment_intend"), request.user
+                    ),
+                },
+                status=400,
+            )
 
 
 class CancelBooking(UpdateAPIView):
@@ -414,22 +582,136 @@ class CancelBooking(UpdateAPIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def update(self, request):
-        booking_id = request.GET.get("booking_id")
+    def refund(self, booking_id):
+        """function to provide refund once booking is cancelled
 
+        Args:
+            booking_id (_type_): the id of the booking to be cancelled
+
+        Returns:
+        Boolean: True =>refund sucessful False => refund faild
+        """
+        stripe.api_key = config("STRIPE_API_KEY")
         try:
-            instance = Bookings.objects.get(id=booking_id)
-            current_data = {"status": 99}  # status 99 denotes the cancelled bookings
-            serializer = CancelBookingSerializer(
-                instance, data=current_data, partial=True
+            payment_instance = Payment.objects.get(booking_id=booking_id, status=0)
+            payment_intent = payment_instance.payment_intend
+            try:
+                stripe.Refund.create(payment_intent=payment_intent)
+                logger.info("refund initiated for booking id : " + str(booking_id))
+                payment_instance.status = (
+                    3  # updating status of payment from paid to refund
+                )
+                payment_instance.save()
+                return True
+            except Exception as e:
+                logger.warn("Stripe Refund Creation Failed ! Reason :" + str(e))
+                return False
+        except Payment.DoesNotExist:
+            logger.warn(
+                "Cancel booking failed ! Reason : No entry for booking_id : "
+                + str(booking_id)
+                + "in payment table"
             )
-            if serializer.is_valid(raise_exception=True):
+            return False
+
+    def cancelBooking(self, request, now, booking_id, instance):
+        # for cancelling already booked id
+        today = now.strftime("%Y-%m-%d")
+        booked_seats = BookedSeats.objects.filter(booking=booking_id)
+        status_data = {"status": 99}  # status 99 denotes the cancelled bookings
+        booked_status = {"status": 1}  # status 1 denotes the seat is available
+        serializer = CancelBookingSerializer(instance, data=status_data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            if self.refund(booking_id=booking_id):
+                for object in booked_seats:
+                    sub_serializer = CancelTravellerDataSerializer(
+                        object, data=booked_status, partial=True
+                    )
+                    if sub_serializer.is_valid():
+                        self.perform_update(sub_serializer)
                 self.perform_update(serializer)
-                logger.info("booking cancelled")
-                return Response({"message": "cancelled succesffully"}, status=200)
+                subject = "Booking Cancellation Confirmation - Bus Buddy"
+                template = "cancel_booking_confirmation.html"
+                context = {
+                    "recipient_name": request.user.first_name,
+                    "booking_id": instance.booking_id,
+                    "cancellation_date": today,
+                }
+                recipient_list = [request.user.email]
+                email_send = send_email_with_template(
+                    subject, template, context, recipient_list, status=1
+                )
+
+                email = mail_sent_response(email_send)
+                message = "Booking cancelled successfully"
+                logger.info("Booking cancelled successfully")
+                return (message, email)
             else:
-                logger.info(serializer.errors)
-                return Response(serializer.errors, status=400)
+                logger.warn("Cancelation Failed")
+                email = mail_sent_response(
+                    False
+                )  # mail will not be send for failed cancellation
+                message = "Booking Cancelling Failed"
+                return (message, email)
+
+        else:
+            logger.info(serializer.errors)
+            return serializer.errors
+
+    def update(self, request):
+        booking_id = int(request.GET.get("booking_id"))
+        now = datetime.now()
+        try:
+            if booking_id <= 0:
+                return Response({"error": "Invalid booking id"})
+            else:
+                instance = Bookings.objects.get(id=booking_id)
+                if instance.user != request.user:
+                    logger.info("another user")
+                    return Response({"error": "Unauthorized user"})
+                elif instance.status == 99:
+                    logger.info("already cancelled booking")
+                    return Response({"message": "Booking is already cancelled"})
+                elif request.user.role != 2:
+                    logger.info("not a user")
+                    return Response({"error": "Unauthorized user"})
+                else:
+                    message, email = self.cancelBooking(
+                        request, now, booking_id, instance
+                    )
+                    return Response({"message": message, "email": email}, status=200)
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
+
+
+class CreatePaymentIntent(APIView):
+    """
+    api to create payment Intent for stripe
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+    stripe.api_key = config("STRIPE_API_KEY")
+
+    def post(self, request):
+        serialized_data = CostSerializer(data=request.data)
+        if serialized_data.is_valid():
+            total_cost = serialized_data._validated_data["total_cost"]
+            try:
+                # creates the payment Intent
+                intent = stripe.PaymentIntent.create(
+                    amount=int(total_cost * 100),  # to convert rupee to paise
+                    currency="inr",
+                    receipt_email=request.user.email,
+                    payment_method_types=["card"],
+                    description="Bus ticket Booking",
+                )
+                logger.info("PaymentIntent Created !")
+                return Response({"client_secret": intent.client_secret}, status=200)
+            except Exception as e:
+                logger.warn("Payment Intent Creation Failed ! Reason :" + str(e))
+                return Response({"error_code": "D1016"}, status=400)
+        else:
+            logger.warn("Serializer validation Failed")
+            logger.warn(serialized_data.errors)
+            return Response({"error_code": "D1002"}, status=400)

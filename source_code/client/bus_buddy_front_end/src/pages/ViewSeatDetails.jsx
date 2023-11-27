@@ -39,6 +39,8 @@ export default function ViewSeatDetails(props) {
         <SeatDetailCard
           selectionModelPick={selectionModelPick}
           selectionModelDrop={selectionModelDrop}
+          routeCost={props?.routeCost}
+          gst={props?.gst}
         />
       </Grid>
     </Grid>

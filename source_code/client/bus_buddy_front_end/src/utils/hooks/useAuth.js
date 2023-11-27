@@ -1,5 +1,5 @@
 // hook to check wether user is logged in or not returns true if logged in else false
-import {useRef } from "react";
+import { useRef } from "react";
 export const useAuthStatus = () => {
   let authenticated = useRef(false);
   return () => {
@@ -10,6 +10,7 @@ export const useAuthStatus = () => {
         authenticated.current = false;
       }
     }
+    console.log("authenticated : " + authenticated.current);
     return authenticated.current;
   };
 };

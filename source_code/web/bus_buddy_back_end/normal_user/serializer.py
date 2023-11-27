@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
-from .models import User, Bookings, BookedSeats
+from .models import User, Bookings, BookedSeats, Payment
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -124,7 +124,7 @@ class SeatDetailsViewSerialzer(serializers.ModelSerializer):
     def get_booked(self, obj):
         # Filter the BookedSeats to include only those with 'trp_id'
         trip_id = self.context.get("trip_id")
-        booked_seats = obj.bookedseats_set.filter(trip_id=trip_id)
+        booked_seats = obj.bookedseats_set.filter(trip_id=trip_id, status=2)
         return BookedSeatsSerializer(booked_seats, many=True).data
 
     booked = serializers.SerializerMethodField(method_name="get_booked")
@@ -153,12 +153,23 @@ class TravellerDataSerializer(serializers.ModelSerializer):
         fields = ["trip", "traveller_name", "traveller_dob", "traveller_gender", "seat"]
 
 
+class PaymentDataSerializer(serializers.ModelSerializer):
+    """
+    For inserting payment data
+    """
+
+    class Meta:
+        model = Payment
+        fields = ["payment_intend", "status"]
+
+
 class BookSeatSerializer(serializers.ModelSerializer):
     """
     For booking seats
     """
 
     booked_seats = TravellerDataSerializer(many=True, source="bookedseats_set")
+    payment = PaymentDataSerializer()
 
     class Meta:
         model = Bookings
@@ -170,14 +181,28 @@ class BookSeatSerializer(serializers.ModelSerializer):
             "booking_id",
             "total_amount",
             "booked_seats",
+            "payment",
         ]
 
     def create(self, validated_data):
-        traveller_data = validated_data.pop("bookedseats_set")
+        traveller_data = validated_data.pop("bookedseats_set")  
+        payment_data = validated_data.pop("payment")
         booking_id = Bookings.objects.create(**validated_data)
         for data in traveller_data:
             BookedSeats.objects.create(booking=booking_id, **data)
+        # storing payment intent and status to payment table    
+        Payment.objects.create(booking=booking_id, **payment_data)
         return booking_id
+
+
+class CancelTravellerDataSerializer(serializers.ModelSerializer):
+    """
+    For cancelling traveller data
+    """
+
+    class Meta:
+        model = BookedSeats
+        fields = ["status"]
 
 
 class CancelBookingSerializer(serializers.ModelSerializer):
@@ -188,3 +213,15 @@ class CancelBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = ["status"]
+
+
+class NonNegativeFloatField(serializers.FloatField):
+    def to_internal_value(self, data):
+        value = super().to_internal_value(data)
+        if value < 0:
+            raise serializers.ValidationError("total cost must be non-negative.")
+        return value
+
+
+class CostSerializer(serializers.Serializer):
+    total_cost = NonNegativeFloatField()
