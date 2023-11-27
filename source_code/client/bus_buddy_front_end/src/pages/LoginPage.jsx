@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -126,6 +126,12 @@ function LoginPage() {
 
     setValidated(true);
   };
+
+  const browseAsGuest = () => {
+    // enables to view website in guest mode
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <Container fluid className="mt-5">
       <Row>
@@ -188,6 +194,15 @@ function LoginPage() {
               <Button variant="primary" type="submit" className="mb-3">
                 Login
               </Button>
+              <Card.Link
+                onClick={() => {
+                  browseAsGuest();
+                }}
+                className="ms-3"
+                style={{ cursor: "pointer" }}
+              >
+                Browse as guest
+              </Card.Link>
               <Card.Text>
                 <Dropdown>
                   <Dropdown.Toggle
@@ -199,12 +214,24 @@ function LoginPage() {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={()=>{navigate("/register-user")}}>Register as user</Dropdown.Item>
-                    <Dropdown.Item onClick={()=>{navigate("/register-owner")}}>Register as bus owner</Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/register-user");
+                      }}
+                    >
+                      Register as user
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/register-owner");
+                      }}
+                    >
+                      Register as bus owner
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Card.Text>
-              <Card.Text className="d-flex justify-content-around">
+              <Card.Text className="d-flex justify-content-around mt-0">
                 or
               </Card.Text>
               <GoogleLogin
