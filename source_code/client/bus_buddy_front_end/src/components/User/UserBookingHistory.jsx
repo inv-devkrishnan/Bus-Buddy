@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -25,20 +25,28 @@ export default function UserBookingHistory() {
   const [modalData, setModalData] = useState(null); // for storing data for modal
   const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
 
+  const viewBookingHistory = useCallback(async () => {
+    try {
+      const res = await axiosApi.get(
+        `user/booking-history?page=${page}&&status=${status}`
+      );
+
+      setBookingData(res.data.results);
+      setNext(res.data.has_next);
+      setPrevious(res.data.has_previous);
+      setTotalPages(res.data.total_pages);
+      setCurrentPage(res.data.current_page_number);
+      setPageSize(res.data.page_size);
+    } catch (err) {
+      // Handle errors
+      console.error("Error:", err);
+    }
+  }, [page, status]);
+
   useEffect(() => {
     // for fetching user's booking history
-    axiosApi
-      .get(`user/booking-history?page=${page}&&status=${status}`)
-      .then((res) => {
-        setBookingData(res.data.results);
-        setNext(res.data.has_next);
-        setPrevious(res.data.has_previous);
-        setTotalPages(res.data.total_pages);
-        setCurrentPage(res.data.current_page_number);
-        setPageSize(res.data.page_size);
-      })
-      .catch((err) => {});
-  }, [page, status]);
+    viewBookingHistory();
+  }, [viewBookingHistory]);
 
   const handlePrevious = () => {
     // for moving to previous page
@@ -59,6 +67,7 @@ export default function UserBookingHistory() {
       .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
       .then((res) => {
         Swal.close();
+        viewBookingHistory();
         Swal.fire({
           title: "Success",
           text: "Cancelled Successfully, Refund has been initiated",
