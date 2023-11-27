@@ -365,7 +365,8 @@ class ViewTripSerializer(serializers.ModelSerializer):
         source="route.end_point.location_name", read_only=True
     )  # to get name matchin the id from location
     bus_name = serializers.CharField(source="bus.bus_name", read_only=True)
-
+    
+    
     class Meta:
         model = Trip
         fields = (

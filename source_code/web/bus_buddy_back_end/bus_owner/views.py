@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
@@ -579,7 +579,7 @@ class Updatetrip(UpdateAPIView):
     def get(self, request, id):
         try:
             logger.info("checking for trip obj matching the requested id")
-            trip = Trip.objects.get(id=id)
+            trip = Trip.objects.get(id=id,status=0)
         except Trip.DoesNotExist:
             logger.info("no trip obj matching the requested id")
             return Response(status=404)
@@ -700,3 +700,79 @@ class Viewavailablebus(ListAPIView):
 
         except ValueError:
             return Response({"error": "Invalid date format for 'start' or 'end'"}, status=400)
+        
+class Addtreccuringrip(APIView):
+    """
+    Function to add new trip from bus owner
+    """
+
+    permission_classes = (IsAuthenticated,)
+    serializer = None
+
+    def post(self, request,):
+        try:
+            import pdb;pdb.set_trace()
+            recurrence_type = 1
+            request_data=request.data.copy()
+            print(request_data)
+            request_data["user"] = request.user.id
+            serializer = TripSerializer(data=request_data)
+            if serializer.is_valid():
+                serializer.save()
+                logger.info("Inserted")
+            start_date_str = request_data["start_date"]
+            end_date_str = request_data["end_date"]
+            start_time_str = request_data["start_time"]
+            end_time_str = request_data["end_time"]
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+            start_time = datetime.strptime(start_time_str, '%H:%M').time()
+            end_time = datetime.strptime(end_time_str, '%H:%M').time()
+            start_datetime = datetime.combine(start_date, start_time)
+            end_datetime = datetime.combine(end_date, end_time)
+            duration = end_datetime - start_datetime
+            print(duration)
+            no_of_days = (duration.days) 
+            print(no_of_days)
+            psd_str = request.GET.get('period_start_date')
+            ped_str = request.GET.get('period_end_date')
+            psd = datetime.strptime(psd_str, '%Y-%m-%d')
+            ped = datetime.strptime(ped_str, '%Y-%m-%d')
+            period = ped - psd
+            
+            if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
+                trip_objects = []
+                print("it is in the range ")
+                if recurrence_type == 0:
+                    iterations = (ped - psd).days + 1  # Daily recurrence
+                elif recurrence_type == 1:
+                    iterations = (ped - psd).days // 7 + 1  # Weekly recurrence
+                else:
+                    return Response({"error": "Invalid recurrence type"}, status=400)
+                if recurrence_type == 0:
+                    period = timedelta(days=1)
+                elif recurrence_type == 1:
+                    period = timedelta(weeks=1)
+                else:
+                    return Response({"error": "Invalid recurrence type"}, status=400)
+                for i in range (iterations):
+                    current_start_date = start_datetime + i * period
+                    current_end_date = end_datetime + i * period
+                    if (current_end_date > ped or current_start_date > ped):
+                        break
+                    else:
+                        current_request_data = request_data.copy()
+                        current_request_data["start_date"] = current_start_date.strftime('%Y-%m-%d')
+                        current_request_data["end_date"] = current_end_date.strftime('%Y-%m-%d')
+                        current_serializer = TripSerializer(data=current_request_data)
+                        if current_serializer.is_valid():
+                            current_serializer.save()
+                            trip_objects.append(current_serializer.data)
+                        else:
+                            return Response({"message":current_serializer.errors}, status=400)
+                return Response({"message": "Trips inserted", "trips": trip_objects})
+            else:
+                return Response(serializer.errors, status=400)
+        except ValidationError:
+            logger.info(entry)
+            return Response(entry, status=400)
