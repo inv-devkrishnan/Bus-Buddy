@@ -19,4 +19,6 @@ urlpatterns = [
     path('update-trip/<int:id>/',views.Updatetrip.as_view(),name="update-trip"),
     path('delete-trip/<int:id>/',views.Deletetrip.as_view(),name="delete-trip"),
     path('view-trip/',views.Viewtrip.as_view(),name="view-trip"),
+    path('view-available-bus/<str:start>/<str:end>/',views.Viewavailablebus.as_view(),name="view-available-bus"),
+    path('view-reccuring-trip/',views.Addtreccuringrip.as_view(),name="view-reccuring-trip"),
 ]

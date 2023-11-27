@@ -84,19 +84,18 @@ export default function AddRouteCard() {
         duration: document.getElementById("duration").value,
         travel_fare: document.getElementById("travel_fare").value,
         status: 0,
-        user:1,
         location: stopLocations,
       };
       console.log(routeData);
-      // const response=await axiosApi.post("http://127.0.0.1:8000/bus-owner/add-routes/",routeData)
-      // if (response.status === 200) {
-      //   console.log('Route Added');
-      //   Swal.fire({
-      //     icon: 'success',
-      //     title: 'Added Successfully',
-      //     text: 'Route added successfully',
-      //   })
-      // }
+      const response=await axiosApi.post("http://127.0.0.1:8000/bus-owner/add-routes/",routeData)
+      if (response.status === 200) {
+        console.log('Route Added');
+        Swal.fire({
+          icon: 'success',
+          title: 'Added Successfully',
+          text: 'Route added successfully',
+        })
+      }
       setErrorMessage("");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");

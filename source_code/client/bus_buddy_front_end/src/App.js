@@ -29,6 +29,8 @@ import PaymentPage from "./pages/PaymentPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 import { NavbarLayout } from "./components/common/navbar/NavBarLayout";
+import UpdateTrips from "./components/BusOwnerUi/MyTrips/UpdateTrips";
+import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips";
 
 function App() {
   return (
@@ -53,6 +55,8 @@ function App() {
             <Route path="/Addroutes" element={<Addroutes />} />
             <Route path="/ViewRoutes" element={<ViewRoutes />} />
             <Route path="/view-trips" element={<ViewRoutes />} />
+            <Route path="/update-trips" element={<UpdateTrips />} />
+            <Route path="/add-trips" element={<Addtrips />} />
             <Route
               path="/full-sleeper-details"
               element={<FullSleeperDetails />}

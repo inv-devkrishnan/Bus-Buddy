@@ -48,7 +48,6 @@ export default function Updatebus() {
 
     try {
       axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
-        user: 1,
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,
@@ -93,7 +92,7 @@ export default function Updatebus() {
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-1">
                 <Form.Group as={Col} md="3" controlId="validationCustom01">
-                  <Form.Label>Bus ID</Form.Label>
+                  <Form.Label>Bus</Form.Label>
                   <Form.Control
                     required
                     name="id"
@@ -200,7 +199,6 @@ export default function Updatebus() {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
-
               <div style={{ paddingTop: "1.5rem" }}>
                 <Button type="submit">Update</Button>
               </div>
