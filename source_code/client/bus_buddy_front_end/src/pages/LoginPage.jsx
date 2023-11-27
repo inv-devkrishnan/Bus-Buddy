@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -28,9 +28,9 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { seatList } = useContext(SeatContext);
-
+  console.log(seatList)
   useEffect(() => {
-    if (localStorage.getItem("current_trip") && seatList) {
+    if (localStorage.getItem("current_trip") && seatList.length>0) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -92,7 +92,7 @@ function LoginPage() {
       localStorage.setItem("token_expire_time", expire_time);
       localStorage.setItem("user_name", loginRes.message.user_name);
 
-      if (localStorage.getItem("current_trip") && seatList) {
+      if (localStorage.getItem("current_trip") && seatList.length>0) {
         navigate("/traveller-data");
       } else if (loginRes.message.user_role === 2) {
         navigate("/user-dashboard");

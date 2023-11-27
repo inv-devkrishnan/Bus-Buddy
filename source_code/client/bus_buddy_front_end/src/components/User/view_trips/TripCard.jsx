@@ -31,6 +31,7 @@ function TripCard(props) {
     props.onClick();
     setViewSeatFlag(true);
     updateTripID(props.data.trip);
+    updateSeatList([]);
   };
 
   const handleSelectSeatClose = () => {
