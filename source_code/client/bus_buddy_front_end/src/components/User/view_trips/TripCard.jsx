@@ -16,7 +16,7 @@ function TripCard(props) {
   const handleClose = () => setShow(false); // function to close amenties modal
   const handleShow = () => setShow(true); // function to show amenties modal
   const [viewSeatFlag, setViewSeatFlag] = useState(false);
-  const { updateTripID } = useContext(SeatContext);
+  const { updateTripID, updateSeatList } = useContext(SeatContext);
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -26,6 +26,20 @@ function TripCard(props) {
 
     return stringWithSpaces;
   };
+
+  const handleSelectSeat = () => {
+    props.onClick();
+    setViewSeatFlag(true);
+    updateTripID(props.data.trip);
+  };
+
+  const handleSelectSeatClose = () => {
+    props.onClick();
+    setViewSeatFlag(false);
+    localStorage.removeItem("current_trip");
+    updateSeatList([]);
+  };
+
   return (
     <>
       <Container>
@@ -93,23 +107,12 @@ function TripCard(props) {
                         >
                           View Amenities
                         </Button>
-                        {viewSeatFlag ? (
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              setViewSeatFlag(false);
-                            }}
-                          >
+                        {viewSeatFlag && props.isOpen ? (
+                          <Button size="sm" onClick={handleSelectSeatClose}>
                             Close
                           </Button>
                         ) : (
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              setViewSeatFlag(true);
-                              updateTripID(props.data.trip);
-                            }}
-                          >
+                          <Button size="sm" onClick={handleSelectSeat}>
                             Select Seats
                           </Button>
                         )}
@@ -126,7 +129,7 @@ function TripCard(props) {
                   <ListGroup>
                     {Object.entries(props?.data?.amenities).map((amenity) => (
                       <ListGroup.Item
-                      key={amenity[0]}
+                        key={amenity[0]}
                         className="d-flex justify-content-between "
                       >
                         <p className="text-start m-0">
@@ -151,7 +154,15 @@ function TripCard(props) {
           </Col>
         </Row>
       </Container>
-      <>{viewSeatFlag && <ViewSeatDetails currentTrip={props}/>}</>
+      <>
+        {viewSeatFlag && props.isOpen && (
+          <ViewSeatDetails
+            currentTrip={props}
+            routeCost={props?.data?.route_cost}
+            gst={props?.data?.gst}
+          />
+        )}
+      </>
     </>
   );
 }
@@ -159,5 +170,7 @@ TripCard.propTypes = {
   data: PropTypes.object,
   startLocationName: PropTypes.string,
   endLocationName: PropTypes.string,
+  isOpen: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 export default TripCard;

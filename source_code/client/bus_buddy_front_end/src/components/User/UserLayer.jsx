@@ -10,7 +10,7 @@ export default function UserLayer(props) {
 
   useEffect(() => {
     let layerData = []; // for storing seat data of same layer
-    let hasMale = false; 
+    let hasMale = false;
     let hasFemale = false;
 
     for (let loop = 1; loop < seatData.length; loop++) {

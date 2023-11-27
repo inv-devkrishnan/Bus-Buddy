@@ -27,20 +27,21 @@ const TravellerDetail = () => {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (authStatus) {
+    if (authStatus()) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
         navigate("/login");
+      } else {
+        // stores data from local storage to use states
+        const storedSeats = localStorage.getItem("seat_list");
+        setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
+        const storedTrip = localStorage.getItem("current_trip");
+        setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
       }
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-    // stores data from local storage to use states
-    const storedSeats = localStorage.getItem("seat_list");
-    setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
-    const storedTrip = localStorage.getItem("current_trip");
-    setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
-  }, [navigate,]);
+  }, []);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
