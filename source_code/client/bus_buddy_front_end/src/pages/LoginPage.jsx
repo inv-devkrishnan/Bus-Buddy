@@ -29,7 +29,7 @@ function LoginPage() {
   const { seatList } = useContext(SeatContext);
 
   useEffect(() => {
-    if (localStorage.getItem("current_trip") && seatList) {
+    if (localStorage.getItem("current_trip") && seatList.length > 0) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -90,7 +90,7 @@ function LoginPage() {
         Number(loginRes.message.refresh_token_expire_time) + Date.now();
       localStorage.setItem("token_expire_time", expire_time);
 
-      if (localStorage.getItem("current_trip") && seatList) {
+      if (localStorage.getItem("current_trip") && seatList.length > 0) {
         navigate("/traveller-data");
       } else if (loginRes.message.user_role === 2) {
         navigate("/user-dashboard");
