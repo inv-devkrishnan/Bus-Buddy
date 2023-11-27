@@ -39,16 +39,21 @@ export default function Addtrips() {
   // }, []);
 
   const dates = (selectedStartDate, selectedEndDate) => {
+    console.log(selectedStartDate)
     const start = selectedStartDate
-        ? selectedStartDate.toISOString().split("T")[0]
-        : null;
-    const end = selectedEndDate
-        ? selectedEndDate.toISOString().split("T")[0]
-        : null;
+    ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0]
+    : null;
 
+  const end = selectedEndDate
+    ? new Date(selectedEndDate.getTime() - selectedEndDate.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0]
+    : null;
     // Fetch Bus data
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/${start}/${end}/`)
+      .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
       .then((response) => {
         setBusData(response.data);
       })
@@ -68,12 +73,18 @@ export default function Addtrips() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       const formattedStartDate = selectedStartDate
-        ? selectedStartDate.toISOString().split("T")[0]
-        : null;
-      const formattedEndDate = selectedEndDate
-        ? selectedEndDate.toISOString().split("T")[0]
-        : null;
+  ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0]
+  : null;
+
+const formattedEndDate = selectedEndDate
+  ? new Date(selectedEndDate.getTime() - selectedEndDate.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0]
+  : null;
 
       const response = await axiosApi.post(
         "http://127.0.0.1:8000/bus-owner/add-trip/",
@@ -92,7 +103,7 @@ export default function Addtrips() {
         Swal.fire({
           icon: "success",
           title: "Added Successfully",
-          text: "Bus Amenities added successfully",
+          text: "trip added successfully",
         });
       }
     } catch (error) {
@@ -100,7 +111,7 @@ export default function Addtrips() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error adding Bus Amenities",
+        text: "Error adding trip",
       });
     }
   };
@@ -146,7 +157,7 @@ export default function Addtrips() {
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
-                  <Button style={{marginTop:"2%",width:"35%",}} type="submit" onClick={() => dates(selectedStartDate, selectedEndDate)}>search</Button>
+                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(selectedStartDate, selectedEndDate)}>search</Button>
                 </div>
               </Row>
               <Row className="mb-2">

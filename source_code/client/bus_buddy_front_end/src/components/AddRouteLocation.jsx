@@ -60,9 +60,9 @@ function AddRouteLocation(props) {
         seq_id: props.sequenceId,
         location: locationValue,
         arrival_time: arrivalTime,
-        arrival_date: arrivalDate,
+        arrival_date_offset: arrivalDate,
         departure_time: departureTime,
-        departure_date: departureDate,
+        departure_date_offset: departureDate,
       };
 
       setLocation(locationStop);

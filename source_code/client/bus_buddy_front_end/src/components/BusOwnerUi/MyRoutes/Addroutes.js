@@ -5,9 +5,7 @@ export default function Addbus() {
     <div
       style={{
         display: "flex",
-        justifyContent: "right",
-        marginRight: "5rem",
-        paddingTop: "5rem",
+        justifyContent: "center",
       }}
     >
       <AddRouteCard />

@@ -91,7 +91,7 @@ export default function UserDashboard() {
   return (
     <div style={{display:"flex",justifyContent:"space-between"}}>
       <div>
-        <SideBar heading="Admin Profile" options={options} 
+        <SideBar heading="Bus Owner Profile" options={options} 
         />
       </div>
       <div style={{ flex: 1 }}>

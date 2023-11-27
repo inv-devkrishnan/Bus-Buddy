@@ -162,22 +162,8 @@ export default function Viewallroutes() {
   return (
     <div>
       <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "25%",marginTop:"1%" }} >
+        <Form style={{ textAlign: "center", marginLeft: "40%",marginTop:"1%" }} >
           <h1>Viewall</h1>
-        </Form>
-        <Form inline>
-          <Row>
-            <Col xs="auto">
-              <Form.Control
-                type="text"
-                placeholder="Search"
-                className=" mr-sm-2"
-              />
-            </Col>
-            <Col xs="auto">
-              <Button type="submit">Submit</Button>
-            </Col>
-          </Row>
         </Form>
       </Navbar>
       <div className="card-container">{renderCards()}</div>

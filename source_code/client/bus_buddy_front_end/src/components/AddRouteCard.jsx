@@ -114,10 +114,10 @@ export default function AddRouteCard() {
   };
 
   return (
-    <Container className="w-50">
+    <Container>
       <Row>
-        <Col>
-          <Card className="mb-5 mt-5">
+        <div className="d-flex justify-content-center">
+        <Card className="mb-5 mt-5">
             <div className="d-flex align-items-center">
               <Card.Img variant="top w-25" src={RouteImage} />
               <h1>Add Route</h1>
@@ -274,7 +274,8 @@ export default function AddRouteCard() {
               stopLocations={stopLocations}
             ></AddRouteLocation>
           </Card>
-        </Col>
+        </div>
+
       </Row>
     </Container>
   );
