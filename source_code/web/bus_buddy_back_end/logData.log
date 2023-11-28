@@ -8758,3 +8758,613 @@ django WARNING 2023-11-28 10:03:52,366 views 36817 140269113942016 Page requeste
 django INFO 2023-11-28 10:03:53,002 views 36817 140269113942016 query param validation suceeded
 django INFO 2023-11-28 10:03:53,002 views 36817 140269113942016 returned trip list total entries :0
 django WARNING 2023-11-28 10:03:53,697 views 36817 140269113942016 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:14:52,435 views 37868 139947136409600 Baning User with id 19
+django INFO 2023-11-28 10:14:52,435 views 37868 139947136409600 changing the status of user with id 19 to status 2
+django INFO 2023-11-28 10:14:52,437 views 37868 139947136409600 user status changed to 2
+django INFO 2023-11-28 10:14:53,197 views 37868 139947136409600 Baning User with id 100
+django INFO 2023-11-28 10:14:53,197 views 37868 139947136409600 changing the status of user with id 100 to status 2
+django WARNING 2023-11-28 10:14:53,198 views 37868 139947136409600 user with id 100 Doesn't exist !
+django INFO 2023-11-28 10:14:53,817 views 37868 139947136409600 Unbaning User with id 23
+django INFO 2023-11-28 10:14:53,817 views 37868 139947136409600 changing the status of user with id 23 to status 0
+django INFO 2023-11-28 10:14:53,818 views 37868 139947136409600 user status is already 0 no change needed
+django INFO 2023-11-28 10:14:54,446 views 37868 139947136409600 Removing Bus Owner with id 25
+django INFO 2023-11-28 10:14:54,447 views 37868 139947136409600 changing the status of user with id 25 to status 99
+django INFO 2023-11-28 10:14:54,448 views 37868 139947136409600 user status changed to 99
+django INFO 2023-11-28 10:14:55,156 views 37868 139947136409600 Approving Bus Owner with id 27
+django INFO 2023-11-28 10:14:55,157 views 37868 139947136409600 changing the status of user with id 27 to status 0
+django INFO 2023-11-28 10:14:55,158 views 37868 139947136409600 user status changed to 0
+django INFO 2023-11-28 10:14:55,199 views 37868 139947136409600 bus approval mail sent
+django INFO 2023-11-28 10:14:55,539 views 37868 139947136409600 Approving Bus Owner with id 100
+django INFO 2023-11-28 10:14:55,874 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:56,214 views 37868 139947136409600 ordering list by ascending order
+django INFO 2023-11-28 10:14:56,216 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:56,545 views 37868 139947136409600 ordering list by descending order
+django INFO 2023-11-28 10:14:56,546 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:56,918 views 37868 139947136409600 sort by banned users
+django INFO 2023-11-28 10:14:56,920 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:57,269 views 37868 139947136409600 sort by unbanned users
+django INFO 2023-11-28 10:14:57,271 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:57,633 views 37868 139947136409600 Searching user with keyword '0'
+django INFO 2023-11-28 10:14:57,635 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:58,083 views 37868 139947136409600 Searching bus owner with keyword '0'
+django INFO 2023-11-28 10:14:58,085 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:58,452 views 37868 139947136409600 sort by unapproved bus owners users
+django INFO 2023-11-28 10:14:58,453 views 37868 139947136409600 Returned user list with 0 entries
+django INFO 2023-11-28 10:14:58,820 views 37868 139947136409600 trying to update admin profile id 37
+django INFO 2023-11-28 10:14:58,821 views 37868 139947136409600 accquired user instance for id 37
+django INFO 2023-11-28 10:14:58,825 views 37868 139947136409600 validated incoming data
+django INFO 2023-11-28 10:14:58,826 views 37868 139947136409600 update performed successfully
+django INFO 2023-11-28 10:14:59,484 views 37868 139947136409600 trying to update admin profile id 38
+django INFO 2023-11-28 10:14:59,485 views 37868 139947136409600 accquired user instance for id 38
+django WARNING 2023-11-28 10:14:59,487 views 37868 139947136409600 D1007
+django INFO 2023-11-28 10:15:00,217 views 37868 139947136409600 trying to update admin profile id 40
+django INFO 2023-11-28 10:15:00,218 views 37868 139947136409600 accquired user instance for id 40
+django WARNING 2023-11-28 10:15:00,220 views 37868 139947136409600 D1008
+django INFO 2023-11-28 10:15:00,542 views 37868 139947136409600 trying to update admin profile id 42
+django INFO 2023-11-28 10:15:00,543 views 37868 139947136409600 accquired user instance for id 42
+django WARNING 2023-11-28 10:15:00,545 views 37868 139947136409600 validation error
+django INFO 2023-11-28 10:15:00,876 views 37868 139947136409600 trying to update admin profile id 43
+django INFO 2023-11-28 10:15:00,877 views 37868 139947136409600 accquired user instance for id 43
+django WARNING 2023-11-28 10:15:00,879 views 37868 139947136409600 validation error
+django INFO 2023-11-28 10:15:01,202 views 37868 139947136409600 trying to update admin profile id 44
+django INFO 2023-11-28 10:15:01,203 views 37868 139947136409600 accquired user instance for id 44
+django WARNING 2023-11-28 10:15:01,205 views 37868 139947136409600 phone number validation error
+django INFO 2023-11-28 10:15:01,535 views 37868 139947136409600 trying to update admin profile id 45
+django INFO 2023-11-28 10:15:01,536 views 37868 139947136409600 accquired user instance for id 45
+django WARNING 2023-11-28 10:15:01,538 views 37868 139947136409600 phone number validation error
+django INFO 2023-11-28 10:15:01,937 views 37868 139947136409600 displaying current admin profile information
+bus_owner.views INFO 2023-11-28 10:15:03,563 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:03,866 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$nRMw9XkcKNiMvxkhFcL6um$sr6IyU2PCPSpcB2LJqIHSHqHMTPAVV6a9hrPiYGAgMg=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:04,213 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '741', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:04,217 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Ensure this field has at least 12 characters.', code='min_length')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:04,575 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:04,578 views 37868 139947136409600 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:04,922 views 37868 139947136409600 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:04,926 views 37868 139947136409600 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:04,926 views 37868 139947136409600 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:04,929 views 37868 139947136409600 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:05,282 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:05,285 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:05,646 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1bhfyrtdkaw23dyulfr09ww', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:05,650 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:06,002 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!ndsfhdhsa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:06,005 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:06,354 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:06,357 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:06,692 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:06,694 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:07,027 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'AJghjDFHGUSH1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:07,031 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:07,372 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '987654321o', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:07,375 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:07,728 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9876', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:15:07,731 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:15:08,204 views 37868 139947136409600 seat data saved successfully
+bus_owner.views ERROR 2023-11-28 10:15:08,557 views 37868 139947136409600 Field 'seat_ui_order' expected a number but got 'abc'.
+bus_owner.views WARNING 2023-11-28 10:15:08,952 views 37868 139947136409600 {'seat_type': [ErrorDetail(string='Seat type must be 0(sleeper) or 1(seater).', code='invalid')]}
+bus_owner.views WARNING 2023-11-28 10:15:09,293 views 37868 139947136409600 {'deck': [ErrorDetail(string='Deck must be 0(lower deck) or 1(upper deck).', code='invalid')]}
+bus_owner.views INFO 2023-11-28 10:15:09,658 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:10,005 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$NEiBUnl6XGkdu95vCp4Jpa$zjxQ1eppDpIHpK7AbP9lUfBTsXwfEvc3k+IOSJm8i6w=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:10,012 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'pbkdf2_sha256$600000$1fZijhOi0VYKgMgJbdmJmw$gx2GKrzaONV3dbWJvcdET92QVWsA5Z6hNMdgnuwvnSQ=', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': '150.25000', 'status': 0, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:10,403 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:10,704 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$JPhuFX0lwG8Mpg7pNjICjn$AMHoX5tabrzLGCjKA+wbmTqU17jUzFvaXR9Xw/3CbOA=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:11,042 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:11,344 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$aAcggU555KtrhziZDnQ63M$Cb/JVhZCYweJWnkAwMxBScC/foeFR9du5q8E+heDXns=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:11,698 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:12,001 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$Gw20pet579ov04KMHN9v1p$BUyUzhvOvSFv2MgLuzOjpIr9BW5g5EHBSm6IpykpXDw=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:12,339 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:15:12,639 views 37868 139947136409600 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$uGkqLREhUxSsb3HQtrxFVx$di7+v0DmkV2+bgctxe2S2ehgCAN+vbyFndo6z9fgBlI=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+django INFO 2023-11-28 10:15:13,654 views 37868 139947136409600 seat booked and email send
+django INFO 2023-11-28 10:15:14,048 views 37868 139947136409600 Booking cancelled successfully
+django WARNING 2023-11-28 10:15:14,784 views 37868 139947136409600 Cancelation Failed
+django INFO 2023-11-28 10:15:15,137 views 37868 139947136409600 
+django INFO 2023-11-28 10:15:15,507 views 37868 139947136409600 not a user
+django INFO 2023-11-28 10:15:16,200 views 37868 139947136409600 another user
+django INFO 2023-11-28 10:15:16,548 views 37868 139947136409600 already cancelled booking
+django INFO 2023-11-28 10:15:16,878 views 37868 139947136409600 You must call `.is_valid()` before accessing `.errors`.
+django INFO 2023-11-28 10:15:17,572 views 37868 139947136409600 PaymentIntent Created !
+django WARNING 2023-11-28 10:15:18,264 views 37868 139947136409600 Serializer validation Failed
+django WARNING 2023-11-28 10:15:18,264 views 37868 139947136409600 {'total_cost': [ErrorDetail(string='A valid number is required.', code='invalid')]}
+django WARNING 2023-11-28 10:15:18,991 views 37868 139947136409600 Payment Intent Creation Failed ! Reason :Mocked exception
+django INFO 2023-11-28 10:15:20,013 views 37868 139947136409600 user registered
+django INFO 2023-11-28 10:15:20,685 views 37868 139947136409600 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+django INFO 2023-11-28 10:15:21,368 views 37868 139947136409600 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:15:21,371 views 37868 139947136409600 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:15:22,048 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')]}
+django INFO 2023-11-28 10:15:22,716 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 20 characters.', code='max_length')]}
+django INFO 2023-11-28 10:15:23,364 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:15:24,007 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:15:24,682 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:15:25,355 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:15:25,987 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:15:26,682 views 37868 139947136409600 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:15:27,628 views 37868 139947136409600 user registered
+django INFO 2023-11-28 10:15:27,633 views 37868 139947136409600 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'devanaswinikumar8@gmail.com', 'password': 'pbkdf2_sha256$600000$qE0LlvuRizvTBjTIoFF8GV$sPmEN4YziY6z9/+B1SIarkRVbRJcg72uGhuKM1mZK4o=', 'phone': '9961006248'}
+django INFO 2023-11-28 10:15:28,566 views 37868 139947136409600 user registered
+django INFO 2023-11-28 10:15:28,570 views 37868 139947136409600 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}
+django INFO 2023-11-28 10:15:29,625 views 37868 139947136409600 user registered
+django INFO 2023-11-28 10:15:29,629 views 37868 139947136409600 {'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:15:30,583 views 37868 139947136409600 user registered
+django INFO 2023-11-28 10:15:30,588 views 37868 139947136409600 {'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:15:31,256 views 37868 139947136409600 query param validation suceeded
+django INFO 2023-11-28 10:15:31,256 views 37868 139947136409600 returned trip list total entries :1
+django WARNING 2023-11-28 10:15:31,902 views 37868 139947136409600 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:15:32,534 views 37868 139947136409600 query param validation suceeded
+django WARNING 2023-11-28 10:15:32,535 views 37868 139947136409600 Page requested is Empty !
+django INFO 2023-11-28 10:15:33,260 views 37868 139947136409600 query param validation suceeded
+django INFO 2023-11-28 10:15:33,261 views 37868 139947136409600 returned trip list total entries :0
+django INFO 2023-11-28 10:15:34,023 views 37868 139947136409600 query param validation suceeded
+django INFO 2023-11-28 10:15:34,024 views 37868 139947136409600 returned trip list total entries :0
+django INFO 2023-11-28 10:15:34,691 views 37868 139947136409600 query param validation suceeded
+django INFO 2023-11-28 10:15:34,692 views 37868 139947136409600 returned trip list total entries :0
+django WARNING 2023-11-28 10:15:35,380 views 37868 139947136409600 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:22:31,408 views 38537 140349504995328 Baning User with id 19
+django INFO 2023-11-28 10:22:31,408 views 38537 140349504995328 changing the status of user with id 19 to status 2
+django INFO 2023-11-28 10:22:31,410 views 38537 140349504995328 user status changed to 2
+django INFO 2023-11-28 10:22:32,072 views 38537 140349504995328 Baning User with id 100
+django INFO 2023-11-28 10:22:32,073 views 38537 140349504995328 changing the status of user with id 100 to status 2
+django WARNING 2023-11-28 10:22:32,073 views 38537 140349504995328 user with id 100 Doesn't exist !
+django INFO 2023-11-28 10:22:32,700 views 38537 140349504995328 Unbaning User with id 23
+django INFO 2023-11-28 10:22:32,700 views 38537 140349504995328 changing the status of user with id 23 to status 0
+django INFO 2023-11-28 10:22:32,702 views 38537 140349504995328 user status is already 0 no change needed
+django INFO 2023-11-28 10:22:33,329 views 38537 140349504995328 Removing Bus Owner with id 25
+django INFO 2023-11-28 10:22:33,329 views 38537 140349504995328 changing the status of user with id 25 to status 99
+django INFO 2023-11-28 10:22:33,331 views 38537 140349504995328 user status changed to 99
+django INFO 2023-11-28 10:22:34,003 views 38537 140349504995328 Approving Bus Owner with id 27
+django INFO 2023-11-28 10:22:34,004 views 38537 140349504995328 changing the status of user with id 27 to status 0
+django INFO 2023-11-28 10:22:34,005 views 38537 140349504995328 user status changed to 0
+django INFO 2023-11-28 10:22:34,049 views 38537 140349504995328 bus approval mail sent
+django INFO 2023-11-28 10:22:34,447 views 38537 140349504995328 Approving Bus Owner with id 100
+django INFO 2023-11-28 10:22:34,819 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:35,207 views 38537 140349504995328 ordering list by ascending order
+django INFO 2023-11-28 10:22:35,208 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:35,611 views 38537 140349504995328 ordering list by descending order
+django INFO 2023-11-28 10:22:35,612 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:35,957 views 38537 140349504995328 sort by banned users
+django INFO 2023-11-28 10:22:35,959 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:36,341 views 38537 140349504995328 sort by unbanned users
+django INFO 2023-11-28 10:22:36,343 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:36,709 views 38537 140349504995328 Searching user with keyword '0'
+django INFO 2023-11-28 10:22:36,711 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:37,131 views 38537 140349504995328 Searching bus owner with keyword '0'
+django INFO 2023-11-28 10:22:37,133 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:37,469 views 38537 140349504995328 sort by unapproved bus owners users
+django INFO 2023-11-28 10:22:37,471 views 38537 140349504995328 Returned user list with 0 entries
+django INFO 2023-11-28 10:22:37,817 views 38537 140349504995328 trying to update admin profile id 37
+django INFO 2023-11-28 10:22:37,818 views 38537 140349504995328 accquired user instance for id 37
+django INFO 2023-11-28 10:22:37,822 views 38537 140349504995328 validated incoming data
+django INFO 2023-11-28 10:22:37,823 views 38537 140349504995328 update performed successfully
+django INFO 2023-11-28 10:22:38,478 views 38537 140349504995328 trying to update admin profile id 38
+django INFO 2023-11-28 10:22:38,479 views 38537 140349504995328 accquired user instance for id 38
+django WARNING 2023-11-28 10:22:38,481 views 38537 140349504995328 D1007
+django INFO 2023-11-28 10:22:39,135 views 38537 140349504995328 trying to update admin profile id 40
+django INFO 2023-11-28 10:22:39,136 views 38537 140349504995328 accquired user instance for id 40
+django WARNING 2023-11-28 10:22:39,138 views 38537 140349504995328 D1008
+django INFO 2023-11-28 10:22:39,496 views 38537 140349504995328 trying to update admin profile id 42
+django INFO 2023-11-28 10:22:39,497 views 38537 140349504995328 accquired user instance for id 42
+django WARNING 2023-11-28 10:22:39,499 views 38537 140349504995328 validation error
+django INFO 2023-11-28 10:22:39,854 views 38537 140349504995328 trying to update admin profile id 43
+django INFO 2023-11-28 10:22:39,855 views 38537 140349504995328 accquired user instance for id 43
+django WARNING 2023-11-28 10:22:39,858 views 38537 140349504995328 validation error
+django INFO 2023-11-28 10:22:40,536 views 38537 140349504995328 trying to update admin profile id 44
+django INFO 2023-11-28 10:22:40,537 views 38537 140349504995328 accquired user instance for id 44
+django WARNING 2023-11-28 10:22:40,539 views 38537 140349504995328 phone number validation error
+django INFO 2023-11-28 10:22:40,892 views 38537 140349504995328 trying to update admin profile id 45
+django INFO 2023-11-28 10:22:40,893 views 38537 140349504995328 accquired user instance for id 45
+django WARNING 2023-11-28 10:22:40,895 views 38537 140349504995328 phone number validation error
+django INFO 2023-11-28 10:22:41,269 views 38537 140349504995328 displaying current admin profile information
+bus_owner.views INFO 2023-11-28 10:22:42,768 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:43,070 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$WB6Bado7zrio5AmEMx5AA0$1D29wcvSAKsjn3wE8uQY+P9AsoDmvpx2Po7k1MTbymw=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:43,452 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '741', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:43,455 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Ensure this field has at least 12 characters.', code='min_length')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:43,817 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:43,820 views 38537 140349504995328 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:44,157 views 38537 140349504995328 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:44,160 views 38537 140349504995328 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:44,161 views 38537 140349504995328 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:44,164 views 38537 140349504995328 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:44,534 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:44,538 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:44,885 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1bhfyrtdkaw23dyulfr09ww', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:44,888 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:45,232 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!ndsfhdhsa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:45,235 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:45,589 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:45,592 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:46,021 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:46,024 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:46,351 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'AJghjDFHGUSH1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:46,355 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:46,710 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '987654321o', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:46,713 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:47,045 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9876', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:22:47,049 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:22:47,393 views 38537 140349504995328 seat data saved successfully
+bus_owner.views ERROR 2023-11-28 10:22:47,727 views 38537 140349504995328 Field 'seat_ui_order' expected a number but got 'abc'.
+bus_owner.views WARNING 2023-11-28 10:22:48,101 views 38537 140349504995328 {'seat_type': [ErrorDetail(string='Seat type must be 0(sleeper) or 1(seater).', code='invalid')]}
+bus_owner.views WARNING 2023-11-28 10:22:48,456 views 38537 140349504995328 {'deck': [ErrorDetail(string='Deck must be 0(lower deck) or 1(upper deck).', code='invalid')]}
+bus_owner.views INFO 2023-11-28 10:22:48,790 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:49,092 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$PT51FKu4PEiDNfW7E0Z5Yy$ryUa80oNeQhHSe+108tUMmdt8kCY942is66fK6zsDC0=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:49,099 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'pbkdf2_sha256$600000$xJVXZ1NAGqz8uFvkmEW1Iw$HbMV7GAtONr2b+Wc6Og75+WZJSZXgysaGPd68fSviKU=', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': '150.25000', 'status': 0, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:49,485 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:49,828 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$MVvhUTRm9EQCyzzIO2t9s8$RvoJXjJZDomz4+zJ8CWccWV91mI/5OOcjg81Ipo6cQY=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:50,245 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:50,545 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$siW4iEgLZwG2O1XekbAzUJ$NwIJpjPBf4Ptg2Rx2taWP5ud37DM0E7oXgVympzWabE=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:50,882 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:51,183 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$qURCjlT6QRdpiIsaaOZLqF$XGa82iX34s2VIwn6dlxRCXzB0MOfrJ3/7HnRtNrM8GA=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:51,523 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:22:51,823 views 38537 140349504995328 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$ZAQ2wL02ELCtd9bCckyevy$c+9Oomw9AfgUoSfRowRvFLlEfJT2f5ut6kJctwLfsDM=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+django INFO 2023-11-28 10:22:52,750 views 38537 140349504995328 seat booked and email send
+django INFO 2023-11-28 10:22:53,096 views 38537 140349504995328 Booking cancelled successfully
+django WARNING 2023-11-28 10:22:53,810 views 38537 140349504995328 Cancelation Failed
+django INFO 2023-11-28 10:22:54,178 views 38537 140349504995328 
+django INFO 2023-11-28 10:22:54,563 views 38537 140349504995328 not a user
+django INFO 2023-11-28 10:22:55,248 views 38537 140349504995328 another user
+django INFO 2023-11-28 10:22:55,585 views 38537 140349504995328 already cancelled booking
+django INFO 2023-11-28 10:22:55,957 views 38537 140349504995328 You must call `.is_valid()` before accessing `.errors`.
+django INFO 2023-11-28 10:22:56,595 views 38537 140349504995328 PaymentIntent Created !
+django WARNING 2023-11-28 10:22:57,310 views 38537 140349504995328 Serializer validation Failed
+django WARNING 2023-11-28 10:22:57,310 views 38537 140349504995328 {'total_cost': [ErrorDetail(string='A valid number is required.', code='invalid')]}
+django WARNING 2023-11-28 10:22:57,978 views 38537 140349504995328 Payment Intent Creation Failed ! Reason :Mocked exception
+django INFO 2023-11-28 10:22:59,017 views 38537 140349504995328 user registered
+django INFO 2023-11-28 10:22:59,651 views 38537 140349504995328 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+django INFO 2023-11-28 10:23:00,396 views 38537 140349504995328 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:23:00,399 views 38537 140349504995328 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:23:01,030 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')]}
+django INFO 2023-11-28 10:23:01,694 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 20 characters.', code='max_length')]}
+django INFO 2023-11-28 10:23:02,384 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:23:03,012 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:23:03,662 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:23:04,339 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:23:05,005 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:23:05,698 views 38537 140349504995328 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:23:06,671 views 38537 140349504995328 user registered
+django INFO 2023-11-28 10:23:06,676 views 38537 140349504995328 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'devanaswinikumar8@gmail.com', 'password': 'pbkdf2_sha256$600000$amION7r1QovFj2Ijg6DxGG$wEvyDD+Y2JojBNQrxc9+scelbIowEeoAAy+8K6UWb+k=', 'phone': '9961006248'}
+django INFO 2023-11-28 10:23:07,709 views 38537 140349504995328 user registered
+django INFO 2023-11-28 10:23:07,714 views 38537 140349504995328 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}
+django INFO 2023-11-28 10:23:08,669 views 38537 140349504995328 user registered
+django INFO 2023-11-28 10:23:08,673 views 38537 140349504995328 {'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:23:09,691 views 38537 140349504995328 user registered
+django INFO 2023-11-28 10:23:09,695 views 38537 140349504995328 {'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:23:10,328 views 38537 140349504995328 query param validation suceeded
+django INFO 2023-11-28 10:23:10,329 views 38537 140349504995328 returned trip list total entries :1
+django WARNING 2023-11-28 10:23:10,996 views 38537 140349504995328 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:23:11,781 views 38537 140349504995328 query param validation suceeded
+django WARNING 2023-11-28 10:23:11,782 views 38537 140349504995328 Page requested is Empty !
+django INFO 2023-11-28 10:23:12,456 views 38537 140349504995328 query param validation suceeded
+django INFO 2023-11-28 10:23:12,457 views 38537 140349504995328 returned trip list total entries :0
+django INFO 2023-11-28 10:23:13,169 views 38537 140349504995328 query param validation suceeded
+django INFO 2023-11-28 10:23:13,170 views 38537 140349504995328 returned trip list total entries :0
+django INFO 2023-11-28 10:23:13,842 views 38537 140349504995328 query param validation suceeded
+django INFO 2023-11-28 10:23:13,843 views 38537 140349504995328 returned trip list total entries :0
+django WARNING 2023-11-28 10:23:14,514 views 38537 140349504995328 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:28:37,950 views 38993 140199438364672 Baning User with id 21
+django INFO 2023-11-28 10:28:37,950 views 38993 140199438364672 changing the status of user with id 21 to status 2
+django INFO 2023-11-28 10:28:37,952 views 38993 140199438364672 user status changed to 2
+django INFO 2023-11-28 10:28:38,650 views 38993 140199438364672 Baning User with id 100
+django INFO 2023-11-28 10:28:38,650 views 38993 140199438364672 changing the status of user with id 100 to status 2
+django WARNING 2023-11-28 10:28:38,651 views 38993 140199438364672 user with id 100 Doesn't exist !
+django INFO 2023-11-28 10:28:39,325 views 38993 140199438364672 Unbaning User with id 25
+django INFO 2023-11-28 10:28:39,325 views 38993 140199438364672 changing the status of user with id 25 to status 0
+django INFO 2023-11-28 10:28:39,327 views 38993 140199438364672 user status is already 0 no change needed
+django INFO 2023-11-28 10:28:39,992 views 38993 140199438364672 Removing Bus Owner with id 27
+django INFO 2023-11-28 10:28:39,992 views 38993 140199438364672 changing the status of user with id 27 to status 99
+django INFO 2023-11-28 10:28:39,994 views 38993 140199438364672 user status changed to 99
+django INFO 2023-11-28 10:28:40,657 views 38993 140199438364672 Approving Bus Owner with id 29
+django INFO 2023-11-28 10:28:40,658 views 38993 140199438364672 changing the status of user with id 29 to status 0
+django INFO 2023-11-28 10:28:40,660 views 38993 140199438364672 user status changed to 0
+django INFO 2023-11-28 10:28:40,710 views 38993 140199438364672 bus approval mail sent
+django INFO 2023-11-28 10:28:41,110 views 38993 140199438364672 Approving Bus Owner with id 100
+django INFO 2023-11-28 10:28:41,467 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:42,063 views 38993 140199438364672 ordering list by ascending order
+django INFO 2023-11-28 10:28:42,065 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:42,434 views 38993 140199438364672 ordering list by descending order
+django INFO 2023-11-28 10:28:42,435 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:42,803 views 38993 140199438364672 sort by banned users
+django INFO 2023-11-28 10:28:42,805 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:43,138 views 38993 140199438364672 sort by unbanned users
+django INFO 2023-11-28 10:28:43,140 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:43,540 views 38993 140199438364672 Searching user with keyword '0'
+django INFO 2023-11-28 10:28:43,542 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:43,872 views 38993 140199438364672 Searching bus owner with keyword '0'
+django INFO 2023-11-28 10:28:43,873 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:44,235 views 38993 140199438364672 sort by unapproved bus owners users
+django INFO 2023-11-28 10:28:44,237 views 38993 140199438364672 Returned user list with 0 entries
+django INFO 2023-11-28 10:28:44,648 views 38993 140199438364672 trying to update admin profile id 39
+django INFO 2023-11-28 10:28:44,649 views 38993 140199438364672 accquired user instance for id 39
+django INFO 2023-11-28 10:28:44,651 views 38993 140199438364672 validated incoming data
+django INFO 2023-11-28 10:28:44,652 views 38993 140199438364672 update performed successfully
+django INFO 2023-11-28 10:28:45,322 views 38993 140199438364672 trying to update admin profile id 40
+django INFO 2023-11-28 10:28:45,323 views 38993 140199438364672 accquired user instance for id 40
+django WARNING 2023-11-28 10:28:45,324 views 38993 140199438364672 D1007
+django INFO 2023-11-28 10:28:45,989 views 38993 140199438364672 trying to update admin profile id 42
+django INFO 2023-11-28 10:28:45,990 views 38993 140199438364672 accquired user instance for id 42
+django WARNING 2023-11-28 10:28:45,991 views 38993 140199438364672 D1008
+django INFO 2023-11-28 10:28:46,326 views 38993 140199438364672 trying to update admin profile id 44
+django INFO 2023-11-28 10:28:46,327 views 38993 140199438364672 accquired user instance for id 44
+django WARNING 2023-11-28 10:28:46,329 views 38993 140199438364672 validation error
+django INFO 2023-11-28 10:28:46,666 views 38993 140199438364672 trying to update admin profile id 45
+django INFO 2023-11-28 10:28:46,667 views 38993 140199438364672 accquired user instance for id 45
+django WARNING 2023-11-28 10:28:46,669 views 38993 140199438364672 validation error
+django INFO 2023-11-28 10:28:47,069 views 38993 140199438364672 trying to update admin profile id 46
+django INFO 2023-11-28 10:28:47,070 views 38993 140199438364672 accquired user instance for id 46
+django WARNING 2023-11-28 10:28:47,072 views 38993 140199438364672 phone number validation error
+django INFO 2023-11-28 10:28:47,413 views 38993 140199438364672 trying to update admin profile id 47
+django INFO 2023-11-28 10:28:47,414 views 38993 140199438364672 accquired user instance for id 47
+django WARNING 2023-11-28 10:28:47,416 views 38993 140199438364672 phone number validation error
+django INFO 2023-11-28 10:28:47,765 views 38993 140199438364672 displaying current admin profile information
+bus_owner.views INFO 2023-11-28 10:28:49,352 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:49,655 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$7P81fsaLEfiCqJHvRMgPtO$2XGf2hhb12iJCDm1W1AFMaCBK1TfVuIOx/QOBshuxvU=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:50,031 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '741', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:50,035 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Ensure this field has at least 12 characters.', code='min_length')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:50,365 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:50,368 views 38993 140199438364672 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:50,827 views 38993 140199438364672 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:50,831 views 38993 140199438364672 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:50,832 views 38993 140199438364672 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:50,835 views 38993 140199438364672 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:51,263 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:51,266 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:51,653 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1bhfyrtdkaw23dyulfr09ww', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:51,656 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:52,022 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!ndsfhdhsa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:52,025 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:52,381 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:52,383 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:52,750 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:52,753 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:53,167 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'AJghjDFHGUSH1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:53,170 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:53,513 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '987654321o', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:53,516 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:53,899 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9876', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:28:53,903 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:28:54,295 views 38993 140199438364672 seat data saved successfully
+bus_owner.views ERROR 2023-11-28 10:28:54,626 views 38993 140199438364672 Field 'seat_ui_order' expected a number but got 'abc'.
+bus_owner.views WARNING 2023-11-28 10:28:54,973 views 38993 140199438364672 {'seat_type': [ErrorDetail(string='Seat type must be 0(sleeper) or 1(seater).', code='invalid')]}
+bus_owner.views WARNING 2023-11-28 10:28:55,302 views 38993 140199438364672 {'deck': [ErrorDetail(string='Deck must be 0(lower deck) or 1(upper deck).', code='invalid')]}
+bus_owner.views INFO 2023-11-28 10:28:55,633 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:55,936 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$OlFrbSW0tOQL08uBfM9bzF$sUEtapHGAnD5dwQ1nB0P2s8CW+ZdxpSISQnTpGDg4DY=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:55,943 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'pbkdf2_sha256$600000$8owVui1Ccg3tjJv6RX4iu8$8ciaNBxxHfgKLfXZiMamAKGdAJZMEuf4FwHD24Ydcd4=', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': '150.25000', 'status': 0, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:56,264 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:56,566 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$angSymumdjiaRphWUVYUAr$b+EGKQ1/5ZBMUBCWG+fSdfXhZVyGeojiC23mBR3QZx8=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:56,899 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:57,200 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$mrrxXwPSfT1Smv1sRti0eM$Ss32xdxErpFLxQlp4ZJUkOhsar1+dCbt21di83Lt5hk=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:57,584 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:57,884 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$IQtpQeOLmonlnIFxEobmTf$agalQOc54II0Ql4PgFwyqlilJfTbKwI2gbYJlheuVq4=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:58,266 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:28:58,568 views 38993 140199438364672 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$Dp14wj2fm3qKHvqMrwOITy$klnEPbbkuFWMhU7oXUfrHYjY88B4bjB2Opl4ixSV2Og=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+django INFO 2023-11-28 10:28:59,542 views 38993 140199438364672 seat booked and email send
+django INFO 2023-11-28 10:28:59,919 views 38993 140199438364672 Booking cancelled successfully
+django WARNING 2023-11-28 10:29:00,749 views 38993 140199438364672 Cancelation Failed
+django INFO 2023-11-28 10:29:01,166 views 38993 140199438364672 
+django INFO 2023-11-28 10:29:01,517 views 38993 140199438364672 not a user
+django INFO 2023-11-28 10:29:02,156 views 38993 140199438364672 another user
+django INFO 2023-11-28 10:29:02,505 views 38993 140199438364672 already cancelled booking
+django INFO 2023-11-28 10:29:02,844 views 38993 140199438364672 You must call `.is_valid()` before accessing `.errors`.
+django INFO 2023-11-28 10:29:03,467 views 38993 140199438364672 PaymentIntent Created !
+django WARNING 2023-11-28 10:29:04,168 views 38993 140199438364672 Serializer validation Failed
+django WARNING 2023-11-28 10:29:04,169 views 38993 140199438364672 {'total_cost': [ErrorDetail(string='A valid number is required.', code='invalid')]}
+django WARNING 2023-11-28 10:29:04,887 views 38993 140199438364672 Payment Intent Creation Failed ! Reason :Mocked exception
+django INFO 2023-11-28 10:29:05,828 views 38993 140199438364672 user registered
+django INFO 2023-11-28 10:29:06,526 views 38993 140199438364672 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+django INFO 2023-11-28 10:29:07,183 views 38993 140199438364672 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:29:07,186 views 38993 140199438364672 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:29:07,841 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')]}
+django INFO 2023-11-28 10:29:08,517 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 20 characters.', code='max_length')]}
+django INFO 2023-11-28 10:29:09,156 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:29:09,925 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:29:10,637 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:29:11,321 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:29:11,959 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:29:12,611 views 38993 140199438364672 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:29:13,585 views 38993 140199438364672 user registered
+django INFO 2023-11-28 10:29:13,590 views 38993 140199438364672 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'devanaswinikumar8@gmail.com', 'password': 'pbkdf2_sha256$600000$nqGUlYzGVRoZ1PSR0XxOlS$gIFRTpuCH5qOBQtlCX3nYtNZeFMSI0ZvWN7ECXknQps=', 'phone': '9961006248'}
+django INFO 2023-11-28 10:29:14,559 views 38993 140199438364672 user registered
+django INFO 2023-11-28 10:29:14,564 views 38993 140199438364672 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}
+django INFO 2023-11-28 10:29:15,527 views 38993 140199438364672 user registered
+django INFO 2023-11-28 10:29:15,532 views 38993 140199438364672 {'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:29:16,467 views 38993 140199438364672 user registered
+django INFO 2023-11-28 10:29:16,472 views 38993 140199438364672 {'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:29:17,150 views 38993 140199438364672 query param validation suceeded
+django INFO 2023-11-28 10:29:17,151 views 38993 140199438364672 returned trip list total entries :1
+django WARNING 2023-11-28 10:29:17,822 views 38993 140199438364672 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:29:18,498 views 38993 140199438364672 query param validation suceeded
+django WARNING 2023-11-28 10:29:18,499 views 38993 140199438364672 Page requested is Empty !
+django INFO 2023-11-28 10:29:19,125 views 38993 140199438364672 query param validation suceeded
+django INFO 2023-11-28 10:29:19,126 views 38993 140199438364672 returned trip list total entries :0
+django INFO 2023-11-28 10:29:19,771 views 38993 140199438364672 query param validation suceeded
+django INFO 2023-11-28 10:29:19,772 views 38993 140199438364672 returned trip list total entries :0
+django INFO 2023-11-28 10:29:20,463 views 38993 140199438364672 query param validation suceeded
+django INFO 2023-11-28 10:29:20,464 views 38993 140199438364672 returned trip list total entries :0
+django WARNING 2023-11-28 10:29:21,096 views 38993 140199438364672 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:47:25,819 views 42165 139805568593920 seat booked and email send
+django INFO 2023-11-28 10:47:26,479 views 42165 139805568593920 {'booked_seats': [{'traveller_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}]}
+django INFO 2023-11-28 10:47:26,479 views 42165 139805568593920 payment Intent to be Refunded :cbdkscndski
+django ERROR 2023-11-28 10:47:27,027 views 42165 139805568593920 Refund Initiation Failed Reason :Request req_DPVKvqx5fR2dE7: No such payment_intent: 'cbdkscndski'
+django INFO 2023-11-28 10:47:27,502 views 42165 139805568593920 Booking cancelled successfully
+django WARNING 2023-11-28 10:47:28,197 views 42165 139805568593920 Cancelation Failed
+django INFO 2023-11-28 10:47:28,589 views 42165 139805568593920 
+django INFO 2023-11-28 10:47:29,040 views 42165 139805568593920 not a user
+django INFO 2023-11-28 10:47:29,763 views 42165 139805568593920 another user
+django INFO 2023-11-28 10:47:30,152 views 42165 139805568593920 already cancelled booking
+django INFO 2023-11-28 10:47:30,518 views 42165 139805568593920 You must call `.is_valid()` before accessing `.errors`.
+django INFO 2023-11-28 10:47:31,233 views 42165 139805568593920 PaymentIntent Created !
+django WARNING 2023-11-28 10:47:32,236 views 42165 139805568593920 Serializer validation Failed
+django WARNING 2023-11-28 10:47:32,236 views 42165 139805568593920 {'total_cost': [ErrorDetail(string='A valid number is required.', code='invalid')]}
+django WARNING 2023-11-28 10:47:32,903 views 42165 139805568593920 Payment Intent Creation Failed ! Reason :Mocked exception
+django INFO 2023-11-28 10:47:33,935 views 42165 139805568593920 user registered
+django INFO 2023-11-28 10:47:34,602 views 42165 139805568593920 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+django INFO 2023-11-28 10:47:35,278 views 42165 139805568593920 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:47:35,281 views 42165 139805568593920 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:47:35,972 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')]}
+django INFO 2023-11-28 10:47:36,649 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 20 characters.', code='max_length')]}
+django INFO 2023-11-28 10:47:37,310 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:47:37,995 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:47:38,658 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:47:39,382 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:47:40,101 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:47:40,850 views 42165 139805568593920 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:47:41,860 views 42165 139805568593920 user registered
+django INFO 2023-11-28 10:47:41,878 views 42165 139805568593920 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'devanaswinikumar8@gmail.com', 'password': 'pbkdf2_sha256$600000$zHNNikAvgXBgAbsrF2a661$+Ox4DdJ+uEcnVPRoCN2rGdv1BPlzSaTN3D07yabCWRg=', 'phone': '9961006248'}
+django INFO 2023-11-28 10:47:42,933 views 42165 139805568593920 user registered
+django INFO 2023-11-28 10:47:42,938 views 42165 139805568593920 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}
+django INFO 2023-11-28 10:47:44,002 views 42165 139805568593920 user registered
+django INFO 2023-11-28 10:47:44,010 views 42165 139805568593920 {'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:47:45,025 views 42165 139805568593920 user registered
+django INFO 2023-11-28 10:47:45,030 views 42165 139805568593920 {'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:47:45,744 views 42165 139805568593920 query param validation suceeded
+django INFO 2023-11-28 10:47:45,745 views 42165 139805568593920 returned trip list total entries :1
+django WARNING 2023-11-28 10:47:46,418 views 42165 139805568593920 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:47:47,065 views 42165 139805568593920 query param validation suceeded
+django WARNING 2023-11-28 10:47:47,066 views 42165 139805568593920 Page requested is Empty !
+django INFO 2023-11-28 10:47:48,150 views 42165 139805568593920 query param validation suceeded
+django INFO 2023-11-28 10:47:48,151 views 42165 139805568593920 returned trip list total entries :0
+django INFO 2023-11-28 10:47:48,887 views 42165 139805568593920 query param validation suceeded
+django INFO 2023-11-28 10:47:48,888 views 42165 139805568593920 returned trip list total entries :0
+django INFO 2023-11-28 10:47:49,550 views 42165 139805568593920 query param validation suceeded
+django INFO 2023-11-28 10:47:49,551 views 42165 139805568593920 returned trip list total entries :0
+django WARNING 2023-11-28 10:47:50,216 views 42165 139805568593920 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:52:29,450 views 42633 139733321654272 Baning User with id 20
+django INFO 2023-11-28 10:52:29,450 views 42633 139733321654272 changing the status of user with id 20 to status 2
+django INFO 2023-11-28 10:52:29,453 views 42633 139733321654272 user status changed to 2
+django INFO 2023-11-28 10:52:30,135 views 42633 139733321654272 Baning User with id 100
+django INFO 2023-11-28 10:52:30,136 views 42633 139733321654272 changing the status of user with id 100 to status 2
+django WARNING 2023-11-28 10:52:30,137 views 42633 139733321654272 user with id 100 Doesn't exist !
+django INFO 2023-11-28 10:52:30,790 views 42633 139733321654272 Unbaning User with id 24
+django INFO 2023-11-28 10:52:30,790 views 42633 139733321654272 changing the status of user with id 24 to status 0
+django INFO 2023-11-28 10:52:30,792 views 42633 139733321654272 user status is already 0 no change needed
+django INFO 2023-11-28 10:52:31,501 views 42633 139733321654272 Removing Bus Owner with id 26
+django INFO 2023-11-28 10:52:31,501 views 42633 139733321654272 changing the status of user with id 26 to status 99
+django INFO 2023-11-28 10:52:31,503 views 42633 139733321654272 user status changed to 99
+django INFO 2023-11-28 10:52:32,191 views 42633 139733321654272 Approving Bus Owner with id 28
+django INFO 2023-11-28 10:52:32,192 views 42633 139733321654272 changing the status of user with id 28 to status 0
+django INFO 2023-11-28 10:52:32,194 views 42633 139733321654272 user status changed to 0
+django INFO 2023-11-28 10:52:32,239 views 42633 139733321654272 bus approval mail sent
+django INFO 2023-11-28 10:52:32,607 views 42633 139733321654272 Approving Bus Owner with id 100
+django INFO 2023-11-28 10:52:33,035 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:33,443 views 42633 139733321654272 ordering list by ascending order
+django INFO 2023-11-28 10:52:33,444 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:33,786 views 42633 139733321654272 ordering list by descending order
+django INFO 2023-11-28 10:52:33,788 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:34,240 views 42633 139733321654272 sort by banned users
+django INFO 2023-11-28 10:52:34,242 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:34,619 views 42633 139733321654272 sort by unbanned users
+django INFO 2023-11-28 10:52:34,621 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:34,972 views 42633 139733321654272 Searching user with keyword '0'
+django INFO 2023-11-28 10:52:34,974 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:35,395 views 42633 139733321654272 Searching bus owner with keyword '0'
+django INFO 2023-11-28 10:52:35,398 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:35,735 views 42633 139733321654272 sort by unapproved bus owners users
+django INFO 2023-11-28 10:52:35,737 views 42633 139733321654272 Returned user list with 0 entries
+django INFO 2023-11-28 10:52:36,192 views 42633 139733321654272 trying to update admin profile id 38
+django INFO 2023-11-28 10:52:36,193 views 42633 139733321654272 accquired user instance for id 38
+django INFO 2023-11-28 10:52:36,195 views 42633 139733321654272 validated incoming data
+django INFO 2023-11-28 10:52:36,196 views 42633 139733321654272 update performed successfully
+django INFO 2023-11-28 10:52:36,845 views 42633 139733321654272 trying to update admin profile id 39
+django INFO 2023-11-28 10:52:36,846 views 42633 139733321654272 accquired user instance for id 39
+django WARNING 2023-11-28 10:52:36,848 views 42633 139733321654272 D1007
+django INFO 2023-11-28 10:52:37,485 views 42633 139733321654272 trying to update admin profile id 41
+django INFO 2023-11-28 10:52:37,486 views 42633 139733321654272 accquired user instance for id 41
+django WARNING 2023-11-28 10:52:37,488 views 42633 139733321654272 D1008
+django INFO 2023-11-28 10:52:37,825 views 42633 139733321654272 trying to update admin profile id 43
+django INFO 2023-11-28 10:52:37,827 views 42633 139733321654272 accquired user instance for id 43
+django WARNING 2023-11-28 10:52:37,829 views 42633 139733321654272 validation error
+django INFO 2023-11-28 10:52:38,193 views 42633 139733321654272 trying to update admin profile id 44
+django INFO 2023-11-28 10:52:38,194 views 42633 139733321654272 accquired user instance for id 44
+django WARNING 2023-11-28 10:52:38,196 views 42633 139733321654272 validation error
+django INFO 2023-11-28 10:52:38,601 views 42633 139733321654272 trying to update admin profile id 45
+django INFO 2023-11-28 10:52:38,602 views 42633 139733321654272 accquired user instance for id 45
+django WARNING 2023-11-28 10:52:38,604 views 42633 139733321654272 phone number validation error
+django INFO 2023-11-28 10:52:38,981 views 42633 139733321654272 trying to update admin profile id 46
+django INFO 2023-11-28 10:52:38,982 views 42633 139733321654272 accquired user instance for id 46
+django WARNING 2023-11-28 10:52:38,985 views 42633 139733321654272 phone number validation error
+django INFO 2023-11-28 10:52:39,442 views 42633 139733321654272 displaying current admin profile information
+bus_owner.views INFO 2023-11-28 10:52:41,183 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:41,497 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$nhlWrU68x7aImZMqpcrjlw$PP97NPh4ND2nIjSPQ9oHgqegKT4m+HlWPB+QVUMOauE=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:41,929 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '741', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:41,933 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Ensure this field has at least 12 characters.', code='min_length')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:42,350 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:42,353 views 42633 139733321654272 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:42,773 views 42633 139733321654272 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:42,777 views 42633 139733321654272 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:42,778 views 42633 139733321654272 {'first_name': '56', 'last_name': '789', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:42,782 views 42633 139733321654272 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:43,189 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:43,193 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:43,539 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!Aa1bhfyrtdkaw23dyulfr09ww', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:43,590 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:43,998 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': '!ndsfhdhsa1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:44,002 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:44,363 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:44,366 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:44,710 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:44,713 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='This field is required.', code='required')], 'phone': [ErrorDetail(string='This field is required.', code='required')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:45,102 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'AJghjDFHGUSH1', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:45,105 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 12 characters.', code='max_length')], 'phone': [ErrorDetail(string='Phone number is already registered', code='unique'), ErrorDetail(string='Phone number is already registered', code='unique')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:45,445 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '987654321o', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:45,449 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:45,786 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'Aa!1qwerty', 'phone': '9876', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': 150.25, 'status': 3, 'role': 3}
+bus_owner.views WARNING 2023-11-28 10:52:45,790 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')], 'aadhaar_no': [ErrorDetail(string='Aadhaar number is already registered', code='unique')], 'msme_no': [ErrorDetail(string='MSME number is already registered', code='unique')]}
+bus_owner.views INFO 2023-11-28 10:52:46,202 views 42633 139733321654272 seat data saved successfully
+bus_owner.views ERROR 2023-11-28 10:52:46,564 views 42633 139733321654272 Field 'seat_ui_order' expected a number but got 'abc'.
+bus_owner.views WARNING 2023-11-28 10:52:46,943 views 42633 139733321654272 {'seat_type': [ErrorDetail(string='Seat type must be 0(sleeper) or 1(seater).', code='invalid')]}
+bus_owner.views WARNING 2023-11-28 10:52:47,288 views 42633 139733321654272 {'deck': [ErrorDetail(string='Deck must be 0(lower deck) or 1(upper deck).', code='invalid')]}
+bus_owner.views INFO 2023-11-28 10:52:47,656 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:47,968 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$8OIqFyALPN8vuJF0hCkCgp$6m8ZLSj2ou1G2e4ynvCi7RDfrIu0WAuP2fRVvFg8Bfs=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:47,975 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'SakkiSayya999@gmail.com', 'password': 'pbkdf2_sha256$600000$b5qgHlfAAPN5P12joAvPzA$1WM069s14CX4YHMVIJoKdXSbKehRebnlroxrwPWcCvE=', 'phone': '9961006248', 'company_name': 'ABC Travels', 'aadhaar_no': '147258369014', 'msme_no': 'UDYAN-654-745896', 'extra_charges': '150.25000', 'status': 0, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:48,316 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:48,630 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$1KQwXIsXlR9LFaj0dpdcHU$dFyJXepp3D/79e2OV6z12P0dh7BzZ0j0m3pUQ+cL/MM=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:49,025 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:49,337 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$h4prIsI7Wb4BPcJgpoEtrJ$QXGeNzX+HOiPnITcAhospFTbgNTpjZKDGRF/cxBKxdA=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:49,677 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:49,988 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$gYSpRF4M0SiJvFUd1jioiO$0ABFp7dscHjAVWReh4IrU75/S6Scd3mWhn4qw4bl+Hg=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:50,407 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'Az@9uhts', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': 455.5, 'status': 3, 'role': 3}
+bus_owner.views INFO 2023-11-28 10:52:50,722 views 42633 139733321654272 {'first_name': 'Priya', 'last_name': 'Menoth', 'email': 'priyaMenoth@gmail.com', 'password': 'pbkdf2_sha256$600000$GFI1MztJxeOw8dLMiR6Pie$veuLIZOKodMFmNIBIZ9rvSg7ORCTzbZoBA/XXqJGdJM=', 'phone': '9495130217', 'company_name': 'Priya Travels', 'aadhaar_no': '748159263578', 'msme_no': 'UDYAN-451-784512', 'extra_charges': '455.50000', 'status': 3, 'role': 3}
+django INFO 2023-11-28 10:52:51,762 views 42633 139733321654272 seat booked and email send
+django INFO 2023-11-28 10:52:52,491 views 42633 139733321654272 {'booked_seats': [{'traveller_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}]}
+django INFO 2023-11-28 10:52:52,491 views 42633 139733321654272 payment Intent to be Refunded :cbdkscndski
+django ERROR 2023-11-28 10:52:52,940 views 42633 139733321654272 Refund Initiation Failed Reason :Request req_tGNNWj76Lz6bKm: No such payment_intent: 'cbdkscndski'
+django INFO 2023-11-28 10:52:53,409 views 42633 139733321654272 Booking cancelled successfully
+django WARNING 2023-11-28 10:52:54,186 views 42633 139733321654272 Cancelation Failed
+django INFO 2023-11-28 10:52:54,522 views 42633 139733321654272 
+django INFO 2023-11-28 10:52:54,903 views 42633 139733321654272 not a user
+django INFO 2023-11-28 10:52:55,587 views 42633 139733321654272 another user
+django INFO 2023-11-28 10:52:55,927 views 42633 139733321654272 already cancelled booking
+django INFO 2023-11-28 10:52:56,292 views 42633 139733321654272 You must call `.is_valid()` before accessing `.errors`.
+django INFO 2023-11-28 10:52:56,983 views 42633 139733321654272 PaymentIntent Created !
+django WARNING 2023-11-28 10:52:57,730 views 42633 139733321654272 Serializer validation Failed
+django WARNING 2023-11-28 10:52:57,730 views 42633 139733321654272 {'total_cost': [ErrorDetail(string='A valid number is required.', code='invalid')]}
+django WARNING 2023-11-28 10:52:58,423 views 42633 139733321654272 Payment Intent Creation Failed ! Reason :Mocked exception
+django INFO 2023-11-28 10:52:59,401 views 42633 139733321654272 user registered
+django INFO 2023-11-28 10:53:00,061 views 42633 139733321654272 {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+django INFO 2023-11-28 10:53:00,778 views 42633 139733321654272 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:53:00,781 views 42633 139733321654272 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'email': [ErrorDetail(string='Email is already registered', code='unique')]}
+django INFO 2023-11-28 10:53:01,476 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has at least 8 characters.', code='min_length')]}
+django INFO 2023-11-28 10:53:02,155 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid'), ErrorDetail(string='Ensure this field has no more than 20 characters.', code='max_length')]}
+django INFO 2023-11-28 10:53:02,865 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:53:03,559 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:53:04,210 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:53:04,892 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'password': [ErrorDetail(string='Password failed', code='invalid')]}
+django INFO 2023-11-28 10:53:05,565 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:53:06,261 views 42633 139733321654272 {'email': [ErrorDetail(string='Email is already registered', code='unique')], 'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:53:07,229 views 42633 139733321654272 user registered
+django INFO 2023-11-28 10:53:07,234 views 42633 139733321654272 {'first_name': 'Sakki', 'last_name': 'Sayya', 'email': 'devanaswinikumar8@gmail.com', 'password': 'pbkdf2_sha256$600000$R2Tic9S1mMChEj1dowSGcI$RNrVRdXjq5jB2yQ8N2TjORJwSaxrjFs/8zkpBaStf4s=', 'phone': '9961006248'}
+django INFO 2023-11-28 10:53:08,301 views 42633 139733321654272 user registered
+django INFO 2023-11-28 10:53:08,305 views 42633 139733321654272 {'first_name': [ErrorDetail(string='This field can only contain letters', code='invalid')], 'last_name': [ErrorDetail(string='This field can only contain letters', code='invalid')]}
+django INFO 2023-11-28 10:53:09,321 views 42633 139733321654272 user registered
+django INFO 2023-11-28 10:53:09,325 views 42633 139733321654272 {'phone': [ErrorDetail(string='This field can only contain numbers.', code='invalid')]}
+django INFO 2023-11-28 10:53:10,347 views 42633 139733321654272 user registered
+django INFO 2023-11-28 10:53:10,351 views 42633 139733321654272 {'phone': [ErrorDetail(string='Ensure this field has at least 10 characters.', code='min_length')]}
+django INFO 2023-11-28 10:53:11,062 views 42633 139733321654272 query param validation suceeded
+django INFO 2023-11-28 10:53:11,063 views 42633 139733321654272 returned trip list total entries :1
+django WARNING 2023-11-28 10:53:11,712 views 42633 139733321654272 request failed ! reason : invalid query params
+django INFO 2023-11-28 10:53:12,419 views 42633 139733321654272 query param validation suceeded
+django WARNING 2023-11-28 10:53:12,420 views 42633 139733321654272 Page requested is Empty !
+django INFO 2023-11-28 10:53:13,085 views 42633 139733321654272 query param validation suceeded
+django INFO 2023-11-28 10:53:13,086 views 42633 139733321654272 returned trip list total entries :0
+django INFO 2023-11-28 10:53:13,792 views 42633 139733321654272 query param validation suceeded
+django INFO 2023-11-28 10:53:13,793 views 42633 139733321654272 returned trip list total entries :0
+django INFO 2023-11-28 10:53:14,463 views 42633 139733321654272 query param validation suceeded
+django INFO 2023-11-28 10:53:14,465 views 42633 139733321654272 returned trip list total entries :0
+django WARNING 2023-11-28 10:53:15,116 views 42633 139733321654272 request failed ! reason : invalid query params
