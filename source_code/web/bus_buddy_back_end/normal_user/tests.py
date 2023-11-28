@@ -3,6 +3,15 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from unittest.mock import patch, MagicMock, Mock
 from .models import User, Bookings
+from bus_owner.models import (
+    Bus,
+    SeatDetails,
+    LocationData,
+    Routes,
+    Trip,
+    StartStopLocations,
+    PickAndDrop,
+)
 
 valid_first_name = "Sakki"
 valid_last_name = "Sayya"
@@ -15,10 +24,95 @@ class BaseTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
+        self.owner = User.objects.create_user(
+            email="someone@gmail.com",
+            password="S0meone@7777",
+            account_provider=0,
+            role=3,
+            company_name="Someone Travels",
+            aadhaar_no=123456789123,
+            msme_no="udyan-123-1234",
+            extra_charges=500.25,
+        )
+        self.client.force_authenticate(self.owner)
+        
+
         self.user = User.objects.create_user(
-            email=valid_email, password=valid_password, account_provider=0, role=2
+            email=valid_email, password=valid_password, account_provider=0
         )
         self.client.force_authenticate(self.user)
+
+        self.bus = Bus.objects.create(
+            bus_name="Some Bus", plate_no="CD456EF", user=self.owner
+        )
+
+        self.seat = SeatDetails.objects.create(
+            bus=self.bus,
+            seat_number="a1",
+            seat_ui_order=11,
+            seat_type=0,
+            deck=0,
+            seat_cost=250.50,
+        )
+
+        self.location_1 = LocationData.objects.create(location_name="Ernakulam")
+        self.location_2 = LocationData.objects.create(location_name="Trivandrum")
+
+        self.route = Routes.objects.create(
+            user=self.owner,
+            start_point=self.location_1,
+            end_point=self.location_2,
+            via="Alappuzha",
+            distance=216.6,
+            duration=5.44,
+            travel_fare=500,
+        )
+
+        self.trip = Trip.objects.create(
+            bus=self.bus,
+            route=self.route,
+            user=self.owner,
+            start_date="2023-12-01",
+            end_date="2023-12-02",
+            start_time="10:00:00",
+            end_time="04:00:00",
+        )
+
+        self.start_stop_location_1 = StartStopLocations.objects.create(
+            seq_id=1,
+            location=self.location_1,
+            arrival_time="10:00:00",
+            arrival_date_offset=1,
+            departure_time="10:05:00",
+            departure_date_offset=1,
+            route=self.route,
+        )
+
+        self.start_stop_location_2 = StartStopLocations.objects.create(
+            seq_id=2,
+            location=self.location_2,
+            arrival_time="04:00:00",
+            arrival_date_offset=1,
+            departure_time="04:05:00",
+            departure_date_offset=1,
+            route=self.route,
+        )
+
+        self.pick_up = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop="kochi",
+            landmark="kochi",
+            start_stop_location=self.start_stop_location_1,
+            arrival_time="10:00:00",
+        )
+
+        self.drop_off = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop="trivandrum",
+            landmark="trivandrum",
+            start_stop_location=self.start_stop_location_2,
+            arrival_time="04:00:00",
+        )
 
         self.register = reverse("register-user")
         self.create_payment_intent = reverse("create-payment-intent")
@@ -27,6 +121,7 @@ class BaseTest(TestCase):
         self.mock_create_payment_intent = (
             "normal_user.views.stripe.PaymentIntent.create"
         )
+        self.book = reverse("book-seat")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -151,6 +246,23 @@ class BaseTest(TestCase):
             "phone": "987654321o",
         }
 
+        self.valid_booking_values = {
+            "total_amount": 175.35,
+            "trip": self.trip.id,
+            "pick_up": self.pick_up.id,
+            "drop_off": self.drop_off.id,
+            "booked_seats": [
+                {
+                    "traveller_name": "lia",
+                    "traveller_dob": "1987-11-12",
+                    "traveller_gender": 2,
+                    "trip": self.trip.id,
+                    "seat": self.seat.id,
+                },
+            ],
+            "payment": {"payment_intend": "cbdkscndski", "status": 0},
+        }
+
         return super().setUp()
 
 
@@ -269,38 +381,40 @@ class UpdateUserTest(BaseTest):
         )
         self.assertEqual(response.status_code, 400)
 
+
 class DictToObject:
     def __init__(self, dictionary):
         for key, value in dictionary.items():
             setattr(self, key, value)
 
+
 class ViewTripsTest(BaseTest):
     def test_01_can_view_trips(self):
         dict_data = {
-                    # stores each trip information
-                    "route_id": 1,
-                    "start_arrival_time": "4:50:00",
-                    "end_arrival_time": "5:50:00",
-                    "start_date": "2023-11-11",
-                    "end_date": "2023-11-11",
-                    "via": "thrissur",
-                    "starting_cost": 400,
-                    "trip_id": 1,
-                    "bus_name": "bus",
-                    "bus_id": 1,
-                    "company_name": "decool",
-                    "emergency_no": "7575952387",
-                    "water_bottle": 0,
-                    "charging_point": 0,
-                    "usb_port": 0,
-                    "blankets": 0,
-                    "pillows": 0,
-                    "reading_light": 0,
-                    "toilet": 0,
-                    "snacks": 0,
-                    "tour_guide": 0,
-                    "cctv": 0,
-            }
+            # stores each trip information
+            "route_id": 1,
+            "start_arrival_time": "4:50:00",
+            "end_arrival_time": "5:50:00",
+            "start_date": "2023-11-11",
+            "end_date": "2023-11-11",
+            "via": "thrissur",
+            "starting_cost": 400,
+            "trip_id": 1,
+            "bus_name": "bus",
+            "bus_id": 1,
+            "company_name": "decool",
+            "emergency_no": "7575952387",
+            "water_bottle": 0,
+            "charging_point": 0,
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0,
+        }
         obj = DictToObject(dict_data)
         mock_trip_data = [
             obj,
@@ -505,3 +619,10 @@ class CancelBookingTestCase(BaseTest):
         mock_get.reset_mock()
         mock_refund.reset_mock()
         mock_perform_update.reset_mock()
+
+
+class BookingTest(BaseTest):
+    def test_01_can_book(self):
+        response = self.client.post(self.book, self.valid_booking_values, format="json")
+        print(response.content)
+        self.assertEqual(response.status_code, 201)
