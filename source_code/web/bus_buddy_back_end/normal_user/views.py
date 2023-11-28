@@ -39,7 +39,9 @@ import os
 import logging
 
 logger = logging.getLogger("django")
+
 date_format = "%Y-%m-%d"
+
 
 def mail_sent_response(mailfunction):
     if mailfunction:
@@ -475,10 +477,10 @@ class BookSeat(APIView):
         today = now.strftime(date_format)
         year_string = now.strftime("%Y")
         random_number = random.randrange(0, 9999)
+        request_data = request.data.copy()
 
         try:
             if role == 2:
-                request_data = request.data.copy()
                 request_data["user"] = user_id
                 request_data["booking_id"] = (
                     "BK" + str(user_id) + "YR" + year_string + str(random_number)
@@ -529,7 +531,7 @@ class BookSeat(APIView):
                                 "message": "Seat booked successfully",
                                 "email": "Failed to send email",
                             },
-                            status=200,
+                            status=201,
                         )
                 else:
                     logger.info(serializer.errors)

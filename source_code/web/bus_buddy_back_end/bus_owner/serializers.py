@@ -363,7 +363,9 @@ class TripSerializer(serializers.ModelSerializer):
         today = datetime.now().date()
  
         if value < today:
-            raise serializers.ValidationError("Start date must be today or in the future.")
+            raise serializers.ValidationError(
+                "Start date must be today or in the future."
+            )
         return value
 
     def validate_end_date(self, value):
@@ -541,8 +543,23 @@ class SeatDetailSerializer(serializers.ModelSerializer):
         )
 
     seat_number = serializers.CharField(max_length=50)
-    seat_type = serializers.IntegerField(default=0)
-    deck = serializers.IntegerField(default=0)
+    seat_type = serializers.IntegerField(
+        default=0,
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1)$", message="Seat type must be 0(sleeper) or 1(seater)."
+            ),
+        ],
+    )
+
+    deck = serializers.IntegerField(
+        default=0,
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1)$", message="Deck must be 0(lower deck) or 1(upper deck)."
+            ),
+        ],
+    )
     seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
     seat_ui_order = serializers.IntegerField()
 
