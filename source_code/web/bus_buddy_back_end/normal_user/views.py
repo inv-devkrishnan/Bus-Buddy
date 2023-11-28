@@ -39,7 +39,7 @@ import os
 import logging
 
 logger = logging.getLogger("django")
-
+date_format = "%Y-%m-%d"
 
 def mail_sent_response(mailfunction):
     if mailfunction:
@@ -48,7 +48,6 @@ def mail_sent_response(mailfunction):
     else:
         logger.info("booking cancelled mail failed")
         return "mail send failed"
-
 
 class ViewSeats(ListAPIView):
     """
@@ -249,7 +248,6 @@ class ViewTrip(APIView):
         page_number,
     ):
         """function to validate the query params to ensure sanity"""
-        date_format = "%Y-%m-%d"
         try:
             if (
                 start_location.isdigit()
@@ -474,7 +472,7 @@ class BookSeat(APIView):
         user_id = request.user.id
         role = request.user.role
         now = datetime.now()
-        today = now.strftime("%Y-%m-%d")
+        today = now.strftime(date_format)
         year_string = now.strftime("%Y")
         random_number = random.randrange(0, 9999)
 
@@ -616,7 +614,7 @@ class CancelBooking(UpdateAPIView):
 
     def cancelBooking(self, request, now, booking_id, instance):
         # for cancelling already booked id
-        today = now.strftime("%Y-%m-%d")
+        today = now.strftime(date_format)
         booked_seats = BookedSeats.objects.filter(booking=booking_id)
         status_data = {"status": 99}  # status 99 denotes the cancelled bookings
         booked_status = {"status": 1}  # status 1 denotes the seat is available

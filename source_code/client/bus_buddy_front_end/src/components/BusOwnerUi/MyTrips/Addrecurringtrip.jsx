@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React , useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -135,7 +135,7 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "35rem",
+         height: "40rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}

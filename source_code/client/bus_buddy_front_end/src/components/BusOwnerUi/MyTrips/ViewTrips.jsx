@@ -12,8 +12,6 @@ import Swal from "sweetalert2";
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [pageSize, setPageSize] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(1);
   const [previous, setPrevious] = useState(1);
@@ -31,8 +29,6 @@ export default function Viewallbus() {
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
-      setCurrentPage(response.data.current_page_number);
-      setPageSize(response.data.page_size);
       console.log(response.data);
     };
     fetchData();

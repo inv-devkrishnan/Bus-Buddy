@@ -42,10 +42,6 @@ export default function Updatebus() {
   }, [currentBusData]);
 
   const onSubmit = () => {
-    // if (plate_no < 0 || plate_no > 10) {
-    //   alert("Plate Number cannot exceed 10 , pleace remove Spaces in between ");
-    // }
-
     try {
       axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
         bus_name:formik.values.busName,

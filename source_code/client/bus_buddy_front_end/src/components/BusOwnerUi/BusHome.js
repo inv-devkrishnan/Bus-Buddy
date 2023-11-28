@@ -75,6 +75,11 @@ export default function UserDashboard() {
       state: myTripSelect,
       onChange: myTripSelected,
     },
+    {
+      name: "Delete Account",
+      state: deleteSelect,
+      onChange: deleteSelected,
+    },
   ];
 
   useEffect(() => {
