@@ -22,7 +22,7 @@ export default function Addrecurringtrip() {
  const [startTime, setStartTime] = useState("");
  const [endTime, setEndTime] = useState("");
  const [searchMode, setSearchMode] = useState(true);
- const [recurrence,setRecurrence] = useState()
+ const [recurrence,setRecurrence] = useState(0)
 
 
 
@@ -102,7 +102,7 @@ export default function Addrecurringtrip() {
            end_date: formattedEndDate,
            start_time: startTime,
            end_time: endTime,
-           recurrence:recurrence,
+           recurrence: recurrence !== "" ? parseInt(recurrence) : null,
        }
        );
        if (response.status === 200) {
@@ -253,9 +253,9 @@ export default function Addrecurringtrip() {
                     onChange={(e) => setRecurrence(e.target.value)}
                     value={recurrence}
                   >
-                    <option value="">Select option</option>
-                    <option value="0"> Daily </option>
-                    <option value="1"> Weekly </option>
+                    <option value="0">Select option</option>
+                    <option value="1"> Daily </option>
+                    <option value="2"> Weekly </option>
                   </Form.Control>
                 </Form.Group>
                 </Row>
