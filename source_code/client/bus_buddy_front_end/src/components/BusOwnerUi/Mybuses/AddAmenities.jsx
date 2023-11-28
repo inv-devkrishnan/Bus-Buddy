@@ -10,7 +10,6 @@ import "./Addamenities.css";
 export default function Addamenities() {
   const location = useLocation();
   const bus = location.state;
-  console.log(bus);
   const [formState, setFormState] = useState({
     emergency_no: 0,
     water_bottle: 0,
@@ -87,8 +86,10 @@ export default function Addamenities() {
                   />
                 </div>
               ))}
-              <Button type="submit">Add Amenities</Button>
             </Form>
+          </div>
+          <div style={{display:"flex",justifyContent:"center"}}>
+                <Button type="submit">Add Amenities</Button>
           </div>
         </Card.Body>
       </Card>

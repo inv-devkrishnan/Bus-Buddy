@@ -30,7 +30,8 @@ import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 import { NavbarLayout } from "./components/common/navbar/NavBarLayout";
 import UpdateTrips from "./components/BusOwnerUi/MyTrips/UpdateTrips";
-import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips";
+import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips"
+import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="/view-trips" element={<ViewRoutes />} />
             <Route path="/update-trips" element={<UpdateTrips />} />
             <Route path="/add-trips" element={<Addtrips />} />
+            <Route path="/add-recurring-trips" element={<Addrecurringtrip/>}/>
             <Route
               path="/full-sleeper-details"
               element={<FullSleeperDetails />}
@@ -76,6 +78,34 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/BusHome" element={<BusHome />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+
+          <Route path="/traveller-data" element={<TravellerDetail />} />
+
+          <Route path="/update-owner" element={<OwnerUpdateCard />} />
+          <Route path="/Addbus" element={<AddBus />} />
+          <Route path="/Updatebus" element={<UpdateBus />} />
+          <Route path="/Viewbus" element={<ViewBus />} />
+          <Route path="/Addamenities" element={<AddAmenities />} />
+          <Route path="/Updateamenities" element={<UpdateAmenities />} />
+          <Route path="/Addroutes" element={<Addroutes />} />
+          <Route path="/ViewRoutes" element={<ViewRoutes />} />
+          <Route path="/view-trips" element={<ViewRoutes />} />
+          <Route path="/update-trips" element={<UpdateTrips/>}/>
+          <Route path="/add-trips" element={<Addtrips/>}/>
+          <Route path="/add-recurring-trips" element={<Addrecurringtrip/>}/>
+          <Route
+            path="/full-sleeper-details"
+            element={<FullSleeperDetails />}
+          />
+          <Route path="/full-seater-details" element={<FullSeaterDetails />} />
+          <Route
+            path="/single-seater-double-sleeper-details"
+            element={<SingleSeaterDoubleSleeperDetails />}
+          />
+          <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>

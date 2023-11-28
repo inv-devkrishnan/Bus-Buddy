@@ -8,22 +8,21 @@ import Swal from 'sweetalert2'
 import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { axiosApi } from "../utils/axiosApi";
 
 export default function AddRouteCard() {
   const [locations, setLocations] = useState([]);
   const [sequenceId, setSequenceId] = useState(1);
-  const [stopLocations, addStopLocation] = useState([]);
-  const [locationAdded, setlocationAdded] = useState(false); // if true shows  add stop form else shows add location form
+  const [stopLocations, setStopLocations] = useState([]);
+  const [locationAdded, setLocationAdded] = useState(false); // if true shows  add stop form else shows add location form
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-  const user=useState(1);
   
   const handleClose = () => {
     setShow(false);
-    setlocationAdded(false);
+    setLocationAdded(false);
   };
   const handleShow = () => setShow(true);
 
@@ -57,14 +56,14 @@ export default function AddRouteCard() {
         let lastEnteredStop = stopLocationList[stopLocationList.length - 1];
         setSequenceId(lastEnteredStop.seq_id + 1);
       }
-      addStopLocation(stopLocationList);
+      setStopLocations(stopLocationList);
     }
   }, []);
 
   const appendStopLocation = (newStopLocation) => {
     // function to append each location to the StopLocations list
     console.log(newStopLocation);
-    addStopLocation((StopLocation) => [...StopLocation, newStopLocation]);
+    setStopLocations((StopLocation) => [...StopLocation, newStopLocation]);
     let stoplocationArray = [...stopLocations, newStopLocation];
     localStorage.setItem("stopLocationList", JSON.stringify(stoplocationArray));
   };
@@ -169,7 +168,7 @@ export default function AddRouteCard() {
                       <Button
                         variant="danger"
                         onClick={() => {
-                          addStopLocation([]);
+                          setStopLocations([]);
                           localStorage.removeItem("locationStop");
                           localStorage.removeItem("stopLocationList");
                           setSequenceId(1);
@@ -270,7 +269,7 @@ export default function AddRouteCard() {
               sequenceId={sequenceId}
               setSequenceId={setSequenceId}
               locationAdded={locationAdded}
-              setlocationAdded={setlocationAdded}
+              setlocationAdded={setLocationAdded}
               stopLocations={stopLocations}
             ></AddRouteLocation>
           </Card>

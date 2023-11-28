@@ -94,7 +94,6 @@ class StartStopLocations(models.Model):
 
 
 class PickAndDrop(models.Model):
-    # location = models.ForeignKey(LocationData, on_delete=models.CASCADE)
     route = models.ForeignKey(Routes, on_delete=models.CASCADE, null=True)
     bus_stop = models.CharField(max_length=255, null=False)
     arrival_time = models.TimeField()

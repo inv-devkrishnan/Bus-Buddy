@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -19,7 +19,7 @@ export default function Updatetrips() {
   const trip = location.state;
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
-  const [cuwrrentTripData, setCurrentTripData] = useState([]);
+  const [currentTripData, setCurrentTripData] = useState([]);
   let id = trip;
 
   const onSubmit = async (e) => {
@@ -119,6 +119,7 @@ export default function Updatetrips() {
           starttime: res.data["start_time"],
           endtime: res.data["end_time"],
         },
+        console.log(currentTripData)
         );
       }
       )

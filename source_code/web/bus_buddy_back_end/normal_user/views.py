@@ -51,7 +51,6 @@ def mail_sent_response(mailfunction):
         logger.info("booking cancelled mail failed")
         return "mail send failed"
 
-
 class ViewSeats(ListAPIView):
     """
     For viewing seat details in a trip
