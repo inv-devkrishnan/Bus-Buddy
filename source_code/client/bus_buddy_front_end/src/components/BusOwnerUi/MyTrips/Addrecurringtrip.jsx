@@ -22,6 +22,7 @@ export default function Addrecurringtrip() {
  const [startTime, setStartTime] = useState("");
  const [endTime, setEndTime] = useState("");
  const [searchMode, setSearchMode] = useState(true);
+ const [recurrence,setRecurrence] = useState()
 
 
 
@@ -101,6 +102,7 @@ export default function Addrecurringtrip() {
            end_date: formattedEndDate,
            start_time: startTime,
            end_time: endTime,
+           recurrence:recurrence,
        }
        );
        if (response.status === 200) {
@@ -135,15 +137,16 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "40rem",
+         height: "48rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}
      >
        <Card.Body>
-         <Card.Title style={{ textAlign: "center" }}>Add Trip</Card.Title>
+         <Card.Title style={{ textAlign: "center" }}>Add Recurring Trip</Card.Title>
          <div style={{ display: "flex", justifyContent: "space-around" }}>
            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
+           <p style={{fontSize:"11px"}}>Please select the period that you want your trip to reccur </p>
              <Row className="mb-2">
                <Form.Group as={Col} md="6" controlId="validationCustom02">
                  <Form.Label>Start Date :</Form.Label>
@@ -166,6 +169,7 @@ export default function Addrecurringtrip() {
                <div style={{display:"flex",justifyContent:"center"}}>
                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(selectedPeriodStartDate, selectedPeriodEndDate)}>search</Button>
                </div>
+               <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the dates you have entered</p>
              </Row>
              <Row className="mb-2">
              <Form.Group as={Col} md="6" controlId="validationCustom02">
@@ -242,7 +246,19 @@ export default function Addrecurringtrip() {
                      required={searchMode}
                    />
                  </Form.Group>
-             </Row>
+             <Form.Group as={Col} md="4" controlId="validationCustom04">
+                  <Form.Label>Recurrence Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => setRecurrence(e.target.value)}
+                    value={recurrence}
+                  >
+                    <option value="">Select option</option>
+                    <option value="0"> Daily </option>
+                    <option value="1"> Weekly </option>
+                  </Form.Control>
+                </Form.Group>
+                </Row>
              <div
                style={{
                  display: "flex",

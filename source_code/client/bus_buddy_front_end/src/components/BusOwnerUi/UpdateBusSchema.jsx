@@ -6,7 +6,7 @@ export const UpdateBusSchema = yup.object().shape({
     .string()
     .matches(nameRules, "Name must be letters and numbers")
     .required("name is required"),
-  plateno: yup.string().min(10).max(10).required(),
+  plateno: yup.string().min(9).max(10).required(),
   bustype: yup
     .string()
     .required("Phone number is required"),

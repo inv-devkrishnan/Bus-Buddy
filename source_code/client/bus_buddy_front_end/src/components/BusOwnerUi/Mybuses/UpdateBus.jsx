@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -13,9 +13,7 @@ export default function Updatebus() {
   
   const location = useLocation();
   const bus = location.state;
-  const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
-  console.log(bus);
   let id=bus;
 
   useEffect(() => {
@@ -41,9 +39,9 @@ export default function Updatebus() {
     });
   }, [currentBusData]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     try {
-      axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
+      await axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,
@@ -52,9 +50,6 @@ export default function Updatebus() {
 
       });
       console.log("updated");
-      const bus = { id: id };
-      console.log(bus);
-      navi("/Updateamenities", { state: id });
     } catch (error) {
       console.error("Error updating:", error);
     }
@@ -86,26 +81,9 @@ export default function Updatebus() {
           <Card.Title style={{ textAlign: "center" }}>Update Bus</Card.Title>
           <div style={{ display: "flex" }}>
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "3rem" }}>
-              <Row className="mb-1">
-                <Form.Group as={Col} md="3" controlId="validationCustom01">
-                  <Form.Label>Bus</Form.Label>
-                  <Form.Control
-                    required
-                    name="id"
-                    type="text"
-                    value={formik.values.id || ""}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.touched.id && formik.errors.id}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.id}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
               <Row className="mb-5">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
-                  <Form.Label>Bus Name</Form.Label>
+                  <Form.Label> Name</Form.Label>
                   <Form.Control
                     name="busName"
                     type="text"
@@ -195,7 +173,7 @@ export default function Updatebus() {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
-              <div style={{ paddingTop: "1.5rem" }}>
+              <div style={{ paddingTop: "1.5rem",display: "flex", justifyContent: "center" }}>
                 <Button type="submit">Update</Button>
               </div>
             </Form>

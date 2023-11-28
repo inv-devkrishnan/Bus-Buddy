@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStatus } from "../../utils/hooks/useAuth";
-import DeleteAccount from "../../pages/DeleteAccount";
-import ViewBus from "./Mybuses/ViewBus"
-import ViewRoutes from "../BusOwnerUi/MyRoutes/ViewRoutes"
+import { useAuthStatus } from "../../utils/hooks/useAuth.js";
+import DeleteAccount from "../../pages/DeleteAccount.jsx";
+import ViewBus from "./Mybuses/ViewBus.jsx"
+import ViewRoutes from "./MyRoutes/ViewRoutes.jsx"
 import ViewTrips from "./MyTrips/ViewTrips.jsx"
-import Ownerprofile from "./Ownerprofile";
-import SideBar from "../common/SideBar";
+import Ownerprofile from "./Ownerprofile.js";
+import SideBar from "../common/SideBar.jsx";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();

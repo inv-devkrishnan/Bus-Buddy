@@ -91,7 +91,7 @@ export default function Viewallroutes() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h2>Route ID: {viewroutes.id}</h2>
+              <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
@@ -164,7 +164,8 @@ export default function Viewallroutes() {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
-          flexDirection: "column",
+          alignItems:"center",
+          flexDirection:"column"
         }}
       >
         {paginationBasic}

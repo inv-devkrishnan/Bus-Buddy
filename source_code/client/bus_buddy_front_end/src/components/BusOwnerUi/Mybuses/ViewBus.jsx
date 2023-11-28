@@ -86,83 +86,109 @@ export default function Viewallbus() {
     </div>
   );
   // Function to get the bus type label
-const getBusTypeLabel = (busType) => {
-  if (busType === 0) {
-    return "Low Floor";
-  } else if (busType === 1) {
-    return "Multi Axle";
-  } else {
-    return "Multi Axle Low Floor";
-  }
-};
+  const getBusTypeLabel = (busType) => {
+    if (busType === 0) {
+      return "Low Floor";
+    } else if (busType === 1) {
+      return "Multi Axle";
+    } else {
+      return "Multi Axle Low Floor";
+    }
+  };
 
-// Function to get the bus A/C label
-const getBusACLabel = (busAC) => {
-  if (busAC === 0) {
-    return "A/C";
-  } else if (busAC === 1) {
-    return "Non A/C";
-  } else {
-    return "Unknown";
-  }
-};
+  // Function to get the bus A/C label
+  const getBusACLabel = (busAC) => {
+    if (busAC === 0) {
+      return "A/C";
+    } else if (busAC === 1) {
+      return "Non A/C";
+    } else {
+      return "Unknown";
+    }
+  };
 
-const renderCards = () => {
-  return data.map((viewbus) => (
-    <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
-      <Accordion defaultActiveKey="1">
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>
-            <h5>Name : {viewbus.bus_name}</h5>
-          </Accordion.Header>
-          <Accordion.Body>
-            <div style={{ display: "flex" }}>
-              <div>
-                <p>Bus ID : {viewbus.id}</p>
-                <p>Plate No : {viewbus.plate_no}</p>
+  const renderCards = () => {
+    return data.map((viewbus) => (
+      <div
+        key={viewbus.id}
+        style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
+      >
+        <Accordion defaultActiveKey="1">
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <h4>Name : {viewbus.bus_name}</h4>
+            </Accordion.Header>
+            <Accordion.Body>
+              <div style={{ display: "flex" }}>
+                <div>
+                  <p>Plate No : {viewbus.plate_no}</p>
+                  <p>Bus A/c : {getBusACLabel(viewbus.bus_ac)}</p>
+                </div>
+                <div style={{ marginLeft: "10%" }}>
+                  <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
+                </div>
               </div>
-              <div style={{ marginLeft: "10%" }}>
-                <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
-                <p>Bus A/C: {getBusACLabel(viewbus.bus_ac)}</p>
+              <div
+                style={{
+                  marginBottom: "1%",
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <button
+                  className="btn btn-primary"
+                  onClick={() => update(viewbus.id)}
+                >
+                  Update
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => addSeatDetails(viewbus.id)}
+                >
+                  Seat Details
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deleted(viewbus.id)}
+                >
+                  Delete
+                </button>
               </div>
-            </div>
-            <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
-              <button className="btn btn-primary" onClick={() => update(viewbus.id)}>
-                Update
-              </button>
-              <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id)}>
-                Seat Details
-              </button>
-              <button className="btn btn-danger" onClick={() => deleted(viewbus.id)}>
-                Delete
-              </button>
-            </div>
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="0" onClick={() => viewbus.id}>
-          <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
-          <Accordion.Body>
-            {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
-              <>
-                <p>Do you want to update the existing amenities?</p>
-                <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)}>
-                  Update amenities
-                </button>
-              </>
-            ) : (
-              <>
-                <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
-                <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)}>
-                  Add amenities
-                </button>
-              </>
-            )}
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
-    </div>
-  ));
-};
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="0" onClick={() => viewbus.id}>
+            <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
+            <Accordion.Body>
+              {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
+                <>
+                  <p>Do you want to update the existing amenities?</p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => updateAmenities(viewbus.id)}
+                  >
+                    Update amenities
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>
+                    There are no Amenities added for this bus. Please add
+                    amenities for your bus.
+                  </p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => addAmenities(viewbus.id)}
+                  >
+                    Add amenities
+                  </button>
+                </>
+              )}
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      </div>
+    ));
+  };
 
   const addAmenities = (id) => {
     navi("/Addamenities", { state: `${id}` });
@@ -176,8 +202,9 @@ const renderCards = () => {
   };
   const addSeatDetails = (id) => {
     navi("/full-sleeper-details", {
-      state:  `${id}` })
-  }
+      state: `${id}`,
+    });
+  };
   const deleted = (id) => {
     axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/delete-bus/${id}/`)
@@ -218,6 +245,7 @@ const renderCards = () => {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
+          alignItems: "center",
           flexDirection: "column",
         }}
       >

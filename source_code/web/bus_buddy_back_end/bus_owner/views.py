@@ -709,7 +709,6 @@ class Addtreccuringrip(APIView):
 
     def post(self, request,):
         try:
-            recurrence_type = 2
             request_data=request.data.copy()
             print(request_data)
             request_data["user"] = request.user.id
@@ -717,6 +716,7 @@ class Addtreccuringrip(APIView):
             end_date_str = request_data["end_date"]
             start_time_str = request_data["start_time"]
             end_time_str = request_data["end_time"]
+            recurrence_type = request_data["recurrence"]
             start_date = datetime.strptime(start_date_str, date_format)
             end_date = datetime.strptime(end_date_str, date_format)
             start_time = datetime.strptime(start_time_str, '%H:%M').time()

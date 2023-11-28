@@ -73,7 +73,7 @@ export default function Addbus() {
             <Form onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
-                  <Form.Label>Bus Name</Form.Label>
+                  <Form.Label> Name</Form.Label>
                   <Form.Control
                     required
                     type="text"
@@ -134,7 +134,7 @@ export default function Addbus() {
                   </Form.Control>
                 </Form.Group>
               </Row>
-              <div style={{ paddingTop: "1.5rem" }}>
+              <div style={{ paddingTop: "1.5rem",display: "flex", justifyContent: "center" }}>
                 <Button type="submit">Add</Button>
               </div>
             </Form>

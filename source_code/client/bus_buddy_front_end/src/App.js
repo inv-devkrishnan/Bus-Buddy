@@ -58,6 +58,7 @@ function App() {
             <Route path="/view-trips" element={<ViewRoutes />} />
             <Route path="/update-trips" element={<UpdateTrips />} />
             <Route path="/add-trips" element={<Addtrips />} />
+            <Route path="/add-recurring-trips" element={<Addrecurringtrip/>}/>
             <Route
               path="/full-sleeper-details"
               element={<FullSleeperDetails />}

@@ -30,7 +30,6 @@ export default function Updateamenities() {
       .get(`http://127.0.0.1:8000/bus-owner/update-amenities/${bus}/`)
       .then((res) => {
         setCurrentAmenitiesData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.response);
@@ -124,8 +123,10 @@ export default function Updateamenities() {
                   />
                 </div>
               ))}
-              <Button type="submit">Update Amenities</Button>
             </Form>
+          </div>
+          <div style={{display:"flex",justifyContent:"center"}}>
+            <Button type="submit">Update Amenities</Button>
           </div>
         </Card.Body>
       </Card>
