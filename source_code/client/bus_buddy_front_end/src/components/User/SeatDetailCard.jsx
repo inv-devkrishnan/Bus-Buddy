@@ -12,7 +12,6 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Modal, Button } from "react-bootstrap";
 import SeatLegend from "./SeatLegend";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 export default function SeatDetailCard(props) {
   const { seatList } = useContext(SeatContext); // context that stores list of seats
