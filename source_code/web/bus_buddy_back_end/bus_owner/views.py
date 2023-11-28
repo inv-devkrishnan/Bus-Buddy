@@ -54,8 +54,6 @@ class AddSeatDetails(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        import pdb
-        pdb.set_trace()
         user_id = request.user.id
         bus_id = request.data.get("bus")
         ui_order = request.data.get("seat_ui_order")

@@ -152,6 +152,26 @@ class TravellerDataSerializer(serializers.ModelSerializer):
         model = BookedSeats
         fields = ["trip", "traveller_name", "traveller_dob", "traveller_gender", "seat"]
 
+    traveller_name = serializers.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=regex_alphabet_only,
+                message=error_message_only_letter,
+            ),
+        ],
+    )
+    traveller_dob = serializers.DateField()
+    traveller_gender = serializers.CharField(
+        max_length=1,
+        validators=[
+            RegexValidator(
+                regex=r"^(1|2)*$",
+                message="traveller gender has to be either 1(male) or 2(female)",
+            ),
+        ],
+    )
+
 
 class PaymentDataSerializer(serializers.ModelSerializer):
     """
@@ -185,12 +205,12 @@ class BookSeatSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        traveller_data = validated_data.pop("bookedseats_set")  
+        traveller_data = validated_data.pop("bookedseats_set")
         payment_data = validated_data.pop("payment")
         booking_id = Bookings.objects.create(**validated_data)
         for data in traveller_data:
             BookedSeats.objects.create(booking=booking_id, **data)
-        # storing payment intent and status to payment table    
+        # storing payment intent and status to payment table
         Payment.objects.create(booking=booking_id, **payment_data)
         return booking_id
 

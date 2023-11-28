@@ -363,17 +363,21 @@ class TripSerializer(serializers.ModelSerializer):
     def validate_start_date(self, value):
         today = datetime.now().date()
         print(today)
-        print (value)
+        print(value)
         if value < today:
-            raise serializers.ValidationError("Start date must be today or in the future.")
+            raise serializers.ValidationError(
+                "Start date must be today or in the future."
+            )
         return value
 
     def validate_end_date(self, value):
         # today = datetime.now().date()
-        start_date_str = self.initial_data.get('start_date')      
-        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        start_date_str = self.initial_data.get("start_date")
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
         if value <= start_date:
-            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
+            raise serializers.ValidationError(
+                "End date should be in the future or the same day as start date."
+            )
         return value
 
     start_time = serializers.TimeField(format="%H:%M")
@@ -548,8 +552,23 @@ class SeatDetailSerializer(serializers.ModelSerializer):
         )
 
     seat_number = serializers.CharField(max_length=50)
-    seat_type = serializers.IntegerField(default=0)
-    deck = serializers.IntegerField(default=0)
+    seat_type = serializers.IntegerField(
+        default=0,
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1)$", message="Seat type must be 0(sleeper) or 1(seater)."
+            ),
+        ],
+    )
+
+    deck = serializers.IntegerField(
+        default=0,
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1)$", message="Deck must be 0(lower deck) or 1(upper deck)."
+            ),
+        ],
+    )
     seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
     seat_ui_order = serializers.IntegerField()
 
