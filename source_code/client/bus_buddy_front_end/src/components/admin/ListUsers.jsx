@@ -257,7 +257,7 @@ function ListUsers(props) {
           // sets search mode false if user removal done through search
           setSearchMode(false);
           // setting user status to 3 if user removal done through search
-          userStatus.current =3;
+          userStatus.current = 3;
           // loads the current page only if current page is not empty after deletion
           if (users.length > 1) {
             getUsersbyPage(currentPage);
@@ -422,21 +422,29 @@ function ListUsers(props) {
         )
       }
 
-      <Row>
-        <Col style={{ width: "70vw" }}>
+      <Row className="ms-auto me-auto">
+        <div className="d-flex" >
           {users.length > 0 ? (
-            <Table bordered hover variant="light" className="m-5">
+            <Table
+              hover
+              variant="light"
+              responsive
+              className="m-3 mb-5"
+              style={{width:"70vw"}}
+            >
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>User ID</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td>{user.id}</td>
+                    <td className="fw-bold">{user.id}</td>
                     <td>{user.first_name}</td>
                     <td>{user.email}</td>
                     <td>
@@ -496,7 +504,7 @@ function ListUsers(props) {
               <h3 className="text-center mt-3">List empty !</h3>
             </div>
           )}
-        </Col>
+        </div>
       </Row>
       <Row>
         <CustomPaginator

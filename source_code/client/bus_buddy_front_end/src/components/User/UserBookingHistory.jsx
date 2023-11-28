@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -9,6 +9,7 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
+import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -24,20 +25,28 @@ export default function UserBookingHistory() {
   const [modalData, setModalData] = useState(null); // for storing data for modal
   const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
 
+  const viewBookingHistory = useCallback(async () => {
+    try {
+      const res = await axiosApi.get(
+        `user/booking-history?page=${page}&&status=${status}`
+      );
+
+      setBookingData(res.data.results);
+      setNext(res.data.has_next);
+      setPrevious(res.data.has_previous);
+      setTotalPages(res.data.total_pages);
+      setCurrentPage(res.data.current_page_number);
+      setPageSize(res.data.page_size);
+    } catch (err) {
+      // Handle errors
+      console.error("Error:", err);
+    }
+  }, [page, status]);
+
   useEffect(() => {
     // for fetching user's booking history
-    axiosApi
-      .get(`user/booking-history?page=${page}&&status=${status}`)
-      .then((res) => {
-        setBookingData(res.data.results);
-        setNext(res.data.has_next);
-        setPrevious(res.data.has_previous);
-        setTotalPages(res.data.total_pages);
-        setCurrentPage(res.data.current_page_number);
-        setPageSize(res.data.page_size);
-      })
-      .catch((err) => {});
-  }, [page, status]);
+    viewBookingHistory();
+  }, [viewBookingHistory]);
 
   const handlePrevious = () => {
     // for moving to previous page
@@ -53,15 +62,19 @@ export default function UserBookingHistory() {
 
   const handleCancel = () => {
     // for cancelling a booking
+    showLoadingAlert("Cancelling Booking");
     axiosApi
       .put(`user/cancel-booking/?booking_id=${modalData?.id}`)
       .then((res) => {
+        Swal.close();
+        viewBookingHistory();
         Swal.fire({
           title: "Success",
-          text: "Cancelled Successfully",
+          text: "Cancelled Successfully, Refund has been initiated",
           icon: "success",
         });
         setConfirmModalShow(false);
+        setModalShow(false);
       })
       .catch((err) => {
         Swal.fire({
@@ -145,6 +158,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(99);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Cancelled
@@ -152,6 +167,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(0);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Pending
@@ -159,6 +176,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(1);
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 Completed
@@ -166,6 +185,8 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus("");
+                  setPage(1);
+                  setActive(1);
                 }}
               >
                 All
@@ -175,7 +196,7 @@ export default function UserBookingHistory() {
         </div>
         <div className="flex-fill m-3">
           <Table hover responsive="sm">
-            <thead style={{color:"blueviolet"}}>
+            <thead style={{ color: "blueviolet" }}>
               <tr>
                 <th>SI No.</th>
                 <th>Booking Id</th>
@@ -256,54 +277,81 @@ export default function UserBookingHistory() {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <strong>
-              {modalData?.booking_id}
-              {modalData?.status === 99 && <span>(Cancelled)</span>}
-            </strong>
+            <strong>{modalData?.booking_id}</strong>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
-          <p>
-            From:{" "}
-            <strong>
-              {modalData?.pick_up?.start_stop_location?.location?.location_name}
-            </strong>
-          </p>
-          <p>
-            To:{" "}
-            <strong>
-              {
-                modalData?.drop_off?.start_stop_location?.location
-                  ?.location_name
-              }
-            </strong>
-          </p>
-          <p>
-            Departure Date: <strong>{modalData?.trip?.start_date}</strong>
-          </p>
-          <p>
-            Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
-            <strong>{modalData?.trip?.end_time}</strong>
-          </p>
-          <p>
-            Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
-          </p>
-          <p>
-            Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
-          </p>
-
-          <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
-          <p>
-            Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
-          </p>
-          <p>
-            Bus Plate Number: <strong>{modalData?.trip?.bus?.plate_no}</strong>
-          </p>
-          <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
-          <p>
-            Total amount: <strong>{modalData?.total_amount}</strong>
-          </p>
+          <div className="d-flex flex-row justify-content-around">
+            <div className="m-2">
+              <h5 style={{ color: "cornflowerblue" }}>Booking Details</h5>
+              <p>
+                Booking date:{" "}
+                <strong>
+                  {new Date(modalData?.created_date).toLocaleDateString()}
+                </strong>
+              </p>
+              <p>
+                Booking status:{" "}
+                <strong>
+                  {modalData?.status === 99 && (
+                    <span style={{ color: "tomato" }}>Cancelled</span>
+                  )}
+                  {modalData?.status === 1 && (
+                    <span style={{ color: "yellowgreen" }}>Completed</span>
+                  )}
+                  {modalData?.status === 0 && (
+                    <span style={{ color: "#7CB9E8" }}>Pending</span>
+                  )}
+                </strong>
+              </p>
+              <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
+              <p>
+                From:{" "}
+                <strong>
+                  {
+                    modalData?.pick_up?.start_stop_location?.location
+                      ?.location_name
+                  }
+                </strong>
+              </p>
+              <p>
+                To:{" "}
+                <strong>
+                  {
+                    modalData?.drop_off?.start_stop_location?.location
+                      ?.location_name
+                  }
+                </strong>
+              </p>
+              <p>
+                Departure Date: <strong>{modalData?.trip?.start_date}</strong>
+              </p>
+              <p>
+                Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
+                <strong>{modalData?.trip?.end_time}</strong>
+              </p>
+              <p>
+                Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
+              </p>
+              <p>
+                Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
+              </p>
+            </div>
+            <div className="m-2">
+              <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
+              <p>
+                Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
+              </p>
+              <p>
+                Bus Plate Number:{" "}
+                <strong>{modalData?.trip?.bus?.plate_no}</strong>
+              </p>
+              <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
+              <p>
+                Total amount: <strong>{modalData?.total_amount}</strong>
+              </p>
+            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button

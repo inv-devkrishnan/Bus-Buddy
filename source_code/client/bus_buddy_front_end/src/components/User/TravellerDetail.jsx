@@ -9,6 +9,7 @@ import {
   Button,
   CardText,
 } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -16,27 +17,30 @@ import Swal from "sweetalert2";
 
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
   const [currentTrip, setCurrentTrip] = useState([]); // to store the current trip details
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (authStatus) {
+    if (authStatus()) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
         navigate("/login");
+      } else {
+        // stores data from local storage to use states
+        const storedSeats = localStorage.getItem("seat_list");
+        setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
+        const storedTrip = localStorage.getItem("current_trip");
+        setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
       }
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-    // stores data from local storage to use states
-    const storedSeats = localStorage.getItem("seat_list");
-    setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
-    const storedTrip = localStorage.getItem("current_trip");
-    setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
   }, []);
 
   const validationSchema = Yup.object().shape(
@@ -51,7 +55,7 @@ const TravellerDetail = () => {
     }, {})
   );
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // stores data to bookings table and remove data from local storage
     let bookedSeats = [];
     for (let seatId in formik.values) {
@@ -74,31 +78,31 @@ const TravellerDetail = () => {
       drop_off: parseInt(localStorage.getItem("drop_off")),
       booked_seats: bookedSeats,
     };
-
-    axiosApi
-      .post("user/book-seat/", data)
+    const amountData = {
+      total_cost: parseInt(localStorage.getItem("total_amount")),
+    };
+    setIsLoading(true);
+    // creates a new payment intent
+    await axiosApi
+      .post("user/create-payment-intent/", amountData)
       .then((res) => {
-        Swal.fire({
-          title: "Success",
-          text: "Seat booked successfully",
-          icon: "success",
+        // once payment intent is created navigate to payment page with client secret
+        navigate("/payment", {
+          state: {
+            clientSecret: res.data.client_secret,
+            data: data,
+            payment: true, // to ensure this page is called with a valid payment
+          },
         });
-
-        localStorage.removeItem("pick_up");
-        localStorage.removeItem("drop_off");
-        localStorage.removeItem("total_amount");
-        localStorage.removeItem("seat_list");
-        localStorage.removeItem("current_trip");
-
-        navigate("/user-dashboard");
       })
-      .catch((err) => {
+      .catch(function (error) {
         Swal.fire({
-          title: "Oops!!",
-          text: err.response.data,
+          title: "Something went wrong !",
           icon: "error",
+          text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -219,7 +223,23 @@ const TravellerDetail = () => {
                 </Form.Group>
               );
             })}
-            <Button type="submit">Book Seats</Button>
+            <Button type="submit" disabled={isLoading}>
+              {" "}
+              {isLoading ? (
+                <div>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="output"
+                    aria-hidden="true"
+                  />
+                  Loading...
+                </div>
+              ) : (
+                "Book Seat"
+              )}
+            </Button>
           </Form>
         </CardBody>
       </Card>
@@ -254,7 +274,7 @@ const TravellerDetail = () => {
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
           <CardText style={{ margin: 5 }}>
-            <h6>Total Amount:</h6>
+            <strong>Total Amount:</strong>{" "}
             {localStorage.getItem("total_amount")}
           </CardText>
         </CardBody>

@@ -54,6 +54,8 @@ class AddSeatDetails(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        import pdb
+        pdb.set_trace()
         user_id = request.user.id
         bus_id = request.data.get("bus")
         ui_order = request.data.get("seat_ui_order")
@@ -337,7 +339,7 @@ class Viewbus(ListAPIView):
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0,user=user_id)     #to filter out bus objects which has been soft deleted 
+            queryset = Bus.objects.filter(status=0,user=user_id)   #to filter out bus objects which has been soft deleted 
             print(queryset)
             serializer = ViewBusSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -675,7 +677,6 @@ class Viewavailablebus(ListAPIView):
 
     def list(self, request,):
         try:
-            # import pdb;pdb.set_trace()
             logger.info("gettin the user is from user model")
             user_id = request.user.id
             print(user_id)

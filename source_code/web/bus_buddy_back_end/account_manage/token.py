@@ -8,5 +8,6 @@ def generate_token(user):
         'access': str(refresh.access_token),
         'refresh_token_expire_time': str(refresh.lifetime.total_seconds()*1000),
         'user_role': user.role,
-        'account_provider': user.account_provider
+        'account_provider': user.account_provider,
+        'user_name': user.first_name,
     }

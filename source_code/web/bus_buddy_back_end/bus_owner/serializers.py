@@ -37,6 +37,7 @@ class BusSerializer(serializers.ModelSerializer):
     """
     serializer for model Bus.For post and update
     """
+
     bus_name = serializers.CharField(
         max_length=100,
         validators=[
@@ -87,7 +88,9 @@ class BusSerializer(serializers.ModelSerializer):
     bus_details_status = serializers.IntegerField(
         required=False,
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Bus details status must be 0, 1, or 2."),
+            RegexValidator(
+                regex=r"^[0-2]$", message="Bus details status must be 0, 1, or 2."
+            ),
         ],
     )
 
@@ -105,6 +108,7 @@ class AmenitiesSerializer(serializers.ModelSerializer):
     """
     serilizer for Amenities model.For post and update
     """
+
     emergency_no = serializers.IntegerField(validators=[validate_zero_or_one])
     water_bottle = serializers.IntegerField(validators=[validate_zero_or_one])
     charging_point = serializers.IntegerField(validators=[validate_zero_or_one])
@@ -124,16 +128,25 @@ class AmenitiesSerializer(serializers.ModelSerializer):
 
 class ViewBusSerializer(serializers.ModelSerializer):
     """
-    serilizer for bus model.For listing 
+    serilizer for bus model.For listing
     """
+
     # user = serializers.CharField(required=False)
     amenities_data = AmenitiesSerializer(
         many=True, read_only=True, source="amenities_set"
-    )                                                                   #to list amenities list associated with the bus 
+    )  # to list amenities list associated with the bus
 
     class Meta:
         model = Bus
-        fields = ("id", "bus_name", "plate_no", "bus_type", "bus_ac", "amenities_data","user")
+        fields = (
+            "id",
+            "bus_name",
+            "plate_no",
+            "bus_type",
+            "bus_ac",
+            "amenities_data",
+            "user",
+        )
         # depth=1
 
 
@@ -147,11 +160,15 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
     """
     serilizer for routes model.for listing
     """
+
     start_point_name = serializers.CharField(
-        source="start_point.location_name", read_only=True    # to get the name of startponit from locations_data model
+        source="start_point.location_name",
+        read_only=True,  # to get the name of startponit from locations_data model
     )  # to get name matchin the id from location
-    end_point_name = serializers.CharField(                   # to get the name of endpoint from locations_data model
-        source="end_point.location_name", read_only=True
+    end_point_name = (
+        serializers.CharField(  # to get the name of endpoint from locations_data model
+            source="end_point.location_name", read_only=True
+        )
     )  # to get name matchin the id from location
 
     class Meta:
@@ -173,19 +190,27 @@ class PickAndDropSerializer(serializers.ModelSerializer):
     """
     serilizer for Pickanddropserilizer
     """
+
     arrival_time = serializers.TimeField(
         format="%H:%M",
     )
     bus_stop = serializers.CharField(
         validators=[
-            RegexValidator(r"^[A-Za-z0-9 \.]+$", message="bus stop can only have alphabets and numbers"),
+            RegexValidator(
+                r"^[A-Za-z0-9 \.]+$",
+                message="bus stop can only have alphabets and numbers",
+            ),
         ]
     )
     landmark = serializers.CharField(
         validators=[
-            RegexValidator(r"^[A-Za-z0-9 \.]+$", message="landmark can only have alphabets and numbers"),
+            RegexValidator(
+                r"^[A-Za-z0-9 \.]+$",
+                message="landmark can only have alphabets and numbers",
+            ),
         ]
     )
+
     class Meta:
         model = PickAndDrop
         fields = (
@@ -201,6 +226,7 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     """
     serilizer for startstoplocations model
     """
+
     pick_and_drop = PickAndDropSerializer(many=True, source="stops")
     arrival_time = serializers.TimeField(
         format="%H:%M",
@@ -210,17 +236,25 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     )
     seq_id = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="sequence id should be an positive integer"),
+            RegexValidator(
+                r"^[0-9\s]*$", message="sequence id should be an positive integer"
+            ),
         ]
     )
     arrival_date_offset = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="arrival date offset should be an positive integer"),
+            RegexValidator(
+                r"^[0-9\s]*$",
+                message="arrival date offset should be an positive integer",
+            ),
         ]
     )
     departure_date_offset = serializers.IntegerField(
         validators=[
-            RegexValidator(r"^[0-9\s]*$", message="departure date offset should be an positive integer"),
+            RegexValidator(
+                r"^[0-9\s]*$",
+                message="departure date offset should be an positive integer",
+            ),
         ]
     )
 
@@ -242,12 +276,14 @@ class RoutesSerializer(serializers.ModelSerializer):
     """
     serializer for route model.for post and update
     """
+
     location = StartStopLocationsSerializer(many=True)
     via = serializers.CharField(
         max_length=100,
         validators=[
             RegexValidator(
-                r"^[A-Za-z0-9 \.]", message="landmark can only have alphabets and numbers"
+                r"^[A-Za-z0-9 \.]",
+                message="landmark can only have alphabets and numbers",
             )
         ],
     )
@@ -294,16 +330,20 @@ class RoutesSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        # overwriting create method to handle nested input  
-        start_stop_locations = validated_data.pop("location")    #storing loction data for startstoplocation model into variable
-        routes = Routes.objects.create(**validated_data)        #creating route object
+        # overwriting create method to handle nested input
+        start_stop_locations = validated_data.pop(
+            "location"
+        )  # storing loction data for startstoplocation model into variable
+        routes = Routes.objects.create(**validated_data)  # creating route object
         for data in start_stop_locations:
             pad_obj = data.pop("stops")
-            ssl_obj = StartStopLocations.objects.create(route=routes, **data)   #creating startstoplocations object
+            ssl_obj = StartStopLocations.objects.create(
+                route=routes, **data
+            )  # creating startstoplocations object
             for i in pad_obj:
                 PickAndDrop.objects.create(
                     route=routes, start_stop_location=ssl_obj, **i
-                )                                                           #creatinig pickanddrop objects
+                )  # creatinig pickanddrop objects
 
         return routes
 
@@ -312,20 +352,22 @@ class TripSerializer(serializers.ModelSerializer):
     """
     serializer for trip model.for post and update
     """
+
     bus = serializers.PrimaryKeyRelatedField(queryset=Bus.objects.all())
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     start_date = serializers.DateField(format="%Y-%m-%d")
     end_date = serializers.DateField(format="%Y-%m-%d")
-    
+
     def validate_start_date(self, value):
         today = datetime.now().date()
  
         if value < today:
             raise serializers.ValidationError("Start date must be today or in the future.")
         return value
-    def validate_end_date(self,value):
+
+    def validate_end_date(self, value):
         # today = datetime.now().date()
         start_date_str = self.initial_data.get('start_date')      
         start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
@@ -333,24 +375,23 @@ class TripSerializer(serializers.ModelSerializer):
         if value < start_date:
             raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
         return value
-    
+
     start_time = serializers.TimeField(format="%H:%M")
     end_time = serializers.TimeField(format="%H:%M")
-    
+
     # def validate_end_time(self, value):
     #     start_time = self.initial_data.get('start_time')  # Access start_time from the input data
     #     if start_time and value <= start_time:
     #         raise serializers.ValidationError("End time must be after the start time.")
     #     return value
-    
+
     status = serializers.IntegerField(
         required=False,
         validators=[
-            RegexValidator(
-                regex=r"^(0|99)$", message="trip status must be 0 or 99."
-            ),
+            RegexValidator(regex=r"^(0|99)$", message="trip status must be 0 or 99."),
         ],
     )
+
     class Meta:
         model = Trip
         fields = "__all__"
@@ -360,6 +401,7 @@ class ViewTripSerializer(serializers.ModelSerializer):
     """
     serializer for trip model.for listing
     """
+
     start_point_name = serializers.CharField(
         source="route.start_point.location_name", read_only=True
     )  # to get name matchin the id from location
@@ -367,8 +409,7 @@ class ViewTripSerializer(serializers.ModelSerializer):
         source="route.end_point.location_name", read_only=True
     )  # to get name matchin the id from location
     bus_name = serializers.CharField(source="bus.bus_name", read_only=True)
-    
-    
+
     class Meta:
         model = Trip
         fields = (
@@ -497,7 +538,14 @@ class OwnerDataSerializer(serializers.ModelSerializer):
 class SeatDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeatDetails
-        fields = ("seat_number", "seat_ui_order", "seat_type", "deck", "seat_cost")
+        fields = (
+            "seat_number",
+            "seat_ui_order",
+            "seat_type",
+            "deck",
+            "seat_cost",
+            "bus",
+        )
 
     seat_number = serializers.CharField(max_length=50)
     seat_type = serializers.IntegerField(default=0)

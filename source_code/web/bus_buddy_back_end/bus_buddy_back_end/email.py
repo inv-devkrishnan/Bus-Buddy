@@ -1,6 +1,6 @@
 import logging
 import smtplib
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from decouple import config
 from adminstrator.models import Email
@@ -8,7 +8,7 @@ from adminstrator.models import Email
 logger = logging.getLogger("django")
 
 
-def send_email_with_template(subject, template, context, recipient_list,status):
+def send_email_with_template(subject, template, context, recipient_list, status):
     """
     Sends an email with a rendered HTML template.
 
@@ -21,7 +21,7 @@ def send_email_with_template(subject, template, context, recipient_list,status):
 
     Returns:
     Boolean
-    
+
     Raises:
     - smtplib.SMTPAuthenticationError: If there is an SMTP authentication error while sending the email.
     - Exception: If an unknown error occurs while sending the email.
@@ -32,14 +32,68 @@ def send_email_with_template(subject, template, context, recipient_list,status):
         send_mail(subject, message, from_email, recipient_list, html_message=message)
         logger.info("mail sent !")
         for to_email in recipient_list:
-            Email.objects.create(from_email=from_email, to_email=to_email, status=status)
+            Email.objects.create(
+                from_email=from_email, to_email=to_email, status=status
+            )
         logger.info("added Entry to mail table")
-        return True;
+        return True
 
     except smtplib.SMTPAuthenticationError as e:
         logger.warn("Authentication Error Occured while Sending mail\n" + str(e))
-        return False;
+        return False
 
     except Exception as e:
         logger.warn("unknown Error Occured " + str(e))
-        return False;
+        return False
+
+
+def send_email_with_attachment(
+    subject,
+    message,
+    recipient_list,
+    attachment_content,
+    attachment_filename,
+    content_type,
+    status,
+):
+    """
+    Sends an email with attachment like pdf
+
+    Args:
+        subject (str): The subject of the email
+        message (str): The message to be shown in the email
+        recipient_list (list): A list of email to send the email
+        attachment_content (bytes): The attachment(document,text file,pdf or image)
+        attachment_filename (str): The attachment name
+        content_type (str): The MIME type of the file
+        status (int): indicates the type of mail 0->booking confirmation,1->booking cancelation,2->bus owner approval
+
+
+    Returns:
+    Boolean: true if mail has been send else false
+
+    Raises:
+    - smtplib.SMTPAuthenticationError: If there is an SMTP authentication error while sending the email.
+    - Exception: If an unknown error occurs while sending the email.
+    """
+    from_email = config("EMAIL_HOST_USER")
+    email = EmailMessage(subject, message, from_email, recipient_list)
+    email.attach(attachment_filename, attachment_content, content_type)
+
+    try:
+        email.send()
+        Email.objects.create(
+            from_email=from_email, to_email=recipient_list, status=status
+        )
+        logger.info("Email sent successfully!")
+        return True
+
+    except smtplib.SMTPAuthenticationError as e:
+        logger.warn("Authentication Error Occured while Sending mail\n" + str(e))
+        print(f"Error sending email: {e}")
+        return False
+
+    except Exception as e:
+        logger.warn("unknown Error Occured " + str(e))
+        print(f"Error sending email: {e}")
+        return False
