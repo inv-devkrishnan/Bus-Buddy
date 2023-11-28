@@ -29,6 +29,7 @@ import UpdateOwnerProfile from "./components/BusOwnerUi/UpdateOwnerProfile";
 import TravellerDetail from "./components/User/TravellerDetail";
 import UpdateTrips from "./components/BusOwnerUi/MyTrips/UpdateTrips";
 import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips"
+import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/view-trips" element={<ViewRoutes />} />
           <Route path="/update-trips" element={<UpdateTrips/>}/>
           <Route path="/add-trips" element={<Addtrips/>}/>
+          <Route path="/add-recurring-trips" element={<Addrecurringtrip/>}/>
           <Route
             path="/full-sleeper-details"
             element={<FullSleeperDetails />}

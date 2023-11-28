@@ -549,7 +549,7 @@ class Addtrip(APIView):
     Function to add new trip from bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
@@ -573,7 +573,7 @@ class Updatetrip(UpdateAPIView):
     function to update trip details by bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = TripSerializer
 
     def get(self, request, id):
@@ -713,14 +713,10 @@ class Addtreccuringrip(APIView):
 
     def post(self, request,):
         try:
-            recurrence_type = 1
+            recurrence_type = 2
             request_data=request.data.copy()
             print(request_data)
             request_data["user"] = request.user.id
-            serializer = TripSerializer(data=request_data)
-            if serializer.is_valid():
-                serializer.save()
-                logger.info("Inserted")
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
             start_time_str = request_data["start_time"]
@@ -735,8 +731,8 @@ class Addtreccuringrip(APIView):
             print(duration)
             no_of_days = (duration.days) 
             print(no_of_days)
-            psd_str = request.GET.get('period_start_date')
-            ped_str = request.GET.get('period_end_date')
+            psd_str = request.GET.get('start')
+            ped_str = request.GET.get('end')
             psd = datetime.strptime(psd_str, '%Y-%m-%d')
             ped = datetime.strptime(ped_str, '%Y-%m-%d')
             period = ped - psd
