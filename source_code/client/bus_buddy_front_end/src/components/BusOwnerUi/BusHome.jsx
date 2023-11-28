@@ -5,7 +5,7 @@ import DeleteAccount from "../../pages/DeleteAccount.jsx";
 import ViewBus from "./Mybuses/ViewBus.jsx"
 import ViewRoutes from "./MyRoutes/ViewRoutes.jsx"
 import ViewTrips from "./MyTrips/ViewTrips.jsx"
-import Ownerprofile from "./Ownerprofile.js";
+import Ownerprofile from "./Ownerprofile.jsx";
 import SideBar from "../common/SideBar.jsx";
 
 export default function UserDashboard() {
