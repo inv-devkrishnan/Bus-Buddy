@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
 import "./Addamenities.css";
 
-
 export default function Updateamenities() {
   const [currentAmenitiesData, setCurrentAmenitiesData] = useState([]);
   const [formState, setFormState] = useState({
@@ -110,7 +109,7 @@ export default function Updateamenities() {
           <Card.Title style={{ textAlign: "center" }}>
             Update Amenities
           </Card.Title>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex",flexDirection:"column" }}>
             <Form onSubmit={handleSubmit}>
               {Object.keys(formState).map((amenity) => (
                 <div key={amenity} className="mb-3">
@@ -123,10 +122,10 @@ export default function Updateamenities() {
                   />
                 </div>
               ))}
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button type="submit">Update Amenities</Button>
+              </div>
             </Form>
-          </div>
-          <div style={{display:"flex",justifyContent:"center"}}>
-            <Button type="submit">Update Amenities</Button>
           </div>
         </Card.Body>
       </Card>

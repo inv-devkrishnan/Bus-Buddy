@@ -69,11 +69,17 @@ export default function Addamenities() {
         paddingTop: "3rem",
       }}
     >
-      <Card style={{ width: "35rem", height: "40rem", paddingTop: "1rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
- }}>
+      <Card
+        style={{
+          width: "35rem",
+          height: "40rem",
+          paddingTop: "1rem",
+          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
+        }}
+      >
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Amenities</Card.Title>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex",flexDirection:"column" }}>
             <Form onSubmit={handleSubmit}>
               {Object.keys(formState).map((amenity) => (
                 <div key={amenity} className="mb-4">
@@ -86,10 +92,10 @@ export default function Addamenities() {
                   />
                 </div>
               ))}
-            </Form>
-          </div>
-          <div style={{display:"flex",justifyContent:"center"}}>
+              <div style={{ textAlign: "center" }}>
                 <Button type="submit">Add Amenities</Button>
+              </div>
+            </Form>
           </div>
         </Card.Body>
       </Card>

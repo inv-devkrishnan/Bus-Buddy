@@ -687,7 +687,7 @@ class Viewavailablebus(ListAPIView):
             buses = trips.values_list('bus', flat=True)
             print(buses)
            # Filter Buses Based on Usage
-            queryset = Bus.objects.filter(status=0, user=user_id).exclude(id__in=buses)
+            queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status=2).exclude(id__in=buses)
             if not queryset.exists():
                 return Response({"message":"There are no available buses for the given dates"},status=404) 
             logger.info("fetching all the data from Bus model matching the condition")
@@ -709,7 +709,6 @@ class Addtreccuringrip(APIView):
 
     def post(self, request,):
         try:
-            import pdb;pdb.set_trace();
             request_data=request.data.copy()
             print(request_data)
             request_data["user"] = request.user.id

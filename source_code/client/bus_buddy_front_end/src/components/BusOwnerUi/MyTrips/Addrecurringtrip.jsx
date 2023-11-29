@@ -23,12 +23,21 @@ export default function Addrecurringtrip() {
  const [endTime, setEndTime] = useState("");
  const [searchMode, setSearchMode] = useState(true);
  const [recurrence,setRecurrence] = useState(0)
-
+ const [startPeriodDateError, setStartPeriodDateError] = useState("");
+ const [endPeriodDateError, setEndPeriodDateError] = useState("");
+ const [startDateError, setStartDateError] = useState("")
+ const [endDateError, setEndDateError] = useState("")
 
 
 
  const dates = (selectedPeriodStartDate, selectedPeriodEndDate) => {
-  console.log(selectedPeriodStartDate)
+  const today = new Date();
+  const today_date =today
+  ? new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0]
+  : null;
+  console.log(today)
    const start = selectedPeriodStartDate
    ? new Date(selectedPeriodStartDate.getTime() - selectedPeriodStartDate.getTimezoneOffset() * 60000)
        .toISOString()
@@ -41,6 +50,17 @@ export default function Addrecurringtrip() {
        .toISOString()
        .split("T")[0]
    : null;
+
+   if(start < today_date){
+    setStartPeriodDateError("Period start date should be present date or in the future ");
+  } else {
+    setStartPeriodDateError(""); 
+  }
+   if(end < start ){
+    setEndPeriodDateError("End date should be the same as the start date or a future");
+    } else {
+      setEndPeriodDateError(""); 
+    }
    // Fetch Bus data
    axiosApi
      .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -63,6 +83,7 @@ export default function Addrecurringtrip() {
  console.log(routeData);
  const handleSubmit = async (e) => {
    e.preventDefault();
+   const today = new Date();
    try {
        const formattedStartDate = selectedStartDate
        ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
@@ -90,9 +111,28 @@ export default function Addrecurringtrip() {
            .toISOString()
            .split("T")[0]
        : null;
-
+       const today_date =today
+  ? new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0]
+  : null;
+       console.log(formattedStartDate)
        console.log(start)
        console.log(end)
+      
+       if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start){
+        setStartDateError("Start date should be same as the present date or future dates")
+       }
+       else{
+        setStartDateError("")
+       }
+       
+       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate <= end){
+        setEndDateError("End date should be either start date or any future dates")
+       }
+       else {
+        setEndDateError("")
+       }
        const response = await axiosApi.post(
        `http://127.0.0.1:8000/bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
        {
@@ -102,7 +142,7 @@ export default function Addrecurringtrip() {
            end_date: formattedEndDate,
            start_time: startTime,
            end_time: endTime,
-           recurrence: recurrence !== "" ? parseInt(recurrence) : null,
+           recurrence: parseInt(recurrence)
        }
        );
        if (response.status === 200) {
@@ -137,7 +177,7 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "48rem",
+         height: "49rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}
@@ -146,7 +186,7 @@ export default function Addrecurringtrip() {
          <Card.Title style={{ textAlign: "center" }}>Add Recurring Trip</Card.Title>
          <div style={{ display: "flex", justifyContent: "space-around" }}>
            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
-           <p style={{fontSize:"11px"}}>Please select the period that you want your trip to reccur </p>
+           <p style={{fontSize:"13px"}}>Please select the period that you want your trip to reccur </p>
              <Row className="mb-2">
                <Form.Group as={Col} md="6" controlId="validationCustom02">
                  <Form.Label>Start Date :</Form.Label>
@@ -156,6 +196,7 @@ export default function Addrecurringtrip() {
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
                  />
+                 {startPeriodDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startPeriodDateError}</div>}
                </Form.Group>
                <Form.Group as={Col} md="6" controlId="validationCustom02">
                  <Form.Label>End Date:</Form.Label>
@@ -165,11 +206,12 @@ export default function Addrecurringtrip() {
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
                  />
+                 {endPeriodDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endPeriodDateError}</div>}
                </Form.Group>
                <div style={{display:"flex",justifyContent:"center"}}>
                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(selectedPeriodStartDate, selectedPeriodEndDate)}>search</Button>
                </div>
-               <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the dates you have entered</p>
+               <p style={{fontSize:"13px"}}>Press the search button to search for buses available for the dates you have entered</p>
              </Row>
              <Row className="mb-2">
              <Form.Group as={Col} md="6" controlId="validationCustom02">
@@ -180,6 +222,7 @@ export default function Addrecurringtrip() {
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
                  />
+                 {startDateError && <div style={{ color: 'red',fontSize:"11px"}}>{startDateError}</div>}
                </Form.Group>
                <Form.Group as={Col} md="6" controlId="validationCustom02">
                  <Form.Label>End Date:</Form.Label>
@@ -189,6 +232,7 @@ export default function Addrecurringtrip() {
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
                  />
+                 {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                </Form.Group>
                <Form.Group as={Col} md="6" controlId="validationCustom01">
                  <Form.Label>Bus</Form.Label>
