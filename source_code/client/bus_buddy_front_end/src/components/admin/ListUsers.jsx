@@ -430,7 +430,7 @@ function ListUsers(props) {
               variant="light"
               responsive
               className="m-3 mb-5"
-              style={{width:"70vw"}}
+              style={{width:"60vw"}}
             >
               <thead>
                 <tr>
