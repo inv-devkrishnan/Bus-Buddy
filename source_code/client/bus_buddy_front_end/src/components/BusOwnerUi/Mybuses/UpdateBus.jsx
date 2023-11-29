@@ -14,7 +14,7 @@ export default function Updatebus() {
   const location = useLocation();
   const bus = location.state;
   const [currentBusData, setCurrentBusData] = useState([]);
-  let id=bus;
+
 
   useEffect(() => {
     axiosApi

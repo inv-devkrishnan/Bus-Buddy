@@ -1,15 +1,19 @@
 import * as yup from "yup";
-const nameRules = /^[A-Za-z0-9]+$/;
+const busNameRules = /^[A-Za-z0-9 ():',\.]+$/;
+const platenoRules = /^[A-Za-z0-9]+$/
 
 export const UpdateBusSchema = yup.object().shape({
   busName: yup
     .string()
-    .matches(nameRules, "Name must be letters and numbers")
+    .matches(busNameRules, "Bus name can only have , : letters , numbers are allowed")
     .required("name is required"),
-  plateno: yup.string().min(9).max(10).required(),
+  plateno: yup.string()
+    .matches(platenoRules,"Plate No can only have numbers and letters")
+    .min(9,"Plate Number should have atleast 9 characters").max(10,"Plate Number can only have atmost 10 characters")
+    .required("plateno is required"),
   bustype: yup
     .string()
-    .required("Phone number is required"),
-  busac: yup.string().required("Email is required"),
-  busseattype: yup.string().required("Email is required"),
+    .required("required"),
+  busac: yup.string().required(" required"),
+  busseattype: yup.string().required("required"),
 });

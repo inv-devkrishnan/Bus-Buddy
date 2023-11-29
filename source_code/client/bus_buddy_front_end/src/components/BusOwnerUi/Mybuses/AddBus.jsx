@@ -13,28 +13,31 @@ export default function Addbus() {
   const [bus_type, setBusType] = useState("");
   const [bus_seat_type, setBusSeatType] = useState("");
   const [bus_ac, setBusAC] = useState("");
+  const [busNameError, setBusNameError] = useState("")
+  const [plateNoError,setPlateNoError] = useState("")
   const navi = useNavigate();
+  const busNameRegex = /^[A-Za-z0-9 ():',\.]+$/;
+  const plateNoRegex = /^[A-Za-z0-9]+$/
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!bus_name) {
-      alert("Bus name cannot be empty");
-      return;
+    if (!busNameRegex.test(bus_name)) {
+      setBusNameError("Bus name can only have letters , Numbers , : are allowed");
     }
-    if (!plate_no || plate_no.length > 10) {
-      alert("Plate Number cannot exceed 10, and don’t leave spaces in between");
-      return;
+    else {
+      setBusNameError("");
     }
-    if (bus_type < 0 || bus_type > 2) {
-      alert("Bus type can only be 0: Sleeper, 1: Seater, 2: Both");
-      return;
+    if(!plateNoRegex.test(plate_no)){
+      setPlateNoError("Plate number van only have numbers and letters");
     }
-    if (bus_ac < 0 || bus_ac > 2) {
-      alert("Bus A/C can only be 0: A/C, 1: Non A/C");
-      return;
+    else if (!plate_no || plate_no.length > 10 || plate_no.length < 9) {
+      setPlateNoError("Plate number should have a minimum of 9 and a maximum of 10 characters without spaces");
+    } else {
+      setPlateNoError("");
     }
-
+    
     try {
       const response = await axiosApi.post("http://localhost:8000/bus-owner/add-bus/", {
         bus_name: bus_name,
@@ -82,6 +85,7 @@ export default function Addbus() {
                       setBusName(e.target.value);
                     }}
                   />
+                  {busNameError && <div style={{ color: 'red',fontSize:"11px"}}>{busNameError}</div>}
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>Plate Number</Form.Label>
@@ -93,6 +97,7 @@ export default function Addbus() {
                       setPlateNo(e.target.value);
                     }}
                   />
+                  {plateNoError && <div style={{ color: 'red',fontSize:"11px"}}>{plateNoError}</div>}
                 </Form.Group>
               </Row>
               <Row className="mb-5">
