@@ -79,6 +79,11 @@ class AddSeatDetails(APIView):
                 else:
                     if serialized_data.is_valid():
                         serialized_data.save()
+                        count = SeatDetails.objects.filter(bus=bus_id).count()
+                        if count == 30:
+                            bus_instance.bus_details_status = 2 # to mark the finish of bus detail entry
+                            bus_instance.save()
+                            logger.info("seat detail complete")
                         logger.info("seat data saved successfully")
                         return Response(
                             {"message": "details added successfully"}, status=201

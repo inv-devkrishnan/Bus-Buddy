@@ -33,7 +33,7 @@ export default function OwnerUpdateForm() {
 
   const onSubmit = () => {
     axiosApi
-      .put("bus-owner/update-profile/2", {
+      .put("bus-owner/update-profile", {
         first_name: formik.values.firstName,
         last_name: formik.values.lastName,
         email: formik.values.email,
@@ -93,104 +93,102 @@ export default function OwnerUpdateForm() {
   };
 
   return (
-    <>
-      <Card style={{ width: "50rem" }}>
-        <Card.Body>
-          <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
-            <Form.Group className="mb-3" controlId="firstName">
-              <Form.Label>Fisrt name</Form.Label>
-              <Form.Control
-                name="firstName"
-                type="text"
-                value={formik.values.firstName || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.touched.firstName && formik.errors.firstName}
-                placeholder="Enter first name"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.firstName}
-              </Form.Control.Feedback>
-            </Form.Group>
+    <Card style={{ width: "50rem" }}>
+      <Card.Body>
+        <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
+          <Form.Group className="mb-3" controlId="firstName">
+            <Form.Label>Fisrt name</Form.Label>
+            <Form.Control
+              name="firstName"
+              type="text"
+              value={formik.values.firstName || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.firstName && formik.errors.firstName}
+              placeholder="Enter first name"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.firstName}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="lastName">
-              <Form.Label>Last name</Form.Label>
-              <Form.Control
-                name="lastName"
-                type="text"
-                value={formik.values.lastName || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.touched.lastName && formik.errors.lastName}
-                placeholder="Enter last name"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.lastName}
-              </Form.Control.Feedback>
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="lastName">
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              name="lastName"
+              type="text"
+              value={formik.values.lastName || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.lastName && formik.errors.lastName}
+              placeholder="Enter last name"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.lastName}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                name="email"
-                type="temailext"
-                value={formik.values.email || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.touched.email && formik.errors.email}
-                placeholder="Enter email"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.email}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="phone">
-              <Form.Label>Phone number</Form.Label>
-              <Form.Control
-                name="phone"
-                type="text"
-                value={formik.values.phone || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.touched.phone && formik.errors.phone}
-                maxLength={10}
-                placeholder="Phone number"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.phone}
-              </Form.Control.Feedback>
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="email">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              name="email"
+              type="temailext"
+              value={formik.values.email || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.email && formik.errors.email}
+              placeholder="Enter email"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="phone">
+            <Form.Label>Phone number</Form.Label>
+            <Form.Control
+              name="phone"
+              type="text"
+              value={formik.values.phone || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.phone && formik.errors.phone}
+              maxLength={10}
+              placeholder="Phone number"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.phone}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="companyName">
-              <Form.Label>Comapny name</Form.Label>
-              <Form.Control
-                name="companyName"
-                type="text"
-                value={formik.values.companyName || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={
-                  formik.touched.companyName && formik.errors.companyName
-                }
-                placeholder="Enter the company name"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.companyName}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Button variant="primary" type="submit" style={{ margin: "4px" }}>
-              Submit
-            </Button>
-            <Button
-              variant="secondary"
-              style={{ margin: "4px" }}
-              onClick={handleClear}
-            >
-              Clear
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </>
+          <Form.Group className="mb-3" controlId="companyName">
+            <Form.Label>Comapny name</Form.Label>
+            <Form.Control
+              name="companyName"
+              type="text"
+              value={formik.values.companyName || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={
+                formik.touched.companyName && formik.errors.companyName
+              }
+              placeholder="Enter the company name"
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.companyName}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button variant="primary" type="submit" style={{ margin: "4px" }}>
+            Submit
+          </Button>
+          <Button
+            variant="secondary"
+            style={{ margin: "4px" }}
+            onClick={handleClear}
+          >
+            Clear
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
   );
 }

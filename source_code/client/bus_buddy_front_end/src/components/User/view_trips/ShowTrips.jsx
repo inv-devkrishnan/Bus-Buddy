@@ -177,7 +177,9 @@ function ShowTrips(props) {
                 <TripCard
                   key={trip.trip}
                   data={trip}
+                  startLocation={props?.startLocation}
                   startLocationName={props?.startLocationName}
+                  endLocation={props?.endLocation}
                   endLocationName={props?.endLocationName}
                   seatViewOpen={seatViewOpen}
                   setSeatViewOpen={setSeatViewOpen}
@@ -214,7 +216,9 @@ function ShowTrips(props) {
   );
 }
 ShowTrips.propTypes = {
+  startLocation: PropTypes.number,
   startLocationName: PropTypes.string,
+  endLocation: PropTypes.number,
   endLocationName: PropTypes.string,
 };
 export default ShowTrips;

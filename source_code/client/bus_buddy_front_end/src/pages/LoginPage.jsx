@@ -45,7 +45,7 @@ function LoginPage() {
 
       Toast.fire({
         icon: "info",
-        title: "Sign in to continue booking",
+        title: "Sign in as User to continue booking",
       });
     }
   }, []);
