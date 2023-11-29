@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
+from unittest.mock import patch
 
 # Create your tests here.
 from django.test import TestCase
@@ -30,6 +31,7 @@ class BaseTest(TestCase):
 
         self.register_bus_owner = reverse("register-bus-owner")
         self.add_seat = reverse("add-seat-details")
+        self.create_bus = reverse("add-bus")
 
         self.user = User.objects.create_user(
             email=valid_email,
@@ -277,11 +279,42 @@ class BaseTest(TestCase):
             "msme_no": valid_msme,
             "extra_charges": valid_extra_charges,
         }
+        
+        self.create_bus_data = {
+            "bus_name": "boss",
+            "plate_no": "Kl08A7099",
+            "bus_type": 0,
+            "bus_ac": 0,
+            "bus_seat_type":2
+        }
+        self.cant_create_bus_invalid_data = {
+            "bus_name": "boss",
+            "plate_no": "Kl08A7099",
+            "bus_type": 0,
+            "bus_ac": 0,
+            "bus_seat_type":8
+        }
+        
+        
 
         return super().setUp()
 
 
 class RegisterOwnerTest(BaseTest):
+    def test_can_create_bus(self):
+        response = self.client.post(
+            self.create_bus , self.create_bus_data,format = "json"
+        )
+        self.assertEqual(response.status_code, 200)
+    
+    def test_cant_create_bus_invalid_data(self):
+        response = self.client.post(
+            self.create_bus , self.cant_create_bus_invalid_data,format = "json"
+        )
+        self.assertEqual(response.status_code, 400)
+        
+    
+    
     def test_can_register_user(self):
         response = self.client.post(
             self.register_bus_owner, self.valid_all_values, format="json"
