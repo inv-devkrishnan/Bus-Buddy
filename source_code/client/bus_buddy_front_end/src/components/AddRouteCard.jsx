@@ -128,7 +128,7 @@ export default function AddRouteCard() {
                 <Form.Group className="mt-3 mb-3">
                   <Form.Label>Add Locations</Form.Label>
                   <Form.Text className="d-flex">
-                    Add all the locations in the acending order of arival during
+                    Add all the locations in the ascending order of arrival during
                     this route.
                   </Form.Text>
                   <Button
