@@ -249,7 +249,7 @@ function AddRouteLocation(props) {
               />
               <Form.Text className="text-muted">
                 Number of days which is required to reach this location from the
-                start date of the trip
+                start date of the trip.(difference of trip start date and location arrival date)
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -279,7 +279,7 @@ function AddRouteLocation(props) {
               />
               <Form.Text className="text-muted">
                 Number of days after which we leave this location from the start
-                date of the trip
+                date of the trip.(difference of trip start date and location depature date)
               </Form.Text>
             </Form.Group>
             <label className="text-danger d-block ms-2 me-2">
