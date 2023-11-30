@@ -1,18 +1,35 @@
-import React, { useContext } from "react";
-import "./PickAndDrop.css"
+import React, { useContext, useState, useEffect } from "react";
+import "./PickAndDrop.css";
 import { Typography, Card, CardContent, Radio } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { SeatContext } from "../../utils/SeatContext";
 
 export default function PickAndDrop(props) {
+  const [pick, setPick] = useState([]);// for storing pick up data
+  const [drop, setDrop] = useState([]);// for storing drop off data
   const { seatData } = useContext(SeatContext); // use context with seat data
-  const rows = seatData[0].map((stop) => ({
-    // for mapping pick and drop point data as rows according to columns
-    // seatData[0] holds pick and drop points
-    id: stop.id,
-    stops: stop.bus_stop,
-  }));
+
+  useEffect(() => {
+    const pickRows = seatData[0].map((stop) => ({
+      // for mapping pick point data as rows according to columns
+      // seatData[0] holds pick points
+      id: stop.id,
+      stops: stop.bus_stop,
+    }));
+    if (pickRows) {
+      setPick(pickRows);
+    }
+    const dropRows = seatData[1].map((stop) => ({
+      // for mapping drop point data as rows according to columns
+      // seatData[1] holds drop points
+      id: stop.id,
+      stops: stop.bus_stop,
+    }));
+    if (dropRows) {
+      setDrop(dropRows);
+    }
+  }, [seatData]);
 
   const columnsPick = [
     // holds the column details of pick up point datagrid
@@ -94,24 +111,26 @@ export default function PickAndDrop(props) {
             Pick Up point
           </Typography>
           <DataGrid
-            rows={rows}
+            disableRowSelectionOnClick
+            rows={pick}
             columns={columnsPick}
             pagination
             autoPageSize
             getRowHeight={() => "auto"}
+            getEstimatedRowHeight={() => 200} 
             selectionModel={props.selectionModelPick}
             onSelectionModelChange={(newSelectionModel) => {
               props.setSelectionModelPick(newSelectionModel);
             }}
             sx={{
               "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
-                py: "8px",
+                py: "4px",
               },
               "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
-                py: "15px",
+                py: "7px",
               },
               "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
-                py: "22px",
+                py: "11px",
               },
             }}
           />
@@ -121,23 +140,25 @@ export default function PickAndDrop(props) {
             Drop Off point
           </Typography>
           <DataGrid
-            rows={rows}
+            disableRowSelectionOnClick
+            rows={drop}
             columns={columnsDrop}
             autoPageSize
             getRowHeight={() => "auto"}
+            getEstimatedRowHeight={() => 200} 
             selectionModel={props.selectionModelDrop}
             onSelectionModelChange={(newSelectionModel) => {
               props.setSelectionModelDrop(newSelectionModel);
             }}
             sx={{
               "&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell": {
-                py: "8px",
+                py: "4px",
               },
               "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
-                py: "15px",
+                py: "7px",
               },
               "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
-                py: "22px",
+                py: "11px",
               },
             }}
           />
