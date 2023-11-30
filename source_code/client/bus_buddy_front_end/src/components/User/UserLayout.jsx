@@ -17,7 +17,10 @@ export default function UserLayout(props) {
 
   const getSeatData = async () => {
     await openAxiosApi
-      .get(`user/view-seats/?trip_id=${props?.trip}`)
+      .get(
+        `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}
+      `
+      )
       .then((res) => {
         updateSeatData(res.data);
       })

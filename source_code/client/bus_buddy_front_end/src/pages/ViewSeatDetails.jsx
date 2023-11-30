@@ -23,7 +23,11 @@ export default function ViewSeatDetails(props) {
       // justifyContent="space-between"
     >
       <Grid item md={12} sm={12} lg={4} xl={4}>
-        <UserLayout trip={props.currentTrip.data.trip} />
+        <UserLayout
+          trip={props.currentTrip?.data?.trip}
+          startLocation={props?.startLocation}
+          endLocation={props?.endLocation}
+        />
       </Grid>
 
       <Grid item md={12} sm={12} lg={8} xl={8}>

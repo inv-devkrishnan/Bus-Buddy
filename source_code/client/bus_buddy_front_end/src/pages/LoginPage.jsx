@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -19,6 +19,7 @@ import { getErrorMessage } from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
 
 import { SeatContext } from "../utils/SeatContext";
+import { useAuthStatus } from "../utils/hooks/useAuth";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -28,7 +29,13 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { seatList } = useContext(SeatContext);
-  console.log(seatList)
+  console.log(seatList);
+  const authStatus = useAuthStatus();
+  useEffect(() => {
+    if (authStatus()) {
+      navigate("/");
+    }
+  }, [authStatus, navigate]);
   useEffect(() => {
     if (localStorage.getItem("current_trip") && seatList.length > 0) {
       const Toast = Swal.mixin({
@@ -45,7 +52,7 @@ function LoginPage() {
 
       Toast.fire({
         icon: "info",
-        title: "Sign in to continue booking",
+        title: "Sign in as User to continue booking",
       });
     }
   }, []);
