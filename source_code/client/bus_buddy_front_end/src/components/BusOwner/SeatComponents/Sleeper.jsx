@@ -15,6 +15,9 @@ function Sleeper(props) {
     for (let seat of currentData) {
       if (seat.seat_ui_order === props.row * 10 + props.column) {
         setHasAdded(true);
+        break
+      }else{
+        setHasAdded(false);
       }
     }
   }, [currentData, props]);
