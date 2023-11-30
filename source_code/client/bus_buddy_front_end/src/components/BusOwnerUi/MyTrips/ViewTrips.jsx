@@ -155,7 +155,7 @@ export default function Viewallbus() {
         Swal.fire({
           icon: "success",
           title: "Deleted",
-          text: "Bus Deleted successfully",
+          text: "Trip Deleted successfully",
         });
       })
       .catch((error) => {
@@ -167,7 +167,7 @@ export default function Viewallbus() {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Error Deleting Bus",
+          text: "Error Deleting Trip",
         });
       });
   };

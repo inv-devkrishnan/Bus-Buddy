@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -21,6 +22,7 @@ export default function Addtrips() {
   const [searchMode, setSearchMode] = useState(true);
   const [startDateError, setStartDateError] = useState("");
   const [endDateError, setEndDateError] = useState("");
+  const navi = useNavigate();
 
 
   const dates = (selectedStartDate, selectedEndDate) => {
@@ -105,15 +107,16 @@ const formattedEndDate = selectedEndDate
         Swal.fire({
           icon: "success",
           title: "Added Successfully",
-          text: "trip added successfully",
+          text: "Trip added successfully",
         });
       }
+      navi("/BusHome");
     } catch (error) {
       console.error("Error adding amenities:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error adding trip",
+        text: "Error adding Trip",
       });
     }
   };
