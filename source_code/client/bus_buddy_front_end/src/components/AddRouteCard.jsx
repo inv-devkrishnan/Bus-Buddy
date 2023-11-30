@@ -10,6 +10,7 @@ import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
 import { Container, Row} from "react-bootstrap";
 import { axiosApi } from "../utils/axiosApi";
+import { showLoadingAlert } from "./common/loading_alert/LoadingAlert";
 
 export default function AddRouteCard() {
   const [locations, setLocations] = useState([]);
@@ -86,10 +87,12 @@ export default function AddRouteCard() {
         location: stopLocations,
       };
       console.log(routeData);
+      showLoadingAlert("Adding Route");
       const response = await axiosApi.post(
         "http://127.0.0.1:8000/bus-owner/add-routes/",
         routeData
       );
+      Swal.close();
       if (response.status === 200) {
         console.log("Route Added");
         Swal.fire({
