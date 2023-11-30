@@ -150,10 +150,10 @@ export default function SeatDetailCard(props) {
 
       <Modal show={loginModal} onHide={handleclose}>
         <Modal.Header>
-          <Modal.Title>Login</Modal.Title>
+          <Modal.Title style={{ margin: 5, padding: 5 }}>Login</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ margin: 3, padding: 2 }}>
-          You have to login to continue the booking.
+        <Modal.Body style={{ margin: 5, padding: 5 }}>
+          You have to login as user to continue the booking.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={loginPage}>

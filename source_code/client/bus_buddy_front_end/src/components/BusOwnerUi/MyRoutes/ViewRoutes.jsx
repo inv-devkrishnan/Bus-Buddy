@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { axiosApi } from "../../../utils/axiosApi";
 import Accordion from "react-bootstrap/Accordion";
 import Swal from "sweetalert2";
@@ -12,14 +9,11 @@ import { Pagination } from "react-bootstrap";
 
 export default function Viewallroutes() {
   const [data, setData] = useState([]);
-  const [pageSize, setPageSize] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(1);
   const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [active, setActive] = useState(1);
-  const navi = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,8 +24,6 @@ export default function Viewallroutes() {
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
-      setCurrentPage(response.data.current_page_number);
-      setPageSize(response.data.page_size);
     };
     fetchData();
   }, [page]);
@@ -99,7 +91,7 @@ export default function Viewallroutes() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h2>Route ID: {viewroutes.id}</h2>
+              <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
@@ -172,7 +164,8 @@ export default function Viewallroutes() {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
-          flexDirection: "column",
+          alignItems:"center",
+          flexDirection:"column"
         }}
       >
         {paginationBasic}

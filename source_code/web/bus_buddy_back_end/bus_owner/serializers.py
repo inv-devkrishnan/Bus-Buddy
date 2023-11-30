@@ -27,6 +27,8 @@ from rest_framework.validators import UniqueValidator
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
+regex_decimal_entry = r"^\d+(\.\d+)?$"
+regex_options_entry = r"^[0-2]$"
 error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
@@ -42,7 +44,7 @@ class BusSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                r"^[A-Za-z0-9 ():,\.]+$",
+                r"^[A-Za-z0-9 ():',\.]+$",
                 message="Invalid Name format. Only letters are allowed.",
             )
         ],
@@ -64,7 +66,7 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_seat_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Seat type must be 0, 1, or 2."),
+            RegexValidator(regex=regex_options_entry, message="Seat type must be 0, 1, or 2."),
         ]
     )
     status = serializers.IntegerField(
@@ -77,7 +79,7 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=r"^[0-2]$", message="Bus type must be 0, 1, or 2."),
+            RegexValidator(regex=regex_options_entry, message="Bus type must be 0, 1, or 2."),
         ]
     )
     bus_ac = serializers.IntegerField(
@@ -131,7 +133,6 @@ class ViewBusSerializer(serializers.ModelSerializer):
     serilizer for bus model.For listing
     """
 
-    # user = serializers.CharField(required=False)
     amenities_data = AmenitiesSerializer(
         many=True, read_only=True, source="amenities_set"
     )  # to list amenities list associated with the bus
@@ -147,7 +148,6 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "amenities_data",
             "user",
         )
-        # depth=1
 
 
 class Locationdata(serializers.ModelSerializer):
@@ -183,7 +183,6 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
             "id",
             "user",
         )
-        # depth=1
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):
@@ -237,14 +236,14 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     seq_id = serializers.IntegerField(
         validators=[
             RegexValidator(
-                r"^[0-9\s]*$", message="sequence id should be an positive integer"
+                regex_number_only, message="sequence id should be an positive integer"
             ),
         ]
     )
     arrival_date_offset = serializers.IntegerField(
         validators=[
             RegexValidator(
-                r"^[0-9\s]*$",
+                regex_number_only,
                 message="arrival date offset should be an positive integer",
             ),
         ]
@@ -252,7 +251,7 @@ class StartStopLocationsSerializer(serializers.ModelSerializer):
     departure_date_offset = serializers.IntegerField(
         validators=[
             RegexValidator(
-                r"^[0-9\s]*$",
+                regex_number_only,
                 message="departure date offset should be an positive integer",
             ),
         ]
@@ -291,8 +290,8 @@ class RoutesSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                r"^\d+(\.\d+)?$",
-                message="Invalid format. Only numbers, including decimals, are allowed.",
+                regex_decimal_entry,
+                message="Invalid format , Only numbers, including decimals, are allowed.",
             )
         ],
     )
@@ -300,7 +299,7 @@ class RoutesSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                r"^\d+(\.\d+)?$",
+                regex_decimal_entry,
                 message="Invalid format. Only numbers, including decimals, are allowed.",
             )
         ],
@@ -362,8 +361,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_start_date(self, value):
         today = datetime.now().date()
-        print(today)
-        print(value)
+ 
         if value < today:
             raise serializers.ValidationError(
                 "Start date must be today or in the future."
@@ -371,23 +369,16 @@ class TripSerializer(serializers.ModelSerializer):
         return value
 
     def validate_end_date(self, value):
-        # today = datetime.now().date()
-        start_date_str = self.initial_data.get("start_date")
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
-        if value <= start_date:
-            raise serializers.ValidationError(
-                "End date should be in the future or the same day as start date."
-            )
+        start_date_str = self.initial_data.get('start_date')      
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+
+        if value < start_date:
+            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
         return value
 
     start_time = serializers.TimeField(format="%H:%M")
     end_time = serializers.TimeField(format="%H:%M")
 
-    # def validate_end_time(self, value):
-    #     start_time = self.initial_data.get('start_time')  # Access start_time from the input data
-    #     if start_time and value <= start_time:
-    #         raise serializers.ValidationError("End time must be after the start time.")
-    #     return value
 
     status = serializers.IntegerField(
         required=False,

@@ -41,6 +41,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 entry = "Invalid entry"
 dentry = "Deleted the record"
+missing = "missing"
+date_format ='%Y-%m-%d'
 
 
 class AddSeatDetails(APIView):
@@ -77,6 +79,11 @@ class AddSeatDetails(APIView):
                 else:
                     if serialized_data.is_valid():
                         serialized_data.save()
+                        count = SeatDetails.objects.filter(bus=bus_id).count()
+                        if count == 30:
+                            bus_instance.bus_details_status = 2 # to mark the finish of bus detail entry
+                            bus_instance.save()
+                            logger.info("seat detail complete")
                         logger.info("seat data saved successfully")
                         return Response(
                             {"message": "details added successfully"}, status=201
@@ -266,7 +273,7 @@ class Updatebus(UpdateAPIView):
     function to update bus details by bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = BusSerializer
 
     def get(self, request, id):  # checking for bus object that matches the id
@@ -295,7 +302,7 @@ class Updatebus(UpdateAPIView):
                     logger.info("bus didn't update")
                     return Response(serializer.errors, status=400)
             else:
-                return Response({"message":"bus not found"},status=404)
+                return Response({"message":"missing"},status=404)
         except ObjectDoesNotExist:
             return Response("Invalid Bus id", status=400)
 
@@ -337,7 +344,7 @@ class Viewbus(ListAPIView):
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0,user=user_id)     #to filter out bus objects which has been soft deleted 
+            queryset = Bus.objects.filter(status=0,user=user_id)   #to filter out bus objects which has been soft deleted 
             print(queryset)
             serializer = ViewBusSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -373,7 +380,7 @@ class Addamenities(APIView):
         print(bus)
         try:
             if not Bus.objects.filter(id=bus, status=0).exists():
-                return Response({"message": "Bus not found"}, status=404)
+                return Response({"message": "missing"}, status=404)
             serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -391,7 +398,7 @@ class Addamenities(APIView):
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response({"message":"bus not found"}, status=400)
+            return Response({"message":"missing"}, status=400)
 
 
 class Updateamenities(UpdateAPIView):
@@ -425,7 +432,7 @@ class Updateamenities(UpdateAPIView):
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
-            return Response("bus not found", status=400)
+            return Response("missing", status=400)
          
 
 class Addroutes(APIView):
@@ -443,8 +450,7 @@ class Addroutes(APIView):
             serializer = RoutesSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
-                id = serializer.data['id']
-                return Response({"message": f"Route inserted : {id}"}, status=200)
+                return Response({"message": "Route inserted "}, status=200)
             else:
                 return Response(serializer.errors, status=400)
         except ValidationError as e:
@@ -549,7 +555,7 @@ class Addtrip(APIView):
     Function to add new trip from bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer = None
 
     def post(self, request):
@@ -573,7 +579,7 @@ class Updatetrip(UpdateAPIView):
     function to update trip details by bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = TripSerializer
 
     def get(self, request, id):
@@ -593,11 +599,10 @@ class Updatetrip(UpdateAPIView):
             #saving the present values to instance variable
             buses=instance.bus_id
             routes=instance.route_id
-            # rouptes=instance.route
             if not Bus.objects.filter(id=buses, status=0).exists():
-                return Response({"message": "Bus not found"}, status=404)
+                return Response({"message": "missing"}, status=404)
             if not Routes.objects.filter(id=routes, status=0).exists():
-                return Response({"message": "Bus not found"}, status=404)
+                return Response({"message": "missing"}, status=404)
             request_data=(request.data.copy())
             request_data['user']=request.user.id
             serializer = TripSerializer(instance, data=request_data, partial=True)
@@ -620,7 +625,7 @@ class Deletetrip(APIView):
 
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     permission_classes = (AllowAny,)
 
     def put(self, request, id):
@@ -647,7 +652,6 @@ class Viewtrip(ListAPIView):
 
     def list(self, request):
         try:
-            # user_id = request.user.id
             user_id=request.user.id
             queryset = Trip.objects.filter(status=0,user=user_id)
             serializer = ViewRoutesSerializer(queryset)
@@ -675,23 +679,20 @@ class Viewavailablebus(ListAPIView):
 
     def list(self, request,):
         try:
-            # import pdb;pdb.set_trace()
             logger.info("gettin the user is from user model")
             user_id = request.user.id
             print(user_id)
-            # start = self.request.query_params.get('start_date')
-            # end = self.request.query_params.get('end_date')
             start=request.GET.get('start')
             end=request.GET.get('end')
-            startdate = datetime.strptime(start, '%Y-%m-%d').date()
-            enddate = datetime.strptime(end, '%Y-%m-%d').date()
+            startdate = datetime.strptime(start, date_format).date()
+            enddate = datetime.strptime(end, date_format).date()
             trips = Trip.objects.filter(
                 user=user_id, start_date__lte=enddate, end_date__gte=startdate
             )
             buses = trips.values_list('bus', flat=True)
             print(buses)
            # Filter Buses Based on Usage
-            queryset = Bus.objects.filter(status=0, user=user_id).exclude(id__in=buses)
+            queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status=2).exclude(id__in=buses)
             if not queryset.exists():
                 return Response({"message":"There are no available buses for the given dates"},status=404) 
             logger.info("fetching all the data from Bus model matching the condition")
@@ -713,20 +714,18 @@ class Addtreccuringrip(APIView):
 
     def post(self, request,):
         try:
-            recurrence_type = 1
             request_data=request.data.copy()
             print(request_data)
             request_data["user"] = request.user.id
-            serializer = TripSerializer(data=request_data)
-            if serializer.is_valid():
-                serializer.save()
-                logger.info("Inserted")
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
             start_time_str = request_data["start_time"]
             end_time_str = request_data["end_time"]
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+            recurrence_type = request_data["recurrence"]
+            print("recurence")
+            print(recurrence_type)
+            start_date = datetime.strptime(start_date_str, date_format)
+            end_date = datetime.strptime(end_date_str, date_format)
             start_time = datetime.strptime(start_time_str, '%H:%M').time()
             end_time = datetime.strptime(end_time_str, '%H:%M').time()
             start_datetime = datetime.combine(start_date, start_time)
@@ -735,10 +734,10 @@ class Addtreccuringrip(APIView):
             print(duration)
             no_of_days = (duration.days) 
             print(no_of_days)
-            psd_str = request.GET.get('period_start_date')
-            ped_str = request.GET.get('period_end_date')
-            psd = datetime.strptime(psd_str, '%Y-%m-%d')
-            ped = datetime.strptime(ped_str, '%Y-%m-%d')
+            psd_str = request.GET.get('start')
+            ped_str = request.GET.get('end')
+            psd = datetime.strptime(psd_str, date_format)
+            ped = datetime.strptime(ped_str, date_format)
             period = ped - psd
             
             if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
@@ -763,8 +762,8 @@ class Addtreccuringrip(APIView):
                         break
                     else:
                         current_request_data = request_data.copy()
-                        current_request_data["start_date"] = current_start_date.strftime('%Y-%m-%d')
-                        current_request_data["end_date"] = current_end_date.strftime('%Y-%m-%d')
+                        current_request_data["start_date"] = current_start_date.strftime(date_format)
+                        current_request_data["end_date"] = current_end_date.strftime(date_format)
                         current_serializer = TripSerializer(data=current_request_data)
                         if current_serializer.is_valid():
                             current_serializer.save()
@@ -773,7 +772,7 @@ class Addtreccuringrip(APIView):
                             return Response({"message":current_serializer.errors}, status=400)
                 return Response({"message": "Trips inserted", "trips": trip_objects})
             else:
-                return Response(serializer.errors, status=400)
+                return Response({"message":"failed to add recurring trip"},status=400)
         except ValidationError:
             logger.info(entry)
             return Response(entry, status=400)

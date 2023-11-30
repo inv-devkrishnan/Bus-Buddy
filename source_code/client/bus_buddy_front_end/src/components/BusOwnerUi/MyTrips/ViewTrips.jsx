@@ -12,8 +12,6 @@ import Swal from "sweetalert2";
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [pageSize, setPageSize] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(1);
   const [previous, setPrevious] = useState(1);
@@ -31,8 +29,6 @@ export default function Viewallbus() {
       setNext(response.data.has_next);
       setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
-      setCurrentPage(response.data.current_page_number);
-      setPageSize(response.data.page_size);
       console.log(response.data);
     };
     fetchData();
@@ -101,17 +97,17 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h5>{trip.start_point_name}-{trip.end_point_name}</h5>
+              <h4>{trip.start_point_name}-{trip.end_point_name}</h4>
             </Accordion.Header>
             <Accordion.Body>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex",justifyContent:"space-between",flexDirection:"row" }}>
                 <div>
-                <p>trip ID : {trip.id}</p>
-                <p>bus Id : {trip.bus}</p>
-                <p>bus name : {trip.bus_name}</p>
-                <p>route ID : {trip.route}</p>
                 <p>Start Date : {trip.start_date}</p>
                 <p>Stop Date : {trip.end_date}</p>
+                </div>
+                <div style={{display:"flex",marginLeft:"10%",flexDirection:"column"}}>
+                <p>Bus : {trip.bus_name}</p>
+                <p>Route : {trip.start_point_name}-{trip.end_point_name}</p>
                 </div>
                 <div style={{ marginLeft: "10%" }}>
                 <p>
@@ -132,9 +128,6 @@ export default function Viewallbus() {
                 >
                   Update
                 </button>
-                {/* <button className="btn btn-primary" onClick={""}>
-                  Add seat details
-                </button> */}
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(trip.id)}
@@ -192,12 +185,19 @@ export default function Viewallbus() {
           display: "flex",
           justifyContent: "center",
           margin: "20px",
+          alignItems:"center",
+          flexDirection:"column"
         }}
       >
         {paginationBasic}
-        <Link to={"/add-trips"}>
-          <button className="btn btn-primary"> + Add Trip</button>
-        </Link>
+        <div style={{display:"flex",justifyContent:"space-between",flexDirection:"row"}}>
+          <Link to={"/add-trips"}>
+            <button className="btn btn-primary"> + Add Trip</button>
+          </Link>
+          <Link to={"/add-recurring-trips"}>
+            <button className="btn btn-primary"> + Add Recurring Trip</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

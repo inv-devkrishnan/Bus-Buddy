@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -19,27 +19,18 @@ export default function Addtrips() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [searchMode, setSearchMode] = useState(true);
+  const [startDateError, setStartDateError] = useState("");
+  const [endDateError, setEndDateError] = useState("");
 
-  // useEffect(() => {
-  //   // Fetch Bus data
-  //   axiosApi
-  //     .get("http://localhost:8000/bus-owner/view-bus/")
-  //     .then((response) => {
-  //       setBusData(response.data.results);
-  //     })
-  //     .catch((error) => console.error("Error fetching Bus data:", error));
-
-  //   // Fetch Route data
-  //   axiosApi
-  //     .get("http://127.0.0.1:8000/bus-owner/view-routes/")
-  //     .then((response) => {
-  //       setRouteData(response.data.results);
-  //     })
-  //     .catch((error) => console.error("Error fetching Route data:", error));
-  // }, []);
 
   const dates = (selectedStartDate, selectedEndDate) => {
     console.log(selectedStartDate)
+    const today = new Date();
+    const today_date =today
+    ? new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0]
+  : null;
     const start = selectedStartDate
     ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
         .toISOString()
@@ -51,6 +42,17 @@ export default function Addtrips() {
         .toISOString()
         .split("T")[0]
     : null;
+
+    if(!start || start < today_date ){
+      setStartDateError("Start date should be present date or in the future and in the range of the period");
+    } else {
+      setStartDateError(""); 
+    }
+    if (!end || end < start){
+      setEndDateError("End date should be the same as the start date or a future date within the period");
+    } else {
+      setEndDateError(""); 
+    }
     // Fetch Bus data
     axiosApi
       .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -146,6 +148,7 @@ const formattedEndDate = selectedEndDate
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                   />
+                  {startDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startDateError}</div>}
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
                   <Form.Label>End Date:</Form.Label>
@@ -155,6 +158,7 @@ const formattedEndDate = selectedEndDate
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                   />
+                  {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
                   <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(selectedStartDate, selectedEndDate)}>search</Button>
@@ -188,7 +192,7 @@ const formattedEndDate = selectedEndDate
                     <option value="">Select option</option>
                     {routeData.map((route) => (
                       <option key={route.id} value={route.id}>
-                        {route.start_point_name} - {route.end_point_name}
+                        {route.start_point_name} - {route.end_point_name}(via -{route.via})
                       </option>
                     ))}
                   </Form.Control>

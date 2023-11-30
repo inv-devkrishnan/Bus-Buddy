@@ -30,7 +30,8 @@ import DeleteAccountPage from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 import { NavbarLayout } from "./components/common/navbar/NavBarLayout";
 import UpdateTrips from "./components/BusOwnerUi/MyTrips/UpdateTrips";
-import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips";
+import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips"
+import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="/view-trips" element={<ViewRoutes />} />
             <Route path="/update-trips" element={<UpdateTrips />} />
             <Route path="/add-trips" element={<Addtrips />} />
+            <Route path="/add-recurring-trips" element={<Addrecurringtrip/>}/>
             <Route
               path="/full-sleeper-details"
               element={<FullSleeperDetails />}
@@ -76,6 +78,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
+          
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>

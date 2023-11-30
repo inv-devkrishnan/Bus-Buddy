@@ -67,6 +67,8 @@ class ViewSeats(ListAPIView):
 
     def get(self, request):
         trip_id = request.GET.get("trip_id")
+        start_location = request.GET.get("start_location")
+        end_location = request.GET.get("end_location")
 
         try:
             trip = Trip.objects.get(id=trip_id)
@@ -77,8 +79,17 @@ class ViewSeats(ListAPIView):
                 context={"trip_id": trip_id},
                 many=True,
             )
-            # print(trip.route)
-            pick_and_drop = PickAndDrop.objects.filter(route=trip.route)
+            start_stop_location_objects = StartStopLocations.objects.filter(
+                location__in=[start_location, end_location]
+            )
+
+            start_stop_location_ids = []
+            for data in start_stop_location_objects:
+                start_stop_location_ids.append(data.id)
+
+            pick_and_drop = PickAndDrop.objects.filter(
+                start_stop_location__in=start_stop_location_ids
+            )
             pick_and_drop_serializer = PickAndDropSerializer(
                 pick_and_drop, many=True
             )  # data from pick and drop with the route id from trip table

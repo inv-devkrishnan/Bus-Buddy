@@ -90,7 +90,7 @@ function TripCard(props) {
                           {props?.data?.end_location_arrival_time}
                         </p>
                         <p className="mb-1">
-                          {props?.data?.start_location_arrival_date}
+                          {props?.data?.end_location_arrival_date}
                         </p>
                       </div>
                     </Col>
@@ -161,6 +161,8 @@ function TripCard(props) {
             currentTrip={props}
             routeCost={props?.data?.route_cost}
             gst={props?.data?.gst}
+            startLocation={props?.startLocation}
+            endLocation={props?.endLocation}
           />
         )}
       </>
@@ -169,7 +171,9 @@ function TripCard(props) {
 }
 TripCard.propTypes = {
   data: PropTypes.object,
+  startLocation: PropTypes.number,
   startLocationName: PropTypes.string,
+  endLocation: PropTypes.number,
   endLocationName: PropTypes.string,
   isOpen: PropTypes.bool,
   onClick: PropTypes.func,
