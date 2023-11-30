@@ -4,11 +4,11 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row} from "react-bootstrap";
 import { axiosApi } from "../utils/axiosApi";
 
 export default function AddRouteCard() {
@@ -19,8 +19,7 @@ export default function AddRouteCard() {
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-  const user=useState(1);
-  
+
   const handleClose = () => {
     setShow(false);
     setlocationAdded(false);
@@ -76,7 +75,7 @@ export default function AddRouteCard() {
       localStorage.removeItem("stopLocationList");
       localStorage.removeItem("locationStop");
 
-      const routeData ={
+      const routeData = {
         start_point: stopLocations[0].location,
         end_point: stopLocations[stopLocations.length - 1].location,
         via: document.getElementById("via").value,
@@ -87,14 +86,17 @@ export default function AddRouteCard() {
         location: stopLocations,
       };
       console.log(routeData);
-      const response=await axiosApi.post("http://127.0.0.1:8000/bus-owner/add-routes/",routeData)
+      const response = await axiosApi.post(
+        "http://127.0.0.1:8000/bus-owner/add-routes/",
+        routeData
+      );
       if (response.status === 200) {
-        console.log('Route Added');
+        console.log("Route Added");
         Swal.fire({
-          icon: 'success',
-          title: 'Added Successfully',
-          text: 'Route added successfully',
-        })
+          icon: "success",
+          title: "Added Successfully",
+          text: "Route added successfully",
+        });
       }
       setErrorMessage("");
     } else {
@@ -117,7 +119,7 @@ export default function AddRouteCard() {
     <Container>
       <Row>
         <div className="d-flex justify-content-center">
-        <Card className="mb-5 mt-5">
+          <Card className="mb-5 mt-5">
             <div className="d-flex align-items-center">
               <Card.Img variant="top w-25" src={RouteImage} />
               <h1>Add Route</h1>
@@ -128,8 +130,8 @@ export default function AddRouteCard() {
                 <Form.Group className="mt-3 mb-3">
                   <Form.Label>Add Locations</Form.Label>
                   <Form.Text className="d-flex">
-                    Add all the locations in the ascending order of arrival during
-                    this route.
+                    Add all the locations in the ascending order of arrival
+                    during this route.
                   </Form.Text>
                   <Button
                     className="d-block mt-2 mb-2"
@@ -140,11 +142,15 @@ export default function AddRouteCard() {
                   </Button>
                   {stopLocations.length > 0 && (
                     <div>
-                      <Table className="w-75">
+                      <Table className="w-100" responsive>
                         <thead>
                           <tr>
                             <th>S.no</th>
                             <th>Location Name</th>
+                            <th>Arrival Time (24hrs)</th>
+                            <th>Departure Time (24hrs)</th>
+                            <th>Arrival Date</th>
+                            <th>Departure Date</th>
                             <th>Location Stops</th>
                           </tr>
                         </thead>
@@ -153,6 +159,20 @@ export default function AddRouteCard() {
                             <tr key={stopLocation.seq_id}>
                               <td>{stopLocation.seq_id}</td>
                               <td>{getLocationName(stopLocation.location)}</td>
+                              <td>{stopLocation.arrival_time}</td>
+                              <td>{stopLocation.departure_time}</td>
+                              <td>
+                                {stopLocation.arrival_date_offset === "0"
+                                  ? "Same day as trip starts"
+                                  : stopLocation.arrival_date_offset +
+                                    " day after trips starts"}
+                              </td>
+                              <td>
+                                {stopLocation.departure_date_offset === "0"
+                                  ? "Same day as trip starts"
+                                  : stopLocation.departure_date_offset +
+                                    " day after trips starts"}
+                              </td>
                               <td>
                                 <ul>
                                   {stopLocation.pick_and_drop.map((stops) => (
@@ -275,7 +295,6 @@ export default function AddRouteCard() {
             ></AddRouteLocation>
           </Card>
         </div>
-
       </Row>
     </Container>
   );
