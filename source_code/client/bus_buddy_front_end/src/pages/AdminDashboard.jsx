@@ -67,7 +67,7 @@ function AdminDashboard() {
       <div className="fixed-sidebar">
       <SideBar heading="Admin Profile" options={options} />
       </div>
-      <div>
+      <div className="main_content">
         {profileSelect && <ProfileView />}
         {listUserSelect && <ListUsers busApproval={false}/>}
         {busSelect && <ListUsers busApproval={true}/>}

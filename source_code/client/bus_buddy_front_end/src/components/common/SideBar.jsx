@@ -4,7 +4,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 function SideBar(props) {
   const logout = useLogout();
   return (
-    <div className="sidebar">
+    <div id="sidebar" className="sidebar">
       <div className="header">
         <h2 className="text-light text-center pt-3">{props.heading}</h2>
       </div>

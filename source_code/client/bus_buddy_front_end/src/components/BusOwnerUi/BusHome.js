@@ -89,12 +89,12 @@ export default function UserDashboard() {
   }, [navigate,authStatus]);
 
   return (
-    <div style={{display:"flex",justifyContent:"space-between"}}>
+    <div>
       <div>
         <SideBar heading="Bus Owner Profile" options={options} 
         />
       </div>
-      <div style={{ flex: 1 }}>
+      <div className="main_content">
         {myProfileSelect && <Ownerprofile/>}
         {myBusSelect && <ViewBus/>}
         {myRouteSelect && <ViewRoutes/>}
