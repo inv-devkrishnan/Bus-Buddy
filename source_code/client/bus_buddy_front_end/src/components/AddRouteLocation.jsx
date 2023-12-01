@@ -1,4 +1,5 @@
 import Modal from "react-bootstrap/Modal";
+import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
@@ -41,6 +42,49 @@ function AddRouteLocation(props) {
     });
     return status;
   };
+  const checkInBetweenStopsSameDay = () => {
+    let status = true;
+
+    if (stopsArray.length > 0) {
+      // if there are previous stops
+
+      let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
+      if (previous_stop.arrival_time >= stopArrivalTime) {
+        // if previous stop time is greater than current stop
+        status = false;
+        setErrorMessage(
+          "Stop arrival time should be greater than " +
+            previous_stop.arrival_time
+        );
+      }
+    }
+
+    return status;
+  };
+
+  const checkInBetweenStopsDifferentDay = () => {
+    let status = true;
+    if (stopsArray.length > 0) {
+      // if there are previous stops
+
+      let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
+      if (previous_stop.arrival_time >= stopArrivalTime) {
+        // if previouse stop time is greater than current stop time
+        if (stopArrivalTime < departureTime && !isNextDay) {
+          // if the previous stop is on current day not next day and current stop is on next day
+          setIsNextDay(true); // now its next day
+        } else {
+          // show error message
+          status = false;
+          setErrorMessage(
+            "Stop arrival time should be greater than " +
+              previous_stop.arrival_time
+          );
+        }
+      }
+    }
+    return status;
+  };
 
   const checkPreviousLocationTime = () => {
     if (props.stopLocations.length > 0) {
@@ -68,19 +112,7 @@ function AddRouteLocation(props) {
       // if bus arrive and leave on same date
       if (stopArrivalTime > arrivalTime && stopArrivalTime < departureTime) {
         // if stop time is between arrival time and departure time of location
-        if (stopsArray.length > 0) {
-          // if there are previous tops
-
-          let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
-          if (previous_stop.arrival_time >= stopArrivalTime) {
-            // if previous stop time is greater than current stop
-              status = false;
-              setErrorMessage(
-                "Stop arrival time should be greater than " +
-                  previous_stop.arrival_time
-              );
-          }
-        }
+        status = checkInBetweenStopsSameDay();
       } else {
         status = false;
         setErrorMessage(
@@ -90,31 +122,11 @@ function AddRouteLocation(props) {
             departureTime
         );
       }
-    } else {
-      if (
+    } else if (
         (stopArrivalTime > arrivalTime && stopArrivalTime < Date("00:00")) ||
         stopArrivalTime < departureTime
       ) {
-        if (stopsArray.length > 0) {
-          // if there are previous tops
-
-          let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
-          if (previous_stop.arrival_time >= stopArrivalTime) {
-            // if previouse stop time is greater than current stop time
-            if (stopArrivalTime < departureTime && !isNextDay) {
-              // if the previous stop is on current day not next day and current stop is on next day
-              status = true;
-              setIsNextDay(true) // now its next day
-            } else {
-              // show error message
-            status = false;
-            setErrorMessage(
-              "Stop arrival time should be greater than " +
-                previous_stop.arrival_time
-            );
-          }
-        }
-        }
+        status = checkInBetweenStopsDifferentDay();
       } else {
         status = false;
         setErrorMessage(
@@ -125,7 +137,7 @@ function AddRouteLocation(props) {
             " of next day"
         );
       }
-    }
+
     return status;
   };
   const locationHandleSubmit = (event) => {
@@ -396,4 +408,15 @@ function AddRouteLocation(props) {
     </Modal>
   );
 }
+AddRouteLocation.propTypes = {
+  stopLocations: PropTypes.array,
+  handleClose: PropTypes.func,
+  locations: PropTypes.array,
+  appendStopLocation: PropTypes.func,
+  setSequenceId: PropTypes.func,
+  setlocationAdded: PropTypes.func,
+  locationAdded: PropTypes.bool,
+  sequenceId: PropTypes.number,
+  show: PropTypes.bool,
+};
 export default AddRouteLocation;
