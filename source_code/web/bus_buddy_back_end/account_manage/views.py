@@ -1,3 +1,4 @@
+import logging
 from django.db.utils import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -10,11 +11,14 @@ from .models import User
 from .token import generate_token
 from .google_auth import Google
 
+logger = logging.getLogger("django")
 
 def check_user_status(user):
     # returns response based on the user account status
+    logger.info("checking status of user")
     if user.status == 0:
         token = generate_token(user)
+        logger.info("user logged In")
         return Response(token, status=200)
     elif user.status == 2:
         return Response({"error_code": "D1009"}, status=401)
@@ -31,20 +35,24 @@ class LoginWithGoogle(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
+        logger.info("Login with google intiated")
         serialzer = GAS(data=request.data)
         if serialzer.is_valid():
             #  gets user info from credential token
             user_data = Google.validate(serialzer.validated_data["cred_token"])
             if user_data.get("error_code"):
+                logger.warn("google login failed Reason : "+str(user_data))
                 return Response(user_data, status=401)
             else:
                 # generate jwt token google users
                 try:
                     email = user_data["email"]
                     user = User.objects.get(email=email, account_provider=1)
+                    logger.info("user found")
                     return check_user_status(user)
                 # if user doesn't exist in our db we create one
                 except User.DoesNotExist:
+                    logger.info("user doesnt exist creating a new account")
                     name = user_data["given_name"]
                     try:
                         User.objects.create_google_user(
@@ -53,6 +61,7 @@ class LoginWithGoogle(APIView):
                             account_provider=1,  # sets account provider as google
                             user_details_status=1,  # sets profile as incomplete
                         )
+                        logger.info("new account created")
                     except IntegrityError:
                         return Response(
                             {"error_code": "D1015"},
@@ -60,6 +69,7 @@ class LoginWithGoogle(APIView):
                         )
                     user = User.objects.get(email=email, account_provider=1)
                     token = generate_token(user)
+                    logger.info("user logged In")
                     return Response(token, status=200)
         else:
             return Response(
