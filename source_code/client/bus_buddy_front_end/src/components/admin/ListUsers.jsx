@@ -14,7 +14,6 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import Swal from "sweetalert2";
-
 import { axiosApi } from "../../utils/axiosApi";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
@@ -146,7 +145,7 @@ function ListUsers(props) {
       await axiosApi
         .put(`adminstrator/ban-user/${user_id}/`)
         .then((result) => {
-          Swal.close()
+          Swal.close();
           Swal.fire({
             title: "User Banned !",
             icon: "success",
@@ -157,7 +156,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
-          Swal.close()
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -183,7 +182,7 @@ function ListUsers(props) {
       await axiosApi
         .put(`adminstrator/unban-user/${user_id}/`)
         .then((result) => {
-          Swal.close()
+          Swal.close();
           Swal.fire({
             title: "User Ban Removed !",
             icon: "success",
@@ -193,7 +192,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
-          Swal.close()
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -218,7 +217,7 @@ function ListUsers(props) {
       await axiosApi
         .put(`adminstrator/remove-user/${user_id}/`)
         .then((result) => {
-          Swal.close()
+          Swal.close();
           Swal.fire({
             title: "User Removed !",
             icon: "success",
@@ -237,7 +236,7 @@ function ListUsers(props) {
           }
         })
         .catch(function (error) {
-          Swal.close()
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -304,7 +303,7 @@ function ListUsers(props) {
   };
   return (
     <Container fluid className="ms-2 mt-2">
-      <Row>
+      <Row data-aos="fade-right">
         <Col>
           <h1 className="ms-3">
             {props.busApproval ? "Bus owner Approval" : "List Users"}
@@ -312,7 +311,7 @@ function ListUsers(props) {
         </Col>
       </Row>
 
-      <Row>
+      <Row data-aos="fade-right">
         <Col className="ms-5">
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
@@ -436,7 +435,7 @@ function ListUsers(props) {
         )
       }
 
-      <Row className="ms-auto me-auto">
+      <Row className="ms-auto me-auto" data-aos="fade-right">
         <div>
           {isTableLoading ? (
             <div className="mt-5">

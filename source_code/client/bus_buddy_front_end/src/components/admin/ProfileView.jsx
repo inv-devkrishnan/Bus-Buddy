@@ -11,6 +11,7 @@ import Placeholder from "react-bootstrap/Placeholder";
 import AdminProfileSplash from "../../assets/images/adminProfileView.png";
 import { axiosApi } from "../../utils/axiosApi";
 import ChangePassword from "../../pages/ChangePassword";
+
 import UpdateProfile from "./UpdateProfile";
 
 function ProfileView() {
@@ -57,7 +58,7 @@ function ProfileView() {
     setShowUpdateProfile(false);
   };
   return (
-    <Container className="ms-2 mt-2">
+    <Container className="ms-2 mt-2" data-aos="fade-right">
       {showProfile && (
         <>
           <h1 className="ms-3">Admin Profile</h1>
