@@ -66,7 +66,9 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_seat_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=regex_options_entry, message="Seat type must be 0, 1, or 2."),
+            RegexValidator(
+                regex=regex_options_entry, message="Seat type must be 0, 1, or 2."
+            ),
         ]
     )
     status = serializers.IntegerField(
@@ -79,7 +81,9 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=regex_options_entry, message="Bus type must be 0, 1, or 2."),
+            RegexValidator(
+                regex=regex_options_entry, message="Bus type must be 0, 1, or 2."
+            ),
         ]
     )
     bus_ac = serializers.IntegerField(
@@ -361,7 +365,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_start_date(self, value):
         today = datetime.now().date()
- 
+
         if value < today:
             raise serializers.ValidationError(
                 "Start date must be today or in the future."
@@ -369,16 +373,17 @@ class TripSerializer(serializers.ModelSerializer):
         return value
 
     def validate_end_date(self, value):
-        start_date_str = self.initial_data.get('start_date')      
-        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        start_date_str = self.initial_data.get("start_date")
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
 
         if value < start_date:
-            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
+            raise serializers.ValidationError(
+                "End date should be in the future or the same day as start date."
+            )
         return value
 
     start_time = serializers.TimeField(format="%H:%M")
     end_time = serializers.TimeField(format="%H:%M")
-
 
     status = serializers.IntegerField(
         required=False,
@@ -531,6 +536,10 @@ class OwnerDataSerializer(serializers.ModelSerializer):
 
 
 class SeatDetailSerializer(serializers.ModelSerializer):
+    """
+    For adding seat details
+    """
+
     class Meta:
         model = SeatDetails
         fields = (
@@ -565,6 +574,10 @@ class SeatDetailSerializer(serializers.ModelSerializer):
 
 
 class GetSeatSerializer(serializers.ModelSerializer):
+    """
+    For viewing seat details
+    """
+
     class Meta:
         model = SeatDetails
         fields = (

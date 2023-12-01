@@ -50,43 +50,81 @@ class AddSeatDetails(ListCreateAPIView):
     """
     API for adding seat details
 
+    Args:
+        bus_id (integer): id of the bus that the seat data belong to
+
     Returns:
-        json: success message
+        json: combination of success and error messages
     """
 
     permission_classes = (IsAuthenticated,)
     serializer_class = SeatDetailSerializer
 
-    def post(self, request):
-        import pdb
+    def validate_and_bulk_create(self, request_data, bus_id, seat_ui_orders, bus):
+        response = {}
+        serialized_data_list = []
+        for data in request_data:
+            if str(data["bus"]) == bus_id:
+                if int(data["seat_ui_order"]) not in seat_ui_orders:
+                    serializer = SeatDetailSerializer(data=data)
+                    if serializer.is_valid():
+                        serialized_data = serializer.data
+                        serialized_data["bus"] = bus
+                        serialized_data_list.append(serialized_data)
+                    else:
+                        logger.error(serializer.errors)
+                        response[f"error{data['seat_ui_order'] }"] = serializer.errors
 
-        pdb.set_trace()
+                else:
+                    logger.info("Seat already registered")
+                    response[
+                        f"message{data['seat_ui_order'] }"
+                    ] = f"Seat with {data['seat_ui_order']} ui order is already registered for this bus"
+
+            else:
+                new_bus = Bus.objects.get(id=data["bus"])
+                logger.info(f"{new_bus}: mismatched bus id")
+                response[
+                    f"message{data['seat_ui_order'] }"
+                ] = f"Bus id mismatch in ui order {data['seat_ui_order'] }"
+
+        # fetch instances
+        seat_details_instances = [SeatDetails(**data) for data in serialized_data_list]
+
+        SeatDetails.objects.bulk_create(seat_details_instances, batch_size=50)
+
+        if seat_details_instances:
+            response[
+                f"message{data['seat_ui_order'] }"
+            ] = f"Seat details of {data['seat_ui_order']} added successfully"
+
+        return response
+
+    def post(self, request):
         user_id = request.user.id
         bus_id = request.GET.get("bus")
         request_data = request.data.copy()
 
         try:
             bus = Bus.objects.get(id=bus_id)
+            if bus.user.id != user_id:
+                logger.warn("Unauthorized user")
+                return Response({"message": "Unauthorized user"})
+            else:
+                seat_ui_orders = []
+                for data in SeatDetails.objects.filter(bus=bus_id):
+                    seat_ui_orders.append(data.seat_ui_order)
 
-            serialized_data_list = []
+            logger.info(f"existing seat ui orders:{seat_ui_orders}")
+            response = self.validate_and_bulk_create(
+                request_data, bus_id, seat_ui_orders, bus
+            )
 
-            for data in request_data:
-                serializer = SeatDetailSerializer(data=data)
-                if serializer.is_valid():
-                    serialized_data = serializer.data
-                    serialized_data_list.append(serialized_data)
-                else:
-                    # Handle validation errors if needed
-                    return Response({"error": serializer.errors})
-            seat_details_instances = [
-                SeatDetails(**data) for data in serialized_data_list
-            ]
-            SeatDetails.objects.bulk_create(seat_details_instances)
-            return Response({"success": "Seat details added successfully"}, status=201)
+            return Response(response, status=200)
 
         except Bus.DoesNotExist:
             logger.error("Bus does not exist")
-            return Response({"error": "Bus does not exist"}, status=200)
+            return Response({"error": "Bus id does not exist"}, status=200)
 
         except Exception as e:
             logger.error(e)
