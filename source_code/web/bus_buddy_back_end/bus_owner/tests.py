@@ -49,41 +49,57 @@ class BaseTest(TestCase):
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
 
-        self.valid_all_values_seat_details = {
-            "bus": self.bus.id,
-            "seat_ui_order": 11,
-            "seat_number": "1",
-            "seat_type": 0,
-            "deck": 0,
-            "seat_cost": 200,
-        }
+        self.valid_all_values_seat_details = [
+            {
+                "bus": self.bus.id,
+                "seat_ui_order": 11,
+                "seat_number": "1",
+                "seat_type": 0,
+                "deck": 0,
+                "seat_cost": 200,
+            },
+            {
+                "bus": self.bus.id,
+                "seat_ui_order": 12,
+                "seat_number": "2",
+                "seat_type": 0,
+                "deck": 0,
+                "seat_cost": 200,
+            }
+        ]
 
-        self.invalid_seat_ui_order_seat_details = {
-            "bus": self.bus.id,
-            "seat_ui_order": "abc",
-            "seat_number": "1",
-            "seat_type": 0,
-            "deck": 0,
-            "seat_cost": 200,
-        }
+        self.invalid_seat_ui_order_seat_details = [
+            {
+                "bus": self.bus.id,
+                "seat_ui_order": "abc",
+                "seat_number": "1",
+                "seat_type": 0,
+                "deck": 0,
+                "seat_cost": 200,
+            }
+        ]
 
-        self.invalid_seat_type_seat_details = {
-            "bus": self.bus.id,
-            "seat_ui_order": 11,
-            "seat_number": "1",
-            "seat_type": 8,
-            "deck": 0,
-            "seat_cost": 200,
-        }
+        self.invalid_seat_type_seat_details = [
+            {
+                "bus": self.bus.id,
+                "seat_ui_order": 11,
+                "seat_number": "1",
+                "seat_type": 8,
+                "deck": 0,
+                "seat_cost": 200,
+            }
+        ]
 
-        self.invalid_deck_seat_details = {
-            "bus": self.bus.id,
-            "seat_ui_order": 11,
-            "seat_number": "1",
-            "seat_type": 1,
-            "deck": 4,
-            "seat_cost": 200,
-        }
+        self.invalid_deck_seat_details = [
+            {
+                "bus": self.bus.id,
+                "seat_ui_order": 11,
+                "seat_number": "1",
+                "seat_type": 1,
+                "deck": 4,
+                "seat_cost": 200,
+            }
+        ]
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -279,23 +295,21 @@ class BaseTest(TestCase):
             "msme_no": valid_msme,
             "extra_charges": valid_extra_charges,
         }
-        
+
         self.create_bus_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":2
+            "bus_seat_type": 2,
         }
         self.cant_create_bus_invalid_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":8
+            "bus_seat_type": 8,
         }
-        
-        
 
         return super().setUp()
 
@@ -303,18 +317,16 @@ class BaseTest(TestCase):
 class RegisterOwnerTest(BaseTest):
     def test_can_create_bus(self):
         response = self.client.post(
-            self.create_bus , self.create_bus_data,format = "json"
+            self.create_bus, self.create_bus_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
-    
+
     def test_cant_create_bus_invalid_data(self):
         response = self.client.post(
-            self.create_bus , self.cant_create_bus_invalid_data,format = "json"
+            self.create_bus, self.cant_create_bus_invalid_data, format="json"
         )
         self.assertEqual(response.status_code, 400)
-        
-    
-    
+
     def test_can_register_user(self):
         response = self.client.post(
             self.register_bus_owner, self.valid_all_values, format="json"
@@ -509,27 +521,36 @@ class CreateTest(BusApiTests):
 class SeatDetailTest(BaseTest):
     def test_01_can_add_seat_detail(self):
         response = self.client.post(
-            self.add_seat, self.valid_all_values_seat_details, format="json"
+            self.add_seat + f"?bus={ self.bus.id}",
+            data=self.valid_all_values_seat_details,
+            format="json",
         )
-        self.assertEqual(response.status_code, 201)
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
 
     def test_02_cannot_add_seat_detail_with_invalid_seat_ui_order(self):
         response = self.client.post(
-            self.add_seat, self.invalid_seat_ui_order_seat_details, format="json"
+            self.add_seat + f"?bus={ self.bus.id}",
+            data=self.invalid_seat_ui_order_seat_details,
+            format="json",
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_03_cannot_add_seat_detail_with_invalid_seat_type(self):
         response = self.client.post(
-            self.add_seat, self.invalid_seat_type_seat_details, format="json"
+            self.add_seat + f"?bus={ self.bus.id}",
+            data=self.invalid_seat_type_seat_details,
+            format="json",
         )
         print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_04_cannot_add_seat_detail_with_invalid_deck(self):
         response = self.client.post(
-            self.add_seat, self.invalid_deck_seat_details, format="json"
+            self.add_seat + f"?bus={ self.bus.id}",
+            data=self.invalid_deck_seat_details,
+            format="json",
         )
         print(response.content)
         self.assertEqual(response.status_code, 200)

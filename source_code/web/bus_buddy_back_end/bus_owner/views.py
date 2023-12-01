@@ -124,7 +124,7 @@ class AddSeatDetails(ListCreateAPIView):
 
         except Bus.DoesNotExist:
             logger.error("Bus does not exist")
-            return Response({"error": "Bus id does not exist"}, status=200)
+            return Response({"error": "Bus id does not exist"}, status=400)
 
         except Exception as e:
             logger.error(e)
