@@ -152,7 +152,7 @@ export default function Viewallroutes() {
   };
 
   return (
-    <div>
+    <div data-aos="fade-right">
       <Navbar className="bg-body-tertiary justify-content-between">
         <Form style={{ textAlign: "center", marginLeft: "40%",marginTop:"1%" }} >
           <h1>Viewall</h1>
