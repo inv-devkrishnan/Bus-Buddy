@@ -13,6 +13,7 @@ from .google_auth import Google
 
 logger = logging.getLogger("django")
 
+
 def check_user_status(user):
     # returns response based on the user account status
     logger.info("checking status of user")
@@ -41,7 +42,7 @@ class LoginWithGoogle(APIView):
             #  gets user info from credential token
             user_data = Google.validate(serialzer.validated_data["cred_token"])
             if user_data.get("error_code"):
-                logger.warn("google login failed Reason : "+str(user_data))
+                logger.warn("google login failed Reason : " + str(user_data))
                 return Response(user_data, status=401)
             else:
                 # generate jwt token google users
@@ -115,31 +116,47 @@ class DeleteAccount(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request):
-        user_id = request.user.id
-        user = User.objects.get(id=user_id)
-        user.status = 99  # status code of deleted user
-        user.save()
-        return Response({"success_code": "D2000"}, status=200)
+        try:
+            logger.info("delete user initiated")
+            user_id = request.user.id
+            user = User.objects.get(id=user_id)
+            logger.info("user instance aquired")
+            user.status = 99  # status code of deleted user
+            user.save()
+            logger.info("user deleted sucessfully")
+            return Response({"success_code": "D2000"}, status=200)
+        except User.DoesNotExist as e:
+            logger.warn("user deletion failed Reason" + str(e))
+            return Response({"error_code": "D1004"}, status=403)
 
 
 class ChangePassword(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request):
+        logger.info("password change initiated")
         password_data = PS(data=request.data)
         if password_data.is_valid():
+            logger.info("password data validated")
             user_id = request.user.id
             try:
                 # limiting change password only to local users
                 user = User.objects.get(id=user_id, account_provider=0)
+                logger.info("user instance aquired")
                 old_password = password_data.validated_data["old_password"]
                 if user.check_password(old_password):
                     user.set_password(password_data.validated_data["new_password"])
                     user.save()
+                    logger.info("password change sucessful")
                     return Response({"success_code": "D2001"}, status=200)
                 else:
+                    logger.info(
+                        "password change fail Reason : old password doesn't match"
+                    )
                     return Response({"error_code": "D1003"}, status=400)
-            except User.DoesNotExist:
+            except User.DoesNotExist as e:
+                logger.info("password change fail Reason :" + str(e))
                 return Response({"error_code": "D1004"}, status=403)
         else:
+            logger.info("password change fail Reason :" + str(password_data.errors))
             return Response({"error_code": "D1002"}, status=400)
