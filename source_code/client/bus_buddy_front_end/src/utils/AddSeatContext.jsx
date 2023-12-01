@@ -27,7 +27,11 @@ const AddSeatContextProvider = ({ children }) => {
   const updateReRender = (newValue) => {
     setReRender(newValue);
   };
-  
+
+  const [addSeatList, setAddSeatList] = useState([]);
+  const updateAddSeatList = (newValue) => {
+    setAddSeatList(newValue);
+  };
 
   const value = useMemo(
     () => ({
@@ -41,8 +45,10 @@ const AddSeatContextProvider = ({ children }) => {
       updateCurrentData,
       reRender,
       updateReRender,
+      addSeatList,
+      updateAddSeatList,
     }),
-    [currentSeatData, isClicked, propsData, currentData, reRender]
+    [currentSeatData, isClicked, propsData, currentData, reRender, addSeatList]
   );
 
   return (
