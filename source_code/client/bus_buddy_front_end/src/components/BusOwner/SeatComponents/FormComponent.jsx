@@ -18,7 +18,6 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 
-import { FormComponentSchema } from "./FormComponentSchema";
 import { AddSeatContext } from "../../../utils/AddSeatContext";
 import { axiosApi } from "../../../utils/axiosApi";
 
@@ -60,7 +59,6 @@ export default function FormComponent(props) {
           .matches(/^\d+$/, "Seat cost must be numbers")
           .required("Seat cost is required"),
       });
-      console.log("Schema:", acc[uiOrder]);
       return acc;
     }, {})
   );
@@ -98,7 +96,6 @@ export default function FormComponent(props) {
   const formik = useFormik({
     // formik initialisation
     initialValues: addSeatList.reduce((acc, uiOrder) => {
-      console.log(uiOrder);
       acc[uiOrder] = {
         [`seatNumber-${uiOrder}`]: "",
         [`seatType-${uiOrder}`]: 0,
@@ -110,7 +107,8 @@ export default function FormComponent(props) {
     validationSchema,
     onSubmit,
   });
-  console.log(formik.errors);
+  console.log(addSeatList);
+  console.log(formik.values);
 
   const handleInputChange = (uiOrder, field, value) => {
     // for saving data dynamically using formik eith on change property

@@ -42,6 +42,11 @@ function Sleeper(props) {
     setSelect(true);
     if (!addSeatList.includes(props.row * 10 + props.column)) {
       updateAddSeatList([...addSeatList, props.row * 10 + props.column]);
+    } else {
+      const updatedList = addSeatList.filter(
+        (seat) => seat !== props.row * 10 + props.column
+      );
+      updateAddSeatList(updatedList);
     }
   };
 
