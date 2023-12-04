@@ -58,7 +58,7 @@ function ProfileView() {
     setShowUpdateProfile(false);
   };
   return (
-    <Container className="ms-2 mt-2" data-aos="fade-right">
+    <Container className="ms-2 mt-2">
       {showProfile && (
         <>
           <h1 className="ms-3">Admin Profile</h1>

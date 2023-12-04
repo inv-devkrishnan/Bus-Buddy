@@ -303,7 +303,7 @@ function ListUsers(props) {
   };
   return (
     <Container fluid className="ms-2 mt-2">
-      <Row data-aos="fade-right">
+      <Row>
         <Col>
           <h1 className="ms-3">
             {props.busApproval ? "Bus owner Approval" : "List Users"}
@@ -311,7 +311,7 @@ function ListUsers(props) {
         </Col>
       </Row>
 
-      <Row data-aos="fade-right">
+      <Row>
         <Col className="ms-5">
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
@@ -435,7 +435,7 @@ function ListUsers(props) {
         )
       }
 
-      <Row className="ms-auto me-auto" data-aos="fade-right">
+      <Row className="ms-auto me-auto">
         <div>
           {isTableLoading ? (
             <div className="mt-5">

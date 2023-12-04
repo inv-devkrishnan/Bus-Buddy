@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import SideBar from "../components/common/SideBar";
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import ProfileView from "../components/admin/ProfileView";
 import ListUsers from "../components/admin/ListUsers";
 
@@ -55,7 +53,6 @@ function AdminDashboard() {
   ];
 
   useEffect(() => {
-    AOS.init();
     if (authStatus) {
       if (localStorage.getItem("user_role") !== "1") {
         // if user is not admin redirect to login
