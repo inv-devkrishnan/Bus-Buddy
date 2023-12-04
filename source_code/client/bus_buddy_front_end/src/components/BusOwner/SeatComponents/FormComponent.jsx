@@ -97,10 +97,10 @@ export default function FormComponent(props) {
     // formik initialisation
     initialValues: addSeatList.reduce((acc, uiOrder) => {
       acc[uiOrder] = {
-        [`seatNumber-${uiOrder}`]: "",
-        [`seatType-${uiOrder}`]: 0,
-        [`deck-${uiOrder}`]: 0,
-        [`seatCost-${uiOrder}`]: "",
+        [`seatNumber`]: "",
+        [`seatType`]: 0,
+        [`deck`]: 0,
+        [`seatCost`]: "",
       };
       return acc;
     }, {}),
@@ -108,7 +108,7 @@ export default function FormComponent(props) {
     onSubmit,
   });
   console.log(addSeatList);
-  console.log(formik.values);
+  console.log(formik.values[33]);
 
   const handleInputChange = (uiOrder, field, value) => {
     // for saving data dynamically using formik eith on change property
@@ -124,25 +124,21 @@ export default function FormComponent(props) {
         <Typography className="m-3">id: {uiOrder}</Typography>
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id={`seatNumber-${uiOrder}`}
-            name={`seatNumber-${uiOrder}`}
+            id={`seatNumber`}
+            name={`seatNumber`}
             label="Seat number"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatNumber-${uiOrder}`]}
+            value={formik.values[uiOrder]?.[`seatNumber`]}
             onChange={(e) =>
-              handleInputChange(
-                uiOrder,
-                `seatNumber-${uiOrder}`,
-                e.target.value
-              )
+              handleInputChange(uiOrder, `seatNumber`, e.target.value)
             }
             error={
-              formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`]
+              formik.touched[uiOrder]?.[`seatNumber`] &&
+              formik.errors[uiOrder]?.[`seatNumber`]
             }
             helperText={
-              formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`]
+              formik.touched[uiOrder]?.[`seatNumber`] &&
+              formik.errors[uiOrder]?.[`seatNumber`]
             }
           />
         </FormControl>
@@ -150,70 +146,68 @@ export default function FormComponent(props) {
         <FormControl className="m-3" fullWidth margin="normal">
           <InputLabel htmlFor="seatType">Seat type</InputLabel>
           <Select
-            id={`seatType-${uiOrder}`}
-            name={`seatType-${uiOrder}`}
+            id={`seatType`}
+            name={`seatType`}
             label="Seat type"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatType-${uiOrder}`] || 0}
+            value={formik.values[uiOrder]?.[`seatType`] || 0}
             onChange={(e) =>
-              handleInputChange(uiOrder, `seatType-${uiOrder}`, e.target.value)
+              handleInputChange(uiOrder, `seatType`, e.target.value)
             }
             error={
-              formik.touched[uiOrder]?.[`seatType-${uiOrder}`] &&
-              Boolean(formik.errors[uiOrder]?.[`seatType-${uiOrder}`])
+              formik.touched[uiOrder]?.[`seatType`] &&
+              Boolean(formik.errors[uiOrder]?.[`seatType`])
             }
           >
             <MenuItem value={0}>Seater</MenuItem>
             <MenuItem value={1}>Sleeper</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched[uiOrder]?.[`seatType-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`seatType-${uiOrder}`]}
+            {formik.touched[uiOrder]?.[`seatType`] &&
+              formik.errors[uiOrder]?.[`seatType`]}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <InputLabel htmlFor="seatType">Deck</InputLabel>
           <Select
-            id={`deck-${uiOrder}`}
-            name={`deck-${uiOrder}`}
+            id={`deck`}
+            name={`deck`}
             label="Deck"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`deck-${uiOrder}`] || 0}
-            onChange={(e) =>
-              handleInputChange(uiOrder, `deck-${uiOrder}`, e.target.value)
-            }
+            value={formik.values[uiOrder]?.[`deck`] || 0}
+            onChange={(e) => handleInputChange(uiOrder, `deck`, e.target.value)}
             error={
-              formik.touched[uiOrder]?.[`deck-${uiOrder}`] &&
-              Boolean(formik.errors[uiOrder]?.[`deck-${uiOrder}`])
+              formik.touched[uiOrder]?.[`deck`] &&
+              Boolean(formik.errors[uiOrder]?.[`deck`])
             }
           >
             <MenuItem value={0}>Lower deck</MenuItem>
             <MenuItem value={1}>Upper deck</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched[uiOrder]?.[`deck-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`deck-${uiOrder}`]}
+            {formik.touched[uiOrder]?.[`deck`] &&
+              formik.errors[uiOrder]?.[`deck`]}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id={`seatCost-${uiOrder}`}
-            name={`seatCost-${uiOrder}`}
+            id={`seatCost`}
+            name={`seatCost`}
             label="Seat cost"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatCost-${uiOrder}`]}
+            value={formik.values[uiOrder]?.[`seatCost`]}
             onChange={(e) =>
-              handleInputChange(uiOrder, `seatCost-${uiOrder}`, e.target.value)
+              handleInputChange(uiOrder, `seatCost`, e.target.value)
             }
             error={
-              formik.touched[uiOrder]?.[`seatCost-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`seatCost-${uiOrder}`]
+              formik.touched[uiOrder]?.[`seatCost`] &&
+              formik.errors[uiOrder]?.[`seatCost`]
             }
             helperText={
-              formik.touched[uiOrder]?.[`seatCost-${uiOrder}`] &&
-              formik.errors[uiOrder]?.[`seatCost-${uiOrder}`]
+              formik.touched[uiOrder]?.[`seatCost`] &&
+              formik.errors[uiOrder]?.[`seatCost`]
             }
             InputProps={{
               startAdornment: (
@@ -230,20 +224,31 @@ export default function FormComponent(props) {
 
   return (
     <div>
-      <Card sx={{ width: "50rem", margin: 5, boxShadow: 4 }}>
+      <Card sx={{ width: "55rem", margin: 5, boxShadow: 4 }}>
         <Box
           component="form"
           onSubmit={formik.handleSubmit}
           noValidate
           className="d-flex flex-column m-3"
         >
-          {addSeatList?.map((uiOrder) => (
-            <div key={uiOrder}>{singleForm(uiOrder)}</div>
-          ))}
+          {addSeatList.length > 0 ? (
+            <>
+              {addSeatList?.map((uiOrder) => (
+                <div key={uiOrder}>{singleForm(uiOrder)}</div>
+              ))}
 
-          <Button type="submit" fullWidth variant="contained">
-            Submit
-          </Button>
+              <Button
+                type="submit"
+                disabled={!formik.isValid}
+                fullWidth
+                variant="contained"
+              >
+                Submit
+              </Button>
+            </>
+          ) : (
+            <p>Select a seat for entering data</p>
+          )}
         </Box>
       </Card>
     </div>
