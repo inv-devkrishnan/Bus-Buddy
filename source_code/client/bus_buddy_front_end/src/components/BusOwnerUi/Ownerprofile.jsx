@@ -26,6 +26,7 @@ export default function Ownerprofile() {
           <Card.Body>
             <Card.Title style={{ display: "flex", justifyContent: "center", }}>
               {currentUserData['first_name']}
+              
               {currentUserData['last_name']}
             </Card.Title>
             <p>Name: {currentUserData['first_name']}</p>

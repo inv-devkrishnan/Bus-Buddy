@@ -65,12 +65,12 @@ function AdminDashboard() {
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
-      <SideBar heading="Admin Profile" options={options} />
+        <SideBar heading="Admin Profile" options={options} />
       </div>
-      <div>
+      <div className="main_content" style={{ width: "100vw" }}>
         {profileSelect && <ProfileView />}
-        {listUserSelect && <ListUsers busApproval={false}/>}
-        {busSelect && <ListUsers busApproval={true}/>}
+        {listUserSelect && <ListUsers busApproval={false} />}
+        {busSelect && <ListUsers busApproval={true} />}
       </div>
     </div>
   );
