@@ -121,6 +121,7 @@ export default function Addrecurringtrip() {
        console.log(formattedStartDate)
        console.log(start)
        console.log(end)
+       console.log(formattedEndDate)
       
        if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start){
         setStartDateError("Start date should be same as the present date or future dates")
@@ -129,7 +130,7 @@ export default function Addrecurringtrip() {
         setStartDateError("")
        }
        
-       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate <= end){
+       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end){
         setEndDateError("End date should be either start date or any future dates")
        }
        else {
@@ -148,7 +149,7 @@ export default function Addrecurringtrip() {
        }
        );
        if (response.status === 200) {
-           console.log("Amenities Inserted");
+           console.log("trips Inserted");
            Swal.fire({
            icon: "success",
            title: "Added Successfully",
@@ -158,7 +159,7 @@ export default function Addrecurringtrip() {
        navi("/BusHome");
    }
    catch (error) {
-     console.error("Error adding amenities:", error);
+     console.error("Error adding trips:", error);
      Swal.fire({
        icon: "error",
        title: "Error",
