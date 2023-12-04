@@ -731,15 +731,14 @@ class Addtreccuringrip(APIView):
             start_datetime = datetime.combine(start_date, start_time)
             end_datetime = datetime.combine(end_date, end_time)
             duration = end_datetime - start_datetime
-            print(duration)
+            print(duration)         
             no_of_days = (duration.days) 
             print(no_of_days)
             psd_str = request.GET.get('start')
             ped_str = request.GET.get('end')
             psd = datetime.strptime(psd_str, date_format)
-            ped = datetime.strptime(ped_str, date_format)
+            ped = datetime.strptime(ped_str, date_format)+timedelta(days=1)
             period = ped - psd
-            
             if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
                 trip_objects = []
                 print("it is in the range ")
@@ -758,6 +757,8 @@ class Addtreccuringrip(APIView):
                 for i in range (iterations):
                     current_start_date = start_datetime + i * period
                     current_end_date = end_datetime + i * period
+                    print(current_start_date)
+                    print(current_end_date)
                     if (current_end_date > ped or current_start_date > ped):
                         break
                     else:
