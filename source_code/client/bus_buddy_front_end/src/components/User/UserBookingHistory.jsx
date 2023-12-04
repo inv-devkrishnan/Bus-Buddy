@@ -150,7 +150,7 @@ export default function UserBookingHistory() {
         <div className="mb-auto p-2 bd-highlight m-3">
           <h1>My Trips</h1>
         </div>
-        <div className="d-flex m-3 justify-content-end">
+        <div className="d-flex m-1 justify-content-end">
           <Dropdown>
             <Dropdown.Toggle id="dropdown-basic">Show</Dropdown.Toggle>
 
@@ -194,7 +194,7 @@ export default function UserBookingHistory() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <div className="flex-fill m-3">
+        <div className="flex-fill m-2">
           <Table hover responsive="sm">
             <thead style={{ color: "blueviolet" }}>
               <tr>
@@ -283,7 +283,6 @@ export default function UserBookingHistory() {
         <Modal.Body>
           <div className="d-flex flex-row justify-content-around">
             <div className="m-2">
-              <h5 style={{ color: "cornflowerblue" }}>Booking Details</h5>
               <p>
                 Booking date:{" "}
                 <strong>
@@ -291,7 +290,7 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Booking status:{" "}
+                Trip status:{" "}
                 <strong>
                   {modalData?.status === 99 && (
                     <span style={{ color: "tomato" }}>Cancelled</span>
@@ -350,6 +349,27 @@ export default function UserBookingHistory() {
               <p>
                 Total amount: <strong>{modalData?.total_amount}</strong>
               </p>
+              <h5 style={{ color: "cornflowerblue" }}>Passenger Details</h5>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Seat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {modalData?.booked_seats?.map((passenger) => (
+                    <tr key={passenger?.id}>
+                      <td>{passenger?.traveller_name}</td>
+                      <td>
+                        {passenger?.traveller_gender === 1 ? "Male" : "Female"}
+                      </td>
+                      <td>{passenger?.seat}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </div>
           </div>
         </Modal.Body>
