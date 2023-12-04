@@ -20,7 +20,7 @@ export default function Ownerprofile() {
 
 
   return (
-    <div style={{display:"flex",justifyContent:"center",margin:"5%" }}  data-aos="fade-right">
+    <div style={{display:"flex",justifyContent:"center",margin:"5%" }}  >
       <div style={{ marginBottom: "2%"}}>
         <Card style={{ width: "55rem", height: "20rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
           <Card.Body>
