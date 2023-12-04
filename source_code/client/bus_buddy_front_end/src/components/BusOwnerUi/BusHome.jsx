@@ -7,10 +7,12 @@ import ViewRoutes from "./MyRoutes/ViewRoutes.jsx"
 import ViewTrips from "./MyTrips/ViewTrips.jsx"
 import Ownerprofile from "./Ownerprofile.jsx";
 import SideBar from "../common/SideBar.jsx";
+import "aos/dist/aos.css";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
   const navigate = useNavigate();
+
 
   const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myBusSelect, setMyBusSelect] = useState(false);

@@ -4,7 +4,8 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 import RouteImage from "../assets/route.jpg";
 import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
@@ -20,7 +21,8 @@ export default function AddRouteCard() {
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-
+  const navi = useNavigate();
+  
   const handleClose = () => {
     setShow(false);
     setLocationAdded(false);
@@ -102,6 +104,7 @@ export default function AddRouteCard() {
         });
       }
       setErrorMessage("");
+      navi("/BusHome");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");
     }
