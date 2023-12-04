@@ -1,4 +1,5 @@
 from django.test import TestCase
+from unittest.mock import MagicMock, patch
 from django.urls import reverse
 from decouple import config
 from rest_framework.test import APIClient
@@ -118,8 +119,9 @@ class LocalLoginTestCase(BaseTest):
 
 
 class GoogleLoginTestCase(BaseTest):
-    def test_01_can_login_with_valid_token(self):
-        # dont forget to add valid cred token otherwise this test may fail
+    @patch('account_manage.views.Google.validate')
+    def test_01_can_login_with_valid_token(self,mock_validate):
+        mock_validate.return_value ={"email": "dex@gmail.com","given_name":"dev"}
         response = self.client.post(
             self.google_login_url,
             data=self.valid_token,

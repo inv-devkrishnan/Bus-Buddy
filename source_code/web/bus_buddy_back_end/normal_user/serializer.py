@@ -85,17 +85,6 @@ class UserDataSerializer(serializers.ModelSerializer):
         fields = ("first_name", "last_name", "email", "phone")
 
 
-class BookingHistoryDataSerializer(serializers.ModelSerializer):
-    """
-    For viewing user's booking history
-    """
-
-    class Meta:
-        model = Bookings
-        fields = "__all__"
-        depth = 3
-
-
 class PickAndDropSerializer(serializers.ModelSerializer):
     """
     For viewing pick and drop data for view seat details
@@ -171,6 +160,46 @@ class TravellerDataSerializer(serializers.ModelSerializer):
             ),
         ],
     )
+
+
+class TravellerHistorySerializer(serializers.ModelSerializer):
+    """
+    For inserting traveller data
+    """
+
+    class Meta:
+        model = BookedSeats
+        fields = [
+            "id",
+            "trip",
+            "traveller_name",
+            "traveller_dob",
+            "traveller_gender",
+            "seat",
+        ]
+
+
+class BookingHistoryDataSerializer(serializers.ModelSerializer):
+    """
+    For viewing user's booking history
+    """
+
+    booked_seats = TravellerHistorySerializer(many=True, source="bookedseats_set")
+
+    class Meta:
+        model = Bookings
+        fields = [
+            "user",
+            "trip",
+            "pick_up",
+            "drop_off",
+            "status",
+            "total_amount",
+            "booking_id",
+            "created_date",
+            "booked_seats",
+        ]
+        depth = 3
 
 
 class PaymentDataSerializer(serializers.ModelSerializer):

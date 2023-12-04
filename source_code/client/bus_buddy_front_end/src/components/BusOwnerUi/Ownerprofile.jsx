@@ -20,12 +20,13 @@ export default function Ownerprofile() {
 
 
   return (
-    <div style={{display:"flex",justifyContent:"center",margin:"5%" }}>
+    <div style={{display:"flex",justifyContent:"center",margin:"5%" }}  >
       <div style={{ marginBottom: "2%"}}>
-        <Card style={{ width: "25rem", height: "20rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
+        <Card style={{ width: "55rem", height: "20rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
           <Card.Body>
             <Card.Title style={{ display: "flex", justifyContent: "center", }}>
               {currentUserData['first_name']}
+              
               {currentUserData['last_name']}
             </Card.Title>
             <p>Name: {currentUserData['first_name']}</p>
@@ -33,9 +34,14 @@ export default function Ownerprofile() {
             <p>Phone Number: {currentUserData['phone']}</p>
             <p>Email ID: {currentUserData['email']}</p>
             <p>Company Name: {currentUserData['company_name']}</p>
+            <div style={{display:"flex",justifyContent:"flex-end"}}>
             <Link to="/Update-Profile">
-              <button className="btn btn-primary">Update Profile</button>
+              <button className="btn btn-primary m-3">Update Profile</button>
             </Link>
+            <Link to="/change-password">
+              <button className="btn btn-primary m-3">Change Password</button>
+            </Link>
+            </div>
           </Card.Body>
         </Card>
       </div>

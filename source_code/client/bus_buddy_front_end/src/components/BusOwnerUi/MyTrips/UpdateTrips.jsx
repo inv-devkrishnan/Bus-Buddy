@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useLocation } from "react-router-dom";
+import {  useLocation,useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -20,6 +20,7 @@ export default function Updatetrips() {
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
   const [currentTripData, setCurrentTripData] = useState([]);
+  const navi = useNavigate();
   let id = trip;
 
   const onSubmit = async (e) => {
@@ -40,18 +41,17 @@ export default function Updatetrips() {
         console.log("Amenities Inserted");
         Swal.fire({
           icon: "success",
-          title: "Added Successfully",
-          text: "trip added successfully",
+          title: "Updated Successfully",
+          text: "trip Updated successfully",
         });
       }
-      const bus = { id: id };
-      console.log(bus);
+      navi("/BusHome");
     } catch (error) {
       console.error("Error updating:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error adding trip",
+        text: "Error updating trip",
       });
     }
   };

@@ -137,9 +137,9 @@ function TripCard(props) {
                           {formatKey(amenity[0])}
                         </p>
                         {amenity[1] ? (
-                          <XCircleFill color="red" />
+                         <CheckCircleFill color="green" />
                         ) : (
-                          <CheckCircleFill color="green" />
+                          <XCircleFill color="red" />
                         )}
                       </ListGroup.Item>
                     ))}

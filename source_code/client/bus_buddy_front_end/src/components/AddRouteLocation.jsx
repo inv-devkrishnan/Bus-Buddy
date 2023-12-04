@@ -1,4 +1,5 @@
 import Modal from "react-bootstrap/Modal";
+import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
@@ -10,6 +11,7 @@ function AddRouteLocation(props) {
   const [departureDate, setDepartureDate] = useState("");
   const [locationFormValidated, setLocationFormValidated] = useState(false);
   const [location, setLocation] = useState("");
+  const [isNextDay, setIsNextDay] = useState(false);
 
   const [stopName, setStopName] = useState("");
   const [stopArrivalTime, setStopArrivalTime] = useState("");
@@ -40,23 +42,102 @@ function AddRouteLocation(props) {
     });
     return status;
   };
+  const checkInBetweenStopsSameDay = () => {
+    let status = true;
+
+    if (stopsArray.length > 0) {
+      // if there are previous stops
+
+      let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
+      if (previous_stop.arrival_time >= stopArrivalTime) {
+        // if previous stop time is greater than current stop
+        status = false;
+        setErrorMessage(
+          "Stop arrival time should be greater than " +
+            previous_stop.arrival_time
+        );
+      }
+    }
+
+    return status;
+  };
+
+  const checkInBetweenStopsDifferentDay = () => {
+    let status = true;
+    if (stopsArray.length > 0) {
+      // if there are previous stops
+
+      let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
+      if (previous_stop.arrival_time >= stopArrivalTime) {
+        // if previouse stop time is greater than current stop time
+        if (stopArrivalTime < departureTime && !isNextDay) {
+          // if the previous stop is on current day not next day and current stop is on next day
+          setIsNextDay(true); // now its next day
+        } else {
+          // show error message
+          status = false;
+          setErrorMessage(
+            "Stop arrival time should be greater than " +
+              previous_stop.arrival_time
+          );
+        }
+      }
+    }
+    return status;
+  };
+
+  const checkPreviousLocationTime = () => {
+    if (props.stopLocations.length > 0) {
+      let previousStopLocation =
+        props.stopLocations[props.stopLocations.length - 1];
+      if (previousStopLocation.departure_date_offset === arrivalDate) {
+        // if previous location and current location is reached on same day
+        if (previousStopLocation.departure_time < arrivalTime) return true;
+        else
+          setErrorMessage(
+            "Arrival time of this location should be greater than previous location departure time"
+          );
+        return false;
+      } else if (previousStopLocation.departure_date_offset > arrivalDate) {
+        setErrorMessage(
+          "Arrival Date offset can't be less than previous departure date offset"
+        );
+        return false;
+      } else return true;
+    } else return true;
+  };
   const checkStopLocationTime = () => {
     let status = true;
-    if (stopArrivalTime > arrivalTime) {
-      stopsArray.forEach((element) => {
-        console.log(element.arrival_time);
-        console.log(stopArrivalTime);
-        if (element.arrival_time >= stopArrivalTime) status = false;
+    if (arrivalDate === departureDate) {
+      // if bus arrive and leave on same date
+      if (stopArrivalTime > arrivalTime && stopArrivalTime < departureTime) {
+        // if stop time is between arrival time and departure time of location
+        status = checkInBetweenStopsSameDay();
+      } else {
+        status = false;
         setErrorMessage(
-          "Stop arrival time should be greater than previous stop arrival times"
+          "Stop arrival time should be between " +
+            arrivalTime +
+            " and " +
+            departureTime
         );
-      });
-    } else {
-      status = false;
-      setErrorMessage(
-        "Stop arrival time should be after arrival time of the location"
-      );
-    }
+      }
+    } else if (
+        (stopArrivalTime > arrivalTime && stopArrivalTime < Date("00:00")) ||
+        stopArrivalTime < departureTime
+      ) {
+        status = checkInBetweenStopsDifferentDay();
+      } else {
+        status = false;
+        setErrorMessage(
+          "Stop arrival time should be between " +
+            arrivalTime +
+            " of current day and " +
+            departureTime +
+            " of next day"
+        );
+      }
+
     return status;
   };
   const locationHandleSubmit = (event) => {
@@ -74,7 +155,7 @@ function AddRouteLocation(props) {
       setErrorMessage("Arrival date offset can't be past depature date offset");
     } else if (arrivalTime > departureTime && arrivalDate === departureDate) {
       setErrorMessage("Arrival time can't be past depature time");
-    } else {
+    } else if (checkPreviousLocationTime()) {
       const locationStop = {
         seq_id: props.sequenceId,
         location: locationValue,
@@ -113,12 +194,8 @@ function AddRouteLocation(props) {
       };
       setStopsArray((stop) => [...stop, newStop]);
       setStopName("");
-      setArrivalTime("");
       setStopArrivalTime("");
-      setArrivalDate("");
-      setDepartureDate("");
       setLandmark("");
-      setDepartureTime("");
       setErrorMessage("");
       setStopFormValidated(false);
     }
@@ -133,24 +210,25 @@ function AddRouteLocation(props) {
       props.appendStopLocation(currentStopLocation);
       props.setSequenceId(props.sequenceId + 1);
       localStorage.removeItem("locationStop");
-      props.handleClose();
+      setErrorMessage("");
+      onClose();
     } else {
       setErrorMessage("At least add one stop");
     }
   };
-  const onClose =()=>
-  {
-      setStopName("");
-      setArrivalTime("");
-      setStopArrivalTime("");
-      setArrivalDate("");
-      setDepartureDate("");
-      setLandmark("");
-      setDepartureTime("");
-      setErrorMessage("")
-      props.handleClose()
-
-  }
+  const onClose = () => {
+    setStopName("");
+    setArrivalTime("");
+    setStopArrivalTime("");
+    setArrivalDate("");
+    setDepartureDate("");
+    setLandmark("");
+    setDepartureTime("");
+    setErrorMessage("");
+    setStopsArray([]);
+    setIsNextDay(false);
+    props.handleClose();
+  };
   return (
     <Modal show={props.show} onHide={onClose}>
       <Modal.Header closeButton>
@@ -223,7 +301,9 @@ function AddRouteLocation(props) {
             </Button>
             <Button
               variant="success"
-              onClick={saveDetails}
+              onClick={() => {
+                saveDetails();
+              }}
               className="ms-2 me-2"
             >
               Save Changes
@@ -328,4 +408,15 @@ function AddRouteLocation(props) {
     </Modal>
   );
 }
+AddRouteLocation.propTypes = {
+  stopLocations: PropTypes.array,
+  handleClose: PropTypes.func,
+  locations: PropTypes.array,
+  appendStopLocation: PropTypes.func,
+  setSequenceId: PropTypes.func,
+  setlocationAdded: PropTypes.func,
+  locationAdded: PropTypes.bool,
+  sequenceId: PropTypes.number,
+  show: PropTypes.bool,
+};
 export default AddRouteLocation;

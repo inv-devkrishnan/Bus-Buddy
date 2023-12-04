@@ -11,9 +11,9 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import { ExclamationCircle } from "react-bootstrap-icons";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 import Swal from "sweetalert2";
-
 import { axiosApi } from "../../utils/axiosApi";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
@@ -34,6 +34,7 @@ function ListUsers(props) {
   const [searchMode, setSearchMode] = useState(false);
   const listOrder = useRef(-1); // to store the sorting order
   const userStatus = useRef(props.busApproval ? 3 : 100); // to store the user status
+  const [isTableLoading, setIsTableLoading] = useState(false);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -59,6 +60,7 @@ function ListUsers(props) {
           ? "adminstrator/list-users/?status=3"
           : "adminstrator/list-users/";
       }
+      setIsTableLoading(true);
       await axiosApi
         .get(default_url)
         .then((result) => {
@@ -73,6 +75,7 @@ function ListUsers(props) {
         .catch(function (error) {
           displayErrorMessage(error);
         });
+      setIsTableLoading(false);
     },
     [props.busApproval]
   );
@@ -138,9 +141,11 @@ function ListUsers(props) {
 
     // if dialog is confirmed
     if ((await showDialog(banDialogdata)).isConfirmed) {
+      showLoadingAlert("Banning User");
       await axiosApi
         .put(`adminstrator/ban-user/${user_id}/`)
         .then((result) => {
+          Swal.close();
           Swal.fire({
             title: "User Banned !",
             icon: "success",
@@ -151,6 +156,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -172,9 +178,11 @@ function ListUsers(props) {
 
     // if confirmed
     if ((await showDialog(unBanUserDialog)).isConfirmed) {
+      showLoadingAlert("Unbaning User");
       await axiosApi
         .put(`adminstrator/unban-user/${user_id}/`)
         .then((result) => {
+          Swal.close();
           Swal.fire({
             title: "User Ban Removed !",
             icon: "success",
@@ -184,6 +192,7 @@ function ListUsers(props) {
           setSearchMode(false);
         })
         .catch(function (error) {
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -204,9 +213,11 @@ function ListUsers(props) {
     };
     // if confirmed
     if ((await showDialog(removeUserDialog)).isConfirmed) {
+      showLoadingAlert("Removing User");
       await axiosApi
         .put(`adminstrator/remove-user/${user_id}/`)
         .then((result) => {
+          Swal.close();
           Swal.fire({
             title: "User Removed !",
             icon: "success",
@@ -225,6 +236,7 @@ function ListUsers(props) {
           }
         })
         .catch(function (error) {
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -270,6 +282,7 @@ function ListUsers(props) {
           }
         })
         .catch(function (error) {
+          Swal.close();
           displayErrorMessage(error);
         });
     }
@@ -289,7 +302,7 @@ function ListUsers(props) {
     return [];
   };
   return (
-    <Container className="ms-2 mt-2">
+    <Container fluid className="ms-2 mt-2">
       <Row>
         <Col>
           <h1 className="ms-3">
@@ -423,85 +436,92 @@ function ListUsers(props) {
       }
 
       <Row className="ms-auto me-auto">
-        <div className="d-flex" >
-          {users.length > 0 ? (
-            <Table
-              hover
-              variant="light"
-              responsive
-              className="m-3 mb-5"
-              style={{width:"60vw"}}
-            >
-              <thead>
-                <tr>
-                  <th>User ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td className="fw-bold">{user.id}</td>
-                    <td>{user.first_name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      {user.status === 2 && (
-                        <Button
-                          variant="success"
-                          onClick={() => {
-                            unBanUser(user.id);
-                          }}
-                        >
-                          Unban User
-                        </Button>
-                      )}
-                      {user.status === 0 && (
-                        <Button
-                          variant="warning"
-                          onClick={() => {
-                            banUser(user.id);
-                          }}
-                        >
-                          Ban User
-                        </Button>
-                      )}
-                      {user.status === 3 && props.busApproval && (
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            setBusOwnerInfo(user);
-                            handleShow();
-                          }}
-                        >
-                          View Details
-                        </Button>
-                      )}
-                    </td>
-                    {!props.busApproval && (
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={() => {
-                            removeUser(user.id);
-                          }}
-                        >
-                          Remove User
-                        </Button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
+        <div>
+          {isTableLoading ? (
             <div className="mt-5">
-              <div className="d-flex justify-content-center">
-                <ExclamationCircle size={36}></ExclamationCircle>
-              </div>
-              <h3 className="text-center mt-3">List empty !</h3>
+              <ProgressBar
+                animated
+                now={100}
+                className="w-25 ms-auto me-auto"
+              />
+              <p className="ms-3 mt-3 text-center">Please Wait</p>
+            </div>
+          ) : (
+            <div>
+              {users.length > 0 ? (
+                <Table hover variant="light" responsive className="mb-5">
+                  <thead>
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td className="fw-bold">{user.id}</td>
+                        <td>{user.first_name}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          {user.status === 2 && (
+                            <Button
+                              variant="success"
+                              onClick={() => {
+                                unBanUser(user.id);
+                              }}
+                            >
+                              Unban User
+                            </Button>
+                          )}
+                          {user.status === 0 && (
+                            <Button
+                              variant="warning"
+                              onClick={() => {
+                                banUser(user.id);
+                              }}
+                            >
+                              Ban User
+                            </Button>
+                          )}
+                          {user.status === 3 && props.busApproval && (
+                            <Button
+                              variant="primary"
+                              onClick={() => {
+                                setBusOwnerInfo(user);
+                                handleShow();
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          )}
+                        </td>
+                        {!props.busApproval && (
+                          <td>
+                            <Button
+                              variant="danger"
+                              onClick={() => {
+                                removeUser(user.id);
+                              }}
+                            >
+                              Remove User
+                            </Button>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <div className="mt-5">
+                  <div className="d-flex justify-content-center">
+                    <ExclamationCircle size={36}></ExclamationCircle>
+                  </div>
+                  <h3 className="text-center mt-3">List empty !</h3>
+                </div>
+              )}
             </div>
           )}
         </div>

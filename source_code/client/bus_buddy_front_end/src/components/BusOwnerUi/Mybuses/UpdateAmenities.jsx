@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
 import "./Addamenities.css";
 
 export default function Updateamenities() {
   const [currentAmenitiesData, setCurrentAmenitiesData] = useState([]);
+  const navi = useNavigate();
   const [formState, setFormState] = useState({
     emergency_no: 0,
     water_bottle: 0,
@@ -78,6 +79,7 @@ export default function Updateamenities() {
           text: "Bus Amenities updated successfully",
         });
       }
+      navi("/BusHome");
     } catch (error) {
       console.error("Error updating amenities:", error);
       Swal.fire({

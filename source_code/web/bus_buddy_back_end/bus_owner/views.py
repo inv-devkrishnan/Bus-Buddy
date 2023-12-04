@@ -349,7 +349,7 @@ class Updatebus(UpdateAPIView):
             else:
                 return Response({"message": "missing"}, status=404)
         except ObjectDoesNotExist:
-            return Response("Invalid Bus id", status=400)
+            return Response("Invalid Bus id", status=404)
 
 
 class CustomPagination(PageNumberPagination):

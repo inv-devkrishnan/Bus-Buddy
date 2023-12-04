@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
+import Swal from "sweetalert2";
 import { UpdateBusSchema } from "../UpdateBusSchema";
 import { axiosApi } from "../../../utils/axiosApi";
 
@@ -13,6 +14,7 @@ export default function Updatebus() {
   
   const location = useLocation();
   const bus = location.state;
+  const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
 
 
@@ -41,7 +43,7 @@ export default function Updatebus() {
 
   const onSubmit = async () => {
     try {
-      await axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
+      const response = await axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,
@@ -50,8 +52,22 @@ export default function Updatebus() {
 
       });
       console.log("updated");
+      if (response.status === 200) {
+        console.log("Amenities Inserted");
+        Swal.fire({
+          icon: "success",
+          title: "Updated Successfully",
+          text: "Bus Updated ",
+        });
+      }
+      navi("/BusHome");
     } catch (error) {
       console.error("Error updating:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error Updating Bus",
+      });
     }
   };
   const formik = useFormik({

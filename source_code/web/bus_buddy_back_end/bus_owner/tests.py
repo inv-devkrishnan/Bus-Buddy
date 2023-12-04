@@ -4,12 +4,7 @@ from rest_framework.test import APIClient
 from unittest.mock import patch
 
 # Create your tests here.
-from django.test import TestCase
-
-# Create your tests here.
 from django.urls import reverse
-from rest_framework.test import APIClient
-from rest_framework.test import APIClient
 from rest_framework import status
 from .models import Bus, User
 from .serializers import BusSerializer
@@ -48,6 +43,7 @@ class BaseTest(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
+        bus_id=self.bus.id
 
         self.valid_all_values_seat_details = [
             {
@@ -310,23 +306,82 @@ class BaseTest(TestCase):
             "bus_ac": 0,
             "bus_seat_type": 8,
         }
+        self.update_bus_data = {
+            "bus_name": "boss",
+            "plate_no": "Kl08A7099",
+            "bus_type": 0,
+            "bus_ac": 0,
+            "bus_seat_type":2
+        }
+        self.update_bus_invalid_data = {
+            "bus_name": "boss",
+            "plate_no": "KL 32 A 7099",
+            "bus_type": 0,
+            "bus_ac": 0,
+            "bus_seat_type":2
+        }
+        self.update_bus = reverse("update-bus",args=[bus_id])
+        self.delete_bus = reverse("delete-bus",args=[bus_id])
+
+        
 
         return super().setUp()
 
 
-class RegisterOwnerTest(BaseTest):
+class BusActions(BaseTest):
     def test_can_create_bus(self):
+        print("1")
         response = self.client.post(
             self.create_bus, self.create_bus_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_bus_invalid_data(self):
+        print("2")
         response = self.client.post(
             self.create_bus, self.cant_create_bus_invalid_data, format="json"
         )
         self.assertEqual(response.status_code, 400)
+        
+    def test_can_update_bus(self):
+        print("3")
+        response = self.client.put(
+            self.update_bus , self.update_bus_data , format = "json"
+        ) 
+        self.assertEqual(response.status_code,200)
+    
+    def test_cant_update_bus(self):
+        print("4")
+        self.update_invalid_bus = reverse("update-bus",args=[1])
+        response = self.client.put(
+            self.update_invalid_bus , self.update_bus_invalid_data , format = "json"
+        ) 
+        self.assertEqual(response.status_code,404)
+    def test_cant_update_bus_invalid_data(self):
+        print("5")
+        response = self.client.put(
+            self.update_bus , self.update_bus_invalid_data , format = "json"
+        )
+        self.assertEqual(response.status_code,400)
+        
+    def test_can_delete_bus(self):
+        print("6")
+        response = self.client.put(
+            self.delete_bus , format = "json"
+        )
+        self.assertEqual(response.status_code,200)
+        
+    def test_cant_delete_bus(self):
+        print("7")
+        self.delete_invalid_bus = reverse("delete-bus",args=[1])
+        response = self.client.put(
+            self.delete_invalid_bus , format = "json"
+        )
+        self.assertEqual(response.status_code,404)
+    
 
+class RegisterOwnerTest(BaseTest):
+    
     def test_can_register_user(self):
         response = self.client.post(
             self.register_bus_owner, self.valid_all_values, format="json"
@@ -473,49 +528,49 @@ class BusApiTests(TestCase):
         print(self.user.id)
 
 
-class CreateTest(BusApiTests):
-    def test_add_bus(self):
-        url = reverse("Add-Bus")
-        data = {
-            "bus_name": "Bus1",
-            "plate_no": "AB123CD",
-            "user": self.user.id,
-            "bus_type": 2,
-            "bus_ac": 0,
-            "status": 0,
-        }
-        print(self.user.id)
-        response = self.client.post(url, data, format="json")
-        self.assertEqual(response.status_code, 200)
-        if response.status_code == 200:
-            print("ok")
+# class CreateTest(BusApiTests):
+#     def test_add_bus(self):
+#         url = reverse("Add-Bus")
+#         data = {
+#             "bus_name": "Bus1",
+#             "plate_no": "AB123CD",
+#             "user": self.user.id,
+#             "bus_type": 2,
+#             "bus_ac": 0,
+#             "status": 0,
+#         }
+#         print(self.user.id)
+#         response = self.client.post(url, data, format="json")
+#         self.assertEqual(response.status_code, 200)
+#         if response.status_code == 200:
+#             print("ok")
 
-    def test_update_bus(self):
-        bus = Bus.objects.create(bus_name="Bus3", plate_no="EF789GH", user=self.user)
-        data = {
-            "bus_name": "UpdatedBus",
-            "plate_no": "FG123HI",
-            "user": bus.user,
-            "bus_type": 2,
-            "bus_ac": 0,
-            "status": 0,
-        }
-        response = self.client.put("/api/Update-Bus/{bus.id}/", data, format="json")
-        print(bus.id)
-        self.assertEqual(response.status_code, 200)
-        updated_bus = Bus.objects.get(id=bus.id)
-        print(updated_bus)
-        self.assertEqual(updated_bus.bus_name, "UpdatedBus")
-        self.assertEqual(updated_bus.plate_no, "FG123HI")
+#     def test_update_bus(self):
+#         bus = Bus.objects.create(bus_name="Bus3", plate_no="EF789GH", user=self.user)
+#         data = {
+#             "bus_name": "UpdatedBus",
+#             "plate_no": "FG123HI",
+#             "user": bus.user,
+#             "bus_type": 2,
+#             "bus_ac": 0,
+#             "status": 0,
+#         }
+#         response = self.client.put("/api/Update-Bus/{bus.id}/", data, format="json")
+#         print(bus.id)
+#         self.assertEqual(response.status_code, 200)
+#         updated_bus = Bus.objects.get(id=bus.id)
+#         print(updated_bus)
+#         self.assertEqual(updated_bus.bus_name, "UpdatedBus")
+#         self.assertEqual(updated_bus.plate_no, "FG123HI")
 
-    def test_delete_bus(self):
-        bus = Bus.objects.create(bus_name="Bus2", plate_no="CD456EF", user=self.user)
-        response = self.client.put("/api/Delete-Bus/{bus.id}/")
-        print(bus.id)
-        delete_bus = Bus.objects.filter(id=bus.id)
-        print(delete_bus)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
+#     def test_delete_bus(self):
+#         bus = Bus.objects.create(bus_name="Bus2", plate_no="CD456EF", user=self.user)
+#         response = self.client.put("/api/Delete-Bus/{bus.id}/")
+#         print(bus.id)
+#         delete_bus = Bus.objects.filter(id=bus.id)
+#         print(delete_bus)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
 
 
 class SeatDetailTest(BaseTest):
