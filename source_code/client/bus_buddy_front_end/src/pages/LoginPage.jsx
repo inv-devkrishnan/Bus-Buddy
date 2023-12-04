@@ -37,7 +37,12 @@ function LoginPage() {
     }
   }, [authStatus, navigate]);
   useEffect(() => {
-    if (localStorage.getItem("current_trip") && seatList.length > 0) {
+    // for displaying toast else clearing localstorage
+    if (
+      localStorage.getItem("current_trip") &&
+      seatList.length > 0 &&
+      localStorage.getItem("seat_list")
+    ) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -54,6 +59,8 @@ function LoginPage() {
         icon: "info",
         title: "Sign in as User to continue booking",
       });
+    } else if (localStorage.getItem("current_trip")) {
+      localStorage.removeItem("current_trip");
     }
   }, []);
 

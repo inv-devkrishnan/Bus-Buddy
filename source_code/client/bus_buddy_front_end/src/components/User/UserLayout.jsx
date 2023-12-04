@@ -12,14 +12,10 @@ export default function UserLayout(props) {
   const { updateSeatData } = useContext(SeatContext); // use context for updating seat data
 
   useEffect(() => {
-    getSeatData();
-  }, []);
-
-  const getSeatData = async () => {
-    await openAxiosApi
+    openAxiosApi
       .get(
         `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}
-      `
+        `
       )
       .then((res) => {
         updateSeatData(res.data);
@@ -27,7 +23,7 @@ export default function UserLayout(props) {
       .catch((err) => {
         console.log("error:" + err.response.data);
       });
-  };
+  }, [props.trip, props.startLocation, props.endLocation]);
 
   return (
     <div className="d-flex flex-column">

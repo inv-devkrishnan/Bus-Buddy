@@ -15,8 +15,8 @@ function TripCard(props) {
   const [show, setShow] = useState(false); // to show/hide the amenities modal
   const handleClose = () => setShow(false); // function to close amenties modal
   const handleShow = () => setShow(true); // function to show amenties modal
-  const [viewSeatFlag, setViewSeatFlag] = useState(false);
-  const { updateTripID, updateSeatList } = useContext(SeatContext);
+  const [viewSeatFlag, setViewSeatFlag] = useState(false);// flag to know if any seat view is open
+  const { updateTripID, updateSeatList } = useContext(SeatContext);// 
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -137,9 +137,9 @@ function TripCard(props) {
                           {formatKey(amenity[0])}
                         </p>
                         {amenity[1] ? (
-                          <XCircleFill color="red" />
+                         <CheckCircleFill color="green" />
                         ) : (
-                          <CheckCircleFill color="green" />
+                          <XCircleFill color="red" />
                         )}
                       </ListGroup.Item>
                     ))}

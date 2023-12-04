@@ -5,6 +5,7 @@ import PickAndDrop from "../components/User/PickAndDrop";
 import Grid from "@mui/material/Grid";
 
 import { SeatContext } from "../utils/SeatContext";
+import { Card } from "@mui/material";
 
 export default function ViewSeatDetails(props) {
   const { seatList } = useContext(SeatContext);
@@ -16,37 +17,39 @@ export default function ViewSeatDetails(props) {
   }, []);
 
   return (
-    <Grid
-      container
-      spacing={2}
-      alignItems="flex-start"
-      // justifyContent="space-between"
-    >
-      <Grid item md={12} sm={12} lg={4} xl={4}>
-        <UserLayout
-          trip={props.currentTrip?.data?.trip}
-          startLocation={props?.startLocation}
-          endLocation={props?.endLocation}
-        />
-      </Grid>
-
-      <Grid item md={12} sm={12} lg={8} xl={8}>
-        {seatList.length ? (
-          <PickAndDrop
-            selectionModelPick={selectionModelPick}
-            setSelectionModelPick={setSelectionModelPick}
-            selectionModelDrop={selectionModelDrop}
-            setSelectionModelDrop={setSelectionModelDrop}
+    <Card className="m-3 p-3">
+      <Grid
+        container
+        spacing={2}
+        alignItems="flex-start"
+        // justifyContent="space-between"
+      >
+        <Grid item md={12} sm={12} lg={4} xl={4}>
+          <UserLayout
+            trip={props.currentTrip?.data?.trip}
+            startLocation={props?.startLocation}
+            endLocation={props?.endLocation}
           />
-        ) : null}
-        {/* component renders only when a seat is selected */}
-        <SeatDetailCard
-          selectionModelPick={selectionModelPick}
-          selectionModelDrop={selectionModelDrop}
-          routeCost={props?.routeCost}
-          gst={props?.gst}
-        />
+        </Grid>
+
+        <Grid item md={12} sm={12} lg={8} xl={8}>
+          {seatList.length ? (
+            <PickAndDrop
+              selectionModelPick={selectionModelPick}
+              setSelectionModelPick={setSelectionModelPick}
+              selectionModelDrop={selectionModelDrop}
+              setSelectionModelDrop={setSelectionModelDrop}
+            />
+          ) : null}
+          {/* component renders only when a seat is selected */}
+          <SeatDetailCard
+            selectionModelPick={selectionModelPick}
+            selectionModelDrop={selectionModelDrop}
+            routeCost={props?.routeCost}
+            gst={props?.gst}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </Card>
   );
 }

@@ -38,17 +38,20 @@ function CustomPaginator(props) {
       }
       for (let i = props.pageStartLimit; i <= props.pageEndLimit; ++i) {
         // page items are shown based start and endlimits
-        pageItem.push(
-          <Pagination.Item
-            key={i}
-            active={i === props.currentPage}
-            onClick={() => {
-              props.viewPage(i);
-            }}
-          >
-            {i}
-          </Pagination.Item>
-        );
+        // checks weather page i is within total pages (in case of deletion )
+        if (i <= props.totalPages) {
+          pageItem.push(
+            <Pagination.Item
+              key={i}
+              active={i === props.currentPage}
+              onClick={() => {
+                props.viewPage(i);
+              }}
+            >
+              {i}
+            </Pagination.Item>
+          );
+        }
       }
       // shows the ellipsis to reveal next set of page numbers
 

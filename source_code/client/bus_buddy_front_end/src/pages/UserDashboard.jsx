@@ -68,7 +68,7 @@ export default function UserDashboard() {
       <div className="fixed-sidebar">
           <SideBar heading={userName} options={options} />
       </div>
-      <div className="p-2 flex-fill bd-highlight">
+      <div className="flex-fill bd-highlight main_content">
           {myProfileSelect && <UserProfilePage setUserName={setUserName}/>}
           {myTripSelect && <UserBookingHistory />}
           {deleteSelect && <DeleteAccount />}

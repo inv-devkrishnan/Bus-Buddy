@@ -79,22 +79,24 @@ class ViewSeats(ListAPIView):
                 context={"trip_id": trip_id},
                 many=True,
             )
-            start_stop_location_objects = StartStopLocations.objects.filter(
-                location__in=[start_location, end_location]
+            
+            # finding pick up points
+            start = StartStopLocations.objects.get(
+                location__in=[start_location], route_id=trip.route
             )
+            pick = PickAndDrop.objects.filter(start_stop_location=start)
+            pick_serializer = PickAndDropSerializer(pick, many=True)
 
-            start_stop_location_ids = []
-            for data in start_stop_location_objects:
-                start_stop_location_ids.append(data.id)
-
-            pick_and_drop = PickAndDrop.objects.filter(
-                start_stop_location__in=start_stop_location_ids
+            # finding drop off points
+            stop = StartStopLocations.objects.get(
+                location__in=[end_location], route_id=trip.route
             )
-            pick_and_drop_serializer = PickAndDropSerializer(
-                pick_and_drop, many=True
-            )  # data from pick and drop with the route id from trip table
-            print(pick_and_drop_serializer.data)
-            pick_and_drop_array = [pick_and_drop_serializer.data]
+            drop = PickAndDrop.objects.filter(start_stop_location=stop)
+            drop_serializer = PickAndDropSerializer(drop, many=True)
+            
+            pick_and_drop_array = []
+            pick_and_drop_array.append(pick_serializer.data)
+            pick_and_drop_array.append(drop_serializer.data)
             total_data = (
                 pick_and_drop_array + serializer.data
             )  # both seat data and pick and drop data
