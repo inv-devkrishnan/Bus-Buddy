@@ -314,45 +314,49 @@ class BaseTest(TestCase):
 
 class BusActions(BaseTest):
     def test_can_create_bus(self):
+        print("1")
         response = self.client.post(
             self.create_bus , self.create_bus_data,format = "json"
         )
         self.assertEqual(response.status_code, 200)
     
     def test_cant_create_bus_invalid_data(self):
+        print("2")
         response = self.client.post(
             self.create_bus , self.cant_create_bus_invalid_data,format = "json"
         )
         self.assertEqual(response.status_code, 400)
         
     def test_can_update_bus(self):
+        print("3")
         response = self.client.put(
             self.update_bus , self.update_bus_data , format = "json"
         ) 
         self.assertEqual(response.status_code,200)
     
     def test_cant_update_bus(self):
+        print("4")
         self.update_invalid_bus = reverse("update-bus",args=[1])
         response = self.client.put(
             self.update_invalid_bus , self.update_bus_invalid_data , format = "json"
         ) 
-        print(f"Request data: {self.update_bus_invalid_data}")
-        print(f"Response status code: {response.status_code}")
-        print(f"Response content: {response.content}")
         self.assertEqual(response.status_code,404)
-    def test_cant_update_bus(self):
+    def test_cant_update_bus_invalid_data(self):
+        print("5")
         response = self.client.put(
             self.update_bus , self.update_bus_invalid_data , format = "json"
         )
         self.assertEqual(response.status_code,400)
         
     def test_can_delete_bus(self):
+        print("6")
         response = self.client.put(
             self.delete_bus , format = "json"
         )
         self.assertEqual(response.status_code,200)
         
     def test_cant_delete_bus(self):
+        print("7")
         self.delete_invalid_bus = reverse("delete-bus",args=[1])
         response = self.client.put(
             self.delete_invalid_bus , format = "json"
