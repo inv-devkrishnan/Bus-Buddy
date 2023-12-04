@@ -16,6 +16,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
+import * as yup from "yup";
 
 import { FormComponentSchema } from "./FormComponentSchema";
 import { AddSeatContext } from "../../../utils/AddSeatContext";
@@ -31,7 +32,6 @@ export default function FormComponent(props) {
     updateReRender,
     addSeatList,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
-  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
@@ -47,25 +47,28 @@ export default function FormComponent(props) {
     }
   }, [propsData]);
 
-  useEffect(() => {
-    // for setting values to test box after api call
-    if (currentSeatData["seat_ui_order"] === propsData) {
-      formik.setValues({
-        seatNumber: currentSeatData["seat_number"],
-        seatType: currentSeatData["seat_type"],
-        deck: currentSeatData["deck"],
-        seatCost: currentSeatData["seat_cost"],
+  const validationSchema = yup.object().shape(
+    addSeatList.reduce((acc, uiOrder) => {
+      acc[uiOrder] = yup.object().shape({
+        [`seatNumber-${uiOrder}`]: yup
+          .string()
+          .required("Seat number is required"),
+        [`seatType-${uiOrder}`]: yup.number().required("Seat type is required"),
+        [`deck-${uiOrder}`]: yup.number().required("Deck is required"),
+        [`seatCost-${uiOrder}`]: yup
+          .string()
+          .matches(/^\d+$/, "Seat cost must be numbers")
+          .required("Seat cost is required"),
       });
-    }
-  }, [currentSeatData]);
+      console.log("Schema:", acc[uiOrder]);
+      return acc;
+    }, {})
+  );
 
   const onSubmit = () => {
     // api call for storing seat details
     axiosApi
-      .post(
-        `http://127.0.0.1:8000/bus-owner/add-seat-details?bus=${props.bus}`,
-        formData
-      )
+      .post(`bus-owner/add-seat-details?bus=${props.bus}`, formData)
       .then((res) => {
         if (res.status === 201) {
           Swal.fire("Success!", "Seat added successfully!", "success");
@@ -75,104 +78,145 @@ export default function FormComponent(props) {
       })
       .catch((err) => {
         if (err.response.data.seat_ui_order) {
-          setErrorMessage(err.response.data.seat_ui_order);
+          Swal.fire({
+            // displays error message
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data.seat_ui_order,
+          });
         } else {
-          setErrorMessage(err.response.data);
+          Swal.fire({
+            // displays error message
+            icon: "error",
+            title: "Oops...",
+            text: err.response.data,
+          });
         }
-
-        Swal.fire({
-          // displays error message
-          icon: "error",
-          title: "Oops...",
-          text: errorMessage,
-        });
       });
   };
 
   const formik = useFormik({
     // formik initialisation
-    initialValues: {
-      seatNumber: "",
-      seatType: 0,
-      deck: 0,
-      seatCost: "",
-    },
-    validationSchema: FormComponentSchema,
+    initialValues: addSeatList.reduce((acc, uiOrder) => {
+      console.log(uiOrder);
+      acc[uiOrder] = {
+        [`seatNumber-${uiOrder}`]: "",
+        [`seatType-${uiOrder}`]: 0,
+        [`deck-${uiOrder}`]: 0,
+        [`seatCost-${uiOrder}`]: "",
+      };
+      return acc;
+    }, {}),
+    validationSchema,
     onSubmit,
   });
-  console.log(formik.values);
+  console.log(formik.errors);
+
+  const handleInputChange = (uiOrder, field, value) => {
+    // for saving data dynamically using formik eith on change property
+    formik.setFieldValue(`${uiOrder}.${field}`, value);
+    formik.handleBlur(`${uiOrder}.${field}`);
+  };
 
   const { resetForm } = formik; // when called resets the form
 
   const singleForm = (uiOrder) => {
     return (
-      <div key={uiOrder} className="d-flex m-1">
+      <FormControl key={uiOrder} className="d-flex flex-row m-1">
         <Typography className="m-3">id: {uiOrder}</Typography>
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id="seatNumber"
+            id={`seatNumber-${uiOrder}`}
+            name={`seatNumber-${uiOrder}`}
             label="Seat number"
             variant="outlined"
-            name="seatNumber"
-            value={formik.values.seatNumber}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.seatNumber && Boolean(formik.errors.seatNumber)
+            value={formik.values[uiOrder]?.[`seatNumber-${uiOrder}`]}
+            onChange={(e) =>
+              handleInputChange(
+                uiOrder,
+                `seatNumber-${uiOrder}`,
+                e.target.value
+              )
             }
-            helperText={formik.touched.seatNumber && formik.errors.seatNumber}
+            error={
+              formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`]
+            }
+            helperText={
+              formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`]
+            }
           />
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <InputLabel htmlFor="seatType">Seat type</InputLabel>
           <Select
-            id="seatType"
-            name="seatType"
+            id={`seatType-${uiOrder}`}
+            name={`seatType-${uiOrder}`}
             label="Seat type"
             variant="outlined"
-            value={formik.values.seatType}
-            onChange={formik.handleChange}
-            error={formik.touched.seatType && Boolean(formik.errors.seatType)}
+            value={formik.values[uiOrder]?.[`seatType-${uiOrder}`] || 0}
+            onChange={(e) =>
+              handleInputChange(uiOrder, `seatType-${uiOrder}`, e.target.value)
+            }
+            error={
+              formik.touched[uiOrder]?.[`seatType-${uiOrder}`] &&
+              Boolean(formik.errors[uiOrder]?.[`seatType-${uiOrder}`])
+            }
           >
             <MenuItem value={0}>Seater</MenuItem>
             <MenuItem value={1}>Sleeper</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched.seatType && formik.errors.seatType}
+            {formik.touched[uiOrder]?.[`seatType-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatType-${uiOrder}`]}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <InputLabel htmlFor="seatType">Deck</InputLabel>
           <Select
-            id="deck"
-            name="deck"
+            id={`deck-${uiOrder}`}
+            name={`deck-${uiOrder}`}
             label="Deck"
             variant="outlined"
-            value={formik.values.deck}
+            value={formik.values[uiOrder]?.[`deck-${uiOrder}`] || 0}
             onChange={(e) =>
-              formik.setFieldValue("deck", parseInt(e.target.value))
+              handleInputChange(uiOrder, `deck-${uiOrder}`, e.target.value)
             }
-            error={formik.touched.deck && Boolean(formik.errors.deck)}
+            error={
+              formik.touched[uiOrder]?.[`deck-${uiOrder}`] &&
+              Boolean(formik.errors[uiOrder]?.[`deck-${uiOrder}`])
+            }
           >
             <MenuItem value={0}>Lower deck</MenuItem>
             <MenuItem value={1}>Upper deck</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched.deck && formik.errors.deck}
+            {formik.touched[uiOrder]?.[`deck-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`deck-${uiOrder}`]}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id="seatCost"
-            name="seatCost"
+            id={`seatCost-${uiOrder}`}
+            name={`seatCost-${uiOrder}`}
             label="Seat cost"
             variant="outlined"
-            value={formik.values.seatCost}
-            onChange={formik.handleChange}
-            error={formik.touched.seatCost && Boolean(formik.errors.seatCost)}
-            helperText={formik.touched.seatCost && formik.errors.seatCost}
+            value={formik.values[uiOrder]?.[`seatCost-${uiOrder}`]}
+            onChange={(e) =>
+              handleInputChange(uiOrder, `seatCost-${uiOrder}`, e.target.value)
+            }
+            error={
+              formik.touched[uiOrder]?.[`seatCost-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatCost-${uiOrder}`]
+            }
+            helperText={
+              formik.touched[uiOrder]?.[`seatCost-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatCost-${uiOrder}`]
+            }
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -182,7 +226,7 @@ export default function FormComponent(props) {
             }}
           />
         </FormControl>
-      </div>
+      </FormControl>
     );
   };
 
