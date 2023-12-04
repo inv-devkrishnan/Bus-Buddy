@@ -32,6 +32,7 @@ import { NavbarLayout } from "./components/common/navbar/NavBarLayout";
 import UpdateTrips from "./components/BusOwnerUi/MyTrips/UpdateTrips";
 import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips"
 import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
+import SearchTrips from "./pages/SearchTrips";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
               element={<SingleSeaterDoubleSleeperDetails />}
             />
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
+            <Route path="/search-trip" element={<SearchTrips/>}/>
           </Route>
           {/* pages which don't have navbar */}
           <Route path="/payment" element={<PaymentPage />} />
