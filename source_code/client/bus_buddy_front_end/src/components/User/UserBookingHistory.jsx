@@ -144,8 +144,6 @@ export default function UserBookingHistory() {
     }
   };
 
-  console.log(modalData);
-
   return (
     <>
       <div className="d-flex flex-column p-2 bd-highlight">
@@ -362,12 +360,12 @@ export default function UserBookingHistory() {
                 </thead>
                 <tbody>
                   {modalData?.booked_seats?.map((passenger) => (
-                    <tr key={passenger.id}>
-                      <td>{passenger.traveller_name}</td>
+                    <tr key={passenger?.id}>
+                      <td>{passenger?.traveller_name}</td>
                       <td>
-                        {passenger.traveller_gender === 1 ? "Male" : "Female"}
+                        {passenger?.traveller_gender === 1 ? "Male" : "Female"}
                       </td>
-                      <td>{passenger.seat}</td>
+                      <td>{passenger?.seat}</td>
                     </tr>
                   ))}
                 </tbody>
