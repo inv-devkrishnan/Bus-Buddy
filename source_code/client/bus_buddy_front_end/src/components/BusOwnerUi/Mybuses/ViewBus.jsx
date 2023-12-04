@@ -232,13 +232,14 @@ export default function Viewallbus() {
 
   return (
     <div>
-      <Navbar className="bg-body-tertiary justify-content-between">
-        <Form
-          style={{ textAlign: "center", marginLeft: "40%", marginTop: "1%" }}
-        >
-          <h1>Viewall</h1>
-        </Form>
-      </Navbar>
+      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+      <h1 className="mx-auto">Viewall</h1>
+      <Form style={{ textAlign: "center" }}>
+        <Link to={"/AddBus"}>
+          <button className="btn btn-primary"> + Add Bus</button>
+        </Link>
+      </Form>
+    </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
         style={{
@@ -250,9 +251,6 @@ export default function Viewallbus() {
         }}
       >
         {paginationBasic}
-        <Link to={"/AddBus"}>
-          <button className="btn btn-primary"> + Add Bus</button>
-        </Link>
       </div>
     </div>
   );

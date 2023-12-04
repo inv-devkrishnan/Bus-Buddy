@@ -153,11 +153,14 @@ export default function Viewallroutes() {
 
   return (
     <div>
-      <Navbar className="bg-body-tertiary justify-content-between">
-        <Form style={{ textAlign: "center", marginLeft: "40%",marginTop:"1%" }} >
-          <h1>Viewall</h1>
-        </Form>
-      </Navbar>
+      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+      <h1 className="mx-auto">Viewall</h1>
+      <Form style={{ textAlign: "center" }}>
+      <Link to={"/Addroutes"}>
+          <button className="btn btn-primary">Add Routes</button>
+        </Link>
+      </Form>
+    </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
         style={{
@@ -169,9 +172,6 @@ export default function Viewallroutes() {
         }}
       >
         {paginationBasic}
-        <Link to={"/Addroutes"}>
-          <button className="btn btn-primary">Add Routes</button>
-        </Link>
       </div>
     </div>
   );
