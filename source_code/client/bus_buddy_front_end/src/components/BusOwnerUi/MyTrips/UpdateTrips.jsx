@@ -220,7 +220,7 @@ export default function Updatetrips() {
                 </Form.Group>
 
                 <div style={{ display: "flex", justifyContent: "space-around" }}>
-                  <Form.Group as={Col} md="6" controlId="validationCustom05">
+                  <Form.Group as={Col} md="6" controlId="validationCustom05" style={{visibility:"hidden"}}>
                     <Form.Label>Arrival Time</Form.Label>
                     <Form.Control
                       type="time"
@@ -233,7 +233,7 @@ export default function Updatetrips() {
                       disabled
                     />
                   </Form.Group>
-                  <Form.Group as={Col} md="6" controlId="validationCustom06">
+                  <Form.Group as={Col} md="6" controlId="validationCustom06" style={{visibility:"hidden"}}>
                     <Form.Label>Departure Time</Form.Label>
                     <Form.Control
                       type="time"

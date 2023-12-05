@@ -270,7 +270,19 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-                 <Form.Group className="mb-6">
+               <Form.Group as={Col} md="4" controlId="validationCustom04">
+                  <Form.Label>Recurrence Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => setRecurrence(e.target.value)}
+                    value={recurrence}
+                  >
+                    <option value="0">Select option</option>
+                    <option value="1"> Daily </option>
+                    <option value="2"> Weekly </option>
+                  </Form.Control>
+                </Form.Group>
+                 <Form.Group className="mb-6" style={{visibility:"hidden"}}>
                    <Form.Label>Arrival Time</Form.Label>
                    <Form.Control
                      type="time"
@@ -283,7 +295,7 @@ export default function Addrecurringtrip() {
                     disabled
                    />
                  </Form.Group>
-                 <Form.Group className="mb-5">
+                 <Form.Group className="mb-5" style={{visibility:"hidden"}}>
                    <Form.Label>Departure Time</Form.Label>
                    <Form.Control
                      type="time"
@@ -296,18 +308,7 @@ export default function Addrecurringtrip() {
                      disabled
                    />
                  </Form.Group>
-             <Form.Group as={Col} md="4" controlId="validationCustom04">
-                  <Form.Label>Recurrence Type</Form.Label>
-                  <Form.Control
-                    as="select"
-                    onChange={(e) => setRecurrence(e.target.value)}
-                    value={recurrence}
-                  >
-                    <option value="0">Select option</option>
-                    <option value="1"> Daily </option>
-                    <option value="2"> Weekly </option>
-                  </Form.Control>
-                </Form.Group>
+             
                 </Row>
              <div
                style={{

@@ -200,7 +200,7 @@ const formattedEndDate = selectedEndDate
                     ))}
                   </Form.Control>
                 </Form.Group>
-                  <Form.Group className="mb-6">
+                  <Form.Group className="mb-6" style={{visibility:"hidden"}}>
                     <Form.Label>Arrival Time</Form.Label>
                     <Form.Control
                       type="time"
@@ -213,7 +213,7 @@ const formattedEndDate = selectedEndDate
                       disabled
                     />
                   </Form.Group>
-                  <Form.Group className="mb-5">
+                  <Form.Group className="mb-5" style={{visibility:"hidden"}}>
                     <Form.Label>Departure Time</Form.Label>
                     <Form.Control
                       type="time"
