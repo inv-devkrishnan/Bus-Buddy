@@ -79,7 +79,7 @@ class ViewSeats(ListAPIView):
                 context={"trip_id": trip_id},
                 many=True,
             )
-            
+
             # finding pick up points
             start = StartStopLocations.objects.get(
                 location__in=[start_location], route_id=trip.route
@@ -93,7 +93,7 @@ class ViewSeats(ListAPIView):
             )
             drop = PickAndDrop.objects.filter(start_stop_location=stop)
             drop_serializer = PickAndDropSerializer(drop, many=True)
-            
+
             pick_and_drop_array = []
             pick_and_drop_array.append(pick_serializer.data)
             pick_and_drop_array.append(drop_serializer.data)
@@ -452,6 +452,7 @@ class BookSeat(APIView):
         route_start = route.start_point
         route_end = route.end_point
         pick_up = PickAndDrop.objects.get(id=request_data["pick_up"])
+        drop_off = PickAndDrop.objects.get(id=request_data["drop_off"])
 
         # getting seat ids and objects
         seats = []
@@ -471,6 +472,7 @@ class BookSeat(APIView):
             "booking_id": request_data["booking_id"],
             "recipient": request.user.first_name,
             "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
+            "drop_off": {"point": drop_off.bus_stop, "time": drop_off.arrival_time},
             "trip_start": trip.start_date,
             "bus": bus.bus_name,
             "route": {"from": route_start.location_name, "to": route_end.location_name},
