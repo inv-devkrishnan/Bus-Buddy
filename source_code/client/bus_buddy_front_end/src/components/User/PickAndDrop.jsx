@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import "./PickAndDrop.css";
 import { Typography, Card, CardContent, Radio } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import PropTypes from "prop-types";
 
 import { SeatContext } from "../../utils/SeatContext";
 
@@ -167,3 +168,9 @@ export default function PickAndDrop(props) {
     </Card>
   );
 }
+PickAndDrop.propTypes = {
+  selectionModelPick: PropTypes.array,
+  setSelectionModelPick: PropTypes.func,
+  selectionModelDrop: PropTypes.array,
+  setSelectionModelDrop: PropTypes.func,
+};
