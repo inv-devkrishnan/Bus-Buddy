@@ -229,7 +229,8 @@ export default function Updatetrips() {
                       onChange={(e) =>
                         formik.setFieldValue("starttime", e.target.value)
                       }
-                      required
+                      // required
+                      disabled
                     />
                   </Form.Group>
                   <Form.Group as={Col} md="6" controlId="validationCustom06">
@@ -241,7 +242,8 @@ export default function Updatetrips() {
                       onChange={(e) =>
                         formik.setFieldValue("endtime", e.target.value)
                       }
-                      required
+                      // required
+                      disabled
                     />
                   </Form.Group>
                 </div>

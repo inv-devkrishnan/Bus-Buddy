@@ -279,7 +279,8 @@ export default function Addrecurringtrip() {
                      onChange={(e) => {
                        setStartTime(e.target.value);
                      }}
-                     required={searchMode}
+                    //  disabled={searchMode}
+                    disabled
                    />
                  </Form.Group>
                  <Form.Group className="mb-5">
@@ -291,7 +292,8 @@ export default function Addrecurringtrip() {
                      onChange={(e) => {
                        setEndTime(e.target.value);
                      }}
-                     required={searchMode}
+                    //  required={searchMode}
+                     disabled
                    />
                  </Form.Group>
              <Form.Group as={Col} md="4" controlId="validationCustom04">

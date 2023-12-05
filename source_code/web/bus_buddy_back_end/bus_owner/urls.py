@@ -20,5 +20,5 @@ urlpatterns = [
     path('delete-trip/<int:id>/',views.Deletetrip.as_view(),name="delete-trip"),
     path('view-trip/',views.Viewtrip.as_view(),name="view-trip"),
     path('view-available-bus/',views.Viewavailablebus.as_view(),name="view-available-bus"),
-    path('add-reccuring-trip/',views.Addtreccuringrip.as_view(),name="add-reccuring-trip"),
+    path('add-reccuring-trip/',views.Addreccuringrip.as_view(),name="add-reccuring-trip"),
 ]

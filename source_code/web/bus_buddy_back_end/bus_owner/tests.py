@@ -6,7 +6,7 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User
+from .models import Bus, User,Amenities,Trip
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -304,9 +304,10 @@ class BaseTest(TestCase):
             "bus_ac": 0,
             "bus_seat_type":2
         }
+        
         self.update_bus = reverse("update-bus",args=[bus_id])
         self.delete_bus = reverse("delete-bus",args=[bus_id])
-
+        self.add_amenities = reverse("add-amenities")
         
 
         return super().setUp()
@@ -357,12 +358,40 @@ class BusActions(BaseTest):
         
     def test_cant_delete_bus(self):
         print("7")
+        
         self.delete_invalid_bus = reverse("delete-bus",args=[1])
         response = self.client.put(
             self.delete_invalid_bus , format = "json"
         )
         self.assertEqual(response.status_code,404)
-    
+        
+    def test_can_add_amenities(self):
+        print("8")
+        self.bus3 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456EF", user=self.user
+        )
+        self.add_amenities = reverse("add-amenities")
+        bus_id = self.bus3.id
+        self.add_amenities_data = {
+            "bus":bus_id,
+            "emergency_no": 0,
+            "water_bottle": 0,
+            "charging_point": 0,
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0
+        }
+        response = self.client.post(
+            self.add_amenities , format = "json"
+        )
+        print("Status Code:", response.status_code)
+        print("Response Content:", response.content)
+        self.assertEqual(response.status_code,200)
 
 class RegisterOwnerTest(BaseTest):
     

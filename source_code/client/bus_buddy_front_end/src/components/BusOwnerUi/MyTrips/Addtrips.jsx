@@ -209,7 +209,8 @@ const formattedEndDate = selectedEndDate
                       onChange={(e) => {
                         setStartTime(e.target.value);
                       }}
-                      required={searchMode}
+                      // required={searchMode}
+                      disabled
                     />
                   </Form.Group>
                   <Form.Group className="mb-5">
@@ -221,7 +222,8 @@ const formattedEndDate = selectedEndDate
                       onChange={(e) => {
                         setEndTime(e.target.value);
                       }}
-                      required={searchMode}
+                      // required={searchMode}
+                      disabled
                     />
                   </Form.Group>
               </Row>
