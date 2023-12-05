@@ -1,4 +1,5 @@
 import stripe
+import pytz
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from rest_framework.views import APIView
@@ -79,7 +80,7 @@ class ViewSeats(ListAPIView):
                 context={"trip_id": trip_id},
                 many=True,
             )
-            
+
             # finding pick up points
             start = StartStopLocations.objects.get(
                 location__in=[start_location], route_id=trip.route
@@ -93,7 +94,7 @@ class ViewSeats(ListAPIView):
             )
             drop = PickAndDrop.objects.filter(start_stop_location=stop)
             drop_serializer = PickAndDropSerializer(drop, many=True)
-            
+
             pick_and_drop_array = []
             pick_and_drop_array.append(pick_serializer.data)
             pick_and_drop_array.append(drop_serializer.data)
@@ -345,38 +346,52 @@ class ViewTrip(APIView):
                 query, [start_location, end_location, date]
             )
             trip_list = []
+            desired_timezone = pytz.timezone("Asia/Kolkata")
+            # Get the current time in the specified timezone
+            current_time = datetime.now(desired_timezone).time()
+            current_date = datetime.now(desired_timezone).date()
             for data in result:
-                trip_data = {
-                    # stores each trip information
-                    "route": data.route_id,
-                    "start_location_arrival_time": data.start_arrival_time,
-                    "end_location_arrival_time": data.end_arrival_time,
-                    "start_location_arrival_date": data.start_date,
-                    "end_location_arrival_date": data.end_date,
-                    "via": data.via,
-                    "travel_fare": data.starting_cost,
-                    "trip": data.trip_id,
-                    "bus_name": data.bus_name,
-                    "bus": data.bus_id,
-                    "company_name": data.company_name,
-                    "route_cost": data.route_cost,
-                    "gst": data.gst,
-                    "amenities": {
-                        "emergency_no": data.emergency_no,
-                        "water_bottle": data.water_bottle,
-                        "charging_point": data.charging_point,
-                        "usb_port": data.usb_port,
-                        "blankets": data.blankets,
-                        "pillows": data.pillows,
-                        "reading_light": data.reading_light,
-                        "toilet": data.toilet,
-                        "snacks": data.snacks,
-                        "tour_guide": data.tour_guide,
-                        "cctv": data.cctv,
-                    },
-                }
-                # adds each trip data to a trip list
-                trip_list.append(trip_data)
+                if (
+                    current_date == data.start_date
+                    and current_time > data.start_arrival_time
+                ):
+                    logger.info(
+                        "Trip with id "
+                        + str(data.trip_id)
+                        + " skipped since current time passed start time"
+                    )
+                else:
+                    trip_data = {
+                        # stores each trip information
+                        "route": data.route_id,
+                        "start_location_arrival_time": data.start_arrival_time,
+                        "end_location_arrival_time": data.end_arrival_time,
+                        "start_location_arrival_date": data.start_date,
+                        "end_location_arrival_date": data.end_date,
+                        "via": data.via,
+                        "travel_fare": data.starting_cost,
+                        "trip": data.trip_id,
+                        "bus_name": data.bus_name,
+                        "bus": data.bus_id,
+                        "company_name": data.company_name,
+                        "route_cost": data.route_cost,
+                        "gst": data.gst,
+                        "amenities": {
+                            "emergency_no": data.emergency_no,
+                            "water_bottle": data.water_bottle,
+                            "charging_point": data.charging_point,
+                            "usb_port": data.usb_port,
+                            "blankets": data.blankets,
+                            "pillows": data.pillows,
+                            "reading_light": data.reading_light,
+                            "toilet": data.toilet,
+                            "snacks": data.snacks,
+                            "tour_guide": data.tour_guide,
+                            "cctv": data.cctv,
+                        },
+                    }
+                    # adds each trip data to a trip list
+                    trip_list.append(trip_data)
 
             paginator = Paginator(trip_list, ITEMS_PER_PAGE)  # pagination for trips
 
