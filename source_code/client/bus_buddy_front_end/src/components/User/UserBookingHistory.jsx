@@ -137,8 +137,6 @@ export default function UserBookingHistory() {
     // for colours in table
     if (data?.status === 99) {
       return "tomato";
-    } else if (data?.status === 1) {
-      return "yellowgreen";
     } else {
       return "cornflowerblue";
     }
@@ -290,16 +288,13 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Trip status:{" "}
+                Booking status:{" "}
                 <strong>
                   {modalData?.status === 99 && (
                     <span style={{ color: "tomato" }}>Cancelled</span>
                   )}
-                  {modalData?.status === 1 && (
-                    <span style={{ color: "yellowgreen" }}>Completed</span>
-                  )}
                   {modalData?.status === 0 && (
-                    <span style={{ color: "#7CB9E8" }}>Pending</span>
+                    <span style={{ color: "#7CB9E8" }}>Booked</span>
                   )}
                 </strong>
               </p>
@@ -326,14 +321,20 @@ export default function UserBookingHistory() {
                 Departure Date: <strong>{modalData?.trip?.start_date}</strong>
               </p>
               <p>
-                Travel Time: <strong>{modalData?.trip?.start_time}</strong> -{" "}
-                <strong>{modalData?.trip?.end_time}</strong>
-              </p>
-              <p>
                 Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
+                <br />
+                Pick up time:{" "}
+                <strong>
+                  {modalData?.pick_up?.start_stop_location?.arrival_time}
+                </strong>
               </p>
               <p>
                 Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
+                <br />
+                Drop off time:{" "}
+                <strong>
+                  {modalData?.drop_off?.start_stop_location?.arrival_time}
+                </strong>
               </p>
             </div>
             <div className="m-2">
