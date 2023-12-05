@@ -559,7 +559,6 @@ class Addtrip(APIView):
 
     def post(self, request):
         try:
-            import pdb;pdb.set_trace();
             request_data=request.data.copy()
             route = request_data["route"]
             locations = StartStopLocations.objects.filter(route_id = route).order_by("seq_id")
