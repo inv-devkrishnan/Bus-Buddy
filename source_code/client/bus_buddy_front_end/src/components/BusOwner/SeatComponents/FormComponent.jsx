@@ -25,7 +25,6 @@ export default function FormComponent(props) {
   const {
     propsData,
     currentData,
-    currentSeatData,
     updateCurrentSeatData,
     reRender,
     updateReRender,
@@ -46,6 +45,14 @@ export default function FormComponent(props) {
     }
   }, [propsData]);
 
+  useEffect(() => {
+    if (localStorage.getItem("seat_data")) {
+      const array = [JSON.parse(localStorage.getItem("seat_data"))];
+      for (let i of array) {
+        console.log(array[i]);
+      }
+    }
+  }, []);
   const validationSchema = yup.object().shape(
     addSeatList.reduce((acc, uiOrder) => {
       acc[uiOrder] = yup.object().shape({
@@ -97,21 +104,21 @@ export default function FormComponent(props) {
     // formik initialisation
     initialValues: addSeatList.reduce((acc, uiOrder) => {
       acc[uiOrder] = {
-        [`seatNumber`]: "",
-        [`seatType`]: 0,
-        [`deck`]: 0,
-        [`seatCost`]: "",
+        [`seatNumber-${uiOrder}`]: "",
+        [`seatType-${uiOrder}`]: 0,
+        [`deck-${uiOrder}`]: 0,
+        [`seatCost-${uiOrder}`]: "",
       };
       return acc;
     }, {}),
     validationSchema,
     onSubmit,
   });
-  console.log(addSeatList);
-  console.log(formik.values[33]);
+  console.log(formik.values);
+  console.log(formik.errors);
 
   const handleInputChange = (uiOrder, field, value) => {
-    // for saving data dynamically using formik eith on change property
+    // for saving data dynamically using formik with on change property
     formik.setFieldValue(`${uiOrder}.${field}`, value);
     formik.handleBlur(`${uiOrder}.${field}`);
   };
@@ -124,21 +131,25 @@ export default function FormComponent(props) {
         <Typography className="m-3">id: {uiOrder}</Typography>
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id={`seatNumber`}
-            name={`seatNumber`}
+            id={`seatNumber-${uiOrder}`}
+            name={`seatNumber-${uiOrder}`}
             label="Seat number"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatNumber`]}
+            value={formik.values[uiOrder]?.[`seatNumber-${uiOrder}`]}
             onChange={(e) =>
-              handleInputChange(uiOrder, `seatNumber`, e.target.value)
+              handleInputChange(
+                uiOrder,
+                `seatNumber-${uiOrder}`,
+                e.target.value
+              )
             }
             error={
-              formik.touched[uiOrder]?.[`seatNumber`] &&
-              formik.errors[uiOrder]?.[`seatNumber`]
+              Boolean(formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`]) &&
+              Boolean(formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`])
             }
             helperText={
-              formik.touched[uiOrder]?.[`seatNumber`] &&
-              formik.errors[uiOrder]?.[`seatNumber`]
+              formik.touched[uiOrder]?.[`seatNumber-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatNumber-${uiOrder}`]
             }
           />
         </FormControl>
@@ -146,68 +157,70 @@ export default function FormComponent(props) {
         <FormControl className="m-3" fullWidth margin="normal">
           <InputLabel htmlFor="seatType">Seat type</InputLabel>
           <Select
-            id={`seatType`}
-            name={`seatType`}
+            id={`seatType-${uiOrder}`}
+            name={`seatType-${uiOrder}`}
             label="Seat type"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatType`] || 0}
+            value={formik.values[uiOrder]?.[`seatType-${uiOrder}`] || 0}
             onChange={(e) =>
-              handleInputChange(uiOrder, `seatType`, e.target.value)
+              handleInputChange(uiOrder, `seatType-${uiOrder}`, e.target.value)
             }
             error={
-              formik.touched[uiOrder]?.[`seatType`] &&
-              Boolean(formik.errors[uiOrder]?.[`seatType`])
+              Boolean(formik.touched[uiOrder]?.[`seatType-${uiOrder}`]) &&
+              Boolean(formik.errors[uiOrder]?.[`seatType-${uiOrder}`])
             }
           >
             <MenuItem value={0}>Seater</MenuItem>
             <MenuItem value={1}>Sleeper</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched[uiOrder]?.[`seatType`] &&
-              formik.errors[uiOrder]?.[`seatType`]}
+            {Boolean(formik.touched[uiOrder]?.[`seatType-${uiOrder}`]) &&
+              Boolean(formik.errors[uiOrder]?.[`seatType-${uiOrder}`])}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
-          <InputLabel htmlFor="seatType">Deck</InputLabel>
+          <InputLabel htmlFor="deck">Deck</InputLabel>
           <Select
-            id={`deck`}
-            name={`deck`}
+            id={`deck-${uiOrder}`}
+            name={`deck-${uiOrder}`}
             label="Deck"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`deck`] || 0}
-            onChange={(e) => handleInputChange(uiOrder, `deck`, e.target.value)}
+            value={formik.values[uiOrder]?.[`deck-${uiOrder}`] || 0}
+            onChange={(e) =>
+              handleInputChange(uiOrder, `deck-${uiOrder}`, e.target.value)
+            }
             error={
-              formik.touched[uiOrder]?.[`deck`] &&
-              Boolean(formik.errors[uiOrder]?.[`deck`])
+              Boolean(formik.touched[uiOrder]?.[`deck-${uiOrder}`]) &&
+              formik.errors[uiOrder]?.[`deck-${uiOrder}`]
             }
           >
             <MenuItem value={0}>Lower deck</MenuItem>
             <MenuItem value={1}>Upper deck</MenuItem>
           </Select>
           <FormHelperText error>
-            {formik.touched[uiOrder]?.[`deck`] &&
-              formik.errors[uiOrder]?.[`deck`]}
+            {formik.touched[uiOrder]?.[`deck-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`deck-${uiOrder}`]}
           </FormHelperText>
         </FormControl>
 
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
-            id={`seatCost`}
-            name={`seatCost`}
+            id={`seatCost-${uiOrder}`}
+            name={`seatCost-${uiOrder}`}
             label="Seat cost"
             variant="outlined"
-            value={formik.values[uiOrder]?.[`seatCost`]}
+            value={formik.values[uiOrder]?.[`seatCost-${uiOrder}`]}
             onChange={(e) =>
-              handleInputChange(uiOrder, `seatCost`, e.target.value)
+              handleInputChange(uiOrder, `seatCost-${uiOrder}`, e.target.value)
             }
             error={
-              formik.touched[uiOrder]?.[`seatCost`] &&
-              formik.errors[uiOrder]?.[`seatCost`]
+              Boolean(formik.touched[uiOrder]?.[`seatCost-${uiOrder}`]) &&
+              Boolean(formik.errors[uiOrder]?.[`seatCost-${uiOrder}`])
             }
             helperText={
-              formik.touched[uiOrder]?.[`seatCost`] &&
-              formik.errors[uiOrder]?.[`seatCost`]
+              formik.touched[uiOrder]?.[`seatCost-${uiOrder}`] &&
+              formik.errors[uiOrder]?.[`seatCost-${uiOrder}`]
             }
             InputProps={{
               startAdornment: (
@@ -220,6 +233,17 @@ export default function FormComponent(props) {
         </FormControl>
       </FormControl>
     );
+  };
+
+  const handleSave = () => {
+    if (formik.isValid) {
+      localStorage.setItem("seat_data", JSON.stringify(formik.values));
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Seat details have been saved locally. Submit the details to save them permanently.",
+      });
+    }
   };
 
   return (
@@ -236,15 +260,25 @@ export default function FormComponent(props) {
               {addSeatList?.map((uiOrder) => (
                 <div key={uiOrder}>{singleForm(uiOrder)}</div>
               ))}
-
-              <Button
-                type="submit"
-                disabled={!formik.isValid}
-                fullWidth
-                variant="contained"
-              >
-                Submit
-              </Button>
+              <div className="d-flex flex-row">
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className="m-1"
+                  onClick={handleSave}
+                >
+                  Save
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={!formik.isValid}
+                  fullWidth
+                  variant="contained"
+                  className="m-1"
+                >
+                  Submit
+                </Button>
+              </div>
             </>
           ) : (
             <p>Select a seat for entering data</p>
