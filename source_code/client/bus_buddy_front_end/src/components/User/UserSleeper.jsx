@@ -1,10 +1,6 @@
 import { React, useContext, useEffect, useState, forwardRef } from "react";
 
-import {
-  IconButton,
-  Popover,
-  Typography,
-} from "@mui/material";
+import { IconButton, Popover, Typography } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -149,7 +145,7 @@ function UserSleeper(props) {
         <Typography sx={{ p: 1 }}>
           seat: {presentSeat.seat_number} <br />
           fare: ₹ {presentSeat.seat_cost} <br />
-          type: {presentSeat.seat_type === 0 ? "Sleeper" : "Seater"}
+          type: {presentSeat.seat_type === 0 ? "Seater" : "Sleeper"}
         </Typography>
       </Popover>
 

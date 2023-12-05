@@ -33,7 +33,6 @@ function ShowTrips(props) {
     setPageStartLimit(1);
     setPageEndLimit(PAGE_LIMIT);
   }, [props, seatType, busType, busAc]);
-  console.log(seatViewOpen, "seat");
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
     await openAxiosApi
