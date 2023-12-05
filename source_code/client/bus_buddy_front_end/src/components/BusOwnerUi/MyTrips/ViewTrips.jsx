@@ -17,6 +17,7 @@ export default function Viewallbus() {
   const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [active, setActive] = useState(1);
+  const [updateFlag, setUpdateFlag] = useState(false);
 
   const navi = useNavigate();
 
@@ -32,7 +33,7 @@ export default function Viewallbus() {
       console.log(response.data);
     };
     fetchData();
-  }, [page]);
+  }, [page,updateFlag]);
   console.log(data);
 
   const handlePrevious = () => {
@@ -157,6 +158,7 @@ export default function Viewallbus() {
           title: "Deleted",
           text: "Trip Deleted successfully",
         });
+        setUpdateFlag((prevFlag) => !prevFlag);
       })
       .catch((error) => {
         if (error.response) {
@@ -174,11 +176,15 @@ export default function Viewallbus() {
 
   return (
     <div>
-      <Navbar className="bg-body-tertiary justify-content-between">
-      <Form style={{ textAlign: "center", marginLeft: "40%",marginTop:"1%" }}>
-          <h1>Viewall</h1>
-        </Form>
-      </Navbar>
+      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+          <Link to={"/add-trips"}>
+            <button className="btn btn-primary"> + Add Trip</button>
+          </Link>
+      <h1 className="mx-auto">Viewall</h1>
+          <Link to={"/add-recurring-trips"}>
+            <button className="btn btn-primary"> + Add Recurring Trip</button>
+          </Link>
+    </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
         style={{
@@ -190,14 +196,6 @@ export default function Viewallbus() {
         }}
       >
         {paginationBasic}
-        <div style={{display:"flex",justifyContent:"space-between",flexDirection:"row"}}>
-          <Link to={"/add-trips"}>
-            <button className="btn btn-primary"> + Add Trip</button>
-          </Link>
-          <Link to={"/add-recurring-trips"}>
-            <button className="btn btn-primary"> + Add Recurring Trip</button>
-          </Link>
-        </div>
       </div>
     </div>
   );
