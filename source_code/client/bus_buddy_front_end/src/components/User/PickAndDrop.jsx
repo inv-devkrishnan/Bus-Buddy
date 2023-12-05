@@ -6,8 +6,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { SeatContext } from "../../utils/SeatContext";
 
 export default function PickAndDrop(props) {
-  const [pick, setPick] = useState([]);// for storing pick up data
-  const [drop, setDrop] = useState([]);// for storing drop off data
+  const [pick, setPick] = useState([]); // for storing pick up data
+  const [drop, setDrop] = useState([]); // for storing drop off data
   const { seatData } = useContext(SeatContext); // use context with seat data
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function PickAndDrop(props) {
       // for mapping pick point data as rows according to columns
       // seatData[0] holds pick points
       id: stop.id,
-      stops: stop.bus_stop,
+      stops: `${stop.bus_stop} (${stop.arrival_time})`,
     }));
     if (pickRows) {
       setPick(pickRows);
@@ -24,7 +24,7 @@ export default function PickAndDrop(props) {
       // for mapping drop point data as rows according to columns
       // seatData[1] holds drop points
       id: stop.id,
-      stops: stop.bus_stop,
+      stops: `${stop.bus_stop} (${stop.arrival_time})`,
     }));
     if (dropRows) {
       setDrop(dropRows);
@@ -117,7 +117,7 @@ export default function PickAndDrop(props) {
             pagination
             autoPageSize
             getRowHeight={() => "auto"}
-            getEstimatedRowHeight={() => 200} 
+            getEstimatedRowHeight={() => 200}
             selectionModel={props.selectionModelPick}
             onSelectionModelChange={(newSelectionModel) => {
               props.setSelectionModelPick(newSelectionModel);
@@ -145,7 +145,7 @@ export default function PickAndDrop(props) {
             columns={columnsDrop}
             autoPageSize
             getRowHeight={() => "auto"}
-            getEstimatedRowHeight={() => 200} 
+            getEstimatedRowHeight={() => 200}
             selectionModel={props.selectionModelDrop}
             onSelectionModelChange={(newSelectionModel) => {
               props.setSelectionModelDrop(newSelectionModel);

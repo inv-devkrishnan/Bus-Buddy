@@ -137,8 +137,6 @@ export default function UserBookingHistory() {
     // for colours in table
     if (data?.status === 99) {
       return "tomato";
-    } else if (data?.status === 1) {
-      return "yellowgreen";
     } else {
       return "cornflowerblue";
     }
@@ -323,20 +321,20 @@ export default function UserBookingHistory() {
                 Departure Date: <strong>{modalData?.trip?.start_date}</strong>
               </p>
               <p>
-                Time:{" "}
+                Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
+                <br />
+                Pick up time:{" "}
                 <strong>
                   {modalData?.pick_up?.start_stop_location?.arrival_time}
-                </strong>{" "}
-                to{" "}
-                <strong>
-                  {modalData?.drop_off?.start_stop_location?.arrival_time}
                 </strong>
               </p>
               <p>
-                Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
-              </p>
-              <p>
                 Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
+                <br />
+                Drop off time:{" "}
+                <strong>
+                  {modalData?.drop_off?.start_stop_location?.arrival_time}
+                </strong>
               </p>
             </div>
             <div className="m-2">
