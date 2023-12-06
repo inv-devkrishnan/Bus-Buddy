@@ -44,6 +44,10 @@ class BaseTest(TestCase):
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
         bus_id=self.bus.id
+        self.amenities = Amenities.objects.create(
+            bus=bus_id
+        )
+        amenities_id = self.amenities.id
 
         self.valid_all_values_seat_details = {
             "bus": self.bus.id,
@@ -350,58 +354,25 @@ class BaseTest(TestCase):
             "tour_guide": 0,
             "cctv": 0
         }
-        self.add_route_data = {
-            {
-                "start_point": 11,
-                "end_point": 1,
-                "via": "kollam",
-                "distance": "346",
-                "duration": "12",
-                "travel_fare": 400,
-                "status": 0,
-                "location": [
-                    {
-                    "seq_id": 1,
-                    "location": 2,
-                    "arrival_time": "13:00",
-                    "arrival_date_offset": "1",
-                    "departure_time": "2:00",
-                    "departure_date_offset": 1,
-                    "pick_and_drop": [
-                        {
-                        "bus_stop": "location 1 stop",
-                        "arrival_time": "10:00",
-                        "landmark": "fds",
-                        "status": 0
-                        }
-                    ]
-                    },
-                    {
-                    "seq_id": 2,
-                    "location": 13,
-                    "arrival_time": "10:00",
-                    "arrival_date_offset": "0",
-                    "departure_time": "11:00",
-                    "departure_date_offset": 0,
-                    "pick_and_drop": [
-                        {
-                        "bus_stop": "location stop",
-                        "arrival_time": "10:00",
-                        "landmark": "fdsf",
-                        "status": 0
-                        }
-                    ]
-                    }
-                ]
-            }
+        self.update_amenities_data = {
+            "bus":bus_id,
+            "emergency_no": 0,
+            "water_bottle": 0,
+            "charging_point": 0,
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0
         }
-        self.add_route_data = frozenset(self.add_route_data.items())
-        self.add_amenities = reverse("add-amenities")
         self.update_bus = reverse("update-bus",args=[bus_id])
         self.delete_bus = reverse("delete-bus",args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        
+        self.update_amenities = reverse("update-amenities",args=[amenities_id])
 
         return super().setUp()
 
@@ -481,10 +452,10 @@ class BusActions(BaseTest):
         )
         self.assertEqual(response.status_code,400)
         
-    def test_can_add_route(self):
+    def test_can_update_amenities(self):
         print("11")
         response = self.client.post(
-            self.add_amenities,self.add_route_data , format = "json"
+            self.update_amenities,self.update_amenities_data , format = "json"
         )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)

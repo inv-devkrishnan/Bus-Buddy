@@ -344,7 +344,7 @@ class Viewbus(ListAPIView):
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0,user=user_id)   #to filter out bus objects which has been soft deleted 
+            queryset = Bus.objects.filter(status=0,user=user_id).order_by('-id')  #to filter out bus objects which has been soft deleted 
             print(queryset)
             serializer = ViewBusSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -524,7 +524,7 @@ class Viewroutes(ListAPIView):
             logger.info("fetching user id ")
             user_id = request.user.id
             logger.info("fetching all data from routes model matching the conditions")
-            queryset = Routes.objects.filter(status=0,user=user_id)
+            queryset = Routes.objects.filter(status=0,user=user_id).order_by('-id')
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -595,12 +595,19 @@ class Updatetrip(UpdateAPIView):
             #saving the present values to instance variable
             buses=instance.bus_id
             routes=instance.route_id
+            print(instance)
+            locations = StartStopLocations.objects.filter(route=routes).order_by('seq_id') 
+            first_seq = locations.first()
+            last_seq = locations.last()
+            print(locations)
             if not Bus.objects.filter(id=buses, status=0).exists():
                 return Response({"message": "missing"}, status=404)
             if not Routes.objects.filter(id=routes, status=0).exists():
                 return Response({"message": "missing"}, status=404)
             request_data=(request.data.copy())
             request_data['user']=request.user.id
+            request_data['start_time'] = first_seq.arrival_time
+            request_data['end_time'] = last_seq.departure_time
             serializer = TripSerializer(instance, data=request_data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
@@ -649,7 +656,7 @@ class Viewtrip(ListAPIView):
     def list(self, request):
         try:
             user_id=request.user.id
-            queryset = Trip.objects.filter(status=0,user=user_id)
+            queryset = Trip.objects.filter(status=0,user=user_id).order_by('-id')
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
