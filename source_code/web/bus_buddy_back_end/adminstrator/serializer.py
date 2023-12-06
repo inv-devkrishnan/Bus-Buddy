@@ -63,6 +63,7 @@ class ListUserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
+            "role",
             "phone",
             "company_name",
             "aadhaar_no",
