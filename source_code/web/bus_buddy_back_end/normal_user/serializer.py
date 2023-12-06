@@ -189,6 +189,7 @@ class BookingHistoryDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = [
+            "id",
             "user",
             "trip",
             "pick_up",
