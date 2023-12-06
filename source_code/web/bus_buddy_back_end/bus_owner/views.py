@@ -366,15 +366,6 @@ class Addamenities(APIView):
     """
     permission_classes = (IsAuthenticated,)
     serializer = None
-    def get(self, request, id):
-        try:
-            logger.info("checking if amenities obj present for the bus obj ")
-            amenities = Amenities.objects.get(bus=id)
-        except Amenities.DoesNotExist:
-            logger.info("amenities obj is not present ")
-            return Response(status=404)
-        serialized_data = AmenitiesSerializer(amenities)
-        return Response(serialized_data.data)
     def post(self, request):
         bus = request.data.get("bus")
         print(bus)
@@ -384,7 +375,6 @@ class Addamenities(APIView):
             serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-
                 logger.info("Fetching the bus id from amenities model")
                 bus_id = serializer.data.get("bus")  # to get bus id related to added amenities
                 logger.info("Fetching the bus by foreign key ")
@@ -398,7 +388,7 @@ class Addamenities(APIView):
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response({"message":"missing"}, status=400)
+            return Response({"message":"missing"}, status=404)
 
 
 class Updateamenities(UpdateAPIView):
@@ -561,7 +551,13 @@ class Addtrip(APIView):
     def post(self, request):
         try:
             request_data=request.data.copy()
+            route = request_data["route"]
+            locations = StartStopLocations.objects.filter(route_id = route).order_by("seq_id")
             request_data["user"] = request.user.id
+            seq_first = locations.first()  
+            seq_last = locations.last() 
+            request_data["start_time"] = seq_first.arrival_time
+            request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
@@ -687,7 +683,7 @@ class Viewavailablebus(ListAPIView):
             startdate = datetime.strptime(start, date_format).date()
             enddate = datetime.strptime(end, date_format).date()
             trips = Trip.objects.filter(
-                user=user_id, start_date__lte=enddate, end_date__gte=startdate
+                status=0,user=user_id, start_date__lte=enddate, end_date__gte=startdate
             )
             buses = trips.values_list('bus', flat=True)
             print(buses)
@@ -704,7 +700,7 @@ class Viewavailablebus(ListAPIView):
         except ValueError:
             return Response({"error": "Invalid date format for 'start' or 'end'"}, status=400)
         
-class Addtreccuringrip(APIView):
+class Addreccuringrip(APIView):
     """
     Function to add new trip from bus owner
     """
@@ -719,15 +715,20 @@ class Addtreccuringrip(APIView):
             request_data["user"] = request.user.id
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
-            start_time_str = request_data["start_time"]
-            end_time_str = request_data["end_time"]
+            routes=request_data["route"]
+            loc=StartStopLocations.objects.filter(route=routes).order_by('seq_id')
+            print(loc)
+            seq_first = loc.first()  
+            seq_last = loc.last() 
+            print (seq_first.arrival_time)
+            print (seq_last.departure_time)
             recurrence_type = request_data["recurrence"]
             print("recurence")
             print(recurrence_type)
             start_date = datetime.strptime(start_date_str, date_format)
             end_date = datetime.strptime(end_date_str, date_format)
-            start_time = datetime.strptime(start_time_str, '%H:%M').time()
-            end_time = datetime.strptime(end_time_str, '%H:%M').time()
+            start_time = seq_first.arrival_time
+            end_time = seq_last.departure_time
             start_datetime = datetime.combine(start_date, start_time)
             end_datetime = datetime.combine(end_date, end_time)
             duration = end_datetime - start_datetime
@@ -765,6 +766,8 @@ class Addtreccuringrip(APIView):
                         current_request_data = request_data.copy()
                         current_request_data["start_date"] = current_start_date.strftime(date_format)
                         current_request_data["end_date"] = current_end_date.strftime(date_format)
+                        current_request_data["start_time"] = start_time
+                        current_request_data["end_time"] = end_time
                         current_serializer = TripSerializer(data=current_request_data)
                         if current_serializer.is_valid():
                             current_serializer.save()

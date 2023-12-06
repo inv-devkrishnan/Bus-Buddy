@@ -181,7 +181,7 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "49rem",
+         height: "37rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}
@@ -270,31 +270,7 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-                 <Form.Group className="mb-6">
-                   <Form.Label>Arrival Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={startTime}
-                     onChange={(e) => {
-                       setStartTime(e.target.value);
-                     }}
-                     required={searchMode}
-                   />
-                 </Form.Group>
-                 <Form.Group className="mb-5">
-                   <Form.Label>Departure Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={endTime}
-                     onChange={(e) => {
-                       setEndTime(e.target.value);
-                     }}
-                     required={searchMode}
-                   />
-                 </Form.Group>
-             <Form.Group as={Col} md="4" controlId="validationCustom04">
+               <Form.Group as={Col} md="4" controlId="validationCustom04">
                   <Form.Label>Recurrence Type</Form.Label>
                   <Form.Control
                     as="select"
