@@ -113,7 +113,7 @@ class AddSeatDetails(ListCreateAPIView):
             else:
                 seat_ui_orders = []
                 for data in SeatDetails.objects.filter(bus=bus_id):
-                    seat_ui_orders.append(data.seat_ui_order)
+                    seat_ui_orders.append(data.seat_ui_order)                
 
             logger.info(f"existing seat ui orders:{seat_ui_orders}")
             response = self.validate_and_bulk_create(

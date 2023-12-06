@@ -15,7 +15,6 @@ function Sleeper(props) {
 
   const {
     updateIsClicked,
-    propsData,
     updatePropsData,
     currentData,
     addSeatList,

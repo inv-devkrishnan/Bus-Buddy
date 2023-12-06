@@ -45,19 +45,12 @@ export default function FormComponent(props) {
     }
   }, [propsData]);
 
-  useEffect(() => {
-    if (localStorage.getItem("seat_data")) {
-      const array = [JSON.parse(localStorage.getItem("seat_data"))];
-      for (let i of array) {
-        console.log(array[i]);
-      }
-    }
-  }, []);
   const validationSchema = yup.object().shape(
     addSeatList.reduce((acc, uiOrder) => {
       acc[uiOrder] = yup.object().shape({
         [`seatNumber-${uiOrder}`]: yup
           .string()
+          .matches(/^[a-zA-Z0-9]+$/, "Invalid seat number")
           .required("Seat number is required"),
         [`seatType-${uiOrder}`]: yup.number().required("Seat type is required"),
         [`deck-${uiOrder}`]: yup.number().required("Deck is required"),
@@ -113,9 +106,10 @@ export default function FormComponent(props) {
     }, {}),
     validationSchema,
     onSubmit,
+    enableReinitialize: true,
   });
   console.log(formik.values);
-  console.log(formik.errors);
+  // console.log(formik.errors);
 
   const handleInputChange = (uiOrder, field, value) => {
     // for saving data dynamically using formik with on change property
@@ -125,9 +119,27 @@ export default function FormComponent(props) {
 
   const { resetForm } = formik; // when called resets the form
 
+  const handleSave = () => {
+    // to save the data locally
+    if (formik.isValid) {
+      localStorage.setItem("seat_data", JSON.stringify(formik.values));
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Seat details have been saved locally. Submit the details to save them permanently.",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Warning",
+        text: "Cannot save the form. Please make sure the form is correct",
+      });
+    }
+  };
+
   const singleForm = (uiOrder) => {
     return (
-      <FormControl key={uiOrder} className="d-flex flex-row m-1">
+      <FormControl className="d-flex flex-row m-1">
         <Typography className="m-3">id: {uiOrder}</Typography>
         <FormControl className="m-3" fullWidth margin="normal">
           <TextField
@@ -234,17 +246,8 @@ export default function FormComponent(props) {
       </FormControl>
     );
   };
-
-  const handleSave = () => {
-    if (formik.isValid) {
-      localStorage.setItem("seat_data", JSON.stringify(formik.values));
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Seat details have been saved locally. Submit the details to save them permanently.",
-      });
-    }
-  };
+  let list = [];
+  list = addSeatList;
 
   return (
     <div>
@@ -255,9 +258,9 @@ export default function FormComponent(props) {
           noValidate
           className="d-flex flex-column m-3"
         >
-          {addSeatList.length > 0 ? (
+          {list.length > 0 ? (
             <>
-              {addSeatList?.map((uiOrder) => (
+              {list.map((uiOrder) => (
                 <div key={uiOrder}>{singleForm(uiOrder)}</div>
               ))}
               <div className="d-flex flex-row">
