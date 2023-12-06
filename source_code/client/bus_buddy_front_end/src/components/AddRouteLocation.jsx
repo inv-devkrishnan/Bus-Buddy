@@ -123,20 +123,20 @@ function AddRouteLocation(props) {
         );
       }
     } else if (
-        (stopArrivalTime > arrivalTime && stopArrivalTime < Date("00:00")) ||
-        stopArrivalTime < departureTime
-      ) {
-        status = checkInBetweenStopsDifferentDay();
-      } else {
-        status = false;
-        setErrorMessage(
-          "Stop arrival time should be between " +
-            arrivalTime +
-            " of current day and " +
-            departureTime +
-            " of next day"
-        );
-      }
+      (stopArrivalTime > arrivalTime && stopArrivalTime < Date("00:00")) ||
+      stopArrivalTime < departureTime
+    ) {
+      status = checkInBetweenStopsDifferentDay();
+    } else {
+      status = false;
+      setErrorMessage(
+        "Stop arrival time should be between " +
+          arrivalTime +
+          " of current day and " +
+          departureTime +
+          " of next day"
+      );
+    }
 
     return status;
   };
@@ -227,6 +227,7 @@ function AddRouteLocation(props) {
     setErrorMessage("");
     setStopsArray([]);
     setIsNextDay(false);
+    setLocationFormValidated(false);
     props.handleClose();
   };
   return (
@@ -238,77 +239,82 @@ function AddRouteLocation(props) {
       </Modal.Header>
       <Modal.Body>
         {props.locationAdded ? (
-          <Form
-            noValidate
-            validated={stopFormValidated}
-            onSubmit={stopHandleSubmit}
-          >
-            <Form.Text>
-              Add stops for the location.Once done save the changes{" "}
-            </Form.Text>
-            <Form.Group className="mb-3">
-              <Form.Label>Stop Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Stop Name"
-                value={stopName}
-                onChange={(e) => {
-                  setStopName(e.target.value);
-                }}
-                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide valid Stop Name
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label> Stop Arrival Time</Form.Label>
-              <Form.Control
-                type="time"
-                placeholder="Time"
-                value={stopArrivalTime}
-                onChange={(e) => {
-                  setStopArrivalTime(e.target.value);
-                }}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid time.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Landmark</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Landmark"
-                value={landmark}
-                onChange={(e) => {
-                  setLandmark(e.target.value);
-                }}
-                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a landmark
-              </Form.Control.Feedback>
-            </Form.Group>
-            <label className="text-danger d-block ms-2 me-2">
-              {errorMessage}
-            </label>
-            <Button type="submit" className="ms-2 me-2">
-              Add Stop
-            </Button>
+          <>
+            <Form
+              noValidate
+              validated={stopFormValidated}
+              onSubmit={stopHandleSubmit}
+            >
+              <Form.Text>
+                Add stops for the location.Once done save the changes{" "}
+              </Form.Text>
+              <Form.Group className="mb-3">
+                <Form.Label>Stop Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Stop Name"
+                  value={stopName}
+                  onChange={(e) => {
+                    setStopName(e.target.value);
+                  }}
+                  pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide valid Stop Name
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label> Stop Arrival Time</Form.Label>
+                <Form.Control
+                  type="time"
+                  placeholder="Time"
+                  value={stopArrivalTime}
+                  onChange={(e) => {
+                    setStopArrivalTime(e.target.value);
+                  }}
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid time.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Landmark</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Landmark"
+                  value={landmark}
+                  onChange={(e) => {
+                    setLandmark(e.target.value);
+                  }}
+                  pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a landmark
+                </Form.Control.Feedback>
+              </Form.Group>
+              <label className="text-danger d-block ms-2 me-2">
+                {errorMessage}
+              </label>
+              <Button type="submit" className="ms-2 me-2">
+                Add Stop
+              </Button>
+            </Form>
+            <div className="d-flex justify-content-end">
             <Button
               variant="success"
               onClick={() => {
                 saveDetails();
               }}
-              className="ms-2 me-2"
+              className="mt-2 ms-auto"
             >
               Save Changes
             </Button>
-          </Form>
+            </div>
+           
+          </>
         ) : (
           <Form
             noValidate
