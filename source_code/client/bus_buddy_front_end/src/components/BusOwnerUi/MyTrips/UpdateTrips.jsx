@@ -142,7 +142,7 @@ export default function Updatetrips() {
       <Card
         style={{
           width: "35rem",
-          height: "33.5rem",
+          height: "30rem",
           paddingTop: "3rem",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
         }}
@@ -218,35 +218,6 @@ export default function Updatetrips() {
                     {formik.errors.routeName}
                   </Form.Control.Feedback>
                 </Form.Group>
-
-                <div style={{ display: "flex", justifyContent: "space-around" }}>
-                  <Form.Group as={Col} md="6" controlId="validationCustom05" style={{visibility:"hidden"}}>
-                    <Form.Label>Arrival Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      placeholder="Enter time"
-                      value={formik.values.starttime || ""}
-                      onChange={(e) =>
-                        formik.setFieldValue("starttime", e.target.value)
-                      }
-                      // required
-                      disabled
-                    />
-                  </Form.Group>
-                  <Form.Group as={Col} md="6" controlId="validationCustom06" style={{visibility:"hidden"}}>
-                    <Form.Label>Departure Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      placeholder="Enter time"
-                      value={formik.values.endtime || ""}
-                      onChange={(e) =>
-                        formik.setFieldValue("endtime", e.target.value)
-                      }
-                      // required
-                      disabled
-                    />
-                  </Form.Group>
-                </div>
               </Row>
               <div style={{ paddingTop: "1rem",display:"flex",justifyContent:"center"}}>
                 <Button type="submit">Update</Button>

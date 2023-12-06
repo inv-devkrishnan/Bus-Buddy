@@ -181,7 +181,7 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "49rem",
+         height: "37rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}
@@ -282,33 +282,6 @@ export default function Addrecurringtrip() {
                     <option value="2"> Weekly </option>
                   </Form.Control>
                 </Form.Group>
-                 <Form.Group className="mb-6" style={{visibility:"hidden"}}>
-                   <Form.Label>Arrival Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={startTime}
-                     onChange={(e) => {
-                       setStartTime(e.target.value);
-                     }}
-                    //  disabled={searchMode}
-                    disabled
-                   />
-                 </Form.Group>
-                 <Form.Group className="mb-5" style={{visibility:"hidden"}}>
-                   <Form.Label>Departure Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={endTime}
-                     onChange={(e) => {
-                       setEndTime(e.target.value);
-                     }}
-                    //  required={searchMode}
-                     disabled
-                   />
-                 </Form.Group>
-             
                 </Row>
              <div
                style={{

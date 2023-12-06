@@ -366,15 +366,6 @@ class Addamenities(APIView):
     """
     permission_classes = (IsAuthenticated,)
     serializer = None
-    def get(self, request, id):
-        try:
-            logger.info("checking if amenities obj present for the bus obj ")
-            amenities = Amenities.objects.get(bus=id)
-        except Amenities.DoesNotExist:
-            logger.info("amenities obj is not present ")
-            return Response(status=404)
-        serialized_data = AmenitiesSerializer(amenities)
-        return Response(serialized_data.data)
     def post(self, request):
         bus = request.data.get("bus")
         print(bus)
@@ -397,7 +388,7 @@ class Addamenities(APIView):
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response({"message":"missing"}, status=400)
+            return Response({"message":"missing"}, status=404)
 
 
 class Updateamenities(UpdateAPIView):
