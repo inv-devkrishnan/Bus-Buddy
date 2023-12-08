@@ -1,0 +1,12 @@
+.card-display {
+  width: 20rem;
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: 8px 8px 16px 16px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .card-display {
+    width: 58rem;
+  }
+}

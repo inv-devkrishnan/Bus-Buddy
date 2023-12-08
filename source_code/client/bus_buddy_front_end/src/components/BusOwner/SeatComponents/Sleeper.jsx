@@ -38,14 +38,9 @@ function Sleeper(props) {
     //set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
     updateIsClicked(true);
     updatePropsData(props.row * 10 + props.column);
-    setSelect(!select);
+    setSelect(true);
     if (!addSeatList.includes(props.row * 10 + props.column)) {
       updateAddSeatList([...addSeatList, props.row * 10 + props.column]);
-    } else {
-      const updatedList = addSeatList.filter(
-        (seat) => seat !== props.row * 10 + props.column
-      );
-      updateAddSeatList(updatedList);
     }
   };
 
@@ -78,7 +73,7 @@ function Sleeper(props) {
         </IconButton>
       ) : (
         <IconButton onClick={handleSelect}>
-          {select ? (
+          {select && addSeatList.includes(props.row * 10 + props.column) ? (
             <div>
               <p>{props.row * 10 + props.column}</p>
               <img src={SelectedSleeper} alt="sleeper" draggable="false" />
