@@ -45,7 +45,7 @@ class BaseTest(TestCase):
         )
         bus_id=self.bus.id
         self.amenities = Amenities.objects.create(
-            bus=bus_id
+            bus=self.bus
         )
         amenities_id = self.amenities.id
 
@@ -308,12 +308,9 @@ class BaseTest(TestCase):
             "bus_ac": 0,
             "bus_seat_type":2
         }
-        self.bus3 = Bus.objects.create(
-            bus_name="Bus3", plate_no="CD456EF", user=self.user
-        )
-        bus3_id = self.bus3.id
+        
         self.add_amenities_data = {
-            "bus":bus3_id,
+            "bus":bus_id,
             "emergency_no": 0,
             "water_bottle": 0,
             "charging_point": 0,
@@ -454,12 +451,20 @@ class BusActions(BaseTest):
         
     def test_can_update_amenities(self):
         print("11")
-        response = self.client.post(
+        response = self.client.put(
+            self.update_amenities,self.update_amenities_data , format = "json"
+        )
+        self.assertEqual(response.status_code,200)
+        
+    def test_cant_update_amenities_invalid_id(self):
+        print("12")
+        self.cant_update_amenities = reverse("update-amenities",args=[800])
+        response = self.client.put(
             self.update_amenities,self.update_amenities_data , format = "json"
         )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,404)
 
 class RegisterOwnerTest(BaseTest):
     
