@@ -75,23 +75,27 @@ export default function UserBookingHistory() {
         let message;
         let title;
         let icon;
-        switch(res.data?.code)
-        {
-          case "D2007": message ="Cancelled Successfully, Full Refund has been initiated"
-          title= "Success"
-          icon = "success"
-          break;
-          case "D2008": message = "Cancelled Successfully"
-          title= "Success"
-          icon = "success"
-          break;
-          case "D2009": message = "Cancelled Successfully, partial Refund has been initiated"
-          title= "Success"
-          icon = "success"
-          break;
-          default:icon="error"
-             title="Cancellation Failed"
-             message="Something went wrong,please try again"
+        switch (res.data?.code) {
+          case "D2007":
+            message = "Cancelled Successfully, Full Refund has been initiated";
+            title = "Success";
+            icon = "success";
+            break;
+          case "D2008":
+            message = "Cancelled Successfully";
+            title = "Success";
+            icon = "success";
+            break;
+          case "D2009":
+            message =
+              "Cancelled Successfully, partial Refund has been initiated";
+            title = "Success";
+            icon = "success";
+            break;
+          default:
+            icon = "error";
+            title = "Cancellation Failed";
+            message = "Something went wrong,please try again";
         }
         Swal.fire({
           title: title,
@@ -400,7 +404,11 @@ export default function UserBookingHistory() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={()=>{handlePolicyShow()}}>
+          <Button
+            onClick={() => {
+              handlePolicyShow();
+            }}
+          >
             View Refund Policy
           </Button>
           <Button
@@ -443,37 +451,37 @@ export default function UserBookingHistory() {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={policyModalShow} onHide={handlePolicyClose}  centered>
+      <Modal show={policyModalShow} onHide={handlePolicyClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Refund Policy</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Time Period of Cancellation</th>
-          <th>Refund (%)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Before 48 hours from trip start time</td>
-          <td>100 %</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>After 48 hours from trip start time</td>
-          <td>50%</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>On the same day as trip start's</td>
-          <td>0%</td>
-        </tr>
-      </tbody>
-    </Table>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Time Period of Cancellation</th>
+                <th>Refund (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Before 48 hours from trip start time</td>
+                <td>100 %</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>After 48 hours from trip start time</td>
+                <td>50%</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>On the same day as trip start's</td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </Table>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handlePolicyClose}>
