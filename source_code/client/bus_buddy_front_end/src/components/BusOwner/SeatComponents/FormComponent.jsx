@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useFormik,
@@ -42,19 +41,6 @@ export default function FormComponent(props) {
     updateAddSeatList,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [formData, setFormData] = useState([]);
-
-  useEffect(() => {
-    // for setting current seat data using ui order(propsData)
-    for (let i of currentData) {
-      if (propsData === i.seat_ui_order) {
-        updateCurrentSeatData(i);
-        break;
-      } else {
-        updateCurrentSeatData([]);
-        // resetForm();
-      }
-    }
-  }, [propsData]);
 
   const validationSchema = yup.object().shape({
     seat: yup.array().of(
