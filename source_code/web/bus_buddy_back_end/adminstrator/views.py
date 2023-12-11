@@ -1,10 +1,13 @@
 import logging
+import stripe
+from decouple import config
 from django.db.models import Q
 from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
+from normal_user.models import Bookings, BookedSeats, Payment
 from bus_buddy_back_end.email import send_email_with_template
 from bus_buddy_back_end.permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
@@ -18,11 +21,68 @@ logger = logging.getLogger("django")
 
 def mail_sent_response(mailfunction):
     # function which returns response based on bus owner approval along with mail confirmation
-    logger.info("bus approval mail sent")
+    logger.info("mail sent")
     if mailfunction:
         return Response({"success_code": "D2005"})
     else:
         return Response({"error_code": "D1014"}, status=400)
+
+
+def bus_owner_approval(old_status, new_status, instance):
+    if (
+        old_status == 3 and new_status == 0
+    ):  # if status change was from 3 to 0 then send mail to bus owner about approval
+        subject = "You are Approved"
+        context = {
+            "recipient_name": instance.first_name,
+        }
+        recipient_list = [instance.email]
+        mail_sent_response(
+            send_email_with_template(
+                subject=subject,
+                context=context,
+                recipient_list=recipient_list,
+                template="bus_approval_template.html",
+                status=2,
+            )
+        )
+    return "0000"
+
+
+def ban_normal_user(old_status, new_status, instance):
+    stripe.api_key = config("STRIPE_API_KEY")
+    if old_status == 0 and new_status == 2 and instance.role == 2:
+        logger.info("Normal User ban After Process initiated")
+        try:
+            user_active_bookings = Bookings.objects.filter(
+                user_id=instance.id, status=0
+            )
+            for active_booking in user_active_bookings:
+                booked_seats = BookedSeats.objects.filter(booking=active_booking)
+                payment_instance = Payment.objects.get(booking=active_booking)
+                stripe.Refund.create(payment_intent=payment_instance.payment_intend)
+                for seat in booked_seats:
+                    seat.status = 1
+                    seat.save()
+                active_booking.status = 99
+                active_booking.save()
+                payment_instance.status = 3
+                payment_instance.save()
+                recipient_list = [instance.email]
+                mail_sent_response(
+                    send_email_with_template(
+                        subject="Account Banned",
+                        context={
+                            "recipient_name": instance.first_name,
+                        },
+                        recipient_list=recipient_list,
+                        template="account_ban_template.html",
+                        status=4,
+                    )
+                )
+            logger.info("Normal User Ban After Process Finished Sucessfully")
+        except Exception as e:
+            logger.info("Normal User Ban After Process failed Reason : " + str(e))
 
 
 def update_status(self, user_id, status):
@@ -43,23 +103,8 @@ def update_status(self, user_id, status):
                     old_status = instance.status
                     self.perform_update(serializer)
                     logger.info("user status changed to " + str(status))
-                    if (
-                        old_status == 3 and status == 0
-                    ):  # if status change was from 3 to 0 then send mail to bus owner about approval
-                        subject = "You are Approved"
-                        context = {
-                            "recipient_name": instance.first_name,
-                        }
-                        recipient_list = [instance.email]
-                        mail_sent_response(
-                            send_email_with_template(
-                                subject=subject,
-                                context=context,
-                                recipient_list=recipient_list,
-                                template="bus_approval_template.html",
-                                status=2,
-                            )
-                        )
+                    bus_owner_approval(old_status, status, instance)
+                    ban_normal_user(old_status, status, instance)
                     return Response({"success_code": "D2005"})
                 else:
                     logger.info(
