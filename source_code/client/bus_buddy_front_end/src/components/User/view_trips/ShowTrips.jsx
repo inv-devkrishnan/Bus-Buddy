@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../../utils/axiosApi";
@@ -36,7 +28,11 @@ function ShowTrips(props) {
     setSeatViewOpen(index);
   };
   useEffect(() => {
-    loadingSwal();
+    if (localStorage.getItem("seat_list")) {
+      loadingSwal("Fetching data");
+    } else {
+      loadingSwal("Fetching trips");
+    }
   }, []);
 
   useEffect(() => {
@@ -76,11 +72,11 @@ function ShowTrips(props) {
     getTrips(props, page, seatType, busType, busAc);
   };
 
-  const loadingSwal = () => {
+  const loadingSwal = (message) => {
     let timerInterval;
     Swal.fire({
       title: "Loading...!",
-      html: "Fetching trips",
+      html: message,
       timer: 2000,
       timerProgressBar: true,
       didOpen: () => {

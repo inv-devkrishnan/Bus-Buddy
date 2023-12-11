@@ -35,9 +35,14 @@ function TripCard(props) {
   };
 
   const handleSelectSeatClose = () => {
+    localStorage.removeItem("pick_up");
+    localStorage.removeItem("drop_off");
+    localStorage.removeItem("trip");
+    localStorage.removeItem("total_amount");
+    localStorage.removeItem("current_trip");
+    localStorage.removeItem("seat_list");
     props.onClick();
     setViewSeatFlag(false);
-    localStorage.removeItem("current_trip");
     updateSeatList([]);
   };
 
