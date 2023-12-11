@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../../utils/axiosApi";
@@ -23,10 +31,13 @@ function ShowTrips(props) {
   const [seatType, setSeatType] = useState(-1); // to filter record's based of seat type (-1 = disable)
   const [busType, setBusType] = useState(-1); // to filter record's based of bus type (-1 = disable)
   const [busAc, setBusAc] = useState(-1); // to filter record's based of ac or not (-1 = disable)
-
+  const [isLoading, setIsLoading] = useState(true);
   const handleTripCardClick = (index) => {
     setSeatViewOpen(index);
   };
+  useEffect(() => {
+    loadingSwal();
+  }, []);
 
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
@@ -64,6 +75,57 @@ function ShowTrips(props) {
   const viewPage = (page) => {
     getTrips(props, page, seatType, busType, busAc);
   };
+
+  const loadingSwal = () => {
+    let timerInterval;
+    Swal.fire({
+      title: "Loading...!",
+      html: "Fetching trips",
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+        setIsLoading(false);
+      },
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("Loading finished");
+      }
+    });
+  };
+
+  let tripsContent;
+
+  if (trips.length > 0) {
+    tripsContent = trips.map((trip, index) => (
+      <TripCard
+        key={trip.trip}
+        data={trip}
+        startLocation={props?.startLocation}
+        startLocationName={props?.startLocationName}
+        endLocation={props?.endLocation}
+        endLocationName={props?.endLocationName}
+        seatViewOpen={seatViewOpen}
+        setSeatViewOpen={setSeatViewOpen}
+        isOpen={index === seatViewOpen}
+        onClick={() => handleTripCardClick(index)}
+      />
+    ));
+  } else {
+    tripsContent = (
+      <div className="d-flex mt-5 ms-5">
+        <ExclamationCircle color="red" size={96}></ExclamationCircle>
+        <div className="ms-3">
+          <h2>No Matching Trips Found !!</h2>
+          <h6>Try another trip or change filter options</h6>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Container fluid className="mb-5 ms-0 me-0">
@@ -171,30 +233,7 @@ function ShowTrips(props) {
             </Card>
           </Col>
           <Col md={6} lg={9} className="col-offset-auto">
-            {trips.length > 0 ? (
-              trips.map((trip, index) => (
-                <TripCard
-                  key={trip.trip}
-                  data={trip}
-                  startLocation={props?.startLocation}
-                  startLocationName={props?.startLocationName}
-                  endLocation={props?.endLocation}
-                  endLocationName={props?.endLocationName}
-                  seatViewOpen={seatViewOpen}
-                  setSeatViewOpen={setSeatViewOpen}
-                  isOpen={index === seatViewOpen}
-                  onClick={() => handleTripCardClick(index)}
-                />
-              ))
-            ) : (
-              <div className="d-flex mt-5 ms-5">
-                <ExclamationCircle color="red" size={96}></ExclamationCircle>
-                <div className="ms-3">
-                  <h2>No Matching Trips Found !!</h2>
-                  <h6>Try another trip or change filter options</h6>
-                </div>
-              </div>
-            )}
+            {isLoading ? <div></div> : tripsContent}
           </Col>
         </Row>
       </Container>
