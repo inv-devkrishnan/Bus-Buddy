@@ -6,7 +6,7 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User
+from .models import Bus, User,Amenities,Trip
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -320,9 +320,103 @@ class BaseTest(TestCase):
             "bus_ac": 0,
             "bus_seat_type":2
         }
+        self.bus3 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456EF", user=self.user
+        )
+        bus3_id = self.bus3.id
+        self.add_amenities_data = {
+            "bus":bus3_id,
+            "emergency_no": 0,
+            "water_bottle": 0,
+            "charging_point": 0,
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0
+        }
+        self.add_amenities_invalid_bus = {
+            "bus":18,
+            "emergency_no": 0,
+            "water_bottle": 0,
+            "charging_point": 0,
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0
+        }
+        self.add_amenities_invalid_data = {
+            "bus":bus_id,
+            "emergency_no": 0,
+            "water_bottle": 0,
+            "charging_point": "ada",
+            "usb_port": 0,
+            "blankets": 0,
+            "pillows": 0,
+            "reading_light": 0,
+            "toilet": 0,
+            "snacks": 0,
+            "tour_guide": 0,
+            "cctv": 0
+        }
+        self.add_route_data = {
+            {
+                "start_point": 11,
+                "end_point": 1,
+                "via": "kollam",
+                "distance": "346",
+                "duration": "12",
+                "travel_fare": 400,
+                "status": 0,
+                "location": [
+                    {
+                    "seq_id": 1,
+                    "location": 2,
+                    "arrival_time": "13:00",
+                    "arrival_date_offset": "1",
+                    "departure_time": "2:00",
+                    "departure_date_offset": 1,
+                    "pick_and_drop": [
+                        {
+                        "bus_stop": "location 1 stop",
+                        "arrival_time": "10:00",
+                        "landmark": "fds",
+                        "status": 0
+                        }
+                    ]
+                    },
+                    {
+                    "seq_id": 2,
+                    "location": 13,
+                    "arrival_time": "10:00",
+                    "arrival_date_offset": "0",
+                    "departure_time": "11:00",
+                    "departure_date_offset": 0,
+                    "pick_and_drop": [
+                        {
+                        "bus_stop": "location stop",
+                        "arrival_time": "10:00",
+                        "landmark": "fdsf",
+                        "status": 0
+                        }
+                    ]
+                    }
+                ]
+            }
+        }
+        self.add_route_data = frozenset(self.add_route_data.items())
+        self.add_amenities = reverse("add-amenities")
         self.update_bus = reverse("update-bus",args=[bus_id])
         self.delete_bus = reverse("delete-bus",args=[bus_id])
-
+        self.add_amenities = reverse("add-amenities")
+        self.add_route = reverse("add-routes")
         
 
         return super().setUp()
@@ -373,12 +467,44 @@ class BusActions(BaseTest):
         
     def test_cant_delete_bus(self):
         print("7")
+        
         self.delete_invalid_bus = reverse("delete-bus",args=[1])
         response = self.client.put(
             self.delete_invalid_bus , format = "json"
         )
         self.assertEqual(response.status_code,404)
-    
+        
+    def test_can_add_amenities(self):
+        print("8")
+        response = self.client.post(
+            self.add_amenities,self.add_amenities_data , format = "json"
+        )
+        self.assertEqual(response.status_code,200)
+        
+    def test_cant_add_invalid_bus_amenities(self):
+        print("9")
+        response = self.client.post(
+            self.add_amenities,self.add_amenities_invalid_bus , format = "json"
+        )
+        print("Status Code:", response.status_code)
+        print("Response Content:", response.content)
+        self.assertEqual(response.status_code,404)
+        
+    def test_cant_add_invalid_data(self):
+        print("10")
+        response = self.client.post(
+            self.add_amenities,self.add_amenities_invalid_data , format = "json"
+        )
+        self.assertEqual(response.status_code,400)
+        
+    def test_can_add_route(self):
+        print("11")
+        response = self.client.post(
+            self.add_amenities,self.add_route_data , format = "json"
+        )
+        print("Status Code:", response.status_code)
+        print("Response Content:", response.content)
+        self.assertEqual(response.status_code,200)
 
 class RegisterOwnerTest(BaseTest):
     
@@ -526,51 +652,6 @@ class BusApiTests(TestCase):
             account_provider=0,
         )
         print(self.user.id)
-
-
-# class CreateTest(BusApiTests):
-#     def test_add_bus(self):
-#         url = reverse("Add-Bus")
-#         data = {
-#             "bus_name": "Bus1",
-#             "plate_no": "AB123CD",
-#             "user": self.user.id,
-#             "bus_type": 2,
-#             "bus_ac": 0,
-#             "status": 0,
-#         }
-#         print(self.user.id)
-#         response = self.client.post(url, data, format="json")
-#         self.assertEqual(response.status_code, 200)
-#         if response.status_code == 200:
-#             print("ok")
-
-#     def test_update_bus(self):
-#         bus = Bus.objects.create(bus_name="Bus3", plate_no="EF789GH", user=self.user)
-#         data = {
-#             "bus_name": "UpdatedBus",
-#             "plate_no": "FG123HI",
-#             "user": bus.user,
-#             "bus_type": 2,
-#             "bus_ac": 0,
-#             "status": 0,
-#         }
-#         response = self.client.put("/api/Update-Bus/{bus.id}/", data, format="json")
-#         print(bus.id)
-#         self.assertEqual(response.status_code, 200)
-#         updated_bus = Bus.objects.get(id=bus.id)
-#         print(updated_bus)
-#         self.assertEqual(updated_bus.bus_name, "UpdatedBus")
-#         self.assertEqual(updated_bus.plate_no, "FG123HI")
-
-#     def test_delete_bus(self):
-#         bus = Bus.objects.create(bus_name="Bus2", plate_no="CD456EF", user=self.user)
-#         response = self.client.put("/api/Delete-Bus/{bus.id}/")
-#         print(bus.id)
-#         delete_bus = Bus.objects.filter(id=bus.id)
-#         print(delete_bus)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertEqual(Bus.objects.get(id=bus.id).status, 99)
 
 
 class SeatDetailTest(BaseTest):

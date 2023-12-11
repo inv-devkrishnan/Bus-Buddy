@@ -436,7 +436,6 @@ class Addamenities(APIView):
             serializer = AmenitiesSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-
                 logger.info("Fetching the bus id from amenities model")
                 bus_id = serializer.data.get(
                     "bus"
@@ -454,7 +453,7 @@ class Addamenities(APIView):
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response({"message": "missing"}, status=400)
+            return Response({"message":"missing"}, status=404)
 
 
 class Updateamenities(UpdateAPIView):
@@ -624,8 +623,14 @@ class Addtrip(APIView):
 
     def post(self, request):
         try:
-            request_data = request.data.copy()
+            request_data=request.data.copy()
+            route = request_data["route"]
+            locations = StartStopLocations.objects.filter(route_id = route).order_by("seq_id")
             request_data["user"] = request.user.id
+            seq_first = locations.first()  
+            seq_last = locations.last() 
+            request_data["start_time"] = seq_first.arrival_time
+            request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()
@@ -755,7 +760,7 @@ class Viewavailablebus(ListAPIView):
             startdate = datetime.strptime(start, date_format).date()
             enddate = datetime.strptime(end, date_format).date()
             trips = Trip.objects.filter(
-                user=user_id, start_date__lte=enddate, end_date__gte=startdate
+                status=0,user=user_id, start_date__lte=enddate, end_date__gte=startdate
             )
             buses = trips.values_list("bus", flat=True)
             print(buses)
@@ -798,27 +803,31 @@ class Addtreccuringrip(APIView):
             request_data["user"] = request.user.id
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
-            start_time_str = request_data["start_time"]
-            end_time_str = request_data["end_time"]
+            routes=request_data["route"]
+            loc=StartStopLocations.objects.filter(route=routes).order_by('seq_id')
+            print(loc)
+            seq_first = loc.first()  
+            seq_last = loc.last() 
+            print (seq_first.arrival_time)
+            print (seq_last.departure_time)
             recurrence_type = request_data["recurrence"]
             print("recurence")
             print(recurrence_type)
             start_date = datetime.strptime(start_date_str, date_format)
             end_date = datetime.strptime(end_date_str, date_format)
-            start_time = datetime.strptime(start_time_str, "%H:%M").time()
-            end_time = datetime.strptime(end_time_str, "%H:%M").time()
+            start_time = seq_first.arrival_time
+            end_time = seq_last.departure_time
             start_datetime = datetime.combine(start_date, start_time)
             end_datetime = datetime.combine(end_date, end_time)
             duration = end_datetime - start_datetime
-            print(duration)
-            no_of_days = duration.days
+            print(duration)         
+            no_of_days = (duration.days) 
             print(no_of_days)
             psd_str = request.GET.get("start")
             ped_str = request.GET.get("end")
             psd = datetime.strptime(psd_str, date_format)
-            ped = datetime.strptime(ped_str, date_format)
+            ped = datetime.strptime(ped_str, date_format)+timedelta(days=1)
             period = ped - psd
-
             if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
                 trip_objects = []
                 print("it is in the range ")
@@ -837,16 +846,16 @@ class Addtreccuringrip(APIView):
                 for i in range(iterations):
                     current_start_date = start_datetime + i * period
                     current_end_date = end_datetime + i * period
-                    if current_end_date > ped or current_start_date > ped:
+                    print(current_start_date)
+                    print(current_end_date)
+                    if (current_end_date > ped or current_start_date > ped):
                         break
                     else:
                         current_request_data = request_data.copy()
-                        current_request_data[
-                            "start_date"
-                        ] = current_start_date.strftime(date_format)
-                        current_request_data["end_date"] = current_end_date.strftime(
-                            date_format
-                        )
+                        current_request_data["start_date"] = current_start_date.strftime(date_format)
+                        current_request_data["end_date"] = current_end_date.strftime(date_format)
+                        current_request_data["start_time"] = start_time
+                        current_request_data["end_time"] = end_time
                         current_serializer = TripSerializer(data=current_request_data)
                         if current_serializer.is_valid():
                             current_serializer.save()

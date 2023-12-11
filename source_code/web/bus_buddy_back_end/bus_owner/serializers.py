@@ -159,12 +159,16 @@ class Locationdata(serializers.ModelSerializer):
         model = LocationData
         fields = "__all__"
 
+class StartStopLocationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StartStopLocations
+        fields ="__all__"
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
     """
     serilizer for routes model.for listing
     """
-
+    location = StartStopLocationsSerializer(many=True, read_only=True)
     start_point_name = serializers.CharField(
         source="start_point.location_name",
         read_only=True,  # to get the name of startponit from locations_data model
@@ -186,6 +190,7 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
             "duration",
             "id",
             "user",
+            "location",
         )
 
 

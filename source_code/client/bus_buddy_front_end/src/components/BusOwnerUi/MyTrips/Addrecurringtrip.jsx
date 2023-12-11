@@ -121,6 +121,7 @@ export default function Addrecurringtrip() {
        console.log(formattedStartDate)
        console.log(start)
        console.log(end)
+       console.log(formattedEndDate)
       
        if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start){
         setStartDateError("Start date should be same as the present date or future dates")
@@ -129,7 +130,7 @@ export default function Addrecurringtrip() {
         setStartDateError("")
        }
        
-       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate <= end){
+       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end){
         setEndDateError("End date should be either start date or any future dates")
        }
        else {
@@ -148,7 +149,7 @@ export default function Addrecurringtrip() {
        }
        );
        if (response.status === 200) {
-           console.log("Amenities Inserted");
+           console.log("trips Inserted");
            Swal.fire({
            icon: "success",
            title: "Added Successfully",
@@ -158,7 +159,7 @@ export default function Addrecurringtrip() {
        navi("/BusHome");
    }
    catch (error) {
-     console.error("Error adding amenities:", error);
+     console.error("Error adding trips:", error);
      Swal.fire({
        icon: "error",
        title: "Error",
@@ -180,7 +181,7 @@ export default function Addrecurringtrip() {
      <Card
        style={{
          width: "35rem",
-         height: "49rem",
+         height: "37rem",
          paddingTop: "3rem",
          boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
        }}
@@ -269,31 +270,7 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-                 <Form.Group className="mb-6">
-                   <Form.Label>Arrival Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={startTime}
-                     onChange={(e) => {
-                       setStartTime(e.target.value);
-                     }}
-                     required={searchMode}
-                   />
-                 </Form.Group>
-                 <Form.Group className="mb-5">
-                   <Form.Label>Departure Time</Form.Label>
-                   <Form.Control
-                     type="time"
-                     placeholder="Enter time"
-                     value={endTime}
-                     onChange={(e) => {
-                       setEndTime(e.target.value);
-                     }}
-                     required={searchMode}
-                   />
-                 </Form.Group>
-             <Form.Group as={Col} md="4" controlId="validationCustom04">
+               <Form.Group as={Col} md="4" controlId="validationCustom04">
                   <Form.Label>Recurrence Type</Form.Label>
                   <Form.Control
                     as="select"

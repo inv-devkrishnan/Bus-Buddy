@@ -133,7 +133,7 @@ const formattedEndDate = selectedEndDate
       <Card
         style={{
           width: "35rem",
-          height: "35rem",
+          height: "28rem",
           paddingTop: "3rem",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
         }}
@@ -166,6 +166,7 @@ const formattedEndDate = selectedEndDate
                 <div style={{display:"flex",justifyContent:"center"}}>
                   <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(selectedStartDate, selectedEndDate)}>search</Button>
                 </div>
+                <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the dates you have entered<br/>Please Select the bus once again if you have changed the dates</p>
               </Row>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
@@ -200,35 +201,12 @@ const formattedEndDate = selectedEndDate
                     ))}
                   </Form.Control>
                 </Form.Group>
-                  <Form.Group className="mb-6">
-                    <Form.Label>Arrival Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      placeholder="Enter time"
-                      value={startTime}
-                      onChange={(e) => {
-                        setStartTime(e.target.value);
-                      }}
-                      required={searchMode}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-5">
-                    <Form.Label>Departure Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      placeholder="Enter time"
-                      value={endTime}
-                      onChange={(e) => {
-                        setEndTime(e.target.value);
-                      }}
-                      required={searchMode}
-                    />
-                  </Form.Group>
               </Row>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
+                  marginTop:"5%"
                 }}
               >
                 <Button type="submit">Add</Button>

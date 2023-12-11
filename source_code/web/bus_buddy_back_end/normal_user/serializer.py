@@ -92,7 +92,7 @@ class PickAndDropSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PickAndDrop
-        fields = ["id", "bus_stop"]
+        fields = ["id", "bus_stop", "arrival_time"]
 
 
 class BookedSeatsSerializer(serializers.ModelSerializer):
@@ -189,6 +189,7 @@ class BookingHistoryDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = [
+            "id",
             "user",
             "trip",
             "pick_up",
