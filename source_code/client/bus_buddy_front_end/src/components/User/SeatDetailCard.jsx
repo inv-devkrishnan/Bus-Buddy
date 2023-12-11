@@ -9,16 +9,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
 import { Modal, Button } from "react-bootstrap";
 import SeatLegend from "./SeatLegend";
 
 export default function SeatDetailCard(props) {
   const { seatList } = useContext(SeatContext); // context that stores list of seats
   const [totalCost, setTotalCost] = useState(0); // to display total cost
-  const NUMBER_OF_ROWS = 3; // number of rows in seat details table
-  const [page, setPage] = useState(0); // to set current page
-  const [rowsPerPage, setRowsPerPage] = useState(NUMBER_OF_ROWS); // to set number of rows in a page
   const [loginModal, setLoginModal] = useState(false);
   const navigate = useNavigate();
 
@@ -33,15 +29,6 @@ export default function SeatDetailCard(props) {
       setTotalCost(0);
     }
   }, [seatList, props?.routeCost, props?.gst]);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const loginPage = () => {
     navigate("/login");
@@ -78,8 +65,12 @@ export default function SeatDetailCard(props) {
               Seat Details
             </Typography>
 
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 200 }} aria-label="simple table">
+            <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+              <Table
+                sx={{ minWidth: 200 }}
+                stickyHeader
+                aria-label="simple table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Seat Number</TableCell>
@@ -88,13 +79,7 @@ export default function SeatDetailCard(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {(rowsPerPage > 0
-                    ? seatList.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : seatList
-                  ).map((seat) => (
+                  {seatList.map((seat) => (
                     <TableRow
                       key={seat.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -108,15 +93,6 @@ export default function SeatDetailCard(props) {
                   ))}
                 </TableBody>
               </Table>
-              <TablePagination
-                rowsPerPageOptions={[NUMBER_OF_ROWS]}
-                component="div"
-                count={seatList.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </TableContainer>
 
             <Typography align="right" m={1} variant="subtitle1">
