@@ -141,6 +141,8 @@ class RegisterBusOwner(APIView):
             request_data["status"] = 3 # waiting for approval
             request_data["role"] = 3
             logger.info(request_data)
+            gst = request_data['extra_charges']
+            request_data['extra_charges'] = gst/100
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()
@@ -422,7 +424,7 @@ class Updateamenities(UpdateAPIView):
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
-            return Response("missing", status=400)
+            return Response("missing", status=404)
          
 
 class Addroutes(APIView):
@@ -601,13 +603,22 @@ class Updatetrip(UpdateAPIView):
             last_seq = locations.last()
             print(locations)
             if not Bus.objects.filter(id=buses, status=0).exists():
-                return Response({"message": "missing"}, status=404)
+                return Response({"message": "bus missing"}, status=404)
             if not Routes.objects.filter(id=routes, status=0).exists():
-                return Response({"message": "missing"}, status=404)
+                return Response({"message": "route missing"}, status=404)
             request_data=(request.data.copy())
             request_data['user']=request.user.id
             request_data['start_time'] = first_seq.arrival_time
             request_data['end_time'] = last_seq.departure_time
+            import pdb;pdb.set_trace();
+            present_date= datetime.now().date()
+            # present_date = datetime.strptime(today, date_format)
+            start_date = datetime.strptime(request_data['start_date'], date_format).date()
+            print(start_date)
+            print (present_date)
+            if (start_date - present_date) < timedelta(days=2):
+                print("condition ok ")
+                raise ValueError("Start date must be at least 2 days from the present date.")
             serializer = TripSerializer(instance, data=request_data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
@@ -617,6 +628,8 @@ class Updatetrip(UpdateAPIView):
             else:
                 logger.info("serializer validation failed")
                 return Response(serializer.errors, status=400)
+        except ValueError as e :
+            return Response({"message": str(e)}, status=400)
         except ObjectDoesNotExist:
             logger.info("no trip obj for the given id")
             return Response("Invalid trip id", status=400)
@@ -635,10 +648,17 @@ class Deletetrip(APIView):
         try:
             logger.info("fetching the trip obj for the obj")
             data = Trip.objects.get(id=id)  # to get trip object matching the id
+            present_date= datetime.now().date()
+            start_date = data.start_date
+            if (start_date - present_date) < timedelta(days=2):
+                print("condition ok ")
+                raise ValueError("Start date must be at least 2 days from the present date.")
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
+        except ValueError as e:
+            return Response({"message": str(e)}, status=400)
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)

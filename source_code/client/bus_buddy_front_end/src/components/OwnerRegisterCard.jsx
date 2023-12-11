@@ -282,7 +282,7 @@ export default function OwnerRegisterCard() {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="extraCharges">
-              <Form.Label>Charge by the company</Form.Label>
+              <Form.Label>G.S.T</Form.Label>
               <Form.Control
                 name="extraCharges"
                 type="number"

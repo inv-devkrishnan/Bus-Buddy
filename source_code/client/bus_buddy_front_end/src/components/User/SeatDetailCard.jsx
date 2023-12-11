@@ -28,7 +28,9 @@ export default function SeatDetailCard(props) {
       seatList.forEach((element) => {
         sumOfCost = Number(element.seat_cost) + sumOfCost; // adds the cost of all seats
       });
-      setTotalCost(sumOfCost + Number(props?.routeCost) + Number(props?.gst));
+      const routeCost = Number(props?.routeCost);
+      const gst = Number(props?.gst) || 0;
+      setTotalCost(sumOfCost + routeCost + ((sumOfCost + routeCost) * gst));
     } else {
       setTotalCost(0);
     }

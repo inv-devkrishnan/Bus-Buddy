@@ -370,7 +370,7 @@ class BaseTest(TestCase):
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
         self.update_amenities = reverse("update-amenities",args=[amenities_id])
-
+        
         return super().setUp()
 
 
@@ -460,7 +460,7 @@ class BusActions(BaseTest):
         print("12")
         self.cant_update_amenities = reverse("update-amenities",args=[800])
         response = self.client.put(
-            self.update_amenities,self.update_amenities_data , format = "json"
+            self.cant_update_amenities,self.update_amenities_data , format = "json"
         )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
