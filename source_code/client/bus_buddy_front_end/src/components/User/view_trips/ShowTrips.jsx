@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  ProgressBar,
+} from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../../utils/axiosApi";
@@ -27,13 +35,6 @@ function ShowTrips(props) {
   const handleTripCardClick = (index) => {
     setSeatViewOpen(index);
   };
-  useEffect(() => {
-    if (localStorage.getItem("seat_list")) {
-      loadingSwal("Fetching data");
-    } else {
-      loadingSwal("Fetching trips");
-    }
-  }, []);
 
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
@@ -42,6 +43,7 @@ function ShowTrips(props) {
   }, [props, seatType, busType, busAc]);
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
+    setIsLoading(true);
     await openAxiosApi
       .get(
         `user/view-trips/?start=${value?.startLocation}&end=${value?.endLocation}&date=${value.tripDate}&page=${page}&seat-type=${seatType}&bus-type=${busType}&bus-ac=${busAc}`
@@ -61,6 +63,7 @@ function ShowTrips(props) {
           text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
+    setIsLoading(false);
   };
   const clearFilters = () => {
     // function to clear filters
@@ -70,27 +73,6 @@ function ShowTrips(props) {
   };
   const viewPage = (page) => {
     getTrips(props, page, seatType, busType, busAc);
-  };
-
-  const loadingSwal = (message) => {
-    let timerInterval;
-    Swal.fire({
-      title: "Loading...!",
-      html: message,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-        setIsLoading(false);
-      },
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log("Loading finished");
-      }
-    });
   };
 
   let tripsContent;
@@ -229,7 +211,20 @@ function ShowTrips(props) {
             </Card>
           </Col>
           <Col md={6} lg={9} className="col-offset-auto">
-            {isLoading ? <div></div> : tripsContent}
+            {isLoading ? (
+              <div className="mt-5">
+                <ProgressBar
+                  animated
+                  now={100}
+                  className="w-25 ms-auto me-auto"
+                />
+                <p className="ms-3 mt-3 text-center">
+                  Searching for trip.Please Wait...
+                </p>
+              </div>
+            ) : (
+              tripsContent
+            )}
           </Col>
         </Row>
       </Container>
