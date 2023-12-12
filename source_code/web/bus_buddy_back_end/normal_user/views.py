@@ -786,8 +786,8 @@ class ReviewTrip(APIView):
                     )
         except Bookings.DoesNotExist:
             logger.error("Review trip id exception")
-            return Response({"error": "Booking doesn't belong to user"})
+            return Response({"error": "Booking doesn't belong to user"}, status=400)
 
         except Exception as e:
             logger.error(f"Review exception {e}")
-            return Response({"error": e})
+            return Response({"error": e}, status=400)

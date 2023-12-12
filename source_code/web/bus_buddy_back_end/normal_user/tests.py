@@ -80,6 +80,17 @@ class BaseTest(TestCase):
             end_time="04:00:00",
         )
 
+        self.trip_completed = Trip.objects.create(
+            bus=self.bus,
+            route=self.route,
+            user=self.owner,
+            status=1,
+            start_date="2023-12-01",
+            end_date="2023-12-02",
+            start_time="10:00:00",
+            end_time="04:00:00",
+        )
+
         self.start_stop_location_1 = StartStopLocations.objects.create(
             seq_id=1,
             location=self.location_1,
@@ -114,6 +125,36 @@ class BaseTest(TestCase):
             landmark="trivandrum",
             start_stop_location=self.start_stop_location_2,
             arrival_time="04:00:00",
+        )
+
+        self.booking = Bookings.objects.create(
+            user=self.user,
+            trip=self.trip,
+            pick_up=self.pick_up,
+            drop_off=self.drop_off,
+            status=0,
+            total_amount=4250,
+            booking_id="BY111",
+        )
+
+        self.booking_completed = Bookings.objects.create(
+            user=self.user,
+            trip=self.trip_completed,
+            pick_up=self.pick_up,
+            drop_off=self.drop_off,
+            status=1,
+            total_amount=4250,
+            booking_id="BY222",
+        )
+
+        self.booking_cancelled = Bookings.objects.create(
+            user=self.user,
+            trip=self.trip_completed,
+            pick_up=self.pick_up,
+            drop_off=self.drop_off,
+            status=99,
+            total_amount=4250,
+            booking_id="BY333",
         )
 
         self.register = reverse("register-user")
@@ -278,6 +319,18 @@ class BaseTest(TestCase):
                 },
             ],
             "payment": {"payment_intend": "cbdkscndski", "status": 0},
+        }
+
+        self.valid_review_values = {
+            "review_title": "Some Title",
+            "review_body": "Some Body",
+            "rating": 5,
+        }
+
+        self.invalid_rating_review_values = {
+            "review_title": "Some Title",
+            "review_body": "Some Body",
+            "rating": 11,
         }
 
         return super().setUp()
@@ -655,4 +708,42 @@ class BookingTest(BaseTest):
         response = self.client.post(
             self.book, self.invalid_traveller_name_booking_values, format="json"
         )
+        self.assertEqual(response.status_code, 400)
+
+
+class ReviewTripTest(BaseTest):
+    def test_01_can_review(self):
+        response = self.client.post(
+            f"{reverse('review-trip')}?booking_id={ self.booking_completed.id}",
+            self.valid_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 201)
+
+    def test_02_cannot_review_on_pending_trip(self):
+        response = self.client.post(
+            f"{reverse('review-trip')}?booking_id={ self.booking.id}",
+            self.valid_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_03_cannot_review_on_cancelled_booking(self):
+        response = self.client.post(
+            f"{reverse('review-trip')}?booking_id={ self.booking_cancelled.id}",
+            self.valid_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_04_cannot_review_with_invalid_rating(self):
+        response = self.client.post(
+            f"{reverse('review-trip')}?booking_id={ self.booking_completed.id}",
+            self.invalid_rating_review_values,
+            format="json",
+        )
+        print(response.content)
         self.assertEqual(response.status_code, 400)
