@@ -39,6 +39,6 @@ export const OwnerRegistrationSchema = yup.object().shape({
   msme: yup.string().required("MSME number is required"),
   extraCharges: yup
     .string()
-    .matches(onlyNumberRule, "Extra charges must be numbers")
-    .required("Extra Charges is required"),
+    .matches(onlyNumberRule, "G.S.T must be numbers")
+    .required("G.S.T is required"),
 });
