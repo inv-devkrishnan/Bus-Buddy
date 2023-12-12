@@ -141,8 +141,6 @@ class RegisterBusOwner(APIView):
             request_data["status"] = 3 # waiting for approval
             request_data["role"] = 3
             logger.info(request_data)
-            gst = request_data['extra_charges']
-            request_data['extra_charges'] = gst/100
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()

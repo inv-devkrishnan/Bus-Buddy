@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
 import { UpdateTripSchema} from "../UpdateTripSchema"
 import { axiosApi } from "../../../utils/axiosApi";
-import { format } from "date-fns";
+import { format,addMonths } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
@@ -172,6 +172,8 @@ export default function Updatetrips() {
                     }
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
