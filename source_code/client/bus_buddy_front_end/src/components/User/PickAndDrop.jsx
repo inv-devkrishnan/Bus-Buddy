@@ -12,7 +12,17 @@ export default function PickAndDrop(props) {
   const { seatData } = useContext(SeatContext); // use context with seat data
 
   useEffect(() => {
-    const pickRows = seatData[0].map((stop) => ({
+    const storedPickUp = localStorage.getItem("pick_up");
+    const storedDropOff = localStorage.getItem("drop_off");
+
+    if (storedPickUp && storedDropOff) {
+      props.setSelectionModelPick(storedPickUp);
+      props.setSelectionModelDrop(storedDropOff);
+    }
+  }, []);
+
+  useEffect(() => {
+    const pickRows = seatData[0]?.map((stop) => ({
       // for mapping pick point data as rows according to columns
       // seatData[0] holds pick points
       id: stop.id,
@@ -21,7 +31,7 @@ export default function PickAndDrop(props) {
     if (pickRows) {
       setPick(pickRows);
     }
-    const dropRows = seatData[1].map((stop) => ({
+    const dropRows = seatData[1]?.map((stop) => ({
       // for mapping drop point data as rows according to columns
       // seatData[1] holds drop points
       id: stop.id,

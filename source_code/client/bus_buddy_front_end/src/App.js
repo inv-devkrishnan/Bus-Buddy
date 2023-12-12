@@ -82,6 +82,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
+          <Route path="*" element ={<NotFoundPage/>}/>
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>

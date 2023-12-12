@@ -454,6 +454,7 @@ function ListUsers(props) {
                     <tr>
                       <th>User ID</th>
                       <th>Name</th>
+                      <th>Role</th>
                       <th>Email</th>
                       <th></th>
                       <th></th>
@@ -464,6 +465,8 @@ function ListUsers(props) {
                       <tr key={user.id}>
                         <td className="fw-bold">{user.id}</td>
                         <td>{user.first_name}</td>
+                        <td>{user.role===3 && "Bus Owner"}
+                        {user.role===2 && "Normal User"}</td>
                         <td>{user.email}</td>
                         <td>
                           {user.status === 2 && (

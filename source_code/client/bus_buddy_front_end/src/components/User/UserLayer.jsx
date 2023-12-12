@@ -27,8 +27,10 @@ export default function UserLayer(props) {
           // Check if the current seat has been booked by a male or female traveler
           if (seat.booked[0].traveller_gender === 1) {
             hasMale = true;
+            break;
           } else if (seat.booked[0].traveller_gender === 2) {
             hasFemale = true;
+            break;
           }
         }
       }
@@ -37,7 +39,7 @@ export default function UserLayer(props) {
     if (layerData.length === 2 && hasMale) {
       // Male has booked nearby seats
       setNearMale(true);
-    } else if (hasFemale) {
+    } else if (layerData.length === 2 && hasFemale) {
       // Female has booked nearby seats
       setNearFemale(true);
     }
@@ -48,7 +50,12 @@ export default function UserLayer(props) {
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Grid item xs={2}>
-            <UserSleeper nearFemale={false} row={props.row} column={1} />
+            <UserSleeper
+              nearFemale={false}
+              nearMale={false}
+              row={props.row}
+              column={1}
+            />
           </Grid>
         </Grid>
         <Grid item xs={2}></Grid>

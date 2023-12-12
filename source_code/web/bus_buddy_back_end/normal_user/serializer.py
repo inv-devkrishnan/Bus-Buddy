@@ -177,6 +177,7 @@ class TravellerHistorySerializer(serializers.ModelSerializer):
             "traveller_gender",
             "seat",
         ]
+        depth = 1
 
 
 class BookingHistoryDataSerializer(serializers.ModelSerializer):
@@ -189,6 +190,7 @@ class BookingHistoryDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = [
+            "id",
             "user",
             "trip",
             "pick_up",
