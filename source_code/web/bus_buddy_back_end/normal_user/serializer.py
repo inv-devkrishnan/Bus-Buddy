@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
-from .models import User, Bookings, BookedSeats, Payment
+from .models import User, Bookings, BookedSeats, Payment, UserReview
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -275,3 +275,26 @@ class NonNegativeFloatField(serializers.FloatField):
 
 class CostSerializer(serializers.Serializer):
     total_cost = NonNegativeFloatField()
+
+
+class ReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = ("user_id", "trip_id", "review_title", "review_body", "rating")
+
+    review_title = serializers.CharField(
+        max_length=250,
+    )
+    review_body = serializers.CharField()
+    rating = serializers.IntegerField(
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1|2|3|4|5)$",
+                message="Review status must be between 0 to 5.",
+            ),
+        ],
+    )

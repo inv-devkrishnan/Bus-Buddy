@@ -29,6 +29,7 @@ from .serializer import (
     CancelBookingSerializer,
     CostSerializer,
     CancelTravellerDataSerializer,
+    ReviewTripSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -746,3 +747,47 @@ class CreatePaymentIntent(APIView):
             logger.warn("Serializer validation Failed")
             logger.warn(serialized_data.errors)
             return Response({"error_code": "D1002"}, status=400)
+
+
+class ReviewTrip(APIView):
+    """
+    API for reviewing a completed trip
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def post(self, request):
+        booking_id = request.GET.get("booking_id")
+        request_data = request.data.copy()
+        request_data["user_id"] = request.user.id
+        try:
+            booking = Bookings.objects.get(user=request_data["user_id"], id=booking_id)
+            request_data["trip_id"] = booking.trip.id
+            if booking.trip.status == 1 and booking.status == 1:
+                serialized_data = ReviewTripSerializer(data=request_data)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    logger.info("Review added")
+                    return Response({"message": "Review successfull"}, status=201)
+                else:
+                    logger.error(f"Review serializer error: {serialized_data.errors}")
+                    return Response({"error": serialized_data.errors}, status=400)
+            else:
+                if booking.trip.status != 1:
+                    return Response(
+                        {"message": "Trip is pending or cancelled "},
+                        status=400,
+                    )
+                else:
+                    return Response(
+                        {"message": "Booking is pending or cancelled"},
+                        status=400,
+                    )
+        except Bookings.DoesNotExist:
+            logger.error("Review trip id exception")
+            return Response({"error": "Booking doesn't belong to user"})
+
+        except Exception as e:
+            logger.error(f"Review exception {e}")
+            return Response({"error": e})

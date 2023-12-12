@@ -16,5 +16,10 @@ urlpatterns = [
     ),
     path("book-seat/", views.BookSeat.as_view(), name="book-seat"),
     path("cancel-booking/", views.CancelBooking.as_view(), name="cancel-booking"),
-    path("create-payment-intent/",views.CreatePaymentIntent.as_view(),name="create-payment-intent"),
+    path(
+        "create-payment-intent/",
+        views.CreatePaymentIntent.as_view(),
+        name="create-payment-intent",
+    ),
+    path("review-trip/", views.ReviewTrip.as_view(), name="review-trip"),
 ]
