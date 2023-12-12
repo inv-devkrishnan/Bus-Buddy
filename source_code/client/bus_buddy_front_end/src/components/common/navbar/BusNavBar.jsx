@@ -49,7 +49,7 @@ function BusNavBar() {
     getUserInfo();
   }, []);
   return (
-    <Navbar expand="lg" bg="primary" data-bs-theme="dark"  fixed="top" style={{zIndex:2}}>
+    <Navbar expand="lg" bg="primary" data-bs-theme="dark"  fixed="top" style={{zIndex:99}}>
       <Container>
         <Navbar.Brand
           className="fw-bold"
