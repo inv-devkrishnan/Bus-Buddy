@@ -26,6 +26,19 @@ function UserSleeper(props) {
   const [containerEl, setContainerEl] = useState(null); // for handling pop over
 
   useEffect(() => {
+    if (localStorage.getItem("seat_list")) {
+      const existingSeatList = JSON.parse(localStorage.getItem("seat_list"));
+      updateSeatList(existingSeatList);
+      for (const seat of existingSeatList) {
+        if (seat.seat_ui_order === props.row * 10 + props.column) {
+          handleSelect();
+          break;
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
     let loop = 0;

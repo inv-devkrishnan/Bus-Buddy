@@ -33,7 +33,7 @@ export default function ViewSeatDetails(props) {
         </Grid>
 
         <Grid item md={12} sm={12} lg={8} xl={8}>
-          {seatList.length ? (
+          {seatList.length || localStorage.getItem("seat_list") ? (
             <PickAndDrop
               selectionModelPick={selectionModelPick}
               setSelectionModelPick={setSelectionModelPick}

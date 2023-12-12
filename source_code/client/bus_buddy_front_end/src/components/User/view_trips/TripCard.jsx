@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import {
@@ -27,7 +27,25 @@ function TripCard(props) {
     return stringWithSpaces;
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("current_trip")) {
+      const selectedTrip = JSON.parse(localStorage.getItem("current_trip"));
+      if (selectedTrip.data.trip === props.data.trip) {
+        props.onClick();
+        setViewSeatFlag(true);
+        updateTripID(props.data.trip);
+        updateSeatList([]);
+      }
+    }
+  }, []);
+
   const handleSelectSeat = () => {
+    localStorage.removeItem("pick_up");
+    localStorage.removeItem("drop_off");
+    localStorage.removeItem("trip");
+    localStorage.removeItem("total_amount");
+    localStorage.removeItem("current_trip");
+    localStorage.removeItem("seat_list");
     props.onClick();
     setViewSeatFlag(true);
     updateTripID(props.data.trip);
@@ -35,9 +53,14 @@ function TripCard(props) {
   };
 
   const handleSelectSeatClose = () => {
+    localStorage.removeItem("pick_up");
+    localStorage.removeItem("drop_off");
+    localStorage.removeItem("trip");
+    localStorage.removeItem("total_amount");
+    localStorage.removeItem("current_trip");
+    localStorage.removeItem("seat_list");
     props.onClick();
     setViewSeatFlag(false);
-    localStorage.removeItem("current_trip");
     updateSeatList([]);
   };
 

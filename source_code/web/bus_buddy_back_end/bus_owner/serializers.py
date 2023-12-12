@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import re
 from rest_framework import serializers
 from rest_framework.fields import empty
@@ -66,7 +66,9 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_seat_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=regex_options_entry, message="Seat type must be 0, 1, or 2."),
+            RegexValidator(
+                regex=regex_options_entry, message="Seat type must be 0, 1, or 2."
+            ),
         ]
     )
     status = serializers.IntegerField(
@@ -79,7 +81,9 @@ class BusSerializer(serializers.ModelSerializer):
     )
     bus_type = serializers.IntegerField(
         validators=[
-            RegexValidator(regex=regex_options_entry, message="Bus type must be 0, 1, or 2."),
+            RegexValidator(
+                regex=regex_options_entry, message="Bus type must be 0, 1, or 2."
+            ),
         ]
     )
     bus_ac = serializers.IntegerField(
@@ -155,15 +159,18 @@ class Locationdata(serializers.ModelSerializer):
         model = LocationData
         fields = "__all__"
 
+
 class StartStopLocationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = StartStopLocations
-        fields ="__all__"
+        fields = "__all__"
+
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
     """
     serilizer for routes model.for listing
     """
+
     location = StartStopLocationsSerializer(many=True, read_only=True)
     start_point_name = serializers.CharField(
         source="start_point.location_name",
@@ -366,24 +373,31 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_start_date(self, value):
         today = datetime.now().date()
- 
+
         if value < today:
             raise serializers.ValidationError(
                 "Start date must be today or in the future."
             )
+
+        six_months_from_today = today + timedelta(days=6 * 30)
+        if value > six_months_from_today:
+            raise serializers.ValidationError(
+                "Start date should not be greater than 6 months from today."
+            )
         return value
 
     def validate_end_date(self, value):
-        start_date_str = self.initial_data.get('start_date')      
-        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        start_date_str = self.initial_data.get("start_date")
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
 
         if value < start_date:
-            raise serializers.ValidationError("End date should be in the future or the same day as start date.") 
+            raise serializers.ValidationError(
+                "End date should be in the future or the same day as start date."
+            )
         return value
 
     start_time = serializers.TimeField(format="%H:%M")
     end_time = serializers.TimeField(format="%H:%M")
-
 
     status = serializers.IntegerField(
         required=False,
