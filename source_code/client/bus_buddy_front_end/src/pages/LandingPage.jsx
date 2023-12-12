@@ -18,12 +18,6 @@ function LandingPage(props) {
 
   useEffect(() => {
     getLocationData();
-    localStorage.removeItem("pick_up");
-    localStorage.removeItem("drop_off");
-    localStorage.removeItem("trip");
-    localStorage.removeItem("total_amount");
-    localStorage.removeItem("current_trip");
-    localStorage.removeItem("seat_list");
     if (props.fromSearchList) {
       document.getElementById("start_text_box").value = props?.prevStartLocation;
       document.getElementById("end_text_box").value = props?.prevEndLocation;
