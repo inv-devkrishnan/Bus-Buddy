@@ -8,7 +8,15 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from normal_user.models import Bookings, BookedSeats, Payment
-from bus_owner.models import Trip, Bus, Routes, StartStopLocations, PickAndDrop,Amenities,SeatDetails
+from bus_owner.models import (
+    Trip,
+    Bus,
+    Routes,
+    StartStopLocations,
+    PickAndDrop,
+    Amenities,
+    SeatDetails,
+)
 from bus_buddy_back_end.email import send_email_with_template
 from bus_buddy_back_end.permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
@@ -147,51 +155,6 @@ def unban_user(old_status, new_status, instance):
             logger.warn("User Unban Process Failed Reason :" + str(e))
 
 
-def ban_bus_owner(old_status, new_status, instance):
-    """function to peform after operations after a bus owner user ban
-
-    Args:
-       old_status (_type_): previous status
-       new_status (_type_): new status
-       instance (_type_): user instance
-    """
-    stripe.api_key = config("STRIPE_API_KEY")
-    if old_status == 0 and new_status == 2 and instance.role == 3:
-        logger.info("Bus owner ban initated")
-        try:
-            trip_instances = Trip.objects.filter(user_id=instance.id, status=0)
-            for trip in trip_instances:
-                active_bookings = Bookings.objects.filter(trip=trip, status=0)
-                for active_booking in active_bookings:
-                    booked_seats = BookedSeats.objects.filter(booking=active_booking)
-                    payment_instance = Payment.objects.get(booking=active_booking)
-                    stripe.Refund.create(payment_intent=payment_instance.payment_intend)
-                    for seat in booked_seats:
-                        seat.status = 1
-                        seat.save()
-                    active_booking.status = 99
-                    active_booking.save()
-                    payment_instance.status = 3
-                    payment_instance.save()
-                trip.status = 99
-                trip.save()
-            recipient_list = [instance.email]
-            mail_sent_response(
-                send_email_with_template(
-                    subject="Account Banned",
-                    context={
-                        "recipient_name": instance.first_name,
-                    },
-                    recipient_list=recipient_list,
-                    template="bus_owner_account_ban_template.html",
-                    status=4,
-                )
-            )
-            logger.info("Bus Owner Ban After Process Finished Sucessfully")
-        except Exception as e:
-            logger.warn("Bus Owner Ban After Process failed Reason : " + str(e))
-
-
 def remove_bus_owner_trips(instance):
     logger.info("Removing trips")
     trip_instances = Trip.objects.filter(user_id=instance.id, status=0)
@@ -210,7 +173,38 @@ def remove_bus_owner_trips(instance):
             payment_instance.save()
         trip.status = 99
         trip.save()
-        
+
+
+def ban_bus_owner(old_status, new_status, instance):
+    """function to peform after operations after a bus owner user ban
+
+    Args:
+       old_status (_type_): previous status
+       new_status (_type_): new status
+       instance (_type_): user instance
+    """
+    stripe.api_key = config("STRIPE_API_KEY")
+    if old_status == 0 and new_status == 2 and instance.role == 3:
+        logger.info("Bus owner ban initated")
+        try:
+            remove_bus_owner_trips(instance)
+            recipient_list = [instance.email]
+            mail_sent_response(
+                send_email_with_template(
+                    subject="Account Banned",
+                    context={
+                        "recipient_name": instance.first_name,
+                    },
+                    recipient_list=recipient_list,
+                    template="bus_owner_account_ban_template.html",
+                    status=4,
+                )
+            )
+            logger.info("Bus Owner Ban After Process Finished Sucessfully")
+        except Exception as e:
+            logger.warn("Bus Owner Ban After Process failed Reason : " + str(e))
+
+
 def remove_bus_owner_routes(instance):
     logger.info("Removing routes")
     route_instances = Routes.objects.filter(user_id=instance.id, status=0)
@@ -227,23 +221,23 @@ def remove_bus_owner_routes(instance):
             start_stop.save()
         route.status = 99
         route.save()
-        
+
+
 def remove_bus_owner_buses(instance):
     logger.info("Removing buses")
-    bus_instances = Bus.objects.filter(user_id=instance.id,status=0)
+    bus_instances = Bus.objects.filter(user_id=instance.id, status=0)
     for bus in bus_instances:
         amenities_instance = Amenities.objects.get(bus=bus)
-        amenities_instance.status =99
+        amenities_instance.status = 99
         amenities_instance.save()
         seat_details_instances = SeatDetails.objects.filter(bus=bus)
         for seat in seat_details_instances:
-            seat.status =99
+            seat.status = 99
             seat.save()
-        bus.status =99
-        bus.save()    
-            
-           
-    
+        bus.status = 99
+        bus.save()
+
+
 def remove_bus_owner(old_status, new_status, instance):
     stripe.api_key = config("STRIPE_API_KEY")
     if (
@@ -259,17 +253,17 @@ def remove_bus_owner(old_status, new_status, instance):
             remove_bus_owner_buses(instance)
             recipient_list = [instance.email]
             mail_sent_response(
-            send_email_with_template(
-                subject="Account Terminated",
-                context={
-                    "recipient_name": instance.first_name,
-                },
-                recipient_list=recipient_list,
-                template="normal_user_account_delete_template.html",
-                status=6,
+                send_email_with_template(
+                    subject="Account Terminated",
+                    context={
+                        "recipient_name": instance.first_name,
+                    },
+                    recipient_list=recipient_list,
+                    template="normal_user_account_delete_template.html",
+                    status=6,
+                )
             )
-        )
-            logger.info("Bus Owner Removal After Process Finished Sucessfully") 
+            logger.info("Bus Owner Removal After Process Finished Sucessfully")
         except Exception as e:
             logger.warn("Bus Owner Removal After Process failed Reason : " + str(e))
 
@@ -296,7 +290,7 @@ def update_status(self, user_id, status):
                     ban_normal_user(old_status, status, instance)
                     ban_bus_owner(old_status, status, instance)
                     unban_user(old_status, status, instance)
-                    remove_bus_owner(old_status,status,instance)
+                    remove_bus_owner(old_status, status, instance)
                     return Response({"success_code": "D2005"})
                 else:
                     logger.info(
