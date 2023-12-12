@@ -550,7 +550,7 @@ class CancelBookingTestCase(BaseTest):
         booking_instance.status = 0
         self.mock_get.return_value = booking_instance
 
-        self.mock_refund.return_value = refund_value
+        self.mock_refund.return_value = {"status": refund_value, "code": "D2008"}
         self.mock_perform_update.return_value = None
         self.mock_CancelBookingSerializer.return_value = True
         self.mock_send_email.return_value = {"success": True}
@@ -562,7 +562,6 @@ class CancelBookingTestCase(BaseTest):
 
         view = CancelBooking()
         response = view.update(request)
-
         self.assertEqual(response.status_code, 200)
 
     def test_02_cancel_booking_with_invalid_booking_id(self):
@@ -580,7 +579,6 @@ class CancelBookingTestCase(BaseTest):
 
         view = CancelBooking()
         response = view.update(request)
-
         self.assertEqual(response.status_code, 200)
 
     def test_04_cant_booking_with_exception(self):
