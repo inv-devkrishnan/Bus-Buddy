@@ -10,6 +10,7 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
+import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -462,32 +463,7 @@ export default function UserBookingHistory() {
           <Modal.Title>Refund Policy</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Time Period of Cancellation</th>
-                <th>Refund (%)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Before 48 hours from trip start time</td>
-                <td>100 %</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>After 48 hours from trip start time</td>
-                <td>50%</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>On the same day as trip start's</td>
-                <td>0%</td>
-              </tr>
-            </tbody>
-          </Table>
+          <RefundPolicy/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handlePolicyClose}>
