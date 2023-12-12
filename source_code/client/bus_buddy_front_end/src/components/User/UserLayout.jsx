@@ -18,6 +18,7 @@ export default function UserLayout(props) {
         `
       )
       .then((res) => {
+        console.log(res.data);
         updateSeatData(res.data);
       })
       .catch((err) => {

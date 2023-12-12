@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  ProgressBar,
+} from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../../utils/axiosApi";
@@ -23,7 +31,7 @@ function ShowTrips(props) {
   const [seatType, setSeatType] = useState(-1); // to filter record's based of seat type (-1 = disable)
   const [busType, setBusType] = useState(-1); // to filter record's based of bus type (-1 = disable)
   const [busAc, setBusAc] = useState(-1); // to filter record's based of ac or not (-1 = disable)
-
+  const [isLoading, setIsLoading] = useState(true);
   const handleTripCardClick = (index) => {
     setSeatViewOpen(index);
   };
@@ -35,6 +43,7 @@ function ShowTrips(props) {
   }, [props, seatType, busType, busAc]);
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
+    setIsLoading(true);
     await openAxiosApi
       .get(
         `user/view-trips/?start=${value?.startLocation}&end=${value?.endLocation}&date=${value.tripDate}&page=${page}&seat-type=${seatType}&bus-type=${busType}&bus-ac=${busAc}`
@@ -54,6 +63,7 @@ function ShowTrips(props) {
           text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
+    setIsLoading(false);
   };
   const clearFilters = () => {
     // function to clear filters
@@ -64,6 +74,36 @@ function ShowTrips(props) {
   const viewPage = (page) => {
     getTrips(props, page, seatType, busType, busAc);
   };
+
+  let tripsContent;
+
+  if (trips.length > 0) {
+    tripsContent = trips.map((trip, index) => (
+      <TripCard
+        key={trip.trip}
+        data={trip}
+        startLocation={props?.startLocation}
+        startLocationName={props?.startLocationName}
+        endLocation={props?.endLocation}
+        endLocationName={props?.endLocationName}
+        seatViewOpen={seatViewOpen}
+        setSeatViewOpen={setSeatViewOpen}
+        isOpen={index === seatViewOpen}
+        onClick={() => handleTripCardClick(index)}
+      />
+    ));
+  } else {
+    tripsContent = (
+      <div className="d-flex mt-5 ms-5">
+        <ExclamationCircle color="red" size={96}></ExclamationCircle>
+        <div className="ms-3">
+          <h2>No Matching Trips Found !!</h2>
+          <h6>Try another trip or change filter options</h6>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Container fluid className="mb-5 ms-0 me-0">
@@ -171,29 +211,19 @@ function ShowTrips(props) {
             </Card>
           </Col>
           <Col md={6} lg={9} className="col-offset-auto">
-            {trips.length > 0 ? (
-              trips.map((trip, index) => (
-                <TripCard
-                  key={trip.trip}
-                  data={trip}
-                  startLocation={props?.startLocation}
-                  startLocationName={props?.startLocationName}
-                  endLocation={props?.endLocation}
-                  endLocationName={props?.endLocationName}
-                  seatViewOpen={seatViewOpen}
-                  setSeatViewOpen={setSeatViewOpen}
-                  isOpen={index === seatViewOpen}
-                  onClick={() => handleTripCardClick(index)}
+            {isLoading ? (
+              <div className="mt-5">
+                <ProgressBar
+                  animated
+                  now={100}
+                  className="w-25 ms-auto me-auto"
                 />
-              ))
-            ) : (
-              <div className="d-flex mt-5 ms-5">
-                <ExclamationCircle color="red" size={96}></ExclamationCircle>
-                <div className="ms-3">
-                  <h2>No Matching Trips Found !!</h2>
-                  <h6>Try another trip or change filter options</h6>
-                </div>
+                <p className="ms-3 mt-3 text-center">
+                  Searching for trip.Please Wait...
+                </p>
               </div>
+            ) : (
+              tripsContent
             )}
           </Col>
         </Row>

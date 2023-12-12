@@ -357,6 +357,8 @@ export default function UserBookingHistory() {
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Seat</th>
+                    <th>Type</th>
+                    <th>Deck</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -366,7 +368,11 @@ export default function UserBookingHistory() {
                       <td>
                         {passenger?.traveller_gender === 1 ? "Male" : "Female"}
                       </td>
-                      <td>{passenger?.seat}</td>
+                      <td>{passenger?.seat.seat_number}</td>
+                      <td>
+                        {passenger?.seat.seat_type === 0 ? "Seater" : "Sleeper"}
+                      </td>
+                      <td>{passenger?.seat.deck === 0 ? "Lower" : "Upper"}</td>
                     </tr>
                   ))}
                 </tbody>
