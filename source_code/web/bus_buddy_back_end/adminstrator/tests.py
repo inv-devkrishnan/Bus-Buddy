@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from unittest.mock import patch, MagicMock, Mock
 from rest_framework.test import APIClient
 from account_manage.models import User
 
@@ -206,19 +207,50 @@ class ListUsersTest(BaseTest):
 
 
 class BanUserTest(BaseTest):
-    def test_01_can_ban_user(self):
+    def test_01_can_ban_normal_user(self):
         self.user = User.objects.create_user(
-            email="dummy1@gmail.com", password="12345678", account_provider=0, role=2
+            email="dummy6@gmail.com", password="12345678", account_provider=0, role=2
         )
-        cur_user = User.objects.get(email="dummy1@gmail.com")
+        cur_user = User.objects.get(email="dummy6@gmail.com")
         ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
-        response = self.client.put(
-            ban_user_url,
-            format="json",
-        )
-        self.assertEqual(response.status_code, 200)
+        with patch('normal_user.models.BookedSeats.objects.filter') as mock_filter:
+            mock_filter.return_value = Mock()  # Mocking the queryset
+        # Mock the Payment.objects.get method
+            with patch('normal_user.models.Payment.objects.get') as mock_get:
+                mock_get.return_value = Mock()  # Mocking the Payment instance
 
-    def test_02_cant_ban_invalid_user(self):
+                # Mock the stripe.Refund.create method
+                with patch('stripe.Refund.create') as mock_refund_create:
+                    # Set up the mock response for the stripe.Refund.create method
+                    mock_refund_create.return_value = Mock()
+                    response = self.client.put(
+                        ban_user_url,
+                        format="json",
+                    )
+                    self.assertEqual(response.status_code, 200)
+    def test_02_can_ban_busowner_user(self):
+        self.user = User.objects.create_user(
+            email="dummy7@gmail.com", password="12345678", account_provider=0, role=3
+        )
+        cur_user = User.objects.get(email="dummy7@gmail.com")
+        ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
+        with patch('normal_user.models.BookedSeats.objects.filter') as mock_filter:
+            mock_filter.return_value = Mock()  # Mocking the queryset
+        # Mock the Payment.objects.get method
+            with patch('normal_user.models.Payment.objects.get') as mock_get:
+                mock_get.return_value = Mock()  # Mocking the Payment instance
+
+                # Mock the stripe.Refund.create method
+                with patch('stripe.Refund.create') as mock_refund_create:
+                    # Set up the mock response for the stripe.Refund.create method
+                    mock_refund_create.return_value = Mock()
+                    response = self.client.put(
+                        ban_user_url,
+                        format="json",
+                    )
+                    self.assertEqual(response.status_code, 200)                
+
+    def test_03_cant_ban_invalid_user(self):
         self.user = User.objects.create_user(
             email="dummy2@gmail.com", password="12345678", account_provider=0, role=2
         )
@@ -230,7 +262,7 @@ class BanUserTest(BaseTest):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_03_can_unban_user(self):
+    def test_04_can_unban_user(self):
         self.user = User.objects.create_user(
             email="dummy3@gmail.com", password="12345678", account_provider=0, role=2
         )
@@ -243,7 +275,7 @@ class BanUserTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_04_can_remove_user(self):
+    def test_05_can_remove_user(self):
         self.user = User.objects.create_user(
             email="dummy4@gmail.com", password="12345678", account_provider=0, role=2
         )
