@@ -283,23 +283,24 @@ export default function OwnerRegisterCard() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="extraCharges">
               <Form.Label>G.S.T</Form.Label>
-              <Form.Control
-                name="extraCharges"
-                type="number"
-                value={formik.values.extraCharges}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={
-                  formik.touched.extraCharges && formik.errors.extraCharges
-                }
-                placeholder="Extra charges"
-              />
-              <Form.Text className="text-muted">
-                Extra charge is the service charge by the company
-              </Form.Text>
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.extraCharges}
-              </Form.Control.Feedback>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  name="extraCharges"
+                  type="number"
+                  value={formik.values.extraCharges}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  isInvalid={
+                    formik.touched.extraCharges && formik.errors.extraCharges
+                  }
+                  placeholder="G.S.T charges"
+                />
+
+                <InputGroup.Text id="basic-addon1">%</InputGroup.Text>
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.extraCharges}
+                </Form.Control.Feedback>
+              </InputGroup>
             </Form.Group>
             <Row>
               <Col>
