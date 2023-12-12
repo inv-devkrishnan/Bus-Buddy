@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from account_manage.models import User
 from normal_user.models import Bookings, BookedSeats, Payment
+from bus_owner.models import Trip
 from bus_buddy_back_end.email import send_email_with_template
 from bus_buddy_back_end.permissions import AllowAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
@@ -29,6 +30,16 @@ def mail_sent_response(mailfunction):
 
 
 def bus_owner_approval(old_status, new_status, instance):
+    """function to perform the bus owner approval
+
+    Args:
+        old_status (_type_): previous status
+        new_status (_type_):  new status
+        instance (_type_): current user instance
+
+    Returns:
+        _type_: _description_
+    """
     if (
         old_status == 3 and new_status == 0
     ):  # if status change was from 3 to 0 then send mail to bus owner about approval
@@ -46,10 +57,16 @@ def bus_owner_approval(old_status, new_status, instance):
                 status=2,
             )
         )
-    return "0000"
 
 
 def ban_normal_user(old_status, new_status, instance):
+    """function to peform after operations after a normal user ban
+
+    Args:
+        old_status (_type_): previous status
+        new_status (_type_): new status
+        instance (_type_): user instance
+    """
     stripe.api_key = config("STRIPE_API_KEY")
     if old_status == 0 and new_status == 2 and instance.role == 2:
         logger.info("Normal User ban After Process initiated")
@@ -68,21 +85,66 @@ def ban_normal_user(old_status, new_status, instance):
                 active_booking.save()
                 payment_instance.status = 3
                 payment_instance.save()
-                recipient_list = [instance.email]
-                mail_sent_response(
-                    send_email_with_template(
-                        subject="Account Banned",
-                        context={
-                            "recipient_name": instance.first_name,
-                        },
-                        recipient_list=recipient_list,
-                        template="account_ban_template.html",
-                        status=4,
-                    )
+            recipient_list = [instance.email]
+            mail_sent_response(
+                send_email_with_template(
+                    subject="Account Banned",
+                    context={
+                        "recipient_name": instance.first_name,
+                    },
+                    recipient_list=recipient_list,
+                    template="normal_user_account_ban_template.html",
+                    status=4,
                 )
+            )
             logger.info("Normal User Ban After Process Finished Sucessfully")
         except Exception as e:
-            logger.info("Normal User Ban After Process failed Reason : " + str(e))
+            logger.warn("Normal User Ban After Process failed Reason : " + str(e))
+
+
+def ban_bus_owner(old_status, new_status, instance):
+    """function to peform after operations after a bus owner user ban
+
+    Args:
+       old_status (_type_): previous status
+       new_status (_type_): new status
+       instance (_type_): user instance
+    """
+    stripe.api_key = config("STRIPE_API_KEY")
+    if old_status == 0 and new_status == 2 and instance.role == 3:
+        logger.info("Bus owner ban initated")
+        try:
+            trip_instances = Trip.objects.filter(user_id=instance.id, status=0)
+            for trip in trip_instances:
+                active_bookings = Bookings.objects.filter(trip=trip, status=0)
+                for active_booking in active_bookings:
+                    booked_seats = BookedSeats.objects.filter(booking=active_booking)
+                    payment_instance = Payment.objects.get(booking=active_booking)
+                    stripe.Refund.create(payment_intent=payment_instance.payment_intend)
+                    for seat in booked_seats:
+                        seat.status = 1
+                        seat.save()
+                    active_booking.status = 99
+                    active_booking.save()
+                    payment_instance.status = 3
+                    payment_instance.save()
+                trip.status = 99
+                trip.save()
+            recipient_list = [instance.email]
+            mail_sent_response(
+                send_email_with_template(
+                    subject="Account Banned",
+                    context={
+                        "recipient_name": instance.first_name,
+                    },
+                    recipient_list=recipient_list,
+                    template="bus_owner_account_ban_template.html",
+                    status=4,
+                )
+            )
+            logger.info("Bus Owner Ban After Process Finished Sucessfully")
+        except Exception as e:
+            logger.warn("Bus Owner Ban After Process failed Reason : " + str(e))
 
 
 def update_status(self, user_id, status):
@@ -105,6 +167,7 @@ def update_status(self, user_id, status):
                     logger.info("user status changed to " + str(status))
                     bus_owner_approval(old_status, status, instance)
                     ban_normal_user(old_status, status, instance)
+                    ban_bus_owner(old_status, status, instance)
                     return Response({"success_code": "D2005"})
                 else:
                     logger.info(
