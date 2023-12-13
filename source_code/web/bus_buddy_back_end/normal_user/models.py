@@ -8,7 +8,7 @@ class UserReview(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
     review_title = models.CharField(max_length=255, null=False)
-    review_body = models.CharField(max_length=50, null=False)
+    review_body = models.TextField(null=False)
     rating = models.SmallIntegerField(default=0, null=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
@@ -18,10 +18,15 @@ class UserReview(models.Model):
 
 
 class UserComplaints(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="author"
+    )
     complaint_title = models.CharField(max_length=100, null=False)
     complaint_body = models.TextField(null=False)
-    response = models.TextField(null=False,blank=True)
+    complaint_for = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="reciever"
+    )
+    response = models.TextField(null=False, blank=True)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
@@ -50,7 +55,7 @@ class Bookings(models.Model):
 
 
 class Payment(models.Model):
-    booking= models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
+    booking = models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
     payment_intend = models.CharField(max_length=255, null=False)
     status = models.SmallIntegerField(default=0, null=False)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
@@ -62,7 +67,7 @@ class Payment(models.Model):
 
 class BookedSeats(models.Model):
     booking = models.ForeignKey(Bookings, on_delete=models.CASCADE)
-    trip = models.ForeignKey(Trip,on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     traveller_name = models.CharField(max_length=255, null=False)
     traveller_gender = models.SmallIntegerField(default=0, null=False)
     traveller_dob = models.DateField(auto_now=False, auto_now_add=False, null=False)
