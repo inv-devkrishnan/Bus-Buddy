@@ -627,37 +627,97 @@ class CancelBooking(UpdateAPIView):
         Boolean: True =>refund sucessful False => refund faild
         """
         stripe.api_key = config("STRIPE_API_KEY")
+        desired_timezone = pytz.timezone("Asia/Kolkata")
+        current_time = datetime.now(desired_timezone)
         try:
             payment_instance = Payment.objects.get(booking_id=booking_id, status=0)
             payment_intent = payment_instance.payment_intend
             try:
-                stripe.Refund.create(payment_intent=payment_intent)
-                logger.info("refund initiated for booking id : " + str(booking_id))
-                payment_instance.status = (
-                    3  # updating status of payment from paid to refund
+                booking_instance = Bookings.objects.get(id=booking_id)
+                total_amount = booking_instance.total_amount
+                trip = booking_instance.trip
+                trip_time = datetime.combine(
+                    trip.start_date,
+                    trip.start_time,
+                    tzinfo=pytz.timezone("Asia/kolkata"),
                 )
-                payment_instance.save()
-                return True
+                hour_difference = abs(current_time - trip_time)
+                logger.info("time difference " + str(hour_difference))
+                if trip_time.date() <= current_time.date():
+                    logger.info(
+                        "No refund initiated for booking id : " + str(booking_id)
+                    )
+                    return {"status": True, "code": "D2008"}
+                elif hour_difference > timedelta(hours=48):
+                    stripe.Refund.create(payment_intent=payment_intent)
+                    logger.info("refund initiated for booking id : " + str(booking_id))
+                    payment_instance.status = (
+                        3  # updating status of payment from paid to refund
+                    )
+                    payment_instance.save()
+                    return {"status": True, "code": "D2007"}
+                else:
+                    refund_amount = int((total_amount / 2) * 100)
+                    logger.info("Amount refundable in paisa :" + str(refund_amount))
+                    stripe.Refund.create(
+                        payment_intent=payment_intent, amount=refund_amount
+                    )
+                    logger.info(
+                        "partial refund initiated for booking id : " + str(booking_id)
+                    )
+                    payment_instance.status = (
+                        3  # updating status of payment from paid to refund
+                    )
+                    payment_instance.save()
+                    return {"status": True, "code": "D2009"}
             except Exception as e:
                 logger.warn("Stripe Refund Creation Failed ! Reason :" + str(e))
-                return False
+                return {"status": False, "code": "ERROR"}
         except Payment.DoesNotExist:
             logger.warn(
                 "Cancel booking failed ! Reason : No entry for booking_id : "
                 + str(booking_id)
                 + "in payment table"
             )
-            return False
+            return {"status": False, "code": "ERROR"}
+
+    def send_mail(self, first_name, booking_id, email, code, now):
+        today = now.strftime(date_format)
+        subject = "Booking Cancellation Confirmation - Bus Buddy"
+        template = "cancel_booking_confirmation.html"
+        no_refund_template = "cancel_booking_confirmation_no_refund.html"
+        partial_refund_template = "cancel_booking_confirmation_partial_refund.html"
+        context = {
+            "recipient_name": first_name,
+            "booking_id": booking_id,
+            "cancellation_date": today,
+        }
+        recipient_list = [email]
+        if code == "D2008":
+            email_send = send_email_with_template(
+                subject, no_refund_template, context, recipient_list, status=1
+            )
+        elif code == "D2009":
+            email_send = send_email_with_template(
+                subject, partial_refund_template, context, recipient_list, status=1
+            )
+        else:
+            email_send = send_email_with_template(
+                subject, template, context, recipient_list, status=1
+            )
+
+        email = mail_sent_response(email_send)
+        return email
 
     def cancelBooking(self, request, now, booking_id, instance):
         # for cancelling already booked id
-        today = now.strftime(date_format)
         booked_seats = BookedSeats.objects.filter(booking=booking_id)
         status_data = {"status": 99}  # status 99 denotes the cancelled bookings
         booked_status = {"status": 1}  # status 1 denotes the seat is available
         serializer = CancelBookingSerializer(instance, data=status_data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            if self.refund(booking_id=booking_id):
+            refund_result = self.refund(booking_id=booking_id)
+            if refund_result["status"]:
                 for object in booked_seats:
                     sub_serializer = CancelTravellerDataSerializer(
                         object, data=booked_status, partial=True
@@ -665,29 +725,25 @@ class CancelBooking(UpdateAPIView):
                     if sub_serializer.is_valid():
                         self.perform_update(sub_serializer)
                 self.perform_update(serializer)
-                subject = "Booking Cancellation Confirmation - Bus Buddy"
-                template = "cancel_booking_confirmation.html"
-                context = {
-                    "recipient_name": request.user.first_name,
-                    "booking_id": instance.booking_id,
-                    "cancellation_date": today,
-                }
-                recipient_list = [request.user.email]
-                email_send = send_email_with_template(
-                    subject, template, context, recipient_list, status=1
-                )
-
-                email = mail_sent_response(email_send)
+                code = refund_result["code"]
                 message = "Booking cancelled successfully"
                 logger.info("Booking cancelled successfully")
-                return (message, email)
+                email = self.send_mail(
+                    first_name=request.user.first_name,
+                    booking_id=booking_id,
+                    email=request.user.email,
+                    code=code,
+                    now=now,
+                )
+                return (message, email, code)
             else:
                 logger.warn("Cancelation Failed")
+                code = "D1017"
                 email = mail_sent_response(
                     False
                 )  # mail will not be send for failed cancellation
                 message = "Booking Cancelling Failed"
-                return (message, email)
+                return (message, email, code)
 
         else:
             logger.info(serializer.errors)
@@ -711,10 +767,12 @@ class CancelBooking(UpdateAPIView):
                     logger.info("not a user")
                     return Response({"error": "Unauthorized user"})
                 else:
-                    message, email = self.cancelBooking(
+                    message, email, code = self.cancelBooking(
                         request, now, booking_id, instance
                     )
-                    return Response({"message": message, "email": email}, status=200)
+                    return Response(
+                        {"message": message, "email": email, "code": code}, status=200
+                    )
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)

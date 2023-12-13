@@ -15,6 +15,7 @@ import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 import Rating from "@mui/material/Rating";
+import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -32,6 +33,7 @@ export default function UserBookingHistory() {
   const [isLoading, setIsLoading] = useState(true); // for setting progress bar
   const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
   const [ratingValue, setRatingValue] = useState(0);
+  const [policyModalShow, setPolicyModalShow] = useState(false);
 
   const viewBookingHistory = useCallback(async () => {
     try {
@@ -69,6 +71,9 @@ export default function UserBookingHistory() {
     setPage(page + 1);
   };
 
+  const handlePolicyClose = () => setPolicyModalShow(false);
+  const handlePolicyShow = () => setPolicyModalShow(true);
+
   const handleCancel = () => {
     // for cancelling a booking
     showLoadingAlert("Cancelling Booking");
@@ -77,10 +82,35 @@ export default function UserBookingHistory() {
       .then((res) => {
         Swal.close();
         viewBookingHistory();
+        let message;
+        let title;
+        let icon;
+        switch (res.data?.code) {
+          case "D2007":
+            message = "Cancelled Successfully, Full Refund has been initiated";
+            title = "Success";
+            icon = "success";
+            break;
+          case "D2008":
+            message = "Cancelled Successfully";
+            title = "Success";
+            icon = "success";
+            break;
+          case "D2009":
+            message =
+              "Cancelled Successfully, partial Refund has been initiated";
+            title = "Success";
+            icon = "success";
+            break;
+          default:
+            icon = "error";
+            title = "Cancellation Failed";
+            message = "Something went wrong,please try again";
+        }
         Swal.fire({
-          title: "Success",
-          text: "Cancelled Successfully, Refund has been initiated",
-          icon: "success",
+          title: title,
+          text: message,
+          icon: icon,
         });
         setConfirmModalShow(false);
         setModalShow(false);
@@ -473,6 +503,13 @@ export default function UserBookingHistory() {
               Cancel Booking
             </Button>
           )}
+          <Button
+            onClick={() => {
+              handlePolicyShow();
+            }}
+          >
+            View Refund Policy
+          </Button>
         </Modal.Footer>
       </Modal>
 
@@ -586,6 +623,20 @@ export default function UserBookingHistory() {
             )}
           </Formik>
         </Modal.Body>
+      </Modal>
+
+      <Modal show={policyModalShow} onHide={handlePolicyClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Refund Policy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <RefundPolicy />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handlePolicyClose}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );
