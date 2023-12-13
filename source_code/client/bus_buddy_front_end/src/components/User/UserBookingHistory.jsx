@@ -258,7 +258,7 @@ export default function UserBookingHistory() {
                     <ProgressBar animated now={100} />
                   </div>
                   <p className="ms-3 mt-3 text-center">
-                    Searching for bookings.Please Wait...
+                    Loading bookings.Please Wait...
                   </p>
                 </div>
               ) : (
@@ -534,7 +534,7 @@ export default function UserBookingHistory() {
                     }
                   />
                   <ErrorMessage
-                    component="Form.Control.Feedback"
+                    component="span"
                     name="review_title"
                     style={{ color: "red" }}
                   />
@@ -557,7 +557,7 @@ export default function UserBookingHistory() {
                     onBlur={formikProps.handleBlur}
                   />
                   <ErrorMessage
-                    component="Form.Control.Feedback"
+                    component="span"
                     name="review_body"
                     style={{ color: "red" }}
                   />
@@ -577,10 +577,6 @@ export default function UserBookingHistory() {
                         formikProps.setFieldValue("rating", 0);
                       }
                     }}
-                  />
-                  <ErrorMessage
-                    component={Form.Control.Feedback}
-                    name="rating"
                   />
                 </Form.Group>
                 <div className="d-flex justify-content-end">

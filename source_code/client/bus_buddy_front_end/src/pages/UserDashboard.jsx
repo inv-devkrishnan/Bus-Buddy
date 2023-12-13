@@ -79,7 +79,7 @@ export default function UserDashboard() {
       onChange: myTripSelected,
     },
     {
-      name: "Review History",
+      name: "My Reviews",
       state: reviewHistorySelect,
       onChange: reviewHistorySelected,
     },

@@ -7,11 +7,13 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import OrderingFilter
+
 from datetime import datetime
 from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings, Payment, BookedSeats
+from normal_user.models import Bookings, Payment, BookedSeats, UserReview
 from bus_owner.models import (
     SeatDetails,
     Trip,
@@ -135,7 +137,7 @@ class UpdateProfile(UpdateAPIView):
     For displaying and updating user details
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowNormalUsersOnly,)
 
     def get(self, request):
         try:
@@ -753,6 +755,9 @@ class ReviewTrip(APIView):
     """
     API for reviewing a completed trip
 
+    Args:
+        booking_id (int): query param for identifying booking
+
     """
 
     permission_classes = (AllowNormalUsersOnly,)
@@ -791,3 +796,57 @@ class ReviewTrip(APIView):
         except Exception as e:
             logger.error(f"Review exception {e}")
             return Response({"error": e}, status=400)
+
+
+class HistoryReviewTrip(ListAPIView):
+    permission_classes = (AllowNormalUsersOnly,)
+    serializer_class = ReviewTripSerializer
+    pagination_class = CustomPagination
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["review_title"]
+
+    def list(self, request):
+        user_id = request.user.id
+        try:
+            queryset = UserReview.objects.filter(user_id=user_id)
+
+            serializer = ReviewTripSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "review history")
+            return Response(serializer.data)
+
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": "An error occurred"}, status=400)
+
+
+# class UpdateReviewTrip(UpdateAPIView):
+#     """
+#     API for updating a review
+
+#     Args:
+#         booking_id (int): query param for identifying booking
+
+#     """
+
+#     permission_classes = (AllowNormalUsersOnly,)
+
+#     def get(self, request):
+#         booking_id = request.GET.get("booking_id")
+#         user = request.user.id
+
+#         try:
+#             review = UserReview.objects.get(trip_id=booking_id.trip.id, user_id=user)
+#         except User.DoesNotExist:
+#             return Response(status=404)
+
+#         serialized_data = UDS(user)
+#         logger.info(serialized_data.data)
+#         return Response(serialized_data.data)

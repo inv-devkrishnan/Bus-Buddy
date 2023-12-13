@@ -64,10 +64,10 @@ scipy==1.11.4
 scprep==1.2.3
 six==1.16.0
 sqlparse==0.4.4
+stripe==7.5.0
 tasklogger==1.2.0
 threadpoolctl==3.2.0
 tinycss2==1.2.1
-stripe==7.5.0
 tomli==2.0.1
 typing_extensions==4.7.1
 tzdata==2023.3

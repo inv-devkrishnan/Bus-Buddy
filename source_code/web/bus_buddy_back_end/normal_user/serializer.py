@@ -288,7 +288,7 @@ class ReviewTripSerializer(serializers.ModelSerializer):
         fields = ("user_id", "trip_id", "review_title", "review_body", "rating")
 
     review_title = serializers.CharField(
-        max_length=250,
+        max_length=1000,
     )
     review_body = serializers.CharField()
     rating = serializers.IntegerField(
