@@ -23,4 +23,5 @@ urlpatterns = [
     ),
     path("review-trip/", views.ReviewTrip.as_view(), name="review-trip"),
     path("review-history/", views.HistoryReviewTrip.as_view(), name="review-history"),
+    path("review-update/", views.UpdateReviewTrip.as_view(), name="review-update"),
 ]

@@ -32,6 +32,7 @@ from .serializer import (
     CostSerializer,
     CancelTravellerDataSerializer,
     ReviewTripSerializer,
+    UpdateReviewTripSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -827,26 +828,54 @@ class HistoryReviewTrip(ListAPIView):
             return Response({"error": "An error occurred"}, status=400)
 
 
-# class UpdateReviewTrip(UpdateAPIView):
-#     """
-#     API for updating a review
+class UpdateReviewTrip(UpdateAPIView):
+    """
+    API for updating a review
 
-#     Args:
-#         booking_id (int): query param for identifying booking
+    Args:
+        review_id (int): query param for identifying review
 
-#     """
+    """
 
-#     permission_classes = (AllowNormalUsersOnly,)
+    permission_classes = (AllowNormalUsersOnly,)
 
-#     def get(self, request):
-#         booking_id = request.GET.get("booking_id")
-#         user = request.user.id
+    def get(self, request):
+        review_id = request.GET.get("review_id")
+        user = request.user.id
 
-#         try:
-#             review = UserReview.objects.get(trip_id=booking_id.trip.id, user_id=user)
-#         except User.DoesNotExist:
-#             return Response(status=404)
+        try:
+            if review_id and review_id.isdigit():
+                review = UserReview.objects.get(id=review_id, user_id=user)
+                serialized_data = ReviewTripSerializer(review)
+            else:
+                return Response({"error": "Invalid review_id"}, status=400)
+        except UserReview.DoesNotExist:
+            return Response({"error": "Review not found"}, status=404)
 
-#         serialized_data = UDS(user)
-#         logger.info(serialized_data.data)
-#         return Response(serialized_data.data)
+        logger.info(serialized_data.data)
+        return Response(serialized_data.data)
+
+    def update(self, request):
+        review_id = request.GET.get("review_id")
+        user = request.user.id
+
+        try:
+            instance = UserReview.objects.get(id=review_id, user_id=user)
+            current_data = request.data.copy()
+            serializer = UpdateReviewTripSerializer(
+                instance, data=current_data, partial=True
+            )
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                logger.info(serializer.data)
+                return Response({"message": "updated succesffully"}, status=200)
+            else:
+                logger.info(serializer.errors)
+                return Response(serializer.errors, status=400)
+        except UserReview.DoesNotExist as e:
+            logger.info(e)
+            return Response({"errors": "Review not found"}, status=400)
+
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)

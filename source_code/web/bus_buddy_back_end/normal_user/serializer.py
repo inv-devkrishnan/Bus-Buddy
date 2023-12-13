@@ -299,3 +299,26 @@ class ReviewTripSerializer(serializers.ModelSerializer):
             ),
         ],
     )
+
+
+class UpdateReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = ("review_title", "review_body", "rating")
+
+    review_title = serializers.CharField(
+        max_length=1000,
+    )
+    review_body = serializers.CharField()
+    rating = serializers.IntegerField(
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1|2|3|4|5)$",
+                message="Review status must be between 0 to 5.",
+            ),
+        ],
+    )
