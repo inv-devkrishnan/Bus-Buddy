@@ -5,11 +5,16 @@ import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import Form from "react-bootstrap/Form";
+import FormLabel from "react-bootstrap/FormLabel";
 import { ExclamationCircle } from "react-bootstrap-icons";
-
+import { Formik, Field, ErrorMessage } from "formik";
+import * as yup from "yup";
 import { axiosApi } from "../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
+import Rating from "@mui/material/Rating";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -24,6 +29,9 @@ export default function UserBookingHistory() {
   const [modalShow, setModalShow] = useState(false); // for dealing modal visibility
   const [modalData, setModalData] = useState(null); // for storing data for modal
   const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
+  const [isLoading, setIsLoading] = useState(true); // for setting progress bar
+  const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
+  const [ratingValue, setRatingValue] = useState(0);
 
   const viewBookingHistory = useCallback(async () => {
     try {
@@ -41,6 +49,7 @@ export default function UserBookingHistory() {
       // Handle errors
       console.error("Error:", err);
     }
+    setIsLoading(false);
   }, [page, status]);
 
   useEffect(() => {
@@ -137,9 +146,47 @@ export default function UserBookingHistory() {
     // for colours in table
     if (data?.status === 99) {
       return "tomato";
+    } else if (data?.status === 1) {
+      return "yellowgreen";
     } else {
       return "cornflowerblue";
     }
+  };
+
+  const validationSchema = yup.object().shape({
+    review_title: yup.string().required("Review Title is required"),
+    review_body: yup.string().required("Description is required"),
+    rating: yup
+      .number()
+      .integer("Rating must be an integer")
+      .min(0, "Rating must be at least 0")
+      .max(5, "Rating must be at most 5")
+      .required("Rating is required"),
+  });
+  const onSubmit = (values) => {
+    console.log(values);
+    axiosApi
+      .post(`user/review-trip/?booking_id=${modalData?.id}`, values)
+      .then((res) => {
+        Swal.fire({
+          title: "Success",
+          text: "Review submitted successfully",
+          icon: "success",
+        });
+
+        setReviewModal(false);
+        setModalShow(false);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Oops!",
+          text: "Something went wrong",
+          icon: "error",
+        });
+
+        setReviewModal(false);
+        setModalShow(false);
+      });
   };
 
   return (
@@ -169,7 +216,7 @@ export default function UserBookingHistory() {
                   setActive(1);
                 }}
               >
-                Pending
+                Booked
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -203,57 +250,70 @@ export default function UserBookingHistory() {
                 <th>Departure time</th>
                 <th>Details</th>
               </tr>
-            </thead>
+            </thead>{" "}
             <tbody>
-              {bookingData.length !== 0 ? (
-                <>
-                  {bookingData.map((data, key) => (
-                    <tr key={data?.id}>
-                      <th>{key + (currentPage - 1) * pageSize + 1}</th>
-                      <th
-                        style={{
-                          color: getStatusColor(data),
-                        }}
-                      >
-                        {data?.booking_id}
-                      </th>
-                      <th>
-                        {
-                          data?.pick_up?.start_stop_location?.location
-                            ?.location_name
-                        }
-                      </th>
-                      <th>
-                        {
-                          data?.drop_off?.start_stop_location?.location
-                            ?.location_name
-                        }
-                      </th>
-                      <th>
-                        {data?.trip?.start_date}
-                        <br />
-                        {data?.trip?.start_time}
-                      </th>
-                      <th>
-                        <Button
-                          onClick={() => {
-                            setModalShow(true);
-                            setModalData(data);
-                          }}
-                        >
-                          View Details
-                        </Button>
-                      </th>
-                    </tr>
-                  ))}
-                </>
-              ) : (
-                <div className="d-flex m-5">
-                  <ExclamationCircle color="grey" size={90}></ExclamationCircle>
-                  <div className="m-3">
-                    <h3>No booking data Found !!</h3>
+              {isLoading ? (
+                <div className="d-flex flex-column justify-content-center align-items-center mt-5">
+                  <div className="w-50 ms-auto me-auto">
+                    <ProgressBar animated now={100} />
                   </div>
+                  <p className="ms-3 mt-3 text-center">
+                    Searching for bookings.Please Wait...
+                  </p>
                 </div>
+              ) : (
+                <>
+                  {bookingData.length !== 0 ? (
+                    <>
+                      {bookingData.map((data, key) => (
+                        <tr key={data?.id}>
+                          <th>{key + (currentPage - 1) * pageSize + 1}</th>
+                          <th
+                            style={{
+                              color: getStatusColor(data),
+                            }}
+                          >
+                            {data?.booking_id}
+                          </th>
+                          <th>
+                            {
+                              data?.pick_up?.start_stop_location?.location
+                                ?.location_name
+                            }
+                          </th>
+                          <th>
+                            {
+                              data?.drop_off?.start_stop_location?.location
+                                ?.location_name
+                            }
+                          </th>
+                          <th>
+                            {data?.trip?.start_date}
+                            <br />
+                            {data?.trip?.start_time}
+                          </th>
+                          <th>
+                            <Button
+                              onClick={() => {
+                                setModalShow(true);
+                                setModalData(data);
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          </th>
+                        </tr>
+                      ))}
+                    </>
+                  ) : (
+                    <div className="d-flex m-5">
+                      <ExclamationCircle color="grey" size={90} />
+                      <div className="m-3">
+                        <h3>No booking data Found !!</h3>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </tbody>
           </Table>
@@ -292,6 +352,17 @@ export default function UserBookingHistory() {
                 <strong>
                   {modalData?.status === 99 && (
                     <span style={{ color: "tomato" }}>Cancelled</span>
+                  )}
+                  {modalData?.status === 1 && (
+                    <>
+                      <span style={{ color: "yellowgreen	" }}>Invalid</span>
+                      <br />
+                      <span style={{ color: "silver	" }}>
+                        Trip has been completed.
+                        <br />
+                        Hence this ticket is invalid.
+                      </span>
+                    </>
                   )}
                   {modalData?.status === 0 && (
                     <span style={{ color: "#7CB9E8" }}>Booked</span>
@@ -381,15 +452,27 @@ export default function UserBookingHistory() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="danger"
-            onClick={() => {
-              setConfirmModalShow(true);
-            }}
-            disabled={modalData?.status === 99}
-          >
-            Cancel Booking
-          </Button>
+          {modalData?.status === 1 ? (
+            <Button
+              variant="primary"
+              onClick={() => {
+                setReviewModal(true);
+                setRatingValue(0);
+              }}
+            >
+              Review
+            </Button>
+          ) : (
+            <Button
+              variant="danger"
+              onClick={() => {
+                setConfirmModalShow(true);
+              }}
+              disabled={modalData?.status !== 0}
+            >
+              Cancel Booking
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
 
@@ -419,6 +502,94 @@ export default function UserBookingHistory() {
             Confirm Cancel
           </Button>
         </Modal.Footer>
+      </Modal>
+      <Modal
+        show={reviewModal}
+        onHide={() => setReviewModal(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        className="p-2"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Review This Trip</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Formik
+            initialValues={{ review_title: "", review_body: "", rating: 0 }}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {(formikProps) => (
+              <Form onSubmit={formikProps.handleSubmit} className="m-2">
+                <Form.Group className="form-group m-1">
+                  <FormLabel htmlFor="review_title">Title:</FormLabel>
+                  <Field
+                    as={Form.Control}
+                    name="review_title"
+                    id="review_title"
+                    placeholder="Review Title"
+                    isInvalid={
+                      formikProps.errors.review_title &&
+                      formikProps.touched.review_title
+                    }
+                  />
+                  <ErrorMessage
+                    component="Form.Control.Feedback"
+                    name="review_title"
+                    style={{ color: "red" }}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group m-1">
+                  <FormLabel htmlFor="review_body">Description:</FormLabel>
+
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    cols={10}
+                    name="review_body"
+                    id="review_body"
+                    placeholder="Review Body"
+                    isInvalid={
+                      formikProps.errors.review_body &&
+                      formikProps.touched.review_body
+                    }
+                    onChange={formikProps.handleChange}
+                    onBlur={formikProps.handleBlur}
+                  />
+                  <ErrorMessage
+                    component="Form.Control.Feedback"
+                    name="review_body"
+                    style={{ color: "red" }}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group m-1">
+                  <FormLabel htmlFor="review_body">Rating:</FormLabel>
+                  <br />
+                  <Rating
+                    name="rating"
+                    value={ratingValue}
+                    onChange={(event, newValue) => {
+                      if (newValue) {
+                        setRatingValue(newValue);
+                        formikProps.setFieldValue("rating", newValue);
+                      } else {
+                        setRatingValue(0);
+                        formikProps.setFieldValue("rating", 0);
+                      }
+                    }}
+                  />
+                  <ErrorMessage
+                    component={Form.Control.Feedback}
+                    name="rating"
+                  />
+                </Form.Group>
+                <div className="d-flex justify-content-end">
+                  <Button type="submit">Submit</Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </Modal.Body>
       </Modal>
     </>
   );
