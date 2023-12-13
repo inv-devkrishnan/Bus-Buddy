@@ -608,7 +608,6 @@ class Updatetrip(UpdateAPIView):
             request_data['user']=request.user.id
             request_data['start_time'] = first_seq.arrival_time
             request_data['end_time'] = last_seq.departure_time
-            import pdb;pdb.set_trace();
             present_date= datetime.now().date()
             # present_date = datetime.strptime(today, date_format)
             start_date = datetime.strptime(request_data['start_date'], date_format).date()
@@ -648,6 +647,8 @@ class Deletetrip(APIView):
             data = Trip.objects.get(id=id)  # to get trip object matching the id
             present_date= datetime.now().date()
             start_date = data.start_date
+            diff = start_date - present_date
+            print(diff)
             if (start_date - present_date) < timedelta(days=2):
                 print("condition ok ")
                 raise ValueError("Start date must be at least 2 days from the present date.")
