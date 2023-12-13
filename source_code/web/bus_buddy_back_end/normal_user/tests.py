@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 from unittest.mock import patch, MagicMock, Mock
-from .models import User, Bookings
+from .models import User, Bookings, UserReview
 from bus_owner.models import (
     Bus,
     SeatDetails,
@@ -155,6 +155,14 @@ class BaseTest(TestCase):
             status=99,
             total_amount=4250,
             booking_id="BY333",
+        )
+
+        self.review = UserReview.objects.create(
+            user_id=self.user,
+            trip_id=self.trip_completed,
+            review_title="New Title",
+            review_body="New Body",
+            rating=3,
         )
 
         self.register = reverse("register-user")
@@ -742,6 +750,35 @@ class ReviewTripTest(BaseTest):
     def test_04_cannot_review_with_invalid_rating(self):
         response = self.client.post(
             f"{reverse('review-trip')}?booking_id={ self.booking_completed.id}",
+            self.invalid_rating_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+
+class UpdateReviewTrip(BaseTest):
+    def test_01_can_update_review(self):
+        response = self.client.put(
+            f"{reverse('review-update')}?review_id={ self.review.id}",
+            self.valid_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cannot_update_review_with_invalid_id(self):
+        response = self.client.put(
+            f"{reverse('review-update')}?review_id={100}",
+            self.valid_review_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 404)
+
+    def test_03_cannot_update_review_with_invalid_rating(self):
+        response = self.client.put(
+            f"{reverse('review-update')}?review_id={self.review.id}",
             self.invalid_rating_review_values,
             format="json",
         )

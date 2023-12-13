@@ -161,7 +161,7 @@ class UpdateProfile(UpdateAPIView):
                 serializer.is_valid(raise_exception=True)
                 self.perform_update(serializer)
                 logger.info(serializer.data)
-                return Response({"message": "updated succesffully"}, status=200)
+                return Response({"message": "profile updated succesfully"}, status=200)
             else:
                 logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
@@ -868,13 +868,13 @@ class UpdateReviewTrip(UpdateAPIView):
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
                 logger.info(serializer.data)
-                return Response({"message": "updated succesffully"}, status=200)
+                return Response({"message": "review updated succesfully"}, status=200)
             else:
                 logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
         except UserReview.DoesNotExist as e:
             logger.info(e)
-            return Response({"errors": "Review not found"}, status=400)
+            return Response({"errors": "Review not found"}, status=404)
 
         except Exception as e:
             logger.info(e)
