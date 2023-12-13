@@ -18,11 +18,11 @@ class UserReview(models.Model):
 
 
 class UserComplaints(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False,related_name="author")
     complaint_title = models.CharField(max_length=100, null=False)
     complaint_body = models.TextField(null=False)
+    complaint_for = models.ForeignKey(User, on_delete=models.CASCADE, null=False,related_name="reciever")
     response = models.TextField(null=False,blank=True)
-    complaint_for = models.SmallIntegerField(null=False)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
