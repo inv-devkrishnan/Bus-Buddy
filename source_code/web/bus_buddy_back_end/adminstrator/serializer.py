@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from account_manage.models import User
+from normal_user.models import UserComplaints
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 
@@ -71,7 +72,16 @@ class ListUserSerializer(serializers.ModelSerializer):
             "status",
         )
 
-
+class UserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name','email']
+class ListUserComplaints(serializers.ModelSerializer):
+    user=UserNameSerializer()
+    class Meta:
+        model = UserComplaints
+        fields = ("id","complaint_title","complaint_body","status","created_date","response","user")
+        depth = 1
 class BanUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
