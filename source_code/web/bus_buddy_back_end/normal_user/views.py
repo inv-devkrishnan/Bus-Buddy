@@ -32,6 +32,7 @@ from .serializer import (
     CostSerializer,
     CancelTravellerDataSerializer,
     ReviewTripSerializer,
+    ViewReviewTripSerializer,
     UpdateReviewTripSerializer,
 )
 from bus_buddy_back_end.email import (
@@ -859,7 +860,7 @@ class ReviewTrip(APIView):
 
 class HistoryReviewTrip(ListAPIView):
     permission_classes = (AllowNormalUsersOnly,)
-    serializer_class = ReviewTripSerializer
+    serializer_class = ViewReviewTripSerializer
     pagination_class = CustomPagination
     filter_backends = [OrderingFilter]
     ordering_fields = ["review_title"]
@@ -869,7 +870,7 @@ class HistoryReviewTrip(ListAPIView):
         try:
             queryset = UserReview.objects.filter(user_id=user_id)
 
-            serializer = ReviewTripSerializer(queryset)
+            serializer = ViewReviewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -904,7 +905,7 @@ class UpdateReviewTrip(UpdateAPIView):
         try:
             if review_id and review_id.isdigit():
                 review = UserReview.objects.get(id=review_id, user_id=user)
-                serialized_data = ReviewTripSerializer(review)
+                serialized_data = ViewReviewTripSerializer(review)
             else:
                 return Response({"error": "Invalid review_id"}, status=400)
         except UserReview.DoesNotExist:

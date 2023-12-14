@@ -489,8 +489,9 @@ export default function UserBookingHistory() {
                 setReviewModal(true);
                 setRatingValue(0);
               }}
+              disabled={modalData?.review.length !== 0}
             >
-              Review
+              {modalData?.review.length !== 0 ? "Reviewed" : "Review"}
             </Button>
           ) : (
             <Button

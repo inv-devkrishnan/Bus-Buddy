@@ -17,6 +17,7 @@ import * as yup from "yup";
 import Rating from "@mui/material/Rating";
 
 import { axiosApi } from "../../utils/axiosApi";
+import CustomPaginator from "../common/paginator/CustomPaginator";
 
 export default function ReviewHistory() {
   const [sort, setSort] = useState("");
@@ -28,6 +29,7 @@ export default function ReviewHistory() {
   const [active, setActive] = useState(1); // for setting current page activate
   const [isLoading, setIsLoading] = useState(true); // for setting progress bar
   const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
+  const [existingData, setExistingData] = useState([]);
   const [ratingValue, setRatingValue] = useState(0);
 
   useEffect(() => {
@@ -81,8 +83,23 @@ export default function ReviewHistory() {
     }
   };
 
-  const handleEdit = () => {
+  const handleEdit = (id) => {
     setReviewModal(true);
+    axiosApi
+      .get(`user/review-update/?review_id=${id}`)
+      .then((res) => {
+        setExistingData(res.data);
+        setRatingValue(res.data?.rating);
+        console.log(res.data.review_body);
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Oops",
+          text: "Something went wrong",
+          icon: "error",
+        });
+      });
   };
 
   const validationSchema = yup.object().shape({
@@ -98,6 +115,25 @@ export default function ReviewHistory() {
 
   const onSubmit = (values) => {
     console.log(values);
+    axiosApi
+      .put(`user/review-update/?review_id=${existingData?.id}`, values)
+      .then((res) => {
+        Swal.fire({
+          title: "Success",
+          text: "Updated successfully",
+          icon: "success",
+        });
+        setReviewModal(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "Oops",
+          text: "Something went wrong",
+          icon: "error",
+        });
+        setReviewModal(false);
+      });
   };
 
   let items = [];
@@ -207,7 +243,12 @@ export default function ReviewHistory() {
                     </Card.Title>
                     <Card.Text>{review.review_body}</Card.Text>
                     <div className="d-flex justify-content-end">
-                      <Button variant="primary" onClick={handleEdit}>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          handleEdit(review.id);
+                        }}
+                      >
                         Edit
                       </Button>
                     </div>
@@ -245,9 +286,14 @@ export default function ReviewHistory() {
         </Modal.Header>
         <Modal.Body>
           <Formik
-            initialValues={{ review_title: "", review_body: "", rating: 0 }}
+            initialValues={{
+              review_title: existingData?.review_title ?? "",
+              review_body: existingData?.review_body ?? "",
+              rating: existingData?.rating ?? 0,
+            }}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            enableReinitialize
           >
             {(formikProps) => (
               <Form onSubmit={formikProps.handleSubmit} className="m-2">
@@ -278,11 +324,12 @@ export default function ReviewHistory() {
                     cols={10}
                     name="review_body"
                     id="review_body"
-                    placeholder="Review Body"
+                    placeholder={"Review Body"}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body
                     }
+                    value={formikProps.values.review_body}
                     onChange={formikProps.handleChange}
                     onBlur={formikProps.handleBlur}
                   />
@@ -298,13 +345,16 @@ export default function ReviewHistory() {
                   <Rating
                     name="rating"
                     value={ratingValue}
-                    onChange={(event, newValue) => {
+                    onChange={(newValue) => {
                       if (newValue) {
                         setRatingValue(newValue);
                         formikProps.setFieldValue("rating", newValue);
                       } else {
-                        setRatingValue(0);
-                        formikProps.setFieldValue("rating", 0);
+                        setRatingValue(existingData?.rating);
+                        formikProps.setFieldValue(
+                          "rating",
+                          existingData?.rating
+                        );
                       }
                     }}
                   />

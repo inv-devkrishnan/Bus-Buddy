@@ -180,12 +180,23 @@ class TravellerHistorySerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class ViewReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
+
+
 class BookingHistoryDataSerializer(serializers.ModelSerializer):
     """
     For viewing user's booking history
     """
 
     booked_seats = TravellerHistorySerializer(many=True, source="bookedseats_set")
+    review = ViewReviewTripSerializer(many=True, source="userreview_set")
 
     class Meta:
         model = Bookings
@@ -200,6 +211,7 @@ class BookingHistoryDataSerializer(serializers.ModelSerializer):
             "booking_id",
             "created_date",
             "booked_seats",
+            "review",
         ]
         depth = 3
 
