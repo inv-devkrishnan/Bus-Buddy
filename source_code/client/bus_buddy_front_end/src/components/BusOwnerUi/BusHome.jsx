@@ -8,6 +8,7 @@ import ViewTrips from "./MyTrips/ViewTrips.jsx"
 import Ownerprofile from "./Ownerprofile.jsx";
 import SideBar from "../common/SideBar.jsx";
 import "aos/dist/aos.css";
+import ViewComplaints from "../common/view_complaints/ViewComplaints.jsx";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -19,6 +20,7 @@ export default function UserDashboard() {
   const [myRouteSelect, setMyRouteSelect] = useState(false);
   const [myTripSelect, setMyTripSelect] = useState(false);
   const [deleteSelect, setDeleteSelect] = useState(false);
+  const [complaintSelect,setComplaintSelect] = useState(false);
 
   const myProfileSelected = () => {
     setMyProfileSelect(true);
@@ -26,6 +28,7 @@ export default function UserDashboard() {
     setMyRouteSelect(false)
     setMyTripSelect(false);
     setDeleteSelect(false);
+    setComplaintSelect(false);
   };
   const myBusSelected = () => {
     setMyProfileSelect(false);
@@ -33,6 +36,7 @@ export default function UserDashboard() {
     setMyRouteSelect(false)
     setMyTripSelect(false);
     setDeleteSelect(false);
+    setComplaintSelect(false);
   };  
   const myRouteSelected = () => {
     setMyProfileSelect(false);
@@ -40,6 +44,7 @@ export default function UserDashboard() {
     setMyRouteSelect(true)
     setMyTripSelect(false);
     setDeleteSelect(false);
+    setComplaintSelect(false);
   };
   const myTripSelected = () => {
     setMyProfileSelect(false);
@@ -47,11 +52,22 @@ export default function UserDashboard() {
     setMyRouteSelect(false)
     setMyTripSelect(true);
     setDeleteSelect(false);
+    setComplaintSelect(false);
   };
   const deleteSelected = () => {
     setMyProfileSelect(false);
     setMyTripSelect(false);
     setDeleteSelect(true);
+    setComplaintSelect(false);
+  };
+
+  const complaintSelected = () => {
+    setMyProfileSelect(false);
+    setMyBusSelect(false);
+    setMyRouteSelect(false)
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(true);
   };
 
   const options = [
@@ -82,6 +98,12 @@ export default function UserDashboard() {
       state: deleteSelect,
       onChange: deleteSelected,
     },
+
+    {
+      name: "View Complaints",
+      state: complaintSelect,
+      onChange: complaintSelected,
+    },
   ];
 
   useEffect(() => {
@@ -107,6 +129,7 @@ export default function UserDashboard() {
         {myRouteSelect && <ViewRoutes/>}
         {myTripSelect && <ViewTrips/>}
         {deleteSelect && <DeleteAccount />}
+        {complaintSelect && <ViewComplaints/>}
       </div>
     </div>
   );
