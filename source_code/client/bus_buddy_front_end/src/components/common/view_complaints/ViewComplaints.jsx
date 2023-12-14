@@ -4,17 +4,23 @@ import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import { BackspaceFill } from "react-bootstrap-icons";
+import { BackspaceFill, ExclamationCircle, Filter } from "react-bootstrap-icons";
 import ComplaintCard from "./ComplaintCard";
 import { axiosApi } from "../../../utils/axiosApi";
 import CustomPaginator from "../paginator/CustomPaginator";
 import Swal from "sweetalert2";
+import { ProgressBar } from "react-bootstrap";
 function ViewComplaints() {
+  let init_date = new Date(0);
+  let final_date = new Date(2100, 0, 1);
   const sortComplaints = useRef(-1);
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
+  const fromSelectedDate = useRef()
+  const toSelectedDate = useRef()
 
   const [complaintList, setComplaintList] = useState([]);
+  const [complaintListLoading,setComplaintListLoading] = useState(false);
 
   const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
@@ -23,12 +29,12 @@ function ViewComplaints() {
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
   const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
   const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
-  let init_date = new Date(0);
-  let final_date = new Date(2100, 0, 1);
 
   const clearDates = () => {
     setFromDate("");
     setToDate("");
+    toSelectedDate.current="";
+    fromSelectedDate.current="";
     console.log("dates cleared");
     getComplaints();
   };
@@ -38,6 +44,7 @@ function ViewComplaints() {
     if (url) {
       default_url = url;
     }
+    setComplaintListLoading(true)
     await axiosApi
       .get(default_url)
       .then((result) => {
@@ -55,25 +62,28 @@ function ViewComplaints() {
       .catch(function (error) {
         console.log(error);
       });
+      setComplaintListLoading(false)
   };
 
   const getComplaintsbyPage = async (page) => {
     if (sortComplaints.current === -1) {
       getComplaints(
         `adminstrator/view-complaints/?page=${page}&from_date=${
-          fromDate || "1970-01-01"
-        }&to_date=${toDate || "2100-01-01"}`
+          fromSelectedDate.current || "1970-01-01"
+        }&to_date=${toSelectedDate.current || "2100-01-01"}`
       );
     } else {
       getComplaints(
         `adminstrator/view-complaints/?page=${page}&from_date=${
-          fromDate || "1970-01-01"
-        }&to_date=${toDate || "2100-01-01"}&responded=${sortComplaints.current}`
+          fromSelectedDate.current || "1970-01-01"
+        }&to_date=${toSelectedDate.current || "2100-01-01"}&responded=${sortComplaints.current}`
       );
     }
   };
   const checkDates = () => {
     if (fromDate && toDate) {
+      fromSelectedDate.current = fromDate
+      toSelectedDate.current = toDate
       getComplaintsbyPage(1);
     } else {
       Swal.fire({
@@ -88,14 +98,14 @@ function ViewComplaints() {
   }, []);
 
   return (
-    <Container fluid className="ms-2 mt-2">
+    <Container fluid className="ms-2 mt-2" style={{overflowX:"hidden"}}>
       <Row>
         <Col>
           <h1 className="ms-2">View Complaints</h1>
         </Col>
       </Row>
       <Row className=" gx-0">
-        <Col lg={3}>
+        <Col>
           <Dropdown>
             <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
@@ -135,6 +145,8 @@ function ViewComplaints() {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
+        <Col lg={"auto"} style={{marginLeft:"22vw"}}>
+        </Col>
         <Col lg={"auto"}>
           <p className="mt-2 me-1">View from :</p>
         </Col>
@@ -154,7 +166,7 @@ function ViewComplaints() {
         <Col lg={"auto"}>
           <p className="ms-2 me-2 mt-2 ">To</p>
         </Col>
-        <Col>
+        <Col lg={"auto"}>
           <input
             className="form-control  mb-1"
             id="trip_date_picker"
@@ -173,8 +185,10 @@ function ViewComplaints() {
             onClick={() => {
               checkDates();
             }}
+            data-toggle="tooltip"
+            title="Filter by Dates"
           >
-            Filter
+            <Filter></Filter>
           </Button>
         </Col>
         <Col>
@@ -193,13 +207,39 @@ function ViewComplaints() {
         </Col>
       </Row>
       <Row className="pb-5">
-        {complaintList.map((complaint) => (
-          <Row key={complaint.id}>
-            <Col>
-              <ComplaintCard complaint={complaint} />
-            </Col>
-          </Row>
-        ))}
+        {complaintListLoading ?(
+           <div className="mt-5">
+           <ProgressBar
+             animated
+             now={100}
+             className="w-25 ms-auto me-auto"
+           />
+           <p className="ms-3 mt-3 text-center">Please Wait</p>
+         </div>
+        ):(
+          <div>
+             {complaintList.length >0 ?( complaintList.map((complaint) => (
+            <Row key={complaint.id}>
+              <Col>
+                <ComplaintCard complaint={complaint} />
+              </Col>
+            </Row>
+          ))):
+          (
+            <div className="mt-5">
+                  <div className="d-flex justify-content-center">
+                    <ExclamationCircle size={36}></ExclamationCircle>
+                  </div>
+                  <h3 className="text-center mt-3">List empty !</h3>
+                </div>
+          )
+        }
+          </div>
+        )
+
+        }
+       
+      
       </Row>
       <Row>
         <CustomPaginator

@@ -1,5 +1,6 @@
 import Pagination from "react-bootstrap/Pagination";
 import Proptypes from "prop-types";
+import "./customPaginator.css";
 function CustomPaginator(props) {
   const generatePaginator = (pages) => {
     // function to show pages at bottom
@@ -125,6 +126,7 @@ function CustomPaginator(props) {
   return (
     <Pagination
       size="md"
+      className="paginator"
       style={{
         width: props.width,
         position: "fixed",
