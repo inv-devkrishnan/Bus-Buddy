@@ -103,6 +103,12 @@ class BusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
         fields = "__all__"
+        
+    def validate_plate_no(self, value):
+        queryset = Bus.objects.filter(plate_no=value)
+        if queryset.exists():
+            raise serializers.ValidationError("Plate number must be unique.")
+        return value
 
 
 def validate_zero_or_one(value):
