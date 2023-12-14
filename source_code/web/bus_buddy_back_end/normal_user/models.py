@@ -4,37 +4,6 @@ from bus_owner.models import Trip
 from bus_owner.models import PickAndDrop, SeatDetails
 
 
-class UserReview(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
-    review_title = models.CharField(max_length=255, null=False)
-    review_body = models.TextField(null=False)
-    rating = models.SmallIntegerField(default=0, null=False)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_time = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = "user_review"
-
-
-class UserComplaints(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, related_name="author"
-    )
-    complaint_title = models.CharField(max_length=100, null=False)
-    complaint_body = models.TextField(null=False)
-    complaint_for = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, related_name="reciever"
-    )
-    response = models.TextField(null=False, blank=True)
-    status = models.SmallIntegerField(default=0)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now=True)
-
-    class Meta:
-        db_table = "user_complaints"
-
-
 class Bookings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
@@ -78,3 +47,35 @@ class BookedSeats(models.Model):
 
     class Meta:
         db_table = "booked_seats"
+
+
+class UserReview(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
+    booking_id = models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
+    review_title = models.CharField(max_length=255, null=False)
+    review_body = models.TextField(null=False)
+    rating = models.SmallIntegerField(default=0, null=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "user_review"
+
+
+class UserComplaints(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="author"
+    )
+    complaint_title = models.CharField(max_length=100, null=False)
+    complaint_body = models.TextField(null=False)
+    complaint_for = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="reciever"
+    )
+    response = models.TextField(null=False, blank=True)
+    status = models.SmallIntegerField(default=0)
+    created_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)
+
+    class Meta:
+        db_table = "user_complaints"
