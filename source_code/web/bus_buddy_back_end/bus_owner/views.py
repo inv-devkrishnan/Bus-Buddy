@@ -649,7 +649,7 @@ class Deletetrip(APIView):
             start_date = data.start_date
             diff = start_date - present_date
             print(diff)
-            if (start_date - present_date) < timedelta(days=2):
+            if ((diff) < timedelta(days=2) and diff >timedelta(days=0)) :
                 print("condition ok ")
                 raise ValueError("Start date must be at least 2 days from the present date.")
             data.status = 99

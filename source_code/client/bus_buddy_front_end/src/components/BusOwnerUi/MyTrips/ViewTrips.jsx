@@ -149,17 +149,7 @@ export default function Viewallbus() {
   };
   const deleted = (trip) => {
     console.log(trip)
-    // const startTimeDifference = new Date(id).getTime() - new Date().getTime();
-    // const hoursUntilStartTime = startTimeDifference / (1000 * 60 * 60);
-    // console.log(hoursUntilStartTime);
-    //   if (hoursUntilStartTime < 48) {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Error",
-    //       text: "The start time of the trip should be at least 48 hours from now.",
-    //     });
-    //     return;
-    //   }
+    
     axiosApi
       .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${trip.id}/`)
       .then((response) => {
