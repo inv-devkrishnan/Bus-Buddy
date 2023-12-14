@@ -24,6 +24,7 @@ from bus_buddy_back_end.permissions import AllowAdminsOnly, AllowBusOwnerAndAdmi
 from .serializer import AdminUpdateSerializer as AUS
 from .serializer import ListUserSerializer as LUS
 from .serializer import ListUserComplaints as LUC
+from .serializer import ComplaintResponseSerializer as CRS
 from .serializer import BanUserSerializer as BUS
 from .pagination import CustomPagination, ComplaintPagination
 
@@ -645,3 +646,39 @@ class ViewUserComplaints(APIView, ComplaintPagination):
                 "total_count": self.page.paginator.count,
             }
         )
+class SendComplaintResponse(UpdateAPIView):
+    permission_classes = (AllowBusOwnerAndAdminsOnly,)
+    def update(self, request, complaint_id):
+        try:
+            complaint_instance = UserComplaints.objects.get(id=complaint_id)
+            new_data = {"status": 1,"response":request.data.get("response")}
+            serialized_data = CRS(complaint_instance,data=new_data, partial=True)
+            if serialized_data.is_valid():
+                if complaint_instance.complaint_for_id == request.user.id: 
+                    if complaint_instance.status ==0: 
+                        self.perform_update(serialized_data)
+                        logger.info("Responsed to Complaint successfully")
+                        return Response({"success_code": "D2010"})
+                    else:
+                        logger.warn("Cannot Respond to the complaint that is already responded")
+                        return Response({"error_code": "D1020"})    
+                else:
+                    logger.info("Cannot Respond to the comment for the current user")
+                    return Response({"error_code": "D2022"})    
+            else:
+                logger.warn("Validation Failed Reason "+str(serialized_data.errors))
+                return Response({"error_code":"D1002"})
+        except UserComplaints.DoesNotExist:
+            logger.warn("Complaint with given id doesn't exising")
+            return Response({"error_code":"D1021"})         
+        except Exception as e:
+            logger.warn("Responding to Complaint Failed Reason : "+str(e))
+            return Response({"error_code":"D1019"},status=400)     
+                
+            
+            
+    def put(self,request,complaint_id):
+         return self.update(request,complaint_id)
+        
+        
+        

@@ -72,17 +72,39 @@ class ListUserSerializer(serializers.ModelSerializer):
             "status",
         )
 
+
 class UserNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name','email']
+        fields = ["first_name", "email"]
+
+
 class ListUserComplaints(serializers.ModelSerializer):
-    user=UserNameSerializer()
+    user = UserNameSerializer()
+
     class Meta:
         model = UserComplaints
-        fields = ("id","complaint_title","complaint_body","status","created_date","response","user")
+        fields = (
+            "id",
+            "complaint_title",
+            "complaint_body",
+            "status",
+            "created_date",
+            "response",
+            "user",
+        )
         depth = 1
+
+
 class BanUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("status", "id")
+
+
+class ComplaintResponseSerializer(serializers.ModelSerializer):
+    response = serializers.CharField(max_length=5000)
+
+    class Meta:
+        model = UserComplaints
+        fields = ("response", "status")

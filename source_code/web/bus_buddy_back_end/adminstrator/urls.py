@@ -11,4 +11,5 @@ urlpatterns = [
     path("remove-user/<int:user_id>/", views.RemoveUser.as_view(), name="remove_user"),
     path("approve-bus-owner/<int:user_id>/",views.ApproveBusOwner.as_view(),name="approve_bus_owner"),
     path("view-complaints/",views.ViewUserComplaints.as_view(),name="view_complaints"),
+    path("respond-complaint/<int:complaint_id>/",views.SendComplaintResponse.as_view(),name="respond_complaint"),
 ]
