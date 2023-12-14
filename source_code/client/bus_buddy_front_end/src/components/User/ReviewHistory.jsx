@@ -304,6 +304,7 @@ export default function ReviewHistory() {
                     name="review_title"
                     id="review_title"
                     placeholder="Review Title"
+                    maxlength={255}
                     isInvalid={
                       formikProps.errors.review_title &&
                       formikProps.touched.review_title
@@ -325,6 +326,7 @@ export default function ReviewHistory() {
                     name="review_body"
                     id="review_body"
                     placeholder={"Review Body"}
+                    maxlength={3000}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body

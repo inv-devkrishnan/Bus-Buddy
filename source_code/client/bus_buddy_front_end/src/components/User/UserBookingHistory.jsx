@@ -193,8 +193,10 @@ export default function UserBookingHistory() {
       .max(5, "Rating must be at most 5")
       .required("Rating is required"),
   });
+
   const onSubmit = (values) => {
     console.log(values);
+    showLoadingAlert("Submitting review");
     axiosApi
       .post(`user/review-trip/?booking_id=${modalData?.id}`, values)
       .then((res) => {
@@ -206,6 +208,7 @@ export default function UserBookingHistory() {
 
         setReviewModal(false);
         setModalShow(false);
+        viewBookingHistory();
       })
       .catch((err) => {
         Swal.fire({
@@ -216,6 +219,7 @@ export default function UserBookingHistory() {
 
         setReviewModal(false);
         setModalShow(false);
+        viewBookingHistory();
       });
   };
 
@@ -566,6 +570,7 @@ export default function UserBookingHistory() {
                     name="review_title"
                     id="review_title"
                     placeholder="Review Title"
+                    maxlength={255}
                     isInvalid={
                       formikProps.errors.review_title &&
                       formikProps.touched.review_title
@@ -587,6 +592,7 @@ export default function UserBookingHistory() {
                     name="review_body"
                     id="review_body"
                     placeholder="Review Body"
+                    maxLength={1000}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body

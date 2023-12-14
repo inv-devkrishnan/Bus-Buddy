@@ -297,7 +297,14 @@ class ReviewTripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserReview
-        fields = ("user_id", "trip_id", "review_title", "review_body", "rating")
+        fields = (
+            "user_id",
+            "trip_id",
+            "booking_id",
+            "review_title",
+            "review_body",
+            "rating",
+        )
 
     review_title = serializers.CharField(
         max_length=1000,
@@ -323,9 +330,11 @@ class UpdateReviewTripSerializer(serializers.ModelSerializer):
         fields = ("review_title", "review_body", "rating")
 
     review_title = serializers.CharField(
-        max_length=1000,
+        max_length=255,
     )
-    review_body = serializers.CharField()
+    review_body = serializers.CharField(
+        max_length=3000,
+    )
     rating = serializers.IntegerField(
         validators=[
             RegexValidator(

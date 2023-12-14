@@ -826,6 +826,7 @@ class ReviewTrip(APIView):
         booking_id = request.GET.get("booking_id")
         request_data = request.data.copy()
         request_data["user_id"] = request.user.id
+        request_data["booking_id"] = booking_id
         try:
             booking = Bookings.objects.get(user=request_data["user_id"], id=booking_id)
             request_data["trip_id"] = booking.trip.id
