@@ -30,7 +30,6 @@ export default function FormComponent(props) {
     reRender,
     updateReRender,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     // for setting current seat data using ui order(propsData)
@@ -76,17 +75,21 @@ export default function FormComponent(props) {
         }
       })
       .catch((err) => {
+        console.log(err);
+        let error;
         if (err.response.data.seat_ui_order) {
-          setErrorMessage(err.response.data.seat_ui_order);
+          error = err.response.data.seat_ui_order;
+        } else if (err.response.data.data) {
+          error = err.response.data.data;
         } else {
-          setErrorMessage(err.response.data);
+          error = err.response.data.error;
         }
 
         Swal.fire({
           // displays error message
           icon: "error",
           title: "Oops...",
-          text: errorMessage,
+          text: error,
         });
       });
   };
