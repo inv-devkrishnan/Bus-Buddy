@@ -649,12 +649,25 @@ class ViewUserComplaints(APIView, ComplaintPagination):
 class SendComplaintResponse(UpdateAPIView):
     permission_classes = (AllowBusOwnerAndAdminsOnly,)
     def update(self, request, complaint_id):
+        """function to send complaint response
+
+        Args:
+            request (_type_): _description_
+            complaint_id (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         try:
+            # gets the existing complaint instance
             complaint_instance = UserComplaints.objects.get(id=complaint_id)
+            # updated status along with response statement
             new_data = {"status": 1,"response":request.data.get("response")}
             serialized_data = CRS(complaint_instance,data=new_data, partial=True)
             if serialized_data.is_valid():
-                if complaint_instance.complaint_for_id == request.user.id: 
+                # only perform response if responded user is the intended user
+                if complaint_instance.complaint_for_id == request.user.id:
+                    # only perform response if not responded earlier 
                     if complaint_instance.status ==0: 
                         self.perform_update(serialized_data)
                         logger.info("Responsed to Complaint successfully")
