@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
+import { axiosApi } from "../../../utils/axiosApi";
+import Swal from "sweetalert2";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 
 function ComplaintCard(props) {
   const [show, setShow] = useState(false);
@@ -14,10 +17,48 @@ function ComplaintCard(props) {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
+    else
+    {
+      sendResponse();
+    }
 
     setValidated(true);
   };
 
+  const sendResponse =async()=>
+  {
+    let data ={
+      response : document.getElementById("exampleForm.ControlTextarea1").value,
+    }
+    await axiosApi.put(`adminstrator/respond-complaint/${props.complaint.id}/`,data).then((result)=>{
+      if(result.data?.error_code)
+      {
+        console.log(result.data)
+        Swal.fire({
+          title: "Something went wrong !",
+          icon: "error",
+          text: getErrorMessage(result.data?.error_code),
+        });
+      }
+      else
+      {
+        Swal.fire({
+          title: "Responded to Complaint",
+          icon: "success"
+        });
+        props.getComplaintsbyPage(1);
+        handleClose();
+      }
+
+    }).catch(function (error) {
+      console.log("inside catch"+error)
+      Swal.fire({
+        title: "Something went wrong !",
+        icon: "error",
+        text: getErrorMessage(error?.response?.data?.error_code),
+      });
+    });
+  }
   const handleClose = () => {setShow(false); setValidated(false)};
   const handleShow = () => setShow(true);
   return (
@@ -97,10 +138,11 @@ function ComplaintCard(props) {
             )}
             {props.complaint.status === 1 && (
               <Form className="mt-5 me-2 ms-2">
-                <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Group controlId="response_txt">
                   <Form.Label className="fw-bold">Your Response:</Form.Label>
                   <Form.Control
                     as="textarea"
+                    id="response_txt"
                     rows={3}
                     required
                     maxLength={5000}
@@ -123,5 +165,6 @@ function ComplaintCard(props) {
 }
 ComplaintCard.propTypes = {
   complaint: PropTypes.object,
+  getComplaintsbyPage : PropTypes.func,
 };
 export default ComplaintCard;

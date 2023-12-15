@@ -221,7 +221,7 @@ function ViewComplaints() {
              {complaintList.length >0 ?( complaintList.map((complaint) => (
             <Row key={complaint.id}>
               <Col>
-                <ComplaintCard complaint={complaint} />
+                <ComplaintCard complaint={complaint} getComplaintsbyPage={getComplaintsbyPage} />
               </Col>
             </Row>
           ))):
