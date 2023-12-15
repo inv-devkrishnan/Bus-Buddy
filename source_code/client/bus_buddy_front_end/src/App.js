@@ -6,11 +6,11 @@ import { SeatContextProvider } from "./utils/SeatContext";
 import { AddSeatContextProvider } from "./utils/AddSeatContext";
 
 import BusHome from "./components/BusOwnerUi/BusHome";
-import AddBus from "./components/BusOwnerUi/Mybuses/AddBus";
-import UpdateBus from "./components/BusOwnerUi/Mybuses/UpdateBus";
-import ViewBus from "./components/BusOwnerUi/Mybuses/ViewBus";
-import AddAmenities from "./components/BusOwnerUi/Mybuses/AddAmenities";
-import UpdateAmenities from "./components/BusOwnerUi/Mybuses/UpdateAmenities";
+import AddBus from "./components/BusOwnerUi/MyBuses/AddBus";
+import UpdateBus from "./components/BusOwnerUi/MyBuses/UpdateBus";
+import ViewBus from "./components/BusOwnerUi/MyBuses/ViewBus";
+import AddAmenities from "./components/BusOwnerUi/MyBuses/AddAmenities";
+import UpdateAmenities from "./components/BusOwnerUi/MyBuses/UpdateAmenities";
 import Addroutes from "./components/BusOwnerUi/MyRoutes/Addroutes";
 import ViewRoutes from "./components/BusOwnerUi/MyRoutes/ViewRoutes";
 import LoginPage from "./pages/LoginPage";
