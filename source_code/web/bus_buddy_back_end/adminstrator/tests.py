@@ -3,7 +3,7 @@ from django.urls import reverse
 from unittest.mock import patch, MagicMock, Mock
 from rest_framework.test import APIClient
 from account_manage.models import User
-from normal_user.models import Bookings, BookedSeats
+from normal_user.models import Bookings, BookedSeats, UserComplaints
 
 
 # Create your tests here
@@ -38,14 +38,12 @@ class BaseTest(TestCase):
         self.admin_view_complaints_date_param = (
             f"{reverse('view_complaints')}?from_date=2023-11-10&to_date=2023-11-12"
         )
-        self.admin_view_complaints_all_param = (
-            f"{reverse('view_complaints')}?from_date=2023-11-10&to_date=2023-11-12&responded=1"
-        )
+        self.admin_view_complaints_all_param = f"{reverse('view_complaints')}?from_date=2023-11-10&to_date=2023-11-12&responded=1"
         self.admin_view_complaints_invalid_date_param = (
             f"{reverse('view_complaints')}?from_date=2023-11-14&to_date=2023-11-12"
         )
-        self.admin_view_complaints_invalid_query_params =(
-            f"{reverse('view_complaints')}?from_date=2023-11-14&to_date=2023-11-fsd"  
+        self.admin_view_complaints_invalid_query_params = (
+            f"{reverse('view_complaints')}?from_date=2023-11-14&to_date=2023-11-fsd"
         )
         # data
         self.valid_update_data = {
@@ -409,27 +407,92 @@ class ViewComplaintsTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
-        
+
     def test_04_can_view_complaints_with_all_param(self):
         response = self.client.get(
             self.admin_view_complaints_all_param,
             format="json",
         )
         self.assertEqual(response.status_code, 200)
-        
+
     def test_05_cant_view_complaints_with_invalid_date(self):
         response = self.client.get(
             self.admin_view_complaints_invalid_date_param,
             format="json",
         )
-        self.assertEqual(response.status_code, 200) 
-    
+        self.assertEqual(response.status_code, 200)
+
     def test_06_cant_view_complaints_with_invalid_query_param(self):
         response = self.client.get(
             self.admin_view_complaints_invalid_query_params,
             format="json",
         )
-        self.assertEqual(response.status_code, 400)     
-        
-       
-            
+        self.assertEqual(response.status_code, 400)
+
+
+class SendComplaintResponseTest(BaseTest):
+    def test_01_can_respond_to_valid_complaints(self):
+        complaint_instance = UserComplaints.objects.create(
+            complaint_title="complaint ",
+            complaint_body="complaint body",
+            complaint_for=self.user,
+            user=self.user,
+        )
+        url = reverse(
+            "respond_complaint", kwargs={"complaint_id": complaint_instance.id}
+        )
+        data = {"response": "res"}
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_respond_to_non_existent_complaints(self):
+        url = reverse("respond_complaint", kwargs={"complaint_id": 1000})
+        data = {"response": "res"}
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_03_cant_respond_with_failed_validation(self):
+        complaint_instance = UserComplaints.objects.create(
+            complaint_title="complaint1 ",
+            complaint_body="complaint body1",
+            complaint_for=self.user,
+            user=self.user,
+        )
+        url = reverse(
+            "respond_complaint", kwargs={"complaint_id": complaint_instance.id}
+        )
+        data = {}
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_cant_respond_to_complaint_as_different_user(self):
+        dummy_user = User.objects.create_user(
+            email="dummy20@gmail.com", password="12345678", account_provider=0, role=3
+        )
+        complaint_instance = UserComplaints.objects.create(
+            complaint_title="complaint2 ",
+            complaint_body="complaint body2",
+            complaint_for=dummy_user,
+            user=self.user,
+        )
+        url = reverse(
+            "respond_complaint", kwargs={"complaint_id": complaint_instance.id}
+        )
+        data = {"response": "res"}
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_05_cant_respond_to_already_responded_complaint(self):
+        complaint_instance = UserComplaints.objects.create(
+            complaint_title="complaint ",
+            complaint_body="complaint body",
+            complaint_for=self.user,
+            status=1,
+            user=self.user,
+        )
+        url = reverse(
+            "respond_complaint", kwargs={"complaint_id": complaint_instance.id}
+        )
+        data = {"response": "res"}
+        response = self.client.put(url, data, format="json")
+        self.assertEqual(response.status_code, 200)
