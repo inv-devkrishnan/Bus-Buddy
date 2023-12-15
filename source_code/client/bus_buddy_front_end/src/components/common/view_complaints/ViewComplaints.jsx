@@ -145,9 +145,9 @@ function ViewComplaints() {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col lg={"auto"} style={{marginLeft:"22vw"}}>
+        <Col lg={"auto"} md={"auto"} sm={"auto"} style={{marginLeft:"22vw"}}>
         </Col>
-        <Col lg={"auto"}>
+        <Col lg={"auto"}  md={"auto"} sm={"auto"}>
           <p className="mt-2 me-1">View from :</p>
         </Col>
         <Col>
@@ -163,10 +163,10 @@ function ViewComplaints() {
             value={fromDate}
           />
         </Col>
-        <Col lg={"auto"}>
+        <Col lg={"auto"}  md={"auto"} sm={"auto"}>
           <p className="ms-2 me-2 mt-2 ">To</p>
         </Col>
-        <Col lg={"auto"}>
+        <Col lg={"auto"}  md={"auto"} sm={"auto"}>
           <input
             className="form-control  mb-1"
             id="trip_date_picker"
@@ -179,7 +179,7 @@ function ViewComplaints() {
             value={toDate}
           />
         </Col>
-        <Col lg={"auto"}>
+        <Col lg={"auto"}  md={"auto"} sm={"auto"}>
           <Button
             className="ms-2"
             onClick={() => {
