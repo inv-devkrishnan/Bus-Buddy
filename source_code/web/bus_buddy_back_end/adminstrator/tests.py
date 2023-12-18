@@ -496,3 +496,48 @@ class SendComplaintResponseTest(BaseTest):
         data = {"response": "res"}
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, 200)
+
+
+class CreateCouponTest(BaseTest):
+    def test_01_can_get_list(self):
+        url = f"{reverse('create_coupon')}?status=0"
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_get_lis_invalid_params(self):
+        url = f"{reverse('create_coupon')}?status=dfkjsh"
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_03_cant_get_list_no_params(self):
+        url = reverse("create_coupon")
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_can_create_coupon(self):
+        url = reverse("create_coupon")
+        data = {
+            "coupon_name": "Flat 50% off",
+            "coupon_description": "flat 50% off on first booking",
+            "coupon_eligibility": 1,
+            "coupon_availability": 0,
+            "valid_till": "2023-12-19",
+            "one_time_use": 1,
+            "discount": 2,
+        }
+        response = self.client.post(url,data=data,format="json")
+        self.assertEqual(response.status_code, 201)
+    
+    def test_05_cant_create_coupon_invalid_data(self):
+        url = reverse("create_coupon")
+        data = {
+            "coupon_name": "Flat 50% off",
+            "coupon_description": "flat 50% off on first booking",
+            "coupon_eligibility": 4,
+            "coupon_availability": 0,
+            "valid_till": "2023-12-19",
+            "one_time_use": 1,
+            "discount": 2,
+        }
+        response = self.client.post(url,data=data,format="json")
+        self.assertEqual(response.status_code, 200)    
