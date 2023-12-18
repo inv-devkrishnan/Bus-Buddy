@@ -1,7 +1,10 @@
 from rest_framework import serializers
+from datetime import date
 from account_manage.models import User
 from normal_user.models import UserComplaints
-from django.core.validators import RegexValidator
+from bus_owner.models import Trip, Routes
+from .models import CouponDetails
+from django.core.validators import RegexValidator,MinValueValidator
 from rest_framework.validators import UniqueValidator
 
 
@@ -108,3 +111,55 @@ class ComplaintResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserComplaints
         fields = ("response", "status")
+
+
+class BusOwnerListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "company_name")
+
+
+class StartPointAndEndPointSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Routes
+        fields = ("start_point", "end_point")
+        depth = 1
+
+
+class TripListSerializer(serializers.ModelSerializer):
+    route = StartPointAndEndPointSerializer()
+
+    class Meta:
+        model = Trip
+        fields = ("id", "route", "start_date")
+
+
+class CouponCreationSerializer(serializers.ModelSerializer):
+    coupon_description = serializers.CharField(max_length=500)
+    coupon_code = serializers.CharField(
+        validators=[UniqueValidator(queryset=CouponDetails.objects.all())]
+    )
+    coupon_name = serializers.CharField(max_length=80)
+    coupon_eligibility = serializers.IntegerField(min_value=0, max_value=1)
+    coupon_availability = serializers.IntegerField(min_value=0, max_value=2)
+    discount = serializers.IntegerField(min_value=2, max_value=98)
+    one_time_use = serializers.IntegerField(min_value=0, max_value=1)
+    valid_till = serializers.DateField(validators=[MinValueValidator(limit_value=date.today())])
+
+    def validate(self, attrs):
+        coupon_availability = attrs.get("coupon_availability")
+        user = attrs.get("user")
+        trip = attrs.get("trip")
+        if coupon_availability == 1 and not user:
+            raise serializers.ValidationError(
+                "Should specify user id if coupon_availability is based on bus owners"
+            )
+        if coupon_availability == 2 and not trip:
+            raise serializers.ValidationError(
+                "Should specify trip id if coupon_availability is based on trip"
+            )
+        return super().validate(attrs)
+
+    class Meta:
+        model = CouponDetails
+        fields = "__all__"

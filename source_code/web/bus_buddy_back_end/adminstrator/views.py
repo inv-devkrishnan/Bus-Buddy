@@ -1,6 +1,7 @@
 import re
 import logging
 import stripe
+import uuid
 from datetime import datetime
 from decouple import config
 from django.db.models import Q
@@ -26,6 +27,9 @@ from .serializer import ListUserSerializer as LUS
 from .serializer import ListUserComplaints as LUC
 from .serializer import ComplaintResponseSerializer as CRS
 from .serializer import BanUserSerializer as BUS
+from .serializer import BusOwnerListSerializer as BOL
+from .serializer import TripListSerializer as TLS
+from .serializer import CouponCreationSerializer as CCS
 from .pagination import CustomPagination, ComplaintPagination
 
 
@@ -646,8 +650,11 @@ class ViewUserComplaints(APIView, ComplaintPagination):
                 "total_count": self.page.paginator.count,
             }
         )
+
+
 class SendComplaintResponse(UpdateAPIView):
     permission_classes = (AllowBusOwnerAndAdminsOnly,)
+
     def update(self, request, complaint_id):
         """function to send complaint response
 
@@ -662,36 +669,102 @@ class SendComplaintResponse(UpdateAPIView):
             # gets the existing complaint instance
             complaint_instance = UserComplaints.objects.get(id=complaint_id)
             # updated status along with response statement
-            new_data = {"status": 1,"response":request.data.get("response")}
-            serialized_data = CRS(complaint_instance,data=new_data, partial=True)
+            new_data = {"status": 1, "response": request.data.get("response")}
+            serialized_data = CRS(complaint_instance, data=new_data, partial=True)
             if serialized_data.is_valid():
                 # only perform response if responded user is the intended user
                 if complaint_instance.complaint_for_id == request.user.id:
-                    # only perform response if not responded earlier 
-                    if complaint_instance.status ==0: 
+                    # only perform response if not responded earlier
+                    if complaint_instance.status == 0:
                         self.perform_update(serialized_data)
                         logger.info("Responsed to Complaint successfully")
                         return Response({"success_code": "D2010"})
                     else:
-                        logger.warn("Cannot Respond to the complaint that is already responded")
-                        return Response({"error_code": "D1020"})    
+                        logger.warn(
+                            "Cannot Respond to the complaint that is already responded"
+                        )
+                        return Response({"error_code": "D1020"})
                 else:
                     logger.info("Cannot Respond to the comment for the current user")
-                    return Response({"error_code": "D2022"})    
+                    return Response({"error_code": "D2022"})
             else:
-                logger.warn("Validation Failed Reason "+str(serialized_data.errors))
-                return Response({"error_code":"D1002"})
+                logger.warn("Validation Failed Reason " + str(serialized_data.errors))
+                return Response({"error_code": "D1002"})
         except UserComplaints.DoesNotExist:
             logger.warn("Complaint with given id doesn't exising")
-            return Response({"error_code":"D1021"})         
+            return Response({"error_code": "D1021"})
         except Exception as e:
-            logger.warn("Responding to Complaint Failed Reason : "+str(e))
-            return Response({"error_code":"D1019"},status=400)     
-                
-            
-            
-    def put(self,request,complaint_id):
-         return self.update(request,complaint_id)
-        
-        
-        
+            logger.warn("Responding to Complaint Failed Reason : " + str(e))
+            return Response({"error_code": "D1019"}, status=400)
+
+    def put(self, request, complaint_id):
+        return self.update(request, complaint_id)
+
+
+class CreateCoupon(APIView):
+    def generate_coupon_code(self):
+        """function to generate unique random 10 digit  coupon code
+
+        Returns:
+            str: coupon code
+        """
+        unique_id = str(uuid.uuid4())
+        alphanumeric_code = "".join(c for c in unique_id if c.isalnum())
+        unique_code = alphanumeric_code[:10]  # striping 10 digits of uuid code
+        return unique_code.upper() # returning unique coupon code in uppercase
+
+    permission_classes = (AllowAdminsOnly,)
+
+    def get(self, request):
+        """function to return bus owner list or trip list based on query param
+
+        Args:
+            request (_type_): request data from client
+
+        Returns:
+            _type_: _description_
+        """
+        status = request.GET.get("status")
+        if status:
+            if status == "0":
+                bus_owner_list = User.objects.filter(role=3, status=0) # filters active bus owners
+                serialized_data = BOL(bus_owner_list, many=True)
+                logger.info("Returned Bus owner List")
+                return Response(serialized_data.data)
+            elif status == "1":
+                trip_list = Trip.objects.filter(status=0) # filters active trips
+                serialized_data = TLS(trip_list, many=True)
+                logger.info("Returned trip list")
+                return Response(serialized_data.data)
+            else:
+                logger.warn("invalid query params")
+                return Response({"error_code": "D1006"})
+        else:
+            logger.warn("query params not provided")
+            return Response({"error_code": "D1005"})
+
+    def post(self, request):
+        """function to create coupon
+
+        Args:
+            request (_type_): coupon data from the client
+
+        Returns:
+            _type_: _description_
+        """
+
+        try:
+            request_data = request.data.copy() # creates a copy of request data
+            request_data["coupon_code"] = self.generate_coupon_code() # appends unique coupon code to the request data
+            serialized_data = CCS(data=request_data)
+            if serialized_data.is_valid(): # checks the validity of data
+                serialized_data.save() 
+                return Response({"success_code": "D2011"},status=201)
+            else:
+                logger.warn(
+                    "Data Validation Failed Reason :" + str(serialized_data.errors)
+                )
+                return Response({"error_code": "D1002"})
+        except Exception as e:
+            logger.warn("Coupon Creation Failed Reason :" + str(e))
+            return Response({"error_code": "D1023"}, status=400)
