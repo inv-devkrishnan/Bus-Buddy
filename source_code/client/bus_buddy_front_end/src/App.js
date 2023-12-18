@@ -34,6 +34,7 @@ import Addtrips from "./components/BusOwnerUi/MyTrips/Addtrips";
 import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 import SearchTrips from "./pages/SearchTrips";
 import NotFoundPage from "./pages/error_pages/NotFoundPage";
+import CreateCoupon from "./components/admin/coupon/CreateCoupon";
 
 function App() {
   return (
@@ -76,6 +77,7 @@ function App() {
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
             <Route path="/search-trip" element={<SearchTrips />} />
             <Route path="/not-found" element={<NotFoundPage />} />
+            <Route path="/admin-dashboard/create-coupon" element={<CreateCoupon/>}/>
           </Route>
           {/* pages which don't have navbar */}
           <Route path="/payment" element={<PaymentPage />} />

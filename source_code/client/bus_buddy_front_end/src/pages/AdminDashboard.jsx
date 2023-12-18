@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileView from "../components/admin/ProfileView";
 import ListUsers from "../components/admin/ListUsers";
 import ViewComplaints from "../components/common/view_complaints/ViewComplaints";
+import ListCoupon from "../components/admin/coupon/ListCoupon";
 
 function AdminDashboard() {
   // three state variable for three options
@@ -12,6 +13,7 @@ function AdminDashboard() {
   const [listUserSelect, setListUserSelect] = useState(false); // if true shows listuser component
   const [busSelect, setBusSelect] = useState(false); // if true shows bus owner approval component
   const [complaintSelect,setComplaintSelect] =useState(false) // if true show view complaints component
+  const [couponSelect,setCouponSelect] = useState(false); //  if true show view coupon component
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
 
@@ -21,6 +23,7 @@ function AdminDashboard() {
     setListUserSelect(false);
     setBusSelect(false);
     setComplaintSelect(false);
+    setCouponSelect(false);
   };
   const listUserSelected = () => {
     // when executed it displays the list user
@@ -28,6 +31,7 @@ function AdminDashboard() {
     setListUserSelect(true);
     setBusSelect(false);
     setComplaintSelect(false);
+    setCouponSelect(false);
   };
   const busSelected = () => {
     // when executed it displays the bus owner approval
@@ -35,6 +39,7 @@ function AdminDashboard() {
     setListUserSelect(false);
     setBusSelect(true);
     setComplaintSelect(false);
+    setCouponSelect(false);
   };
   const complaintSelected = () =>
   {
@@ -42,6 +47,16 @@ function AdminDashboard() {
     setListUserSelect(false);
     setBusSelect(false);
     setComplaintSelect(true);
+    setCouponSelect(false);
+  }
+
+  const couponSelected = () =>
+  {
+    setProfileSelect(false);
+    setListUserSelect(false);
+    setBusSelect(false);
+    setComplaintSelect(false);
+    setCouponSelect(true);
   }
 
   const options = [
@@ -68,6 +83,11 @@ function AdminDashboard() {
       state: complaintSelect,
       onChange: complaintSelected,
     },
+    {
+      name: "Coupons",
+      state: couponSelect,
+      onChange: couponSelected,
+    },
   ];
 
   useEffect(() => {
@@ -90,6 +110,7 @@ function AdminDashboard() {
         {listUserSelect && <ListUsers busApproval={false} />}
         {busSelect && <ListUsers busApproval={true} />}
         {complaintSelect && <ViewComplaints/>}
+        {couponSelect && <ListCoupon/>}
       </div>
     </div>
   );

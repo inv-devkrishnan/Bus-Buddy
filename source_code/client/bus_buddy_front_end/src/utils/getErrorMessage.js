@@ -52,7 +52,9 @@ export function getErrorMessage(errorCode) {
     case "D1021":
       return "Complaint with given id doesn't exising";
     case "D1022":
-      return "Cannot Respond to the complaint as the current user"                 
+      return "Cannot Respond to the complaint as the current user"
+    case "D1023":
+      return "Coupon Creation Failed"                   
     case "T0001":
       return "Too many request please try again later";
     default:
