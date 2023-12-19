@@ -5,10 +5,13 @@ import uuid
 from datetime import datetime
 from decouple import config
 from django.db.models import Q
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from adminstrator.models import CouponDetails
 from account_manage.models import User
 from normal_user.models import Bookings, BookedSeats, Payment, UserComplaints
 from bus_owner.models import (
@@ -30,7 +33,8 @@ from .serializer import BanUserSerializer as BUS
 from .serializer import BusOwnerListSerializer as BOL
 from .serializer import TripListSerializer as TLS
 from .serializer import CouponCreationSerializer as CCS
-from .pagination import CustomPagination, ComplaintPagination
+from .serializer import CouponViewSerializer as CVS
+from .pagination import CustomPagination, ComplaintPagination, CouponPagination
 
 
 logger = logging.getLogger("django")
@@ -711,7 +715,7 @@ class CreateCoupon(APIView):
         unique_id = str(uuid.uuid4())
         alphanumeric_code = "".join(c for c in unique_id if c.isalnum())
         unique_code = alphanumeric_code[:10]  # striping 10 digits of uuid code
-        return unique_code.upper() # returning unique coupon code in uppercase
+        return unique_code.upper()  # returning unique coupon code in uppercase
 
     permission_classes = (AllowAdminsOnly,)
 
@@ -727,12 +731,14 @@ class CreateCoupon(APIView):
         status = request.GET.get("status")
         if status:
             if status == "0":
-                bus_owner_list = User.objects.filter(role=3, status=0) # filters active bus owners
+                bus_owner_list = User.objects.filter(
+                    role=3, status=0
+                )  # filters active bus owners
                 serialized_data = BOL(bus_owner_list, many=True)
                 logger.info("Returned Bus owner List")
                 return Response(serialized_data.data)
             elif status == "1":
-                trip_list = Trip.objects.filter(status=0) # filters active trips
+                trip_list = Trip.objects.filter(status=0)  # filters active trips
                 serialized_data = TLS(trip_list, many=True)
                 logger.info("Returned trip list")
                 return Response(serialized_data.data)
@@ -754,13 +760,17 @@ class CreateCoupon(APIView):
         """
 
         try:
-            request_data = request.data.copy() # creates a copy of request data
-            request_data["coupon_code"] = self.generate_coupon_code() # appends unique coupon code to the request data
+            request_data = request.data.copy()  # creates a copy of request data
+            request_data[
+                "coupon_code"
+            ] = (
+                self.generate_coupon_code()
+            )  # appends unique coupon code to the request data
             serialized_data = CCS(data=request_data)
-            if serialized_data.is_valid(): # checks the validity of data
+            if serialized_data.is_valid():  # checks the validity of data
                 serialized_data.save()
-                logger.info("Coupon Created !") 
-                return Response({"success_code": "D2011"},status=201)
+                logger.info("Coupon Created !")
+                return Response({"success_code": "D2011"}, status=201)
             else:
                 logger.warn(
                     "Data Validation Failed Reason :" + str(serialized_data.errors)
@@ -769,3 +779,38 @@ class CreateCoupon(APIView):
         except Exception as e:
             logger.warn("Coupon Creation Failed Reason :" + str(e))
             return Response({"error_code": "D1023"}, status=400)
+
+
+class ViewCoupons(ListAPIView):
+    queryset = CouponDetails.objects.filter(~Q(status=99)).order_by("-created_date")
+    serializer_class = CVS
+    pagination_class = CouponPagination
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filterset_fields = ["status"]
+    search_fields = [
+        "coupon_name",
+    ]
+
+    def list(self, request, *args, **kwargs):
+        if (request.GET.get("status") != "0") and (request.GET.get("status") != "1"):
+            logger.warn("invalid query params")
+            return Response({"error_code": "D1006"})
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serialized_data = self.get_serializer(page, many=True)
+            logger.info(
+                "coupons list returned with "
+                + str(self.paginator.page.paginator.count)
+                + " items"
+            )
+            return Response(
+                {
+                    "coupons": serialized_data.data,
+                    "pages": self.paginator.page.paginator.num_pages,
+                    "current_page": self.paginator.page.number,
+                    "has_previous": self.paginator.page.has_previous(),
+                    "has_next": self.paginator.page.has_next(),
+                    "total_count": self.paginator.page.paginator.count,
+                }
+            )

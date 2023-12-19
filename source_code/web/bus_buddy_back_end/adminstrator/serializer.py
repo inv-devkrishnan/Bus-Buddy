@@ -177,3 +177,9 @@ class CouponCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CouponDetails
         fields = "__all__"
+class CouponViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CouponDetails
+        fields = "__all__"
+        
+                
