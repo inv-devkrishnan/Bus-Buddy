@@ -505,7 +505,7 @@ export default function UserBookingHistory() {
               }}
               disabled={modalData?.status !== 0}
             >
-              Cancel Booking
+              {modalData?.status === 99 ? "Cancelled" : "Cancel Booking"}
             </Button>
           )}
           <Button
@@ -553,7 +553,7 @@ export default function UserBookingHistory() {
         className="p-2"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Review This Trip</Modal.Title>
+          <Modal.Title>Share Your Reviews</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Formik
@@ -597,6 +597,7 @@ export default function UserBookingHistory() {
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body
                     }
+                    value={formikProps.values.review_body}
                     onChange={formikProps.handleChange}
                     onBlur={formikProps.handleBlur}
                   />

@@ -7,13 +7,19 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 from datetime import datetime
 from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings, Payment, BookedSeats, UserReview
+from normal_user.models import (
+    Bookings,
+    Payment,
+    BookedSeats,
+    UserReview,
+    UserComplaints,
+)
 from bus_owner.models import (
     SeatDetails,
     Trip,
@@ -34,6 +40,8 @@ from .serializer import (
     ReviewTripSerializer,
     ViewReviewTripSerializer,
     UpdateReviewTripSerializer,
+    ComplaintSerializer,
+    ListComplaintSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -47,6 +55,7 @@ import logging
 logger = logging.getLogger("django")
 
 date_format = "%Y-%m-%d"
+available_complaintable_users = []
 
 
 def mail_sent_response(mailfunction):
@@ -150,7 +159,7 @@ class UpdateProfile(UpdateAPIView):
 
         serialized_data = UDS(user)
         logger.info(serialized_data.data)
-        return Response(serialized_data.data)
+        return Response(serialized_data.data, status=200)
 
     def update(self, request):
         try:
@@ -860,6 +869,13 @@ class ReviewTrip(APIView):
 
 
 class HistoryReviewTrip(ListAPIView):
+    """
+    API for listing all reviews
+
+    Returns:
+        json: all reviews of the requesting user
+    """
+
     permission_classes = (AllowNormalUsersOnly,)
     serializer_class = ViewReviewTripSerializer
     pagination_class = CustomPagination
@@ -939,3 +955,84 @@ class UpdateReviewTrip(UpdateAPIView):
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
+
+
+class RegisterComplaint(APIView):
+    """
+    API for registering a compliant
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        try:
+            bookings_under_user = Bookings.objects.filter(user=request.user.id)
+            trips = []
+            for bookings in bookings_under_user:
+                trips.append(bookings.trip)
+            bus_owners = []
+            unique_bus_owners = set()
+            for trip in trips:
+                unique_bus_owners.add((trip.user.id, trip.user.company_name))
+            bus_owners = list(unique_bus_owners)
+
+            admin = User.objects.get(role=1).id
+            available_complaintable_users.clear()
+            available_complaintable_users.append(admin)
+            available_complaintable_users.append(set(bus_owners))
+            logger.info(available_complaintable_users, "available owners and admin")
+            return Response(available_complaintable_users, status=200)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+
+    def post(self, request):
+        request_body = request.data.copy()
+        request_body["user"] = request.user.id
+
+        try:
+            receiving_user = User.objects.get(id=request_body["complaint_for"])
+            if receiving_user.role != 2:
+                serialized_data = ComplaintSerializer(data=request_body)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    return Response(
+                        {"message": "Complaint registered successfully"}, status=201
+                    )
+                else:
+                    return Response({"error": serialized_data.errors}, status=400)
+            else:
+                return Response(
+                    {"error": "Users cannot register complaint against other users"},
+                    status=400,
+                )
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+
+
+class ViewComplaintResponse(ListAPIView):
+    """
+    API for viewing complaint list with response
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+    serializer_class = ListComplaintSerializer
+    filter_backends = [OrderingFilter, SearchFilter]
+    search_fields = ["complaint_title", "complaint_body"]
+    ordering_fields = ["created_date"]
+
+    def list(self, request):
+        user_id = request.user.id
+        try:
+            queryset = UserComplaints.objects.filter(user_id=user_id)
+
+            queryset = self.filter_queryset(queryset)
+
+            serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "complaint history")
+            return Response(serializer.data)
+
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": "An error occurred"}, status=400)

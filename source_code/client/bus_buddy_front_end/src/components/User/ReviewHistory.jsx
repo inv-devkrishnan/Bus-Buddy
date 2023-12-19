@@ -18,6 +18,7 @@ import Rating from "@mui/material/Rating";
 
 import { axiosApi } from "../../utils/axiosApi";
 import CustomPaginator from "../common/paginator/CustomPaginator";
+import Col from "react-bootstrap/esm/Col";
 
 export default function ReviewHistory() {
   const [sort, setSort] = useState("");
@@ -186,10 +187,10 @@ export default function ReviewHistory() {
 
   return (
     <div className="d-flex flex-column p-2 bd-highlight">
-      <div className="mb-auto p-2 bd-highlight m-3">
+      <div className="mb-auto p-2 bd-highlight m-2">
         <h1>My Reviews</h1>
       </div>
-      <div className="d-flex m-1 justify-content-end">
+      <div className="d-flex m-3 justify-content-start">
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic">Sort by</Dropdown.Toggle>
 
@@ -213,7 +214,7 @@ export default function ReviewHistory() {
                 setSort("");
               }}
             >
-              Newest to Oldest
+              Clear sorting
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -231,30 +232,32 @@ export default function ReviewHistory() {
         <>
           {reviewData.length > 0 ? (
             <Container>
-              {reviewData.map((review) => (
-                <Card key={review.id} style={{ width: "80%" }}>
-                  <Card.Body>
-                    <Card.Title>
-                      {review.review_title} &ensp;
-                      <Badge bg={getBadgeColor(review.rating)}>
-                        {review.rating} &nbsp;
-                        <StarFill />
-                      </Badge>
-                    </Card.Title>
-                    <Card.Text>{review.review_body}</Card.Text>
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          handleEdit(review.id);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              ))}
+              <Col>
+                {reviewData.map((review) => (
+                  <Card key={review.id} style={{ width: "80%" }}>
+                    <Card.Body>
+                      <Card.Title>
+                        {review.review_title} &ensp;
+                        <Badge bg={getBadgeColor(review.rating)}>
+                          {review.rating} &nbsp;
+                          <StarFill />
+                        </Badge>
+                      </Card.Title>
+                      <Card.Text>{review.review_body}</Card.Text>
+                      <div className="d-flex justify-content-end">
+                        <Button
+                          variant="primary"
+                          onClick={() => {
+                            handleEdit(review.id);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </Col>
             </Container>
           ) : (
             <div className="d-flex m-5">

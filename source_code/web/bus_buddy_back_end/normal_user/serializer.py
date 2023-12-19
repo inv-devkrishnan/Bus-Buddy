@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
-from .models import User, Bookings, BookedSeats, Payment, UserReview
+from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -343,3 +343,28 @@ class UpdateReviewTripSerializer(serializers.ModelSerializer):
             ),
         ],
     )
+
+
+class ComplaintSerializer(serializers.ModelSerializer):
+    """
+    serializer for registering complaint
+
+    """
+
+    class Meta:
+        model = UserComplaints
+        fields = ("user", "complaint_title", "complaint_body", "complaint_for")
+
+    complaint_title = serializers.CharField(max_length=100)
+    complaint_body = serializers.CharField(max_length=5000)
+
+
+class ListComplaintSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing the complaints
+
+    """
+
+    class Meta:
+        model = UserComplaints
+        fields = "__all__"

@@ -27,6 +27,11 @@ class BaseTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
+        self.admin = User.objects.create_user(
+            email="admin@gmail.com", password="Admin@7777", account_provider=0, role=1
+        )
+        self.client.force_authenticate(self.admin)
+
         self.owner = User.objects.create_user(
             email="someone@gmail.com",
             password="S0meone@7777",
@@ -160,6 +165,7 @@ class BaseTest(TestCase):
         self.review = UserReview.objects.create(
             user_id=self.user,
             trip_id=self.trip_completed,
+            booking_id=self.booking_completed,
             review_title="New Title",
             review_body="New Body",
             rating=3,
@@ -171,6 +177,8 @@ class BaseTest(TestCase):
             "normal_user.views.stripe.PaymentIntent.create"
         )
         self.book = reverse("book-seat")
+        self.complaint = reverse("register-complaint")
+        self.view_seat = reverse("view-seat-detail")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -341,122 +349,161 @@ class BaseTest(TestCase):
             "rating": 11,
         }
 
+        self.valid_complaint_values = {
+            "complaint_title": "Good Service",
+            "complaint_body": "The service was good",
+            "complaint_for": self.owner.id,
+        }
+
+        self.invalid_complaint_values = {
+            "complaint_title": "Bad Service",
+            "complaint_body": "The service was bad",
+            "complaint_for": self.user.id,
+        }
+
+        self.invalid_complaint_serializer_error_values = {
+            "complaint_title": "",
+            "complaint_body": "",
+            "complaint_for": self.owner.id,
+        }
+
+        self.invalid_complaint_not_a_valid_owner_values = {
+            "complaint_title": "Ok Service",
+            "complaint_body": "The service was ok",
+            "complaint_for": 10000,
+        }
+
         return super().setUp()
 
 
 class RegisterUserTest(BaseTest):
     def test_can_register_user(self):
-        print("1")
         response = self.client.post(self.register, self.valid_all_values, format="json")
+        print(response)
         self.assertEqual(response.status_code, 201)
 
     def test_cant_register_user_with_invalid_names(self):
-        print("2")
         self.client.post(self.register, self.invalid_names, format="json")
         response = self.client.post(self.register, self.invalid_names, format="json")
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_email(self):
-        print("3")
         response = self.client.post(self.register, self.invalid_email, format="json")
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_phone_length(self):
-        print("4")
         response = self.client.post(
             self.register, self.invalid_phone_length, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_phone_alphabet(self):
-        print("5")
         response = self.client.post(
             self.register, self.invalid_phone_alphabet, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_length_less_than_eight(self):
-        print("6")
         response = self.client.post(
             self.register, self.invalid_password_length_less_than_eight, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_length_more_than_twenty(self):
-        print("7")
         response = self.client.post(
             self.register, self.invalid_password_length_more_than_twenty, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_no_capital_letter(self):
-        print("8")
         response = self.client.post(
             self.register, self.invalid_password_no_capital_letter, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_no_small_letter(self):
-        print("9")
         response = self.client.post(
             self.register, self.invalid_password_no_small_letter, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_no_number(self):
-        print("10")
         response = self.client.post(
             self.register, self.invalid_password_no_number, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_password_no_special_character(self):
-        print("11")
         response = self.client.post(
             self.register, self.invalid_password_no_special_character, format="json"
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
 
 class UpdateUserTest(BaseTest):
     def test_can_update_user(self):
-        print("12")
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.put(
             reverse("update-profile"),
             self.update_valid_all_values,
             format="json",
         )
+        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_update_user_with_invalid_names(self):
-        print("13")
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.put(
             reverse("update-profile"),
             self.invalid_names,
             format="json",
         )
+        print(response)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_length(self):
-        print("14")
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.put(
             reverse("update-profile"),
             self.invalid_phone_length,
             format="json",
         )
+        print(response)
         self.assertEqual(response.status_code, 400)
 
     def test_cant_update_user_with_invalid_phone_alphabet(self):
-        print("15")
         self.client.post(self.register, self.valid_all_values, format="json")
         response = self.client.put(
             reverse("update-profile"),
             self.invalid_phone_alphabet,
             format="json",
         )
+        print(response)
+        self.assertEqual(response.status_code, 400)
+
+    def test_get_for_update(self):
+        response = self.client.get(
+            reverse("update-profile"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+
+    def test_cant_update_user_with_invalid_email(self):
+        response = self.client.put(
+            reverse("update-profile"), self.invalid_email, format="json"
+        )
+        print(response)
         self.assertEqual(response.status_code, 400)
 
 
@@ -782,3 +829,60 @@ class UpdateReviewTrip(BaseTest):
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
+
+
+class RegisterComplaintTest(BaseTest):
+    def test_01_can_register_complaint(self):
+        response = self.client.post(
+            self.complaint, self.valid_complaint_values, format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 201)
+
+    def test_02_cannot_register_complaint(self):
+        response = self.client.post(
+            self.complaint, self.invalid_complaint_values, format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_03_cannot_register_complaint_seriolizer_error(self):
+        response = self.client.post(
+            self.complaint,
+            self.invalid_complaint_serializer_error_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_04_cannot_register_complaint_not_user(self):
+        response = self.client.post(
+            self.complaint,
+            self.invalid_complaint_not_a_valid_owner_values,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_05_get_of_register_complaint(self):
+        response = self.client.get(
+            self.complaint,
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+
+class ViewSeatDetailsTest(BaseTest):
+    def test_01_get_seat_details(self):
+        response = self.client.get(
+            self.view_seat,
+            {
+                "trip_id": self.trip.id,
+                "start_location": self.location_1.id,
+                "end_location": self.location_2.id,
+            },
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
