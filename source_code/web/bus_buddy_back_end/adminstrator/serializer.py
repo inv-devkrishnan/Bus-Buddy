@@ -4,7 +4,7 @@ from account_manage.models import User
 from normal_user.models import UserComplaints
 from bus_owner.models import Trip, Routes
 from .models import CouponDetails
-from django.core.validators import RegexValidator,MinValueValidator
+from django.core.validators import RegexValidator, MinValueValidator
 from rest_framework.validators import UniqueValidator
 
 
@@ -144,7 +144,9 @@ class CouponCreationSerializer(serializers.ModelSerializer):
     coupon_availability = serializers.IntegerField(min_value=0, max_value=2)
     discount = serializers.IntegerField(min_value=2, max_value=98)
     one_time_use = serializers.IntegerField(min_value=0, max_value=1)
-    valid_till = serializers.DateField(validators=[MinValueValidator(limit_value=date.today())])
+    valid_till = serializers.DateField(
+        validators=[MinValueValidator(limit_value=date.today())]
+    )
 
     def validate(self, attrs):
         coupon_availability = attrs.get("coupon_availability")
@@ -154,9 +156,21 @@ class CouponCreationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Should specify user id if coupon_availability is based on bus owners"
             )
+        if coupon_availability == 1 and trip:
+            raise serializers.ValidationError(
+                "trip is not a valid field for this operation"
+            )
         if coupon_availability == 2 and not trip:
             raise serializers.ValidationError(
                 "Should specify trip id if coupon_availability is based on trip"
+            )
+        if coupon_availability == 2 and user:
+            raise serializers.ValidationError(
+                "user is not a valid field for this operation"
+            )
+        if (coupon_availability == 0 and user) or (coupon_availability == 0 and trip):
+            raise serializers.ValidationError(
+                "user or trip field is invalid field for this operation"
             )
         return super().validate(attrs)
 

@@ -264,6 +264,8 @@ function CreateCoupon() {
                 required: true,
                 pattern: /^-?\d+$/,
                 valueAsNumber: true,
+                min: 2,
+                max: 98,
               })}
               onBlur={() => {
                 trigger("discount");
@@ -274,6 +276,18 @@ function CreateCoupon() {
             )}
             {errors.discount && errors.discount.type === "required" && (
               <p className="text-danger mt-2"> * Discount required</p>
+            )}
+            {errors.discount && errors.discount.type === "min" && (
+              <p className="text-danger mt-2">
+                {" "}
+                * Discount Should be minimum 2%
+              </p>
+            )}
+            {errors.discount && errors.discount.type === "max" && (
+              <p className="text-danger mt-2">
+                {" "}
+                * Discount Should be maximum 98%
+              </p>
             )}
           </Form.Group>
         </Row>

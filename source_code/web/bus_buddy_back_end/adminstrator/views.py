@@ -758,7 +758,8 @@ class CreateCoupon(APIView):
             request_data["coupon_code"] = self.generate_coupon_code() # appends unique coupon code to the request data
             serialized_data = CCS(data=request_data)
             if serialized_data.is_valid(): # checks the validity of data
-                serialized_data.save() 
+                serialized_data.save()
+                logger.info("Coupon Created !") 
                 return Response({"success_code": "D2011"},status=201)
             else:
                 logger.warn(
