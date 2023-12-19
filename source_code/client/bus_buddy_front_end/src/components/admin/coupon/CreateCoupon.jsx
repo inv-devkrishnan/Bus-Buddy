@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
+import { useNavigate } from "react-router-dom";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
 
 function CreateCoupon() {
   const {
@@ -17,6 +19,7 @@ function CreateCoupon() {
   const [availability, setAvailability] = useState(0);
   const [busOwnerList, setBusOwnerList] = useState([]);
   const [tripList, setTripList] = useState([]);
+  const navigate = useNavigate();
 
   const get_bus_owner_list = async () => {
     await axiosApi
@@ -43,9 +46,11 @@ function CreateCoupon() {
   };
 
   const submitData = (data) => {
+    showLoadingAlert("Creating Coupon");
     axiosApi
       .post("adminstrator/create-coupon/", data)
       .then((result) => {
+        Swal.close();
         if (result.data?.error_code) {
           Swal.fire({
             title: "Task Failed",
@@ -57,9 +62,11 @@ function CreateCoupon() {
             title: "Coupon Created",
             icon: "success",
           });
+          navigate("/admin-dashboard/show-coupon", { replace: true });
         }
       })
       .catch(function (error) {
+        Swal.close();
         Swal.fire({
           title: "Task Failed",
           text: getErrorMessage(error?.response?.data?.error_code),
@@ -258,6 +265,9 @@ function CreateCoupon() {
                 pattern: /^-?\d+$/,
                 valueAsNumber: true,
               })}
+              onBlur={() => {
+                trigger("discount");
+              }}
             />
             {errors.discount && errors.discount.type === "pattern" && (
               <p className="text-danger mt-2"> * Discount should be integer</p>

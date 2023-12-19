@@ -35,6 +35,10 @@ import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 import SearchTrips from "./pages/SearchTrips";
 import NotFoundPage from "./pages/error_pages/NotFoundPage";
 import CreateCoupon from "./components/admin/coupon/CreateCoupon";
+import ProfileView from "./components/admin/ProfileView";
+import ViewComplaints from "./components/common/view_complaints/ViewComplaints";
+import ListCoupon from "./components/admin/coupon/ListCoupon";
+import ListUsers from "./components/admin/ListUsers";
 
 function App() {
   return (
@@ -46,7 +50,34 @@ function App() {
             <Route index element={<LandingPage />} />
             <Route path="/delete-account" element={<DeleteAccountPage />} />
             <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+            <Route path="/admin-dashboard" element={<AdminDashboard />}>
+              <Route
+                path="/admin-dashboard/view-profile"
+                element={<ProfileView />}
+              />
+              <Route
+                path="/admin-dashboard/create-coupon"
+                element={<CreateCoupon />}
+              />
+              <Route
+                path="/admin-dashboard/show-coupon"
+                element={<ListCoupon />}
+              />
+              <Route
+                path="/admin-dashboard/view-complaints"
+                element={<ViewComplaints />}
+              />
+              <Route
+                path="/admin-dashboard/list-busowners"
+                element={<ListUsers busApproval={true} />}
+              />
+              <Route
+                path="/admin-dashboard/list-users"
+                element={<ListUsers busApproval={false} />}
+              />
+            </Route>
+
             <Route path="/BusHome" element={<BusHome />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/traveller-data" element={<TravellerDetail />} />
@@ -77,14 +108,13 @@ function App() {
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
             <Route path="/search-trip" element={<SearchTrips />} />
             <Route path="/not-found" element={<NotFoundPage />} />
-            <Route path="/admin-dashboard/create-coupon" element={<CreateCoupon/>}/>
           </Route>
           {/* pages which don't have navbar */}
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register-user" element={<RegisterUser />} />
           <Route path="/register-owner" element={<RegisterOwner />} />
-          <Route path="*" element ={<NotFoundPage/>}/>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AddSeatContextProvider>
     </SeatContextProvider>
