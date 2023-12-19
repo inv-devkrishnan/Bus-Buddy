@@ -17,6 +17,7 @@ from .models import Trip
 from .models import Bus
 from .models import Routes
 from .models import User
+from normal_user.models import UserReview
 from django.core.validators import (
     MaxLengthValidator,
     MinLengthValidator,
@@ -34,6 +35,14 @@ error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
 error_message_phone_exist = "Phone number is already registered"
 
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+    serializer for model Userreviews. For listing
+    """
+    class Meta:
+        model = UserReview
+        fields = "__all__"
+    
 
 class BusSerializer(serializers.ModelSerializer):
     """

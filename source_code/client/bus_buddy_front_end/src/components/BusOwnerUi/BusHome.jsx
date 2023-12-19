@@ -95,15 +95,15 @@ export default function UserDashboard() {
       onChange: myTripSelected,
     },
     {
-      name: "Delete Account",
-      state: deleteSelect,
-      onChange: deleteSelected,
-    },
-    {
       name: "My Reviews",
       state: myReviewsSelect,
       onChange: myReviewsSelected,
     },
+    {
+      name: "Delete Account",
+      state: deleteSelect,
+      onChange: deleteSelected,
+    }, 
   ];
 
   useEffect(() => {
@@ -128,8 +128,8 @@ export default function UserDashboard() {
         {myBusSelect && <ViewBus/>}
         {myRouteSelect && <ViewRoutes/>}
         {myTripSelect && <ViewTrips/>}
-        {deleteSelect && <DeleteAccount />}
         {myReviewsSelect && <ViewReviews />}
+        {deleteSelect && <DeleteAccount />}
       </div>
     </div>
   );
