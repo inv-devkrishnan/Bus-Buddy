@@ -202,7 +202,7 @@ function CreateCoupon() {
             </Form.Group>
           )}
           {Number(availability) === 2 && (
-            <Form.Group as={Col} md="4">
+            <Form.Group as={Col} md="5">
               <Form.Label>Select Trip</Form.Label>
               <Form.Select
                 aria-label="Default select example"
@@ -218,7 +218,7 @@ function CreateCoupon() {
                   <option key={trip.id} value={trip.id}>
                     {trip?.route?.start_point?.location_name} to{" "}
                     {trip?.route?.end_point?.location_name} on{" "}
-                    {trip?.start_date}
+                    {trip?.start_date} by {trip?.user?.company_name}
                   </option>
                 ))}
               </Form.Select>

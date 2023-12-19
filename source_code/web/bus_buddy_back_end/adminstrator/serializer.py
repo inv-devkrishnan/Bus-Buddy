@@ -128,10 +128,10 @@ class StartPointAndEndPointSerializer(serializers.ModelSerializer):
 
 class TripListSerializer(serializers.ModelSerializer):
     route = StartPointAndEndPointSerializer()
-
+    user  = BusOwnerListSerializer()
     class Meta:
         model = Trip
-        fields = ("id", "route", "start_date")
+        fields = ("id", "route", "start_date","user")
 
 
 class CouponCreationSerializer(serializers.ModelSerializer):
