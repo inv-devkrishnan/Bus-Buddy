@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import Card from "react-bootstrap/Card";
@@ -20,8 +20,8 @@ import { axiosApi } from "../../utils/axiosApi";
 import Col from "react-bootstrap/esm/Col";
 
 export default function ReviewHistory() {
-  const [sort, setSort] = useState("");
-  const [reviewData, setReviewData] = useState([]);
+  const [sort, setSort] = useState(""); // for storing sort value
+  const [reviewData, setReviewData] = useState([]); // for storing data of single review
   const [page, setPage] = useState(1); // for storing page number
   const [next, setNext] = useState(1); // for finding next
   const [previous, setPrevious] = useState(1); // for finding previous
@@ -29,11 +29,11 @@ export default function ReviewHistory() {
   const [active, setActive] = useState(1); // for setting current page activate
   const [isLoading, setIsLoading] = useState(true); // for setting progress bar
   const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
-  const [existingData, setExistingData] = useState([]);
-  const [ratingValue, setRatingValue] = useState(0);
+  const [existingData, setExistingData] = useState([]); // for storing drop down values
+  const [ratingValue, setRatingValue] = useState(0); // for storing rating value
 
-  useEffect(() => {
-    axiosApi
+  const viewReviewHistory = useCallback(async () => {
+    await axiosApi
       .get(`user/review-history/?page=${page}&&ordering=${sort}`)
       .then((res) => {
         setReviewData(res.data.results);
@@ -51,6 +51,10 @@ export default function ReviewHistory() {
         setIsLoading(false);
       });
   }, [page, sort]);
+
+  useEffect(() => {
+    viewReviewHistory();
+  }, [viewReviewHistory]);
 
   const handlePrevious = () => {
     // for moving to previous page
@@ -90,7 +94,6 @@ export default function ReviewHistory() {
       .then((res) => {
         setExistingData(res.data);
         setRatingValue(res.data?.rating);
-        console.log(res.data.review_body);
       })
       .catch((err) => {
         console.log(err);
@@ -114,7 +117,6 @@ export default function ReviewHistory() {
   });
 
   const onSubmit = (values) => {
-    console.log(values);
     axiosApi
       .put(`user/review-update/?review_id=${existingData?.id}`, values)
       .then((res) => {
@@ -124,6 +126,7 @@ export default function ReviewHistory() {
           icon: "success",
         });
         setReviewModal(false);
+        viewReviewHistory();
       })
       .catch((err) => {
         console.log(err);
@@ -349,7 +352,7 @@ export default function ReviewHistory() {
                   <Rating
                     name="rating"
                     value={ratingValue}
-                    onChange={(newValue) => {
+                    onChange={(event, newValue) => {
                       if (newValue) {
                         setRatingValue(newValue);
                         formikProps.setFieldValue("rating", newValue);
