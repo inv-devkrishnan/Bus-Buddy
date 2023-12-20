@@ -521,13 +521,14 @@ class CreateCouponTest(BaseTest):
             "coupon_description": "flat 50% off on first booking",
             "coupon_eligibility": 1,
             "coupon_availability": 0,
-            "valid_till": "2023-12-19",
+            "valid_till": "2024-12-20",
             "one_time_use": 1,
             "discount": 2,
         }
-        response = self.client.post(url,data=data,format="json")
+        response = self.client.post(url, data=data, format="json")
+        print(response.content)
         self.assertEqual(response.status_code, 201)
-    
+
     def test_05_cant_create_coupon_invalid_data(self):
         url = reverse("create_coupon")
         data = {
@@ -539,5 +540,17 @@ class CreateCouponTest(BaseTest):
             "one_time_use": 1,
             "discount": 2,
         }
-        response = self.client.post(url,data=data,format="json")
-        self.assertEqual(response.status_code, 200)    
+        response = self.client.post(url, data=data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+
+class ViewCouponTest(BaseTest):
+    def test_01_can_view_coupons(self):
+        url = reverse("view_coupon")
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_view_coupons_invalid_params(self):
+        url = f"{reverse('view_coupon')}?status=fdsjfhs"
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1006"}')
