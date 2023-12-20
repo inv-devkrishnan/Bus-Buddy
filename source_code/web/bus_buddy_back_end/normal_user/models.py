@@ -50,11 +50,16 @@ class BookedSeats(models.Model):
 
 
 class UserReview(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="writer"
+    )
     trip_id = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False)
     booking_id = models.ForeignKey(Bookings, on_delete=models.CASCADE, null=False)
     review_title = models.CharField(max_length=255, null=False)
     review_body = models.TextField(null=False)
+    review_for = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="viewer"
+    )
     rating = models.SmallIntegerField(default=0, null=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
@@ -76,6 +81,7 @@ class UserComplaints(models.Model):
     status = models.SmallIntegerField(default=0)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
+    complaint_image = models.ImageField(null=True, blank=True, upload_to="images/")
 
     class Meta:
         db_table = "user_complaints"
