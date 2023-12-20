@@ -792,7 +792,7 @@ class ViewCoupons(ListAPIView):
     ]
 
     def list(self, request, *args, **kwargs):
-        if (request.GET.get("status") != "0") and (request.GET.get("status") != "1"):
+        if (request.GET.get("status") != "0") and (request.GET.get("status") != "1") and (request.GET.get("status")):
             logger.warn("invalid query params")
             return Response({"error_code": "D1006"})
         queryset = self.filter_queryset(self.get_queryset())
