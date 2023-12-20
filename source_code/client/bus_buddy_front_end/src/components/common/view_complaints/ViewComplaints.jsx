@@ -56,10 +56,20 @@ function ViewComplaints() {
           setHasPrevious(Boolean(result?.data?.has_previous));
           setHasNext(Boolean(result?.data?.has_next));
         } else {
-          console.log("Error Occured ");
+          Swal.fire({
+            title:"Operation Failed",
+            text: "An Error has been occured",
+            icon:"error"
+          })
+          console.log(result.data?.error_code);
         }
       })
       .catch(function (error) {
+        Swal.fire({
+          title:"Operation Failed",
+          text: "An Error has been occured",
+          icon:"error"
+        })
         console.log(error);
       });
       setComplaintListLoading(false)
