@@ -394,7 +394,7 @@ class Viewreviews(ListAPIView):
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = UserReview.objects.all()
+            queryset = UserReview.objects.filter(review_for = user_id)
             print(queryset)
             serializer = ReviewSerializer(queryset)
             page = self.paginate_queryset(queryset)

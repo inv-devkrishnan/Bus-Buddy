@@ -5,7 +5,8 @@ import Form from "react-bootstrap/Form";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
-import { Pagination } from "react-bootstrap";
+import { StarFill } from 'react-bootstrap-icons';
+import { Pagination,Badge } from "react-bootstrap";
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
@@ -56,6 +57,25 @@ export default function Viewallbus() {
     );
   }
 
+  const getBadgeColor = (rate) => {
+    switch (rate) {
+      case 0:
+        return "secondary";
+      case 1:
+        return "danger";
+      case 2:
+        return "warning";
+      case 3:
+        return "info";
+      case 4:
+        return "primary";
+      case 5:
+        return "success";
+      default:
+        return "dark";
+    }
+  };
+
   const paginationBasic = (
     <div>
       <Pagination>
@@ -86,7 +106,6 @@ export default function Viewallbus() {
     </div>
   );
 
-
   const renderCards = () => {
     return data.map((viewreview) => (
       <div
@@ -102,7 +121,13 @@ export default function Viewallbus() {
               <div style={{ display: "flex" }}>
                 <div>
                   <p>{viewreview.review_body}</p>
-                  <p>Ratings:{viewreview.rating}</p>
+                  <p>
+                    Rating:
+                    <Badge bg={getBadgeColor(viewreview.rating)}>
+                        {viewreview.rating} &nbsp;
+                      <StarFill />
+                    </Badge>
+                  </p>
                 </div>
               </div>
             </Accordion.Body>
@@ -112,15 +137,12 @@ export default function Viewallbus() {
     ));
   };
 
-  
-
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <h1 className="mx-auto">Viewall</h1>
-      <Form style={{ textAlign: "center" }}>
-      </Form>
-    </Navbar>
+        <h1 className="mx-auto">Viewall</h1>
+        <Form style={{ textAlign: "center" }}></Form>
+      </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
         style={{
