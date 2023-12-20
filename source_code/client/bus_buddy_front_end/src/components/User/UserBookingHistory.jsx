@@ -32,8 +32,8 @@ export default function UserBookingHistory() {
   const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
   const [isLoading, setIsLoading] = useState(true); // for setting progress bar
   const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
-  const [ratingValue, setRatingValue] = useState(0);
-  const [policyModalShow, setPolicyModalShow] = useState(false);
+  const [ratingValue, setRatingValue] = useState(0); // to store value of rating
+  const [policyModalShow, setPolicyModalShow] = useState(false); // to handle policy modal
 
   const viewBookingHistory = useCallback(async () => {
     try {
@@ -330,7 +330,7 @@ export default function UserBookingHistory() {
                             <Button
                               onClick={() => {
                                 setModalShow(true);
-                                setModalData(data);
+                                setModalData({ ...data });
                               }}
                             >
                               View Details

@@ -15,6 +15,13 @@ export default function ComplaintForm() {
   const [visible, setVisible] = useState(false); // for handling select visibility
   const [available, setAvailable] = useState([]); // for storing available options for select
   const [busArray, setBusArray] = useState([]); // for storing bus owner ids
+  const photoRules = ["image/jpg", "image/jpeg", "image/png"];
+
+  let config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
 
   useEffect(() => {
     axiosApi
@@ -39,13 +46,35 @@ export default function ComplaintForm() {
       .string()
       .matches(/^\d+$/, "You have to choose an option")
       .required("This is a required field"),
+    complaint_image: yup
+      .mixed()
+      .test("is-valid-type", "Not valid type", (value) =>
+        photoRules.includes(value?.type)
+      )
+      .test(
+        "is-valid-size",
+        "Maximum allowed size is 25MB",
+        (value) => value && value.size <= 26214400
+      )
+      .notRequired(),
   });
 
   const onSubmit = (values, actions) => {
     console.log(values);
     showLoadingAlert("Registering complaint");
+
+    const formData = new FormData();
+    formData.append("complaint_title", values.complaint_title);
+    formData.append("complaint_body", values.complaint_body);
+    formData.append("complaint_for", values.complaint_for);
+    formData.append("complaint_image", values.complaint_image);
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+
     axiosApi
-      .post(`user/register-complaint/`, values)
+      .post(`user/register-complaint/`, formData, config)
       .then((res) => {
         console.log(res);
         Swal.close();
@@ -74,6 +103,7 @@ export default function ComplaintForm() {
           complaint_title: "",
           complaint_body: "",
           complaint_for: "",
+          complaint_image: [],
         }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
@@ -176,7 +206,27 @@ export default function ComplaintForm() {
                 style={{ color: "red" }}
               />
             </Form.Group>
-            <div className="d-flex justify-content-end">
+            <Form.Group>
+              <Form.Label>Upload image: </Form.Label>
+              <Form.Control
+                type="file"
+                name="complaint_image"
+                accept={photoRules}
+                onChange={(e) => {
+                  formikProps.setFieldValue(
+                    "complaint_image",
+                    e.currentTarget.files[0]
+                  );
+                  setVisible(false);
+                }}
+              />
+              <ErrorMessage
+                component="span"
+                name="complaint_image"
+                style={{ color: "red" }}
+              />
+            </Form.Group>
+            <div className="d-flex justify-content-end m-2">
               <Button type="submit" className="m-2">
                 Submit
               </Button>

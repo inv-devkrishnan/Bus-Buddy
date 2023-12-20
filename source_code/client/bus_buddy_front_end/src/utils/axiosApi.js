@@ -4,6 +4,10 @@ import { getAcessToken } from "./apiCalls";
 export const axiosApi = axios.create({
   // for api call's which requrires authentication
   baseURL: process.env.REACT_APP_BASEURL,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 });
 
 export const openAxiosApi = axios.create({
@@ -20,17 +24,12 @@ const loginUrl = "/login";
 axiosApi.interceptors.request.use(
   function (config) {
     if (noAuthUrls.includes(config.url)) {
-      // no need auth header for registration
-      config.headers["Accept"] = `application/json`;
-      config.headers["Content-Type"] = `application/json`;
       return config;
     } else {
       console.log(config.url);
       config.headers["Authorization"] = `Bearer ${sessionStorage.getItem(
         "access_token"
       )}`;
-      config.headers["Accept"] = `application/json`;
-      config.headers["Content-Type"] = `application/json`;
       return config;
     }
   },
@@ -57,7 +56,8 @@ axiosApi.interceptors.response.use(
       if (
         error.response.status === 401 &&
         !originalRequest._retry &&
-        (originalRequest.url !== "account/local-login/" && originalRequest.url !=="account/google-login/" )
+        originalRequest.url !== "account/local-login/" &&
+        originalRequest.url !== "account/google-login/"
       ) {
         /* tries to get new access token from  exisiting refresh token when access token expires
         and request url is not login api call*/
@@ -72,7 +72,8 @@ axiosApi.interceptors.response.use(
         return axiosApi(originalRequest);
       } else if (
         error.response.status === 401 &&
-        (originalRequest.url !== "account/local-login/" && originalRequest.url !=="account/google-login/" )
+        originalRequest.url !== "account/local-login/" &&
+        originalRequest.url !== "account/google-login/"
       ) {
         localStorage.clear();
         sessionStorage.clear();

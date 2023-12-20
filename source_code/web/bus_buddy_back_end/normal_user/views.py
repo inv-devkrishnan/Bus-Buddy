@@ -827,6 +827,9 @@ class ReviewTrip(APIView):
     Args:
         booking_id (int): query param for identifying booking
 
+    Returns:
+        json : success message
+
     """
 
     permission_classes = (AllowNormalUsersOnly,)
@@ -836,11 +839,15 @@ class ReviewTrip(APIView):
         request_data = request.data.copy()
         request_data["user_id"] = request.user.id
         request_data["booking_id"] = booking_id
+
         try:
             booking = Bookings.objects.get(user=request_data["user_id"], id=booking_id)
             request_data["trip_id"] = booking.trip.id
+            request_data["review_for"] = booking.trip.user.id
+
             if booking.trip.status == 1 and booking.status == 1:
                 serialized_data = ReviewTripSerializer(data=request_data)
+                print(serialized_data)
                 if serialized_data.is_valid():
                     serialized_data.save()
                     logger.info("Review added")
@@ -851,12 +858,12 @@ class ReviewTrip(APIView):
             else:
                 if booking.trip.status != 1:
                     return Response(
-                        {"message": "Trip is pending or cancelled "},
+                        {"error": "Trip is pending or cancelled "},
                         status=400,
                     )
                 else:
                     return Response(
-                        {"message": "Booking is pending or cancelled"},
+                        {"error": "Booking is pending or cancelled"},
                         status=400,
                     )
         except Bookings.DoesNotExist:
@@ -874,6 +881,9 @@ class HistoryReviewTrip(ListAPIView):
 
     Returns:
         json: all reviews of the requesting user
+
+    Returns:
+        json : review data
     """
 
     permission_classes = (AllowNormalUsersOnly,)
@@ -910,6 +920,9 @@ class UpdateReviewTrip(UpdateAPIView):
 
     Args:
         review_id (int): query param for identifying review
+
+    Returns:
+        json : success message
 
     """
 
@@ -960,6 +973,9 @@ class UpdateReviewTrip(UpdateAPIView):
 class RegisterComplaint(APIView):
     """
     API for registering a compliant
+
+    Returns:
+        json : success message
 
     """
 
@@ -1014,6 +1030,9 @@ class ViewComplaintResponse(ListAPIView):
     """
     API for viewing complaint list with response
 
+    Returns:
+        json : complaint data
+
     """
 
     permission_classes = (AllowNormalUsersOnly,)
@@ -1031,7 +1050,7 @@ class ViewComplaintResponse(ListAPIView):
 
             serializer = self.get_serializer(queryset, many=True)
             logger.info(serializer.data, "complaint history")
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
 
         except Exception as e:
             logger.error(str(e))

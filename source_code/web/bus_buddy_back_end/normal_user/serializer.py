@@ -303,6 +303,7 @@ class ReviewTripSerializer(serializers.ModelSerializer):
             "booking_id",
             "review_title",
             "review_body",
+            "review_for",
             "rating",
         )
 
@@ -353,7 +354,13 @@ class ComplaintSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserComplaints
-        fields = ("user", "complaint_title", "complaint_body", "complaint_for")
+        fields = (
+            "user",
+            "complaint_title",
+            "complaint_body",
+            "complaint_for",
+            "complaint_image",
+        )
 
     complaint_title = serializers.CharField(max_length=100)
     complaint_body = serializers.CharField(max_length=5000)

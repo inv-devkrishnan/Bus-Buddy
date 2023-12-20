@@ -17,7 +17,6 @@ import * as yup from "yup";
 import Rating from "@mui/material/Rating";
 
 import { axiosApi } from "../../utils/axiosApi";
-import CustomPaginator from "../common/paginator/CustomPaginator";
 import Col from "react-bootstrap/esm/Col";
 
 export default function ReviewHistory() {
@@ -307,7 +306,7 @@ export default function ReviewHistory() {
                     name="review_title"
                     id="review_title"
                     placeholder="Review Title"
-                    maxlength={255}
+                    maxLength={255}
                     isInvalid={
                       formikProps.errors.review_title &&
                       formikProps.touched.review_title
@@ -329,7 +328,7 @@ export default function ReviewHistory() {
                     name="review_body"
                     id="review_body"
                     placeholder={"Review Body"}
-                    maxlength={3000}
+                    maxLength={3000}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body

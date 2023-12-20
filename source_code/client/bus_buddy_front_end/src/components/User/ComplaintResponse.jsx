@@ -7,6 +7,7 @@ import {
   Dropdown,
   Form,
   InputGroup,
+  Image,
 } from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
 
@@ -84,12 +85,14 @@ export default function ComplaintResponse() {
         {complaintData.length > 0 ? (
           <>
             {complaintData.map((data) => (
-              <Accordion.Item eventKey={data?.id}>
+              <Accordion.Item key={data?.id} eventKey={data?.id}>
                 <Accordion.Header>
                   {data?.complaint_title} - ({data?.created_date})
                 </Accordion.Header>
                 <Accordion.Body className="d-flex flex-column m-1">
                   {data?.complaint_body}
+                  <Image src={data?.complaint_image} alt="" width={500} />
+
                   <Button
                     variant="link"
                     style={{ textDecoration: "none" }}
@@ -105,18 +108,15 @@ export default function ComplaintResponse() {
               </Accordion.Item>
             ))}
           </>
-        ) : searchQuery.length > 0 ? (
-          <div className="d-flex m-5">
-            <ExclamationCircle color="grey" size={90} />
-            <div className="m-4">
-              <h3>No result found!!</h3>
-            </div>
-          </div>
         ) : (
           <div className="d-flex m-5">
             <ExclamationCircle color="grey" size={90} />
             <div className="m-4">
-              <h3>You have not registered any complaints yet!!</h3>
+              {searchQuery.length > 0 ? (
+                <h3>No result found!!</h3>
+              ) : (
+                <h3>You have not registered any complaints yet!!</h3>
+              )}
             </div>
           </div>
         )}

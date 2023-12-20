@@ -19,6 +19,7 @@ import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
+import CouponFirstTime from "./CouponFirstTime";
 
 const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
@@ -288,19 +289,24 @@ const TravellerDetail = () => {
       </Card>
 
       <Card style={{ width: "75%", padding: 5 }}>
+        <CardTitle>Coupon Details</CardTitle>
+        <CouponFirstTime />
+      </Card>
+
+      <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
-          <div className="d-flex justify-content-between" >
-          <CardText style={{ margin: 5 }}>
-           <h5>
-           <strong>Total Amount (₹) :</strong>{" "}
-            {localStorage.getItem("total_amount")}
-           </h5>
-          </CardText>
-          <Card className="ps-5 pe-5 pt-2 pb-2">
-          <CardTitle>Refund Policy</CardTitle>
-          <RefundPolicy/>
-          </Card>
+          <div className="d-flex justify-content-between">
+            <CardText style={{ margin: 5 }}>
+              <h5>
+                <strong>Total Amount (₹) :</strong>{" "}
+                {localStorage.getItem("total_amount")}
+              </h5>
+            </CardText>
+            <Card className="ps-5 pe-5 pt-2 pb-2">
+              <CardTitle>Refund Policy</CardTitle>
+              <RefundPolicy />
+            </Card>
           </div>
         </CardBody>
       </Card>

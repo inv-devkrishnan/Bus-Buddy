@@ -8,7 +8,7 @@ export default function UserComplaint() {
   return (
     <div className="d-flex flex-column p-2 bd-highlight">
       <div className="mb-auto p-2 bd-highlight m-2">
-        <h1>Submit a Complaint</h1>
+        <h1>Register a Complaint</h1>
         <p className="lead">Let us know how we can improve your experience</p>
       </div>
       <Tabs

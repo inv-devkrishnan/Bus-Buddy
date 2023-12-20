@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 from unittest.mock import patch, MagicMock, Mock
-from .models import User, Bookings, UserReview
+from .models import User, Bookings, UserReview, UserComplaints
 from bus_owner.models import (
     Bus,
     SeatDetails,
@@ -171,6 +171,15 @@ class BaseTest(TestCase):
             rating=3,
         )
 
+        self.complaint = UserComplaints.objects.create(
+            user=self.user,
+            complaint_title="Very Bad experience",
+            complaint_body="So and so",
+            complaint_for=self.owner,
+            response="Fill fix",
+            status=1,
+        )
+
         self.register = reverse("register-user")
         self.create_payment_intent = reverse("create-payment-intent")
         self.mock_create_payment_intent = (
@@ -179,6 +188,7 @@ class BaseTest(TestCase):
         self.book = reverse("book-seat")
         self.complaint = reverse("register-complaint")
         self.view_seat = reverse("view-seat-detail")
+        self.list_complaints = reverse("list-complaints")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -882,6 +892,17 @@ class ViewSeatDetailsTest(BaseTest):
                 "start_location": self.location_1.id,
                 "end_location": self.location_2.id,
             },
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+
+class ViewComplaints(BaseTest):
+    def test_01_get_complaint_details(self):
+        response = self.client.get(
+            self.list_complaints,
+            {"ordering": "", "search": ""},
             format="json",
         )
         print(response.content)
