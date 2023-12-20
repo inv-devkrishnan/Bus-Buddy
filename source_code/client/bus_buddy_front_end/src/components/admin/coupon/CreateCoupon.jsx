@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
+import Select from "react-select";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
@@ -13,6 +14,7 @@ function CreateCoupon() {
     handleSubmit,
     trigger,
     unregister,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -22,25 +24,53 @@ function CreateCoupon() {
   const navigate = useNavigate();
 
   const get_bus_owner_list = async () => {
+    let BusDataList = [];
     await axiosApi
       .get("adminstrator/create-coupon/?status=0")
       .then((result) => {
         if (result.data?.error_code) {
           console.log(result.data);
         } else {
-          setBusOwnerList(result.data);
+           // eslint-disable-next-line array-callback-return
+           result.data.map((bus) => {
+            let busData = {
+              value: bus.id,
+              label:
+                bus?.first_name+
+                " from " +
+                bus?.company_name
+            };
+            BusDataList.push(busData);
+          });
+          setBusOwnerList(BusDataList);
         }
       });
   };
 
   const get_trip_list = async () => {
+    let tripDataList = [];
     await axiosApi
       .get("adminstrator/create-coupon/?status=1")
       .then((result) => {
         if (result.data?.error_code) {
           console.log(result.data);
         } else {
-          setTripList(result.data);
+          // eslint-disable-next-line array-callback-return
+          result.data.map((trip) => {
+            let tripData = {
+              value: trip.id,
+              label:
+                trip?.route?.start_point?.location_name +
+                "to" +
+                trip?.route?.end_point?.location_name +
+                " on" +
+                trip?.start_date +
+                "  by " +
+                trip?.user?.company_name,
+            };
+            tripDataList.push(tripData);
+          });
+          setTripList(tripDataList);
         }
       });
   };
@@ -87,6 +117,7 @@ function CreateCoupon() {
             <Form.Label>Coupon Name</Form.Label>
             <Form.Control
               type="text"
+              maxLength={80}
               placeholder="Coupon Name (maximum 80 characters)"
               name="coupon_name"
               {...register("coupon_name", { required: true, maxLength: 80 })}
@@ -107,6 +138,7 @@ function CreateCoupon() {
               as="textarea"
               rows={1}
               name="coupon_desc"
+              maxLength={500}
               placeholder="Coupon Description (maximum 500 characters)"
               {...register("coupon_description", {
                 required: true,
@@ -180,51 +212,55 @@ function CreateCoupon() {
           {Number(availability) === 1 && (
             <Form.Group as={Col} md="4">
               <Form.Label>Select Bus Owner</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
+              <Controller
                 name="user"
-                {...register("user", {
-                  required: true,
-                  min: 0,
-                  valueAsNumber: true,
-                })}
-              >
-                <option value={-1}>--select--</option>
-                {busOwnerList.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.first_name} from {user.company_name}
-                  </option>
-                ))}
-              </Form.Select>
-              {errors.user && errors.user.type === "min" && (
-                <p className="text-danger mt-2"> * Select a valid bus owner</p>
-              )}
+                control={control}
+                rules={{ required: "Select a valid bus owner" }}
+                render={({ field }) => (
+                  <>
+                    <Select
+                      {...field}
+                      value={busOwnerList.find(
+                        (option) => option.value === field.value
+                      )}
+                      options={busOwnerList}
+                      onChange={(selectedOption) =>
+                        field.onChange(selectedOption.value)
+                      }
+                    ></Select>
+                    {errors.user && (
+                      <p className="text-danger mt-2">{errors.user.message}</p>
+                    )}
+                  </>
+                )}
+              ></Controller>
             </Form.Group>
           )}
           {Number(availability) === 2 && (
             <Form.Group as={Col} md="5">
               <Form.Label>Select Trip</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
+              <Controller
                 name="trip"
-                {...register("trip", {
-                  required: true,
-                  min: 0,
-                  valueAsNumber: true,
-                })}
-              >
-                <option value={-1}>--select--</option>
-                {tripList.map((trip) => (
-                  <option key={trip.id} value={trip.id}>
-                    {trip?.route?.start_point?.location_name} to{" "}
-                    {trip?.route?.end_point?.location_name} on{" "}
-                    {trip?.start_date} by {trip?.user?.company_name}
-                  </option>
-                ))}
-              </Form.Select>
-              {errors.trip && errors.trip.type === "min" && (
-                <p className="text-danger mt-2"> * Select a valid trip</p>
-              )}
+                control={control}
+                rules={{ required: "Select a valid trip" }}
+                render={({ field }) => (
+                  <>
+                    <Select
+                      {...field}
+                      value={tripList.find(
+                        (option) => option.value === field.value
+                      )}
+                      options={tripList}
+                      onChange={(selectedOption) =>
+                        field.onChange(selectedOption.value)
+                      }
+                    ></Select>
+                    {errors.trip && (
+                      <p className="text-danger mt-2">{errors.trip.message}</p>
+                    )}
+                  </>
+                )}
+              ></Controller>
             </Form.Group>
           )}
         </Row>
