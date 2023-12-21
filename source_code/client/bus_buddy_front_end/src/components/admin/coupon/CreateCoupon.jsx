@@ -31,14 +31,11 @@ function CreateCoupon() {
         if (result.data?.error_code) {
           console.log(result.data);
         } else {
-           // eslint-disable-next-line array-callback-return
-           result.data.map((bus) => {
+          // eslint-disable-next-line array-callback-return
+          result.data.map((bus) => {
             let busData = {
               value: bus.id,
-              label:
-                bus?.first_name+
-                " from " +
-                bus?.company_name
+              label: bus?.first_name + " from " + bus?.company_name,
             };
             BusDataList.push(busData);
           });
@@ -105,7 +102,7 @@ function CreateCoupon() {
       });
   };
   return (
-    <Container>
+    <Container className="ms-2">
       <Row>
         <Col className="mt-3">
           <h1>Create New Coupon</h1>
@@ -113,7 +110,7 @@ function CreateCoupon() {
       </Row>
       <Form className="mt-5" onSubmit={handleSubmit(submitData)}>
         <Row>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
             <Form.Label>Coupon Name</Form.Label>
             <Form.Control
               type="text"
@@ -132,7 +129,7 @@ function CreateCoupon() {
               <p className="text-danger mt-2"> Maximum allowed 80 characters</p>
             )}
           </Form.Group>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
             <Form.Label>Coupon Description</Form.Label>
             <Form.Control
               as="textarea"
@@ -163,7 +160,7 @@ function CreateCoupon() {
                 </p>
               )}
           </Form.Group>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
             <Form.Label>Coupon Eligibility</Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -179,7 +176,7 @@ function CreateCoupon() {
           </Form.Group>
         </Row>
         <Row className="mt-3">
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5">
             <Form.Label>Coupon Availability</Form.Label>
             <Form.Select
               {...register("coupon_availability", {
@@ -210,7 +207,7 @@ function CreateCoupon() {
             </Form.Select>
           </Form.Group>
           {Number(availability) === 1 && (
-            <Form.Group as={Col} md="4">
+            <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
               <Form.Label>Select Bus Owner</Form.Label>
               <Controller
                 name="user"
@@ -237,7 +234,7 @@ function CreateCoupon() {
             </Form.Group>
           )}
           {Number(availability) === 2 && (
-            <Form.Group as={Col} md="5">
+            <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
               <Form.Label>Select Trip</Form.Label>
               <Controller
                 name="trip"
@@ -265,7 +262,7 @@ function CreateCoupon() {
           )}
         </Row>
         <Row className="mt-3">
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
             <Form.Label>Coupon Validity Till</Form.Label>
             <Form.Control
               type="date"
@@ -281,7 +278,7 @@ function CreateCoupon() {
               <p className="text-danger mt-2">* Coupon Validity required</p>
             )}
           </Form.Group>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5">
             <Form.Label>One time use</Form.Label>
             <Form.Select
               name="one_time_use"
@@ -291,7 +288,7 @@ function CreateCoupon() {
               <option value={1}>No</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="5" lg="6" xl="5" xxl="4">
             <Form.Label>Discount (%)</Form.Label>
             <Form.Control
               type="number"
