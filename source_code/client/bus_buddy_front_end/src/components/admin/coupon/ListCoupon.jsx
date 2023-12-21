@@ -1,5 +1,5 @@
-import { Button, Col, Dropdown, Form, Row } from "react-bootstrap";
-import { PlusLg } from "react-bootstrap-icons";
+import { Button, Col, Dropdown, Form, ProgressBar, Row } from "react-bootstrap";
+import { ExclamationCircle, PlusLg } from "react-bootstrap-icons";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
 import CouponCard from "./CouponCard";
@@ -14,6 +14,11 @@ function ListCoupon() {
   const [couponList, setCouponList] = useState([]);
   const couponStatus = useRef(-1);
 
+  const [searchMode, setSearchMode] = useState(false);
+  const [searchEnabled, setSearchEnabled] = useState(false);
+
+  const [couponListLoading, setCouponListLoading] = useState(false);
+
   const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
@@ -22,6 +27,7 @@ function ListCoupon() {
   const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
   const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
 
+  let searchbox = document.getElementById("search_box");
   useEffect(() => {
     getCouponList();
   }, []);
@@ -31,6 +37,7 @@ function ListCoupon() {
     if (url) {
       default_url = url;
     }
+    setCouponListLoading(true);
     await axiosApi
       .get(default_url)
       .then((result) => {
@@ -56,18 +63,54 @@ function ListCoupon() {
           icon: "error",
         });
       });
+    setCouponListLoading(false);
   };
 
   const getCouponsByPage = (page) => {
     let url;
-    if (couponStatus.current === -1) {
-      url = `adminstrator/view-coupon/?page=${page}`;
+    if (searchbox.value) {
+      if (couponStatus.current === -1) {
+        url = `adminstrator/view-coupon/?page=${page}&search=${searchbox.value}`;
+      } else {
+        url = `adminstrator/view-coupon/?page=${page}&status=${couponStatus.current}&search=${searchbox.value}`;
+      }
+      console.log("in search mode");
     } else {
-      url = `adminstrator/view-coupon/?page=${page}&status=${couponStatus.current}`;
+      if (couponStatus.current === -1) {
+        url = `adminstrator/view-coupon/?page=${page}`;
+      } else {
+        url = `adminstrator/view-coupon/?page=${page}&status=${couponStatus.current}`;
+      }
+      console.log("in normal mode");
     }
 
     getCouponList(url);
   };
+
+  const renderLoading = (
+    <div className="mt-5">
+      <ProgressBar animated now={100} className="w-25 ms-auto me-auto" />
+      <p className="ms-3 mt-3 text-center">Please Wait</p>
+    </div>
+  );
+
+  const renderCouponList =
+    couponList.length > 0 ? (
+      couponList.map((coupon) => (
+        <Row key={coupon.id}>
+          <Col xxl={12} xl={12} lg={12} md={12}>
+            <CouponCard coupon={coupon}></CouponCard>
+          </Col>
+        </Row>
+      ))
+    ) : (
+      <div className="mt-5">
+        <div className="d-flex justify-content-center">
+          <ExclamationCircle size={36}></ExclamationCircle>
+        </div>
+        <h3 className="text-center mt-3">List empty !</h3>
+      </div>
+    );
   return (
     <Container fluid className="ms-2 mt-2">
       <Row>
@@ -89,7 +132,7 @@ function ListCoupon() {
         </Col>
       </Row>
       <Row className="mt-2">
-        <Col>
+        <Col xxl={1} xl={2} lg={3}>
           <Dropdown>
             <Dropdown.Toggle variant="light">
               View : {couponStatus.current === 0 && "Active Coupons"}
@@ -125,27 +168,69 @@ function ListCoupon() {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col lg={8} className="d-flex justify-content-end me-3">
-          <div className="d-flex">
+        <Col
+          xxl={11}
+          xl={10}
+          lg={9}
+          md={12}
+          sm={12}
+          xs={11}
+          className="d-flex justify-content-end"
+          style={{ marginLeft: "-2%" }}
+        >
+          <div className="d-flex justify-content-start ">
             <Form.Control
+              id="search_box"
               placeholder="Search by coupon name"
+              onChange={(e) => {
+                e.target.value.length > 0
+                  ? setSearchEnabled(true)
+                  : setSearchEnabled(false);
+              }}
               maxLength={50}
+              disabled={searchMode}
               style={{ maxWidth: "250px" }}
             />
-            <Button variant="primary" className="ms-2 ">
-              Search
-            </Button>
+            {searchMode ? (
+              <Button
+                variant="danger"
+                className="ms-2 "
+                onClick={() => {
+                  setSearchMode(false);
+                  searchbox.value = "";
+                  setSearchEnabled(false);
+                  getCouponsByPage(1);
+                }}
+              >
+                Clear
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                className="ms-2 "
+                disabled={!searchEnabled}
+                onClick={() => {
+                  if (searchbox.value) {
+                    setSearchMode(true);
+                    getCouponsByPage(1);
+                  }
+                }}
+              >
+                Search
+              </Button>
+            )}
           </div>
         </Col>
       </Row>
+      {searchMode && (
+        <Row className="mt-2">
+          <Col>
+            <h2>Search result for "{searchbox.value}"</h2>
+          </Col>
+        </Row>
+      )}
       <Row className="mt-2 pb-5">
-        {couponList.map((coupon) => (
-          <Row key={coupon.id}>
-            <Col>
-              <CouponCard coupon={coupon}></CouponCard>
-            </Col>
-          </Row>
-        ))}
+        {couponListLoading ? renderLoading : renderCouponList}
       </Row>
       <Row>
         <CustomPaginator

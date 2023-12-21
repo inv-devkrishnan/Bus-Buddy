@@ -11,17 +11,18 @@
 }
 .main_content
 {
-    margin-left: 340px;
+    padding-left: 340px;
+    overflow-x: hidden;
 }
 
 @media screen and (max-width: 768px) {
     .sidebar {
         width: 100%; 
-        height: auto;
+        height: 0%;
         box-shadow: none; 
     }
     .main_content{
-        margin-left: 0px;
+        padding-left: 0px;
         padding-top: 340px;
     }
 }

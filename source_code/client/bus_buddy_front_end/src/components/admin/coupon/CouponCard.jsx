@@ -4,7 +4,7 @@ import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 
 function CouponCard(props) {
   return (
-    <Card className="p-3" style={{ width: "100%" }}>
+    <Card className="p-3 w-100">
       <Card.Title>{props.coupon.coupon_name}</Card.Title>
       <Card.Text className="text-secondary">
         Coupon Code :{" "}
@@ -47,18 +47,42 @@ function CouponCard(props) {
             </Col>
           </Row>
         </Container>
-        <div className="d-flex" style={{ maxHeight: "40px" }}>
-          <Button className="me-2">View</Button>
-          <Button variant="danger" className="me-2">
-            Delete
-          </Button>
-          {props.coupon.status === 0 && (
-            <Button variant="warning">Deactivate</Button>
-          )}
-          {props.coupon.status === 1 && (
-            <Button variant="success">Activate</Button>
-          )}
-        </div>
+        <Container>
+          <Row className="d-flex justify-content-end">
+            <Col
+              xxl={4}
+              xl={5}
+              lg={5}
+              md={12}
+              className="d-flex justify-content-center mb-1"
+            >
+              <Button style={{width:"117px"}}>View Details</Button>
+            </Col>
+            <Col
+             xxl={4}
+             xl={5}
+             lg={5}
+             md={12}
+              className="d-flex justify-content-center  mb-1"
+            >
+              <Button style={{width:"117px"}} variant="danger">Delete</Button>
+            </Col>
+            <Col
+               xxl={4}
+               xl={5}
+               lg={5}
+               md={12}
+              className="d-flex justify-content-center  mb-1"
+            >
+              {props.coupon.status === 0 && (
+                <Button style={{width:"117px"}} variant="warning">Deactivate</Button>
+              )}
+              {props.coupon.status === 1 && (
+                <Button  style={{width:"117px"}}  variant="success">Activate</Button>
+              )}
+            </Col>
+          </Row>
+        </Container>
       </div>
     </Card>
   );

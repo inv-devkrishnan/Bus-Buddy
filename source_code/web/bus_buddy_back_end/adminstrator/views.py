@@ -782,6 +782,7 @@ class CreateCoupon(APIView):
 
 
 class ViewCoupons(ListAPIView):
+    permission_classes = (AllowAdminsOnly,)
     queryset = CouponDetails.objects.filter(~Q(status=99)).order_by("-created_date")
     serializer_class = CVS
     pagination_class = CouponPagination
@@ -792,7 +793,11 @@ class ViewCoupons(ListAPIView):
     ]
 
     def list(self, request, *args, **kwargs):
-        if (request.GET.get("status") != "0") and (request.GET.get("status") != "1") and (request.GET.get("status")):
+        if (
+            (request.GET.get("status") != "0")
+            and (request.GET.get("status") != "1")
+            and (request.GET.get("status"))
+        ):
             logger.warn("invalid query params")
             return Response({"error_code": "D1006"})
         queryset = self.filter_queryset(self.get_queryset())

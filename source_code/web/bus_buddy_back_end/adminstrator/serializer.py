@@ -2,7 +2,7 @@ from rest_framework import serializers
 from datetime import date
 from account_manage.models import User
 from normal_user.models import UserComplaints
-from bus_owner.models import Trip, Routes
+from bus_owner.models import Trip, Routes, LocationData
 from .models import CouponDetails
 from django.core.validators import RegexValidator, MinValueValidator
 from rest_framework.validators import UniqueValidator
@@ -119,7 +119,16 @@ class BusOwnerListSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "company_name")
 
 
+class LocationDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocationData
+        fields = ("location_name",)
+
+
 class StartPointAndEndPointSerializer(serializers.ModelSerializer):
+    start_point = LocationDataSerializer()
+    end_point = LocationDataSerializer()
+
     class Meta:
         model = Routes
         fields = ("start_point", "end_point")
@@ -128,10 +137,11 @@ class StartPointAndEndPointSerializer(serializers.ModelSerializer):
 
 class TripListSerializer(serializers.ModelSerializer):
     route = StartPointAndEndPointSerializer()
-    user  = BusOwnerListSerializer()
+    user = BusOwnerListSerializer()
+
     class Meta:
         model = Trip
-        fields = ("id", "route", "start_date","user")
+        fields = ("id", "route", "start_date", "user")
 
 
 class CouponCreationSerializer(serializers.ModelSerializer):
@@ -177,9 +187,12 @@ class CouponCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CouponDetails
         fields = "__all__"
+
+
 class CouponViewSerializer(serializers.ModelSerializer):
+    user = BusOwnerListSerializer()
+    trip = TripListSerializer()
+
     class Meta:
         model = CouponDetails
-        fields = "__all__"
-        
-                
+        exclude = ("created_date", "updated_date")
