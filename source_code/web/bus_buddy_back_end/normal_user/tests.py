@@ -168,6 +168,7 @@ class BaseTest(TestCase):
             booking_id=self.booking_completed,
             review_title="New Title",
             review_body="New Body",
+            review_for=self.booking_completed.trip.user,
             rating=3,
         )
 
@@ -176,7 +177,7 @@ class BaseTest(TestCase):
             complaint_title="Very Bad experience",
             complaint_body="So and so",
             complaint_for=self.owner,
-            response="Fill fix",
+            response="Will fix",
             status=1,
         )
 

@@ -15,15 +15,18 @@ export default function ComplaintForm() {
   const [visible, setVisible] = useState(false); // for handling select visibility
   const [available, setAvailable] = useState([]); // for storing available options for select
   const [busArray, setBusArray] = useState([]); // for storing bus owner ids
-  const photoRules = ["image/jpg", "image/jpeg", "image/png"];
+
+  const photoRules = ["image/jpg", "image/jpeg", "image/png"]; // rules for image type
 
   let config = {
+    // to override content type
     headers: {
       "Content-Type": "multipart/form-data",
     },
   };
 
   useEffect(() => {
+    // for getting values for 'complaint_for'
     axiosApi
       .get(`user/register-complaint/`)
       .then((res) => {
@@ -35,11 +38,12 @@ export default function ComplaintForm() {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error:", err);
       });
   }, []);
 
   const validationSchema = yup.object().shape({
+    // validation for the form
     complaint_title: yup.string().required("Subject is required"),
     complaint_body: yup.string().required("Description is required"),
     complaint_for: yup
@@ -60,7 +64,7 @@ export default function ComplaintForm() {
   });
 
   const onSubmit = (values, actions) => {
-    console.log(values);
+    // complaint form submission
     showLoadingAlert("Registering complaint");
 
     const formData = new FormData();
@@ -68,10 +72,6 @@ export default function ComplaintForm() {
     formData.append("complaint_body", values.complaint_body);
     formData.append("complaint_for", values.complaint_for);
     formData.append("complaint_image", values.complaint_image);
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
 
     axiosApi
       .post(`user/register-complaint/`, formData, config)
@@ -96,6 +96,7 @@ export default function ComplaintForm() {
         });
       });
   };
+
   return (
     <div>
       <Formik

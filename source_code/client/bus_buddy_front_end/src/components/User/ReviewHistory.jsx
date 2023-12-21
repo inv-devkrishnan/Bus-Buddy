@@ -33,6 +33,7 @@ export default function ReviewHistory() {
   const [ratingValue, setRatingValue] = useState(0); // for storing rating value
 
   const viewReviewHistory = useCallback(async () => {
+    // api call for getting all reviews
     await axiosApi
       .get(`user/review-history/?page=${page}&&ordering=${sort}`)
       .then((res) => {
@@ -53,6 +54,7 @@ export default function ReviewHistory() {
   }, [page, sort]);
 
   useEffect(() => {
+    // api call
     viewReviewHistory();
   }, [viewReviewHistory]);
 
@@ -69,6 +71,7 @@ export default function ReviewHistory() {
   };
 
   const getBadgeColor = (rate) => {
+    // for changing the badge color
     switch (rate) {
       case 0:
         return "secondary";
@@ -88,6 +91,7 @@ export default function ReviewHistory() {
   };
 
   const handleEdit = (id) => {
+    // calling modal and api call for getting data
     setReviewModal(true);
     axiosApi
       .get(`user/review-update/?review_id=${id}`)
@@ -106,6 +110,7 @@ export default function ReviewHistory() {
   };
 
   const validationSchema = yup.object().shape({
+    // validation for the form
     review_title: yup.string().required("Review Title is required"),
     review_body: yup.string().required("Description is required"),
     rating: yup
@@ -117,6 +122,7 @@ export default function ReviewHistory() {
   });
 
   const onSubmit = (values) => {
+    // form submission
     axiosApi
       .put(`user/review-update/?review_id=${existingData?.id}`, values)
       .then((res) => {

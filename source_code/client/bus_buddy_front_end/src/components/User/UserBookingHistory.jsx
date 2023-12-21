@@ -184,6 +184,7 @@ export default function UserBookingHistory() {
   };
 
   const validationSchema = yup.object().shape({
+    // review form validation
     review_title: yup.string().required("Review Title is required"),
     review_body: yup.string().required("Description is required"),
     rating: yup
@@ -195,6 +196,7 @@ export default function UserBookingHistory() {
   });
 
   const onSubmit = (values) => {
+    // review form submission
     console.log(values);
     showLoadingAlert("Submitting review");
     axiosApi
