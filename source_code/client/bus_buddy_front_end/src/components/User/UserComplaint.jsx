@@ -11,11 +11,7 @@ export default function UserComplaint() {
         <h1>Register a Complaint</h1>
         <p className="lead">Let us know how we can improve your experience</p>
       </div>
-      <Tabs
-        defaultActiveKey="form"
-        id="uncontrolled-tab-example"
-        className="m-3"
-      >
+      <Tabs defaultActiveKey="form" id="uncontrolled-tab" className="m-3">
         <Tab eventKey="form" title="Complaint Form">
           <ComplaintForm />
         </Tab>

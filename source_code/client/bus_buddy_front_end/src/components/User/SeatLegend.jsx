@@ -10,7 +10,12 @@ function SeatLegend() {
   // component which shows the different seat symbols and their meaning
   return (
     <Card variant="outlined" className="card">
-      <Typography id="modal-modal-subtitle" variant="h6" component="h5">
+      <Typography
+        id="modal-modal-subtitle"
+        variant="h6"
+        component="h5"
+        className="m-1"
+      >
         Seat Legend
       </Typography>
       <div className="d-flex align-items-center flex-sm-row  flex-md-row">
