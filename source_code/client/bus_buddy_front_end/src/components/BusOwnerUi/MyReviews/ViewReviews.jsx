@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
-import Swal from "sweetalert2";
 import { StarFill } from 'react-bootstrap-icons';
 import { Pagination,Badge } from "react-bootstrap";
 
@@ -15,8 +13,6 @@ export default function Viewallbus() {
   const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [active, setActive] = useState(1);
-
-  const navi = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
