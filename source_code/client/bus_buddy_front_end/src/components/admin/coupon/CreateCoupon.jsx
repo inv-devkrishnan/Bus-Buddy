@@ -18,12 +18,13 @@ function CreateCoupon() {
     formState: { errors },
   } = useForm();
 
-  const [availability, setAvailability] = useState(0);
-  const [busOwnerList, setBusOwnerList] = useState([]);
-  const [tripList, setTripList] = useState([]);
+  const [availability, setAvailability] = useState(0); // state variable to store the value of availability option
+  const [busOwnerList, setBusOwnerList] = useState([]); // to store bus owner list
+  const [tripList, setTripList] = useState([]); // to store trip list
   const navigate = useNavigate();
 
   const get_bus_owner_list = async () => {
+    // function to get bus owner list
     let BusDataList = [];
     await axiosApi
       .get("adminstrator/create-coupon/?status=0")
@@ -45,6 +46,7 @@ function CreateCoupon() {
   };
 
   const get_trip_list = async () => {
+    // function to get triplist
     let tripDataList = [];
     await axiosApi
       .get("adminstrator/create-coupon/?status=1")
@@ -58,9 +60,9 @@ function CreateCoupon() {
               value: trip.id,
               label:
                 trip?.route?.start_point?.location_name +
-                "to" +
+                " to " +
                 trip?.route?.end_point?.location_name +
-                " on" +
+                " on " +
                 trip?.start_date +
                 "  by " +
                 trip?.user?.company_name,
@@ -73,6 +75,7 @@ function CreateCoupon() {
   };
 
   const submitData = (data) => {
+    // function to create coupon
     showLoadingAlert("Creating Coupon");
     axiosApi
       .post("adminstrator/create-coupon/", data)
@@ -102,7 +105,7 @@ function CreateCoupon() {
       });
   };
   return (
-    <Container className="ms-2">
+    <Container className="ms-2" style={{height:"90vh"}}>
       <Row>
         <Col className="mt-3">
           <h1>Create New Coupon</h1>

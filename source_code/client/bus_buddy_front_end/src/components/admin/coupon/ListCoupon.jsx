@@ -11,11 +11,11 @@ import CustomPaginator from "../../common/paginator/CustomPaginator";
 
 function ListCoupon() {
   const navigate = useNavigate();
-  const [couponList, setCouponList] = useState([]);
-  const couponStatus = useRef(-1);
+  const [couponList, setCouponList] = useState([]); // to store coupon list
+  const couponStatus = useRef(-1); // to store coupon status -1 means show all coupon regardless of status
 
-  const [searchMode, setSearchMode] = useState(false);
-  const [searchEnabled, setSearchEnabled] = useState(false);
+  const [searchMode, setSearchMode] = useState(false); // to indicate weather a search operation is ongoing
+  const [searchEnabled, setSearchEnabled] = useState(false); // to enable and disable search button
 
   const [couponListLoading, setCouponListLoading] = useState(false);
 
@@ -33,6 +33,7 @@ function ListCoupon() {
   }, []);
 
   const getCouponList = async (url) => {
+    // function to get list of Coupons
     let default_url = "adminstrator/view-coupon/";
     if (url) {
       default_url = url;
@@ -67,6 +68,7 @@ function ListCoupon() {
   };
 
   const getCouponsByPage = (page) => {
+    // function to get coupon list by page number
     let url;
     if (searchbox.value) {
       if (couponStatus.current === -1) {

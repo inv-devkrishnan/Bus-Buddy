@@ -312,7 +312,7 @@ function ListUsers(props) {
       </Row>
 
       <Row>
-        <Col className="ms-5">
+        <Col xl={4} lg={4} md={6} sm={3}>
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current sorting mode */}
@@ -350,7 +350,7 @@ function ListUsers(props) {
           </Dropdown>
         </Col>
 
-        <Col>
+        <Col xl={4} lg={4} md={6} sm={3}>
           <Dropdown className={props.busApproval ? "invisible" : "visible"}>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current user status mode */}
@@ -390,7 +390,7 @@ function ListUsers(props) {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col>
+        <Col xl={4} lg={4} md={12} sm={6}>
           <div className="d-flex">
             <Form.Control
               placeholder="Search"

@@ -526,7 +526,6 @@ class CreateCouponTest(BaseTest):
             "discount": 2,
         }
         response = self.client.post(url, data=data, format="json")
-        print(response.content)
         self.assertEqual(response.status_code, 201)
 
     def test_05_cant_create_coupon_invalid_data(self):

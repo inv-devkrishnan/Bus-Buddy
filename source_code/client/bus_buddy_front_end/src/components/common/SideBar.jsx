@@ -3,19 +3,19 @@ import { useState, useEffect } from "react";
 import { Accordion, AccordionHeader } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
-import { List} from "react-bootstrap-icons";
+import { List } from "react-bootstrap-icons";
 import "./SideBar.css";
-
 
 function SideBar(props) {
   const [showDiv, setShowDiv] = useState(false);
-  const [activeKey, setActiveKey] = useState('1');
+  const [activeKey, setActiveKey] = useState("1");
 
   const handleAccordionToggle = (eventKey) => {
     setActiveKey(activeKey === eventKey ? null : eventKey);
   };
 
   const handleAccordionCollapse = () => {
+    // function to collapse the Accordion
     setActiveKey(null);
   };
 
@@ -37,25 +37,26 @@ function SideBar(props) {
 
   const optionsList = (option) => {
     return (
-      <Accordion.Item eventKey="0">
-       <ListGroup key={option.name}>
-        <ListGroup.Item key={option.name}>
-          <button
-
-          className="options"
-            style={
-              option.state
-                ? { color: "#0275D8", fontWeight: "bold" }
-                : { color: "black" }   
-            }
-            onClick={()=>{option.onChange(); handleAccordionCollapse();}}
-          >
-            {option.name}
-          </button>
-        </ListGroup.Item>
-      </ListGroup>
+      <Accordion.Item eventKey="0" key={option.name}>
+        <ListGroup>
+          <ListGroup.Item>
+            <button
+              className="options"
+              style={
+                option.state
+                  ? { color: "#0275D8", fontWeight: "bold" }
+                  : { color: "black" }
+              }
+              onClick={() => {
+                option.onChange();
+                handleAccordionCollapse();
+              }}
+            >
+              {option.name}
+            </button>
+          </ListGroup.Item>
+        </ListGroup>
       </Accordion.Item>
-      
     );
   };
   return (
@@ -64,10 +65,13 @@ function SideBar(props) {
         <h2 className="text-light text-center pt-3">{props.heading}</h2>
       </div>
       {showDiv ? (
-        <Accordion flush activeKey={activeKey} onSelect={handleAccordionToggle} >
-          <AccordionHeader><List size="25" ></List><span className="fw-bold ms-2">Menu</span></AccordionHeader>
+        <Accordion flush activeKey={activeKey} onSelect={handleAccordionToggle}>
+          <AccordionHeader>
+            <List size="25"></List>
+            <span className="fw-bold ms-2">Menu</span>
+          </AccordionHeader>
           <AccordionBody>
-           {props.options.map((option) => optionsList(option))}
+            {props.options.map((option) => optionsList(option))}
           </AccordionBody>
         </Accordion>
       ) : (
