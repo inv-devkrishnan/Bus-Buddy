@@ -16,50 +16,57 @@ function ComplaintCard(props) {
     event.preventDefault();
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
-    else
-    {
+    } else {
       sendResponse();
     }
 
     setValidated(true);
   };
 
-  const sendResponse =async()=>
-  {
-    let data ={
-      response : document.getElementById("exampleForm.ControlTextarea1").value,
-    }
-    await axiosApi.put(`adminstrator/respond-complaint/${props.complaint.id}/`,data).then((result)=>{
-      if(result.data?.error_code)
-      {
-        console.log(result.data)
+  const sendResponse = async () => {
+    let data = {
+      response: document.getElementById("exampleForm.ControlTextarea1").value,
+    };
+    await axiosApi
+      .put(`adminstrator/respond-complaint/${props.complaint.id}/`, data)
+      .then((result) => {
+        if (result.data?.error_code) {
+          console.log(result.data);
+          Swal.fire({
+            title: "Something went wrong !",
+            icon: "error",
+            text: getComplaintErrorMessages(result.data?.error_code),
+          });
+        } else {
+          Swal.fire({
+            title: "Responded to Complaint",
+            icon: "success",
+          });
+          if (props.complaintListLenght > 1) {
+            props.getComplaintsbyPage(props.currentPage);
+          } // loads the previous page if current page is empty
+          else if (props.hasPrevious) {
+            props.getComplaintsbyPage(props.currentPage - 1);
+          } // loads the first page is previous not avaliable
+          else {
+            props.getComplaintsbyPage(1);
+          }
+          handleClose();
+        }
+      })
+      .catch(function (error) {
+        console.log("inside catch" + error);
         Swal.fire({
           title: "Something went wrong !",
           icon: "error",
-          text:  getComplaintErrorMessages(result.data?.error_code),
+          text: getComplaintErrorMessages(error?.response?.data?.error_code),
         });
-      }
-      else
-      {
-        Swal.fire({
-          title: "Responded to Complaint",
-          icon: "success"
-        });
-        props.getComplaintsbyPage(props.currentPage);
-        handleClose();
-      }
-
-    }).catch(function (error) {
-      console.log("inside catch"+error)
-      Swal.fire({
-        title: "Something went wrong !",
-        icon: "error",
-        text:  getComplaintErrorMessages(error?.response?.data?.error_code),
       });
-    });
-  }
-  const handleClose = () => {setShow(false); setValidated(false)};
+  };
+  const handleClose = () => {
+    setShow(false);
+    setValidated(false);
+  };
   const handleShow = () => setShow(true);
   return (
     <Card className="p-3 me-3" style={{ width: "90%" }}>
@@ -127,9 +134,9 @@ function ComplaintCard(props) {
                     required
                     maxLength={5000}
                   />
-                    <Form.Control.Feedback type="invalid">
-              required field.
-            </Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    required field.
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Button type="submit" variant="success" className="mt-2 mb-5">
                   Send Response
@@ -165,7 +172,9 @@ function ComplaintCard(props) {
 }
 ComplaintCard.propTypes = {
   complaint: PropTypes.object,
-  getComplaintsbyPage : PropTypes.func,
-  currentPage : PropTypes.number,
+  getComplaintsbyPage: PropTypes.func,
+  currentPage: PropTypes.number,
+  complaintListLenght: PropTypes.number,
+  hasPrevious: PropTypes.bool,
 };
 export default ComplaintCard;

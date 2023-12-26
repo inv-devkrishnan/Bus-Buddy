@@ -101,20 +101,20 @@ function ViewComplaints() {
         );
       }
     } else if (sortComplaints.current === -1) {
-        getComplaints(
-          `adminstrator/view-complaints/?page=${page}&created_date__range=${
-            fromSelectedDate.current || "1970-01-01"
-          },${toSelectedDate.current || "2100-01-01"}`
-        );
-      } else {
-        getComplaints(
-          `adminstrator/view-complaints/?page=${page}&created_date__range=${
-            fromSelectedDate.current || "1970-01-01"
-          },${toSelectedDate.current || "2100-01-01"}&status=${
-            sortComplaints.current
-          }`
-        );
-      }
+      getComplaints(
+        `adminstrator/view-complaints/?page=${page}&created_date__range=${
+          fromSelectedDate.current || "1970-01-01"
+        },${toSelectedDate.current || "2100-01-01"}`
+      );
+    } else {
+      getComplaints(
+        `adminstrator/view-complaints/?page=${page}&created_date__range=${
+          fromSelectedDate.current || "1970-01-01"
+        },${toSelectedDate.current || "2100-01-01"}&status=${
+          sortComplaints.current
+        }`
+      );
+    }
   };
   const checkDates = () => {
     if (fromDate && toDate) {
@@ -309,6 +309,8 @@ function ViewComplaints() {
                       complaint={complaint}
                       getComplaintsbyPage={getComplaintsbyPage}
                       currentPage={currentPage}
+                      complaintListLenght={complaintList.length}
+                      hasPrevious={hasPrevious}
                     />
                   </Col>
                 </Row>
