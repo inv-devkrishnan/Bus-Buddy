@@ -24,6 +24,7 @@ import FullSeaterDetails from "./pages/AddSeatDetails/FullSeaterDetails";
 import SingleSeaterDoubleSleeperDetails from "./pages/AddSeatDetails/SingleSeaterDoubleSleeperDetails";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateOwnerProfile from "./components/BusOwnerUi/UpdateOwnerProfile";
+import UpdatePlatformCharges from "./components/admin/UpdatePaltformCharges";
 import TravellerDetail from "./components/User/TravellerDetail";
 import PaymentPage from "./pages/PaymentPage";
 import DeleteAccountPage from "./pages/DeleteAccount";
@@ -74,6 +75,7 @@ function App() {
               element={<SingleSeaterDoubleSleeperDetails />}
             />
             <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
+            <Route path="/UpdatePlatformcharges" element={<UpdatePlatformCharges />} />
             <Route path="/search-trip" element={<SearchTrips />} />
             <Route path="/not-found" element={<NotFoundPage />} />
           </Route>

@@ -1,4 +1,5 @@
 from django.core.validators import RegexValidator
+from django.forms import ValidationError
 from rest_framework import serializers
 from .models import User
 
@@ -35,3 +36,15 @@ class PasswordSerializer(serializers.Serializer):
                 "old password can't be same as new password"
             )
         return super().validate(attrs)
+    
+class PlatformChargesSerializers(serializers.Serializer):
+    extra_charges = serializers.DecimalField(max_digits=5, decimal_places=2)
+
+    def validate_extra_charges(self, value):
+        if not (0 <= value <= 100):
+            raise ValidationError("Extra charges must be in the range of 0 to 100.")
+        return value
+    
+    class Meta:
+        model = User
+        fields = "extra_charges"

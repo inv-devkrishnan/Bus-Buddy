@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/Image";
+import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
 import AdminProfileSplash from "../../assets/images/adminProfileView.png";
@@ -160,20 +161,31 @@ function UpdateProfile(props) {
                       {errors.phone && touched.phone && errors.phone}
                     </p>
                   </Form.Group>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={isSubmitting}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    Update
-                  </Button>
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Update
+                    </Button>
+                    <Link to={"/UpdatePlatformCharges"}>
+                      <button className="btn btn-primary"> Platform charges </button>
+                    </Link>
+                  </div>
                 </Form>
               )}
             </Formik>
           </Card>
         </Col>
         <Col xs={8} lg={4}>
-            <Image className="mt-5" src={AdminProfileSplash} alt="admin_splash"></Image>
+          <Image
+            className="mt-5"
+            src={AdminProfileSplash}
+            alt="admin_splash"
+          ></Image>
         </Col>
       </Row>
     </Container>

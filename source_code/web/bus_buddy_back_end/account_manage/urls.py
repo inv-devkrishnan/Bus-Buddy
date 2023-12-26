@@ -8,5 +8,6 @@ urlpatterns = [
     path("delete-account/",views.DeleteAccount.as_view(),name="delete_account"),
     path("change-password/",views.ChangePassword.as_view(),name="change_password"),
     path("refresh/", TokenRefreshView.as_view(), name="refresh"),
+    path("platformcharges/", views.UpdatePlatformCharges.as_view(), name="platformcharges"),
    
 ]
