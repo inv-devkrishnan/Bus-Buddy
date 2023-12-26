@@ -185,9 +185,36 @@ class ViewReviewTripSerializer(serializers.ModelSerializer):
     For reviewing trip
     """
 
+    trip_start_date = serializers.DateField()
+    trip_end_date = serializers.DateField()
+    trip_start_time = serializers.TimeField()
+    trip_end_time = serializers.TimeField()
+    bus_name = serializers.CharField()
+    route_start = serializers.CharField()
+    route_end = serializers.CharField()
+    pick_up = serializers.CharField()
+    drop_off = serializers.CharField()
+    booking = serializers.CharField()
+
     class Meta:
         model = UserReview
-        fields = "__all__"
+        fields = [
+            "id",
+            "review_title",
+            "review_body",
+            "rating",
+            "updated_time",
+            "trip_start_date",
+            "trip_end_date",
+            "trip_start_time",
+            "trip_end_time",
+            "bus_name",
+            "route_start",
+            "route_end",
+            "pick_up",
+            "drop_off",
+            "booking",
+        ]
 
 
 class BookingHistoryDataSerializer(serializers.ModelSerializer):
@@ -319,6 +346,16 @@ class ReviewTripSerializer(serializers.ModelSerializer):
             ),
         ],
     )
+
+
+class UpdateReviewGetTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
 
 
 class UpdateReviewTripSerializer(serializers.ModelSerializer):

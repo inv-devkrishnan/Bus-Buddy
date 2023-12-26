@@ -16,7 +16,7 @@ export default function ComplaintForm() {
   const [available, setAvailable] = useState([]); // for storing available options for select
   const [busArray, setBusArray] = useState([]); // for storing bus owner ids
 
-  const photoRules = ["image/jpg", "image/jpeg", "image/png"]; // rules for image type
+  const photoRules = ["image/jpg", "image/jpeg", "image/png", ""]; // rules for image type
 
   let config = {
     // to override content type
@@ -52,15 +52,16 @@ export default function ComplaintForm() {
       .required("This is a required field"),
     complaint_image: yup
       .mixed()
-      .test("is-valid-type", "Not valid type", (value) =>
-        photoRules.includes(value?.type)
+      .test(
+        "is-valid-type",
+        "Not valid a type",
+        (value) => photoRules.includes(value?.type) || []
       )
       .test(
         "is-valid-size",
         "Maximum allowed size is 25MB",
-        (value) => value && value.size <= 26214400
-      )
-      .notRequired(),
+        (value) => (value && value?.size <= 26214400) || []
+      ),
   });
 
   const onSubmit = (values, actions) => {
@@ -208,7 +209,7 @@ export default function ComplaintForm() {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Upload image: </Form.Label>
+              <Form.Label>Upload image as proof: </Form.Label>
               <Form.Control
                 type="file"
                 name="complaint_image"

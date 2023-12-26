@@ -2,6 +2,7 @@ import stripe
 import pytz
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Subquery, OuterRef
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.response import Response
@@ -40,6 +41,7 @@ from .serializer import (
     ReviewTripSerializer,
     ViewReviewTripSerializer,
     UpdateReviewTripSerializer,
+    UpdateReviewGetTripSerializer,
     ComplaintSerializer,
     ListComplaintSerializer,
 )
@@ -895,7 +897,57 @@ class HistoryReviewTrip(ListAPIView):
     def list(self, request):
         user_id = request.user.id
         try:
-            queryset = UserReview.objects.filter(user_id=user_id)
+            queryset = UserReview.objects.filter(user_id=user_id).order_by(
+                "-created_date"
+            )
+            queryset = queryset.annotate(
+                trip_start_date=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("start_date")[:1]
+                ),
+                trip_end_date=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("end_date")[:1]
+                ),
+                trip_start_time=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__start_stop_location__arrival_time"
+                    )[:1]
+                ),
+                trip_end_time=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__start_stop_location__arrival_time"
+                    )[:1]
+                ),
+                bus_name=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("bus__bus_name")[
+                        :1
+                    ]
+                ),
+                route_start=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__start_stop_location__location__location_name"
+                    )[:1]
+                ),
+                route_end=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__start_stop_location__location__location_name"
+                    )[:1]
+                ),
+                pick_up=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__bus_stop"
+                    )
+                ),
+                drop_off=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__bus_stop"
+                    )
+                ),
+                booking=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "booking_id"
+                    )
+                ),
+            )
 
             serializer = ViewReviewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
@@ -935,7 +987,7 @@ class UpdateReviewTrip(UpdateAPIView):
         try:
             if review_id and review_id.isdigit():
                 review = UserReview.objects.get(id=review_id, user_id=user)
-                serialized_data = ViewReviewTripSerializer(review)
+                serialized_data = UpdateReviewGetTripSerializer(review)
             else:
                 return Response({"error": "Invalid review_id"}, status=400)
         except UserReview.DoesNotExist:

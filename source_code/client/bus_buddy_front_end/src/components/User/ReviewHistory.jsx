@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
+import CardGroup from "react-bootstrap/CardGroup";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
@@ -242,28 +243,57 @@ export default function ReviewHistory() {
             <Container>
               <Col>
                 {reviewData.map((review) => (
-                  <Card key={review.id} style={{ width: "80%" }}>
-                    <Card.Body>
-                      <Card.Title>
-                        {review.review_title} &ensp;
-                        <Badge bg={getBadgeColor(review.rating)}>
-                          {review.rating} &nbsp;
-                          <StarFill />
-                        </Badge>
-                      </Card.Title>
-                      <Card.Text>{review.review_body}</Card.Text>
-                      <div className="d-flex justify-content-end">
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            handleEdit(review.id);
-                          }}
-                        >
-                          Edit
-                        </Button>
-                      </div>
-                    </Card.Body>
-                  </Card>
+                  <CardGroup key={review?.id} style={{ margin: 3 }}>
+                    <Card style={{ backgroundColor: "aliceblue" }}>
+                      <Card.Body>
+                        <Card.Title>
+                          {review?.booking}
+                          <br />
+                          {review?.route_start} - {review?.route_end}
+                          <Card.Text>
+                            {review?.pick_up} - {review?.drop_off}
+                          </Card.Text>
+                        </Card.Title>
+
+                        <Card.Text>
+                          Date:&ensp;
+                          {review?.trip_start_date} to {review?.trip_end_date}
+                          <br />
+                          Time:&ensp;
+                          {review?.trip_start_time} - {review?.trip_end_time}
+                        </Card.Text>
+
+                        <Card.Text>Bus name: {review?.bus_name}</Card.Text>
+                      </Card.Body>
+                    </Card>
+
+                    <Card style={{ width: "80%" }}>
+                      <Card.Body>
+                        <Card.Title>
+                          {review?.review_title} &ensp;
+                          <Badge bg={getBadgeColor(review?.rating)}>
+                            {review?.rating} &nbsp;
+                            <StarFill />
+                          </Badge>
+                        </Card.Title>
+                        <Card.Text>{review?.review_body}</Card.Text>
+                        <div className="d-flex justify-content-end">
+                          <Button
+                            variant="primary"
+                            onClick={() => {
+                              handleEdit(review?.id);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </div>
+                      </Card.Body>
+                      <Card.Footer>
+                        Last updated on:&ensp;
+                        {new Date(review.updated_time).toLocaleDateString()}
+                      </Card.Footer>
+                    </Card>
+                  </CardGroup>
                 ))}
               </Col>
             </Container>
