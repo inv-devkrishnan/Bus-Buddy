@@ -308,6 +308,7 @@ function ViewComplaints() {
                     <ComplaintCard
                       complaint={complaint}
                       getComplaintsbyPage={getComplaintsbyPage}
+                      currentPage={currentPage}
                     />
                   </Col>
                 </Row>

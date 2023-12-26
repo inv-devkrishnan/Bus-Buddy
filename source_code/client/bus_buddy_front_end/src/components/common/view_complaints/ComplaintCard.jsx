@@ -4,7 +4,7 @@ import { Button, Card, Form, Modal } from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
-import { getErrorMessage } from "../../../utils/getErrorMessage";
+import { getComplaintErrorMessages } from "../../../utils/getErrorMessage";
 
 function ComplaintCard(props) {
   const [show, setShow] = useState(false);
@@ -37,7 +37,7 @@ function ComplaintCard(props) {
         Swal.fire({
           title: "Something went wrong !",
           icon: "error",
-          text: getErrorMessage(result.data?.error_code),
+          text:  getComplaintErrorMessages(result.data?.error_code),
         });
       }
       else
@@ -46,7 +46,7 @@ function ComplaintCard(props) {
           title: "Responded to Complaint",
           icon: "success"
         });
-        props.getComplaintsbyPage(1);
+        props.getComplaintsbyPage(props.currentPage);
         handleClose();
       }
 
@@ -55,7 +55,7 @@ function ComplaintCard(props) {
       Swal.fire({
         title: "Something went wrong !",
         icon: "error",
-        text: getErrorMessage(error?.response?.data?.error_code),
+        text:  getComplaintErrorMessages(error?.response?.data?.error_code),
       });
     });
   }
@@ -166,5 +166,6 @@ function ComplaintCard(props) {
 ComplaintCard.propTypes = {
   complaint: PropTypes.object,
   getComplaintsbyPage : PropTypes.func,
+  currentPage : PropTypes.number,
 };
 export default ComplaintCard;

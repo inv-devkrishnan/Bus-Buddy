@@ -43,16 +43,7 @@ export function getErrorMessage(errorCode) {
       return "Payment Intent Creation Failed";
     case "D1017":
       return "Payment Cancelation Failed";
-    case "D1018":
-      return "Start date can't be after end date";
-    case "D1019":
-      return "Responding to complaint failed";
-    case "D1020":
-      return "Cannot Respond to the complaint that is already responded";
-    case "D1021":
-      return "Complaint with given id doesn't exising";
-    case "D1022":
-      return "Cannot Respond to the complaint as the current user";
+
     case "T0001":
       return "Too many request please try again later";
     default:
@@ -73,6 +64,23 @@ export function getCouponErrorMessages(errorCode) {
       return "Cannot activate Deleted Coupon";
     case "D1028":
       return "Coupon Activation Failed";
+    default:
+      return getErrorMessage(errorCode);
+  }
+}
+
+export function getComplaintErrorMessages(errorCode) {
+  switch (errorCode) {
+    case "D1018":
+      return "Start date can't be after end date";
+    case "D1019":
+      return "Responding to complaint failed";
+    case "D1020":
+      return "Cannot Respond to the complaint that is already responded";
+    case "D1021":
+      return "Complaint with given id doesn't existing";
+    case "D1022":
+      return "Cannot Respond to the complaint as the current user";
     default:
       return getErrorMessage(errorCode);
   }
