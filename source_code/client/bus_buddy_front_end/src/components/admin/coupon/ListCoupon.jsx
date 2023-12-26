@@ -101,7 +101,13 @@ function ListCoupon() {
       couponList.map((coupon) => (
         <Row key={coupon.id}>
           <Col xxl={12} xl={12} lg={12} md={12}>
-            <CouponCard coupon={coupon}></CouponCard>
+            <CouponCard
+              coupon={coupon}
+              getCouponsByPage={getCouponsByPage}
+              currentPage={currentPage}
+              couponListLenght={couponList.length}
+              hasPrevious={hasPrevious}
+            ></CouponCard>
           </Col>
         </Row>
       ))

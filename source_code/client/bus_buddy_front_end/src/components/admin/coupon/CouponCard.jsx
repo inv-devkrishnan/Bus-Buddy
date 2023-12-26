@@ -10,15 +10,190 @@ import {
   Form,
 } from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
+import Swal from "sweetalert2";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+import { axiosApi } from "../../../utils/axiosApi";
+import { getCouponErrorMessages } from "../../../utils/getErrorMessage";
 
 function CouponCard(props) {
   const [showCouponDetails, setShowCouponDetails] = useState(false); // state variable to show/hide coupon details
 
   const handleClose = () => setShowCouponDetails(false); // function to close coupon details modal
   const handleShow = () => setShowCouponDetails(true); // function to open coupon details modal
+
+  const showDialog = (dialogData) => {
+    return Swal.fire({
+      title: dialogData.title,
+      text: dialogData.text,
+      icon: dialogData.icon,
+      confirmButtonText: dialogData.confirmButtonText,
+      confirmButtonColor: dialogData.confirmButtonColor,
+      showCancelButton: dialogData.showCancelButton,
+      cancelButtonText: dialogData.cancelButtonText,
+    });
+  };
+
+  const displayErrorMessage = (error) => {
+    Swal.fire({
+      title: "Something went wrong !",
+      icon: "error",
+      text: getCouponErrorMessages(error?.response?.data?.error_code),
+    });
+  };
+
+  const deleteCoupon = async (coupon_id) => {
+    //shows dialog
+    const deleteCoupondata = {
+      title: "Delete Coupon",
+      text: "Are you sure you want to Delete this Coupon ",
+      icon: "warning",
+      confirmButtonText: "Delete coupon",
+      confirmButtonColor: "#f0ad4e",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+    };
+    // if dialog is confirmed
+    if ((await showDialog(deleteCoupondata)).isConfirmed) {
+      showLoadingAlert("Deleting Coupon");
+      await axiosApi
+        .put(`adminstrator/delete-coupon/${coupon_id}/`)
+        .then((result) => {
+          Swal.close();
+          if (result.data?.error_code) {
+            Swal.fire({
+              title: "Coupon Deletion Failed !",
+              text: getCouponErrorMessages(result.data?.error_code),
+              icon: "error",
+            });
+          } else if (result.data?.success_code) {
+            Swal.fire({
+              title: "Coupon Deleted !",
+              icon: "success",
+            });
+          }
+
+          // reloads current page
+          if (props.couponListLenght > 1) {
+            props.getCouponsByPage(props.currentPage);
+          } // loads the previous page if current page is empty
+          else if (props.hasPrevious) {
+            props.getCouponsByPage(props.currentPage - 1);
+          } // loads the first page is previous not avaliable
+          else {
+            props.getCouponsByPage(1);
+          }
+        })
+        .catch(function (error) {
+          // display error message
+          Swal.close();
+          displayErrorMessage(error);
+        });
+    }
+  };
+
+  const activateCoupon = async (coupon_id) => {
+    //shows dialog
+    const activateCoupondata = {
+      title: "Activate Coupon",
+      text: "Are you sure you want to Activate this Coupon ",
+      icon: "warning",
+      confirmButtonText: "Activate coupon",
+      confirmButtonColor: "#f0ad4e",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+    };
+    // if dialog is confirmed
+    if ((await showDialog(activateCoupondata)).isConfirmed) {
+      showLoadingAlert("Activating Coupon");
+      await axiosApi
+        .put(`adminstrator/activate-coupon/${coupon_id}/`)
+        .then((result) => {
+          Swal.close();
+          if (result.data?.error_code) {
+            Swal.fire({
+              title: "Coupon Activation Failed !",
+              text: getCouponErrorMessages(result.data?.error_code),
+              icon: "error",
+            });
+          } else if (result.data?.success_code) {
+            Swal.fire({
+              title: "Coupon Activated !",
+              icon: "success",
+            });
+          }
+
+          // reloads current page
+          if (props.couponListLenght > 1) {
+            props.getCouponsByPage(props.currentPage);
+          } // loads the previous page if current page is empty
+          else if (props.hasPrevious) {
+            props.getCouponsByPage(props.currentPage - 1);
+          } // loads the first page is previous not avaliable
+          else {
+            props.getCouponsByPage(1);
+          }
+        })
+        .catch(function (error) {
+          // display error message
+          Swal.close();
+          displayErrorMessage(error);
+        });
+    }
+  };
+
+  const deactivateCoupon = async (coupon_id) => {
+    // function to deactivate coupon
+    //shows dialog
+    const deactivateCoupondata = {
+      title: "Deactivate Coupon",
+      text: "Are you sure you want to deactivate this Coupon ",
+      icon: "warning",
+      confirmButtonText: "Deactivate coupon",
+      confirmButtonColor: "#f0ad4e",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+    };
+    // if dialog is confirmed
+    if ((await showDialog(deactivateCoupondata)).isConfirmed) {
+      showLoadingAlert("Deactivating Coupon");
+      await axiosApi
+        .put(`adminstrator/deactivate-coupon/${coupon_id}/`)
+        .then((result) => {
+          Swal.close();
+          if (result.data?.error_code) {
+            Swal.fire({
+              title: "Coupon Deactivation Failed !",
+              text: getCouponErrorMessages(result.data?.error_code),
+              icon: "error",
+            });
+          } else if (result.data?.success_code) {
+            Swal.fire({
+              title: "Coupon Deactivated !",
+              icon: "success",
+            });
+          }
+
+          // reloads current page
+          if (props.couponListLenght > 1) {
+            props.getCouponsByPage(props.currentPage);
+          } // loads the previous page if current page is empty
+          else if (props.hasPrevious) {
+            props.getCouponsByPage(props.currentPage - 1);
+          } // loads the first page is previous not avaliable
+          else {
+            props.getCouponsByPage(1);
+          }
+        })
+        .catch(function (error) {
+          // display error message
+          Swal.close();
+          displayErrorMessage(error);
+        });
+    }
+  };
   return (
     <Card className="p-3 w-100">
-      <Card.Title>{props.coupon.coupon_name}</Card.Title> 
+      <Card.Title>{props.coupon.coupon_name}</Card.Title>
       <Card.Text className="text-secondary">
         Coupon Code :{" "}
         <span className="fw-bold">{props.coupon.coupon_code}</span>
@@ -73,18 +248,36 @@ function CouponCard(props) {
               </Button>
             </Col>
             <Col xxl={4} xl={5} lg={5} md={12} className="d-flex  mb-1">
-              <Button style={{ width: "117px" }} variant="danger">
+              <Button
+                style={{ width: "117px" }}
+                variant="danger"
+                onClick={() => {
+                  deleteCoupon(props.coupon.id);
+                }}
+              >
                 Delete
               </Button>
             </Col>
             <Col xxl={4} xl={5} lg={5} md={12} className="d-flex  mb-1">
               {props.coupon.status === 0 && (
-                <Button style={{ width: "117px" }} variant="warning">
+                <Button
+                  style={{ width: "117px" }}
+                  variant="warning"
+                  onClick={() => {
+                    deactivateCoupon(props.coupon.id);
+                  }}
+                >
                   Deactivate
                 </Button>
               )}
               {props.coupon.status === 1 && (
-                <Button style={{ width: "117px" }} variant="success">
+                <Button
+                  style={{ width: "117px" }}
+                  variant="success"
+                  onClick={() => {
+                    activateCoupon(props.coupon.id);
+                  }}
+                >
                   Activate
                 </Button>
               )}
@@ -136,5 +329,9 @@ function CouponCard(props) {
 }
 CouponCard.propTypes = {
   coupon: PropTypes.object,
+  getCouponsByPage: PropTypes.func,
+  currentPage: PropTypes.number,
+  couponListLenght: PropTypes.number,
+  hasPrevious: PropTypes.bool,
 };
 export default CouponCard;
