@@ -38,26 +38,42 @@ export function getErrorMessage(errorCode) {
     case "D1014":
       return "Mail Operation Failed ";
     case "D1015":
-    return "Please login using different sign in method";
+      return "Please login using different sign in method";
     case "D1016":
       return "Payment Intent Creation Failed";
     case "D1017":
       return "Payment Cancelation Failed";
     case "D1018":
-      return "Start date can't be after end date"
+      return "Start date can't be after end date";
     case "D1019":
-      return "Responding to complaint failed"
+      return "Responding to complaint failed";
     case "D1020":
-      return "Cannot Respond to the complaint that is already responded" 
+      return "Cannot Respond to the complaint that is already responded";
     case "D1021":
       return "Complaint with given id doesn't exising";
     case "D1022":
-      return "Cannot Respond to the complaint as the current user"
-    case "D1023":
-      return "Coupon Creation Failed"                   
+      return "Cannot Respond to the complaint as the current user";
     case "T0001":
       return "Too many request please try again later";
     default:
       return "Unknown error";
+  }
+}
+export function getCouponErrorMessages(errorCode) {
+  switch (errorCode) {
+    case "D1023":
+      return "Coupon Creation Failed";
+    case "D1024":
+      return "Coupon Deletion Failed";
+    case "D1025":
+      return "Coupon DeActivation Failed";
+    case "D1026":
+      return "Cannot Deactivate Deleted Coupon";
+    case "D1027":
+      return "Cannot activate Deleted Coupon";
+    case "D1028":
+      return "Coupon Activation Failed";
+    default:
+      return getErrorMessage(errorCode);
   }
 }

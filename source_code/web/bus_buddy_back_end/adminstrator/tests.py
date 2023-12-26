@@ -3,6 +3,7 @@ from django.urls import reverse
 from unittest.mock import patch, MagicMock, Mock
 from rest_framework.test import APIClient
 from account_manage.models import User
+from adminstrator.models import CouponDetails
 from normal_user.models import Bookings, BookedSeats, UserComplaints
 
 
@@ -553,3 +554,151 @@ class ViewCouponTest(BaseTest):
         url = f"{reverse('view_coupon')}?status=fdsjfhs"
         response = self.client.get(url, format="json")
         self.assertEqual(response.content, b'{"error_code":"D1006"}')
+
+
+class DeleteCouponTest(BaseTest):
+    def test_01_can_delete_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+        )
+        delete_coupon_url = reverse(
+            "delete_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(delete_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2012"}')
+
+    def test_02_cant_delete_deleted_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=99,
+        )
+        delete_coupon_url = reverse(
+            "delete_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(delete_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2013"}')
+
+    def test_03_cant_delete_nonexisting_coupon(self):
+        delete_coupon_url = reverse("delete_coupon", kwargs={"coupon_id": 99})
+        response = self.client.put(delete_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1024"}')
+
+
+class DeactiveCouponTest(BaseTest):
+    def test_01_can_deactivate_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=0,
+        )
+        deactivate_coupon_url = reverse(
+            "deactivate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2014"}')
+
+    def test_02_cant_deactive_deactivated_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=1,
+        )
+        deactivate_coupon_url = reverse(
+            "deactivate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2015"}')
+
+    def test_03_cant_deactive_deleted_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=99,
+        )
+        deactivate_coupon_url = reverse(
+            "deactivate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1026"}')
+
+    def test_04_cant_deactive_non_existing_coupon(self):
+        deactivate_coupon_url = reverse("deactivate_coupon", kwargs={"coupon_id": 99})
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1025"}')
+        
+class ActiveCouponTest(BaseTest):
+    def test_01_can_activate_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=1,
+        )
+        deactivate_coupon_url = reverse(
+            "activate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2016"}')
+
+    def test_02_cant_active_activated_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=0,
+        )
+        deactivate_coupon_url = reverse(
+            "activate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"success_code":"D2017"}')
+
+    def test_03_cant_active_deleted_coupon(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=99,
+        )
+        deactivate_coupon_url = reverse(
+            "activate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1027"}')
+
+    def test_04_cant_active_non_existing_coupon(self):
+        deactivate_coupon_url = reverse("activate_coupon", kwargs={"coupon_id": 99})
+        response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, b'{"error_code":"D1028"}')
+        

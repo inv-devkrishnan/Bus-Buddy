@@ -4,9 +4,9 @@ import { Controller, useForm } from "react-hook-form";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import Select from "react-select";
-import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+import { getCouponErrorMessages } from "../../../utils/getErrorMessage";
 
 function CreateCoupon() {
   const {
@@ -84,7 +84,7 @@ function CreateCoupon() {
         if (result.data?.error_code) {
           Swal.fire({
             title: "Task Failed",
-            text: getErrorMessage(result.data?.error_code),
+            text: getCouponErrorMessages(result.data?.error_code),
             icon: "error",
           });
         } else if (result.data?.success_code) {
@@ -99,13 +99,13 @@ function CreateCoupon() {
         Swal.close();
         Swal.fire({
           title: "Task Failed",
-          text: getErrorMessage(error?.response?.data?.error_code),
+          text: getCouponErrorMessages(error?.response?.data?.error_code),
           icon: "error",
         });
       });
   };
   return (
-    <Container className="ms-2" style={{height:"90vh"}}>
+    <Container className="ms-2" style={{ height: "90vh" }}>
       <Row>
         <Col className="mt-3">
           <h1>Create New Coupon</h1>

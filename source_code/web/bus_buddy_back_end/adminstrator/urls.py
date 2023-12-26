@@ -15,4 +15,6 @@ urlpatterns = [
     path("create-coupon/",views.CreateCoupon.as_view(),name="create_coupon"),
     path("view-coupon/",views.ViewCoupons.as_view(),name="view_coupon"),
     path("delete-coupon/<int:coupon_id>/",views.DeleteCoupon.as_view(),name="delete_coupon"),
+    path("deactivate-coupon/<int:coupon_id>/",views.DeactivateCoupon.as_view(),name="deactivate_coupon"),
+    path("activate-coupon/<int:coupon_id>/",views.ActivateCoupon.as_view(),name="activate_coupon"),
 ]

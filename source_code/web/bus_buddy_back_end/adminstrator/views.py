@@ -808,7 +808,8 @@ class ViewCoupons(ListAPIView):
 
 
 class DeleteCoupon(UpdateAPIView):
-    permission_classes=(AllowAdminsOnly,)
+    permission_classes = (AllowAdminsOnly,)
+
     def put(self, request, coupon_id):
         try:
             coupon_instance = CouponDetails.objects.get(id=coupon_id)
@@ -816,11 +817,57 @@ class DeleteCoupon(UpdateAPIView):
             if current_status != 99:
                 coupon_instance.status = 99
                 coupon_instance.save()
-                logger.info("Coupon with id : " + str(coupon_id) + " deleted !")
+                logger.info("Coupon with Id : " + str(coupon_id) + " deleted !")
                 return Response({"success_code": "D2012"})
             else:
                 logger.warn("Coupon Already Deleted !")
                 return Response({"success_code": "D2013"})
         except Exception as e:
             logger.warn("Coupon Deletion Failed ! Reason : " + str(e))
-            return Response({"error_code": "D1024"})
+            return Response({"error_code": "D1024"}, status=400)
+
+
+class DeactivateCoupon(UpdateAPIView):
+    permission_classes = (AllowAdminsOnly,)
+
+    def put(self, request, coupon_id):
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            if current_status == 0:
+                coupon_instance.status = 1
+                coupon_instance.save()
+                logger.info("Coupon with id : " + str(coupon_id) + " Deactivated !")
+                return Response({"success_code": "D2014"})
+            elif current_status == 99:
+                logger.warn("Cannot Deactivate Deleted Coupon !")
+                return Response({"error_code": "D1026"})
+            else:
+                logger.warn("Coupon Already Deactivated !")
+                return Response({"success_code": "D2015"})
+        except Exception as e:
+            logger.warn("Coupon Deactivation Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1025"}, status=400)
+
+
+class ActivateCoupon(UpdateAPIView):
+    permission_classes = (AllowAdminsOnly,)
+
+    def put(self, request, coupon_id):
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            if current_status == 1:
+                coupon_instance.status = 0
+                coupon_instance.save()
+                logger.info("Coupon with id : " + str(coupon_id) + " activated !")
+                return Response({"success_code": "D2016"})
+            elif current_status == 99:
+                logger.warn("Cannot activate deleted coupon!")
+                return Response({"error_code": "D1027"})
+            else:
+                logger.warn("Coupon Already Deactivated !")
+                return Response({"success_code": "D2017"})
+        except Exception as e:
+            logger.warn("Coupon Deactivation Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1028"}, status=400)
