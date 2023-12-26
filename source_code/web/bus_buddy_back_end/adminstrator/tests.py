@@ -33,17 +33,17 @@ class BaseTest(TestCase):
         self.admin_list_invalid_query_param = f"{reverse('list_users')}?status=34"
         self.admin_view_complaints = reverse("view_complaints")
         self.admin_view_complaints_responded_param = (
-            f"{reverse('view_complaints')}?responded=1"
+            f"{reverse('view_complaints')}?status=1"
         )
         self.admin_view_complaints_date_param = (
-            f"{reverse('view_complaints')}?from_date=2023-11-10&to_date=2023-11-12"
+            f"{reverse('view_complaints')}?created_date__range=2023-11-10,2023-11-12"
         )
-        self.admin_view_complaints_all_param = f"{reverse('view_complaints')}?from_date=2023-11-10&to_date=2023-11-12&responded=1"
+        self.admin_view_complaints_all_param = f"{reverse('view_complaints')}?created_date__range=2023-11-10,2023-11-12&status=1"
         self.admin_view_complaints_invalid_date_param = (
-            f"{reverse('view_complaints')}?from_date=2023-11-14&to_date=2023-11-12"
+            f"{reverse('view_complaints')}?created_date__range=2023-11-14,2023-11-12"
         )
         self.admin_view_complaints_invalid_query_params = (
-            f"{reverse('view_complaints')}?from_date=2023-11-14&to_date=2023-11-fsd"
+            f"{reverse('view_complaints')}?created_date__range=2023-11-14,2023-11-fsd"
         )
         # data
         self.valid_update_data = {
@@ -420,7 +420,7 @@ class ViewComplaintsTest(BaseTest):
             self.admin_view_complaints_invalid_date_param,
             format="json",
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
     def test_06_cant_view_complaints_with_invalid_query_param(self):
         response = self.client.get(

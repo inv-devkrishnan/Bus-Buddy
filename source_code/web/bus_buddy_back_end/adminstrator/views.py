@@ -540,10 +540,16 @@ class ApproveBusOwner(UpdateAPIView):
         return self.update(request, user_id)
 
 
-class ViewUserComplaints(APIView, ComplaintPagination):
+class ViewUserComplaints(ListAPIView):
     permission_classes = (AllowBusOwnerAndAdminsOnly,)
+    pagination_class = ComplaintPagination
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filterset_fields = {"status": ["exact"], "created_date": ["range"]}
+    search_fields = [
+        "complaint_title",
+    ]
 
-    def validate_date(self, from_date, to_date):
+    def validate_date(self, date_range):
         """function to validate date given as query param
 
         Args:
@@ -552,19 +558,26 @@ class ViewUserComplaints(APIView, ComplaintPagination):
         Returns:
             _type_: _description_
         """
-        if from_date and to_date:
+        if date_range:
             logger.info("Date argument provided")
-            pattern = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-            if bool(pattern.match(from_date)) and bool(pattern.match(to_date)):
-                from_val = datetime.strptime(from_date, "%Y-%m-%d")
-                to_val = datetime.strptime(to_date, "%Y-%m-%d")
-                if from_val <= to_val:
-                    logger.info("Date validated Successfully")
-                    return {"status": True, "code": "00000"}
+            try:
+                dates = date_range.split(",")
+                from_date = dates[0]
+                to_date = dates[1]
+                pattern = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+                if bool(pattern.match(from_date)) and bool(pattern.match(to_date)):
+                    from_val = datetime.strptime(from_date, "%Y-%m-%d")
+                    to_val = datetime.strptime(to_date, "%Y-%m-%d")
+                    if from_val <= to_val:
+                        logger.info("Date validated Successfully")
+                        return {"status": True, "code": "00000"}
+                    else:
+                        logger.warn("Start date cant be after end date")
+                        return {"status": False, "code": "D1018"}
                 else:
-                    logger.warn("Start date cant be after end date")
-                    return {"status": False, "code": "D1018"}
-            else:
+                    logger.warn("Date validated Failed")
+                    return {"status": False, "code": "D1006"}
+            except IndexError:
                 logger.warn("Date validated Failed")
                 return {"status": False, "code": "D1006"}
         else:
@@ -592,7 +605,7 @@ class ViewUserComplaints(APIView, ComplaintPagination):
             logger.info("Responded argument not provided")
             return {"status": False, "code": "00000"}
 
-    def get(self, request):
+    def list(self, request):
         """function to return complaints based on users
 
         Args:
@@ -601,57 +614,30 @@ class ViewUserComplaints(APIView, ComplaintPagination):
         Returns:
             _type_: _description_
         """
-        from_date = request.GET.get("from_date")  # to filter by a date
-        to_date = request.GET.get("to_date")
-        responded = request.GET.get(
-            "responded"
-        )  # to filter by responded complaints and not responded complaints
-
         # validate query params
-        validated_date = self.validate_date(from_date, to_date)
-        validated_responded = self.validate_responded(responded)
-
-        if validated_date["status"]:
-            if validated_responded["status"]:
-                complaint_instances = UserComplaints.objects.filter(
-                    created_date__range=(from_date, to_date),
-                    complaint_for_id=request.user.id,
-                    status=responded,
-                ).order_by("-id")
-            else:
-                complaint_instances = UserComplaints.objects.filter(
-                    created_date__range=(from_date, to_date),
-                    complaint_for_id=request.user.id,
-                ).order_by("-id")
-        elif validated_responded["status"]:
-            complaint_instances = UserComplaints.objects.filter(
-                complaint_for_id=request.user.id, status=responded
-            ).order_by("-id")
-        else:
-            complaint_instances = UserComplaints.objects.filter(
-                complaint_for_id=request.user.id
-            ).order_by("-id")
-
+        validated_date = self.validate_date(request.GET.get("created_date__range"))
+        validated_responded = self.validate_responded(request.GET.get("status"))
         # error handling
-        if validated_date["code"] == "D1006" or validated_responded["code"] == "D1006":
+        if validated_responded["code"] == "D1006" or validated_date["code"] == "D1006":
             return Response({"error_code": "D1006"}, status=400)
         elif validated_date["code"] == "D1018":
-            return Response({"error_code": "D1018"})
-        # Serialize and return response
-        serialized_data = LUC(
-            ComplaintPagination.paginate_queryset(
-                self, queryset=complaint_instances, request=request
-            ),
-            many=True,
-        )
+            return Response({"error_code": "D1018"}, status=400)
+        queryset = UserComplaints.objects.filter(
+            complaint_for_id=request.user.id
+        ).order_by("-id")
+        serializer_class = LUC
+        data = self.filter_queryset(queryset)
+        page = self.paginate_queryset(data)
+        if page is not None:
+            serialized_data = serializer_class(page, many=True)
         return Response(
             {
                 "complaints": serialized_data.data,
-                "pages": self.page.paginator.num_pages,
-                "current_page": self.page.number,
-                "has_previous": self.page.has_previous(),
-                "has_next": self.page.has_next(),
-                "total_count": self.page.paginator.count,
+                "pages": self.paginator.page.paginator.num_pages,
+                "current_page": self.paginator.page.number,
+                "has_previous": self.paginator.page.has_previous(),
+                "has_next": self.paginator.page.has_next(),
+                "total_count": self.paginator.page.paginator.count,
             }
         )
 
@@ -819,3 +805,22 @@ class ViewCoupons(ListAPIView):
                     "total_count": self.paginator.page.paginator.count,
                 }
             )
+
+
+class DeleteCoupon(UpdateAPIView):
+    permission_classes=(AllowAdminsOnly,)
+    def put(self, request, coupon_id):
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            if current_status != 99:
+                coupon_instance.status = 99
+                coupon_instance.save()
+                logger.info("Coupon with id : " + str(coupon_id) + " deleted !")
+                return Response({"success_code": "D2012"})
+            else:
+                logger.warn("Coupon Already Deleted !")
+                return Response({"success_code": "D2013"})
+        except Exception as e:
+            logger.warn("Coupon Deletion Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1024"})
