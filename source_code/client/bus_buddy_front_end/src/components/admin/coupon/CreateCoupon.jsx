@@ -105,7 +105,7 @@ function CreateCoupon() {
       });
   };
   return (
-    <Container className="ms-2" style={{ height: "90vh" }}>
+    <Container className="m-0" style={{ height: "90vh" }}>
       <Row>
         <Col className="mt-3">
           <h1>Create New Coupon</h1>
@@ -163,7 +163,7 @@ function CreateCoupon() {
                 </p>
               )}
           </Form.Group>
-          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
+          <Form.Group as={Col} md="6" lg="6" xl="5" xxl="3">
             <Form.Label>Coupon Eligibility</Form.Label>
             <Form.Select
               aria-label="Default select example"
@@ -179,7 +179,7 @@ function CreateCoupon() {
           </Form.Group>
         </Row>
         <Row className="mt-3">
-          <Form.Group as={Col} md="6" lg="6" xl="5">
+          <Form.Group as={Col} md="6" lg="6" xl="4">
             <Form.Label>Coupon Availability</Form.Label>
             <Form.Select
               {...register("coupon_availability", {
@@ -237,7 +237,7 @@ function CreateCoupon() {
             </Form.Group>
           )}
           {Number(availability) === 2 && (
-            <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
+            <Form.Group as={Col} md="6" lg="6" xl="5" xxl="5">
               <Form.Label>Select Trip</Form.Label>
               <Controller
                 name="trip"
@@ -281,7 +281,7 @@ function CreateCoupon() {
               <p className="text-danger mt-2">* Coupon Validity required</p>
             )}
           </Form.Group>
-          <Form.Group as={Col} md="6" lg="6" xl="5">
+          <Form.Group as={Col} md="6" lg="6" xl="3">
             <Form.Label>One time use</Form.Label>
             <Form.Select
               name="one_time_use"
@@ -296,6 +296,7 @@ function CreateCoupon() {
             <Form.Control
               type="number"
               name="discount"
+              placeholder="Discount in percentage"
               {...register("discount", {
                 required: true,
                 pattern: /^-?\d+$/,
