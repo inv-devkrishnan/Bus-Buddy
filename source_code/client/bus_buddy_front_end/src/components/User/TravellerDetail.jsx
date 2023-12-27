@@ -8,6 +8,9 @@ import {
   Form,
   Button,
   CardText,
+  Container,
+  Row,
+  Col,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { ArrowRight } from "react-bootstrap-icons";
@@ -290,18 +293,24 @@ const TravellerDetail = () => {
       <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
-          <div className="d-flex justify-content-between" >
-          <CardText style={{ margin: 5 }}>
-           <h5>
-           <strong>Total Amount (₹) :</strong>{" "}
-            {localStorage.getItem("total_amount")}
-           </h5>
-          </CardText>
-          <Card className="ps-5 pe-5 pt-2 pb-2">
-          <CardTitle>Refund Policy</CardTitle>
-          <RefundPolicy/>
-          </Card>
-          </div>
+          <Container>
+            <Row>
+              <Col xxl={6}>
+                <CardText style={{ margin: 5 }}>
+                  <h5>
+                    <strong>Total Amount (₹) :</strong>{" "}
+                    {localStorage.getItem("total_amount")}
+                  </h5>
+                </CardText>
+              </Col>
+              <Col xxl={6}>
+                <Card className="p-2 w-100">
+                  <CardTitle>Refund Policy</CardTitle>
+                  <RefundPolicy />
+                </Card>
+              </Col>
+            </Row>
+          </Container>
         </CardBody>
       </Card>
     </div>
