@@ -5,15 +5,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
-  BackspaceFill,
   ExclamationCircle,
-  Filter,
 } from "react-bootstrap-icons";
 import ComplaintCard from "./ComplaintCard";
 import { axiosApi } from "../../../utils/axiosApi";
 import CustomPaginator from "../paginator/CustomPaginator";
 import Swal from "sweetalert2";
-import { Form, ProgressBar } from "react-bootstrap";
+import { Form, Modal, ProgressBar } from "react-bootstrap";
 function ViewComplaints() {
   let init_date = new Date(0);
   let final_date = new Date(2100, 0, 1);
@@ -36,6 +34,11 @@ function ViewComplaints() {
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
   const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
   const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
+
+  const [showFilter, setShowFilter] = useState(false);
+
+  const handleFilterClose = () => setShowFilter(false); // hides filter by dates dialog
+  const handleFilterShow = () => setShowFilter(true); // shows filter by dates dialog
 
   let searchbox = document.getElementById("search_box");
   const clearDates = () => {
@@ -141,7 +144,7 @@ function ViewComplaints() {
         </Col>
       </Row>
       <Row className=" gx-0 d-flex">
-        <Col xxl={"auto"} xl={"auto"}>
+        <Col xxl={3} xl={3} lg={4}>
           <Dropdown>
             <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
@@ -181,73 +184,26 @@ function ViewComplaints() {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col lg={"auto"} md={"auto"} sm={"auto"}>
-          <p className="mt-2 me-1">View from :</p>
-        </Col>
-        <Col xxl={"auto"} xl={"auto"} lg={"auto"} md={"auto"} sm={"auto"}>
-          <input
-            className="form-control  mb-1"
-            id="trip_date_picker"
-            type="date"
-            onChange={(e) => {
-              setFromDate(e.target.value);
-            }}
-            placeholder="From date"
-            max={toDate || final_date}
-            value={fromDate}
-          />
-        </Col>
-        <Col lg={"auto"} md={"auto"} sm={"auto"}>
-          <p className="ms-2 me-2 mt-2 ">To</p>
-        </Col>
-        <Col lg={"auto"} md={"auto"} sm={"auto"}>
-          <input
-            className="form-control  mb-1"
-            id="trip_date_picker"
-            type="date"
-            onChange={(e) => {
-              setToDate(e.target.value);
-            }}
-            min={fromDate || init_date}
-            placeholder="To date"
-            value={toDate}
-          />
-        </Col>
-        <Col lg={"auto"} md={"auto"} sm={"auto"}>
+        
+        <Col xxl={2} xl={2} lg={3} className="d-flex justify-content-start mb-1">
           <Button
             className="ms-2"
             onClick={() => {
-              checkDates();
+             handleFilterShow();
             }}
             data-toggle="tooltip"
             title="Filter by Dates"
+            size="sm"
           >
-            <Filter></Filter>
-          </Button>
-        </Col>
-        <Col lg={"auto"} md={"auto"} sm={"auto"}>
-          <Button
-            className="ms-2"
-            variant="danger"
-            style={{ maxHeight: "40px" }}
-            data-toggle="tooltip"
-            title="Clear Results"
-            onClick={() => {
-              clearDates();
-            }}
-          >
-            <BackspaceFill></BackspaceFill>
+           Filter by Date
           </Button>
         </Col>
         <Col
-          xxl={4}
-          xl={"auto"}
-          lg={"auto"}
-          md={"auto"}
-          sm={"auto"}
-          xs={"auto"}
+          xxl={7}
+          xl={7}
+          lg={12}
           className="d-flex justify-content-end"
-          style={{ maxHeight: "40px" }}
+          style={{ maxHeight: "40px",marginLeft:"-2%" }}
         >
           <div className="d-flex justify-content-start ">
             <Form.Control
@@ -341,6 +297,48 @@ function ViewComplaints() {
           width={"70%"}
         ></CustomPaginator>
       </Row>
+      <Modal show={showFilter} onHide={handleFilterClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Filter by Date</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <p className="mt-2 me-1">View from :</p>
+            <input
+              className="form-control  mb-1"
+              id="trip_date_picker"
+              type="date"
+              onChange={(e) => {
+                setFromDate(e.target.value);
+              }}
+              placeholder="From date"
+              max={toDate || final_date}
+              value={fromDate}
+            />
+            <p className="ms-2 me-2 mt-2 ">To</p>
+            <input
+              className="form-control  mb-1"
+              id="trip_date_picker"
+              type="date"
+              onChange={(e) => {
+                setToDate(e.target.value);
+              }}
+              min={fromDate || init_date}
+              placeholder="To date"
+              value={toDate}
+            />
+           
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={()=>{clearDates(); handleFilterClose();}}>
+            Clear Filter
+          </Button>
+          <Button variant="primary" onClick={()=>{checkDates(); handleFilterClose();}}>
+            Filter
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
