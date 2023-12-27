@@ -201,15 +201,15 @@ function CouponCard(props) {
       <div className="d-flex align-items-center">
         <Container>
           <Row>
-            <Col>
+            <Col md={12} lg={6} xl={3} xxl={4}>
               <Card.Text>
                 <li>
                   Valid till :{" "}
                   <span className="fw-bold">{props.coupon.valid_till}</span>
                 </li>
               </Card.Text>
-            </Col>
-            <Col>
+            </Col> 
+            <Col md={12} lg={6}  xl={3}  xxl={4}>
               <Card.Text>
                 <li>
                   One Time Use{" "}
@@ -225,7 +225,7 @@ function CouponCard(props) {
                 </li>
               </Card.Text>
             </Col>
-            <Col>
+            <Col md={12} lg={6}  xl={3}>
               <Card.Text>
                 <li>
                   Discount :{" "}
@@ -235,9 +235,9 @@ function CouponCard(props) {
             </Col>
           </Row>
         </Container>
-        <Container>
+        <Container className="p-0 m-0">
           <Row className="d-flex justify-content-end">
-            <Col xxl={4} xl={5} lg={5} md={12} className="d-flex mb-1">
+            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className=" mb-1 p-0">
               <Button
                 style={{ width: "117px" }}
                 onClick={() => {
@@ -247,7 +247,7 @@ function CouponCard(props) {
                 View Details
               </Button>
             </Col>
-            <Col xxl={4} xl={5} lg={5} md={12} className="d-flex  mb-1">
+            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className=" mb-1 p-0">
               <Button
                 style={{ width: "117px" }}
                 variant="danger"
@@ -258,7 +258,7 @@ function CouponCard(props) {
                 Delete
               </Button>
             </Col>
-            <Col xxl={4} xl={5} lg={5} md={12} className="d-flex  mb-1">
+            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className="mb-1 p-0">
               {props.coupon.status === 0 && (
                 <Button
                   style={{ width: "117px" }}

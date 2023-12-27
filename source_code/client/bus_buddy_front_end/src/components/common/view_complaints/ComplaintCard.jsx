@@ -69,7 +69,7 @@ function ComplaintCard(props) {
   };
   const handleShow = () => setShow(true);
   return (
-    <Card className="p-3 me-3" style={{ width: "90%" }}>
+    <Card className="p-3 w-100">
       <div className="d-flex justify-content-between align-items-top">
         <div>
           <Card.Title className="mb-1">
