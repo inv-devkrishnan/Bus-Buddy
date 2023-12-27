@@ -34,11 +34,82 @@ function CouponCard(props) {
   };
 
   const displayErrorMessage = (error) => {
+    // function to display error message
     Swal.fire({
       title: "Something went wrong !",
       icon: "error",
       text: getCouponErrorMessages(error?.response?.data?.error_code),
     });
+  };
+  const fireSuccessMessage = (title) => {
+    // function to show success message
+    Swal.fire({
+      title: title,
+      icon: "success",
+    });
+  };
+
+  const fireErrorMessage = (title, text) => {
+    // function to fire specific error message
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: "error",
+    });
+  };
+
+  const refreshCouponList = () => {
+    // reloads current page
+    if (props.couponListLenght > 1) {
+      props.getCouponsByPage(props.currentPage);
+    } // loads the previous page if current page is empty
+    else if (props.hasPrevious) {
+      props.getCouponsByPage(props.currentPage - 1);
+    } // loads the first page is previous not avaliable
+    else {
+      props.getCouponsByPage(1);
+    }
+  };
+
+  const showResponseDialog = (result, operation) => {
+    switch (operation) {
+      case "delete":
+        if (result.data?.error_code) {
+          fireErrorMessage(
+            "Coupon Deletion Failed !",
+            getCouponErrorMessages(result.data?.error_code)
+          );
+        } else if (result.data?.success_code) {
+          fireSuccessMessage("Coupon Deleted !");
+        }
+        break;
+      case "activate":
+        if (result.data?.error_code) {
+          fireErrorMessage(
+            "Coupon Activation Failed !",
+            getCouponErrorMessages(result.data?.error_code)
+          );
+        } else if (result.data?.success_code) {
+          fireSuccessMessage("Coupon Activated !");
+        }
+        break;
+      case "deactivate":
+        if (result.data?.error_code) {
+          fireErrorMessage(
+            "Coupon Deativation Failed",
+            getCouponErrorMessages(result.data?.error_code)
+          );
+        } else if (result.data?.success_code) {
+          fireSuccessMessage("Coupon Deactivated !");
+        }
+        break;
+      default:
+        Swal.fire({
+          title: "Operation Failed",
+          text: "Operation Failed due to uknown error",
+          icon: "error",
+        });
+    }
   };
 
   const deleteCoupon = async (coupon_id) => {
@@ -59,29 +130,8 @@ function CouponCard(props) {
         .put(`adminstrator/delete-coupon/${coupon_id}/`)
         .then((result) => {
           Swal.close();
-          if (result.data?.error_code) {
-            Swal.fire({
-              title: "Coupon Deletion Failed !",
-              text: getCouponErrorMessages(result.data?.error_code),
-              icon: "error",
-            });
-          } else if (result.data?.success_code) {
-            Swal.fire({
-              title: "Coupon Deleted !",
-              icon: "success",
-            });
-          }
-
-          // reloads current page
-          if (props.couponListLenght > 1) {
-            props.getCouponsByPage(props.currentPage);
-          } // loads the previous page if current page is empty
-          else if (props.hasPrevious) {
-            props.getCouponsByPage(props.currentPage - 1);
-          } // loads the first page is previous not avaliable
-          else {
-            props.getCouponsByPage(1);
-          }
+          showResponseDialog(result, "delete");
+          refreshCouponList();
         })
         .catch(function (error) {
           // display error message
@@ -109,29 +159,8 @@ function CouponCard(props) {
         .put(`adminstrator/activate-coupon/${coupon_id}/`)
         .then((result) => {
           Swal.close();
-          if (result.data?.error_code) {
-            Swal.fire({
-              title: "Coupon Activation Failed !",
-              text: getCouponErrorMessages(result.data?.error_code),
-              icon: "error",
-            });
-          } else if (result.data?.success_code) {
-            Swal.fire({
-              title: "Coupon Activated !",
-              icon: "success",
-            });
-          }
-
-          // reloads current page
-          if (props.couponListLenght > 1) {
-            props.getCouponsByPage(props.currentPage);
-          } // loads the previous page if current page is empty
-          else if (props.hasPrevious) {
-            props.getCouponsByPage(props.currentPage - 1);
-          } // loads the first page is previous not avaliable
-          else {
-            props.getCouponsByPage(1);
-          }
+          showResponseDialog(result, "activate");
+          refreshCouponList();
         })
         .catch(function (error) {
           // display error message
@@ -160,29 +189,8 @@ function CouponCard(props) {
         .put(`adminstrator/deactivate-coupon/${coupon_id}/`)
         .then((result) => {
           Swal.close();
-          if (result.data?.error_code) {
-            Swal.fire({
-              title: "Coupon Deactivation Failed !",
-              text: getCouponErrorMessages(result.data?.error_code),
-              icon: "error",
-            });
-          } else if (result.data?.success_code) {
-            Swal.fire({
-              title: "Coupon Deactivated !",
-              icon: "success",
-            });
-          }
-
-          // reloads current page
-          if (props.couponListLenght > 1) {
-            props.getCouponsByPage(props.currentPage);
-          } // loads the previous page if current page is empty
-          else if (props.hasPrevious) {
-            props.getCouponsByPage(props.currentPage - 1);
-          } // loads the first page is previous not avaliable
-          else {
-            props.getCouponsByPage(1);
-          }
+          showResponseDialog(result, "deactivate");
+          refreshCouponList();
         })
         .catch(function (error) {
           // display error message
@@ -208,8 +216,8 @@ function CouponCard(props) {
                   <span className="fw-bold">{props.coupon.valid_till}</span>
                 </li>
               </Card.Text>
-            </Col> 
-            <Col md={12} lg={6}  xl={3}  xxl={4}>
+            </Col>
+            <Col md={12} lg={6} xl={3} xxl={4}>
               <Card.Text>
                 <li>
                   One Time Use{" "}
@@ -225,7 +233,7 @@ function CouponCard(props) {
                 </li>
               </Card.Text>
             </Col>
-            <Col md={12} lg={6}  xl={3}>
+            <Col md={12} lg={6} xl={3}>
               <Card.Text>
                 <li>
                   Discount :{" "}
@@ -237,7 +245,14 @@ function CouponCard(props) {
         </Container>
         <Container className="p-0 m-0">
           <Row className="d-flex justify-content-end">
-            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className=" mb-1 p-0">
+            <Col
+              xxl={3}
+              xl={5}
+              lg={5}
+              md={"auto"}
+              sm={12}
+              className=" mb-1 p-0"
+            >
               <Button
                 style={{ width: "117px" }}
                 onClick={() => {
@@ -247,7 +262,14 @@ function CouponCard(props) {
                 View Details
               </Button>
             </Col>
-            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className=" mb-1 p-0">
+            <Col
+              xxl={3}
+              xl={5}
+              lg={5}
+              md={"auto"}
+              sm={12}
+              className=" mb-1 p-0"
+            >
               <Button
                 style={{ width: "117px" }}
                 variant="danger"

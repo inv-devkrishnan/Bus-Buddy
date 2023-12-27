@@ -105,7 +105,7 @@ function CreateCoupon() {
       });
   };
   return (
-    <Container className="m-0" style={{ height: "90vh" }}>
+    <Container style={{ height: "90vh" }}>
       <Row>
         <Col className="mt-3">
           <h1>Create New Coupon</h1>
