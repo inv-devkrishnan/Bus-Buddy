@@ -186,4 +186,4 @@ class UpdatePlatformCharges(UpdateAPIView):
             else :
                 return Response({"message": "The logged in user is not Admin"},status=400)
         except Exception :
-            return Response("Invalid Bus id", status=404)
+            return Response("Invalid data", status=404)
