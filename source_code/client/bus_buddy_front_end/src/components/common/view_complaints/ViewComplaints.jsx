@@ -123,7 +123,18 @@ function ViewComplaints() {
     if (fromDate && toDate) {
       fromSelectedDate.current = fromDate;
       toSelectedDate.current = toDate;
-      getComplaintsbyPage(1);
+      if(fromSelectedDate.current<=toSelectedDate.current)
+      {
+        getComplaintsbyPage(1);
+      }
+      else
+      {
+        Swal.fire({
+          title: "from date should be before or same as to date",
+          icon: "error",
+        });
+      }
+     
     } else {
       Swal.fire({
         title: "Both From date and To date need's to be specified",
