@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import { GoogleLogin } from "@react-oauth/google";
 
 import { login, loginWithGoogle } from "../utils/apiCalls";
-import { getErrorMessage } from "../utils/getErrorMessage";
+import { getLoginErrorMessages } from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
 
 import { SeatContext } from "../utils/SeatContext";
@@ -111,7 +111,7 @@ function LoginPage() {
       } else if (loginRes.message.user_role === 2) {
         navigate("/user-dashboard");
       } else if (loginRes.message.user_role === 1) {
-        navigate("/admin-dashboard");
+        navigate("/admin-dashboard/view-profile");
       } else {
         navigate("/BusHome");
       }
@@ -119,7 +119,7 @@ function LoginPage() {
       // if login fail's it shows the error message
       const error = loginRes?.message?.response?.data?.error_code;
       if (loginRes?.message?.response?.data?.error_code) {
-        setErrorMessage(getErrorMessage(error));
+        setErrorMessage(getLoginErrorMessages(error));
       }
     }
   };
