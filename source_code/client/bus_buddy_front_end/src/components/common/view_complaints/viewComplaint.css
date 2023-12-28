@@ -1,0 +1,15 @@
+.search_box div
+{
+    margin-top: 10px;
+    margin-left: 2px;
+}
+@media (min-width: 576px) { 
+    .search_box
+    {
+      display: flex !important; 
+      justify-content: end !important;
+      margin-top: 0px;
+
+      margin-left: -2% !important;
+    }
+ }

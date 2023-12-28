@@ -12,6 +12,7 @@ import { axiosApi } from "../../../utils/axiosApi";
 import CustomPaginator from "../paginator/CustomPaginator";
 import Swal from "sweetalert2";
 import { Form, Modal, ProgressBar } from "react-bootstrap";
+import "./viewComplaint.css"
 function ViewComplaints() {
   let init_date = new Date(0);
   let final_date = new Date(2100, 0, 1);
@@ -155,7 +156,7 @@ function ViewComplaints() {
         </Col>
       </Row>
       <Row className=" gx-0 d-flex">
-        <Col xxl={3} xl={3} lg={4}>
+        <Col xxl={3} xl={3} lg={4} md={4} sm={12}>
           <Dropdown>
             <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
@@ -196,25 +197,14 @@ function ViewComplaints() {
           </Dropdown>
         </Col>
         
-        <Col xxl={2} xl={2} lg={3} className="d-flex justify-content-start mb-1">
-          <Button
-            className="ms-2"
-            onClick={() => {
-             handleFilterShow();
-            }}
-            data-toggle="tooltip"
-            title="Filter by Dates"
-            size="sm"
-          >
-           Filter by Date
-          </Button>
-        </Col>
+        
         <Col
-          xxl={7}
-          xl={7}
-          lg={12}
-          className="d-flex justify-content-end"
-          style={{ maxHeight: "40px",marginLeft:"-2%" }}
+          xxl={9}
+          xl={9}
+          lg={8}
+          md={8}
+          sm={12}
+          className="search_box"
         >
           <div className="d-flex justify-content-start ">
             <Form.Control
@@ -260,6 +250,28 @@ function ViewComplaints() {
           </div>
         </Col>
       </Row>
+      <Row className="mt-2">
+      <Col xxl={12} xl={12} lg={12} className="d-flex justify-content-start mb-1">
+          <Button
+            className="ms-2"
+            onClick={() => {
+             handleFilterShow();
+            }}
+            data-toggle="tooltip"
+            title="Filter by Dates"
+            size="sm"
+          >
+           Filter by Date
+          </Button>
+        </Col>
+      </Row>
+      {searchMode && (
+        <Row className="mt-2">
+          <Col>
+            <h2>Search result for "{searchbox.value}"</h2>
+          </Col>
+        </Row>
+      )}
       <Row className="pb-5">
         {complaintListLoading ? (
           <div className="mt-5">

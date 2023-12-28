@@ -145,7 +145,7 @@ function ComplaintCard(props) {
             )}
             {props.complaint.status === 1 && (
               <Form className="mt-5 me-2 ms-2">
-                <Form.Group controlId="response_txt">
+                <Form.Group>
                   <Form.Label className="fw-bold">Your Response:</Form.Label>
                   <Form.Control
                     as="textarea"

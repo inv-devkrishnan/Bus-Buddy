@@ -8,6 +8,7 @@ import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import "../../common/view_complaints/viewComplaint.css";
 
 function ListCoupon() {
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ function ListCoupon() {
   const [hasNext, setHasNext] = useState(false); // to check if current page has next page
   const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
   const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
-
   let searchbox = document.getElementById("search_box");
   useEffect(() => {
     getCouponList();
@@ -183,8 +183,7 @@ function ListCoupon() {
           md={12}
           sm={12}
           xs={11}
-          className="d-flex justify-content-end"
-          style={{ marginLeft: "-2%" }}
+          className="search_box"
         >
           <div className="d-flex justify-content-start ">
             <Form.Control
