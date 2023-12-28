@@ -209,7 +209,7 @@ function CouponCard(props) {
       <div className="d-flex align-items-center">
         <Container>
           <Row>
-            <Col md={12} lg={6} xl={3} xxl={4}>
+            <Col md={12} lg={6} xl={5} xxl={4}>
               <Card.Text>
                 <li>
                   Valid till :{" "}
@@ -217,7 +217,7 @@ function CouponCard(props) {
                 </li>
               </Card.Text>
             </Col>
-            <Col md={12} lg={6} xl={3} xxl={4}>
+            <Col md={12} lg={6} xl={4} xxl={4}>
               <Card.Text>
                 <li>
                   One Time Use{" "}
@@ -233,7 +233,7 @@ function CouponCard(props) {
                 </li>
               </Card.Text>
             </Col>
-            <Col md={12} lg={6} xl={3}>
+            <Col md={12} lg={6} xl={4}>
               <Card.Text>
                 <li>
                   Discount :{" "}
@@ -243,11 +243,11 @@ function CouponCard(props) {
             </Col>
           </Row>
         </Container>
-        <Container className="p-0 m-0">
-          <Row className="d-flex justify-content-end">
+        <Container className="p-0 m-0 w-75">
+          <Row>
             <Col
-              xxl={3}
-              xl={5}
+              xxl={4}
+              xl={4}
               lg={5}
               md={"auto"}
               sm={12}
@@ -263,8 +263,8 @@ function CouponCard(props) {
               </Button>
             </Col>
             <Col
-              xxl={3}
-              xl={5}
+              xxl={4}
+              xl={4}
               lg={5}
               md={"auto"}
               sm={12}
@@ -280,7 +280,7 @@ function CouponCard(props) {
                 Delete
               </Button>
             </Col>
-            <Col xxl={3} xl={5} lg={5} md={"auto"} sm={12} className="mb-1 p-0">
+            <Col xxl={4} xl={4} lg={5} md={"auto"} sm={12} className="mb-1 p-0">
               {props.coupon.status === 0 && (
                 <Button
                   style={{ width: "117px" }}
