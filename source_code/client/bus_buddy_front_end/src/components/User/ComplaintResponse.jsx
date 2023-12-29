@@ -23,9 +23,7 @@ export default function ComplaintResponse() {
 
   useEffect(() => {
     axiosApi
-      .get(
-        `http://127.0.0.1:8000/user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`
-      )
+      .get(`user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`)
       .then((res) => {
         setComplaintData(res.data);
       })

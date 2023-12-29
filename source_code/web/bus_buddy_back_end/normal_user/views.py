@@ -14,6 +14,7 @@ from datetime import datetime
 from decouple import config
 
 from account_manage.models import User
+from adminstrator.models import CouponHistory, CouponDetails
 from normal_user.models import (
     Bookings,
     Payment,
@@ -44,6 +45,7 @@ from .serializer import (
     UpdateReviewGetTripSerializer,
     ComplaintSerializer,
     ListComplaintSerializer,
+    ListCouponSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -231,11 +233,11 @@ class BookingHistory(ListAPIView):
             page = self.paginate_queryset(queryset)
 
             if page is not None:
-                serializer = self.get_serializer(page, many=True)
+                serializer = BHDS(page, many=True)
                 return self.get_paginated_response(serializer.data)
 
-            serializer = self.get_serializer(queryset, many=True)
-            logger.info(serializer.data, "bookimg history")
+            serializer = BHDS(queryset, many=True)
+            logger.info(serializer.data, "booking history")
             return Response(serializer.data)
 
         except ValueError:
@@ -884,7 +886,7 @@ class HistoryReviewTrip(ListAPIView):
     Returns:
         json: all reviews of the requesting user
 
-    Returns:
+    Returns:~
         json : review data
     """
 
@@ -1107,3 +1109,80 @@ class ViewComplaintResponse(ListAPIView):
         except Exception as e:
             logger.error(str(e))
             return Response({"error": "An error occurred"}, status=400)
+
+
+class ListCoupons(APIView):
+    """
+    API for listing the available coupons
+
+    Args:
+        coupon_id (int): id of the coupon
+        trip_id (int): id of the trip
+
+    Returns:
+        json : coupon data
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        coupon_id = request.GET.get("coupon_id")
+        trip_id = request.GET.get("trip_id")
+
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            coupon_data = CouponDetails.objects.get(id=coupon_id)
+            user_id = request.user.id
+            start_date = datetime.now()
+            end_date = "5000-12-31"
+
+            if Bookings.objects.filter(user=user_id):
+                # checks if first booking or not
+                queryset = CouponDetails.objects.filter(
+                    coupon_eligibility=0,
+                    status=0,
+                    valid_till__range=[start_date, end_date],
+                )
+            else:
+                queryset = CouponDetails.objects.filter(
+                    status=0,
+                    valid_till__range=[start_date, end_date],
+                )
+
+            queryset = [
+                # checks if particular bus owner or not
+                coupon
+                for coupon in queryset
+                if (
+                    (coupon.coupon_availability == 1 and coupon.user == trip.user)
+                    or not (coupon.user)
+                )
+            ]
+
+            queryset = [
+                # checks if particular trip or not
+                coupon
+                for coupon in queryset
+                if (
+                    (coupon.coupon_availability == 2 and coupon.trip == trip)
+                    or not (coupon.trip)
+                )
+            ]
+
+            queryset = [
+                # checks if one time use or not
+                coupon
+                for coupon in queryset
+                if (
+                    coupon.one_time_use == 0
+                    or not CouponHistory.objects.filter(
+                        id=coupon_data.id, user=request.user.id
+                    ).exists()
+                )
+            ]
+
+            serializer = ListCouponSerializer(queryset, many=True)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": f"{e}"}, status=400)

@@ -1,6 +1,7 @@
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
+from adminstrator.models import CouponDetails
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
 from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
 
@@ -217,13 +218,23 @@ class ViewReviewTripSerializer(serializers.ModelSerializer):
         ]
 
 
+class UpdateReviewGetTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
+
+
 class BookingHistoryDataSerializer(serializers.ModelSerializer):
     """
     For viewing user's booking history
     """
 
     booked_seats = TravellerHistorySerializer(many=True, source="bookedseats_set")
-    review = ViewReviewTripSerializer(many=True, source="userreview_set")
+    review = UpdateReviewGetTripSerializer(many=True, source="userreview_set")
 
     class Meta:
         model = Bookings
@@ -348,16 +359,6 @@ class ReviewTripSerializer(serializers.ModelSerializer):
     )
 
 
-class UpdateReviewGetTripSerializer(serializers.ModelSerializer):
-    """
-    For reviewing trip
-    """
-
-    class Meta:
-        model = UserReview
-        fields = "__all__"
-
-
 class UpdateReviewTripSerializer(serializers.ModelSerializer):
     """
     For reviewing trip
@@ -411,4 +412,15 @@ class ListComplaintSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserComplaints
+        fields = "__all__"
+
+
+class ListCouponSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing available coupons
+
+    """
+
+    class Meta:
+        model = CouponDetails
         fields = "__all__"

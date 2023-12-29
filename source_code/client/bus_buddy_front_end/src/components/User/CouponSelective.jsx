@@ -5,9 +5,9 @@ import { Card, CardImgOverlay, Container, Row, Col } from "react-bootstrap";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
 
-import First from "../../assets/images/couponFirst.png";
+import Off from "../../assets/images/offer.png";
 
-export default function CouponFirstTime(props) {
+export default function CouponSelective(props) {
   return (
     <Card
       style={{
@@ -16,7 +16,7 @@ export default function CouponFirstTime(props) {
         marginTop: 30,
       }}
     >
-      <Card.Img src={First} alt="" />
+      <Card.Img src={Off} alt="" />
       <Container>
         <CardImgOverlay>
           <Row>
@@ -48,7 +48,7 @@ export default function CouponFirstTime(props) {
     </Card>
   );
 }
-CouponFirstTime.propTypes = {
+CouponSelective.propTypes = {
   setCouponValue: PropTypes.func,
   data: PropTypes.object,
 };

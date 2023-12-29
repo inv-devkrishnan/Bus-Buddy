@@ -34,4 +34,5 @@ urlpatterns = [
         views.ViewComplaintResponse.as_view(),
         name="list-complaints",
     ),
+    path("available-coupons/", views.ListCoupons.as_view(), name="available-coupons"),
 ]

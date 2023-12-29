@@ -41,6 +41,7 @@ function ShowTrips(props) {
     setPageStartLimit(1);
     setPageEndLimit(PAGE_LIMIT);
   }, [props, seatType, busType, busAc]);
+  
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
     setIsLoading(true);

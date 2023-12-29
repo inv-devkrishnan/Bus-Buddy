@@ -5,9 +5,9 @@ import { Card, CardImgOverlay, Container, Row, Col } from "react-bootstrap";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
 
-import First from "../../assets/images/couponFirst.png";
+import Fest from "../../assets/images/couponFestive.png";
 
-export default function CouponFirstTime(props) {
+export default function CouponFestive(props) {
   return (
     <Card
       style={{
@@ -16,12 +16,12 @@ export default function CouponFirstTime(props) {
         marginTop: 30,
       }}
     >
-      <Card.Img src={First} alt="" />
+      <Card.Img src={Fest} alt="" />
       <Container>
         <CardImgOverlay>
           <Row>
             <Col xs={3}></Col>
-            <Col style={{ marginTop: 35 }}>
+            <Col style={{ marginLeft: 4, marginTop: 25 }}>
               <Card.Title style={{ color: "white", fontSize: "25px" }}>
                 {props.data?.coupon_name}
               </Card.Title>
@@ -48,7 +48,7 @@ export default function CouponFirstTime(props) {
     </Card>
   );
 }
-CouponFirstTime.propTypes = {
+CouponFestive.propTypes = {
   setCouponValue: PropTypes.func,
   data: PropTypes.object,
 };
