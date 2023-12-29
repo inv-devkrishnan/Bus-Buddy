@@ -1134,19 +1134,32 @@ class ListCoupons(APIView):
             coupon_data = CouponDetails.objects.get(id=coupon_id)
             user_id = request.user.id
             start_date = datetime.now()
-            end_date = "5000-12-31"
 
             if Bookings.objects.filter(user=user_id):
                 # checks if first booking or not
-                queryset = CouponDetails.objects.filter(
-                    coupon_eligibility=0,
-                    status=0,
-                    valid_till__range=[start_date, end_date],
+                queryset = (
+                    CouponDetails.objects.filter(
+                        coupon_eligibility=0,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
+                    | CouponDetails.objects.filter(
+                        coupon_eligibility=1,
+                        trip=trip.id,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
+                    | CouponDetails.objects.filter(
+                        coupon_eligibility=1,
+                        user=trip.user.id,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
                 )
             else:
                 queryset = CouponDetails.objects.filter(
                     status=0,
-                    valid_till__range=[start_date, end_date],
+                    valid_till__gte=start_date,
                 )
 
             queryset = [
@@ -1174,7 +1187,7 @@ class ListCoupons(APIView):
                 coupon
                 for coupon in queryset
                 if (
-                    coupon.one_time_use == 0
+                    coupon.one_time_use != 1
                     or not CouponHistory.objects.filter(
                         id=coupon_data.id, user=request.user.id
                     ).exists()

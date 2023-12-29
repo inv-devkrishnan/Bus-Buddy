@@ -22,6 +22,7 @@ import CouponFirstTime from "./CouponFirstTime";
 import CouponFestive from "./CouponFestive";
 import CouponSelective from "./CouponSelective";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
+import CouponOther from "./CouponOther";
 
 export default function AvailableCoupons(props) {
   const [couponValue, setCouponValue] = useState("");
@@ -52,8 +53,10 @@ export default function AvailableCoupons(props) {
   const getCuponDesign = (data) => {
     if (data?.coupon_eligibility === 1) {
       return <CouponFirstTime data={data} setCouponValue={setCouponValue} />;
-    } else if (data?.user || data?.trip) {
+    } else if (data?.coupon_availability === 1) {
       return <CouponSelective data={data} setCouponValue={setCouponValue} />;
+    } else if (data?.coupon_availability === 2) {
+      return <CouponOther data={data} setCouponValue={setCouponValue} />;
     } else {
       return <CouponFestive data={data} setCouponValue={setCouponValue} />;
     }
