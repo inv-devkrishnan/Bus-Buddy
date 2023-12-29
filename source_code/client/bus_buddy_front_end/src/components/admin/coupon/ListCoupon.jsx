@@ -20,13 +20,9 @@ function ListCoupon() {
 
   const [couponListLoading, setCouponListLoading] = useState(false);
 
-  const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
   const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
-  const [hasNext, setHasNext] = useState(false); // to check if current page has next page
-  const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
-  const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
   let searchbox = document.getElementById("search_box");
   useEffect(() => {
     getCouponList();
@@ -54,7 +50,6 @@ function ListCoupon() {
           setCurrentPage(result?.data?.current_page);
           setCurrentPage(result?.data?.current_page);
           setHasPrevious(Boolean(result?.data?.has_previous));
-          setHasNext(Boolean(result?.data?.has_next));
         }
       })
       .catch(function (error) {
@@ -241,17 +236,9 @@ function ListCoupon() {
       </Row>
       <Row>
         <CustomPaginator
-          PAGE_LIMIT={PAGE_LIMIT}
           totalPages={totalPages}
           currentPage={currentPage}
-          hasPrevious={hasPrevious}
-          hasNext={hasNext}
-          pageStartLimit={pageStartLimit}
-          pageEndLimit={pageEndLimit}
-          setPageStartLimit={setPageStartLimit}
-          setPageEndLimit={setPageEndLimit}
           viewPage={getCouponsByPage}
-          width={"70%"}
         ></CustomPaginator>
       </Row>
     </Container>
