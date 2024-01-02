@@ -233,6 +233,7 @@ class Deletebus(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
+        import pdb;pdb.set_trace();
         try:
             logger.info("fetching bus obj matching the requested id")
             data = Bus.objects.get(id=id)  # to retrive bus object that matches the id
@@ -248,12 +249,11 @@ class Deletebus(APIView):
                     bus=id
                 )  # to get the amenities obj associated with bus obj
                 if data.status == 99:
-                    return Response({"message": "already deleted"})
+                   logger.info("Amenities already deleted")
                 else:
                     data.status = 99  # soft delete
                     data.save()
                     logger.info("Deleted amenities")
-                    return Response({"message": "Deleted Bus & Amenities"})
             except ObjectDoesNotExist:
                 logger.info(entry)
             try:

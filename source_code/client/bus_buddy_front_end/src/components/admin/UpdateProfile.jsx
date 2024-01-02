@@ -53,6 +53,10 @@ function UpdateProfile(props) {
       alert("Platform charges must be a number")
       return;
     }
+    if (charges < 0 || charges >100){
+      alert("Platform charges are in % and should be in range 0 - 100")
+      return;
+    }
     const platformcharges = parseFloat(charges);
     axiosApi
       .put("account/platformcharges/", { extra_charges: platformcharges })

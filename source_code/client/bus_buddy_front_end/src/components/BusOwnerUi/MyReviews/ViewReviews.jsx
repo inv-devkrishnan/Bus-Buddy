@@ -111,19 +111,21 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h4>Name : {viewreview.review_title}</h4>
+              <h4>Title : {viewreview.review_title}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
                 <div>
                   <p>{viewreview.review_body}</p>
                   <p>
-                    Rating:
+                    Rating :&nbsp;
                     <Badge bg={getBadgeColor(viewreview.rating)}>
                         {viewreview.rating} &nbsp;
                       <StarFill />
                     </Badge>
                   </p>
+                  <p>Review By : {viewreview.user_id.first_name}  {viewreview.user_id.last_name}</p>
+                  <p>Email Id : {viewreview.user_id.email} </p>
                 </div>
               </div>
             </Accordion.Body>

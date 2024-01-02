@@ -42,6 +42,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserReview
         fields = "__all__"
+        depth = 1
     
 
 class BusSerializer(serializers.ModelSerializer):
