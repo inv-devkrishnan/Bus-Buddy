@@ -90,19 +90,17 @@ export default function AvailableCoupons(props) {
         </div>
       ) : (
         <>
-          <div className="m-2">
-            <div className="h5 d-flex flex-column align-items-center m-2">
-              Available coupons
-            </div>
-
-            <Carousel variant="dark" indicators={false}>
-              {couponList.map((data) => (
-                <Carousel.Item key={data?.id}>
-                  {getCuponDesign(data)}
-                </Carousel.Item>
-              ))}
-            </Carousel>
+          <div className="h5 d-flex flex-column align-items-center m-2">
+            Available coupons
           </div>
+
+          <Carousel variant="dark" indicators={false}>
+            {couponList.map((data) => (
+              <Carousel.Item key={data?.id}>
+                {getCuponDesign(data)}
+              </Carousel.Item>
+            ))}
+          </Carousel>
 
           <div className="m-3">
             <Form
