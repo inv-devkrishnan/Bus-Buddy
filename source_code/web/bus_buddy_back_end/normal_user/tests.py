@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 from unittest.mock import patch, MagicMock, Mock
+from adminstrator.models import CouponDetails
 from .models import User, Bookings, UserReview, UserComplaints
 from bus_owner.models import (
     Bus,
@@ -181,6 +182,14 @@ class BaseTest(TestCase):
             status=1,
         )
 
+        self.coupon = CouponDetails.objects.create(
+            coupon_code="TRF44545",
+            coupon_name="Coupon 1",
+            coupon_description="Coupon detail 1",
+            valid_till="2050-12-31",
+            discount=30,
+        )
+
         self.register = reverse("register-user")
         self.create_payment_intent = reverse("create-payment-intent")
         self.mock_create_payment_intent = (
@@ -190,6 +199,7 @@ class BaseTest(TestCase):
         self.complaint = reverse("register-complaint")
         self.view_seat = reverse("view-seat-detail")
         self.list_complaints = reverse("list-complaints")
+        self.list_coupons = reverse("available-coupons")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -908,3 +918,23 @@ class ViewComplaints(BaseTest):
         )
         print(response.content)
         self.assertEqual(response.status_code, 200)
+
+
+class ViewCoupons(BaseTest):
+    def test_01_get_coupons(self):
+        response = self.client.get(
+            self.list_coupons,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon.id},
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_invalid_trip(self):
+        response = self.client.get(
+            self.list_coupons,
+            {"trip_id": 100, "coupon_id": self.coupon.id},
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)

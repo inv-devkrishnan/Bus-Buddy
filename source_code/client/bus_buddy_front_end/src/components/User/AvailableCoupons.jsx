@@ -16,6 +16,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Tooltip from "@mui/material/Tooltip";
 
 import { axiosApi } from "../../utils/axiosApi";
 import CouponFirstTime from "./CouponFirstTime";
@@ -74,14 +75,23 @@ export default function AvailableCoupons(props) {
 
   return (
     <div className="d-flex flex-column">
-      <div>
+      <div className="d-flex flex-column align-items-center m-2">
+        <h4>Total Amount:</h4>
+        <h5>{props.total}</h5>
+      </div>
+
+      <div className="m-2">
+        <div className="h5 d-flex flex-column align-items-center m-2">
+          Available coupons
+        </div>
+
         <Carousel variant="dark" indicators={false}>
           {couponList.map((data) => (
             <Carousel.Item key={data?.id}>{getCuponDesign(data)}</Carousel.Item>
           ))}
         </Carousel>
       </div>
-      <div className="m-5">
+      <div className="m-3">
         <Form
           onSubmit={handleSubmit}
           className="d-flex flex-column flex-lg-row"
@@ -99,11 +109,6 @@ export default function AvailableCoupons(props) {
           </InputGroup>
           <Button onClick={handleShow}>Coupon List</Button>
         </Form>
-      </div>
-
-      <div className="d-flex flex-column align-items-center">
-        <h4>Total Amount:</h4>
-        <h5>{props.total}</h5>
       </div>
 
       <Modal show={show} onHide={handleClose} centered size="lg">
@@ -128,14 +133,21 @@ export default function AvailableCoupons(props) {
                     <TableCell>{data?.coupon_description}</TableCell>
                     <TableCell>
                       {data?.coupon_code}
-                      <IconButton
-                        onClick={() => {
-                          setCouponValue(data?.coupon_code);
-                          setShow(false);
-                        }}
+                      <Tooltip
+                        title="Copy to text field"
+                        placement="bottom-start"
+                        arrow
+                        disableInteractive
                       >
-                        <ContentCopyIcon />
-                      </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCouponValue(data?.coupon_code);
+                            setShow(false);
+                          }}
+                        >
+                          <ContentCopyIcon />
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -378,8 +378,7 @@ const TravellerDetail = () => {
             </div>
           </Tab>
 
-          <Tab eventKey="coupon" title="Total amount">
-            <CardTitle className="m-3">Available coupons</CardTitle>
+          <Tab eventKey="coupon" title="Coupons and Total amount">
             <AvailableCoupons total={localStorage.getItem("total_amount")} />
           </Tab>
 

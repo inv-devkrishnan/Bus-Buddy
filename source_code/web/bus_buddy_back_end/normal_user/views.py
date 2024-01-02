@@ -1195,6 +1195,7 @@ class ListCoupons(APIView):
             ]
 
             serializer = ListCouponSerializer(queryset, many=True)
+            logger.info(serializer.data)
             return Response(serializer.data, status=200)
         except Exception as e:
             logger.error(str(e))

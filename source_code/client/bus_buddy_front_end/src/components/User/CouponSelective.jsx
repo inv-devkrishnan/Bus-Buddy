@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Card, CardImgOverlay, Container, Row, Col } from "react-bootstrap";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 import Off from "../../assets/images/offer.png";
 
@@ -12,7 +13,7 @@ export default function CouponSelective(props) {
     <Card
       style={{
         width: "20rem",
-        marginLeft: 100,
+        marginLeft: 150,
         marginTop: 30,
       }}
     >
@@ -32,13 +33,20 @@ export default function CouponSelective(props) {
                 <Card.Text style={{ color: "white", fontSize: "15px" }}>
                   {props.data?.coupon_code}
                   &nbsp;
-                  <IconButton
-                    onClick={() => {
-                      props.setCouponValue(props.data?.coupon_code);
-                    }}
+                  <Tooltip
+                    title="Copy to text field"
+                    placement="bottom-start"
+                    arrow
+                    disableInteractive
                   >
-                    <ContentCopyIcon />
-                  </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        props.setCouponValue(props.data?.coupon_code);
+                      }}
+                    >
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
                 </Card.Text>
               </Card.Body>
             </Col>
