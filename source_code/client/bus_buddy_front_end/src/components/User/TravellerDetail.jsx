@@ -292,7 +292,7 @@ const TravellerDetail = () => {
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
-                    <TimelineDot color="info">
+                    <TimelineDot color="error">
                       <CircleIcon />
                     </TimelineDot>
                     <TimelineConnector />
@@ -319,7 +319,7 @@ const TravellerDetail = () => {
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
-                    <TimelineDot sx={"sm"} color="info" />
+                    <TimelineDot sx={"sm"} color="error" />
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent

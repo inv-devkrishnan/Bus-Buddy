@@ -196,6 +196,7 @@ class BaseTest(TestCase):
             "normal_user.views.stripe.PaymentIntent.create"
         )
         self.book = reverse("book-seat")
+        self.booking_history = reverse("booking-history")
         self.complaint = reverse("register-complaint")
         self.view_seat = reverse("view-seat-detail")
         self.list_complaints = reverse("list-complaints")
@@ -785,6 +786,22 @@ class BookingTest(BaseTest):
         self.assertEqual(response.status_code, 400)
 
 
+class BookingHistoryTest(BaseTest):
+    def test_01_booking_history(self):
+        response = self.client.get(
+            self.booking_history, {"page": 1, "status": ""}, format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cancelled_status(self):
+        response = self.client.get(
+            self.booking_history, {"page": 1, "status": 99}, format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+
 class ReviewTripTest(BaseTest):
     def test_01_can_review(self):
         response = self.client.post(
@@ -909,7 +926,7 @@ class ViewSeatDetailsTest(BaseTest):
         self.assertEqual(response.status_code, 200)
 
 
-class ViewComplaints(BaseTest):
+class ViewComplaintsTest(BaseTest):
     def test_01_get_complaint_details(self):
         response = self.client.get(
             self.list_complaints,
@@ -920,7 +937,7 @@ class ViewComplaints(BaseTest):
         self.assertEqual(response.status_code, 200)
 
 
-class ViewCoupons(BaseTest):
+class ViewCouponsTest(BaseTest):
     def test_01_get_coupons(self):
         response = self.client.get(
             self.list_coupons,

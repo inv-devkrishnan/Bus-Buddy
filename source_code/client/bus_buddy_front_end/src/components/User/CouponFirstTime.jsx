@@ -10,16 +10,7 @@ import First from "../../assets/images/couponFirst.png";
 
 export default function CouponFirstTime(props) {
   return (
-    <Card
-      style={{
-        width: "20rem",
-        marginLeft: 150,
-        marginTop: 30,
-        "@media (max-width: 200px)": {
-          marginLeft: 0,
-        },
-      }}
-    >
+    <Card style={{width:"25rem"}}>
       <Card.Img src={First} alt="" />
       <Container>
         <CardImgOverlay>

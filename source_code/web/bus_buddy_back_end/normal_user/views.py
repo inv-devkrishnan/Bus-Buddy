@@ -238,11 +238,11 @@ class BookingHistory(ListAPIView):
 
             serializer = BHDS(queryset, many=True)
             logger.info(serializer.data, "booking history")
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
 
         except ValueError:
             logger.info(serializer.errors)
-            return Response(serializer._errors)
+            return Response(serializer._errors, status=400)
 
 
 class ViewTrip(APIView):

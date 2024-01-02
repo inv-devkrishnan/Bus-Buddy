@@ -78,7 +78,7 @@ export default function AvailableCoupons(props) {
     <div className="d-flex flex-column">
       <div className="d-flex flex-column align-items-center mt-4">
         <h4>Total Amount:</h4>
-        <h5>{props.total}</h5>
+        <h5 className="border rounded p-2 ">{props.total}</h5>
       </div>
 
       {couponList.length < 1 ? (
@@ -97,7 +97,9 @@ export default function AvailableCoupons(props) {
           <Carousel variant="dark" indicators={false}>
             {couponList.map((data) => (
               <Carousel.Item key={data?.id}>
-                {getCuponDesign(data)}
+                <div className="d-flex align-items-center justify-content-center">
+                  {getCuponDesign(data)}
+                </div>
               </Carousel.Item>
             ))}
           </Carousel>
@@ -118,7 +120,7 @@ export default function AvailableCoupons(props) {
                   Apply Coupon
                 </Button>
               </InputGroup>
-              <Button onClick={handleShow}>Coupon List</Button>
+              <Button onClick={handleShow}>All Coupons</Button>
             </Form>
           </div>
         </>

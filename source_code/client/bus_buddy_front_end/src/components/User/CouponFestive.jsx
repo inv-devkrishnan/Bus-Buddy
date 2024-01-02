@@ -10,16 +10,7 @@ import Fest from "../../assets/images/couponFestive.png";
 
 export default function CouponFestive(props) {
   return (
-    <Card
-      style={{
-        width: "20rem",
-        marginLeft: 150,
-        marginTop: 30,
-        "@media (max-width: 200px)": {
-          marginLeft: 0,
-        },
-      }}
-    >
+    <Card style={{width:"25rem"}}>
       <Card.Img src={Fest} alt="" />
       <Container>
         <CardImgOverlay>

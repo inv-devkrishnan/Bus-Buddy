@@ -10,13 +10,7 @@ import Off from "../../assets/images/offer.png";
 
 export default function CouponSelective(props) {
   return (
-    <Card
-      style={{
-        width: "20rem",
-        marginLeft: 150,
-        marginTop: 30,
-      }}
-    >
+    <Card style={{width:"25rem"}}>
       <Card.Img src={Off} alt="" />
       <Container>
         <CardImgOverlay>
