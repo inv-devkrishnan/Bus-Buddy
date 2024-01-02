@@ -235,11 +235,13 @@ function ListCoupon() {
         {couponListLoading ? renderLoading : renderCouponList}
       </Row>
       <Row>
-        <CustomPaginator
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={getCouponsByPage}
-        ></CustomPaginator>
+        {!couponListLoading && (
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={getCouponsByPage}
+          ></CustomPaginator>
+        )}
       </Row>
     </Container>
   );

@@ -4,15 +4,13 @@ import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
-import {
-  ExclamationCircle,
-} from "react-bootstrap-icons";
+import { ExclamationCircle } from "react-bootstrap-icons";
 import ComplaintCard from "./ComplaintCard";
 import { axiosApi } from "../../../utils/axiosApi";
 import CustomPaginator from "../paginator/CustomPaginator";
 import Swal from "sweetalert2";
 import { Form, Modal, ProgressBar } from "react-bootstrap";
-import "./viewComplaint.css"
+import "./viewComplaint.css";
 function ViewComplaints() {
   let init_date = new Date(0);
   let final_date = new Date(2100, 0, 1);
@@ -118,18 +116,14 @@ function ViewComplaints() {
     if (fromDate && toDate) {
       fromSelectedDate.current = fromDate;
       toSelectedDate.current = toDate;
-      if(fromSelectedDate.current<=toSelectedDate.current)
-      {
+      if (fromSelectedDate.current <= toSelectedDate.current) {
         getComplaintsbyPage(1);
-      }
-      else
-      {
+      } else {
         Swal.fire({
           title: "from date should be before or same as to date",
           icon: "error",
         });
       }
-     
     } else {
       Swal.fire({
         title: "Both From date and To date need's to be specified",
@@ -190,16 +184,8 @@ function ViewComplaints() {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        
-        
-        <Col
-          xxl={9}
-          xl={9}
-          lg={8}
-          md={8}
-          sm={12}
-          className="search_box"
-        >
+
+        <Col xxl={9} xl={9} lg={8} md={8} sm={12} className="search_box">
           <div className="d-flex justify-content-start ">
             <Form.Control
               id="search_box"
@@ -245,17 +231,22 @@ function ViewComplaints() {
         </Col>
       </Row>
       <Row className="mt-2">
-      <Col xxl={12} xl={12} lg={12} className="d-flex justify-content-start mb-1">
+        <Col
+          xxl={12}
+          xl={12}
+          lg={12}
+          className="d-flex justify-content-start mb-1"
+        >
           <Button
             className="ms-2"
             onClick={() => {
-             handleFilterShow();
+              handleFilterShow();
             }}
             data-toggle="tooltip"
             title="Filter by Dates"
             size="sm"
           >
-           Filter by Date
+            Filter by Date
           </Button>
         </Col>
       </Row>
@@ -300,12 +291,13 @@ function ViewComplaints() {
         )}
       </Row>
       <Row>
-        <CustomPaginator
-          
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={getComplaintsbyPage}
-        ></CustomPaginator>
+        {!complaintListLoading && (
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={getComplaintsbyPage}
+          ></CustomPaginator>
+        )}
       </Row>
       <Modal show={showFilter} onHide={handleFilterClose}>
         <Modal.Header closeButton>
@@ -337,14 +329,25 @@ function ViewComplaints() {
               placeholder="To date"
               value={toDate}
             />
-           
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={()=>{clearDates(); handleFilterClose();}}>
+          <Button
+            variant="danger"
+            onClick={() => {
+              clearDates();
+              handleFilterClose();
+            }}
+          >
             Clear Filter
           </Button>
-          <Button variant="primary" onClick={()=>{checkDates(); handleFilterClose();}}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              checkDates();
+              handleFilterClose();
+            }}
+          >
             Filter
           </Button>
         </Modal.Footer>
