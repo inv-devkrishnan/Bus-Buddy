@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
+import { ExclamationCircle } from "react-bootstrap-icons";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
@@ -75,41 +76,55 @@ export default function AvailableCoupons(props) {
 
   return (
     <div className="d-flex flex-column">
-      <div className="d-flex flex-column align-items-center m-2">
+      <div className="d-flex flex-column align-items-center mt-4">
         <h4>Total Amount:</h4>
         <h5>{props.total}</h5>
       </div>
 
-      <div className="m-2">
-        <div className="h5 d-flex flex-column align-items-center m-2">
-          Available coupons
+      {couponList.length < 1 ? (
+        <div className="d-flex m-5">
+          <ExclamationCircle color="gray" size={50} />
+          <div style={{ color: "gray" }} className="m-2">
+            <h4>No coupons are avilable for this trip!</h4>
+          </div>
         </div>
+      ) : (
+        <>
+          <div className="m-2">
+            <div className="h5 d-flex flex-column align-items-center m-2">
+              Available coupons
+            </div>
 
-        <Carousel variant="dark" indicators={false}>
-          {couponList.map((data) => (
-            <Carousel.Item key={data?.id}>{getCuponDesign(data)}</Carousel.Item>
-          ))}
-        </Carousel>
-      </div>
-      <div className="m-3">
-        <Form
-          onSubmit={handleSubmit}
-          className="d-flex flex-column flex-lg-row"
-        >
-          <InputGroup className="m-3">
-            <Form.Control
-              placeholder="Coupon Code"
-              value={couponValue}
-              onChange={handleChange}
-              maxLength={20}
-            />
-            <Button type="submit" variant="outline-primary">
-              Apply Coupon
-            </Button>
-          </InputGroup>
-          <Button onClick={handleShow}>Coupon List</Button>
-        </Form>
-      </div>
+            <Carousel variant="dark" indicators={false}>
+              {couponList.map((data) => (
+                <Carousel.Item key={data?.id}>
+                  {getCuponDesign(data)}
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
+
+          <div className="m-3">
+            <Form
+              onSubmit={handleSubmit}
+              className="d-flex flex-column flex-lg-row"
+            >
+              <InputGroup className="m-3">
+                <Form.Control
+                  placeholder="Coupon Code"
+                  value={couponValue}
+                  onChange={handleChange}
+                  maxLength={20}
+                />
+                <Button type="submit" variant="outline-primary">
+                  Apply Coupon
+                </Button>
+              </InputGroup>
+              <Button onClick={handleShow}>Coupon List</Button>
+            </Form>
+          </div>
+        </>
+      )}
 
       <Modal show={show} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>

@@ -383,7 +383,7 @@ const TravellerDetail = () => {
           </Tab>
 
           <Tab eventKey="amount" title="Refund Policy">
-            <div className="ps-5 pe-5 pt-2 pb-2">
+            <div className="ps-5 pe-5 pt-5 pb-2">
               <RefundPolicy />
             </div>
           </Tab>

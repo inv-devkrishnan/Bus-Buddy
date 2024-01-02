@@ -286,7 +286,7 @@ export default function UserBookingHistory() {
                 <th>Departure time</th>
                 <th>Details</th>
               </tr>
-            </thead>{" "}
+            </thead>
             <tbody>
               {isLoading ? (
                 <div className="d-flex flex-column justify-content-center align-items-center mt-5">
