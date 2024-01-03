@@ -1,10 +1,19 @@
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Proptypes from "prop-types";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 function CustomPaginator(props) {
-   const [isSmallScreen, setIsSmallScreen] = useState(false);
-   
+  // to set color of paginator
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#0d6efd",
+      },
+    },
+  });
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
   const handleChange = (event, value) => {
     props.viewPage(value);
   };
@@ -15,29 +24,28 @@ function CustomPaginator(props) {
       setIsSmallScreen(window.innerWidth <= 576);
     };
 
-    // Initial check and event listener setup
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
   return (
     <div>
-      <Stack>
-        <Pagination
-          color="primary"
-          variant="outlined"
-          shape="rounded"
-          size={isSmallScreen?"small":"large"}
-          count={props.totalPages}
-          page={props.currentPage}
-          onChange={handleChange}
-          className="mb-3"
-        />
-      </Stack>
+      <ThemeProvider theme={theme}>
+        <Stack>
+          <Pagination
+            color="primary"
+            shape="rounded"
+            size={isSmallScreen ? "small" : "large"}
+            count={props.totalPages}
+            page={props.currentPage}
+            onChange={handleChange}
+            className="mb-3"
+          />
+        </Stack>
+      </ThemeProvider>
     </div>
   );
 }

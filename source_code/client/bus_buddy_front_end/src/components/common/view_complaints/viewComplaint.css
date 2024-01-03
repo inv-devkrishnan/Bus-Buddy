@@ -1,6 +1,5 @@
 .search_box div
 {
-    margin-top: 10px;
     margin-left: 2px;
 }
 @media (min-width: 576px) { 
