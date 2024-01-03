@@ -4,7 +4,7 @@ from batch_tasks.tasks import UpdateTasksStatus
 import pytz
 def start():
     print("inside scheduler task")
-    scheduler = BackgroundScheduler(timezone=pytz.utc)
+    scheduler = BackgroundScheduler(timezone=pytz.timezone('Asia/Kolkata'))
     scheduler.add_job(UpdateTasksStatus, 'interval', seconds=30)  # Adjust the time as needed
     scheduler.start()
 
