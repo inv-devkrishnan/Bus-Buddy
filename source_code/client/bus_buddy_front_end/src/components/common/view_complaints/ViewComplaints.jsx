@@ -144,7 +144,7 @@ function ViewComplaints() {
         </Col>
       </Row>
       <Row className=" gx-0 d-flex">
-        <Col xxl={3} xl={3} lg={4} md={4} sm={12}>
+        <Col xxl={3} xl={3} lg={4} md={4} sm={4} xs={12}>
           <Dropdown>
             <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
@@ -185,7 +185,7 @@ function ViewComplaints() {
           </Dropdown>
         </Col>
 
-        <Col xxl={9} xl={9} lg={8} md={8} sm={12} className="search_box">
+        <Col xxl={9} xl={9} lg={8} md={8} sm={8} xs={12} className="search_box">
           <div className="d-flex justify-content-start ">
             <Form.Control
               id="search_box"

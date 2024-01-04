@@ -6,9 +6,8 @@
     .search_box
     {
       display: flex !important; 
-      justify-content: end !important;
+      justify-content: flex-end !important;
       margin-top: 0px;
-
       margin-left: -2% !important;
     }
  }
