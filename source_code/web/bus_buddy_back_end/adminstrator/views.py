@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 from decouple import config
 from django.db.models import Q
+from django.db import transaction, DatabaseError
 from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -296,14 +297,20 @@ def update_status(self, user_id, status):
             if serializer.is_valid():
                 if status != instance.status:  # checks if status is already same
                     old_status = instance.status
-                    self.perform_update(serializer)
-                    logger.info("user status changed to " + str(status))
-                    bus_owner_approval(old_status, status, instance)
-                    ban_normal_user(old_status, status, instance)
-                    ban_bus_owner(old_status, status, instance)
-                    unban_user(old_status, status, instance)
-                    remove_bus_owner(old_status, status, instance)
-                    return Response({"success_code": "D2005"})
+                    try:
+                        with transaction.atomic():
+                            self.perform_update(serializer)
+                            logger.info("user status changed to " + str(status))
+                            bus_owner_approval(old_status, status, instance)
+                            ban_normal_user(old_status, status, instance)
+                            ban_bus_owner(old_status, status, instance)
+                            unban_user(old_status, status, instance)
+                            remove_bus_owner(old_status, status, instance)
+                            return Response({"success_code": "D2005"})
+                    except DatabaseError as e:
+                        logger.warn("DataBase Error ! Reason : " + str(e))
+                        return Response({"error_code": "D1029"}, status=400)
+                        
                 else:
                     logger.info(
                         "user status is already " + str(status) + " no change needed"
@@ -368,9 +375,14 @@ class AdminProfileUpdation(UpdateAPIView):
             serializer = AUS(instance, data=current_data, partial=True)
             if serializer.is_valid():
                 logger.info("validated incoming data")
-                self.perform_update(serializer)
-                logger.info("update performed successfully")
-                return Response({"success_code": "D2002"})
+                try:
+                    with transaction.atomic():
+                        self.perform_update(serializer)
+                        logger.info("update performed successfully")
+                        return Response({"success_code": "D2002"})
+                except DatabaseError as e:
+                    logger.warn("Data Base Error ! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
             else:
                 # error handling
                 email_error = serializer._errors.get("email")  # gets email error
@@ -834,10 +846,15 @@ class DeleteCoupon(UpdateAPIView):
             current_status = coupon_instance.status
             # cannot delete already deleted coupon
             if current_status != 99:
-                coupon_instance.status = 99
-                coupon_instance.save()
-                logger.info("Coupon with Id : " + str(coupon_id) + " deleted !")
-                return Response({"success_code": "D2012"})
+                try:
+                    with transaction.atomic():
+                        coupon_instance.status = 99
+                        coupon_instance.save()
+                        logger.info("Coupon with Id : " + str(coupon_id) + " deleted !")
+                        return Response({"success_code": "D2012"})
+                except DatabaseError as e:
+                    logger.warn("Database Error! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
             else:
                 logger.warn("Coupon Already Deleted !")
                 return Response({"success_code": "D2013"})
@@ -855,10 +872,17 @@ class DeactivateCoupon(UpdateAPIView):
             current_status = coupon_instance.status
             # cannot deactivate already deleted coupon
             if current_status == 0:
-                coupon_instance.status = 1
-                coupon_instance.save()
-                logger.info("Coupon with id : " + str(coupon_id) + " Deactivated !")
-                return Response({"success_code": "D2014"})
+                try:
+                    with transaction.atomic():
+                        coupon_instance.status = 1
+                        coupon_instance.save()
+                        logger.info(
+                            "Coupon with id : " + str(coupon_id) + " Deactivated !"
+                        )
+                        return Response({"success_code": "D2014"})
+                except DatabaseError as e:
+                    logger.warn("Database Error : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
             elif current_status == 99:
                 logger.warn("Cannot Deactivate Deleted Coupon !")
                 return Response({"error_code": "D1026"})
@@ -880,9 +904,16 @@ class ActivateCoupon(UpdateAPIView):
             # cannot activate already deleted coupon
             if current_status == 1:
                 coupon_instance.status = 0
-                coupon_instance.save()
-                logger.info("Coupon with id : " + str(coupon_id) + " activated !")
-                return Response({"success_code": "D2016"})
+                try:
+                    with transaction.atomic():
+                        coupon_instance.save()
+                        logger.info(
+                            "Coupon with id : " + str(coupon_id) + " activated !"
+                        )
+                        return Response({"success_code": "D2016"})
+                except DatabaseError as e:
+                    logger.warn("DataBase Error ! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
             elif current_status == 99:
                 logger.warn("Cannot activate deleted coupon!")
                 return Response({"error_code": "D1027"})

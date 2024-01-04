@@ -21,6 +21,8 @@ export function getErrorMessage(errorCode) {
       return "Operation can't be performed on admin account";
     case "D1014":
       return "Mail Operation Failed ";
+    case "D1029":
+      return "Database Error";
     case "T0001":
       return "Too many request please try again later";
     default:

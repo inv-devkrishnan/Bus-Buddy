@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.db import DatabaseError
 from unittest.mock import patch, MagicMock, Mock
 from rest_framework.test import APIClient
 from account_manage.models import User
@@ -89,6 +90,8 @@ class BaseTest(TestCase):
             "email": "ddsdl",
             "phone": "903fsd7760634",
         }
+        self.instance_save_path = "adminstrator.models.CouponDetails.save"
+        self.database_error = b'{"error_code":"D1029"}'
 
 
 class UpdateAdminProfile(BaseTest):
@@ -164,6 +167,18 @@ class UpdateAdminProfile(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+    def test_09_cant_update_with_database_error(self):
+        response = self.client.put(
+            self.admin_profile_update_url,
+            data=self.valid_update_data,
+            format="json",
+        )
+        with patch("adminstrator.views.UpdateAPIView.perform_update") as mock_get:
+            mock_get.side_effect = DatabaseError("simulated Database error")
+
+            response = self.client.put(self.admin_profile_update_url, format="json")
+        self.assertEqual(response.content, self.database_error)
+       
 
 
 class ListUsersTest(BaseTest):
@@ -341,6 +356,20 @@ class BanUserTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+        
+    def test_07_cant_ban_busowner_user_with_database_error(self):
+        self.user = User.objects.create_user(
+            email="dummy17@gmail.com", password="123456738", account_provider=0, role=3
+        )
+        cur_user = User.objects.get(email="dummy17@gmail.com")
+        ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
+        
+        with patch("adminstrator.views.UpdateAPIView.perform_update") as mock_get:
+            mock_get.side_effect = DatabaseError("Simulated Database error")
+
+            response = self.client.put(ban_user_url, format="json")
+        self.assertEqual(response.content, self.database_error)
+        
 
 
 class BusOwnerApprovalTest(BaseTest):
@@ -593,6 +622,33 @@ class DeleteCouponTest(BaseTest):
         response = self.client.put(delete_coupon_url, format="json")
         self.assertEqual(response.content, b'{"error_code":"D1024"}')
 
+    def test_04_cant_delete_with_database_error(self):
+        # Create a CouponDetails instance
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+        )
+
+        # Define the delete_coupon_url
+        delete_coupon_url = reverse(
+            "delete_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+
+        # Mock the database operation to raise a DatabaseError
+        with patch(self.instance_save_path) as mock_get:
+            # Configure the mock to raise a DatabaseError when called
+            mock_get.side_effect = DatabaseError("Simulated Database error")
+
+            # Make the request to delete the coupon
+            response = self.client.put(delete_coupon_url, format="json")
+
+        # Assert that the response indicates a failure due to a database error
+        self.assertEqual(response.content, self.database_error)
+
 
 class DeactiveCouponTest(BaseTest):
     def test_01_can_deactivate_coupon(self):
@@ -647,7 +703,27 @@ class DeactiveCouponTest(BaseTest):
         deactivate_coupon_url = reverse("deactivate_coupon", kwargs={"coupon_id": 99})
         response = self.client.put(deactivate_coupon_url, format="json")
         self.assertEqual(response.content, b'{"error_code":"D1025"}')
-        
+
+    def test_05_cant_deactive_with_database_error(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="123",
+            coupon_name="offer",
+            coupon_description="fdsfjdklisa",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=0,
+        )
+        deactivate_coupon_url = reverse(
+            "deactivate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        with patch(self.instance_save_path) as mock_get:
+            mock_get.side_effect = DatabaseError("Simulated database error")
+
+            response = self.client.put(deactivate_coupon_url, format="json")
+        self.assertEqual(response.content, self.database_error)
+
+
 class ActiveCouponTest(BaseTest):
     def test_01_can_activate_coupon(self):
         coupon_instance = CouponDetails.objects.create(
@@ -701,4 +777,22 @@ class ActiveCouponTest(BaseTest):
         deactivate_coupon_url = reverse("activate_coupon", kwargs={"coupon_id": 99})
         response = self.client.put(deactivate_coupon_url, format="json")
         self.assertEqual(response.content, b'{"error_code":"D1028"}')
-        
+
+    def test_05_cant_activate_with_database_error(self):
+        coupon_instance = CouponDetails.objects.create(
+            coupon_code="1234",
+            coupon_name="offerr",
+            coupon_description="fdsfjdklisa345",
+            coupon_eligibility=0,
+            valid_till="2100-01-01",
+            discount=5,
+            status=1,
+        )
+        activate_coupon_url = reverse(
+            "activate_coupon", kwargs={"coupon_id": coupon_instance.id}
+        )
+        with patch(self.instance_save_path) as mock_get:
+            mock_get.side_effect = DatabaseError("Simulated database error")
+
+            response = self.client.put(activate_coupon_url, format="json")
+        self.assertEqual(response.content, self.database_error)
