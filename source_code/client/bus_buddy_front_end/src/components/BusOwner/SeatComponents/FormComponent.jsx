@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useState, useContext } from "react";
 import {
   FormControl,
   TextField,
@@ -6,22 +6,18 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  Box,
   Button,
   Card,
   FormHelperText,
-  Typography,
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  useFormik,
   Formik,
   Field,
   FieldArray,
   ErrorMessage,
   Form,
-  getIn,
 } from "formik";
 import Swal from "sweetalert2";
 import * as yup from "yup";
@@ -80,7 +76,7 @@ export default function FormComponent(props) {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
+        <Form className="m-3">
           <FieldArray name="seat">
             {(arrayProps) => {
               return (
