@@ -28,15 +28,10 @@ import { axiosApi } from "../../../utils/axiosApi";
 
 export default function FormComponent(props) {
   const {
-    propsData,
-    currentData,
-    updateCurrentSeatData,
-    reRender,
-    updateReRender,
+
     addSeatList,
     updateAddSeatList,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
-  const [formData, setFormData] = useState([]);
 
   const validationSchema = yup.object().shape({
     seat: yup.array().of(
@@ -58,6 +53,8 @@ export default function FormComponent(props) {
   const onSubmit = (values) => {
     // api call for storing seat details
     console.log(values);
+    alert(values);
+
   };
 
   const initialValues = {
