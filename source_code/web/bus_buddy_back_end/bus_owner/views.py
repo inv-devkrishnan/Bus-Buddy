@@ -113,7 +113,7 @@ class AddSeatDetails(ListCreateAPIView):
             else:
                 seat_ui_orders = []
                 for data in SeatDetails.objects.filter(bus=bus_id):
-                    seat_ui_orders.append(data.seat_ui_order)                
+                    seat_ui_orders.append(data.seat_ui_order)
 
             logger.info(f"existing seat ui orders:{seat_ui_orders}")
             response = self.validate_and_bulk_create(
@@ -176,6 +176,8 @@ class RegisterBusOwner(APIView):
             request_data["status"] = 3  # waiting for approval
             request_data["role"] = 3
             logger.info(request_data)
+            gst = request_data["extra_charges"]
+            request_data["extra_charges"] = gst / 100
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()
@@ -391,8 +393,8 @@ class Viewbus(ListAPIView):
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = Bus.objects.filter(
-                status=0, user=user_id
+            queryset = Bus.objects.filter(status=0, user=user_id).order_by(
+                "-id"
             )  # to filter out bus objects which has been soft deleted
             print(queryset)
             serializer = ViewBusSerializer(queryset)
@@ -453,7 +455,7 @@ class Addamenities(APIView):
                 return Response(serializer.errors, status=400)
         except ValidationError:
             logger.info(entry)
-            return Response({"message":"missing"}, status=404)
+            return Response({"message": "missing"}, status=404)
 
 
 class Updateamenities(UpdateAPIView):
@@ -488,7 +490,7 @@ class Updateamenities(UpdateAPIView):
             else:
                 return Response(serializer.errors, status=400)
         except ObjectDoesNotExist:
-            return Response("missing", status=400)
+            return Response("missing", status=404)
 
 
 class Addroutes(APIView):
@@ -597,7 +599,7 @@ class Viewroutes(ListAPIView):
             logger.info("fetching user id ")
             user_id = request.user.id
             logger.info("fetching all data from routes model matching the conditions")
-            queryset = Routes.objects.filter(status=0, user=user_id)
+            queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -623,12 +625,14 @@ class Addtrip(APIView):
 
     def post(self, request):
         try:
-            request_data=request.data.copy()
+            request_data = request.data.copy()
             route = request_data["route"]
-            locations = StartStopLocations.objects.filter(route_id = route).order_by("seq_id")
+            locations = StartStopLocations.objects.filter(route_id=route).order_by(
+                "seq_id"
+            )
             request_data["user"] = request.user.id
-            seq_first = locations.first()  
-            seq_last = locations.last() 
+            seq_first = locations.first()
+            seq_last = locations.last()
             request_data["start_time"] = seq_first.arrival_time
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
@@ -668,12 +672,36 @@ class Updatetrip(UpdateAPIView):
             # saving the present values to instance variable
             buses = instance.bus_id
             routes = instance.route_id
+            print(instance)
+            locations = StartStopLocations.objects.filter(route=routes).order_by(
+                "seq_id"
+            )
+            first_seq = locations.first()
+            last_seq = locations.last()
+            print(locations)
             if not Bus.objects.filter(id=buses, status=0).exists():
-                return Response({"message": "missing"}, status=404)
+                return Response({"message": "bus missing"}, status=404)
             if not Routes.objects.filter(id=routes, status=0).exists():
-                return Response({"message": "missing"}, status=404)
+                return Response({"message": "route missing"}, status=404)
             request_data = request.data.copy()
             request_data["user"] = request.user.id
+            request_data["start_time"] = first_seq.arrival_time
+            request_data["end_time"] = last_seq.departure_time
+            import pdb
+
+            pdb.set_trace()
+            present_date = datetime.now().date()
+            # present_date = datetime.strptime(today, date_format)
+            start_date = datetime.strptime(
+                request_data["start_date"], date_format
+            ).date()
+            print(start_date)
+            print(present_date)
+            if (start_date - present_date) < timedelta(days=2):
+                print("condition ok ")
+                raise ValueError(
+                    "Start date must be at least 2 days from the present date."
+                )
             serializer = TripSerializer(instance, data=request_data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 self.perform_update(serializer)
@@ -683,6 +711,8 @@ class Updatetrip(UpdateAPIView):
             else:
                 logger.info("serializer validation failed")
                 return Response(serializer.errors, status=400)
+        except ValueError as e:
+            return Response({"message": str(e)}, status=400)
         except ObjectDoesNotExist:
             logger.info("no trip obj for the given id")
             return Response("Invalid trip id", status=400)
@@ -701,10 +731,19 @@ class Deletetrip(APIView):
         try:
             logger.info("fetching the trip obj for the obj")
             data = Trip.objects.get(id=id)  # to get trip object matching the id
+            present_date = datetime.now().date()
+            start_date = data.start_date
+            if (start_date - present_date) < timedelta(days=2):
+                print("condition ok ")
+                raise ValueError(
+                    "Start date must be at least 2 days from the present date."
+                )
             data.status = 99
             data.save()
             logger.info("Deleted")
             return Response({"message": dentry})
+        except ValueError as e:
+            return Response({"message": str(e)}, status=400)
         except ObjectDoesNotExist:
             logger.info(entry)
             return Response(status=404)
@@ -722,7 +761,7 @@ class Viewtrip(ListAPIView):
     def list(self, request):
         try:
             user_id = request.user.id
-            queryset = Trip.objects.filter(status=0, user=user_id)
+            queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewRoutesSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
@@ -760,7 +799,7 @@ class Viewavailablebus(ListAPIView):
             startdate = datetime.strptime(start, date_format).date()
             enddate = datetime.strptime(end, date_format).date()
             trips = Trip.objects.filter(
-                status=0,user=user_id, start_date__lte=enddate, end_date__gte=startdate
+                status=0, user=user_id, start_date__lte=enddate, end_date__gte=startdate
             )
             buses = trips.values_list("bus", flat=True)
             print(buses)
@@ -803,13 +842,13 @@ class Addtreccuringrip(APIView):
             request_data["user"] = request.user.id
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
-            routes=request_data["route"]
-            loc=StartStopLocations.objects.filter(route=routes).order_by('seq_id')
+            routes = request_data["route"]
+            loc = StartStopLocations.objects.filter(route=routes).order_by("seq_id")
             print(loc)
-            seq_first = loc.first()  
-            seq_last = loc.last() 
-            print (seq_first.arrival_time)
-            print (seq_last.departure_time)
+            seq_first = loc.first()
+            seq_last = loc.last()
+            print(seq_first.arrival_time)
+            print(seq_last.departure_time)
             recurrence_type = request_data["recurrence"]
             print("recurence")
             print(recurrence_type)
@@ -820,13 +859,13 @@ class Addtreccuringrip(APIView):
             start_datetime = datetime.combine(start_date, start_time)
             end_datetime = datetime.combine(end_date, end_time)
             duration = end_datetime - start_datetime
-            print(duration)         
-            no_of_days = (duration.days) 
+            print(duration)
+            no_of_days = duration.days
             print(no_of_days)
             psd_str = request.GET.get("start")
             ped_str = request.GET.get("end")
             psd = datetime.strptime(psd_str, date_format)
-            ped = datetime.strptime(ped_str, date_format)+timedelta(days=1)
+            ped = datetime.strptime(ped_str, date_format) + timedelta(days=1)
             period = ped - psd
             if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
                 trip_objects = []
@@ -848,12 +887,16 @@ class Addtreccuringrip(APIView):
                     current_end_date = end_datetime + i * period
                     print(current_start_date)
                     print(current_end_date)
-                    if (current_end_date > ped or current_start_date > ped):
+                    if current_end_date > ped or current_start_date > ped:
                         break
                     else:
                         current_request_data = request_data.copy()
-                        current_request_data["start_date"] = current_start_date.strftime(date_format)
-                        current_request_data["end_date"] = current_end_date.strftime(date_format)
+                        current_request_data[
+                            "start_date"
+                        ] = current_start_date.strftime(date_format)
+                        current_request_data["end_date"] = current_end_date.strftime(
+                            date_format
+                        )
                         current_request_data["start_time"] = start_time
                         current_request_data["end_time"] = end_time
                         current_serializer = TripSerializer(data=current_request_data)

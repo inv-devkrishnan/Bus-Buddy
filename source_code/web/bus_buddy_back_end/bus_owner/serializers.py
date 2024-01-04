@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import re
 from rest_framework import serializers
 from rest_framework.fields import empty
@@ -159,15 +159,18 @@ class Locationdata(serializers.ModelSerializer):
         model = LocationData
         fields = "__all__"
 
+
 class StartStopLocationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = StartStopLocations
-        fields ="__all__"
+        fields = "__all__"
+
 
 class ViewRoutesSerializer(serializers.ModelSerializer):
     """
     serilizer for routes model.for listing
     """
+
     location = StartStopLocationsSerializer(many=True, read_only=True)
     start_point_name = serializers.CharField(
         source="start_point.location_name",
@@ -374,6 +377,12 @@ class TripSerializer(serializers.ModelSerializer):
         if value < today:
             raise serializers.ValidationError(
                 "Start date must be today or in the future."
+            )
+
+        six_months_from_today = today + timedelta(days=6 * 30)
+        if value > six_months_from_today:
+            raise serializers.ValidationError(
+                "Start date should not be greater than 6 months from today."
             )
         return value
 

@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getErrorMessage } from "../../utils/getErrorMessage";
+import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 
 const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
@@ -111,12 +112,13 @@ const TravellerDetail = () => {
       acc[seat.id] = {
         [`name_${seat.id}`]: "",
         [`dob_${seat.id}`]: "",
-        [`gender_${seat.id}`]: 1,
+        [`gender_${seat.id}`]: "",
       };
       return acc;
     }, {}),
     validationSchema,
     onSubmit,
+    enableReinitialize: true,
   });
 
   const handleInputChange = (seatId, field, value) => {
@@ -152,7 +154,10 @@ const TravellerDetail = () => {
                       type="text"
                       placeholder="Enter name"
                       value={formik.values[seatId]?.[`name_${seatId}`] || ""}
-                      isInvalid={formik.errors[seatId]?.[`name_${seatId}`]}
+                      isInvalid={
+                        formik.touched[seatId]?.[`name_${seatId}`] &&
+                        formik.errors[seatId]?.[`name_${seatId}`]
+                      }
                       onChange={(e) =>
                         handleInputChange(
                           seatId,
@@ -162,7 +167,8 @@ const TravellerDetail = () => {
                       }
                     />
                     <Form.Control.Feedback type="invalid">
-                      {formik.errors[seatId]?.[`name_${seatId}`]}
+                      {formik.touched[seatId]?.[`name_${seatId}`] &&
+                        formik.errors[seatId]?.[`name_${seatId}`]}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="m-2">
@@ -173,7 +179,10 @@ const TravellerDetail = () => {
                       type="date"
                       placeholder="Enter DOB"
                       value={formik.values[seatId]?.[`dob_${seatId}`] || ""}
-                      isInvalid={formik.errors[seatId]?.[`dob_${seatId}`]}
+                      isInvalid={
+                        formik.touched[seatId]?.[`dob_${seatId}`] &&
+                        formik.errors[seatId]?.[`dob_${seatId}`]
+                      }
                       onChange={(e) =>
                         handleInputChange(
                           seatId,
@@ -183,7 +192,8 @@ const TravellerDetail = () => {
                       }
                     />
                     <Form.Control.Feedback type="invalid">
-                      {formik.errors[seatId]?.[`dob_${seatId}`]}
+                      {formik.touched[seatId]?.[`dob_${seatId}`] &&
+                        formik.errors[seatId]?.[`dob_${seatId}`]}
                     </Form.Control.Feedback>
                   </Form.Group>
 
@@ -200,7 +210,10 @@ const TravellerDetail = () => {
                       onChange={() =>
                         handleInputChange(seatId, `gender_${seatId}`, 1)
                       }
-                      isInvalid={formik.errors[seatId]?.[`gender_${seatId}`]}
+                      isInvalid={
+                        formik.touched[seatId]?.[`gender_${seatId}`] &&
+                        formik.errors[seatId]?.[`gender_${seatId}`]
+                      }
                     />
                     <Form.Check
                       name={`gender_${seatId}`}
@@ -214,10 +227,14 @@ const TravellerDetail = () => {
                       onChange={() =>
                         handleInputChange(seatId, `gender_${seatId}`, 2)
                       }
-                      isInvalid={formik.errors[seatId]?.[`gender_${seatId}`]}
+                      isInvalid={
+                        formik.touched[seatId]?.[`gender_${seatId}`] &&
+                        formik.errors[seatId]?.[`gender_${seatId}`]
+                      }
                     />
                     <Form.Control.Feedback type="invalid">
-                      {formik.errors[seatId]?.[`gender_${seatId}`]}
+                      {formik.touched[seatId]?.[`gender_${seatId}`] &&
+                        formik.errors[seatId]?.[`gender_${seatId}`]}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Form.Group>
@@ -273,10 +290,18 @@ const TravellerDetail = () => {
       <Card style={{ width: "75%", padding: 5 }}>
         <CardTitle>Payment Details</CardTitle>
         <CardBody>
+          <div className="d-flex justify-content-between" >
           <CardText style={{ margin: 5 }}>
-            <strong>Total Amount:</strong>{" "}
+           <h5>
+           <strong>Total Amount (₹) :</strong>{" "}
             {localStorage.getItem("total_amount")}
+           </h5>
           </CardText>
+          <Card className="ps-5 pe-5 pt-2 pb-2">
+          <CardTitle>Refund Policy</CardTitle>
+          <RefundPolicy/>
+          </Card>
+          </div>
         </CardBody>
       </Card>
     </div>
