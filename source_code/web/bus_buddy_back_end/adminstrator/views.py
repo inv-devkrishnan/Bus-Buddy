@@ -768,6 +768,15 @@ class CreateCoupon(APIView):
 
 
 class ViewCoupons(ListAPIView):
+    """API To view Coupons
+
+    Args:
+        ListAPIView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+
     permission_classes = (AllowAdminsOnly,)
     queryset = CouponDetails.objects.filter(~Q(status=99)).order_by("-created_date")
     serializer_class = CVS
@@ -811,9 +820,19 @@ class DeleteCoupon(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
     def put(self, request, coupon_id):
+        """function to delete Coupon
+
+        Args:
+            request (_type_): incoming request
+            coupon_id (_type_):coupon id to be deleted
+
+        Returns:
+            response:
+        """
         try:
             coupon_instance = CouponDetails.objects.get(id=coupon_id)
             current_status = coupon_instance.status
+            # cannot delete already deleted coupon
             if current_status != 99:
                 coupon_instance.status = 99
                 coupon_instance.save()
@@ -834,6 +853,7 @@ class DeactivateCoupon(UpdateAPIView):
         try:
             coupon_instance = CouponDetails.objects.get(id=coupon_id)
             current_status = coupon_instance.status
+            # cannot deactivate already deleted coupon
             if current_status == 0:
                 coupon_instance.status = 1
                 coupon_instance.save()
@@ -857,6 +877,7 @@ class ActivateCoupon(UpdateAPIView):
         try:
             coupon_instance = CouponDetails.objects.get(id=coupon_id)
             current_status = coupon_instance.status
+            # cannot activate already deleted coupon
             if current_status == 1:
                 coupon_instance.status = 0
                 coupon_instance.save()
