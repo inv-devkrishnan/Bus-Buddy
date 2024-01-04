@@ -10,7 +10,7 @@ import Fest from "../../assets/images/couponFestive.png";
 
 export default function CouponFestive(props) {
   return (
-    <Card style={{width:"25rem"}}>
+    <Card style={{width:"20rem"}}>
       <Card.Img src={Fest} alt="" />
       <Container>
         <CardImgOverlay>

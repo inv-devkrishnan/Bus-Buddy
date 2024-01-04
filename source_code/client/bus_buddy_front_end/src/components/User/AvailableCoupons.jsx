@@ -71,7 +71,6 @@ export default function AvailableCoupons(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(couponValue);
-    setCouponValue("");
   };
 
   return (
@@ -114,7 +113,7 @@ export default function AvailableCoupons(props) {
                   placeholder="Coupon Code"
                   value={couponValue}
                   onChange={handleChange}
-                  maxLength={20}
+                  maxLength={10}
                 />
                 <Button type="submit" variant="outline-primary">
                   Apply Coupon

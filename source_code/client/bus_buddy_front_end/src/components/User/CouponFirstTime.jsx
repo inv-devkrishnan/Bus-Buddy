@@ -10,7 +10,7 @@ import First from "../../assets/images/couponFirst.png";
 
 export default function CouponFirstTime(props) {
   return (
-    <Card style={{width:"25rem"}}>
+    <Card style={{width:"20rem"}}>
       <Card.Img src={First} alt="" />
       <Container>
         <CardImgOverlay>

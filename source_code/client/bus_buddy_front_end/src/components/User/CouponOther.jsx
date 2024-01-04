@@ -10,7 +10,7 @@ import Other from "../../assets/images/couponOther.png";
 
 export default function CouponOther(props) {
   return (
-    <Card style={{width:"25rem"}}>
+    <Card style={{width:"20rem"}}>
       <Card.Img src={Other} alt="" />
       <Container>
         <CardImgOverlay>
