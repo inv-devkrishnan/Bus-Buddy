@@ -282,7 +282,7 @@ function CreateCoupon() {
             )}
           </Form.Group>
           <Form.Group as={Col} md="6" lg="6" xl="3">
-            <Form.Label>One time use</Form.Label>
+            <Form.Label>One time use (per user) </Form.Label>
             <Form.Select
               name="one_time_use"
               {...register("one_time_use", { valueAsNumber: true })}
