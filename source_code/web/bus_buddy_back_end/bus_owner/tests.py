@@ -290,38 +290,38 @@ class BaseTest(TestCase):
             "msme_no": valid_msme,
             "extra_charges": valid_extra_charges,
         }
-        
+
         self.create_bus_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":2
+            "bus_seat_type": 2,
         }
         self.cant_create_bus_invalid_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":8
+            "bus_seat_type": 8,
         }
         self.update_bus_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":2
+            "bus_seat_type": 2,
         }
         self.update_bus_invalid_data = {
             "bus_name": "boss",
             "plate_no": "KL 32 A 7099",
             "bus_type": 0,
             "bus_ac": 0,
-            "bus_seat_type":2
+            "bus_seat_type": 2,
         }
-        
+
         self.add_amenities_data = {
-            "bus":bus_id,
+            "bus": bus_id,
             "emergency_no": 0,
             "water_bottle": 0,
             "charging_point": 0,
@@ -332,10 +332,10 @@ class BaseTest(TestCase):
             "toilet": 0,
             "snacks": 0,
             "tour_guide": 0,
-            "cctv": 0
+            "cctv": 0,
         }
         self.add_amenities_invalid_bus = {
-            "bus":18,
+            "bus": 18,
             "emergency_no": 0,
             "water_bottle": 0,
             "charging_point": 0,
@@ -346,10 +346,10 @@ class BaseTest(TestCase):
             "toilet": 0,
             "snacks": 0,
             "tour_guide": 0,
-            "cctv": 0
+            "cctv": 0,
         }
         self.add_amenities_invalid_data = {
-            "bus":bus_id,
+            "bus": bus_id,
             "emergency_no": 0,
             "water_bottle": 0,
             "charging_point": "ada",
@@ -360,10 +360,10 @@ class BaseTest(TestCase):
             "toilet": 0,
             "snacks": 0,
             "tour_guide": 0,
-            "cctv": 0
+            "cctv": 0,
         }
         self.update_amenities_data = {
-            "bus":bus_id,
+            "bus": bus_id,
             "emergency_no": 0,
             "water_bottle": 0,
             "charging_point": 0,
@@ -374,10 +374,10 @@ class BaseTest(TestCase):
             "toilet": 0,
             "snacks": 0,
             "tour_guide": 0,
-            "cctv": 0
+            "cctv": 0,
         }
-        self.update_bus = reverse("update-bus",args=[bus_id])
-        self.delete_bus = reverse("delete-bus",args=[bus_id])
+        self.update_bus = reverse("update-bus", args=[bus_id])
+        self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
         self.update_amenities = reverse("update-amenities",args=[amenities_id])
@@ -390,89 +390,84 @@ class BusActions(BaseTest):
     def test_can_create_bus(self):
         print("1")
         response = self.client.post(
-            self.create_bus , self.create_bus_data,format = "json"
+            self.create_bus, self.create_bus_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
-    
+
     def test_cant_create_bus_invalid_data(self):
         print("2")
         response = self.client.post(
-            self.create_bus , self.cant_create_bus_invalid_data,format = "json"
+            self.create_bus, self.cant_create_bus_invalid_data, format="json"
         )
         self.assertEqual(response.status_code, 400)
-        
+
     def test_can_update_bus(self):
         print("3")
-        response = self.client.put(
-            self.update_bus , self.update_bus_data , format = "json"
-        ) 
-        self.assertEqual(response.status_code,200)
-    
+        response = self.client.put(self.update_bus, self.update_bus_data, format="json")
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_update_bus(self):
         print("4")
-        self.update_invalid_bus = reverse("update-bus",args=[1])
+        self.update_invalid_bus = reverse("update-bus", args=[1])
         response = self.client.put(
-            self.update_invalid_bus , self.update_bus_invalid_data , format = "json"
-        ) 
-        self.assertEqual(response.status_code,404)
+            self.update_invalid_bus, self.update_bus_invalid_data, format="json"
+        )
+        self.assertEqual(response.status_code, 404)
+
     def test_cant_update_bus_invalid_data(self):
         print("5")
         response = self.client.put(
-            self.update_bus , self.update_bus_invalid_data , format = "json"
+            self.update_bus, self.update_bus_invalid_data, format="json"
         )
-        self.assertEqual(response.status_code,400)
-        
+        self.assertEqual(response.status_code, 400)
+
     def test_can_delete_bus(self):
         print("6")
-        response = self.client.put(
-            self.delete_bus , format = "json"
-        )
-        self.assertEqual(response.status_code,200)
-        
+        response = self.client.put(self.delete_bus, format="json")
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_delete_bus(self):
         print("7")
-        
-        self.delete_invalid_bus = reverse("delete-bus",args=[1])
-        response = self.client.put(
-            self.delete_invalid_bus , format = "json"
-        )
-        self.assertEqual(response.status_code,404)
-        
+
+        self.delete_invalid_bus = reverse("delete-bus", args=[1])
+        response = self.client.put(self.delete_invalid_bus, format="json")
+        self.assertEqual(response.status_code, 404)
+
     def test_can_add_amenities(self):
         print("8")
         response = self.client.post(
-            self.add_amenities,self.add_amenities_data , format = "json"
+            self.add_amenities, self.add_amenities_data, format="json"
         )
-        self.assertEqual(response.status_code,200)
-        
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_add_invalid_bus_amenities(self):
         print("9")
         response = self.client.post(
-            self.add_amenities,self.add_amenities_invalid_bus , format = "json"
+            self.add_amenities, self.add_amenities_invalid_bus, format="json"
         )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code,404)
-        
+        self.assertEqual(response.status_code, 404)
+
     def test_cant_add_invalid_data(self):
         print("10")
         response = self.client.post(
-            self.add_amenities,self.add_amenities_invalid_data , format = "json"
+            self.add_amenities, self.add_amenities_invalid_data, format="json"
         )
-        self.assertEqual(response.status_code,400)
-        
+        self.assertEqual(response.status_code, 400)
+
     def test_can_update_amenities(self):
         print("11")
         response = self.client.put(
-            self.update_amenities,self.update_amenities_data , format = "json"
+            self.update_amenities, self.update_amenities_data, format="json"
         )
-        self.assertEqual(response.status_code,200)
-        
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_update_amenities_invalid_id(self):
         print("12")
-        self.cant_update_amenities = reverse("update-amenities",args=[800])
+        self.cant_update_amenities = reverse("update-amenities", args=[800])
         response = self.client.put(
-            self.cant_update_amenities,self.update_amenities_data , format = "json"
+            self.cant_update_amenities, self.update_amenities_data, format="json"
         )
         
         self.assertEqual(response.status_code,404)
@@ -497,7 +492,6 @@ class BusActions(BaseTest):
 
     
 class RegisterOwnerTest(BaseTest):
-    
     def test_can_register_user(self):
         response = self.client.post(
             self.register_bus_owner, self.valid_all_values, format="json"
@@ -663,11 +657,11 @@ class SeatDetailTest(BaseTest):
             self.add_seat, self.invalid_seat_type_seat_details, format="json"
         )
         print(response.content)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
     def test_04_cannot_add_seat_detail_with_invalid_deck(self):
         response = self.client.post(
             self.add_seat, self.invalid_deck_seat_details, format="json"
         )
         print(response.content)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)

@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 export default function OwnerRegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
     openAxiosApi

@@ -19,9 +19,9 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class PasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(max_length=100)
+    old_password = serializers.CharField(max_length=20)
     new_password = serializers.CharField(
-        max_length=100,
+        max_length=20,
         validators=[
             RegexValidator(
                 regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",

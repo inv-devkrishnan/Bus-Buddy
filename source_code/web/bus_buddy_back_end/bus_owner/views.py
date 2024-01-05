@@ -58,6 +58,7 @@ class AddSeatDetails(APIView):
         user_id = request.user.id
         bus_id = request.data.get("bus")
         ui_order = request.data.get("seat_ui_order")
+        seat_number = request.data.get("seat_number")
         serialized_data = SeatDetailSerializer(data=request.data)
 
         try:
@@ -72,12 +73,14 @@ class AddSeatDetails(APIView):
                 )
                 bus_instance.save()
                 logger.info("seat detail complete")
-                return Response({"data": "All seats have been registered"}, status=200)
+                return Response({"data": "All seats have been registered"}, status=400)
             else:
-                if SeatDetails.objects.filter(seat_ui_order=ui_order, bus=bus_id):
+                if SeatDetails.objects.filter(
+                    seat_ui_order=ui_order, bus=bus_id
+                ) or SeatDetails.objects.filter(seat_number=seat_number, bus=bus_id):
                     logger.info("seat already registered")
                     return Response(
-                        {"data": "seat detail already registered"}, status=200
+                        {"data": "seat number already registered"}, status=400
                     )
                 else:
                     if serialized_data.is_valid():
@@ -95,7 +98,7 @@ class AddSeatDetails(APIView):
                         )
                     else:
                         logger.warning(serialized_data.errors)
-                        return Response(serialized_data.errors, status=200)
+                        return Response(serialized_data.errors, status=400)
         except Exception as e:
             logger.error(e)
             return Response({"error": f"{e}"}, status=400)

@@ -9,6 +9,7 @@ import Ownerprofile from "./Ownerprofile.jsx";
 import SideBar from "../common/SideBar.jsx";
 import "aos/dist/aos.css";
 import ViewReviews from "./MyReviews/ViewReviews.jsx";
+import ViewComplaints from "../common/view_complaints/ViewComplaints.jsx";
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -21,6 +22,7 @@ export default function UserDashboard() {
   const [myTripSelect, setMyTripSelect] = useState(false);
   const [myReviewsSelect, setMyReviewsSelect] = useState(false)
   const [deleteSelect, setDeleteSelect] = useState(false);
+  const [complaintSelect,setComplaintSelect] = useState(false);
 
   const myProfileSelected = () => {
     setMyProfileSelect(true);
@@ -29,6 +31,7 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(false);
     setMyReviewsSelect(false)
+    setComplaintSelect(false);
   };
   const myBusSelected = () => {
     setMyProfileSelect(false);
@@ -37,6 +40,7 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(false);
     setMyReviewsSelect(false)
+    setComplaintSelect(false);
   };  
   const myRouteSelected = () => {
     setMyProfileSelect(false);
@@ -45,6 +49,7 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(false);
     setMyReviewsSelect(false)
+    setComplaintSelect(false);
   };
   const myTripSelected = () => {
     setMyProfileSelect(false);
@@ -53,6 +58,7 @@ export default function UserDashboard() {
     setMyTripSelect(true);
     setDeleteSelect(false);
     setMyReviewsSelect(false)
+    setComplaintSelect(false);
   };
   const deleteSelected = () => {
     setMyProfileSelect(false);
@@ -61,6 +67,16 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(true);
     setMyReviewsSelect(false)
+    setComplaintSelect(false);
+  };
+
+  const complaintSelected = () => {
+    setMyProfileSelect(false);
+    setMyBusSelect(false);
+    setMyRouteSelect(false)
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(true);
   };
   const myReviewsSelected = () => {
     setMyProfileSelect(false);
@@ -104,6 +120,13 @@ export default function UserDashboard() {
       state: deleteSelect,
       onChange: deleteSelected,
     }, 
+    
+
+    {
+      name: "View Complaints",
+      state: complaintSelect,
+      onChange: complaintSelected,
+    },
   ];
 
   useEffect(() => {
@@ -130,6 +153,7 @@ export default function UserDashboard() {
         {myTripSelect && <ViewTrips/>}
         {myReviewsSelect && <ViewReviews />}
         {deleteSelect && <DeleteAccount />}
+        {complaintSelect && <ViewComplaints/>}
       </div>
     </div>
   );

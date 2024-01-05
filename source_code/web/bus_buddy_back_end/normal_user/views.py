@@ -2,16 +2,26 @@ import stripe
 import pytz
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Subquery, OuterRef
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
-from datetime import datetime, timedelta
+from rest_framework.filters import OrderingFilter, SearchFilter
+
+from datetime import datetime
 from decouple import config
 
 from account_manage.models import User
-from normal_user.models import Bookings, Payment, BookedSeats
+from adminstrator.models import CouponHistory, CouponDetails
+from normal_user.models import (
+    Bookings,
+    Payment,
+    BookedSeats,
+    UserReview,
+    UserComplaints,
+)
 from bus_owner.models import (
     SeatDetails,
     Trip,
@@ -29,6 +39,13 @@ from .serializer import (
     CancelBookingSerializer,
     CostSerializer,
     CancelTravellerDataSerializer,
+    ReviewTripSerializer,
+    ViewReviewTripSerializer,
+    UpdateReviewTripSerializer,
+    UpdateReviewGetTripSerializer,
+    ComplaintSerializer,
+    ListComplaintSerializer,
+    ListCouponSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -42,6 +59,7 @@ import logging
 logger = logging.getLogger("django")
 
 date_format = "%Y-%m-%d"
+available_complaintable_users = []
 
 
 def mail_sent_response(mailfunction):
@@ -134,7 +152,7 @@ class UpdateProfile(UpdateAPIView):
     For displaying and updating user details
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowNormalUsersOnly,)
 
     def get(self, request):
         try:
@@ -145,7 +163,7 @@ class UpdateProfile(UpdateAPIView):
 
         serialized_data = UDS(user)
         logger.info(serialized_data.data)
-        return Response(serialized_data.data)
+        return Response(serialized_data.data, status=200)
 
     def update(self, request):
         try:
@@ -157,7 +175,7 @@ class UpdateProfile(UpdateAPIView):
                 serializer.is_valid(raise_exception=True)
                 self.perform_update(serializer)
                 logger.info(serializer.data)
-                return Response({"message": "updated succesffully"}, status=200)
+                return Response({"message": "profile updated succesfully"}, status=200)
             else:
                 logger.info(serializer.errors)
                 return Response(serializer.errors, status=400)
@@ -215,16 +233,16 @@ class BookingHistory(ListAPIView):
             page = self.paginate_queryset(queryset)
 
             if page is not None:
-                serializer = self.get_serializer(page, many=True)
+                serializer = BHDS(page, many=True)
                 return self.get_paginated_response(serializer.data)
 
-            serializer = self.get_serializer(queryset, many=True)
-            logger.info(serializer.data, "bookimg history")
-            return Response(serializer.data)
+            serializer = BHDS(queryset, many=True)
+            logger.info(serializer.data, "booking history")
+            return Response(serializer.data, status=200)
 
         except ValueError:
             logger.info(serializer.errors)
-            return Response(serializer._errors)
+            return Response(serializer._errors, status=400)
 
 
 class ViewTrip(APIView):
@@ -289,7 +307,7 @@ class ViewTrip(APIView):
 
     def get(self, request):
         """Function to display trips to user based on search"""
-        ITEMS_PER_PAGE = 10  # no of items to be display in page
+        ITEMS_PER_PAGE = 5  # no of items to be display in page
 
         # storing query params
         start_location = request.GET.get("start")
@@ -804,3 +822,378 @@ class CreatePaymentIntent(APIView):
             logger.warn("Serializer validation Failed")
             logger.warn(serialized_data.errors)
             return Response({"error_code": "D1002"}, status=400)
+
+
+class ReviewTrip(APIView):
+    """
+    API for reviewing a completed trip
+
+    Args:
+        booking_id (int): query param for identifying booking
+
+    Returns:
+        json : success message
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def post(self, request):
+        booking_id = request.GET.get("booking_id")
+        request_data = request.data.copy()
+        request_data["user_id"] = request.user.id
+        request_data["booking_id"] = booking_id
+
+        try:
+            booking = Bookings.objects.get(user=request_data["user_id"], id=booking_id)
+            request_data["trip_id"] = booking.trip.id
+            request_data["review_for"] = booking.trip.user.id
+
+            if booking.trip.status == 1 and booking.status == 1:
+                serialized_data = ReviewTripSerializer(data=request_data)
+                print(serialized_data)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    logger.info("Review added")
+                    return Response({"message": "Review successfull"}, status=201)
+                else:
+                    logger.error(f"Review serializer error: {serialized_data.errors}")
+                    return Response({"error": serialized_data.errors}, status=400)
+            else:
+                if booking.trip.status != 1:
+                    return Response(
+                        {"error": "Trip is pending or cancelled "},
+                        status=400,
+                    )
+                else:
+                    return Response(
+                        {"error": "Booking is pending or cancelled"},
+                        status=400,
+                    )
+        except Bookings.DoesNotExist:
+            logger.error("Review trip id exception")
+            return Response({"error": "Booking doesn't belong to user"}, status=400)
+
+        except Exception as e:
+            logger.error(f"Review exception {e}")
+            return Response({"error": e}, status=400)
+
+
+class HistoryReviewTrip(ListAPIView):
+    """
+    API for listing all reviews
+
+    Returns:
+        json: all reviews of the requesting user
+
+    Returns:~
+        json : review data
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+    serializer_class = ViewReviewTripSerializer
+    pagination_class = CustomPagination
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["review_title"]
+
+    def list(self, request):
+        user_id = request.user.id
+        try:
+            queryset = UserReview.objects.filter(user_id=user_id).order_by(
+                "-created_date"
+            )
+            queryset = queryset.annotate(
+                trip_start_date=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("start_date")[:1]
+                ),
+                trip_end_date=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("end_date")[:1]
+                ),
+                trip_start_time=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__start_stop_location__arrival_time"
+                    )[:1]
+                ),
+                trip_end_time=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__start_stop_location__arrival_time"
+                    )[:1]
+                ),
+                bus_name=Subquery(
+                    Trip.objects.filter(id=OuterRef("trip_id")).values("bus__bus_name")[
+                        :1
+                    ]
+                ),
+                route_start=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__start_stop_location__location__location_name"
+                    )[:1]
+                ),
+                route_end=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__start_stop_location__location__location_name"
+                    )[:1]
+                ),
+                pick_up=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "pick_up__bus_stop"
+                    )
+                ),
+                drop_off=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "drop_off__bus_stop"
+                    )
+                ),
+                booking=Subquery(
+                    Bookings.objects.filter(id=OuterRef("booking_id")).values(
+                        "booking_id"
+                    )
+                ),
+            )
+
+            serializer = ViewReviewTripSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "review history")
+            return Response(serializer.data)
+
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": "An error occurred"}, status=400)
+
+
+class UpdateReviewTrip(UpdateAPIView):
+    """
+    API for updating a review
+
+    Args:
+        review_id (int): query param for identifying review
+
+    Returns:
+        json : success message
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        review_id = request.GET.get("review_id")
+        user = request.user.id
+
+        try:
+            if review_id and review_id.isdigit():
+                review = UserReview.objects.get(id=review_id, user_id=user)
+                serialized_data = UpdateReviewGetTripSerializer(review)
+            else:
+                return Response({"error": "Invalid review_id"}, status=400)
+        except UserReview.DoesNotExist:
+            return Response({"error": "Review not found"}, status=404)
+
+        logger.info(serialized_data.data)
+        return Response(serialized_data.data)
+
+    def update(self, request):
+        review_id = request.GET.get("review_id")
+        user = request.user.id
+
+        try:
+            instance = UserReview.objects.get(id=review_id, user_id=user)
+            current_data = request.data.copy()
+            serializer = UpdateReviewTripSerializer(
+                instance, data=current_data, partial=True
+            )
+            if serializer.is_valid(raise_exception=True):
+                self.perform_update(serializer)
+                logger.info(serializer.data)
+                return Response({"message": "review updated succesfully"}, status=200)
+            else:
+                logger.info(serializer.errors)
+                return Response(serializer.errors, status=400)
+        except UserReview.DoesNotExist as e:
+            logger.info(e)
+            return Response({"errors": "Review not found"}, status=404)
+
+        except Exception as e:
+            logger.info(e)
+            return Response("errors:" f"{e}", status=400)
+
+
+class RegisterComplaint(APIView):
+    """
+    API for registering a compliant
+
+    Returns:
+        json : success message
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        try:
+            bookings_under_user = Bookings.objects.filter(user=request.user.id)
+            trips = []
+            for bookings in bookings_under_user:
+                trips.append(bookings.trip)
+            bus_owners = []
+            unique_bus_owners = set()
+            for trip in trips:
+                unique_bus_owners.add((trip.user.id, trip.user.company_name))
+            bus_owners = list(unique_bus_owners)
+
+            admin = User.objects.get(role=1).id
+            available_complaintable_users.clear()
+            available_complaintable_users.append(admin)
+            available_complaintable_users.append(set(bus_owners))
+            logger.info(available_complaintable_users, "available owners and admin")
+            return Response(available_complaintable_users, status=200)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+
+    def post(self, request):
+        request_body = request.data.copy()
+        request_body["user"] = request.user.id
+
+        try:
+            receiving_user = User.objects.get(id=request_body["complaint_for"])
+            if receiving_user.role != 2:
+                serialized_data = ComplaintSerializer(data=request_body)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    return Response(
+                        {"message": "Complaint registered successfully"}, status=201
+                    )
+                else:
+                    return Response({"error": serialized_data.errors}, status=400)
+            else:
+                return Response(
+                    {"error": "Users cannot register complaint against other users"},
+                    status=400,
+                )
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+
+
+class ViewComplaintResponse(ListAPIView):
+    """
+    API for viewing complaint list with response
+
+    Returns:
+        json : complaint data
+
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+    serializer_class = ListComplaintSerializer
+    filter_backends = [OrderingFilter, SearchFilter]
+    search_fields = ["complaint_title", "complaint_body"]
+    ordering_fields = ["created_date"]
+
+    def list(self, request):
+        user_id = request.user.id
+        try:
+            queryset = UserComplaints.objects.filter(user_id=user_id)
+
+            queryset = self.filter_queryset(queryset)
+
+            serializer = self.get_serializer(queryset, many=True)
+            logger.info(serializer.data, "complaint history")
+            return Response(serializer.data, status=200)
+
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": "An error occurred"}, status=400)
+
+
+class ListCoupons(APIView):
+    """
+    API for listing the available coupons
+
+    Args:
+        trip_id (int): id of the trip
+
+    Returns:
+        json : coupon data
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        trip_id = request.GET.get("trip_id")
+
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            user_id = request.user.id
+            start_date = datetime.now()
+
+            if Bookings.objects.filter(user=user_id):
+                # checks if first booking or not
+                queryset = (
+                    CouponDetails.objects.filter(
+                        coupon_eligibility=0,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
+                    | CouponDetails.objects.filter(
+                        coupon_eligibility=1,
+                        trip=trip.id,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
+                    | CouponDetails.objects.filter(
+                        coupon_eligibility=1,
+                        user=trip.user.id,
+                        status=0,
+                        valid_till__gte=start_date,
+                    )
+                )
+            else:
+                queryset = CouponDetails.objects.filter(
+                    status=0,
+                    valid_till__gte=start_date,
+                )
+
+            queryset = [
+                # checks if particular bus owner or not
+                coupon
+                for coupon in queryset
+                if (
+                    (coupon.coupon_availability == 1 and coupon.user == trip.user)
+                    or not (coupon.user)
+                )
+            ]
+
+            queryset = [
+                # checks if particular trip or not
+                coupon
+                for coupon in queryset
+                if (
+                    (coupon.coupon_availability == 2 and coupon.trip == trip)
+                    or not (coupon.trip)
+                )
+            ]
+
+            queryset = [
+                # checks if one time use or not
+                coupon
+                for coupon in queryset
+                if (
+                    coupon.one_time_use == 0
+                    or not CouponHistory.objects.filter(
+                        coupon=coupon.id, user=request.user.id
+                    ).exists()
+                )
+            ]
+
+            serializer = ListCouponSerializer(queryset, many=True)
+            logger.info(serializer.data)
+            return Response(serializer.data, status=200)
+        except Exception as e:
+            logger.error(str(e))
+            return Response({"error": f"{e}"}, status=400)

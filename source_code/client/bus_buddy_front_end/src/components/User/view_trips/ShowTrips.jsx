@@ -20,13 +20,8 @@ function ShowTrips(props) {
   const [trips, setTrips] = useState([]); // to store trips list
   const [seatViewOpen, setSeatViewOpen] = useState(null); // to open only one child
 
-  const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
-  const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
-  const [hasNext, setHasNext] = useState(false); // to check if current page has next page
-  const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
-  const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
 
   const [seatType, setSeatType] = useState(-1); // to filter record's based of seat type (-1 = disable)
   const [busType, setBusType] = useState(-1); // to filter record's based of bus type (-1 = disable)
@@ -38,9 +33,8 @@ function ShowTrips(props) {
 
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
-    setPageStartLimit(1);
-    setPageEndLimit(PAGE_LIMIT);
   }, [props, seatType, busType, busAc]);
+  
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
     setIsLoading(true);
@@ -51,8 +45,6 @@ function ShowTrips(props) {
       .then((result) => {
         setTrips(result.data?.data);
         setTotalPages(result.data?.total_pages);
-        setHasNext(result.data?.has_next);
-        setHasPrevious(result.data?.has_previous);
         setCurrentPage(result.data?.current_page);
         console.log(result.data);
       })
@@ -225,22 +217,16 @@ function ShowTrips(props) {
             ) : (
               tripsContent
             )}
+            <Container>
+              <CustomPaginator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                viewPage={viewPage}
+              ></CustomPaginator>
+            </Container>
           </Col>
         </Row>
       </Container>
-      <CustomPaginator
-        PAGE_LIMIT={PAGE_LIMIT}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        hasPrevious={hasPrevious}
-        hasNext={hasNext}
-        pageStartLimit={pageStartLimit}
-        pageEndLimit={pageEndLimit}
-        setPageStartLimit={setPageStartLimit}
-        setPageEndLimit={setPageEndLimit}
-        width={"100%"}
-        viewPage={viewPage}
-      ></CustomPaginator>
     </div>
   );
 }
