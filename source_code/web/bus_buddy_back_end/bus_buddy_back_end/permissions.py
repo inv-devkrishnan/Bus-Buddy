@@ -9,7 +9,7 @@ class AllowAdminsOnly(permissions.BasePermission):
         return False
 
 class AllowNormalUsersOnly(permissions.BasePermission):
-    # permission class to distinguish admins
+    # permission class to distinguish users
     def has_permission(self, request, view):
         if request.user.is_authenticated and request.user and request.user.role == 2:
             return True

@@ -7,13 +7,22 @@ import {
   CardTitle,
   Form,
   Button,
-  CardText,
-  Container,
-  Row,
-  Col,
+  Tabs,
+  Tab,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { ArrowRight } from "react-bootstrap-icons";
+
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import Typography from "@mui/material/Typography";
+import CircleIcon from "@mui/icons-material/Circle";
+import SquareIcon from "@mui/icons-material/Square";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -22,6 +31,7 @@ import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getPaymentErrorMessages } from "../../utils/getErrorMessage";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
+import AvailableCoupons from "./AvailableCoupons";
 
 const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
@@ -125,14 +135,14 @@ const TravellerDetail = () => {
   });
 
   const handleInputChange = (seatId, field, value) => {
-    // for saving data dynamically using formik eith on change property
+    // for saving data dynamically using formik with on change property
     formik.setFieldValue(`${seatId}.${field}`, value);
     formik.handleBlur(`${seatId}.${field}`);
   };
 
   return (
-    <div className="d-flex align-items-center justify-conyent-center flex-column m-2">
-      <Card style={{ width: "75%", padding: 5 }}>
+    <div className="d-flex justify-content-lg-center flex-column flex-lg-row">
+      <Card style={{ padding: 10 }} className="m-3 w-75">
         <CardTitle>Traveller Details</CardTitle>
         <CardBody>
           <Form onSubmit={formik.handleSubmit}>
@@ -243,75 +253,141 @@ const TravellerDetail = () => {
                 </Form.Group>
               );
             })}
-            <Button type="submit" disabled={isLoading}>
-              {" "}
-              {isLoading ? (
-                <div>
-                  <Spinner
-                    as="span"
-                    animation="grow"
-                    size="sm"
-                    role="output"
-                    aria-hidden="true"
-                  />
-                  Loading...
-                </div>
-              ) : (
-                "Book Seat"
-              )}
-            </Button>
+            <div className="d-flex justify-content-center">
+              <Button type="submit" disabled={isLoading} className="m-1">
+                {isLoading ? (
+                  <div>
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="output"
+                      aria-hidden="true"
+                    />
+                    Loading...
+                  </div>
+                ) : (
+                  "Book Seat"
+                )}
+              </Button>
+            </div>
           </Form>
         </CardBody>
       </Card>
 
-      <Card style={{ width: "75%", padding: 5 }}>
-        <CardTitle>Trip Details</CardTitle>
-        <CardBody>
-          <div className="d-flex justify-content-around">
-            <CardText>
-              <strong>{currentTrip?.startLocationName}</strong>
-              <br />
-              {currentTrip?.data?.start_location_arrival_date}
-              <br />
-              {currentTrip?.data?.start_location_arrival_time}
-            </CardText>
-            <CardText>
-              <br />
-              <ArrowRight />
-            </CardText>
-            <CardText>
-              <strong>{currentTrip?.endLocationName}</strong>
-              <br />
-              {currentTrip?.data?.end_location_arrival_date}
-              <br />
-              {currentTrip?.data?.end_location_arrival_time}
-            </CardText>
-          </div>
-        </CardBody>
-      </Card>
+      <Card style={{ height: "50rem" }} className="m-3 w-75">
+        <Tabs defaultActiveKey="trip">
+          <Tab eventKey="trip" title="Trip">
+            <div style={{ padding: 5, marginTop: 50 }}>
+              <Timeline position="alternate">
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ m: "auto 0" }}
+                    align="right"
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    <Typography>Starts from</Typography>
+                    {currentTrip?.data?.start_location_arrival_time}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot color="error">
+                      <CircleIcon />
+                    </TimelineDot>
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <Typography variant="h6" component="span">
+                      {currentTrip?.startLocationName}
+                    </Typography>
+                    <Typography>
+                      {currentTrip?.data?.start_location_arrival_date}
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
 
-      <Card style={{ width: "75%", padding: 5 }}>
-        <CardTitle>Payment Details</CardTitle>
-        <CardBody>
-          <Container>
-            <Row>
-              <Col xxl={6}>
-                <CardText style={{ margin: 5 }}>
-                  <h5>
-                    <strong>Total Amount (₹) :</strong>{" "}
-                    {localStorage.getItem("total_amount")}
-                  </h5>
-                </CardText>
-              </Col>
-              <Col xxl={6}>
-                <Card className="p-2 w-100">
-                  <CardTitle>Refund Policy</CardTitle>
-                  <RefundPolicy />
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </CardBody>
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ m: "auto 0" }}
+                    align="right"
+                    variant="body2"
+                  >
+                    <Typography variant="p" component="span">
+                      {localStorage.getItem("pick_stop")}
+                    </Typography>
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot sx={"sm"} color="error" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent
+                    sx={{ py: "12px", px: 2, m: "auto 0" }}
+                    color="text.secondary"
+                  >
+                    pick up point
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2">
+                    <Typography variant="p" component="span">
+                      {localStorage.getItem("drop_stop")}
+                    </Typography>
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot variant="outlined" sx={"sm"} color="success" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent
+                    sx={{ py: "12px", px: 2, m: "auto 0" }}
+                    color="text.secondary"
+                  >
+                    drop off point
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    color="text.secondary"
+                    sx={{ m: "auto 0" }}
+                    variant="body2"
+                  >
+                    <Typography>Stops at</Typography>
+                    {currentTrip?.data?.end_location_arrival_time}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot color="success">
+                      <SquareIcon />
+                    </TimelineDot>
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <Typography variant="h6" component="span">
+                      {currentTrip?.endLocationName}
+                    </Typography>
+                    <Typography>
+                      {currentTrip?.data?.end_location_arrival_date}
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              </Timeline>
+            </div>
+          </Tab>
+
+          <Tab eventKey="coupon" title="Coupons and Total amount">
+            <AvailableCoupons total={localStorage.getItem("total_amount")} />
+          </Tab>
+
+          <Tab eventKey="amount" title="Refund Policy">
+            <div className="ps-5 pe-5 pt-5 pb-2">
+              <RefundPolicy />
+            </div>
+          </Tab>
+        </Tabs>
       </Card>
     </div>
   );

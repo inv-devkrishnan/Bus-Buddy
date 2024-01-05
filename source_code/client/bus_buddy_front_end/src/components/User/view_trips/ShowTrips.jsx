@@ -34,6 +34,7 @@ function ShowTrips(props) {
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
   }, [props, seatType, busType, busAc]);
+  
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
     setIsLoading(true);

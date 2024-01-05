@@ -6,6 +6,8 @@ import SideBar from "../components/common/SideBar";
 import DeleteAccount from "../pages/DeleteAccount";
 import UserProfilePage from "../components/User/UserProfilePage";
 import UserBookingHistory from "../components/User/UserBookingHistory";
+import UserComplaint from "../components/User/UserComplaint";
+import ReviewHistory from "../components/User/ReviewHistory";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ export default function UserDashboard() {
   const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myTripSelect, setMyTripSelect] = useState(false);
   const [deleteSelect, setDeleteSelect] = useState(false);
+  const [complaintSelect, setComplaintSelect] = useState(false);
+  const [reviewHistorySelect, setReviewHistorySelect] = useState(false);
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
@@ -26,21 +30,40 @@ export default function UserDashboard() {
     }
   }, [navigate, authStatus]);
 
-
   const myProfileSelected = () => {
     setMyProfileSelect(true);
     setMyTripSelect(false);
     setDeleteSelect(false);
+    setComplaintSelect(false);
+    setReviewHistorySelect(false);
   };
   const myTripSelected = () => {
     setMyProfileSelect(false);
     setMyTripSelect(true);
     setDeleteSelect(false);
+    setComplaintSelect(false);
+    setReviewHistorySelect(false);
   };
   const deleteSelected = () => {
     setMyProfileSelect(false);
     setMyTripSelect(false);
     setDeleteSelect(true);
+    setComplaintSelect(false);
+    setReviewHistorySelect(false);
+  };
+  const complaintSelected = () => {
+    setMyProfileSelect(false);
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(true);
+    setReviewHistorySelect(false);
+  };
+  const reviewHistorySelected = () => {
+    setMyProfileSelect(false);
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(false);
+    setReviewHistorySelect(true);
   };
 
   const options = [
@@ -55,7 +78,16 @@ export default function UserDashboard() {
       state: myTripSelect,
       onChange: myTripSelected,
     },
-
+    {
+      name: "My Reviews",
+      state: reviewHistorySelect,
+      onChange: reviewHistorySelected,
+    },
+    {
+      name: "Register Complaint",
+      state: complaintSelect,
+      onChange: complaintSelected,
+    },
     {
       name: "Delete Account",
       state: deleteSelect,
@@ -66,12 +98,14 @@ export default function UserDashboard() {
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
-          <SideBar heading={userName} options={options} />
+        <SideBar heading={userName} options={options} />
       </div>
       <div className="flex-fill bd-highlight main_content">
-          {myProfileSelect && <UserProfilePage setUserName={setUserName}/>}
-          {myTripSelect && <UserBookingHistory />}
-          {deleteSelect && <DeleteAccount />}
+        {myProfileSelect && <UserProfilePage setUserName={setUserName} />}
+        {myTripSelect && <UserBookingHistory />}
+        {deleteSelect && <DeleteAccount />}
+        {complaintSelect && <UserComplaint />}
+        {reviewHistorySelect && <ReviewHistory />}
       </div>
     </div>
   );

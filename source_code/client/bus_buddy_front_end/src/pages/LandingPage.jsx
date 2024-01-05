@@ -19,7 +19,8 @@ function LandingPage(props) {
   useEffect(() => {
     getLocationData();
     if (props.fromSearchList) {
-      document.getElementById("start_text_box").value = props?.prevStartLocation;
+      document.getElementById("start_text_box").value =
+        props?.prevStartLocation;
       document.getElementById("end_text_box").value = props?.prevEndLocation;
       document.getElementById("trip_date_picker").value = props?.prevTripDate;
     }
@@ -84,6 +85,14 @@ function LandingPage(props) {
   const viewTrips = async () => {
     // shows the trips list and hides the splash image
     // setShowTripList(true);
+
+    localStorage.removeItem("pick_stop");
+    localStorage.removeItem("drop_stop");
+    localStorage.removeItem("pick_up");
+    localStorage.removeItem("drop_off");
+    localStorage.removeItem("current_trip");
+    localStorage.removeItem("total_amount");
+    localStorage.removeItem("seat_list");
     navigate(
       `/search-trip?start=${startLocation}&start-name=${startLocationName}&end=${endLocation}&end-name=${endLocationName}&date=${tripDate}`
     );
@@ -160,7 +169,7 @@ function LandingPage(props) {
 LandingPage.propTypes = {
   fromSearchList: PropTypes.bool,
   prevStartLocation: PropTypes.string,
-  prevEndLocation:PropTypes.string,
+  prevEndLocation: PropTypes.string,
   prevTripDate: PropTypes.any,
 };
 

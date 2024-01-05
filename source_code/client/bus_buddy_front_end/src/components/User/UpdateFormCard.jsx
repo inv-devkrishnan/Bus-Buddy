@@ -22,7 +22,6 @@ export default function UpdateForm() {
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
-          resetForm();
         }
       })
       .catch((err) => {
@@ -30,7 +29,10 @@ export default function UpdateForm() {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: err.response.data.email + err.response.data.phone,
+          text:
+            err.response.data.email ||
+            err.response.data.phone ||
+            err.response.data.email + err.response.data.phone,
         });
       });
   };

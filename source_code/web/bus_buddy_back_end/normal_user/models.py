@@ -77,11 +77,11 @@ class UserComplaints(models.Model):
     complaint_for = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, related_name="reciever"
     )
+    complaint_image = models.ImageField(null=True, blank=True, upload_to="images/")
     response = models.TextField(null=False, blank=True)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
-    complaint_image = models.ImageField(null=True, blank=True, upload_to="images/")
 
     class Meta:
         db_table = "user_complaints"

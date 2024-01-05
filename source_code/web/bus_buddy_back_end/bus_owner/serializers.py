@@ -45,7 +45,7 @@ class BusSerializer(serializers.ModelSerializer):
         validators=[
             RegexValidator(
                 r"^[A-Za-z0-9 ():',\.]+$",
-                message="Invalid Name format. Only letters are allowed.",
+                message="Invalid Name format. Only letters, numbers or (),: are allowed.",
             )
         ],
     )
