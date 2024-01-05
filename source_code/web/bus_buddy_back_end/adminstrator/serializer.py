@@ -95,6 +95,7 @@ class ListUserComplaints(serializers.ModelSerializer):
             "created_date",
             "response",
             "user",
+            "complaint_image",
         )
         depth = 1
 
