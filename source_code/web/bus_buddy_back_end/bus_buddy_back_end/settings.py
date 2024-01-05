@@ -15,7 +15,6 @@ from decouple import config
 from datetime import timedelta
 import os
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,6 +54,7 @@ INSTALLED_APPS = [
     "bus_owner",
     "normal_user",
     "debug_toolbar",
+    "batch_tasks",
     "django_filters",
 ]
 

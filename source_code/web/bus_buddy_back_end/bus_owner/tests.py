@@ -6,7 +6,7 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User, Amenities, Trip
+from .models import Bus, User,Amenities,Trip,Routes,LocationData
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -43,8 +43,21 @@ class BaseTest(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
-        bus_id = self.bus.id
-        self.amenities = Amenities.objects.create(bus=self.bus)
+        self.loc_1=LocationData.objects.create(
+            location_name = "Alapuzhya"
+        )
+        self.loc_2=LocationData.objects.create(
+            location_name = "Thrivanthapuram"
+        )
+        
+        self.route = Routes.objects.create(
+            user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
+        )
+        route_id = self.route.id
+        bus_id=self.bus.id
+        self.amenities = Amenities.objects.create(
+            bus=self.bus
+        )
         amenities_id = self.amenities.id
 
         self.valid_all_values_seat_details = {
@@ -367,8 +380,9 @@ class BaseTest(TestCase):
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        self.update_amenities = reverse("update-amenities", args=[amenities_id])
-
+        self.update_amenities = reverse("update-amenities",args=[amenities_id])
+        self.can_delete_route = reverse("delete-routes",args = [route_id])
+        
         return super().setUp()
 
 
@@ -455,11 +469,28 @@ class BusActions(BaseTest):
         response = self.client.put(
             self.cant_update_amenities, self.update_amenities_data, format="json"
         )
+        
+        self.assertEqual(response.status_code,404)
+    
+    def test_can_delete_route(self):
+        print("13")
+        response = self.client.put(
+            self.can_delete_route
+        )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code,200)
 
+    def test_cant_delete_route(self):
+        print("14")
+        response = self.client.put(
+            self.can_delete_route
+        )
+        print("Status Code:", response.status_code)
+        print("Response Content:", response.content)
+        self.assertEqual(response.status_code,200)
 
+    
 class RegisterOwnerTest(BaseTest):
     def test_can_register_user(self):
         response = self.client.post(

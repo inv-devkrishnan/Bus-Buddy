@@ -1,6 +1,7 @@
 import logging
 from django.db.utils import IntegrityError
 from rest_framework.views import APIView
+from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authentication import authenticate
@@ -160,3 +161,29 @@ class ChangePassword(APIView):
         else:
             logger.info("password change fail Reason :" + str(password_data.errors))
             return Response({"error_code": "D1002"}, status=400)
+
+
+class UpdatePlatformCharges(UpdateAPIView):
+    """
+    function to update bus details by bus owner
+    """
+
+    permission_classes = (IsAuthenticated,)
+    def put(self, request):  # update function
+        try:
+            request_data = request.data.copy()
+            user_id = request.user.id  
+            user_role = request.user.role
+            if (user_role == 1):
+                instance = User.objects.get(id=user_id)
+                extra_charges = request_data.get("extra_charges")
+                if (extra_charges >= 0 and extra_charges <= 100):
+                    instance.extra_charges = extra_charges
+                    instance.save()
+                    return Response({"message": "updated succesffully"}, status=200)
+                else :
+                    return Response({"message": "extra charges should be in range 0 to 100"},status =400)
+            else :
+                return Response({"message": "The logged in user is not Admin"},status=400)
+        except Exception :
+            return Response("Invalid data", status=404)

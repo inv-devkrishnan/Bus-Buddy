@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, Page
-from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime, timedelta
 
 from rest_framework.views import APIView
@@ -10,13 +9,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.core.paginator import Paginator, Page
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import Bus, SeatDetails
 from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User
+from normal_user.models import UserReview
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
 
@@ -27,14 +26,13 @@ from .serializers import (
     TripSerializer,
     ViewTripSerializer,
     RoutesSerializer,
-    StartStopLocationsSerializer,
-    PickAndDropSerializer,
     ViewRoutesSerializer,
     AmenitiesSerializer,
     BusSerializer,
     ViewBusSerializer,
     SeatDetailSerializer,
     GetSeatSerializer,
+    ReviewSerializer
 )
 import logging
 
@@ -151,8 +149,6 @@ class RegisterBusOwner(APIView):
             request_data["status"] = 3  # waiting for approval
             request_data["role"] = 3
             logger.info(request_data)
-            gst = request_data["extra_charges"]
-            request_data["extra_charges"] = gst / 100
             serialized_data = OMS(data=request_data)
             if serialized_data.is_valid():
                 serialized_data.save()
@@ -240,6 +236,7 @@ class Deletebus(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
+        import pdb;pdb.set_trace();
         try:
             logger.info("fetching bus obj matching the requested id")
             data = Bus.objects.get(id=id)  # to retrive bus object that matches the id
@@ -255,12 +252,11 @@ class Deletebus(APIView):
                     bus=id
                 )  # to get the amenities obj associated with bus obj
                 if data.status == 99:
-                    return Response({"message": "already deleted"})
+                   logger.info("Amenities already deleted")
                 else:
                     data.status = 99  # soft delete
                     data.save()
                     logger.info("Deleted amenities")
-                    return Response({"message": "Deleted Bus & Amenities"})
             except ObjectDoesNotExist:
                 logger.info(entry)
             try:
@@ -373,6 +369,37 @@ class Viewbus(ListAPIView):
             )  # to filter out bus objects which has been soft deleted
             print(queryset)
             serializer = ViewBusSerializer(queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+
+        except ValueError:
+            return Response(serializer._errors)
+        
+class Viewreviews(ListAPIView):
+    """
+    function to list all bus of the bus owner
+    """
+
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = ReviewSerializer
+    pagination_class = CustomPagination
+    # queryset = UserReview.objects.all()
+    
+    def list(self, request):
+        try:
+            logger.info("gettin the user is from user model")
+            user_id = request.user.id
+            print(user_id)
+            logger.info("fetching all the data from Bus model matching the condition")
+            queryset = UserReview.objects.filter(review_for = user_id)
+            print(queryset)
+            serializer = ReviewSerializer(queryset)
             page = self.paginate_queryset(queryset)
 
             if page is not None:
@@ -652,9 +679,6 @@ class Updatetrip(UpdateAPIView):
             request_data["user"] = request.user.id
             request_data["start_time"] = first_seq.arrival_time
             request_data["end_time"] = last_seq.departure_time
-            import pdb
-
-            pdb.set_trace()
             present_date = datetime.now().date()
             # present_date = datetime.strptime(today, date_format)
             start_date = datetime.strptime(
@@ -698,7 +722,9 @@ class Deletetrip(APIView):
             data = Trip.objects.get(id=id)  # to get trip object matching the id
             present_date = datetime.now().date()
             start_date = data.start_date
-            if (start_date - present_date) < timedelta(days=2):
+            diff = start_date - present_date
+            print(diff)
+            if (diff) < timedelta(days=2) and diff > timedelta(days=0):
                 print("condition ok ")
                 raise ValueError(
                     "Start date must be at least 2 days from the present date."
