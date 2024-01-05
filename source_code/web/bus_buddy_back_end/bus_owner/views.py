@@ -236,7 +236,6 @@ class Deletebus(APIView):
     permission_classes = (IsAuthenticated,)
 
     def put(self, request, id):
-        import pdb;pdb.set_trace();
         try:
             logger.info("fetching bus obj matching the requested id")
             data = Bus.objects.get(id=id)  # to retrive bus object that matches the id
@@ -554,7 +553,7 @@ class Deleteroutes(APIView):
             except ObjectDoesNotExist:
                 logger.info("there are no start stop locations associated with routes")
                 logger.info(entry)
-                return Response({"message": entry}, status=400)
+                return Response({"message": entry}, status=404)
 
             try:
                 logger.info("fetching pickdroppoints associated with routes")
@@ -575,6 +574,7 @@ class Deleteroutes(APIView):
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)
+            return Response({"message":"route not found"},status = 404)
 
 
 class Viewroutes(ListAPIView):
