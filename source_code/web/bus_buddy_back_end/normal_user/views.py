@@ -1116,7 +1116,6 @@ class ListCoupons(APIView):
     API for listing the available coupons
 
     Args:
-        coupon_id (int): id of the coupon
         trip_id (int): id of the trip
 
     Returns:
@@ -1126,12 +1125,10 @@ class ListCoupons(APIView):
     permission_classes = (AllowNormalUsersOnly,)
 
     def get(self, request):
-        coupon_id = request.GET.get("coupon_id")
         trip_id = request.GET.get("trip_id")
 
         try:
             trip = Trip.objects.get(id=trip_id)
-            coupon_data = CouponDetails.objects.get(id=coupon_id)
             user_id = request.user.id
             start_date = datetime.now()
 
@@ -1187,9 +1184,9 @@ class ListCoupons(APIView):
                 coupon
                 for coupon in queryset
                 if (
-                    coupon.one_time_use != 1
+                    coupon.one_time_use == 0
                     or not CouponHistory.objects.filter(
-                        id=coupon_data.id, user=request.user.id
+                        coupon=coupon.id, user=request.user.id
                     ).exists()
                 )
             ]

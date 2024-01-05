@@ -20,9 +20,6 @@ import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 
 import { axiosApi } from "../../utils/axiosApi";
-import CouponFirstTime from "./CouponFirstTime";
-import CouponFestive from "./CouponFestive";
-import CouponSelective from "./CouponSelective";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import CouponOther from "./CouponOther";
 
@@ -40,7 +37,7 @@ export default function AvailableCoupons(props) {
   useEffect(() => {
     if (authStatus()) {
       axiosApi
-        .get("user/available-coupons/?trip_id=4&coupon_id=2")
+        .get("user/available-coupons/?trip_id=4")
         .then((res) => {
           setCouponList(res.data);
         })
@@ -51,18 +48,6 @@ export default function AvailableCoupons(props) {
       navigate("/login"); // if user not logged in redirect to login
     }
   }, []);
-
-  const getCuponDesign = (data) => {
-    if (data?.coupon_eligibility === 1) {
-      return <CouponFirstTime data={data} setCouponValue={setCouponValue} />;
-    } else if (data?.coupon_availability === 1) {
-      return <CouponSelective data={data} setCouponValue={setCouponValue} />;
-    } else if (data?.coupon_availability === 2) {
-      return <CouponOther data={data} setCouponValue={setCouponValue} />;
-    } else {
-      return <CouponFestive data={data} setCouponValue={setCouponValue} />;
-    }
-  };
 
   const handleChange = (e) => {
     setCouponValue(e.target.value);
@@ -97,7 +82,7 @@ export default function AvailableCoupons(props) {
             {couponList.map((data) => (
               <Carousel.Item key={data?.id}>
                 <div className="d-flex align-items-center justify-content-center">
-                  {getCuponDesign(data)}
+                  <CouponOther data={data} setCouponValue={setCouponValue} />
                 </div>
               </Carousel.Item>
             ))}

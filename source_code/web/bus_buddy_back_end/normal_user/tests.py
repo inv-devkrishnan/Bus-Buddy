@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 from unittest.mock import patch, MagicMock, Mock
-from adminstrator.models import CouponDetails
+from adminstrator.models import CouponDetails, CouponHistory
 from .models import User, Bookings, UserReview, UserComplaints
 from bus_owner.models import (
     Bus,
@@ -182,12 +182,81 @@ class BaseTest(TestCase):
             status=1,
         )
 
-        self.coupon = CouponDetails.objects.create(
-            coupon_code="TRF44545",
+        # coupon list
+        self.coupon1 = CouponDetails.objects.create(
+            coupon_code="TRF44541",
             coupon_name="Coupon 1",
             coupon_description="Coupon detail 1",
             valid_till="2050-12-31",
             discount=30,
+        )
+        self.coupon1_1 = CouponDetails.objects.create(
+            coupon_code="TRF44541",
+            coupon_name="Coupon 1_1",
+            coupon_description="Coupon detail 1_1",
+            valid_till="2050-12-31",
+            coupon_eligibility=1,
+            discount=30,
+        )
+        self.coupon2 = CouponDetails.objects.create(
+            coupon_code="TRF44542",
+            coupon_name="Coupon 2",
+            coupon_description="Coupon detail 2",
+            valid_till="2050-12-31",
+            coupon_eligibility=1,
+            coupon_availability=2,
+            trip=self.trip,
+            discount=30,
+        )
+        self.coupon2_1 = CouponDetails.objects.create(
+            coupon_code="TRF44542",
+            coupon_name="Coupon 2_1",
+            coupon_description="Coupon detail 2_1",
+            valid_till="2050-12-31",
+            coupon_eligibility=1,
+            coupon_availability=2,
+            trip=self.trip_completed,
+            discount=30,
+        )
+        self.coupon3 = CouponDetails.objects.create(
+            coupon_code="TRF44543",
+            coupon_name="Coupon 3",
+            coupon_description="Coupon detail 3",
+            valid_till="2050-12-31",
+            coupon_eligibility=1,
+            coupon_availability=1,
+            user=self.owner,
+            discount=30,
+        )
+        self.coupon3_1 = CouponDetails.objects.create(
+            coupon_code="TRF44543",
+            coupon_name="Coupon 3_1",
+            coupon_description="Coupon detail 3_1",
+            valid_till="2050-12-31",
+            coupon_eligibility=1,
+            coupon_availability=1,
+            user=self.admin,
+            discount=30,
+        )
+        self.coupon4 = CouponDetails.objects.create(
+            coupon_code="TRF44544",
+            coupon_name="Coupon 4",
+            coupon_description="Coupon detail 4",
+            valid_till="2050-12-31",
+            one_time_use=1,
+            discount=30,
+        )
+        self.coupon4_1 = CouponDetails.objects.create(
+            coupon_code="TRF44545",
+            coupon_name="Coupon 4_1",
+            coupon_description="Coupon detail 4_1",
+            valid_till="2050-12-31",
+            one_time_use=1,
+            discount=30,
+        )
+        self.coupon_history1 = CouponHistory.objects.create(
+            coupon=self.coupon4_1,
+            user=self.user,
         )
 
         self.register = reverse("register-user")
@@ -868,6 +937,30 @@ class UpdateReviewTrip(BaseTest):
         print(response.content)
         self.assertEqual(response.status_code, 400)
 
+    def test_04_can_update_get_review(self):
+        response = self.client.get(
+            f"{reverse('review-update')}?review_id={ self.review.id}",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_05_cannot_update_get_review(self):
+        response = self.client.get(
+            f"{reverse('review-update')}?review_id=id",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_06_cannot_update_get_review(self):
+        response = self.client.get(
+            f"{reverse('review-update')}?review_id={500}",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 404)
+
 
 class RegisterComplaintTest(BaseTest):
     def test_01_can_register_complaint(self):
@@ -941,17 +1034,47 @@ class ViewCouponsTest(BaseTest):
     def test_01_get_coupons(self):
         response = self.client.get(
             self.list_coupons,
-            {"trip_id": self.trip.id, "coupon_id": self.coupon.id},
+            {"trip_id": self.trip.id},
             format="json",
         )
+        parsed_data = json.loads(response.content)
+        print(len(parsed_data))  # json data count
         print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_02_invalid_trip(self):
         response = self.client.get(
             self.list_coupons,
-            {"trip_id": 100, "coupon_id": self.coupon.id},
+            {"trip_id": 100},
             format="json",
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
+
+    def test_03_coupon_list_check(self):
+        response = self.client.get(
+            self.list_coupons,
+            {"trip_id": self.trip.id},
+            format="json",
+        )
+        print("total number of coupons: 8")
+        print("coupons that should be available: 4")
+        parsed_data = json.loads(response.content)
+        self.assertEqual(4, len(parsed_data))  # available data count check
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_coupon_list_another_user_with_no_previous_booking(self):
+        self.user2 = User.objects.create_user(
+            email="another@gmail.com", password=valid_password, account_provider=1
+        )
+        self.client.force_authenticate(self.user2)
+        response = self.client.get(
+            self.list_coupons,
+            {"trip_id": self.trip.id},
+            format="json",
+        )
+        print("total number of coupons: 8")
+        print("coupons that should be available: 6")
+        parsed_data = json.loads(response.content)
+        self.assertEqual(6, len(parsed_data))  # available data count check
+        self.assertEqual(response.status_code, 200)
