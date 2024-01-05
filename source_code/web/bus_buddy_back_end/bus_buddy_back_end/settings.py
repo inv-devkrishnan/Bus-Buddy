@@ -158,6 +158,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_ROOT = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -193,6 +196,7 @@ CORS_ORIGIN_WHITELIST = [
 # Logging
 import logging
 
+
 class FileFilter(logging.Filter):
     def __init__(self, included_files):
         super(FileFilter, self).__init__()
@@ -204,6 +208,7 @@ class FileFilter(logging.Filter):
 
 
 import logging
+
 
 class FileFilter(logging.Filter):
     def __init__(self, included_files):
@@ -234,7 +239,7 @@ LOGGING = {
             "class": "logging.FileHandler",
             "filename": "logData.log",
             "formatter": "verbose",
-            "filters":["file_filter"],
+            "filters": ["file_filter"],
         },
         "terminal": {
             "level": "INFO",
@@ -242,11 +247,11 @@ LOGGING = {
             "formatter": "simple",
         },
     },
-    "filters":{
-      "file_filter":{
-          "()":FileFilter,
-          "included_files":["views.py","serializer.py"]
-      },  
+    "filters": {
+        "file_filter": {
+            "()": FileFilter,
+            "included_files": ["views.py", "serializer.py"],
+        },
     },
     "root": {
         "handlers": ["file"],
@@ -273,7 +278,7 @@ TEMPLATES = [
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT") 
-EMAIL_USE_TLS = config("EMAIL_USE_TLS") 
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")

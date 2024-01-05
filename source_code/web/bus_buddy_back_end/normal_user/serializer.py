@@ -1,8 +1,9 @@
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
+from adminstrator.models import CouponDetails
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
-from .models import User, Bookings, BookedSeats, Payment
+from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
 
 regex_alphabet_only = r"^[A-Za-z\s]*$"
 regex_number_only = r"^[0-9\s]*$"
@@ -180,12 +181,60 @@ class TravellerHistorySerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class ViewReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    trip_start_date = serializers.DateField()
+    trip_end_date = serializers.DateField()
+    trip_start_time = serializers.TimeField()
+    trip_end_time = serializers.TimeField()
+    bus_name = serializers.CharField()
+    route_start = serializers.CharField()
+    route_end = serializers.CharField()
+    pick_up = serializers.CharField()
+    drop_off = serializers.CharField()
+    booking = serializers.CharField()
+
+    class Meta:
+        model = UserReview
+        fields = [
+            "id",
+            "review_title",
+            "review_body",
+            "rating",
+            "updated_time",
+            "trip_start_date",
+            "trip_end_date",
+            "trip_start_time",
+            "trip_end_time",
+            "bus_name",
+            "route_start",
+            "route_end",
+            "pick_up",
+            "drop_off",
+            "booking",
+        ]
+
+
+class UpdateReviewGetTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
+
+
 class BookingHistoryDataSerializer(serializers.ModelSerializer):
     """
     For viewing user's booking history
     """
 
     booked_seats = TravellerHistorySerializer(many=True, source="bookedseats_set")
+    review = UpdateReviewGetTripSerializer(many=True, source="userreview_set")
 
     class Meta:
         model = Bookings
@@ -200,6 +249,7 @@ class BookingHistoryDataSerializer(serializers.ModelSerializer):
             "booking_id",
             "created_date",
             "booked_seats",
+            "review",
         ]
         depth = 3
 
@@ -276,3 +326,101 @@ class NonNegativeFloatField(serializers.FloatField):
 
 class CostSerializer(serializers.Serializer):
     total_cost = NonNegativeFloatField()
+
+
+class ReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = (
+            "user_id",
+            "trip_id",
+            "booking_id",
+            "review_title",
+            "review_body",
+            "review_for",
+            "rating",
+        )
+
+    review_title = serializers.CharField(
+        max_length=1000,
+    )
+    review_body = serializers.CharField()
+    rating = serializers.IntegerField(
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1|2|3|4|5)$",
+                message="Review status must be between 0 to 5.",
+            ),
+        ],
+    )
+
+
+class UpdateReviewTripSerializer(serializers.ModelSerializer):
+    """
+    For reviewing trip
+    """
+
+    class Meta:
+        model = UserReview
+        fields = ("review_title", "review_body", "rating")
+
+    review_title = serializers.CharField(
+        max_length=255,
+    )
+    review_body = serializers.CharField(
+        max_length=3000,
+    )
+    rating = serializers.IntegerField(
+        validators=[
+            RegexValidator(
+                regex=r"^(0|1|2|3|4|5)$",
+                message="Review status must be between 0 to 5.",
+            ),
+        ],
+    )
+
+
+class ComplaintSerializer(serializers.ModelSerializer):
+    """
+    serializer for registering complaint
+
+    """
+
+    class Meta:
+        model = UserComplaints
+        fields = (
+            "user",
+            "complaint_title",
+            "complaint_body",
+            "complaint_for",
+            "complaint_image",
+        )
+
+    complaint_title = serializers.CharField(max_length=100)
+    complaint_body = serializers.CharField(max_length=5000)
+
+
+class ListComplaintSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing the complaints
+
+    """
+
+    class Meta:
+        model = UserComplaints
+        fields = "__all__"
+
+
+class ListCouponSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing available coupons
+
+    """
+
+    class Meta:
+        model = CouponDetails
+        fields = "__all__"
