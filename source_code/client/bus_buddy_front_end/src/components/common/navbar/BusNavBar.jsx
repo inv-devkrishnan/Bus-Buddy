@@ -32,7 +32,7 @@ function BusNavBar() {
     // different types of users have different dashboards the bellow function navigates to dashboards based on given role
     switch (role) {
       case "1":
-        navigate("/admin-dashboard");
+        navigate("/admin-dashboard/view-profile");
         break;
       case "2":
         navigate("/user-dashboard");

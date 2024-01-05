@@ -29,7 +29,7 @@ import Swal from "sweetalert2";
 
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
-import { getErrorMessage } from "../../utils/getErrorMessage";
+import { getPaymentErrorMessages } from "../../utils/getErrorMessage";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 import AvailableCoupons from "./AvailableCoupons";
 
@@ -113,7 +113,7 @@ const TravellerDetail = () => {
         Swal.fire({
           title: "Something went wrong !",
           icon: "error",
-          text: getErrorMessage(error?.response?.data?.error_code),
+          text: getPaymentErrorMessages(error?.response?.data?.error_code),
         });
       });
     setIsLoading(false);

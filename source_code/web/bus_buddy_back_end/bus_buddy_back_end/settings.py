@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "bus_owner",
     "normal_user",
     "debug_toolbar",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
