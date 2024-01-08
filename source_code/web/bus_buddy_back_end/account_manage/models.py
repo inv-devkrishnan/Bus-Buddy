@@ -40,7 +40,13 @@ class User(AbstractBaseUser):
     class Meta:
         db_table = "user"
     
-class Niotifications(models.Model):
+class Notifications(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.SmallIntegerField(default=0)
     message = models.CharField(max_length=50, null=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    
+    
+    class Meta:
+        db_table = "notifications"

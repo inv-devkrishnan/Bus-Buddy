@@ -14,7 +14,7 @@ from .models import Bus, SeatDetails
 from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
-from account_manage.models import User
+from account_manage.models import User,Notifications
 from normal_user.models import UserReview
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
@@ -32,7 +32,8 @@ from .serializers import (
     ViewBusSerializer,
     SeatDetailSerializer,
     GetSeatSerializer,
-    ReviewSerializer
+    ReviewSerializer,
+    ViewNotificationsSerializer
 )
 import logging
 
@@ -392,7 +393,7 @@ class Viewreviews(ListAPIView):
     
     def list(self, request):
         try:
-            logger.info("gettin the user is from user model")
+            logger.info("getting the user is from user model")
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
@@ -904,3 +905,21 @@ class Addreccuringrip(APIView):
         except ValidationError:
             logger.info(entry)
             return Response(entry, status=400)
+        
+class Viewnotifications(ListAPIView):
+    # permission_classes = (IsAuthenticated,)
+    serializer_class = ViewNotificationsSerializer 
+    def list(self, request):
+        try :
+            
+            logger.info("getting the user is from user model")
+            user_id = request.user.id
+            queryset = Notifications.objects.filter(user = user_id)
+            print(queryset)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        except ValueError:
+            return Response(serializer._errors)
+        
+        
+        

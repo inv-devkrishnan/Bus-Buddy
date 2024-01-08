@@ -22,4 +22,5 @@ urlpatterns = [
     path('view-available-bus/',views.Viewavailablebus.as_view(),name="view-available-bus"),
     path('add-reccuring-trip/',views.Addreccuringrip.as_view(),name="add-reccuring-trip"),
     path('view-reviews/',views.Viewreviews.as_view(),name="view-reviews"),
+    path('view-notifications/',views.Viewnotifications.as_view(),name="view-notifications"),
 ]
