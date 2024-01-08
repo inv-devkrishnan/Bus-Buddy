@@ -14,8 +14,49 @@ export default function Viewallbus() {
   const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [active, setActive] = useState(1);
+  const [deletedBusFlag, setDeletedBusFlag] = useState(false);
 
   const navi = useNavigate();
+  const addAmenities = (id) => {
+    navi("/Addamenities", { state: `${id}` });
+  };
+
+  const updateAmenities = (id) => {
+    navi("/Updateamenities", { state: `${id}` });
+  };
+  const update = (id) => {
+    navi("/UpdateBus", { state: `${id}` });
+  };
+  const addSeatDetails = (id) => {
+    navi("/full-sleeper-details", {
+      state: `${id}`,
+    });
+  };
+  const deleted = (id) => {
+    axiosApi
+      .put(`http://127.0.0.1:8000/bus-owner/delete-bus/${id}/`)
+      .then((response) => {
+        console.log("bus deleted successfuly");
+        Swal.fire({
+          icon: "success",
+          title: "Deleted",
+          text: "Bus Deleted successfully",
+        });
+        setDeletedBusFlag((prevFlag) => !prevFlag);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("HTTP status code:", error.response.status);
+        } else {
+          console.error("An error occurred:", error.message);
+        }
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Deleting Bus",
+        });
+      });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +70,7 @@ export default function Viewallbus() {
       setTotalPages(response.data.total_pages);
     };
     fetchData();
-  }, [page]);
+  }, [page,deletedBusFlag]);
   const handlePrevious = () => {
     setActive(active - 1);
     setPage(page - 1);
@@ -190,45 +231,7 @@ export default function Viewallbus() {
     ));
   };
 
-  const addAmenities = (id) => {
-    navi("/Addamenities", { state: `${id}` });
-  };
-
-  const updateAmenities = (id) => {
-    navi("/Updateamenities", { state: `${id}` });
-  };
-  const update = (id) => {
-    navi("/UpdateBus", { state: `${id}` });
-  };
-  const addSeatDetails = (id) => {
-    navi("/full-sleeper-details", {
-      state: `${id}`,
-    });
-  };
-  const deleted = (id) => {
-    axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/delete-bus/${id}/`)
-      .then((response) => {
-        console.log("bus deleted successfuly");
-        Swal.fire({
-          icon: "success",
-          title: "Deleted",
-          text: "Bus Deleted successfully",
-        });
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log("HTTP status code:", error.response.status);
-        } else {
-          console.error("An error occurred:", error.message);
-        }
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error Deleting Bus",
-        });
-      });
-  };
+  
 
   return (
     <div>

@@ -26,7 +26,7 @@ export default function SeatDetailCard(props) {
       });
       const routeCost = Number(props?.routeCost);
       const gst = Number(props?.gst) || 0;
-      setTotalCost(sumOfCost + routeCost + (sumOfCost + routeCost) * gst);
+      setTotalCost(sumOfCost + routeCost + ((sumOfCost + routeCost) * gst/100));
     } else {
       setTotalCost(0);
     }

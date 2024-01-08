@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
 import { UpdateTripSchema} from "../UpdateTripSchema"
 import { axiosApi } from "../../../utils/axiosApi";
-import { format } from "date-fns";
+import { format,addMonths } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
@@ -24,7 +24,17 @@ export default function Updatetrips() {
   let id = trip;
 
   const onSubmit = async (e) => {
-    try {
+    const startTimeDifference = new Date(formik.values.startdate).getTime() - new Date().getTime();
+    const hoursUntilStartTime = startTimeDifference / (1000 * 60 * 60);
+      if (hoursUntilStartTime < 48) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The start time of the trip should be at least 48 hours from now.",
+        });
+        return;
+      }
+    try { 
       const response = await axiosApi.put(
         `http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`,
         {
@@ -38,7 +48,6 @@ export default function Updatetrips() {
       );
       console.log("updated");
       if (response.status === 200) {
-        console.log("Amenities Inserted");
         Swal.fire({
           icon: "success",
           title: "Updated Successfully",
@@ -73,6 +82,7 @@ export default function Updatetrips() {
     if (formik.values.startdate && formik.values.enddate) {
       const start = new Date(formik.values.startdate).toISOString().split("T")[0];
       const end = new Date(formik.values.enddate).toISOString().split("T")[0];
+     
   
       axiosApi
         .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -161,6 +171,8 @@ export default function Updatetrips() {
                     }
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                   />
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom04">
@@ -172,6 +184,8 @@ export default function Updatetrips() {
                     }
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>

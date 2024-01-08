@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { addMonths } from "date-fns";
 import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Addtrips() {
@@ -150,6 +151,8 @@ const formattedEndDate = selectedEndDate
                     onChange={(date) => setSelectedStartDate(date)}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                   />
                   {startDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startDateError}</div>}
                 </Form.Group>
@@ -160,6 +163,8 @@ const formattedEndDate = selectedEndDate
                     onChange={(date) => setSelectedEndDate(date)}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                   />
                   {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                 </Form.Group>

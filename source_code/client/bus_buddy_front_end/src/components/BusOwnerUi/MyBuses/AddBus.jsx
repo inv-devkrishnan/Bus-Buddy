@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
 
 export default function Addbus() {
@@ -55,7 +56,12 @@ export default function Addbus() {
         navi("/Addamenities", { state: data });
       }
     } catch (error) {
-      console.error("Error adding task:", error);
+      console.error("Error adding bus:", error);
+      Swal.fire({
+        icon: "Error",
+        title: "Error",
+        text: "Error adding bus",
+      });
     }
   };
 
