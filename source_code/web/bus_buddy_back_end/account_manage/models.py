@@ -40,3 +40,8 @@ class User(AbstractBaseUser):
 
     class Meta:
         db_table = "user"
+    
+class Niotifications(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    status = models.SmallIntegerField(default=0)
+    message = models.CharField(max_length=50, null=False)
