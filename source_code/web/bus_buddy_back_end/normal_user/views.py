@@ -513,9 +513,7 @@ class BookSeat(APIView):
             "seat_cost": float(seat_cost),
             "route_cost": float(route.travel_fare),
             "gst": owner.extra_charges,
-            "total": (
-                float(seat_cost) + float(route.travel_fare) + owner.extra_charges
-            ),
+            "total": request_data["total_amount"],
         }
         return context
 
@@ -568,6 +566,19 @@ class BookSeat(APIView):
                         status=0,
                     )
 
+                    print(request_data)
+                    coupon = request_data["coupon"]
+
+                    if coupon:
+                        coupon_object = CouponDetails.objects.get(id=coupon)
+                        CouponHistory.objects.create(
+                            coupon=coupon_object, user=request.user
+                        )
+                        logger.info(coupon_object)
+                    else:
+                        logger.info("no coupon selected")
+                        print("no coupon")
+
                     if email_send:
                         logger.info("seat booked and email send")
                         return Response(
@@ -582,6 +593,7 @@ class BookSeat(APIView):
                             },
                             status=201,
                         )
+
                 else:
                     logger.info(serializer.errors)
                     return Response(
@@ -1134,47 +1146,16 @@ class ListCoupons(APIView):
 
             if Bookings.objects.filter(user=user_id):
                 # checks if first booking or not
-                queryset = (
-                    CouponDetails.objects.filter(
-                        coupon_eligibility=0,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
-                    | CouponDetails.objects.filter(
-                        coupon_eligibility=1,
-                        trip=trip.id,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
-                    | CouponDetails.objects.filter(
-                        coupon_eligibility=1,
-                        user=trip.user.id,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
+                queryset = CouponDetails.objects.filter(
+                    coupon_eligibility=0,
+                    status=0,
+                    valid_till__gte=start_date,
                 )
             else:
                 queryset = CouponDetails.objects.filter(
                     status=0,
                     valid_till__gte=start_date,
                 )
-
-            queryset = [
-                # checks if first booking for the particular bus owner or trip
-                coupon
-                for coupon in queryset
-                if not (
-                    coupon.coupon_eligibility == 1
-                    and (
-                        Bookings.objects.filter(
-                            user=request.user.id, trip=trip.id
-                        ).exists()
-                        or Bookings.objects.filter(
-                            user=request.user.id, trip__user=trip.user.id
-                        ).exists()
-                    )
-                )
-            ]
 
             queryset = [
                 # checks if particular bus owner or not
@@ -1201,7 +1182,7 @@ class ListCoupons(APIView):
                 coupon
                 for coupon in queryset
                 if (
-                    coupon.one_time_use == 0
+                    coupon.one_time_use == 1
                     or not CouponHistory.objects.filter(
                         coupon=coupon.id, user=request.user.id
                     ).exists()
@@ -1252,10 +1233,7 @@ class RedeemCoupon(APIView):
                 )
 
             if coupon.coupon_eligibility == 1 and (
-                Bookings.objects.filter(user=request.user.id, trip=trip.id).exists()
-                or Bookings.objects.filter(
-                    user=request.user.id, trip__user=trip.user.id
-                ).exists()
+                Bookings.objects.filter(user=request.user.id).exists()
             ):
                 valid = False
                 logger.info(valid, "User is not eligible for first time booking coupon")
@@ -1282,7 +1260,7 @@ class RedeemCoupon(APIView):
                 )
 
             if (
-                coupon.one_time_use == 1
+                coupon.one_time_use == 0
                 and CouponHistory.objects.filter(
                     coupon=coupon.id, user=request.user.id
                 ).exists()

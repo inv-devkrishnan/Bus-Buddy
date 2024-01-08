@@ -50,7 +50,10 @@ export default function CouponOther(props) {
                           style={{ marginLeft: 10 }}
                           onClick={() => handleShow()}
                         >
-                          <FileText />
+                          <FileText color="white" />
+                          <div style={{ color: "white", fontSize: "15px" }}>
+                            &ensp; Description
+                          </div>
                         </IconButton>
                       </Tooltip>
                     ) : (

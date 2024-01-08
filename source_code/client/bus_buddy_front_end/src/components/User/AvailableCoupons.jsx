@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useReducer } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 import Carousel from "react-bootstrap/Carousel";
@@ -22,6 +22,7 @@ import Swal from "sweetalert2";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 import { axiosApi } from "../../utils/axiosApi";
 import CouponOther from "./CouponOther";
+import { UserContext } from "../User/UserContext";
 
 export default function AvailableCoupons(props) {
   const [couponValue, setCouponValue] = useState(""); // for storing the coupon code
@@ -30,7 +31,8 @@ export default function AvailableCoupons(props) {
   const [couponData, setCouponData] = useState(""); // for storing selected coupon data
   const currentTrip = useRef([]);
   const [show, setShow] = useState(false);
-  const [state, dispatch] = useReducer();
+
+  const { updateSelectedCoupon } = useContext(UserContext);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,11 +85,14 @@ export default function AvailableCoupons(props) {
               parseFloat(localStorage.getItem("total_amount")) *
               couponData.discount *
               0.01;
-            const roundedDiscount = parseFloat(discount.toFixed(2));
+            const roundedDiscount = parseFloat(discount);
 
             props.setTotalAmount(
-              parseFloat(localStorage.getItem("total_amount")) - roundedDiscount
+              parseFloat(
+                localStorage.getItem("total_amount") - roundedDiscount
+              ).toFixed(2)
             );
+            updateSelectedCoupon(couponData.id);
           } else {
             Swal.fire({
               title: "Invalid !",
@@ -161,7 +166,20 @@ export default function AvailableCoupons(props) {
                 ""
               )}
             </div>
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center m-4">
+              <Button
+                onClick={() => {
+                  setCouponValue("");
+                  setCouponError(false);
+                  props.setTotalAmount(
+                    parseFloat(localStorage.getItem("total_amount"))
+                  );
+                  updateSelectedCoupon([]);
+                }}
+              >
+                Remove Coupon
+              </Button>
+              &ensp;
               <Button onClick={handleShow}>All Coupons</Button>
             </div>
           </Form>
