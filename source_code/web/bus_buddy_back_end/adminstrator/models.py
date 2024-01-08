@@ -1,5 +1,6 @@
 from django.db import models
-
+from account_manage.models import User
+from bus_owner.models import Trip
 
 class RefundPolicy(models.Model):
     refund_percentage = models.FloatField(null=False)
@@ -16,8 +17,11 @@ class CouponDetails(models.Model):
     coupon_name = models.CharField(max_length=100)
     coupon_description = models.TextField(null=False)
     coupon_eligibility = models.SmallIntegerField(default=0)
-    coupon_dob = models.DateField(null=False)
-    valid_till = models.DateTimeField(null=False)
+    coupon_availability = models.SmallIntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    trip = models.ForeignKey(Trip,on_delete=models.CASCADE,null=True) 
+    valid_till = models.DateField(null=False)
+    one_time_use = models.SmallIntegerField(default=0)
     discount = models.IntegerField(null=False)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -27,14 +31,15 @@ class CouponDetails(models.Model):
         db_table = "coupon_details"
 
 
-class CouponAvailability(models.Model):
+class CouponHistory(models.Model):
     coupon = models.ForeignKey(CouponDetails, on_delete=models.CASCADE,null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "coupon_availability"
+        db_table = "coupon_history"
 
 
 class Email(models.Model):
