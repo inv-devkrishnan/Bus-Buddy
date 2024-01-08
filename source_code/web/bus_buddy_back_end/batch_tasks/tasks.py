@@ -44,7 +44,6 @@ def update_booking_status():
         )  # setting timezone to asia kolkata
         completed_trips = []
         trips = Trip.objects.filter(status=0)
-        print(trips)
         for trip in trips:
             trip_end_time = datetime.combine(
                 date=trip.end_date,
@@ -62,7 +61,6 @@ def update_booking_status():
         return 0
     except Exception as e:
         logger.warn("Update Booking status Failed Reason : " + str(e))
-        print(e)
         return -1
 
 
