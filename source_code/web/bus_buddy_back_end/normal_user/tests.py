@@ -270,6 +270,7 @@ class BaseTest(TestCase):
         self.view_seat = reverse("view-seat-detail")
         self.list_complaints = reverse("list-complaints")
         self.list_coupons = reverse("available-coupons")
+        self.redeem_coupon = reverse("redeem-coupon")
 
         self.valid_all_values = {
             "first_name": "Priya",
@@ -1077,4 +1078,18 @@ class ViewCouponsTest(BaseTest):
         print("coupons that should be available: 6")
         parsed_data = json.loads(response.content)
         self.assertEqual(6, len(parsed_data))  # available data count check
+        self.assertEqual(response.status_code, 200)
+
+
+class RedeemCouponTest(BaseTest):
+    def test_01_valid_coupon(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon1.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content,
+            b'{"valid":"Valid Coupon","coupon_status":"200"}',
+        )
         self.assertEqual(response.status_code, 200)

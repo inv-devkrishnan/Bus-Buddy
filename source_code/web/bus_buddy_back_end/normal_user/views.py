@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from datetime import datetime
+from datetime import datetime, date
 from decouple import config
 
 from account_manage.models import User
@@ -1160,6 +1160,23 @@ class ListCoupons(APIView):
                 )
 
             queryset = [
+                # checks if first booking for the particular bus owner or trip
+                coupon
+                for coupon in queryset
+                if not (
+                    coupon.coupon_eligibility == 1
+                    and (
+                        Bookings.objects.filter(
+                            user=request.user.id, trip=trip.id
+                        ).exists()
+                        or Bookings.objects.filter(
+                            user=request.user.id, trip__user=trip.user.id
+                        ).exists()
+                    )
+                )
+            ]
+
+            queryset = [
                 # checks if particular bus owner or not
                 coupon
                 for coupon in queryset
@@ -1196,4 +1213,99 @@ class ListCoupons(APIView):
             return Response(serializer.data, status=200)
         except Exception as e:
             logger.error(str(e))
+            return Response({"error": f"{e}"}, status=400)
+
+
+class RedeemCoupon(APIView):
+    """
+    API for listing the available coupons
+
+    Args:
+        coupon_id(int): id of the coupon
+        trip_id (int): id of the trip
+
+    Returns:
+        json : valid message
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        trip_id = request.GET.get("trip_id")
+        coupon_id = request.GET.get("coupon_id")
+        valid = True
+        today = date.today()
+
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            coupon = CouponDetails.objects.get(id=coupon_id)
+
+            if coupon.status != 0 or coupon.valid_till <= today:
+                valid = False
+                logger.info(valid, "Invalid coupon")
+                return Response(
+                    {
+                        "invalid": "Invalid coupon",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            if coupon.coupon_eligibility == 1 and (
+                Bookings.objects.filter(user=request.user.id, trip=trip.id).exists()
+                or Bookings.objects.filter(
+                    user=request.user.id, trip__user=trip.user.id
+                ).exists()
+            ):
+                valid = False
+                logger.info(valid, "User is not eligible for first time booking coupon")
+                return Response(
+                    {
+                        "invalid": "User is not eligible for first time booking coupon",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            if coupon.coupon_availability == 1 and coupon.user.id != trip.user.id:
+                valid = False
+                logger.info(valid, "Invalid bus owner")
+                return Response(
+                    {"invalid": "Invalid bus owner", "coupon_status": "400"}, status=200
+                )
+
+            if coupon.coupon_availability == 2 and coupon.trip.id != trip.id:
+                valid = False
+                logger.info(valid, "Invalid trip")
+                return Response(
+                    {"invalid": "Invalid trip", "coupon_status": "400"}, status=200
+                )
+
+            if (
+                coupon.one_time_use == 1
+                and CouponHistory.objects.filter(
+                    coupon=coupon.id, user=request.user.id
+                ).exists()
+            ):
+                valid = False
+                logger.info(valid, "Coupon already used by this user")
+                return Response(
+                    {
+                        "invalid": "Coupon already used by this user",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            logger.info(valid, "Valid Coupon")
+            if valid:
+                return Response(
+                    {"valid": "Valid Coupon", "coupon_status": "200"}, status=200
+                )
+
+        except Trip.DoesNotExist:
+            return Response({"error": "This trip doesn't exist"}, status=400)
+        except CouponDetails.DoesNotExist:
+            return Response({"error": "This coupon doesn't exist"}, status=400)
+        except Exception as e:
             return Response({"error": f"{e}"}, status=400)

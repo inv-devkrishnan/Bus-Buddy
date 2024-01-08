@@ -35,4 +35,5 @@ urlpatterns = [
         name="list-complaints",
     ),
     path("available-coupons/", views.ListCoupons.as_view(), name="available-coupons"),
+    path("redeem-coupon/", views.RedeemCoupon.as_view(), name="redeem-coupon"),
 ]
