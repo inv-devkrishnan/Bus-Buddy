@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +29,12 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = []
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 
 # Application definition
@@ -47,10 +53,13 @@ INSTALLED_APPS = [
     "adminstrator",
     "bus_owner",
     "normal_user",
-    
+    "debug_toolbar",
+    "batch_tasks",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -59,6 +68,22 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+]
+
+DEBUG_TOOLBAR_PANELS = [
+    "debug_toolbar.panels.history.HistoryPanel",
+    "debug_toolbar.panels.versions.VersionsPanel",
+    "debug_toolbar.panels.timer.TimerPanel",
+    "debug_toolbar.panels.settings.SettingsPanel",
+    "debug_toolbar.panels.headers.HeadersPanel",
+    "debug_toolbar.panels.request.RequestPanel",
+    "debug_toolbar.panels.sql.SQLPanel",
+    "debug_toolbar.panels.staticfiles.StaticFilesPanel",
+    "debug_toolbar.panels.templates.TemplatesPanel",
+    "debug_toolbar.panels.cache.CachePanel",
+    "debug_toolbar.panels.signals.SignalsPanel",
+    "debug_toolbar.panels.logging.LoggingPanel",
+    "debug_toolbar.panels.redirects.RedirectsPanel",
 ]
 
 ROOT_URLCONF = "bus_buddy_back_end.urls"
@@ -85,7 +110,7 @@ WSGI_APPLICATION = "bus_buddy_back_end.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-AUTH_USER_MODEL ="account_manage.User"
+AUTH_USER_MODEL = "account_manage.User"
 
 DATABASES = {
     "default": {
@@ -94,8 +119,7 @@ DATABASES = {
         "USER": config("UNAME"),
         "PASSWORD": config("PASSWORD"),
         "HOST": config("HOST"),
-        "PORT": config("PORT")
-
+        "PORT": config("PORT"),
     }
 }
 
@@ -135,6 +159,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_ROOT = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -147,6 +174,13 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "1000/minute",  # Allow 50 requests per minute for anonymous clients
+    },
+    "EXCEPTION_HANDLER": "bus_buddy_back_end.exceptions.custom_throttle_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -161,6 +195,31 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 # Logging
+import logging
+
+
+class FileFilter(logging.Filter):
+    def __init__(self, included_files):
+        super(FileFilter, self).__init__()
+        self.included_files = included_files
+
+    def filter(self, record):
+        # Check if the record's filename is in the list of included files
+        return any(record.filename.endswith(file) for file in self.included_files)
+
+
+import logging
+
+
+class FileFilter(logging.Filter):
+    def __init__(self, included_files):
+        super(FileFilter, self).__init__()
+        self.included_files = included_files
+
+    def filter(self, record):
+        # Check if the record's filename is in the list of included files
+        return any(record.filename.endswith(file) for file in self.included_files)
+
 
 LOGGING = {
     "version": 1,
@@ -171,22 +230,28 @@ LOGGING = {
             "style": "{",
         },
         "simple": {
-            "format": "{levelname} {message}",
+            "format": "{name} {module} {levelname} {message}",
             "style": "{",
         },
     },
     "handlers": {
         "file": {
-            "level": "ERROR",
+            "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "logData.log",
             "formatter": "verbose",
+            "filters": ["file_filter"],
         },
         "terminal": {
-            "level": "WARNING",
-            "class": "logging.FileHandler",
-            "filename": "logData.log",
-            "formatter": "verbose",
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "filters": {
+        "file_filter": {
+            "()": FileFilter,
+            "included_files": ["views.py", "serializer.py"],
         },
     },
     "root": {
@@ -194,3 +259,27 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# template folder path
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
