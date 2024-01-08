@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { addMonths } from "date-fns";
 import { axiosApi } from "../../../utils/axiosApi";
 
 
@@ -34,6 +35,9 @@ export default function Addrecurringtrip() {
 
  const dates = (selectedPeriodStartDate, selectedPeriodEndDate) => {
   const today = new Date();
+  const sixMonthsFromNow = new Date(today); ;
+  sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
   const today_date =today
   ? new Date(today.getTime() - today.getTimezoneOffset() * 60000)
       .toISOString()
@@ -53,13 +57,13 @@ export default function Addrecurringtrip() {
        .split("T")[0]
    : null;
 
-   if(start < today_date){
-    setStartPeriodDateError("Period start date should be present date or in the future ");
+   if(start < today_date || start > sixMonthsFromNow){
+    setStartPeriodDateError("Period start date should be present date or in the future and less than 6 months");
   } else {
     setStartPeriodDateError(""); 
   }
-   if(end < start ){
-    setEndPeriodDateError("End date should be the same as the start date or a future");
+   if(end < start || end >sixMonthsFromNow ){
+    setEndPeriodDateError("End date should be the same as the start date or a future and less than 6 months");
     } else {
       setEndPeriodDateError(""); 
     }
@@ -86,6 +90,8 @@ export default function Addrecurringtrip() {
  const handleSubmit = async (e) => {
    e.preventDefault();
    const today = new Date();
+   const sixMonthsFromNow = new Date(today); ;
+  sixMonthsFromNow.setMonth(today.getMonth() + 6);
    try {
        const formattedStartDate = selectedStartDate
        ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
@@ -123,15 +129,15 @@ export default function Addrecurringtrip() {
        console.log(end)
        console.log(formattedEndDate)
       
-       if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start){
-        setStartDateError("Start date should be same as the present date or future dates")
+       if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start || formattedStartDate > sixMonthsFromNow){
+        setStartDateError("Start date should be same as the present date or future dates and less than 6 months")
        }
        else{
         setStartDateError("")
        }
        
-       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end){
-        setEndDateError("End date should be either start date or any future dates")
+       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end || formattedEndDate > sixMonthsFromNow){
+        setEndDateError("End date should be either start date or any future dates and less than 6 months")
        }
        else {
         setEndDateError("")
@@ -199,6 +205,8 @@ export default function Addrecurringtrip() {
                    onChange={(date) => setSelectedPeriodStartDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
                  />
                  {startPeriodDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startPeriodDateError}</div>}
                </Form.Group>
@@ -209,6 +217,8 @@ export default function Addrecurringtrip() {
                    onChange={(date) => setSelectedPeriodEndDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
                  />
                  {endPeriodDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endPeriodDateError}</div>}
                </Form.Group>
@@ -225,6 +235,8 @@ export default function Addrecurringtrip() {
                    onChange={(date) => setSelectedStartDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
                  />
                  {startDateError && <div style={{ color: 'red',fontSize:"11px"}}>{startDateError}</div>}
                </Form.Group>
@@ -235,6 +247,8 @@ export default function Addrecurringtrip() {
                    onChange={(date) => setSelectedEndDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
                  />
                  {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                </Form.Group>

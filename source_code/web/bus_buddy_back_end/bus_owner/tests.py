@@ -6,7 +6,7 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User, Amenities, Trip
+from .models import Bus, User,Amenities,Trip,Routes,LocationData
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -43,8 +43,23 @@ class BaseTest(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
-        bus_id = self.bus.id
-        self.amenities = Amenities.objects.create(bus=self.bus)
+        self.loc_1=LocationData.objects.create(
+            location_name = "Alapuzhya"
+        )
+        self.loc_2=LocationData.objects.create(
+            location_name = "Thrivanthapuram"
+        )
+        loc_1_id = self.loc_1.id
+        loc_2_id = self.loc_2.id
+        
+        self.route = Routes.objects.create(
+            user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
+        )
+        route_id = self.route.id
+        bus_id=self.bus.id
+        self.amenities = Amenities.objects.create(
+            bus=self.bus
+        )
         amenities_id = self.amenities.id
 
         self.valid_all_values_seat_details = {
@@ -363,12 +378,83 @@ class BaseTest(TestCase):
             "tour_guide": 0,
             "cctv": 0,
         }
+        self.create_route = {
+            "start_point" : loc_1_id,
+            "end_point" : loc_2_id,
+            "via" : "kollam",
+            "distance" : 120,
+            "duration" : 2,
+            "travel_fare" : 299,
+            "location": [
+                            {
+                            "seq_id": 1,
+                            "location": loc_1_id,
+                            "arrival_time": "13:00",
+                            "arrival_date_offset": "1",
+                            "departure_time": "2:00",
+                            "departure_date_offset": 1,
+                            "pick_and_drop": [
+                                {
+                                "bus_stop": "location 1 stop",
+                                "arrival_time": "10:00",
+                                "landmark": "fds",
+                                "status": 0
+                                }
+                            ]
+                            },
+                            {
+                            "seq_id": 2,
+                            "location": loc_2_id,
+                            "arrival_time": "10:00",
+                            "arrival_date_offset": "0",
+                            "departure_time": "11:00",
+                            "departure_date_offset": 0,
+                            "pick_and_drop": [
+                                {
+                                "bus_stop": "location stop",
+                                "arrival_time": "10:00",
+                                "landmark": "fdsf",
+                                "status": 0
+                                }
+                            ]
+                            }
+                        ]
+        }
+        self.cant_create_route = {
+            "start_point" : loc_1_id,
+            "end_point" : loc_2_id,
+            "via" : "kollam",
+            "distance" : "jahbdj",
+            "duartion" : 2,
+            "travel_fare" : 299,
+        }
+        self.create_trip = {
+            "bus" : bus_id,
+            "route" : route_id,
+            "start_date" : "2024-12-09",
+            "end_date" : "2024-12-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            
+        }
+        self.cant_create_trip = {
+            "bus" : bus_id,
+            "route" : route_id,
+            "start_date" : 2024-12-9,
+            "end_date" : "2024-12-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            
+        }
+        
+        self.add_trip = reverse("add-trip")
         self.update_bus = reverse("update-bus", args=[bus_id])
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        self.update_amenities = reverse("update-amenities", args=[amenities_id])
-
+        self.update_amenities = reverse("update-amenities",args=[amenities_id])
+        self.can_delete_route = reverse("delete-routes",args = [route_id])
+        
         return super().setUp()
 
 
@@ -431,8 +517,6 @@ class BusActions(BaseTest):
         response = self.client.post(
             self.add_amenities, self.add_amenities_invalid_bus, format="json"
         )
-        print("Status Code:", response.status_code)
-        print("Response Content:", response.content)
         self.assertEqual(response.status_code, 404)
 
     def test_cant_add_invalid_data(self):
@@ -455,11 +539,57 @@ class BusActions(BaseTest):
         response = self.client.put(
             self.cant_update_amenities, self.update_amenities_data, format="json"
         )
+        
+        self.assertEqual(response.status_code,404)
+    
+    def test_can_delete_route(self):
+        print("13")
+        response = self.client.put(
+            self.can_delete_route
+        )
+        self.assertEqual(response.status_code,200)
+
+    def test_cant_delete_route(self):
+        print("14")
+        self.cant_delete_route = reverse("delete-routes", args = [990])
+        response = self.client.put(
+            self.cant_delete_route
+        )
+        self.assertEqual(response.status_code,404)
+        
+    def test_can_create_route(self):
+        print("15")
+        response = self.client.post(
+            self.add_route,self.create_route,format = "json"
+        )
+        self.assertEqual(response.status_code,200)
+        
+    def test_cant_create_route_invalid_data(self):
+        print("16")
+        response = self.client.post(
+            self.add_route,self.cant_create_route,format = "json"
+        )
+        self.assertEqual(response.status_code,400)
+        
+    def test_can_create_trip(self):
+        print("17")
+        response = self.client.post(
+            self.add_trip,self.create_trip,format = "json"
+        )
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code,200)
+        
+    def test_cant_create_trip(self):
+        print("18")
+        response = self.client.post(
+            self.add_trip,self.cant_create_trip,format = "json"
+        )
+        print("Status Code:", response.status_code)
+        print("Response Content:", response.content)
+        self.assertEqual(response.status_code,400)
 
-
+    
 class RegisterOwnerTest(BaseTest):
     def test_can_register_user(self):
         response = self.client.post(

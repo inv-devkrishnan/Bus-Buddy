@@ -307,7 +307,7 @@ class ViewTrip(APIView):
 
     def get(self, request):
         """Function to display trips to user based on search"""
-        ITEMS_PER_PAGE = 10  # no of items to be display in page
+        ITEMS_PER_PAGE = 5  # no of items to be display in page
 
         # storing query params
         start_location = request.GET.get("start")

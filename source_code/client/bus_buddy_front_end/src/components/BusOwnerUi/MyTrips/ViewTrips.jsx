@@ -131,7 +131,7 @@ export default function Viewallbus() {
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleted(trip.id)}
+                  onClick={() => deleted(trip)}
                 >
                   Delete
                 </button>
@@ -147,9 +147,11 @@ export default function Viewallbus() {
   const update = (id) => {
     navi("/update-trips", { state: `${id}` });
   };
-  const deleted = (id) => {
+  const deleted = (trip) => {
+    console.log(trip)
+    
     axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${id}/`)
+      .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${trip.id}/`)
       .then((response) => {
         console.log("bus deleted successfuly");
 
