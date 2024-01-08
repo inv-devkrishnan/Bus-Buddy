@@ -225,9 +225,13 @@ class BookingHistory(ListAPIView):
         status = request.GET.get("status")
         try:
             if status in {"0", "1", "99"}:
-                queryset = Bookings.objects.filter(user=user_id, status=status)
+                queryset = Bookings.objects.filter(
+                    user=user_id, status=status
+                ).order_by("-created_date")
             else:
-                queryset = Bookings.objects.filter(user=user_id)
+                queryset = Bookings.objects.filter(user=user_id).order_by(
+                    "-created_date"
+                )
 
             serializer = BHDS(queryset)
             page = self.paginate_queryset(queryset)
