@@ -198,12 +198,28 @@ class BaseTest(TestCase):
             coupon_eligibility=1,
             discount=30,
         )
+        self.coupon1_2 = CouponDetails.objects.create(
+            coupon_code="TRF44541",
+            coupon_name="Coupon 1_2",
+            coupon_description="Coupon detail 1_2",
+            valid_till="2023-12-31",
+            coupon_eligibility=0,
+            discount=30,
+        )
+        self.coupon1_3 = CouponDetails.objects.create(
+            coupon_code="TRF44541",
+            coupon_name="Coupon 1_3",
+            coupon_description="Coupon detail 1_3",
+            valid_till="2025-12-31",
+            coupon_eligibility=0,
+            discount=30,
+            status=99,
+        )
         self.coupon2 = CouponDetails.objects.create(
             coupon_code="TRF44542",
             coupon_name="Coupon 2",
             coupon_description="Coupon detail 2",
             valid_till="2050-12-31",
-            coupon_eligibility=1,
             coupon_availability=2,
             trip=self.trip,
             discount=30,
@@ -213,7 +229,6 @@ class BaseTest(TestCase):
             coupon_name="Coupon 2_1",
             coupon_description="Coupon detail 2_1",
             valid_till="2050-12-31",
-            coupon_eligibility=1,
             coupon_availability=2,
             trip=self.trip_completed,
             discount=30,
@@ -223,7 +238,6 @@ class BaseTest(TestCase):
             coupon_name="Coupon 3",
             coupon_description="Coupon detail 3",
             valid_till="2050-12-31",
-            coupon_eligibility=1,
             coupon_availability=1,
             user=self.owner,
             discount=30,
@@ -233,7 +247,6 @@ class BaseTest(TestCase):
             coupon_name="Coupon 3_1",
             coupon_description="Coupon detail 3_1",
             valid_till="2050-12-31",
-            coupon_eligibility=1,
             coupon_availability=1,
             user=self.admin,
             discount=30,
@@ -251,7 +264,7 @@ class BaseTest(TestCase):
             coupon_name="Coupon 4_1",
             coupon_description="Coupon detail 4_1",
             valid_till="2050-12-31",
-            one_time_use=1,
+            one_time_use=0,
             discount=30,
         )
         self.coupon_history1 = CouponHistory.objects.create(
@@ -410,6 +423,7 @@ class BaseTest(TestCase):
                 },
             ],
             "payment": {"payment_intend": "cbdkscndski", "status": 0},
+            "coupon": {},
         }
 
         self.invalid_traveller_name_booking_values = {
@@ -427,6 +441,7 @@ class BaseTest(TestCase):
                 },
             ],
             "payment": {"payment_intend": "cbdkscndski", "status": 0},
+            "coupon": {},
         }
 
         self.valid_review_values = {
@@ -594,6 +609,21 @@ class UpdateUserTest(BaseTest):
     def test_cant_update_user_with_invalid_email(self):
         response = self.client.put(
             reverse("update-profile"), self.invalid_email, format="json"
+        )
+        print(response)
+        self.assertEqual(response.status_code, 400)
+
+    def test_cant_update_user_with_invalid_email(self):
+        response = self.client.put(
+            reverse("update-profile"),
+            {
+                "first_name": "ab123",
+                "last_name": valid_last_name,
+                "email": "abcd@gmail.com",
+                "password": valid_password,
+                "phone": 9988774455,
+            },
+            format="json",
         )
         print(response)
         self.assertEqual(response.status_code, 400)
@@ -1019,6 +1049,19 @@ class ViewSeatDetailsTest(BaseTest):
         print(response.content)
         self.assertEqual(response.status_code, 200)
 
+    def test_02_get_seat_details_inavlid_trip(self):
+        response = self.client.get(
+            self.view_seat,
+            {
+                "trip_id": 5000,
+                "start_location": self.location_1.id,
+                "end_location": self.location_2.id,
+            },
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
 
 class ViewComplaintsTest(BaseTest):
     def test_01_get_complaint_details(self):
@@ -1058,8 +1101,9 @@ class ViewCouponsTest(BaseTest):
             {"trip_id": self.trip.id},
             format="json",
         )
-        print("total number of coupons: 8")
-        print("coupons that should be available: 4")
+        print("total number of coupons: 10")
+        print("coupons that should be available: 3")
+        print(response.content)
         parsed_data = json.loads(response.content)
         self.assertEqual(4, len(parsed_data))  # available data count check
         self.assertEqual(response.status_code, 200)
@@ -1074,8 +1118,9 @@ class ViewCouponsTest(BaseTest):
             {"trip_id": self.trip.id},
             format="json",
         )
-        print("total number of coupons: 8")
+        print("total number of coupons: 10")
         print("coupons that should be available: 6")
+        print(response.content)
         parsed_data = json.loads(response.content)
         self.assertEqual(6, len(parsed_data))  # available data count check
         self.assertEqual(response.status_code, 200)
@@ -1093,3 +1138,90 @@ class RedeemCouponTest(BaseTest):
             b'{"valid":"Valid Coupon","coupon_status":"200"}',
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_02_invalid_coupon_validity_date(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon1_2.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content, b'{"invalid":"Invalid coupon","coupon_status":"400"}'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_03_invalid_coupon_status(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon1_3.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content, b'{"invalid":"Invalid coupon","coupon_status":"400"}'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_04_invalid_coupon_eligibility(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon1_1.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content,
+            b'{"invalid":"User is not eligible for first time booking coupon","coupon_status":"400"}',
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_05_invalid_coupon_availability_1(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon3_1.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content,
+            b'{"invalid":"Invalid by bus owner","coupon_status":"400"}',
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_06_invalid_coupon_availability_2(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon2_1.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content,
+            b'{"invalid":"Invalid by trip","coupon_status":"400"}',
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_07_invalid_coupon_one_time_use(self):
+        self.client.force_authenticate(self.user)
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": self.coupon4_1.id},
+            format="json",
+        )
+        self.assertEqual(
+            response.content,
+            b'{"invalid":"Coupon already used by this user","coupon_status":"400"}',
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_08_invalid_coupon_invalid_trip(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": 5000, "coupon_id": self.coupon1.id},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_09_invalid_coupon_invalid_coupon(self):
+        response = self.client.get(
+            self.redeem_coupon,
+            {"trip_id": self.trip.id, "coupon_id": 5000},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)

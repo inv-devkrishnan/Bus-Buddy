@@ -4,13 +4,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 import CardGroup from "react-bootstrap/CardGroup";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Pagination from "react-bootstrap/Pagination";
 import Badge from "react-bootstrap/Badge";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FormLabel from "react-bootstrap/FormLabel";
+import Col from "react-bootstrap/esm/Col";
 import { ExclamationCircle, StarFill } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -18,58 +18,45 @@ import * as yup from "yup";
 import Rating from "@mui/material/Rating";
 
 import { axiosApi } from "../../utils/axiosApi";
-import Col from "react-bootstrap/esm/Col";
+import CustomPaginator from "../common/paginator/CustomPaginator";
 
 export default function ReviewHistory() {
   const [sort, setSort] = useState(""); // for storing sort value
   const [reviewData, setReviewData] = useState([]); // for storing data of single review
-  const [page, setPage] = useState(1); // for storing page number
-  const [next, setNext] = useState(1); // for finding next
-  const [previous, setPrevious] = useState(1); // for finding previous
+  const [curentPage, setCurentPage] = useState(0); // for storing current page data
   const [totalPages, setTotalPages] = useState(0); // for finding total number of pages
-  const [active, setActive] = useState(1); // for setting current page activate
   const [isLoading, setIsLoading] = useState(true); // for setting progress bar
   const [reviewModal, setReviewModal] = useState(false); // for dealing modal visibility
   const [existingData, setExistingData] = useState([]); // for storing drop down values
   const [ratingValue, setRatingValue] = useState(0); // for storing rating value
 
-  const viewReviewHistory = useCallback(async () => {
-    // api call for getting all reviews
-    await axiosApi
-      .get(`user/review-history/?page=${page}&&ordering=${sort}`)
-      .then((res) => {
-        setReviewData(res.data.results);
-        setNext(res.data.has_next);
-        setPrevious(res.data.has_previous);
-        setTotalPages(res.data.total_pages);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Oops",
-          text: "Something went wrong",
-          icon: "error",
+  const viewReviewHistory = useCallback(
+    async (page) => {
+      // api call for getting all reviews
+      await axiosApi
+        .get(`user/review-history/?page=${page ?? 1}&&ordering=${sort}`)
+        .then((res) => {
+          setReviewData(res.data.results);
+          setCurentPage(res.data.current_page_number);
+          setTotalPages(res.data.total_pages);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Oops",
+            text: "Something went wrong",
+            icon: "error",
+          });
+          setIsLoading(false);
         });
-        setIsLoading(false);
-      });
-  }, [page, sort]);
+    },
+    [sort]
+  );
 
   useEffect(() => {
     // api call
     viewReviewHistory();
   }, [viewReviewHistory]);
-
-  const handlePrevious = () => {
-    // for moving to previous page
-    setActive(active - 1);
-    setPage(page - 1);
-  };
-
-  const handleNext = () => {
-    // for moving to next page
-    setActive(active + 1);
-    setPage(page + 1);
-  };
 
   const getBadgeColor = (rate) => {
     // for changing the badge color
@@ -145,54 +132,6 @@ export default function ReviewHistory() {
         setReviewModal(false);
       });
   };
-
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    // for generating pagination
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-
-  const paginationBasic = (
-    // pagination with previous and next buttons
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
 
   return (
     <div className="d-flex flex-column p-2 bd-highlight">
@@ -312,7 +251,11 @@ export default function ReviewHistory() {
         className="align-self-center"
         style={{ position: "fixed", bottom: 0 }}
       >
-        {paginationBasic}
+        <CustomPaginator
+          totalPages={totalPages}
+          currentPage={curentPage}
+          viewPage={viewReviewHistory}
+        />
       </div>
 
       <Modal

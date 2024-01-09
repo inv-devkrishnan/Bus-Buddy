@@ -1253,14 +1253,15 @@ class RedeemCoupon(APIView):
                 valid = False
                 logger.info(valid, "Invalid bus owner")
                 return Response(
-                    {"invalid": "Invalid bus owner", "coupon_status": "400"}, status=200
+                    {"invalid": "Invalid by bus owner", "coupon_status": "400"},
+                    status=200,
                 )
 
             if coupon.coupon_availability == 2 and coupon.trip.id != trip.id:
                 valid = False
                 logger.info(valid, "Invalid trip")
                 return Response(
-                    {"invalid": "Invalid trip", "coupon_status": "400"}, status=200
+                    {"invalid": "Invalid by trip", "coupon_status": "400"}, status=200
                 )
 
             if (
