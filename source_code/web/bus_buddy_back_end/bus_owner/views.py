@@ -914,12 +914,25 @@ class Viewnotifications(ListAPIView):
             
             logger.info("getting the user is from user model")
             user_id = request.user.id
-            queryset = Notifications.objects.filter(user = user_id)
+            queryset = Notifications.objects.filter(user = user_id,status = 0)
+            print(len(queryset))
             print(queryset)
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
-        except ValueError:
-            return Response(serializer._errors)
+        except ValidationError:
+            return Response(serializer._errors,status = 200)
         
-        
+class Changenotificationstatus(APIView):
+    permission_classes = (IsAuthenticated,)
+    def put(self,request):
+        try:
+            user_id = request.user.id
+            notifications = Notifications.objects.filter(user = user_id , status = 0)
+            for notification in notifications :
+                notification.status = 1
+                notification.save()
+            return Response({"message":"Notification Status updated"},status = 200)
+        except ValidationError:
+            return Response({"message":"error"},status = 400)
+                    
         
