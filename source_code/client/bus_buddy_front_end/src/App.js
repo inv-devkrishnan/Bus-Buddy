@@ -35,10 +35,12 @@ import Addrecurringtrip from "./components/BusOwnerUi/MyTrips/Addrecurringtrip";
 import SearchTrips from "./pages/SearchTrips";
 import NotFoundPage from "./pages/error_pages/NotFoundPage";
 import CreateCoupon from "./components/admin/coupon/CreateCoupon";
-import ProfileView from "./components/admin/ProfileView";
+import ProfileView from "./components/admin/profile/ProfileView";
 import ViewComplaints from "./components/common/view_complaints/ViewComplaints";
 import ListCoupon from "./components/admin/coupon/ListCoupon";
 import ListUsers from "./components/admin/ListUsers";
+import AdminProfile from "./components/admin/profile/AdminProfile";
+import UpdateProfile from "./components/admin/profile/UpdateProfile";
 
 function App() {
   return (
@@ -54,8 +56,18 @@ function App() {
             <Route path="/admin-dashboard" element={<AdminDashboard />}>
               <Route
                 path="/admin-dashboard/view-profile"
-                element={<ProfileView />}
-              />
+                element={<AdminProfile />}
+              >
+                <Route index element={<ProfileView />} />
+                <Route
+                  path="/admin-dashboard/view-profile/update"
+                  element={<UpdateProfile />}
+                ></Route>
+                <Route
+                  path="/admin-dashboard/view-profile/change-password"
+                  element={<ChangePassword />}
+                ></Route>
+              </Route>
               <Route
                 path="/admin-dashboard/create-coupon"
                 element={<CreateCoupon />}

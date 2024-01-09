@@ -122,6 +122,12 @@ function AdminDashboard() {
       case "/admin-dashboard/view-profile":
         dispatch({ type: "profile" });
         break;
+      case "/admin-dashboard/view-profile/update":
+        dispatch({ type: "profile" });
+        break;
+      case "/admin-dashboard/view-profile/change-password":
+        dispatch({ type: "profile" });
+        break;
       case "/admin-dashboard/show-coupon":
         dispatch({ type: "listCoupon" });
         break;
@@ -143,7 +149,10 @@ function AdminDashboard() {
   }, [location]);
 
   useEffect(() => {
-    if (localStorage.getItem("user_role") !== "1" || localStorage.getItem("token_expire_time") < Date.now()) {
+    if (
+      localStorage.getItem("user_role") !== "1" ||
+      localStorage.getItem("token_expire_time") < Date.now()
+    ) {
       // if user is not admin redirect to login
       navigate("/login");
     }
