@@ -9,7 +9,7 @@ from bus_owner.models import Trip
 class UpdateBookingStatusTestCase(TestCase):
     def test_01_batch_update_booking_status(self):
        with patch("bus_owner.models.Trip.objects.filter") as mock_filter:
-          trip_instance =  Trip(end_date=date(2024,1,8),end_time=date(12,0,0))
+          trip_instance =  Trip(end_date=date(2024,1,8),end_time=time(12,0,0))
           mock_filter.return_value = [trip_instance]
           res = update_booking_status()
        self.assertEqual(res, 0)
