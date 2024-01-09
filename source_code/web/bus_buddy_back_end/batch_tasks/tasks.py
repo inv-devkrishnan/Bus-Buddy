@@ -9,6 +9,27 @@ logger = logging.getLogger("django")
 indian_timezone = pytz.timezone("Asia/Kolkata")
 
 
+def get_completed_trips():
+    """function to return completed trip objects
+
+    Returns:
+        Trip object Array: completed trip objects
+    """
+    completed_trips = []  # array to store completed trips
+    current_time = datetime.now(tz=indian_timezone)  # setting timezone to asia kolkata
+    trips = Trip.objects.filter(status=0)
+    for trip in trips:
+        trip_end_time = datetime.combine(
+            date=trip.end_date,
+            time=trip.end_time,
+            tzinfo=indian_timezone,
+        )
+        if trip_end_time < current_time:
+            completed_trips.append(trip)  # gets trips that are done
+
+    return completed_trips
+
+
 def UpdateTasksStatus():
     trips = Trip.objects.filter(status=0)
     print(trips)
@@ -39,19 +60,7 @@ def UpdateTasksStatus():
 def update_booking_status():
     """Function to update Booking status from booked to invalid for completed trips"""
     try:
-        current_time = datetime.now(
-            tz=indian_timezone
-        )  # setting timezone to asia kolkata
-        completed_trips = []
-        trips = Trip.objects.filter(status=0)
-        for trip in trips:
-            trip_end_time = datetime.combine(
-                date=trip.end_date,
-                time=trip.end_time,
-                tzinfo=indian_timezone,
-            )
-            if trip_end_time < current_time:
-                completed_trips.append(trip)  # gets trips that are done
+        completed_trips = get_completed_trips()
         bookings = Bookings.objects.filter(
             trip__in=completed_trips, status=0
         )  # gets bookings of thoose trips
