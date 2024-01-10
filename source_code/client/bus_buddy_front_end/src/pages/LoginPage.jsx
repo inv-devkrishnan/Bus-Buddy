@@ -157,7 +157,7 @@ function LoginPage() {
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
-                  maxLength={254}
+                  maxLength={100}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
