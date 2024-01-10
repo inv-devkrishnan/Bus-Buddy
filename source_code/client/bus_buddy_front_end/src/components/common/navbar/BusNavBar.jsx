@@ -102,11 +102,11 @@ function BusNavBar() {
           </Nav>
 
           <div className="ms-auto d-flex align-items-center">
-          {user.name !== '-1' && (
+          {user.role !== '-1' && (
           <NavDropdown
             title={
               <>
-                <IoIosNotificationsOutline className="text-light fw-bold" style={{ fontSize: '24px' }} onClick={changenotificationstatus}/>
+                <IoIosNotificationsOutline className="text-light fw-bold" style={{ fontSize: '24px'}} onClick={changenotificationstatus}/>
                 {notificationCount > 0 && (
                   <span className="badge bg-danger rounded-circle" style={{ position: 'absolute', top: '0', right: '0' } }>
                     {notificationCount}
@@ -117,6 +117,7 @@ function BusNavBar() {
             className="text-light fw-bold"
             data-bs-theme="light"
             id="notifications-dropdown"
+            
           >
             {notifications.length === 0 ? (
               <NavDropdown.Item>No notifications</NavDropdown.Item>
@@ -127,7 +128,7 @@ function BusNavBar() {
             )}
           </NavDropdown>
         )}
-            <PersonCircle className="me-3" color="white" style={{ marginRight: '20px' }}></PersonCircle>
+            <PersonCircle className="me-3" color="white" style={{ marginLeft : '15px',marginRight: '20px' }}></PersonCircle>
             {user.name === "Guest" ? ( // based on the guest or registered user the drop down would change
               <NavDropdown
                 title="Hello Guest"
