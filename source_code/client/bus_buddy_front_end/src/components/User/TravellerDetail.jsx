@@ -37,6 +37,7 @@ const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
   const [currentTrip, setCurrentTrip] = useState([]); // to store the current trip details
   const [isLoading, setIsLoading] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0); // to save the total charges
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
 
@@ -51,6 +52,7 @@ const TravellerDetail = () => {
         setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
         const storedTrip = localStorage.getItem("current_trip");
         setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
+        setTotalAmount(parseFloat(localStorage.getItem("total_amount")));
       }
     } else {
       navigate("/login"); // if user not logged in redirect to login
@@ -86,14 +88,14 @@ const TravellerDetail = () => {
 
     const data = {
       // whole data in json format
-      total_amount: parseInt(localStorage.getItem("total_amount")),
+      total_amount: totalAmount,
       trip: parseInt(currentTrip.data.trip),
       pick_up: parseInt(localStorage.getItem("pick_up")),
       drop_off: parseInt(localStorage.getItem("drop_off")),
       booked_seats: bookedSeats,
     };
     const amountData = {
-      total_cost: parseInt(localStorage.getItem("total_amount")),
+      total_cost: totalAmount,
     };
     setIsLoading(true);
     // creates a new payment intent
@@ -282,7 +284,7 @@ const TravellerDetail = () => {
               <Timeline position="alternate">
                 <TimelineItem>
                   <TimelineOppositeContent
-                    sx={{ m: "auto 0" }}
+                    style={{ m: "auto 0" }}
                     align="right"
                     variant="body2"
                     color="text.secondary"
@@ -297,7 +299,7 @@ const TravellerDetail = () => {
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                  <TimelineContent style={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
                       {currentTrip?.startLocationName}
                     </Typography>
@@ -322,41 +324,22 @@ const TravellerDetail = () => {
                     <TimelineDot sx={"sm"} color="error" />
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent
-                    sx={{ py: "12px", px: 2, m: "auto 0" }}
-                    color="text.secondary"
-                  >
+                  <TimelineContent sx={{ m: "auto 0" }} color="text.secondary">
                     pick up point
                   </TimelineContent>
                 </TimelineItem>
 
                 <TimelineItem>
-                  <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2">
-                    <Typography variant="p" component="span">
-                      {localStorage.getItem("drop_stop")}
-                    </Typography>
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector />
-                    <TimelineDot variant="outlined" sx={"sm"} color="success" />
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent
-                    sx={{ py: "12px", px: 2, m: "auto 0" }}
-                    color="text.secondary"
-                  >
-                    drop off point
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
                   <TimelineOppositeContent
-                    color="text.secondary"
-                    sx={{ m: "auto 0" }}
+                    style={{ m: "auto 0" }}
                     variant="body2"
                   >
-                    <Typography>Stops at</Typography>
-                    {currentTrip?.data?.end_location_arrival_time}
+                    <Typography variant="h6" component="span">
+                      {currentTrip?.endLocationName}
+                    </Typography>
+                    <Typography>
+                      {currentTrip?.data?.end_location_arrival_date}
+                    </Typography>
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
@@ -365,12 +348,31 @@ const TravellerDetail = () => {
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Typography variant="h6" component="span">
-                      {currentTrip?.endLocationName}
-                    </Typography>
-                    <Typography>
-                      {currentTrip?.data?.end_location_arrival_date}
+                  <TimelineContent
+                    style={{ py: "12px", px: 2 }}
+                    color="text.secondary"
+                  >
+                    <Typography>Arrives at</Typography>
+                    {currentTrip?.data?.end_location_arrival_time}
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ m: "auto 0" }}
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    drop off point
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot variant="outlined" sx={"sm"} color="success" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2, m: "auto 0" }}>
+                    <Typography variant="p" component="span">
+                      {localStorage.getItem("drop_stop")}
                     </Typography>
                   </TimelineContent>
                 </TimelineItem>
@@ -379,7 +381,10 @@ const TravellerDetail = () => {
           </Tab>
 
           <Tab eventKey="coupon" title="Coupons and Total amount">
-            <AvailableCoupons total={localStorage.getItem("total_amount")} />
+            <AvailableCoupons
+              totalAmount={totalAmount}
+              setTotalAmount={setTotalAmount}
+            />
           </Tab>
 
           <Tab eventKey="amount" title="Refund Policy">

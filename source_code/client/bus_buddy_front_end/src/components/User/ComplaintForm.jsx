@@ -59,8 +59,8 @@ export default function ComplaintForm() {
       )
       .test(
         "is-valid-size",
-        "Maximum allowed size is 25MB",
-        (value) => (value && value?.size <= 26214400) || []
+        "Maximum allowed size is 5MB",
+        (value) => (value && value?.size <= 5120) || []
       ),
   });
 
@@ -131,7 +131,7 @@ export default function ComplaintForm() {
                 name="complaint_title"
                 style={{ color: "red" }}
               />
-            </Form.Group>{" "}
+            </Form.Group>
             <Form.Group className="form-group m-1">
               <FormLabel htmlFor="review_body">Description:</FormLabel>
 
