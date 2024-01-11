@@ -35,15 +35,17 @@ error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
 error_message_phone_exist = "Phone number is already registered"
 
+
 class ReviewSerializer(serializers.ModelSerializer):
     """
     serializer for model Userreviews. For listing
     """
+
     class Meta:
         model = UserReview
         fields = "__all__"
         depth = 1
-    
+
 
 class BusSerializer(serializers.ModelSerializer):
     """
@@ -113,7 +115,7 @@ class BusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
         fields = "__all__"
-        
+
     def validate_plate_no(self, value):
         queryset = Bus.objects.filter(plate_no=value)
         if queryset.exists():
@@ -494,11 +496,12 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     email = serializers.EmailField(
+        max_length=100,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(), message=error_message_email_exist
             ),
-        ]
+        ],
     )
     password = serializers.CharField(
         min_length=8,
@@ -548,7 +551,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
+    extra_charges = serializers.IntegerField(min_value=0, max_value=100)
 
     # password encryption
     def create(self, validated_data):

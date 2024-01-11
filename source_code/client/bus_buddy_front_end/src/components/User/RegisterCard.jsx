@@ -77,8 +77,8 @@ export default function RegisterCard() {
 
   return (
     <Card
-      className="p-5 shadow-lg p-3 mb-5 mt-5 bg-body rounded"
-      style={{ width: "30rem", padding: 5, alignItems: "center" }}
+      className="shadow-lg bg-body rounded m-2 p-3"
+      style={{ width: "80%" }}
     >
       <Card.Title>
         Sign Up <ShieldLockFill color="cornflowerblue" />
@@ -86,8 +86,8 @@ export default function RegisterCard() {
       <Card.Body>
         <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
           <Row>
-            <Col>
-              <Form.Group className="mb-3" controlId="firstName">
+            <div className="d-flex flex-column flex-md-row flex-lg-row">
+              <Form.Group className="me-1 mb-3" controlId="firstName">
                 <Form.Label>First name</Form.Label>
                 <Form.Control
                   name="firstName"
@@ -99,15 +99,14 @@ export default function RegisterCard() {
                     formik.touched.firstName && formik.errors.firstName
                   }
                   placeholder="Enter first name"
+                  maxLength={100}
                 />
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.firstName}
                 </Form.Control.Feedback>
               </Form.Group>
-            </Col>
 
-            <Col>
-              <Form.Group className="mb-3" controlId="lastName">
+              <Form.Group className="ms-1 mb-3" controlId="lastName">
                 <Form.Label>Last name</Form.Label>
                 <Form.Control
                   name="lastName"
@@ -117,12 +116,13 @@ export default function RegisterCard() {
                   onBlur={formik.handleBlur}
                   isInvalid={formik.touched.lastName && formik.errors.lastName}
                   placeholder="Enter last name"
+                  maxLength={100}
                 />
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.lastName}
                 </Form.Control.Feedback>
               </Form.Group>
-            </Col>
+            </div>
           </Row>
 
           <Form.Group className="mb-3" controlId="email">
@@ -135,6 +135,7 @@ export default function RegisterCard() {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.email && formik.errors.email}
               placeholder="Enter email"
+              maxLength={100}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.email}
@@ -152,6 +153,7 @@ export default function RegisterCard() {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.password && formik.errors.password}
                 placeholder="Enter password"
+                maxLength={20}
               />{" "}
               <InputGroup.Text
                 id="basic-addon1"
@@ -181,6 +183,7 @@ export default function RegisterCard() {
                   formik.errors.confirmPassword
                 }
                 placeholder="Confirm password"
+                maxLength={20}
               />
               <InputGroup.Text
                 id="basic-addon1"

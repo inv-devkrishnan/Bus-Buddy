@@ -26,7 +26,9 @@ export default function SeatDetailCard(props) {
       });
       const routeCost = Number(props?.routeCost);
       const gst = Number(props?.gst) || 0;
-      setTotalCost(sumOfCost + routeCost + ((sumOfCost + routeCost) * gst/100));
+      setTotalCost(
+        sumOfCost + routeCost + ((sumOfCost + routeCost) * gst) / 100
+      );
     } else {
       setTotalCost(0);
     }
@@ -104,7 +106,7 @@ export default function SeatDetailCard(props) {
             <Typography align="right" m={1} variant="subtitle1">
               Travel fare : ₹ {props?.routeCost}
               <br />
-              GST : {props?.gst * 100}%
+              GST : {props?.gst}%
               <br />
               ________________
               <br />

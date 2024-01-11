@@ -41,11 +41,13 @@ import ListCoupon from "./components/admin/coupon/ListCoupon";
 import ListUsers from "./components/admin/ListUsers";
 import AdminProfile from "./components/admin/profile/AdminProfile";
 import UpdateProfile from "./components/admin/profile/UpdateProfile";
+import { UserContextProvider } from "./components/User/UserContext";
 
 function App() {
   return (
     <SeatContextProvider>
       <AddSeatContextProvider>
+        <UserContextProvider>
         <Routes>
           <Route path="/" element={<NavbarLayout />}>
             {/* pages which have navbar */}
@@ -128,6 +130,7 @@ function App() {
           <Route path="/register-owner" element={<RegisterOwner />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </UserContextProvider>
       </AddSeatContextProvider>
     </SeatContextProvider>
   );

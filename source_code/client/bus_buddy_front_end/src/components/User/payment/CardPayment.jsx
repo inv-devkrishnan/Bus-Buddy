@@ -11,12 +11,15 @@ import { Container, Button, Card } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 import { axiosApi } from "../../../utils/axiosApi";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../../User/UserContext";
+
 function CardPayment(props) {
   const stripe = useStripe(); // using stripe hook  initialize stripe
   const elements = useElements(); // using elements hook to initialize element
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // to check wether a payment is ongoing
+  const { selectedCoupon } = useContext(UserContext);
 
   const bookSeat = async (paymentIntentId) => {
     // function to book seat and added payment info to db
@@ -26,6 +29,8 @@ function CardPayment(props) {
       status: 0,
     };
     newData["payment"] = payment; // appends payment info to existing booking data
+    newData["coupon"] = selectedCoupon; // appends the coupon info
+    console.log(newData);
     axiosApi
       .post("user/book-seat/", newData)
       .then((res) => {
@@ -48,12 +53,12 @@ function CardPayment(props) {
       .catch((err) => {
         Swal.fire({
           title: "Booking Failed",
-          text:(err.response.data?.refund_performed
-              ? "Amount Deducted will be refunded within few days "
-              : "Couldn't perform refund Call customer support"),
+          text: err.response.data?.refund_performed
+            ? "Amount Deducted will be refunded within few days "
+            : "Couldn't perform refund Call customer support",
           icon: "error",
         });
-        navigate("/")
+        navigate("/");
       });
   };
 
