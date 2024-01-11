@@ -2,15 +2,14 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
-
-
-
-describe("Add Bus component", () => {
+import UpdateAmenities from "../components/BusOwnerUi/MyBuses/UpdateAmenities"
+describe("ReviewHistory component", () => {
   it("renders component", () => {
     render(
-      <MemoryRouter>
-        <AddBus />
-      </MemoryRouter>
-    );
+        <MemoryRouter>
+          <UpdateAmenities />
+        </MemoryRouter>
+      );
+  
   });
 });
