@@ -6,6 +6,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/Image";
 import Modal from "react-bootstrap/Modal";
+import Placeholder from "react-bootstrap/Placeholder";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
 import AdminProfileSplash from "../../../assets/images/adminProfileView.png";
@@ -13,44 +14,47 @@ import { axiosApi } from "../../../utils/axiosApi";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
 
 function UpdateProfile() {
   // updates the profile when executed
   const [showModal, setShowModal] = useState(false);
   const [charges, setCharges] = useState("");
-  const message = "Platform charges are expected in % and should be in range 0 - 100";
-  const [adminDetails, setAdminDetails] = useState({}); 
+  const message =
+    "Platform charges are expected in % and should be in range 0 - 100";
+  const [adminDetails, setAdminDetails] = useState({});
   const [isProfileLoading, setIsProfileLoading] = useState(false); // to show/hide placeholder
   const navigate = useNavigate();
 
-  useEffect(()=>{
-   get_profile_data();
-  },[])
+  useEffect(() => {
+    get_profile_data();
+  }, []);
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  const get_profile_data =async()=>
-  {
+  const get_profile_data = async () => {
     setIsProfileLoading(true);
     await axiosApi
-    .get("adminstrator/update-profile/")
-    .then((result) => {
-      setAdminDetails(result.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    setIsProfileLoading(false)
-  }
+      .get("adminstrator/update-profile/")
+      .then((result) => {
+        setAdminDetails(result.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    setIsProfileLoading(false);
+  };
 
   const handleShowModal = () => {
     setShowModal(true);
   };
   const update_profile = async (values) => {
+    showLoadingAlert("Updating Profile");
     await axiosApi
       .put("adminstrator/update-profile/", values)
       .then((result) => {
+        Swal.close();
         Swal.fire({
           icon: "success",
           title: "Profile Updated !",
@@ -58,63 +62,66 @@ function UpdateProfile() {
         navigate("/admin-dashboard/view-profile");
       })
       .catch(function (error) {
+        Swal.close();
         Swal.fire({
           icon: "error",
           title: "Profile Update Failed !",
           text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
+   
   };
   const handleUpdatePlatformCharges = (charges) => {
-    if(!charges){
-      alert("Platform charges cannot be null")
+    if (!charges) {
+      alert("Platform charges cannot be null");
       return;
     }
-    if (isNaN(charges)){
-      alert("Platform charges must be a number")
+    if (isNaN(charges)) {
+      alert("Platform charges must be a number");
       return;
     }
-    if (charges < 0 || charges >100){
-      alert("Platform charges are in % and should be in range 0 - 100")
+    if (charges < 0 || charges > 100) {
+      alert("Platform charges are in % and should be in range 0 - 100");
       return;
     }
     const platformcharges = parseFloat(charges);
     axiosApi
       .put("account/platformcharges/", { extra_charges: platformcharges })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         console.log("Platform charges updated successfully");
       })
       .catch((error) => {
-
         console.error("Error updating platform charges:", error);
       });
 
     setShowModal(false);
   };
   return (
-    <Container>
+    <Container className="ms-3 p-0">
       <Row>
-        <Col xs={12} lg={8}>
-          <h3 className="mt-3">Update Profile</h3>
-          {!isProfileLoading &&
-              <Card className="p-5 mt-2 mb-5 shadow-lg">
+        <Col xs={11} sm={12} md={8} lg={6} xl={5} xxl={4}>
+          {!isProfileLoading ? (
+            <Card className="p-5 pt-3 mt-2 mb-5 shadow-lg w-100">
+              <Card.Title className="mb-4">Update Profile</Card.Title>
               <Formik
                 // filling initial from props
                 initialValues={{
                   first_name: adminDetails?.first_name,
                   last_name: adminDetails?.last_name,
-                  email:adminDetails?.email,
-                  phone:adminDetails?.phone,
+                  email: adminDetails?.email,
+                  phone: adminDetails?.phone,
                 }}
                 validate={(values) => {
                   // validation for email,first_name,last_name,phone number
                   const errors = {};
-  
+
                   if (!values.email) {
                     errors.email = "Required";
                   } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                      values.email
+                    )
                   ) {
                     errors.email = "Invalid email address";
                   }
@@ -147,17 +154,17 @@ function UpdateProfile() {
               >
                 {({
                   values,
-  
+
                   errors,
-  
+
                   touched,
-  
+
                   handleChange,
-  
+
                   handleBlur,
-  
+
                   handleSubmit,
-  
+
                   isSubmitting,
                 }) => (
                   <Form onSubmit={handleSubmit}>
@@ -167,6 +174,7 @@ function UpdateProfile() {
                         type="text"
                         name="first_name"
                         value={values.first_name}
+                        maxLength={100}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder="First Name"
@@ -183,6 +191,7 @@ function UpdateProfile() {
                         name="last_name"
                         type="text"
                         value={values.last_name}
+                        maxLength={100}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder="Last Name"
@@ -199,6 +208,7 @@ function UpdateProfile() {
                         name="email"
                         type="email"
                         value={values.email}
+                        maxLength={100}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder="Enter email"
@@ -212,6 +222,7 @@ function UpdateProfile() {
                       <Form.Control
                         name="phone"
                         type="text"
+                        maxLength={10}
                         value={values.phone}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -222,35 +233,53 @@ function UpdateProfile() {
                       </p>
                     </Form.Group>
                     <div
-                      style={{ display: "flex", justifyContent: "space-between" }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
                     >
                       <Button
-                        style={{width:"150px"}}
+                        style={{ width: "150px" }}
                         variant="primary"
                         type="submit"
                         disabled={isSubmitting}
                       >
-                        Update
+                        Update Profile
                       </Button>
                     </div>
                   </Form>
                 )}
               </Formik>
-              <div className="d-flex justify-content-end">
-              <Button
-                  style={{ marginTop: "-38px" }}
-                  variant="primary"
-                  onClick={handleShowModal}
-                >
-                   Platform Charges
-                </Button>
-              </div>
+              <Card.Footer className="mt-2 ms-0 me-0 pe-0 ps-0">
+                <div className="d-flex justify-content-end">
+                  <Button variant="primary" onClick={handleShowModal}>
+                    Platform Charges
+                  </Button>
+                </div>
+              </Card.Footer>
             </Card>
-          }
-        
+          ) : (
+            <Card className="p-5 pt-3 mt-2 mb-5 shadow-lg w-100">
+              <Placeholder as={Card.Title} animation="glow">
+              <Placeholder xs={12} />
+              </Placeholder>
+              <Placeholder as={Form.Group} animation="glow">
+                <Placeholder xs={12} />
+                <Placeholder xs={8} />
+                <Placeholder xs={12} />
+                <Placeholder xs={8} />
+                <Placeholder xs={12} />
+                <Placeholder xs={8} />
+                <Placeholder xs={12} />
+                <Placeholder xs={8} />
+              </Placeholder>
+              <Placeholder.Button className="h-25" animation="glow"  xs={6}/>
+            </Card>
+          )}
         </Col>
-        <Col xs={8} lg={4}>
+        <Col xs={12} lg={6} xl={7} xxl={8}>
           <Image
+            fluid
             className="mt-5"
             src={AdminProfileSplash}
             alt="admin_splash"
@@ -272,7 +301,9 @@ function UpdateProfile() {
                 value={charges}
                 onChange={(e) => setCharges(e.target.value)}
               />
-              {message && <div style={{ color: 'grey',fontSize:"13px" }}>{message}</div>}
+              {message && (
+                <div style={{ color: "grey", fontSize: "13px" }}>{message}</div>
+              )}
             </Form.Group>
           </Form>
         </Modal.Body>

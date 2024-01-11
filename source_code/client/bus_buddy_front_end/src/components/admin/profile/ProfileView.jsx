@@ -34,10 +34,10 @@ function ProfileView() {
     setIsProfileLoading(false);
   };
   return (
-    <Container className="ms-2 mt-2">
+    <Container className="ms-0 ps-0 mt-2">
       <Container>
         <Row>
-          <Col className="mt-5">
+          <Col xl={6} lg={12} className="mt-5">
             {isProfileLoading ? (
               <Card className="p-5 shadow-lg w-100">
                 <Card.Body>
@@ -83,7 +83,7 @@ function ProfileView() {
               </Card>
             )}
           </Col>
-          <Col className="ms-5">
+          <Col xl={6} lg={12}>
             <Image fluid src={AdminProfileSplash} alt="admin_splash"></Image>
           </Col>
         </Row>
