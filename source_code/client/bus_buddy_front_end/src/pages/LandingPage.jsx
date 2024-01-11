@@ -121,17 +121,19 @@ function LandingPage(props) {
                 className="form-control mb-1"
                 list="datalistOptions"
                 id="start_text_box"
+                maxLength={100}
                 onChange={validateSearchTerms}
-                placeholder="from location"
+                placeholder="From location"
               />
             </Col>
             <Col xs={12} md={3}>
               <input
                 className="form-control  mb-1"
                 list="datalistOptions"
+                maxLength={100}
                 id="end_text_box"
                 onChange={validateSearchTerms}
-                placeholder="to location"
+                placeholder="To location"
               />
             </Col>
             <Col xs={12} md={3}>

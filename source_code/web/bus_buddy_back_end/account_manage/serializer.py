@@ -9,7 +9,7 @@ class GoogleAuthSerializer(serializers.Serializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=254)
+    email = serializers.EmailField(max_length=100)
     password = serializers.CharField(max_length=100)
 
     class Meta:
@@ -19,7 +19,12 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class PasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(max_length=20)
+    old_password = serializers.CharField(max_length=20,validators=[
+            RegexValidator(
+                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
+                message="password not valid",
+            ),
+        ],)
     new_password = serializers.CharField(
         max_length=20,
         validators=[

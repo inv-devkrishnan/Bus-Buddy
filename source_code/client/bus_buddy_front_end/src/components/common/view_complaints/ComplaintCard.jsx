@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Button, Card, Form, Modal } from "react-bootstrap";
+import { Button, Card, Form, Image, Modal } from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
@@ -117,6 +117,25 @@ function ComplaintCard(props) {
         <Modal.Body>
           <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
             {props.complaint.complaint_body}
+            {props.complaint?.complaint_image && (
+              <div>
+                <br></br>
+
+                <h6 className="mt-3">Attached Image :</h6>
+                <Image
+                  className="mt-2 mb-2"
+                  fluid
+                  src={
+                    process.env.REACT_APP_BASEURL +
+                    props.complaint.complaint_image
+                  }
+                  width={500}
+                  height={250}
+                  alt="complaint_image"
+                ></Image>
+              </div>
+            )}
+
             {props.complaint.status === 0 && (
               <Form
                 noValidate
