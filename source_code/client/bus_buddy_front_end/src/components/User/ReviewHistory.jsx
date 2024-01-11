@@ -216,7 +216,11 @@ export default function ReviewHistory() {
                           </Badge>
                         </Card.Title>
                         <Card.Text>{review?.review_body}</Card.Text>
-                        <div className="d-flex justify-content-end">
+                      </Card.Body>
+                      <Card.Footer>
+                        Last updated on:&ensp;
+                        {new Date(review.updated_time).toLocaleDateString()}
+                        <div className="d-flex justify-content-end align-items-start">
                           <Button
                             variant="primary"
                             onClick={() => {
@@ -226,10 +230,6 @@ export default function ReviewHistory() {
                             Edit
                           </Button>
                         </div>
-                      </Card.Body>
-                      <Card.Footer>
-                        Last updated on:&ensp;
-                        {new Date(review.updated_time).toLocaleDateString()}
                       </Card.Footer>
                     </Card>
                   </CardGroup>
