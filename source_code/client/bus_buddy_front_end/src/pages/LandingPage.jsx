@@ -105,7 +105,7 @@ function LandingPage(props) {
             {!props.fromSearchList && (
               <>
                 <Col md={3}>
-                  <Image src={splashscreen} fluid></Image>
+                  <Image src={splashscreen} fluid />
                 </Col>
                 <Col className="mt-5" md={4}>
                   <h1>Find your Trip</h1>
