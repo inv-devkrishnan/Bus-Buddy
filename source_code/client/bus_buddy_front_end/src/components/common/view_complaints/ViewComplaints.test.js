@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ViewComplaints from './ViewComplaints';
+import { axiosApi } from '../../../utils/axiosApi';
 
 const mockComplaintsData = {
   complaints: [
@@ -20,10 +21,18 @@ const mockComplaintsData = {
   has_previous: false,
 };
 
+// jest.mock("../interceptor/apiServic", () => {
+//   return {
+//     axiosApi: jest.fn(),
+//   };
+// });
+
 describe('ViewComplaints component', () => {
 
   it('renders with default data', async () => {
-
+    // axiosApi.mockResolvedValue({
+    //   donation_count: 0,
+    // });
     render(<ViewComplaints />);
   });
 
