@@ -1,5 +1,8 @@
 import stripe
 import pytz
+import os
+from dotenv import load_dotenv
+load_dotenv('busbuddy_api.env')
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Subquery, OuterRef
@@ -10,8 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from datetime import datetime, date
-from decouple import config
+from datetime import datetime, date,timedelta
 
 from account_manage.models import User
 from adminstrator.models import CouponHistory, CouponDetails
@@ -60,6 +62,7 @@ logger = logging.getLogger("django")
 
 date_format = "%Y-%m-%d"
 available_complaintable_users = []
+apikey = os.getenv("STRIPE_API_KEY")
 
 
 def mail_sent_response(mailfunction):
@@ -454,7 +457,7 @@ class BookSeat(APIView):
         Args:
             payment_intent (_type_): payment_intent to be refunded
         """
-        stripe.api_key = config("STRIPE_API_KEY")
+        stripe.api_key = apikey
         if payment_intent:
             logger.info("payment Intent to be Refunded :" + payment_intent)
             try:
@@ -656,7 +659,7 @@ class CancelBooking(UpdateAPIView):
         Returns:
         Boolean: True =>refund sucessful False => refund faild
         """
-        stripe.api_key = config("STRIPE_API_KEY")
+        stripe.api_key = apikey
         desired_timezone = pytz.timezone("Asia/Kolkata")
         current_time = datetime.now(desired_timezone)
         try:
@@ -814,7 +817,7 @@ class CreatePaymentIntent(APIView):
     """
 
     permission_classes = (AllowNormalUsersOnly,)
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = apikey
 
     def post(self, request):
         serialized_data = CostSerializer(data=request.data)

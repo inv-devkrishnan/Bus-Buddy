@@ -2,8 +2,10 @@ import re
 import logging
 import stripe
 import uuid
+import os
+from dotenv import load_dotenv
+load_dotenv('busbuddy_api.env')
 from datetime import datetime
-from decouple import config
 from django.db.models import Q
 from django.db import transaction, DatabaseError
 from rest_framework.generics import UpdateAPIView, ListAPIView
@@ -116,7 +118,7 @@ def ban_normal_user(old_status, new_status, instance):
         new_status (_type_): new status
         instance (_type_): user instance
     """
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
         (old_status == 0 and new_status == 2)
         or (old_status == 0 and new_status == 99)
@@ -196,7 +198,7 @@ def ban_bus_owner(old_status, new_status, instance):
        new_status (_type_): new status
        instance (_type_): user instance
     """
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key =  os.getenv("STRIPE_API_KEY")
     if old_status == 0 and new_status == 2 and instance.role == 3:
         logger.info("Bus owner ban initated")
         try:
@@ -252,7 +254,7 @@ def remove_bus_owner_buses(instance):
 
 
 def remove_bus_owner(old_status, new_status, instance):
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
         (old_status == 0 and new_status == 99) or (old_status == 2 and new_status == 99)
     ) and instance.role == 3:
