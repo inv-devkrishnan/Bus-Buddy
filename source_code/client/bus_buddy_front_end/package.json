@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aos": "^2.3.4",
     "axios": "^1.5.1",
+    "axios-mock-adapter": "^1.22.0",
     "bootstrap": "^5.3.2",
     "formik": "^2.4.5",
     "jest-transformer-svg": "^2.0.2",

@@ -1,16 +1,16 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import UserLayout from "../components/User/UserLayout";
+import UserSleeper from "../components/User/UserSleeper";
 import { SeatContextProvider } from "../utils/SeatContext";
 
-jest.mock("../assets/driver.png");
+jest.mock("../components/User/UserSleeper.jsx");
 
-describe("UserLayout component", () => {
+describe("UserSleeper component", () => {
   it("renders card", () => {
     render(
       <SeatContextProvider>
-        <UserLayout trip={1} startLocation={2} endLocation={3} />
+        <UserSleeper nearFemale={false} nearMale={false} row={1} column={1} />
       </SeatContextProvider>
     );
   });

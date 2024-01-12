@@ -2,9 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import { SeatContextProvider } from "./utils/SeatContext";
-import { AddSeatContextProvider } from "./utils/AddSeatContext";
-
 import BusHome from "./components/BusOwnerUi/BusHome";
 import AddBus from "./components/BusOwnerUi/MyBuses/AddBus";
 import UpdateBus from "./components/BusOwnerUi/MyBuses/UpdateBus";
@@ -20,8 +17,6 @@ import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import LandingPage from "./pages/LandingPage";
 import FullSleeperDetails from "./pages/AddSeatDetails/FullSleeperDetails";
-import FullSeaterDetails from "./pages/AddSeatDetails/FullSeaterDetails";
-import SingleSeaterDoubleSleeperDetails from "./pages/AddSeatDetails/SingleSeaterDoubleSleeperDetails";
 import OwnerUpdateCard from "./components/OwnerUpdateCard";
 import UpdateOwnerProfile from "./components/BusOwnerUi/UpdateOwnerProfile";
 import TravellerDetail from "./components/User/TravellerDetail";
@@ -41,92 +36,77 @@ import ListCoupon from "./components/admin/coupon/ListCoupon";
 import ListUsers from "./components/admin/ListUsers";
 import AdminProfile from "./components/admin/profile/AdminProfile";
 import UpdateProfile from "./components/admin/profile/UpdateProfile";
-import { UserContextProvider } from "./components/User/UserContext";
 
 function App() {
   return (
-        <Routes>
-          <Route path="/" element={<NavbarLayout />}>
-            {/* pages which have navbar */}
-            <Route index element={<LandingPage />} />
-            <Route path="/delete-account" element={<DeleteAccountPage />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+    <Routes>
+      <Route path="/" element={<NavbarLayout />}>
+        {/* pages which have navbar */}
+        <Route index element={<LandingPage />} />
+        <Route path="/delete-account" element={<DeleteAccountPage />} />
+        <Route path="/change-password" element={<ChangePassword />} />
 
-            <Route path="/admin-dashboard" element={<AdminDashboard />}>
-              <Route
-                path="/admin-dashboard/view-profile"
-                element={<AdminProfile />}
-              >
-                <Route index element={<ProfileView />} />
-                <Route
-                  path="/admin-dashboard/view-profile/update"
-                  element={<UpdateProfile />}
-                ></Route>
-                <Route
-                  path="/admin-dashboard/view-profile/change-password"
-                  element={<ChangePassword />}
-                ></Route>
-              </Route>
-              <Route
-                path="/admin-dashboard/create-coupon"
-                element={<CreateCoupon />}
-              />
-              <Route
-                path="/admin-dashboard/show-coupon"
-                element={<ListCoupon />}
-              />
-              <Route
-                path="/admin-dashboard/view-complaints"
-                element={<ViewComplaints />}
-              />
-              <Route
-                path="/admin-dashboard/list-busowners"
-                element={<ListUsers busApproval={true} />}
-              />
-              <Route
-                path="/admin-dashboard/list-users"
-                element={<ListUsers busApproval={false} />}
-              />
-            </Route>
-
-            <Route path="/BusHome" element={<BusHome />} />
-            <Route path="/user-dashboard" element={<UserDashboard />} />
-            <Route path="/traveller-data" element={<TravellerDetail />} />
-            <Route path="/update-owner" element={<OwnerUpdateCard />} />
-            <Route path="/Addbus" element={<AddBus />} />
-            <Route path="/Updatebus" element={<UpdateBus />} />
-            <Route path="/Viewbus" element={<ViewBus />} />
-            <Route path="/Addamenities" element={<AddAmenities />} />
-            <Route path="/Updateamenities" element={<UpdateAmenities />} />
-            <Route path="/Addroutes" element={<Addroutes />} />
-            <Route path="/ViewRoutes" element={<ViewRoutes />} />
-            <Route path="/view-trips" element={<ViewRoutes />} />
-            <Route path="/update-trips" element={<UpdateTrips />} />
-            <Route path="/add-trips" element={<Addtrips />} />
-            <Route path="/add-recurring-trips" element={<Addrecurringtrip />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />}>
+          <Route
+            path="/admin-dashboard/view-profile"
+            element={<AdminProfile />}
+          >
+            <Route index element={<ProfileView />} />
             <Route
-              path="/full-sleeper-details"
-              element={<FullSleeperDetails />}
-            />
+              path="/admin-dashboard/view-profile/update"
+              element={<UpdateProfile />}
+            ></Route>
             <Route
-              path="/full-seater-details"
-              element={<FullSeaterDetails />}
-            />
-            <Route
-              path="/single-seater-double-sleeper-details"
-              element={<SingleSeaterDoubleSleeperDetails />}
-            />
-            <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
-            <Route path="/search-trip" element={<SearchTrips />} />
-            <Route path="/not-found" element={<NotFoundPage />} />
+              path="/admin-dashboard/view-profile/change-password"
+              element={<ChangePassword />}
+            ></Route>
           </Route>
-          {/* pages which don't have navbar */}
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register-user" element={<RegisterUser />} />
-          <Route path="/register-owner" element={<RegisterOwner />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+          <Route
+            path="/admin-dashboard/create-coupon"
+            element={<CreateCoupon />}
+          />
+          <Route path="/admin-dashboard/show-coupon" element={<ListCoupon />} />
+          <Route
+            path="/admin-dashboard/view-complaints"
+            element={<ViewComplaints />}
+          />
+          <Route
+            path="/admin-dashboard/list-busowners"
+            element={<ListUsers busApproval={true} />}
+          />
+          <Route
+            path="/admin-dashboard/list-users"
+            element={<ListUsers busApproval={false} />}
+          />
+        </Route>
+
+        <Route path="/BusHome" element={<BusHome />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/traveller-data" element={<TravellerDetail />} />
+        <Route path="/update-owner" element={<OwnerUpdateCard />} />
+        <Route path="/Addbus" element={<AddBus />} />
+        <Route path="/Updatebus" element={<UpdateBus />} />
+        <Route path="/Viewbus" element={<ViewBus />} />
+        <Route path="/Addamenities" element={<AddAmenities />} />
+        <Route path="/Updateamenities" element={<UpdateAmenities />} />
+        <Route path="/Addroutes" element={<Addroutes />} />
+        <Route path="/ViewRoutes" element={<ViewRoutes />} />
+        <Route path="/view-trips" element={<ViewRoutes />} />
+        <Route path="/update-trips" element={<UpdateTrips />} />
+        <Route path="/add-trips" element={<Addtrips />} />
+        <Route path="/add-recurring-trips" element={<Addrecurringtrip />} />
+        <Route path="/full-sleeper-details" element={<FullSleeperDetails />} />
+        <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
+        <Route path="/search-trip" element={<SearchTrips />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
+      </Route>
+      {/* pages which don't have navbar */}
+      <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register-user" element={<RegisterUser />} />
+      <Route path="/register-owner" element={<RegisterOwner />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
