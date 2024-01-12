@@ -42,7 +42,7 @@ const TravellerDetail = () => {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (authStatus()) {
+    if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
         navigate("/login");

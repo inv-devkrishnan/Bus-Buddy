@@ -60,4 +60,69 @@ describe("SideBar component", () => {
       </BrowserRouter>
     );
   });
+
+  test("admin dashboard show-coupon", () => {
+    useLocation.mockImplementation(
+      jest.fn().mockReturnValue({
+        pathname: "/admin-dashboard/show-coupon",
+      })
+    );
+    render(
+      <BrowserRouter>
+        <AdminDashboard />
+      </BrowserRouter>
+    );
+  });
+
+  test("admin dashboard change password", () => {
+    useLocation.mockImplementation(
+      jest.fn().mockReturnValue({
+        pathname: "/admin-dashboard/view-profile/change-password",
+      })
+    );
+    render(
+      <BrowserRouter>
+        <AdminDashboard />
+      </BrowserRouter>
+    );
+  });
+
+  test("admin dashboard profile update", () => {
+    useLocation.mockImplementation(
+      jest.fn().mockReturnValue({
+        pathname: "/admin-dashboard/view-profile/update",
+      })
+    );
+    render(
+      <BrowserRouter>
+        <AdminDashboard />
+      </BrowserRouter>
+    );
+  });
+
+  test("admin dashboard profile", () => {
+    useLocation.mockImplementation(
+      jest.fn().mockReturnValue({
+        pathname: "/admin-dashboard/view-profile",
+      })
+    );
+    render(
+      <BrowserRouter>
+        <AdminDashboard />
+      </BrowserRouter>
+    );
+  });
+
+  test("admin dashboard invalid", () => {
+    useLocation.mockImplementation(
+      jest.fn().mockReturnValue({
+        pathname: "/fdsffds/fdsf",
+      })
+    );
+    render(
+      <BrowserRouter>
+        <AdminDashboard />
+      </BrowserRouter>
+    );
+  });
 });
