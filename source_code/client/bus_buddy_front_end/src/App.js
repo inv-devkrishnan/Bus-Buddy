@@ -45,9 +45,6 @@ import { UserContextProvider } from "./components/User/UserContext";
 
 function App() {
   return (
-    <SeatContextProvider>
-      <AddSeatContextProvider>
-        <UserContextProvider>
         <Routes>
           <Route path="/" element={<NavbarLayout />}>
             {/* pages which have navbar */}
@@ -130,9 +127,6 @@ function App() {
           <Route path="/register-owner" element={<RegisterOwner />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        </UserContextProvider>
-      </AddSeatContextProvider>
-    </SeatContextProvider>
   );
 }
 
