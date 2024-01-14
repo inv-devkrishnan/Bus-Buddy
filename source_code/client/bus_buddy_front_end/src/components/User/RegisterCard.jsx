@@ -154,9 +154,9 @@ export default function RegisterCard() {
                 isInvalid={formik.touched.password && formik.errors.password}
                 placeholder="Enter password"
                 maxLength={20}
-              />{" "}
+              />
               <InputGroup.Text
-                id="basic-addon1"
+                data-testid="show-password"
                 onClick={() => {
                   showPassword ? setShowPassword(false) : setShowPassword(true);
                 }}
