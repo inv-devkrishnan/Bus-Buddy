@@ -4,7 +4,7 @@ import logging,pytz
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def UpdateTasksStatus():
+def updatetasksstatus():
     trips= Trip.objects.filter(status=0)
     print(trips)
     timezone =  pytz.timezone('Asia/Kolkata')
