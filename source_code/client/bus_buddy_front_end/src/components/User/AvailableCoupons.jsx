@@ -54,6 +54,7 @@ export default function AvailableCoupons(props) {
       })
       .catch((err) => {
         console.log(err);
+        console.log(localStorage.getItem("current_trip"));
       });
   }, []);
 
@@ -168,6 +169,7 @@ export default function AvailableCoupons(props) {
             </div>
             <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center m-4">
               <Button
+                data-testid="remove-coupon-button"
                 onClick={() => {
                   setCouponValue("");
                   setCouponError(false);
@@ -180,7 +182,9 @@ export default function AvailableCoupons(props) {
                 Remove Coupon
               </Button>
               &ensp;
-              <Button onClick={handleShow}>All Coupons</Button>
+              <Button data-testid="all-coupons-button" onClick={handleShow}>
+                All Coupons
+              </Button>
             </div>
           </Form>
         </>

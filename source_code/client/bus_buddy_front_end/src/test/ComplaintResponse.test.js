@@ -10,6 +10,7 @@ describe("ComplaintResponse component", () => {
 
   it("search onclick", () => {
     render(<ComplaintResponse />);
+    
     const searchField = screen.getByPlaceholderText("Enter text");
     fireEvent.change(searchField, { target: { value: "adghgj" } });
 
