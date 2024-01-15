@@ -91,27 +91,15 @@ describe("Error Messages", () => {
       );
     });
 
-    it("returns correct error message for D1009", () => {
+    it("returns2 correct error1", () => {
       expect(getLoginErrorMessages("D1009")).toBe("User Banned Permanently");
-    });
-
-    it("returns correct error message for D1010", () => {
       expect(getLoginErrorMessages("D1010")).toBe("User Account Disabled");
-    });
-
-    it("returns correct error message for D1015", () => {
       expect(getLoginErrorMessages("D1015")).toBe(
         "Please login using different sign in method"
       );
-    });
-
-    it("returns correct error message for D1011", () => {
       expect(getLoginErrorMessages("D1011")).toBe(
         "Account Not Approved Please Try again Later"
       );
-    });
-
-    it("returns default message for unknown login error code", () => {
       expect(getLoginErrorMessages("UNKNOWN_ERROR_CODE")).toBe("Unknown error");
     });
   });
@@ -179,32 +167,18 @@ describe("Error Messages", () => {
       expect(getComplaintErrorMessages("D1018")).toBe(
         "Start date can't be after end date"
       );
-    });
-
-    it("returns correct error message for D1019", () => {
       expect(getComplaintErrorMessages("D1019")).toBe(
         "Responding to complaint failed"
       );
-    });
-
-    it("returns correct error message for D1020", () => {
       expect(getComplaintErrorMessages("D1020")).toBe(
         "Cannot Respond to the complaint that is already responded"
       );
-    });
-
-    it("returns correct error message for D1021", () => {
       expect(getComplaintErrorMessages("D1021")).toBe(
         "Complaint with given id doesn't existing"
       );
-    });
-    it("returns correct error message for D1022", () => {
       expect(getComplaintErrorMessages("D1022")).toBe(
         "Cannot Respond to the complaint as the current user"
       );
-    });
-
-    it("returns default message for unknown complaint error code", () => {
       expect(getComplaintErrorMessages("UNKNOWN_ERROR_CODE")).toBe(
         "Unknown error"
       );

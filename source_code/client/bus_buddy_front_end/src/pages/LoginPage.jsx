@@ -251,6 +251,7 @@ function LoginPage() {
                 or
               </Card.Text>
               <GoogleLogin
+                data-testid="google-login"
                 onSuccess={authenicateGoogleUser}
                 onError={googleLoginFail}
               />

@@ -19,6 +19,18 @@ let data = {
     current_page: 1,
     has_previous: false
 }
+const renderListUser =async()=>
+{
+    mock.onGet(`adminstrator/list-users/`).reply(200, data);
+    render(
+        <BrowserRouter>
+            <ListUsers busApproval={false} />
+        </BrowserRouter>
+    )
+    await waitFor(() => {
+        expect(screen.getByText('Role')).toBeInTheDocument();
+    }); 
+}
 describe("list user", () => {
     test("list user", () => {
         mock.onGet(`adminstrator/list-users/`).reply(200, data);
@@ -40,14 +52,7 @@ describe("list user", () => {
 
     test("list user ascending and decending", async () => {
         mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         fireEvent.click(screen.getByText("Sort : None"));
         fireEvent.click(screen.getByText("Name Ascending"));
         fireEvent.click(screen.getByText("Sort : Name Ascending"));
@@ -60,15 +65,7 @@ describe("list user", () => {
     })
 
     test("list user by status", async () => {
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         fireEvent.click(screen.getByText("Show All Users"));
         fireEvent.click(screen.getByText("Banned Users"));
         await waitFor(() => {
@@ -81,15 +78,7 @@ describe("list user", () => {
     })
 
     test("list user by Unbanned Users", async () => {
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         fireEvent.click(screen.getByText("Show All Users"));
         fireEvent.click(screen.getByText("Unbanned Users"));
         await waitFor(() => {
@@ -99,15 +88,7 @@ describe("list user", () => {
     })
 
     test("list user by search", async () => {
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+       await renderListUser();
         fireEvent.change(screen.getByPlaceholderText("Search"), {
             target: { value: "dev" },
         });
@@ -122,15 +103,7 @@ describe("list user", () => {
             current_page: 1,
             has_previous: false
         }
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         fireEvent.click(screen.getByText("Ban User"));
         fireEvent.click(screen.getByText("Ban user"));
         mock.onPut(`adminstrator/ban-user/1/`).reply(200, data);
@@ -143,15 +116,7 @@ describe("list user", () => {
             current_page: 1,
             has_previous: false
         }
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         fireEvent.click(screen.getByText("Ban User"));
         fireEvent.click(screen.getByText("Ban user"));
         mock.onPut(`adminstrator/ban-user/1/`).reply(400, data);
@@ -200,15 +165,7 @@ describe("list user", () => {
     })
 
     test("remove user", async () => {
-        mock.onGet(`adminstrator/list-users/`).reply(200, data);
-        render(
-            <BrowserRouter>
-                <ListUsers busApproval={false} />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('Role')).toBeInTheDocument();
-        });
+        await renderListUser();
         const removeUserElements = screen.getAllByText('Remove User');
         fireEvent.click(removeUserElements[0]);
         fireEvent.click(screen.getByText("Remove user"));
@@ -259,7 +216,7 @@ describe("list user", () => {
         mock.onPut(`adminstrator/remove-user/1/`).reply(200, data);
     })
 
-    test("ban user fail", async () => {
+    test("ban user fail 1", async () => {
         let data = {
             users: [{ id: 1, first_name: "dark", role: 2, email: "dev@gmail.com", status: 0 }],
             pages: 1,

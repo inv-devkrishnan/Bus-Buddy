@@ -16,6 +16,7 @@ function DeleteAccount() {
   const deleteAccount = async () => {
     // function which calls the api to delete account
     const response = await deleteUserAccount();
+    console.log(response)
     if (response.status) {
       handleClose();
       await Swal.fire({
@@ -24,6 +25,10 @@ function DeleteAccount() {
         text: "Now you will be redirected to login page",
       });
       logout();
+    }
+    else
+    {
+      console.log("deletion failed")
     }
   };
   return (

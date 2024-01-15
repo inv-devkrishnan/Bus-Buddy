@@ -139,6 +139,7 @@ function LandingPage(props) {
             <Col xs={12} md={3}>
               <input
                 className="form-control  mb-1"
+                data-testid="date-selector"
                 id="trip_date_picker"
                 type="date"
                 onChange={validateSearchTerms}

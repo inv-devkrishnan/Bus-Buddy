@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen, waitFor} from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import UpdateProfile from "../components/admin/profile/UpdateProfile";
 import MockAdapter from "axios-mock-adapter";
@@ -10,8 +10,8 @@ let data = {
   first_name: "dev",
   last_name: "krishnan",
   email: "dev@123.com",
-  phone: "1233553435"
-}
+  phone: "1233553435",
+};
 beforeEach(() => {
   mock = new MockAdapter(axiosApi);
 });
@@ -19,7 +19,45 @@ beforeEach(() => {
 afterEach(() => {
   mock.restore();
 });
-jest.mock("../../../assets/images/adminProfileView.png")
+jest.mock("../../../assets/images/adminProfileView.png");
+
+const submitForm = (firstName, lastName, email, phone) => {
+  fireEvent.change(screen.getByTestId("first-name"), {
+    target: { value: firstName },
+  });
+
+  fireEvent.change(screen.getByTestId("last-name"), {
+    target: { value: lastName },
+  });
+  fireEvent.change(screen.getByTestId("email"), {
+    target: { value: email },
+  });
+
+  fireEvent.change(screen.getByTestId("phone"), {
+    target: { value: phone },
+  });
+  fireEvent.click(screen.getByTestId("update-profile"));
+};
+
+const renderForm = async () => {
+  mock.onGet(`adminstrator/update-profile/`).reply(200, data);
+  render(
+    <BrowserRouter>
+      <UpdateProfile />
+    </BrowserRouter>
+  );
+  await waitFor(() => {
+    expect(screen.getByTestId("update-profile")).toBeInTheDocument();
+  });
+};
+
+const submitPlatformCharges = (value) => {
+  fireEvent.click(screen.getByText("Platform Charges"));
+  fireEvent.change(screen.getByPlaceholderText("Enter platform charges"), {
+    target: { value: value },
+  });
+  fireEvent.click(screen.getByText("Update"));
+};
 describe("update profile", () => {
   test("render update profile", () => {
     render(
@@ -37,153 +75,50 @@ describe("update profile", () => {
       </BrowserRouter>
     );
     await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
+      expect(screen.getByTestId("update-profile")).toBeInTheDocument();
     });
-    fireEvent.change(screen.getByTestId("first-name"), {
-      target: { value: "Dev" },
-    });
-
-    fireEvent.change(screen.getByTestId("last-name"), {
-      target: { value: "V A" },
-    });
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "Enter email" },
-    });
-
-    fireEvent.change(screen.getByTestId("phone"), {
-      target: { value: "Phone Number" },
-    });
-    fireEvent.click(screen.getByTestId("update-profile"));
+    submitForm("Dev", "VA", "dev@gmail.com", "9400531221");
   });
   test("enter details blank", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
-    fireEvent.change(screen.getByTestId("first-name"), {
-      target: { value: "" },
-    });
-
-    fireEvent.change(screen.getByTestId("last-name"), {
-      target: { value: "" },
-    });
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "" },
-    });
-
-    fireEvent.change(screen.getByTestId("phone"), {
-      target: { value: "" },
-    });
-    fireEvent.click(screen.getByTestId("update-profile"));
+    await renderForm();
+    submitForm("", "", "", "");
     jest.advanceTimersByTime(400);
   });
 
   test("enter details invalid", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
-    fireEvent.change(screen.getByTestId("first-name"), {
-      target: { value: "de@4 546" },
-    });
+    await renderForm();
+    submitForm("d@et ev", "dfg3 5 2", "45 fd", "fde");
+    fireEvent.click(screen.getByTestId("update-profile"));
+  });
 
-    fireEvent.change(screen.getByTestId("last-name"), {
-      target: { value: "D3g y66" },
-    });
-    fireEvent.change(screen.getByTestId("email"), {
-      target: { value: "dev@gmail.com" },
-    });
-
-    fireEvent.change(screen.getByTestId("phone"), {
-      target: { value: "fsddfsgdt" },
-    }); fireEvent.change(screen.getByTestId("phone"), {
-      target: { value: "940043122" },
-    });
+  test("phone number not 10 digit", async () => {
+    await renderForm();
+    submitForm("d432@et ev4", "dfg233 5 2", "42345 fd342", "423");
     fireEvent.click(screen.getByTestId("update-profile"));
   });
 
   test("platform charge", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
+    await renderForm();
 
-    fireEvent.click(screen.getByText("Platform Charges"));
-    fireEvent.change(screen.getByPlaceholderText("Enter platform charges"), {
-      target: { value: "10" },
-    });
-    fireEvent.click(screen.getByText("Update"));
+    submitPlatformCharges(10);
     mock.onPut(`account/platformcharges/`).reply(200, "done");
   });
 
   test("platform charge null", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
+    await renderForm();
 
-    fireEvent.click(screen.getByText("Platform Charges"));
-    fireEvent.change(screen.getByPlaceholderText("Enter platform charges"), {
-      target: { value: "" },
-    });
-    fireEvent.click(screen.getByText("Update"));
-    mock.onPut(`account/platformcharges/`).reply(400,{error:"404"});
+    submitPlatformCharges(null);
+    mock.onPut(`account/platformcharges/`).reply(400, { error: "404" });
   });
 
   test("platform charge not number", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText("Platform Charges"));
-    fireEvent.change(screen.getByPlaceholderText("Enter platform charges"), {
-      target: { value: "sdf" },
-    });
-    fireEvent.click(screen.getByText("Update"));
-
+   await renderForm();
+    submitPlatformCharges("sdf");
   });
   test("platform charge not in range", async () => {
-    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    render(
-      <BrowserRouter>
-        <UpdateProfile />
-      </BrowserRouter>
-    );
-    await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
-    });
+   await renderForm();
 
-    fireEvent.click(screen.getByText("Platform Charges"));
-    fireEvent.change(screen.getByPlaceholderText("Enter platform charges"), {
-      target: { value: "500" },
-    });
-    fireEvent.click(screen.getByText("Update"));
+    submitPlatformCharges("500");
   });
   test("platform charge close dialog", async () => {
     mock.onGet(`adminstrator/update-profile/`).reply(200, data);
@@ -193,7 +128,7 @@ describe("update profile", () => {
       </BrowserRouter>
     );
     await waitFor(() => {
-      expect(screen.getByTestId('update-profile')).toBeInTheDocument();
+      expect(screen.getByTestId("update-profile")).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText("Platform Charges"));

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen} from "@testing-library/react";
 import LoginPage from "../pages/LoginPage";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -10,8 +10,13 @@ import { login } from "../utils/apiCalls";
 
 jest.mock("../assets/images/login_splash.jpg");
 jest.mock("../utils/apiCalls");
+
+jest.mock("../utils/hooks/useAuth", () => ({
+  ...jest.requireActual("../utils/hooks/useAuth"),
+  useAuthStatus: ()=>{return true},
+}));
 describe("login page", () => {
-  test("login page render", () => {
+  test("login page render", async() => {
     render(
       <GoogleOAuthProvider>
         <SeatContextProvider>
