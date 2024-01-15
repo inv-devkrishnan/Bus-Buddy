@@ -10,6 +10,8 @@ describe("ReviewHistory component", () => {
           <ViewBus />
         </MemoryRouter>
       );
+
+      const update = screen.getByText("")
   
   });
 });
