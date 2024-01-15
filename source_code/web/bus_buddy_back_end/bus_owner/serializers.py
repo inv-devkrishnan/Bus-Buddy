@@ -14,9 +14,7 @@ from .models import (
 from django.db import models
 from .models import User
 from .models import Trip
-from .models import Bus
-from .models import Routes
-from .models import User
+from account_manage.models import Notifications
 from normal_user.models import UserReview
 from django.core.validators import (
     MaxLengthValidator,
@@ -348,8 +346,6 @@ class RoutesSerializer(serializers.ModelSerializer):
         model = Routes
         fields = [
             "id",
-            "user",
-            "start_point",
             "end_point",
             "via",
             "travel_fare",
@@ -613,3 +609,10 @@ class GetSeatSerializer(serializers.ModelSerializer):
             "deck",
             "seat_cost",
         )
+
+class ViewNotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
+        fields = "__all__"
+        depth = 1
+        

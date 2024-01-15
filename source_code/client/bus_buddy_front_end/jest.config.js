@@ -18,6 +18,7 @@ module.exports = {
     transformIgnorePatterns: ["node_modules/(?!axios)/"],
     moduleNameMapper: {
       "\\.(png|jpg|webp|ttf|woff|woff2|svg|mp4)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif)$": "identity-obj-proxy",
     },
     transform: {
       "^.+\\.js$": "babel-jest",
