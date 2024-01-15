@@ -4,6 +4,11 @@ import "@testing-library/jest-dom/extend-expect";
 import PickAndDrop from "../components/User/PickAndDrop";
 import { SeatContextProvider } from "../utils/SeatContext";
 
+localStorage.setItem("pick_up",1)
+localStorage.setItem("drop_off",1)
+localStorage.setItem("pick_stop","pickup")
+localStorage.setItem("drop_stop","dropoff")
+
 describe("PickAndDrop component", () => {
   it("renders component", () => {
     render(

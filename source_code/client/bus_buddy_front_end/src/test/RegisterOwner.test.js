@@ -5,7 +5,7 @@ import RegisterOwner from "../pages/RegisterOwner";
 import { Image } from "react-bootstrap";
 
 jest.mock("../assets/register.jpg");
-
+jest.mock("../components/OwnerRegisterCard.jsx");
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
   useContext: jest.fn(),

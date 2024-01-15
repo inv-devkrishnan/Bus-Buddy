@@ -161,6 +161,7 @@ export default function ComplaintForm() {
               <FormLabel htmlFor="complaint_for">Complaint to:</FormLabel>
               <div className="d-flex flex-column flex-lg-row">
                 <Form.Check
+                  data-testid="admin_radio"
                   type="radio"
                   label="Admin"
                   id="admin_radio"
@@ -176,6 +177,7 @@ export default function ComplaintForm() {
                   }}
                 />
                 <Form.Check
+                  data-testid="bus_radio"
                   type="radio"
                   label="Bus"
                   id="bus_radio"
@@ -209,10 +211,13 @@ export default function ComplaintForm() {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Upload image as proof: </Form.Label>
+              <Form.Label htmlFor="complaint_image">
+                Upload image as proof:{" "}
+              </Form.Label>
               <Form.Control
                 type="file"
                 name="complaint_image"
+                id="complaint_image"
                 accept={photoRules}
                 onChange={(e) => {
                   formikProps.setFieldValue(

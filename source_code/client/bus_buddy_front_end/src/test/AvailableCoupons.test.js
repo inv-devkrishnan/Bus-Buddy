@@ -1,10 +1,12 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import AvailableCoupons from "../components/User/AvailableCoupons";
 import { UserContextProvider } from "../components/User/UserContext";
 import { axiosApi } from "../utils/axiosApi";
 import MockAdapter from "axios-mock-adapter";
+
+jest.mock("../assets/images/couponOther.png");
 
 let mock;
 
@@ -16,15 +18,14 @@ afterEach(() => {
   mock.restore();
 });
 
-jest.mock("../components/User/UserSleeper.jsx");
-
 describe("AvailableCoupons component", () => {
   const data = [
     {
       id: 2,
       coupon_code: "TT435425b1",
       coupon_name: "Christmas offer",
-      coupon_description: "35% off on this trip",
+      coupon_description:
+        "35% off on this trip hfdshsdhfsdfhbdfgh zhcjhzxuyvhgsdhjfbjhsdf xnbchxgvysdgfhsdbfjhsdf hxvcbhxcygfshydfgbhjzBC hzxbchzgcyegfhsbfczBC",
       coupon_eligibility: 0,
       coupon_availability: 1,
       valid_till: "2024-12-25",
@@ -75,8 +76,8 @@ describe("AvailableCoupons component", () => {
   };
   localStorage.setItem("current_trip", JSON.stringify(currentTrip));
   localStorage.setItem("total_amount", 1000);
-
-  it("renders card", () => {
+ 
+  it("renders component and other events", async () => {
     mock.onGet(`user/available-coupons/?trip_id=4`).reply(200, data);
 
     render(
@@ -84,6 +85,29 @@ describe("AvailableCoupons component", () => {
         <AvailableCoupons totalAmount={1000} setTotalAmount={jest.fn()} />
       </UserContextProvider>
     );
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const descriptionButton = screen.getByTestId("description_button");
+    fireEvent.click(descriptionButton);
+
+    const copyButton = screen.getByTestId("copy_button");
+    fireEvent.click(copyButton);
+
+    const removeButton = screen.getByTestId("remove_coupon_button");
+    fireEvent.click(removeButton);
+
+    const couponTextBoxElse = screen.getByPlaceholderText("Coupon Code");
+    fireEvent.change(couponTextBoxElse, { target: { value: "" } });
+
+    const allCouponsButton = screen.getByTestId("all_coupons_button");
+    fireEvent.click(allCouponsButton);
+
+    const modalCopyButton = screen.getByTestId("modal_copy_button");
+    fireEvent.click(modalCopyButton);
+
+    const modalCloseButton = screen.getByText("Close");
+    fireEvent.click(modalCloseButton);
   });
 
   it("catch error", () => {
@@ -94,5 +118,37 @@ describe("AvailableCoupons component", () => {
         <AvailableCoupons totalAmount={1000} setTotalAmount={jest.fn()} />
       </UserContextProvider>
     );
+  });
+
+  it("apply coupon", async () => {
+    mock.onGet(`user/available-coupons/?trip_id=4`).reply(200, data);
+
+    render(
+      <UserContextProvider>
+        <AvailableCoupons totalAmount={1000} setTotalAmount={jest.fn()} />
+      </UserContextProvider>
+    );
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const applyButtonFirst = screen.getByTestId("apply_coupon");
+    fireEvent.click(applyButtonFirst);
+
+    const couponTextBox = screen.getByPlaceholderText("Coupon Code");
+    fireEvent.change(couponTextBox, { target: { value: "ABCD123" } });
+
+    const copyButton = screen.getByTestId("copy_button");
+    fireEvent.click(copyButton);
+
+    const applyButton = screen.getByTestId("apply_coupon");
+    fireEvent.click(applyButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("Applying coupon")).toBeInTheDocument();
+    });
+    const validCoupon = {
+      valid: "Valid coupon",
+      coupon_status: "200",
+    };
+    mock.onGet('user/redeem-coupon/?trip_id=4&coupon_id=2').reply(200, validCoupon);
   });
 });

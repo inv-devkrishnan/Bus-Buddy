@@ -329,6 +329,7 @@ export default function ReviewHistory() {
                   <FormLabel htmlFor="review_body">Rating:</FormLabel>
                   <br />
                   <Rating
+                    data-testid="rating"
                     name="rating"
                     value={ratingValue}
                     onChange={(event, newValue) => {

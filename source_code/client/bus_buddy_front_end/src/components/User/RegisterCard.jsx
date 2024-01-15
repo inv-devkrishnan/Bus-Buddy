@@ -219,7 +219,7 @@ export default function RegisterCard() {
           </Form.Group>
           <Row>
             <Col>
-              <Button variant="primary" type="submit" style={{ margin: "5x" }}>
+              <Button data-testid="submit_button" variant="primary" type="submit" style={{ margin: "5x" }}>
                 Submit
               </Button>
               <Button
