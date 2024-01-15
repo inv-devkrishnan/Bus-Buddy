@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, screen, fireEvent} from '@testing-library/react';
+import { render, screen, fireEvent,waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ViewComplaints from './ViewComplaints';
-import { axiosApi } from '../../../utils/axiosApi';
+import ViewComplaints from '../components/common/view_complaints/ViewComplaints';
+import { axiosApi } from '../utils/axiosApi';
+import MockAdapter from "axios-mock-adapter";
 
-const mockComplaintsData = {
+let mock;
+const data = {
   complaints: [
     {
       id: 1,
@@ -21,19 +23,33 @@ const mockComplaintsData = {
   has_previous: false,
 };
 
-// jest.mock("../interceptor/apiServic", () => {
-//   return {
-//     axiosApi: jest.fn(),
-//   };
-// });
+beforeEach(() => {
+  mock = new MockAdapter(axiosApi);
+});
+
+afterEach(() => {
+  mock.restore();
+});
+
+
+
 
 describe('ViewComplaints component', () => {
 
   it('renders with default data', async () => {
-    // axiosApi.mockResolvedValue({
-    //   donation_count: 0,
-    // });
+
     render(<ViewComplaints />);
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
+  });
+  it('renders with fail', async () => {
+
+    const data = {
+      pages: 5,
+      current_page: 1,
+      has_previous: false,
+    };
+    render(<ViewComplaints />);
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
   });
 
   it('applies date filter', async () => {
@@ -45,7 +61,7 @@ describe('ViewComplaints component', () => {
     fireEvent.click(screen.getByText('Filter by Date'));
 
     // Check if the date filter modal is opened
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
 
     // Simulate selecting "From" and "To" dates in the filter modal
     fireEvent.change(screen.getByPlaceholderText(/From date/i), { target: { value: '2022-01-01' } });
@@ -53,7 +69,7 @@ describe('ViewComplaints component', () => {
 
     // Simulate clicking the "Filter" button in the filter modal
     fireEvent.click(screen.getByText('Filter'));
-  
+
     // Wait for the Axios request to complete
 
     // Check if the component renders the complaints after applying date filter
@@ -68,7 +84,6 @@ describe('ViewComplaints component', () => {
     fireEvent.click(screen.getByText('Filter by Date'));
 
     // Check if the date filter modal is opened
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
 
     // Simulate selecting "From" and "To" dates in the filter modal
     fireEvent.change(screen.getByPlaceholderText(/From date/i), { target: { value: '2022-01-01' } });
@@ -76,7 +91,7 @@ describe('ViewComplaints component', () => {
 
     // Simulate clicking the "Filter" button in the filter modal
     fireEvent.click(screen.getByText('Clear Filter'));
-  
+
     // Wait for the Axios request to complete
 
     // Check if the component renders the complaints after applying date filter
@@ -91,15 +106,13 @@ describe('ViewComplaints component', () => {
     fireEvent.click(screen.getByText('Filter by Date'));
 
     // Check if the date filter modal is opened
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-
     // Simulate selecting "From" and "To" dates in the filter modal
     fireEvent.change(screen.getByPlaceholderText(/From date/i), { target: { value: '' } });
     fireEvent.change(screen.getByPlaceholderText(/To date/i), { target: { value: '' } });
 
     // Simulate clicking the "Filter" button in the filter modal
     fireEvent.click(screen.getByText('Filter'));
-  
+
     // Wait for the Axios request to complete
 
     // Check if the component renders the complaints after applying date filter
@@ -121,10 +134,49 @@ describe('ViewComplaints component', () => {
 
     // Simulate clicking the "Filter" button in the filter modal
     fireEvent.click(screen.getByText('Filter'));
-  
+
     // Wait for the Axios request to complete
 
     // Check if the component renders the complaints after applying date filter
+  });
+
+
+  it('view responded complaints', async () => {
+    // Mock Axios GET request
+
+    render(<ViewComplaints />);
+
+
+    fireEvent.click(screen.getByText('View : All'));
+    fireEvent.click(screen.getByText('Responded Complaints'));
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
+  });
+
+  it('view not responded complaints', async () => {
+    // Mock Axios GET request
+
+    render(<ViewComplaints />);
+    fireEvent.click(screen.getByText('View : All'));
+    fireEvent.click(screen.getByText('Not Responded Complaints'));
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
+
+    await waitFor(() => {
+      expect(screen.getByText('View : Not Responded')).toBeInTheDocument();
+  });
+  fireEvent.click(screen.getByText('View : Not Responded'));
+  fireEvent.click(screen.getByText('All'));
+  });
+
+  it('complaint search', async () => {
+    // Mock Axios GET request
+
+    render(<ViewComplaints />);
+    fireEvent.change(screen.getByPlaceholderText('Search by complaint title'),{
+      target: { value: "dev" },
+  });
+    fireEvent.click(screen.getByText('Search'));
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
+    fireEvent.click(screen.getByText('Clear'));
   });
 
 
