@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen, act, waitFor } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import ProfileView from "../components/admin/profile/ProfileView";
 import MockAdapter from "axios-mock-adapter";
@@ -24,24 +24,28 @@ describe("view profile", () => {
       phone: "1233553435"
     }
     mock.onGet(`adminstrator/update-profile/`).reply(200, data);
-    act(() => {
       render(
         <BrowserRouter>
           <ProfileView />
         </BrowserRouter>
       );
-    })
 
   });
   test("render view profile error", () => {
     mock.onGet(`adminstrator/update-profile/`).reply(400);
-    act(() => {
       render(
         <BrowserRouter>
           <ProfileView />
         </BrowserRouter>
       );
-    })
+  });
+  test("render view profile error 1", () => {
+    mock.onGet(`adminstrator/update-profile/`).reply(401);
+      render(
+        <BrowserRouter>
+          <ProfileView />
+        </BrowserRouter>
+      );
   });
   test("fire change password", async () => {
     let data = {
