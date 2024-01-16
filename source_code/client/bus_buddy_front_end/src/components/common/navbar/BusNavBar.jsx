@@ -102,7 +102,7 @@ function BusNavBar() {
           </Nav>
 
           <div className="ms-auto d-flex align-items-center">
-          {user.role !== '-1' && (
+          {user.role !== '-1' && user.role !== 'Guest' && (
           <NavDropdown
             title={
               <>
