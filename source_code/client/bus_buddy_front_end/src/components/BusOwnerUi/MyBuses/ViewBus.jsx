@@ -179,25 +179,28 @@ export default function Viewallbus() {
                 <button
                   className="btn btn-primary"
                   onClick={() => update(viewbus.id)}
+                  data-testid = "update-button"
                 >
                   Update
                 </button>
                 <button
                   className="btn btn-primary"
                   onClick={() => addSeatDetails(viewbus.id)}
+                  data-testid = "add-seat-button"
                 >
                   Seat Details
                 </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewbus.id)}
+                  data-testid = "delete-button"
                 >
                   Delete
                 </button>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => viewbus.id}>
+          <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid = "accordian-button">
             <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
               {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
@@ -206,6 +209,7 @@ export default function Viewallbus() {
                   <button
                     className="btn btn-primary"
                     onClick={() => updateAmenities(viewbus.id)}
+                    data-testid = "update-amenities-button"
                   >
                     Update amenities
                   </button>
@@ -219,6 +223,7 @@ export default function Viewallbus() {
                   <button
                     className="btn btn-primary"
                     onClick={() => addAmenities(viewbus.id)}
+                    data-testid = "add-amenities-button"
                   >
                     Add amenities
                   </button>
