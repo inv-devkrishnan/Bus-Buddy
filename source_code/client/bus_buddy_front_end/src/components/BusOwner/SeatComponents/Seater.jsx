@@ -34,17 +34,17 @@ function Seater(props) {
       {hasAdded ? (
         <IconButton onClick={handleSelect}>
           {select && propsData === props.row * 10 + props.column ? (
-            <img src={SelectedSeater} alt="sleeper" />
+            <img src={SelectedSeater} alt="selected" />
           ) : (
-            <img src={AddedSeater} alt="sleeper" />
+            <img src={AddedSeater} alt="added" />
           )}
         </IconButton>
       ) : (
-        <IconButton onClick={handleSelect}>
+        <IconButton onClick={handleSelect} data-testid="selected_seater">
           {select && propsData === props.row * 10 + props.column ? (
-            <img src={SelectedSeater} alt="sleeper" />
+            <img src={SelectedSeater} alt="selected" />
           ) : (
-            <img src={SeaterImage} alt="sleeper" />
+            <img src={SeaterImage} alt="seater" />
           )}
         </IconButton>
       )}

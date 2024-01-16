@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Seater from "../components/BusOwner/SeatComponents/Seater";
 import { AddSeatContextProvider } from "../utils/AddSeatContext";
@@ -15,5 +15,7 @@ describe("Seater component", () => {
         <Seater column={1} row={1} />
       </AddSeatContextProvider>
     );
+    const seaterButton = screen.getByTestId("selected_seater")
+    fireEvent.click(seaterButton)
   });
 });
