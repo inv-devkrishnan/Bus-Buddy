@@ -118,6 +118,26 @@ describe("View bus component", () => {
               "plate_no": "KL08AZ7889",
               "bus_type": 0,
               "bus_ac": 0,
+              "amenities_data": [
+                  {
+                      "id": 2,
+                      "emergency_no": 0,
+                      "water_bottle": 0,
+                      "charging_point": 0,
+                      "usb_port": 0,
+                      "blankets": 1,
+                      "pillows": 1,
+                      "reading_light": 0,
+                      "toilet": 1,
+                      "snacks": 0,
+                      "tour_guide": 1,
+                      "cctv": 1,
+                      "status": 0,
+                      "created_date": "2023-12-14T10:13:34.463915Z",
+                      "updated_date": "2023-12-14T10:13:34.463953Z",
+                      "bus": 2
+                  }
+              ],
               "user": 1
           },
           {
