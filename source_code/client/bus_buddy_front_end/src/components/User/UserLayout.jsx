@@ -12,6 +12,9 @@ export default function UserLayout(props) {
   const { updateSeatData } = useContext(SeatContext); // use context for updating seat data
 
   useEffect(() => {
+    console.log(
+      `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}`
+    );
     openAxiosApi
       .get(
         `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}
@@ -24,7 +27,7 @@ export default function UserLayout(props) {
       .catch((err) => {
         console.log("error:" + err);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.trip, props.startLocation, props.endLocation]);
 
   return (
