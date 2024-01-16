@@ -50,25 +50,25 @@ class BaseTest(TestCase):
         # data
         self.valid_update_data = {
             "first_name": "Devkrishnan",
-            "last_name": "V D",
+            "last_name": "VD",
             "email": "desk@gmail.com",
             "phone": "9037760634",
         }
         self.valid_update_data_existing_email = {
             "first_name": "Devkrishnan",
-            "last_name": "V D",
+            "last_name": "VD",
             "email": "dev@gmail.com",
             "phone": "9037760634",
         }
         self.valid_update_data_existing_phone = {
             "first_name": "Dev",
-            "last_name": "V A",
+            "last_name": "VA",
             "email": "devk@gmail.com",
             "phone": "1111111111",
         }
         self.update_data_invalid_first_name = {
             "first_name": "Devkrish3an",
-            "last_name": "V D",
+            "last_name": "VD",
             "email": "derk@gmail.com",
             "phone": "9037760634",
         }
@@ -80,7 +80,7 @@ class BaseTest(TestCase):
         }
         self.update_data_invalid_phone_number = {
             "first_name": "Devkrishnan",
-            "last_name": "V D",
+            "last_name": "VD",
             "email": "desdk@gmail.com",
             "phone": "903fsd7760634",
         }
