@@ -163,7 +163,7 @@ export default function Updatetrips() {
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-5">
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
-                  <Form.Label>Start Date</Form.Label>
+                  <Form.Label htmlFor="startDate">Start Date :</Form.Label>
                   <DatePicker
                     selected={formik.values.startdate}
                     onChange={(date) =>
@@ -173,10 +173,12 @@ export default function Updatetrips() {
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
                     maxDate={addMonths(new Date(), 6)}
+                    name="startDate"
+                    id="startDate"
                   />
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom04">
-                  <Form.Label>End Date</Form.Label>
+                  <Form.Label htmlFor="endDate">End Date :</Form.Label>
                   <DatePicker
                     selected={formik.values.enddate}
                     onChange={(date) =>
@@ -186,6 +188,8 @@ export default function Updatetrips() {
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
                     maxDate={addMonths(new Date(), 6)}
+                    name = "endDate"
+                    id= "endDate"
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
@@ -200,6 +204,7 @@ export default function Updatetrips() {
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid="bus-select"
                   >
                     <option value="">Select option</option>
                     { busData.map((bus) => (
@@ -220,6 +225,7 @@ export default function Updatetrips() {
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "route-select"
                   >
                     <option value="">Select option</option>
                     {routeData.map((route) => (
