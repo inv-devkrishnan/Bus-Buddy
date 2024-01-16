@@ -270,6 +270,7 @@ function AddRouteLocation(props) {
                   type="time"
                   placeholder="Time"
                   value={stopArrivalTime}
+                  data-testid="stop-time"
                   onChange={(e) => {
                     setStopArrivalTime(e.target.value);
                   }}
@@ -349,6 +350,7 @@ function AddRouteLocation(props) {
                 onChange={(e) => {
                   setArrivalTime(e.target.value);
                 }}
+                data-testid="arrival-time"
                 required
               />
             </Form.Group>
@@ -363,6 +365,7 @@ function AddRouteLocation(props) {
                 onChange={(e) => {
                   setArrivalDate(e.target.value);
                 }}
+                data-testid="arrival-date-offset"
                 required
               />
               <Form.Text className="text-muted">
@@ -380,6 +383,7 @@ function AddRouteLocation(props) {
                 onChange={(e) => {
                   setDepartureTime(e.target.value);
                 }}
+                data-testid="depature-time"
                 required
               />
             </Form.Group>
@@ -391,6 +395,7 @@ function AddRouteLocation(props) {
                 min={0}
                 max={10}
                 value={departureDate}
+                data-testid="depature-date-offset"
                 onChange={(e) => {
                   setDepartureDate(e.target.value);
                 }}
@@ -405,7 +410,7 @@ function AddRouteLocation(props) {
             <label className="text-danger d-block ms-2 me-2">
               {errorMessage}
             </label>
-            <Button variant="primary mt-2" type="submit">
+            <Button variant="primary mt-2" type="submit" data-testid="add-location-box">
               Add Location
             </Button>
           </Form>

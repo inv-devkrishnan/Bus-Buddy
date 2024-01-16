@@ -7,10 +7,9 @@ import Table from "react-bootstrap/Table";
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import RouteImage from "../assets/route.jpg";
-import axios from "axios";
 import AddRouteLocation from "./AddRouteLocation";
 import { Container, Row} from "react-bootstrap";
-import { axiosApi } from "../utils/axiosApi";
+import { axiosApi, openAxiosApi } from "../utils/axiosApi";
 import { showLoadingAlert } from "./common/loading_alert/LoadingAlert";
 
 export default function AddRouteCard() {
@@ -43,8 +42,8 @@ export default function AddRouteCard() {
 
   useEffect(() => {
     // gets all the hardcoded location data
-    axios
-      .get("http://127.0.0.1:8000/get-location-data/")
+    openAxiosApi
+      .get("get-location-data/")
       .then((res) => {
         setLocations(res.data);
       })
@@ -52,6 +51,7 @@ export default function AddRouteCard() {
 
     // to get previously added  locations if page refresh
     if (localStorage.getItem("stopLocationList") !== null) {
+      console.log(localStorage.getItem("stopLocationList"))
       let stopLocationList = JSON.parse(
         localStorage.getItem("stopLocationList")
       );
@@ -91,7 +91,7 @@ export default function AddRouteCard() {
       console.log(routeData);
       showLoadingAlert("Adding Route");
       const response = await axiosApi.post(
-        "http://127.0.0.1:8000/bus-owner/add-routes/",
+        "bus-owner/add-routes/",
         routeData
       );
       Swal.close();
