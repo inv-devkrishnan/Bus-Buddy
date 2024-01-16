@@ -34,6 +34,8 @@ export default function SeatDetailCard(props) {
     }
   }, [seatList, props?.routeCost, props?.gst]);
 
+  console.log(seatList);
+
   const loginPage = () => {
     navigate("/login");
   };

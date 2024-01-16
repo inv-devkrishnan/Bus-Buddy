@@ -79,7 +79,7 @@ export default function Addbus() {
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Bus</Card.Title>
           <div style={{ display: "flex" }}>
-            <Form onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
+            <Form  onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom01">
                   <Form.Label> Name</Form.Label>
@@ -112,6 +112,7 @@ export default function Addbus() {
                   <Form.Control
                     as="select"
                     onChange={(e) => setBusType(e.target.value)}
+                    data-testid="bus-type-select"
                   >
                     <option value="">Select option</option>
                     <option value="0"> Low floor </option>
@@ -125,6 +126,7 @@ export default function Addbus() {
                     as="select"
                     onChange={(e) => setBusSeatType(e.target.value)}
                     value={bus_seat_type}
+                    data-testid = "bus-seat-type-select"
                   >
                     <option value="">Select option</option>
                     <option value="0"> Sleeper </option>
@@ -138,6 +140,7 @@ export default function Addbus() {
                     as="select"
                     onChange={(e) => setBusAC(e.target.value)}
                     value={bus_ac}
+                    data-testid = "bus-ac-type-select"
                   >
                     <option value="">Select option</option>
                     <option value="0"> A/C </option>

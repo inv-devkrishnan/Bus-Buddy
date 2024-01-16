@@ -9,12 +9,7 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import { axiosApi } from "../../../../utils/axiosApi";
 
 export default function FullSleeperLayout(props) {
-  const { updateCurrentData, reRender } =
-    useContext(AddSeatContext);
-
-  useEffect(() => {
-    console.log(props.bus);
-  });
+  const { updateCurrentData, reRender } = useContext(AddSeatContext);
 
   useEffect(() => {
     console.log(reRender);

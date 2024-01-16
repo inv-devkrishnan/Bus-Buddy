@@ -109,7 +109,7 @@ export default function Viewallbus() {
         style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
       >
         <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
+          <Accordion.Item eventKey="1" data-testid = "accordian-button">
             <Accordion.Header>
               <h4>Title : {viewreview.review_title}</h4>
             </Accordion.Header>

@@ -89,7 +89,7 @@ export default function Viewallroutes() {
     return data.map((viewroutes) => (
       <div key={viewroutes.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>        
         <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
+          <Accordion.Item eventKey="1" data-testid = "accordian-button">
             <Accordion.Header>
               <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
             </Accordion.Header>
@@ -116,6 +116,7 @@ export default function Viewallroutes() {
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewroutes.id)}
+                  data-testid = "delete-button"
                 >
                   Delete
                 </button>
