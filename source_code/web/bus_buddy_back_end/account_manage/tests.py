@@ -7,13 +7,15 @@ from .models import User
 
 
 # Create your tests here
+password = "Devk@506#"
 class BaseTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.email = "tester@gmail.com"
         # creating a test user
+        
         self.user = User.objects.create_user(
-            email=self.email, password="12345678", account_provider=0
+            email=self.email, password=password, account_provider=0
         )
         self.client.force_authenticate(self.user)
         # urls
@@ -24,7 +26,7 @@ class BaseTest(TestCase):
         # data
         self.local_login_valid_credentials = {
             "email": self.email,
-            "password": "12345678",
+            "password": password,
         }
         self.local_login_incorrect_password = {
             "email": self.email,
@@ -32,9 +34,9 @@ class BaseTest(TestCase):
         }
         self.local_login_invalid_credentials = {
             "email": "testor@gmail.com",
-            "password": "12345678",
+            "password": "Devk@5067#dsf",
         }
-        self.local_login_invalid_email = {"email": "tester", "password": "12345678"}
+        self.local_login_invalid_email = {"email": "tester", "password": "Devk@5rete$"}
         self.local_login_invalid_password = {
             "email": self.email,
             "password": "",
@@ -43,11 +45,11 @@ class BaseTest(TestCase):
         self.local_login_no_email = {"password": "1234578"}
         self.local_login_no_password = {"email": ""}
         self.change_password_valid_data = {
-            "old_password": "12345678",
+            "old_password": password,
             "new_password": "Aa1#0000",
         }
         self.change_password_invalid_new_password = {
-            "old_password": "12345678",
+            "old_password": "Devk#25fgd",
             "new_password": "000000",
         }
         self.change_password_invalid_old_password = {

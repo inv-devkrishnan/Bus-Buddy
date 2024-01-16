@@ -30,6 +30,7 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getPaymentErrorMessages } from "../../utils/getErrorMessage";
+import { applyReduce } from "../../utils/reduce";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 import AvailableCoupons from "./AvailableCoupons";
 
@@ -42,13 +43,14 @@ const TravellerDetail = () => {
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (authStatus()) {
+    if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
         navigate("/login");
       } else {
         // stores data from local storage to use states
         const storedSeats = localStorage.getItem("seat_list");
+        console.log(storedSeats);
         setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
         const storedTrip = localStorage.getItem("current_trip");
         setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
@@ -57,18 +59,22 @@ const TravellerDetail = () => {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, []);
+  }, [authStatus, navigate]);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
-    selectedSeats.reduce((acc, seat) => {
-      acc[seat.id] = Yup.object().shape({
-        [`name_${seat.id}`]: Yup.string().required("Name is required"),
-        [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),
-        [`gender_${seat.id}`]: Yup.string().required("Select a gender"),
-      });
-      return acc;
-    }, {})
+    applyReduce(
+      selectedSeats,
+      (acc, seat) => {
+        acc[seat.id] = Yup.object().shape({
+          [`name_${seat.id}`]: Yup.string().required("Name is required"),
+          [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),
+          [`gender_${seat.id}`]: Yup.string().required("Select a gender"),
+        });
+        return acc;
+      },
+      {}
+    )
   );
 
   const onSubmit = async () => {
@@ -123,14 +129,18 @@ const TravellerDetail = () => {
 
   const formik = useFormik({
     // dynamic formik initialisation
-    initialValues: selectedSeats.reduce((acc, seat) => {
-      acc[seat.id] = {
-        [`name_${seat.id}`]: "",
-        [`dob_${seat.id}`]: "",
-        [`gender_${seat.id}`]: "",
-      };
-      return acc;
-    }, {}),
+    initialValues: applyReduce(
+      selectedSeats,
+      (acc, seat) => {
+        acc[seat.id] = {
+          [`name_${seat.id}`]: "",
+          [`dob_${seat.id}`]: "",
+          [`gender_${seat.id}`]: "",
+        };
+        return acc;
+      },
+      {}
+    ),
     validationSchema,
     onSubmit,
     enableReinitialize: true,

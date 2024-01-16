@@ -105,7 +105,7 @@ function LandingPage(props) {
             {!props.fromSearchList && (
               <>
                 <Col md={3}>
-                  <Image src={splashscreen} fluid></Image>
+                  <Image src={splashscreen} fluid />
                 </Col>
                 <Col className="mt-5" md={4}>
                   <h1>Find your Trip</h1>
@@ -139,6 +139,7 @@ function LandingPage(props) {
             <Col xs={12} md={3}>
               <input
                 className="form-control  mb-1"
+                data-testid="date-selector"
                 id="trip_date_picker"
                 type="date"
                 onChange={validateSearchTerms}

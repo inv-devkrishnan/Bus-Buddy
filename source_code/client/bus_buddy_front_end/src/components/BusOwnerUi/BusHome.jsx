@@ -77,6 +77,7 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(false);
     setComplaintSelect(true);
+    setMyReviewsSelect(false)
   };
   const myReviewsSelected = () => {
     setMyProfileSelect(false);
@@ -85,6 +86,7 @@ export default function UserDashboard() {
     setMyTripSelect(false);
     setDeleteSelect(false);
     setMyReviewsSelect(true)
+    setComplaintSelect(false);
   }
 
   const options = [

@@ -154,9 +154,9 @@ export default function RegisterCard() {
                 isInvalid={formik.touched.password && formik.errors.password}
                 placeholder="Enter password"
                 maxLength={20}
-              />{" "}
+              />
               <InputGroup.Text
-                id="basic-addon1"
+                data-testid="show-password"
                 onClick={() => {
                   showPassword ? setShowPassword(false) : setShowPassword(true);
                 }}
@@ -219,7 +219,7 @@ export default function RegisterCard() {
           </Form.Group>
           <Row>
             <Col>
-              <Button variant="primary" type="submit" style={{ margin: "5x" }}>
+              <Button data-testid="submit_button" variant="primary" type="submit" style={{ margin: "5x" }}>
                 Submit
               </Button>
               <Button

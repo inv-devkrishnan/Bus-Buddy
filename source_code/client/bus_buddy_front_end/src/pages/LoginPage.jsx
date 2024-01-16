@@ -32,7 +32,7 @@ function LoginPage() {
   console.log(seatList);
   const authStatus = useAuthStatus();
   useEffect(() => {
-    if (authStatus()) {
+    if (authStatus) {
       navigate("/");
     }
   }, [authStatus, navigate]);
@@ -62,7 +62,7 @@ function LoginPage() {
     } else if (localStorage.getItem("current_trip")) {
       localStorage.removeItem("current_trip");
     }
-  }, []);
+  }, [seatList]);
 
   const authenicateGoogleUser = async (response) => {
     // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)
@@ -185,6 +185,7 @@ function LoginPage() {
                   />
                   <InputGroup.Text
                     id="basic-addon1"
+                    data-testid="set-show-password"
                     onClick={() => {
                       showPassword
                         ? setShowPassword(false)
@@ -201,10 +202,11 @@ function LoginPage() {
               <Form.Label className="d-block text-danger text-center">
                 {errorMessage}
               </Form.Label>
-              <Button variant="primary" type="submit" className="mb-3">
+              <Button data-testid="login-button" variant="primary" type="submit" className="mb-3">
                 Login
               </Button>
               <Card.Link
+               data-testid="browse-guest"
                 onClick={() => {
                   browseAsGuest();
                 }}
@@ -216,6 +218,7 @@ function LoginPage() {
               <Card.Text>
                 <Dropdown>
                   <Dropdown.Toggle
+                   data-testid="register"
                     variant="light"
                     className="text-primary"
                     id="dropdown-basic"
@@ -223,8 +226,10 @@ function LoginPage() {
                     Not registered ?
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu
+                 >
                     <Dropdown.Item
+                    data-testid="register-user"
                       onClick={() => {
                         navigate("/register-user");
                       }}
@@ -232,6 +237,7 @@ function LoginPage() {
                       Register as user
                     </Dropdown.Item>
                     <Dropdown.Item
+                     data-testid="register-owner"
                       onClick={() => {
                         navigate("/register-owner");
                       }}
@@ -245,6 +251,7 @@ function LoginPage() {
                 or
               </Card.Text>
               <GoogleLogin
+                data-testid="google-login"
                 onSuccess={authenicateGoogleUser}
                 onError={googleLoginFail}
               />

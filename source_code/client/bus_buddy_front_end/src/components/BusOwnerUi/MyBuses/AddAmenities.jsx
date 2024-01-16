@@ -91,6 +91,7 @@ export default function Addamenities() {
                     label={amenity}
                     checked={formState[amenity] === 1}
                     onChange={() => handleCheckboxChange(amenity)}
+                    data-testid = "check-button"
                   />
                 </div>
               ))}

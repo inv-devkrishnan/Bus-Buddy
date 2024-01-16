@@ -49,6 +49,7 @@ function ShowTrips(props) {
         console.log(result.data);
       })
       .catch(function (error) {
+        console.log(error)
         Swal.fire({
           title: "Something went wrong !",
           icon: "error",
@@ -114,6 +115,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Seater"
+                  data-testid ="seater"
                   value={1}
                   onChange={(e) => {
                     setSeatType(Number(e.target.value));
@@ -124,6 +126,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Sleeper"
+                  data-testid ="sleeper"
                   value={0}
                   checked={seatType === 0}
                   onChange={(e) => {
@@ -134,6 +137,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Both"
+                  data-testid ="both-sleeper"
                   value={2}
                   checked={seatType === 2}
                   onChange={(e) => {
@@ -148,6 +152,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Low Floor"
+                  data-testid ="low-floor"
                   value={0}
                   checked={busType === 0}
                   onChange={(e) => {
@@ -158,6 +163,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Multi-Axle"
+                  data-testid ="multi-axle"
                   value={1}
                   checked={busType === 1}
                   onChange={(e) => {
@@ -168,6 +174,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="both"
+                  data-testid ="both-bus"
                   value={2}
                   checked={busType === 2}
                   onChange={(e) => {
@@ -182,6 +189,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Yes"
+                  data-testid ="yes"
                   value={0}
                   checked={busAc === 0}
                   onChange={(e) => {
@@ -192,6 +200,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="No"
+                  data-testid ="no"
                   value={1}
                   checked={busAc === 1}
                   onChange={(e) => {

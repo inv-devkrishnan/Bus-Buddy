@@ -30,8 +30,8 @@ def get_completed_trips():
     return completed_trips
 
 
-def UpdateTasksStatus():
-    trips = Trip.objects.filter(status=0)
+def updatetasksstatus():
+    trips= Trip.objects.filter(status=0)
     print(trips)
     timezone = indian_timezone
     today = datetime.now()
@@ -75,4 +75,4 @@ def update_booking_status():
 
 def batch_operations():
     update_booking_status()
-    UpdateTasksStatus()
+    updatetasksstatus()

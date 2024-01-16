@@ -25,9 +25,9 @@ export default function Updatebus() {
         setCurrentBusData(res.data);
       })
       .catch((err) => {
-        console.log(err.response);
-        alert("Bus does not exist!!");
+        console.error("Error Response:", err.response);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export default function Updatebus() {
       busac: currentBusData["bus_ac"],
       busseattype: currentBusData["bus_seat_type"],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentBusData]);
 
   const onSubmit = async () => {
@@ -106,6 +107,7 @@ export default function Updatebus() {
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "busName"
                     isInvalid={formik.touched.busName && formik.errors.busName}
                   />
 
@@ -121,6 +123,7 @@ export default function Updatebus() {
                     value={formik.values.plateno || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "plateNo"
                     isInvalid={formik.touched.plateno && formik.errors.plateno}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -136,6 +139,7 @@ export default function Updatebus() {
                     value={formik.values.bustype || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "busType"
                     isInvalid={formik.touched.bustype && formik.errors.bustype}
                   >
                     <option value="">updated option</option>
@@ -156,6 +160,7 @@ export default function Updatebus() {
                     value={formik.values.busseattype || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "busSeatType"
                     isInvalid={
                       formik.touched.busseattype && formik.errors.busseattype
                     }
@@ -178,6 +183,7 @@ export default function Updatebus() {
                     value={formik.values.busac || ""}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    data-testid = "busAcType"
                     isInvalid={formik.touched.busac && formik.errors.busac}
                   >
                     <option value="">updated option</option>

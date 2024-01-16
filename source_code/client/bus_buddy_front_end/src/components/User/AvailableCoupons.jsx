@@ -54,6 +54,7 @@ export default function AvailableCoupons(props) {
       })
       .catch((err) => {
         console.log(err);
+        console.log(localStorage.getItem("current_trip"));
       });
   }, []);
 
@@ -102,6 +103,7 @@ export default function AvailableCoupons(props) {
           }
         })
         .catch((err) => {
+          console.log(err);
           Swal.close();
           Swal.fire({
             title: "Oops...!",
@@ -156,7 +158,7 @@ export default function AvailableCoupons(props) {
                   onChange={handleChange}
                   maxLength={10}
                 />
-                <Button type="submit" variant="outline-primary">
+                <Button data-testid="apply_coupon" type="submit" variant="outline-primary">
                   Apply Coupon
                 </Button>
               </InputGroup>
@@ -168,6 +170,7 @@ export default function AvailableCoupons(props) {
             </div>
             <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center m-4">
               <Button
+                data-testid="remove_coupon_button"
                 onClick={() => {
                   setCouponValue("");
                   setCouponError(false);
@@ -180,7 +183,9 @@ export default function AvailableCoupons(props) {
                 Remove Coupon
               </Button>
               &ensp;
-              <Button onClick={handleShow}>All Coupons</Button>
+              <Button data-testid="all_coupons_button" onClick={handleShow}>
+                All Coupons
+              </Button>
             </div>
           </Form>
         </>
@@ -215,6 +220,7 @@ export default function AvailableCoupons(props) {
                         disableInteractive
                       >
                         <IconButton
+                          data-testid="modal_copy_button"
                           onClick={() => {
                             setCouponValue(data?.coupon_code);
                             setShow(false);

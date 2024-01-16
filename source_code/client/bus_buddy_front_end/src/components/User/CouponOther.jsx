@@ -47,6 +47,7 @@ export default function CouponOther(props) {
                         disableInteractive
                       >
                         <IconButton
+                          data-testid="description_button"
                           style={{ marginLeft: 10 }}
                           onClick={() => handleShow()}
                         >
@@ -76,6 +77,7 @@ export default function CouponOther(props) {
                       disableInteractive
                     >
                       <IconButton
+                        data-testid="copy_button"
                         onClick={() => {
                           props.setCouponValue(props.data?.coupon_code);
                           props.setCouponData(props?.data);

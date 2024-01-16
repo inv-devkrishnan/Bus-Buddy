@@ -172,6 +172,7 @@ function UpdateProfile() {
                       <Form.Label>First Name</Form.Label>
                       <Form.Control
                         type="text"
+                        data-testid="first-name"
                         name="first_name"
                         value={values.first_name}
                         maxLength={100}
@@ -190,6 +191,7 @@ function UpdateProfile() {
                       <Form.Control
                         name="last_name"
                         type="text"
+                        data-testid="last-name"
                         value={values.last_name}
                         maxLength={100}
                         onChange={handleChange}
@@ -208,6 +210,7 @@ function UpdateProfile() {
                         name="email"
                         type="email"
                         value={values.email}
+                        data-testid="email"
                         maxLength={100}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -223,6 +226,7 @@ function UpdateProfile() {
                         name="phone"
                         type="text"
                         maxLength={10}
+                        data-testid="phone"
                         value={values.phone}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -240,6 +244,7 @@ function UpdateProfile() {
                     >
                       <Button
                         style={{ width: "150px" }}
+                        data-testid="update-profile"
                         variant="primary"
                         type="submit"
                         disabled={isSubmitting}
