@@ -62,7 +62,7 @@ function LoginPage() {
     } else if (localStorage.getItem("current_trip")) {
       localStorage.removeItem("current_trip");
     }
-  }, []);
+  }, [seatList]);
 
   const authenicateGoogleUser = async (response) => {
     // cred_token provided by google (use this as valid_cred_token in test.py of account_manage)

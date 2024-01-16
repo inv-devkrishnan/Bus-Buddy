@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render} from "@testing-library/react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { SeatContextProvider } from "../utils/SeatContext";
 import { AddSeatContextProvider } from "../utils/AddSeatContext";
@@ -22,6 +22,8 @@ jest.mock("react-router-dom", () => ({
     },
   }),
 }));
+jest.mock("@stripe/stripe-js")
+jest.mock("@stripe/react-stripe-js")
 
 describe("payment page", () => {
   test("payment page render", () => {
