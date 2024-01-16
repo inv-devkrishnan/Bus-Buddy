@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { showLoadingAlert } from "./LoadingAlert"; // Replace "your-file" with the actual path
+import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert"; // Replace "your-file" with the actual path
 // Mock SweetAlert2 using sweetalert2-mock
 jest.mock("sweetalert2");
 const mockFire = jest.fn();
