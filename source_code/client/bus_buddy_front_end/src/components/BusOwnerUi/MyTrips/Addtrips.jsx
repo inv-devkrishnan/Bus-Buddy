@@ -18,9 +18,6 @@ export default function Addtrips() {
   const [route, setRoute] = useState("");
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [searchMode, setSearchMode] = useState(true);
   const [startDateError, setStartDateError] = useState("");
   const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
@@ -69,7 +66,6 @@ export default function Addtrips() {
       .get("http://127.0.0.1:8000/bus-owner/view-routes/")
       .then((response) => {
         setRouteData(response.data.results);
-        setSearchMode(false)
       })
       .catch((error) => console.error("Error fetching Route data:", error));
   };
@@ -98,13 +94,11 @@ const formattedEndDate = selectedEndDate
           route: route,
           start_date: formattedStartDate,
           end_date: formattedEndDate,
-          start_time: startTime,
-          end_time: endTime,
         }
       );
 
       if (response.status === 200) {
-        console.log("Amenities Inserted");
+        console.log("Trip Inserted");
         Swal.fire({
           icon: "success",
           title: "Added Successfully",
@@ -113,7 +107,7 @@ const formattedEndDate = selectedEndDate
       }
       navi("/BusHome");
     } catch (error) {
-      console.error("Error adding amenities:", error);
+      console.error("Error adding Trip:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -145,7 +139,7 @@ const formattedEndDate = selectedEndDate
             <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
-                  <Form.Label>Start Date :</Form.Label>
+                  <Form.Label htmlFor="startDate">Start Date :</Form.Label>
                   <DatePicker
                     selected={selectedStartDate}
                     onChange={(date) => setSelectedStartDate(date)}
@@ -153,11 +147,13 @@ const formattedEndDate = selectedEndDate
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
                     maxDate={addMonths(new Date(), 6)}
+                    name="startDate"
+                    id="startDate"
                   />
                   {startDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startDateError}</div>}
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom02">
-                  <Form.Label>End Date:</Form.Label>
+                  <Form.Label htmlFor="endDate">End Date :</Form.Label>
                   <DatePicker
                     selected={selectedEndDate}
                     onChange={(date) => setSelectedEndDate(date)}
@@ -165,6 +161,8 @@ const formattedEndDate = selectedEndDate
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
                     maxDate={addMonths(new Date(), 6)}
+                    name="endDate"
+                    id="endDate"
                   />
                   {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                 </Form.Group>
@@ -181,6 +179,7 @@ const formattedEndDate = selectedEndDate
                     onChange={(e) => {
                       setBus(e.target.value);
                     }}
+                    data-testid = "bus-select"
                   >
                     <option value="">Select option</option>
                     {busData.map((bus) => (
@@ -197,6 +196,7 @@ const formattedEndDate = selectedEndDate
                     onChange={(e) => {
                       setRoute(e.target.value);
                     }}
+                    data-testid = "route-select"
                   >
                     <option value="">Select option</option>
                     {routeData.map((route) => (

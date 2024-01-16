@@ -21,7 +21,7 @@ export default function Updatetrips() {
   const [routeData, setRouteData] = useState([]);
   const [currentTripData, setCurrentTripData] = useState([]);
   const navi = useNavigate();
-  let id = trip;
+  
 
   const onSubmit = async (e) => {
     const startTimeDifference = new Date(formik.values.startdate).getTime() - new Date().getTime();
@@ -137,7 +137,7 @@ export default function Updatetrips() {
         console.log(err.response);
         alert("Trip does not exist!!");
       });
-  }, [trip]);
+  }, []);
 
   console.log(formik.errors);
   return (
