@@ -4,12 +4,13 @@ import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
 import AddBus from "../components/BusOwnerUi/MyBuses/AddBus"
 describe("ReviewHistory component", () => {
-  it("renders component", () => {
+  it("renders component",async () => {
     render(
         <MemoryRouter>
           <AddBus />
         </MemoryRouter>
       );
+      await new Promise(resolve => setTimeout(resolve, 2000));
       const busName = screen.getByPlaceholderText("Bus name")
       fireEvent.change(busName,{target : {value :"Farzana"}})
 
