@@ -16,6 +16,7 @@ export default function ViewSeatDetails(props) {
 
   useEffect(() => {
     localStorage.setItem("current_trip", JSON.stringify(props.currentTrip));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

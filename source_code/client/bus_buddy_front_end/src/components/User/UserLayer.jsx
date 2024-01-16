@@ -62,6 +62,7 @@ export default function UserLayer(props) {
     }
 
     processLayerData(layerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.row, seatData]);
 
   return (

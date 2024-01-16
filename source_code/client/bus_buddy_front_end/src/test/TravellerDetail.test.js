@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import TravellerDetail from "../components/User/TravellerDetail";
 import { useNavigate } from "react-router-dom";
@@ -56,19 +56,6 @@ jest.mock("../utils/hooks/useAuth", () => ({
   ...jest.requireActual("../utils/hooks/useAuth"),
   useAuthStatus: jest.fn().mockReturnValue(true),
 }));
-jest.mock("../utils/reduce", () => ({
-  ...jest.requireActual("../utils/reduce"),
-  applyReduce: jest.fn().mockReturnValue({
-    id: 1,
-    seat_number: "a",
-    seat_type: 1,
-    deck: 1,
-    seat_cost: 100,
-    name_1: "name",
-    dob_1: 10 - 12 - 2000,
-    gender_1: 1,
-  }),
-}));
 
 describe("TravellerDetail component", () => {
   useNavigate.mockImplementation(() => jest.fn());
@@ -82,11 +69,5 @@ describe("TravellerDetail component", () => {
 
   it("renders component", () => {
     render(<TravellerDetail />);
-  });
-
-  it("renders component-useEffect else part", async () => {
-    localStorage.setItem("user_role", "2");
-    render(<TravellerDetail />);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
   });
 });

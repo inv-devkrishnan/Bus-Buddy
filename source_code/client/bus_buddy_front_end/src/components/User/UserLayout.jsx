@@ -22,8 +22,9 @@ export default function UserLayout(props) {
         updateSeatData(res.data);
       })
       .catch((err) => {
-        console.log("error:" + err.response.data);
+        console.log("error:" + err);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.trip, props.startLocation, props.endLocation]);
 
   return (

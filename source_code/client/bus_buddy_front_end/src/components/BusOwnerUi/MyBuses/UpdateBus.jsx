@@ -27,6 +27,7 @@ export default function Updatebus() {
       .catch((err) => {
         console.error("Error Response:", err.response);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function Updatebus() {
       busac: currentBusData["bus_ac"],
       busseattype: currentBusData["bus_seat_type"],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentBusData]);
 
   const onSubmit = async () => {

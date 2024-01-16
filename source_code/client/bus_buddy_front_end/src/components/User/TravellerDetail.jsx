@@ -59,7 +59,7 @@ const TravellerDetail = () => {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, []);
+  }, [authStatus, navigate]);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
