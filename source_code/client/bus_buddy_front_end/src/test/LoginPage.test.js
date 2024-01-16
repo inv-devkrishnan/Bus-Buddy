@@ -186,4 +186,23 @@ describe("login page", () => {
     fireEvent.click(screen.getByTestId("register"));
     fireEvent.click(screen.getByTestId("register-owner"));
   });
+
+  test("login with current trip data", () => {
+    localStorage.setItem("current_trip",'{"data":{"route":10,"start_location_arrival_time":"08:00:00","end_location_arrival_time":"10:15:00","start_location_arrival_date":"2024-01-19","end_location_arrival_date":"2024-01-19","via":"Thrissur","travel_fare":200,"trip":178,"bus_name":"NiviBus","bus":7,"company_name":"Nivil Travels","route_cost":100,"gst":2,"amenities":{"emergency_no":1,"water_bottle":1,"charging_point":1,"usb_port":1,"blankets":1,"pillows":1,"reading_light":0,"toilet":0,"snacks":0,"tour_guide":0,"cctv":1}},"startLocation":"6","startLocationName":"Ernakulam","endLocation":"7","endLocationName":"Thrissur","seatViewOpen":0,"isOpen":true}')
+    localStorage.setItem("seat_list",'[{"id":181,"seat_number":"a11","seat_type":0,"deck":0,"seat_cost":"100.000","bus":7,"seat_ui_order":11,"booked":[],"female_only":false,"male_only":false}]')
+    render(
+      <GoogleOAuthProvider>
+        <SeatContextProvider>
+          <AddSeatContextProvider>
+            <UserContextProvider>
+              <BrowserRouter>
+                <LoginPage />
+              </BrowserRouter>
+            </UserContextProvider>
+          </AddSeatContextProvider>
+        </SeatContextProvider>
+      </GoogleOAuthProvider>
+    );
+    localStorage.clear();
+  });
 });
