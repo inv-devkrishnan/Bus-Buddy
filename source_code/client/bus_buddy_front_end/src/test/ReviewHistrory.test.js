@@ -1,5 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import "@testing-library/jest-dom/extend-expect";
 import ReviewHistory from "../components/User/ReviewHistory";
 import { axiosApi } from "../utils/axiosApi";
@@ -16,6 +17,23 @@ afterEach(() => {
 });
 
 describe("ReviewHistory component", () => {
+  it("renders data with no reviews", async () => {
+    const data = {
+      page_size: 5,
+      total_objects: 5,
+      total_pages: 1,
+      current_page_number: 1,
+      has_next: false,
+      next: null,
+      has_previous: false,
+      previous: null,
+      results: [],
+    };
+    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data);
+
+    render(<ReviewHistory />);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  });
   it("renders data", async () => {
     const data = {
       page_size: 5,
@@ -131,7 +149,7 @@ describe("ReviewHistory component", () => {
         },
       ],
     };
-    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data);
+    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data)
 
     render(<ReviewHistory />);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -182,7 +200,6 @@ describe("ReviewHistory component", () => {
     fireEvent.click(editButton);
 
     mock.onGet(`user/review-update/?review_id=25`).reply(200, data);
-
   });
 
   it("edit data-catch error", async () => {
@@ -222,8 +239,65 @@ describe("ReviewHistory component", () => {
 
     const editButton = screen.getByText("Edit");
     fireEvent.click(editButton);
+    const modalData = {
+      id: 25,
+      review_title: "Bad",
+      review_body: "Very Bad",
+      rating: 0,
+      updated_time: "2023-12-20T10:51:29.958783Z",
+      trip_start_date: "2023-12-24",
+      trip_end_date: "2023-12-25",
+      trip_start_time: "22:00:00",
+      trip_end_time: "03:50:00",
+      bus_name: "Tara",
+      route_start: "Ernakulam",
+      route_end: "Thiruvananthapuram",
+      pick_up: "vytilla",
+      drop_off: "trivandrum",
+      booking: "BK4YR20237589",
+    };
+    mock.onGet(`user/review-update/?review_id=25`).reply(200, modalData);
+  });
 
-    mock.onGet(`user/review-update/?review_id=25`);
+  it("review data-catch error", async () => {
+    const data = {
+      page_size: 5,
+      total_objects: 1,
+      total_pages: 1,
+      current_page_number: 1,
+      has_next: false,
+      next: null,
+      has_previous: false,
+      previous: null,
+      results: [
+        {
+          id: 25,
+          review_title: "Bad",
+          review_body: "Very Bad",
+          rating: 0,
+          updated_time: "2023-12-20T10:51:29.958783Z",
+          trip_start_date: "2023-12-24",
+          trip_end_date: "2023-12-25",
+          trip_start_time: "22:00:00",
+          trip_end_time: "03:50:00",
+          bus_name: "Tara",
+          route_start: "Ernakulam",
+          route_end: "Thiruvananthapuram",
+          pick_up: "vytilla",
+          drop_off: "trivandrum",
+          booking: "BK4YR20237589",
+        },
+      ],
+    };
+    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data);
+
+    render(<ReviewHistory />);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const editButton = screen.getByText("Edit");
+    fireEvent.click(editButton);
+
+    mock.onGet(`user/review-update/?review_id=25`).reply(400);
   });
 
   it("sorting", () => {

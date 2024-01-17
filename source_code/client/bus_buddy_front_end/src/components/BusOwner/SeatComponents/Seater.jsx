@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from "react";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton"
 import AddedSeater from "../../../assets/maleSeater.png";
 import SelectedSeater from "../../../assets/selectedSeater.png";
 import SeaterImage from "../../../assets/seater.png";
