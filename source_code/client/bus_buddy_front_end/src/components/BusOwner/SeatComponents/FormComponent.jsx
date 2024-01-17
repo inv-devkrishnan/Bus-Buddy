@@ -42,6 +42,7 @@ export default function FormComponent(props) {
         resetForm();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);
 
   useEffect(() => {
@@ -54,6 +55,7 @@ export default function FormComponent(props) {
         seatCost: currentSeatData["seat_cost"],
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSeatData]);
 
   const onSubmit = () => {

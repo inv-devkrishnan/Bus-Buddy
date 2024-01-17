@@ -1,5 +1,8 @@
 import stripe
 import pytz
+import os
+from dotenv import load_dotenv
+load_dotenv('busbuddy_api.env')
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Subquery, OuterRef
@@ -10,8 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from datetime import datetime
-from decouple import config
+from datetime import datetime, date,timedelta
 
 from account_manage.models import User
 from adminstrator.models import CouponHistory, CouponDetails
@@ -60,6 +62,7 @@ logger = logging.getLogger("django")
 
 date_format = "%Y-%m-%d"
 available_complaintable_users = []
+apikey = os.getenv("STRIPE_API_KEY")
 
 
 def mail_sent_response(mailfunction):
@@ -225,9 +228,13 @@ class BookingHistory(ListAPIView):
         status = request.GET.get("status")
         try:
             if status in {"0", "1", "99"}:
-                queryset = Bookings.objects.filter(user=user_id, status=status)
+                queryset = Bookings.objects.filter(
+                    user=user_id, status=status
+                ).order_by("-created_date")
             else:
-                queryset = Bookings.objects.filter(user=user_id)
+                queryset = Bookings.objects.filter(user=user_id).order_by(
+                    "-created_date"
+                )
 
             serializer = BHDS(queryset)
             page = self.paginate_queryset(queryset)
@@ -450,7 +457,7 @@ class BookSeat(APIView):
         Args:
             payment_intent (_type_): payment_intent to be refunded
         """
-        stripe.api_key = config("STRIPE_API_KEY")
+        stripe.api_key = apikey
         if payment_intent:
             logger.info("payment Intent to be Refunded :" + payment_intent)
             try:
@@ -513,9 +520,7 @@ class BookSeat(APIView):
             "seat_cost": float(seat_cost),
             "route_cost": float(route.travel_fare),
             "gst": owner.extra_charges,
-            "total": (
-                float(seat_cost) + float(route.travel_fare) + owner.extra_charges
-            ),
+            "total": request_data["total_amount"],
         }
         return context
 
@@ -568,6 +573,19 @@ class BookSeat(APIView):
                         status=0,
                     )
 
+                    print(request_data)
+                    coupon = request_data["coupon"]
+
+                    if coupon:
+                        coupon_object = CouponDetails.objects.get(id=coupon)
+                        CouponHistory.objects.create(
+                            coupon=coupon_object, user=request.user
+                        )
+                        logger.info(coupon_object)
+                    else:
+                        logger.info("no coupon selected")
+                        print("no coupon")
+
                     if email_send:
                         logger.info("seat booked and email send")
                         return Response(
@@ -582,6 +600,7 @@ class BookSeat(APIView):
                             },
                             status=201,
                         )
+
                 else:
                     logger.info(serializer.errors)
                     return Response(
@@ -640,7 +659,7 @@ class CancelBooking(UpdateAPIView):
         Returns:
         Boolean: True =>refund sucessful False => refund faild
         """
-        stripe.api_key = config("STRIPE_API_KEY")
+        stripe.api_key = apikey
         desired_timezone = pytz.timezone("Asia/Kolkata")
         current_time = datetime.now(desired_timezone)
         try:
@@ -798,7 +817,7 @@ class CreatePaymentIntent(APIView):
     """
 
     permission_classes = (AllowNormalUsersOnly,)
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = apikey
 
     def post(self, request):
         serialized_data = CostSerializer(data=request.data)
@@ -1134,24 +1153,10 @@ class ListCoupons(APIView):
 
             if Bookings.objects.filter(user=user_id):
                 # checks if first booking or not
-                queryset = (
-                    CouponDetails.objects.filter(
-                        coupon_eligibility=0,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
-                    | CouponDetails.objects.filter(
-                        coupon_eligibility=1,
-                        trip=trip.id,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
-                    | CouponDetails.objects.filter(
-                        coupon_eligibility=1,
-                        user=trip.user.id,
-                        status=0,
-                        valid_till__gte=start_date,
-                    )
+                queryset = CouponDetails.objects.filter(
+                    coupon_eligibility=0,
+                    status=0,
+                    valid_till__gte=start_date,
                 )
             else:
                 queryset = CouponDetails.objects.filter(
@@ -1184,7 +1189,7 @@ class ListCoupons(APIView):
                 coupon
                 for coupon in queryset
                 if (
-                    coupon.one_time_use == 0
+                    coupon.one_time_use == 1
                     or not CouponHistory.objects.filter(
                         coupon=coupon.id, user=request.user.id
                     ).exists()
@@ -1196,4 +1201,97 @@ class ListCoupons(APIView):
             return Response(serializer.data, status=200)
         except Exception as e:
             logger.error(str(e))
+            return Response({"error": f"{e}"}, status=400)
+
+
+class RedeemCoupon(APIView):
+    """
+    API for listing the available coupons
+
+    Args:
+        coupon_id(int): id of the coupon
+        trip_id (int): id of the trip
+
+    Returns:
+        json : valid message
+    """
+
+    permission_classes = (AllowNormalUsersOnly,)
+
+    def get(self, request):
+        trip_id = request.GET.get("trip_id")
+        coupon_id = request.GET.get("coupon_id")
+        valid = True
+        today = date.today()
+
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            coupon = CouponDetails.objects.get(id=coupon_id)
+
+            if coupon.status != 0 or coupon.valid_till <= today:
+                valid = False
+                logger.info(valid, "Invalid coupon")
+                return Response(
+                    {
+                        "invalid": "Invalid coupon",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            if coupon.coupon_eligibility == 1 and (
+                Bookings.objects.filter(user=request.user.id).exists()
+            ):
+                valid = False
+                logger.info(valid, "User is not eligible for first time booking coupon")
+                return Response(
+                    {
+                        "invalid": "User is not eligible for first time booking coupon",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            if coupon.coupon_availability == 1 and coupon.user.id != trip.user.id:
+                valid = False
+                logger.info(valid, "Invalid bus owner")
+                return Response(
+                    {"invalid": "Invalid by bus owner", "coupon_status": "400"},
+                    status=200,
+                )
+
+            if coupon.coupon_availability == 2 and coupon.trip.id != trip.id:
+                valid = False
+                logger.info(valid, "Invalid trip")
+                return Response(
+                    {"invalid": "Invalid by trip", "coupon_status": "400"}, status=200
+                )
+
+            if (
+                coupon.one_time_use == 0
+                and CouponHistory.objects.filter(
+                    coupon=coupon.id, user=request.user.id
+                ).exists()
+            ):
+                valid = False
+                logger.info(valid, "Coupon already used by this user")
+                return Response(
+                    {
+                        "invalid": "Coupon already used by this user",
+                        "coupon_status": "400",
+                    },
+                    status=200,
+                )
+
+            logger.info(valid, "Valid Coupon")
+            if valid:
+                return Response(
+                    {"valid": "Valid Coupon", "coupon_status": "200"}, status=200
+                )
+
+        except Trip.DoesNotExist:
+            return Response({"error": "This trip doesn't exist"}, status=400)
+        except CouponDetails.DoesNotExist:
+            return Response({"error": "This coupon doesn't exist"}, status=400)
+        except Exception as e:
             return Response({"error": f"{e}"}, status=400)

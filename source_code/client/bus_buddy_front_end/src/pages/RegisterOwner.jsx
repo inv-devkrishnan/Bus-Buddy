@@ -11,7 +11,7 @@ export default function RegisterOwner() {
         alt="register user"
         fluid
         style={{ width: "40%", height: "auto" }}
-      />{" "}
+      />
       <OwnerRegisterCard />
     </div>
   );

@@ -30,6 +30,7 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getPaymentErrorMessages } from "../../utils/getErrorMessage";
+import { applyReduce } from "../../utils/reduce";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 import AvailableCoupons from "./AvailableCoupons";
 
@@ -37,36 +38,43 @@ const TravellerDetail = () => {
   const [selectedSeats, setSelectedSeats] = useState([]); // to store the selected seat data
   const [currentTrip, setCurrentTrip] = useState([]); // to store the current trip details
   const [isLoading, setIsLoading] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0); // to save the total charges
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
 
   useEffect(() => {
-    if (authStatus()) {
+    if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
         navigate("/login");
       } else {
         // stores data from local storage to use states
         const storedSeats = localStorage.getItem("seat_list");
+        console.log(storedSeats);
         setSelectedSeats(storedSeats ? JSON.parse(storedSeats) : []);
         const storedTrip = localStorage.getItem("current_trip");
         setCurrentTrip(storedTrip ? JSON.parse(storedTrip) : []);
+        setTotalAmount(parseFloat(localStorage.getItem("total_amount")));
       }
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, []);
+  }, [authStatus, navigate]);
 
   const validationSchema = Yup.object().shape(
     // validation schema for formik
-    selectedSeats.reduce((acc, seat) => {
-      acc[seat.id] = Yup.object().shape({
-        [`name_${seat.id}`]: Yup.string().required("Name is required"),
-        [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),
-        [`gender_${seat.id}`]: Yup.string().required("Select a gender"),
-      });
-      return acc;
-    }, {})
+    applyReduce(
+      selectedSeats,
+      (acc, seat) => {
+        acc[seat.id] = Yup.object().shape({
+          [`name_${seat.id}`]: Yup.string().required("Name is required"),
+          [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),
+          [`gender_${seat.id}`]: Yup.string().required("Select a gender"),
+        });
+        return acc;
+      },
+      {}
+    )
   );
 
   const onSubmit = async () => {
@@ -86,14 +94,14 @@ const TravellerDetail = () => {
 
     const data = {
       // whole data in json format
-      total_amount: parseInt(localStorage.getItem("total_amount")),
+      total_amount: totalAmount,
       trip: parseInt(currentTrip.data.trip),
       pick_up: parseInt(localStorage.getItem("pick_up")),
       drop_off: parseInt(localStorage.getItem("drop_off")),
       booked_seats: bookedSeats,
     };
     const amountData = {
-      total_cost: parseInt(localStorage.getItem("total_amount")),
+      total_cost: totalAmount,
     };
     setIsLoading(true);
     // creates a new payment intent
@@ -121,14 +129,18 @@ const TravellerDetail = () => {
 
   const formik = useFormik({
     // dynamic formik initialisation
-    initialValues: selectedSeats.reduce((acc, seat) => {
-      acc[seat.id] = {
-        [`name_${seat.id}`]: "",
-        [`dob_${seat.id}`]: "",
-        [`gender_${seat.id}`]: "",
-      };
-      return acc;
-    }, {}),
+    initialValues: applyReduce(
+      selectedSeats,
+      (acc, seat) => {
+        acc[seat.id] = {
+          [`name_${seat.id}`]: "",
+          [`dob_${seat.id}`]: "",
+          [`gender_${seat.id}`]: "",
+        };
+        return acc;
+      },
+      {}
+    ),
     validationSchema,
     onSubmit,
     enableReinitialize: true,
@@ -282,7 +294,7 @@ const TravellerDetail = () => {
               <Timeline position="alternate">
                 <TimelineItem>
                   <TimelineOppositeContent
-                    sx={{ m: "auto 0" }}
+                    style={{ m: "auto 0" }}
                     align="right"
                     variant="body2"
                     color="text.secondary"
@@ -297,7 +309,7 @@ const TravellerDetail = () => {
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                  <TimelineContent style={{ py: "12px", px: 2 }}>
                     <Typography variant="h6" component="span">
                       {currentTrip?.startLocationName}
                     </Typography>
@@ -322,41 +334,22 @@ const TravellerDetail = () => {
                     <TimelineDot sx={"sm"} color="error" />
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent
-                    sx={{ py: "12px", px: 2, m: "auto 0" }}
-                    color="text.secondary"
-                  >
+                  <TimelineContent sx={{ m: "auto 0" }} color="text.secondary">
                     pick up point
                   </TimelineContent>
                 </TimelineItem>
 
                 <TimelineItem>
-                  <TimelineOppositeContent sx={{ m: "auto 0" }} variant="body2">
-                    <Typography variant="p" component="span">
-                      {localStorage.getItem("drop_stop")}
-                    </Typography>
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector />
-                    <TimelineDot variant="outlined" sx={"sm"} color="success" />
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent
-                    sx={{ py: "12px", px: 2, m: "auto 0" }}
-                    color="text.secondary"
-                  >
-                    drop off point
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
                   <TimelineOppositeContent
-                    color="text.secondary"
-                    sx={{ m: "auto 0" }}
+                    style={{ m: "auto 0" }}
                     variant="body2"
                   >
-                    <Typography>Stops at</Typography>
-                    {currentTrip?.data?.end_location_arrival_time}
+                    <Typography variant="h6" component="span">
+                      {currentTrip?.endLocationName}
+                    </Typography>
+                    <Typography>
+                      {currentTrip?.data?.end_location_arrival_date}
+                    </Typography>
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
@@ -365,12 +358,31 @@ const TravellerDetail = () => {
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Typography variant="h6" component="span">
-                      {currentTrip?.endLocationName}
-                    </Typography>
-                    <Typography>
-                      {currentTrip?.data?.end_location_arrival_date}
+                  <TimelineContent
+                    style={{ py: "12px", px: 2 }}
+                    color="text.secondary"
+                  >
+                    <Typography>Arrives at</Typography>
+                    {currentTrip?.data?.end_location_arrival_time}
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineOppositeContent
+                    sx={{ m: "auto 0" }}
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    drop off point
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot variant="outlined" sx={"sm"} color="success" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2, m: "auto 0" }}>
+                    <Typography variant="p" component="span">
+                      {localStorage.getItem("drop_stop")}
                     </Typography>
                   </TimelineContent>
                 </TimelineItem>
@@ -379,7 +391,10 @@ const TravellerDetail = () => {
           </Tab>
 
           <Tab eventKey="coupon" title="Coupons and Total amount">
-            <AvailableCoupons total={localStorage.getItem("total_amount")} />
+            <AvailableCoupons
+              totalAmount={totalAmount}
+              setTotalAmount={setTotalAmount}
+            />
           </Tab>
 
           <Tab eventKey="amount" title="Refund Policy">

@@ -17,7 +17,7 @@ valid_phone = "9961006248"
 valid_company_name = "ABC Travels"
 valid_aadhaar = "147258369014"
 valid_msme = "UDYAN-654-745896"
-valid_extra_charges = 150.25
+valid_extra_charges = 18
 
 
 class BaseTest(TestCase):
@@ -89,7 +89,7 @@ class BaseTest(TestCase):
             "company_name": "Priya Travels",
             "aadhaar_no": "748159263578",
             "msme_no": "UDYAN-451-784512",
-            "extra_charges": 455.50,
+            "extra_charges": 18,
         }
 
         self.invalid_names = {
@@ -426,54 +426,54 @@ class BaseTest2(TestCase):
             "cctv": 0,
         }
         self.create_route = {
-            "start_point" : loc_1_id,
-            "end_point" : loc_2_id,
-            "via" : "kollam",
-            "distance" : 120,
-            "duration" : 2,
-            "travel_fare" : 299,
+            "start_point": loc_1_id,
+            "end_point": loc_2_id,
+            "via": "kollam",
+            "distance": 120,
+            "duration": 2,
+            "travel_fare": 299,
             "location": [
-                            {
-                            "seq_id": 1,
-                            "location": loc_1_id,
-                            "arrival_time": "13:00",
-                            "arrival_date_offset": "1",
-                            "departure_time": "2:00",
-                            "departure_date_offset": 1,
-                            "pick_and_drop": [
-                                {
-                                "bus_stop": "location 1 stop",
-                                "arrival_time": "10:00",
-                                "landmark": "fds",
-                                "status": 0
-                                }
-                            ]
-                            },
-                            {
-                            "seq_id": 2,
-                            "location": loc_2_id,
+                {
+                    "seq_id": 1,
+                    "location": loc_1_id,
+                    "arrival_time": "13:00",
+                    "arrival_date_offset": "1",
+                    "departure_time": "2:00",
+                    "departure_date_offset": 1,
+                    "pick_and_drop": [
+                        {
+                            "bus_stop": "location 1 stop",
                             "arrival_time": "10:00",
-                            "arrival_date_offset": "0",
-                            "departure_time": "11:00",
-                            "departure_date_offset": 0,
-                            "pick_and_drop": [
-                                {
-                                "bus_stop": "location stop",
-                                "arrival_time": "10:00",
-                                "landmark": "fdsf",
-                                "status": 0
-                                }
-                            ]
-                            }
-                        ]
+                            "landmark": "fds",
+                            "status": 0,
+                        }
+                    ],
+                },
+                {
+                    "seq_id": 2,
+                    "location": loc_2_id,
+                    "arrival_time": "10:00",
+                    "arrival_date_offset": "0",
+                    "departure_time": "11:00",
+                    "departure_date_offset": 0,
+                    "pick_and_drop": [
+                        {
+                            "bus_stop": "location stop",
+                            "arrival_time": "10:00",
+                            "landmark": "fdsf",
+                            "status": 0,
+                        }
+                    ],
+                },
+            ],
         }
         self.cant_create_route = {
-            "start_point" : loc_1_id,
-            "end_point" : loc_2_id,
-            "via" : "kollam",
-            "distance" : "jahbdj",
-            "duartion" : 2,
-            "travel_fare" : 299,
+            "start_point": loc_1_id,
+            "end_point": loc_2_id,
+            "via": "kollam",
+            "distance": "jahbdj",
+            "duartion": 2,
+            "travel_fare": 299,
         }
         self.create_trip = {
             "bus" : bus_id,
@@ -482,7 +482,6 @@ class BaseTest2(TestCase):
             "end_date" : "2024-06-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
-            
         }
         self.cant_create_trip = {
             "bus" : bus_id,
@@ -491,17 +490,16 @@ class BaseTest2(TestCase):
             "end_date" : "2024-12-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
-            
         }
-        
+
         self.add_trip = reverse("add-trip")
         self.update_bus = reverse("update-bus", args=[bus_id])
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        self.update_amenities = reverse("update-amenities",args=[amenities_id])
-        self.can_delete_route = reverse("delete-routes",args = [route_id])
-        
+        self.update_amenities = reverse("update-amenities", args=[amenities_id])
+        self.can_delete_route = reverse("delete-routes", args=[route_id])
+
         return super().setUp()
 
 
@@ -587,57 +585,47 @@ class BusActions(BaseTest2):
         response = self.client.put(
             self.cant_update_amenities, self.update_amenities_data, format="json"
         )
-        
-        self.assertEqual(response.status_code,404)
-    
+
+        self.assertEqual(response.status_code, 404)
+
     def test_can_delete_route(self):
         print("13")
-        response = self.client.put(
-            self.can_delete_route
-        )
-        self.assertEqual(response.status_code,200)
+        response = self.client.put(self.can_delete_route)
+        self.assertEqual(response.status_code, 200)
 
     def test_cant_delete_route(self):
         print("14")
-        self.cant_delete_route = reverse("delete-routes", args = [990])
-        response = self.client.put(
-            self.cant_delete_route
-        )
-        self.assertEqual(response.status_code,404)
-        
+        self.cant_delete_route = reverse("delete-routes", args=[990])
+        response = self.client.put(self.cant_delete_route)
+        self.assertEqual(response.status_code, 404)
+
     def test_can_create_route(self):
         print("15")
-        response = self.client.post(
-            self.add_route,self.create_route,format = "json"
-        )
-        self.assertEqual(response.status_code,200)
-        
+        response = self.client.post(self.add_route, self.create_route, format="json")
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_create_route_invalid_data(self):
         print("16")
         response = self.client.post(
-            self.add_route,self.cant_create_route,format = "json"
+            self.add_route, self.cant_create_route, format="json"
         )
-        self.assertEqual(response.status_code,400)
-        
+        self.assertEqual(response.status_code, 400)
+
     def test_can_create_trip(self):
         print("17")
-        response = self.client.post(
-            self.add_trip,self.create_trip,format = "json"
-        )
+        response = self.client.post(self.add_trip, self.create_trip, format="json")
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code,200)
-        
+        self.assertEqual(response.status_code, 200)
+
     def test_cant_create_trip(self):
         print("18")
-        response = self.client.post(
-            self.add_trip,self.cant_create_trip,format = "json"
-        )
+        response = self.client.post(self.add_trip, self.cant_create_trip, format="json")
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
-        self.assertEqual(response.status_code,400)
+        self.assertEqual(response.status_code, 400)
 
-    
+
 class RegisterOwnerTest(BaseTest):
     def test_can_register_user(self):
         response = self.client.post(
@@ -726,13 +714,14 @@ class RegisterOwnerTest(BaseTest):
 
 
 class UpdateOwnerTest(BaseTest):
-    def test_can_register_user(self):
+    def test_can_update_user(self):
         self.client.post(self.register_bus_owner, self.valid_all_values, format="json")
         response = self.client.put(
             reverse("update-profile-owner"),
             self.update_valid_data,
             format="json",
         )
+        print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_register_user_with_invalid_names(self):

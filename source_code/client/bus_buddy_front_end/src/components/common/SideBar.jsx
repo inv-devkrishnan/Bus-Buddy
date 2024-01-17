@@ -41,6 +41,7 @@ function SideBar(props) {
         <ListGroup>
           <ListGroup.Item>
             <button
+              data-testid={option.name}
               className="options"
               style={
                 option.state

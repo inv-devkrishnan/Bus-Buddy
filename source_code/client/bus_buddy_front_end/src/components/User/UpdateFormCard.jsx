@@ -68,6 +68,7 @@ export default function UpdateForm() {
         console.log(err.response);
         alert("User does not exist!!");
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function UpdateForm() {
       email: currentUserData["email"],
       phone: currentUserData["phone"],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserData]);
 
   return (

@@ -105,7 +105,7 @@ function LandingPage(props) {
             {!props.fromSearchList && (
               <>
                 <Col md={3}>
-                  <Image src={splashscreen} fluid></Image>
+                  <Image src={splashscreen} fluid />
                 </Col>
                 <Col className="mt-5" md={4}>
                   <h1>Find your Trip</h1>
@@ -121,22 +121,25 @@ function LandingPage(props) {
                 className="form-control mb-1"
                 list="datalistOptions"
                 id="start_text_box"
+                maxLength={100}
                 onChange={validateSearchTerms}
-                placeholder="from location"
+                placeholder="From location"
               />
             </Col>
             <Col xs={12} md={3}>
               <input
                 className="form-control  mb-1"
                 list="datalistOptions"
+                maxLength={100}
                 id="end_text_box"
                 onChange={validateSearchTerms}
-                placeholder="to location"
+                placeholder="To location"
               />
             </Col>
             <Col xs={12} md={3}>
               <input
                 className="form-control  mb-1"
+                data-testid="date-selector"
                 id="trip_date_picker"
                 type="date"
                 onChange={validateSearchTerms}

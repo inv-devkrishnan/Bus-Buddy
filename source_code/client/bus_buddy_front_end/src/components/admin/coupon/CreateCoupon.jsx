@@ -77,6 +77,7 @@ function CreateCoupon() {
   const submitData = (data) => {
     // function to create coupon
     showLoadingAlert("Creating Coupon");
+    console.log(data)
     axiosApi
       .post("adminstrator/create-coupon/", data)
       .then((result) => {
@@ -182,6 +183,7 @@ function CreateCoupon() {
           <Form.Group as={Col} md="6" lg="6" xl="4">
             <Form.Label>Coupon Availability</Form.Label>
             <Form.Select
+              data-testid="coupon-availability"
               {...register("coupon_availability", {
                 required: true,
                 valueAsNumber: true,

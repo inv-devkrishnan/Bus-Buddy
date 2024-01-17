@@ -7,7 +7,6 @@ export default function UserLayer(props) {
   const { seatData } = useContext(SeatContext); // use context which contain the seat data
   const [nearFemale, setNearFemale] = useState(false); // true if current seat is near a female booked seat
   const [nearMale, setNearMale] = useState(false); // true if current seat is near a male booked seat
-
   const processSeatData = (layerData) => {
     let hasMale = false;
     let hasFemale = false;
@@ -62,6 +61,7 @@ export default function UserLayer(props) {
     }
 
     processLayerData(layerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.row, seatData]);
 
   return (

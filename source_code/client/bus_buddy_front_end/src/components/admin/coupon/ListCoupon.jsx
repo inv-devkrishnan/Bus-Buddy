@@ -48,7 +48,6 @@ function ListCoupon() {
           setCouponList(result.data?.coupons);
           setTotalPages(result?.data?.pages);
           setCurrentPage(result?.data?.current_page);
-          setCurrentPage(result?.data?.current_page);
           setHasPrevious(Boolean(result?.data?.has_previous));
         }
       })

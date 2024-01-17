@@ -13,7 +13,6 @@ import UpdateFormCard from "./UpdateFormCard";
 
 export default function UserProfilePage(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
-
   const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
   const [updateProfileView, setUpdateProfileView] = useState(false);
@@ -60,6 +59,7 @@ export default function UserProfilePage(props) {
         console.log(err.reponse);
         setIsProfileLoading(false);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   return (

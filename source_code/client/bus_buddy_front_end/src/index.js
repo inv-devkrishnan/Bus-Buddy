@@ -4,18 +4,25 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css"
+import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { UserContextProvider } from "./components/User/UserContext";
+import { SeatContextProvider } from "./utils/SeatContext";
+import { AddSeatContextProvider } from "./utils/AddSeatContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </GoogleOAuthProvider>
- 
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+    <SeatContextProvider>
+      <AddSeatContextProvider>
+        <UserContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </UserContextProvider>
+      </AddSeatContextProvider>
+    </SeatContextProvider>
+  </GoogleOAuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

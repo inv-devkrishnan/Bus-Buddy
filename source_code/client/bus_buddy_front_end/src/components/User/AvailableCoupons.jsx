@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 import Carousel from "react-bootstrap/Carousel";
@@ -19,50 +18,107 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 
+import Swal from "sweetalert2";
+import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 import { axiosApi } from "../../utils/axiosApi";
-import { useAuthStatus } from "../../utils/hooks/useAuth";
 import CouponOther from "./CouponOther";
+import { UserContext } from "../User/UserContext";
 
 export default function AvailableCoupons(props) {
-  const [couponValue, setCouponValue] = useState("");
-  const [couponList, setCouponList] = useState([]);
+  const [couponValue, setCouponValue] = useState(""); // for storing the coupon code
+  const [couponError, setCouponError] = useState(false);
+  const [couponList, setCouponList] = useState([]); // for collecting the coupons data
+  const [couponData, setCouponData] = useState(""); // for storing selected coupon data
+  const currentTrip = useRef([]);
   const [show, setShow] = useState(false);
 
-  const navigate = useNavigate();
-  const authStatus = useAuthStatus();
+  const { updateSelectedCoupon } = useContext(UserContext);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    if (authStatus()) {
-      axiosApi
-        .get("user/available-coupons/?trip_id=4")
-        .then((res) => {
-          setCouponList(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      navigate("/login"); // if user not logged in redirect to login
-    }
+    const storedTrip = localStorage.getItem("current_trip");
+    currentTrip.current = storedTrip ? JSON.parse(storedTrip) : [];
+  }, []);
+
+  useEffect(() => {
+    axiosApi
+      .get(
+        `user/available-coupons/?trip_id=${parseInt(
+          currentTrip.current?.data?.trip
+        )}`
+      )
+      .then((res) => {
+        setCouponList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(localStorage.getItem("current_trip"));
+      });
   }, []);
 
   const handleChange = (e) => {
     setCouponValue(e.target.value);
+    if (couponValue.length < 1) {
+      setCouponData([]);
+    } else {
+      setCouponError(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(couponValue);
+    if (couponValue.length < 1) {
+      setCouponError(true);
+    } else {
+      showLoadingAlert("Applying coupon");
+      axiosApi
+        .get(
+          `user/redeem-coupon/?trip_id=${parseInt(
+            currentTrip.current?.data?.trip
+          )}&coupon_id=${couponData.id}`
+        )
+        .then((res) => {
+          Swal.close();
+          if (res.data?.coupon_status === "200") {
+            const discount =
+              parseFloat(localStorage.getItem("total_amount")) *
+              couponData.discount *
+              0.01;
+            const roundedDiscount = parseFloat(discount);
+
+            props.setTotalAmount(
+              parseFloat(
+                localStorage.getItem("total_amount") - roundedDiscount
+              ).toFixed(2)
+            );
+            updateSelectedCoupon(couponData.id);
+          } else {
+            Swal.fire({
+              title: "Invalid !",
+              icon: "error",
+              text: "Invalid coupon",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.close();
+          Swal.fire({
+            title: "Oops...!",
+            icon: "error",
+            text: "Invalid coupon",
+          });
+        });
+    }
   };
 
   return (
     <div className="d-flex flex-column">
       <div className="d-flex flex-column align-items-center mt-4">
         <h4>Total Amount:</h4>
-        <h5 className="border rounded p-2 ">{props.total}</h5>
+        <h5 className="border rounded p-2 ">{props?.totalAmount}</h5>
       </div>
 
       {couponList.length < 1 ? (
@@ -82,31 +138,56 @@ export default function AvailableCoupons(props) {
             {couponList.map((data) => (
               <Carousel.Item key={data?.id}>
                 <div className="d-flex align-items-center justify-content-center">
-                  <CouponOther data={data} setCouponValue={setCouponValue} />
+                  <CouponOther
+                    data={data}
+                    setCouponValue={setCouponValue}
+                    setCouponData={setCouponData}
+                    setCouponError={setCouponError}
+                  />
                 </div>
               </Carousel.Item>
             ))}
           </Carousel>
 
-          <div className="m-3">
-            <Form
-              onSubmit={handleSubmit}
-              className="d-flex flex-column flex-lg-row"
-            >
-              <InputGroup className="m-3">
+          <Form onSubmit={handleSubmit}>
+            <div className="m-3">
+              <InputGroup>
                 <Form.Control
                   placeholder="Coupon Code"
                   value={couponValue}
                   onChange={handleChange}
                   maxLength={10}
                 />
-                <Button type="submit" variant="outline-primary">
+                <Button data-testid="apply_coupon" type="submit" variant="outline-primary">
                   Apply Coupon
                 </Button>
               </InputGroup>
-              <Button onClick={handleShow}>All Coupons</Button>
-            </Form>
-          </div>
+              {couponError ? (
+                <div style={{ color: "red" }}>Please enter the coupon code</div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center m-4">
+              <Button
+                data-testid="remove_coupon_button"
+                onClick={() => {
+                  setCouponValue("");
+                  setCouponError(false);
+                  props.setTotalAmount(
+                    parseFloat(localStorage.getItem("total_amount"))
+                  );
+                  updateSelectedCoupon([]);
+                }}
+              >
+                Remove Coupon
+              </Button>
+              &ensp;
+              <Button data-testid="all_coupons_button" onClick={handleShow}>
+                All Coupons
+              </Button>
+            </div>
+          </Form>
         </>
       )}
 
@@ -139,6 +220,7 @@ export default function AvailableCoupons(props) {
                         disableInteractive
                       >
                         <IconButton
+                          data-testid="modal_copy_button"
                           onClick={() => {
                             setCouponValue(data?.coupon_code);
                             setShow(false);
@@ -165,5 +247,6 @@ export default function AvailableCoupons(props) {
   );
 }
 AvailableCoupons.propTypes = {
-  total: PropTypes.string,
+  totalAmount: PropTypes.number,
+  setTotalAmount: PropTypes.func,
 };

@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 import { useForm } from "react-hook-form";
 
@@ -12,16 +11,12 @@ import Card from "react-bootstrap/Card";
 
 import Swal from "sweetalert2";
 
-import { useAuthStatus } from "../utils/hooks/useAuth";
 import { changePassword } from "../utils/apiCalls";
 import { useLogout } from "../utils/hooks/useLogout";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
 
 function ChangePassword() {
-  const navigate = useNavigate();
-  const authStatus = useAuthStatus();
-
   const {
     register,
     handleSubmit,
@@ -29,17 +24,6 @@ function ChangePassword() {
     getValues,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    if (!authStatus()) {
-      // if user not logged in redirect to login page
-      navigate("/login");
-    }
-
-    if (localStorage.getItem("account_provider") === "1") {
-      navigate("/login"); // if user is a google user redirect to login page
-    }
-  }, [authStatus, navigate]);
 
   const logout = useLogout();
 
@@ -53,7 +37,6 @@ function ChangePassword() {
 
   const changeUserPassword = async (passwordData) => {
     // function that calls api to change user password
-    if (authStatus()) {
       showLoadingAlert("Changing Password");
       const response = await changePassword(passwordData);
       Swal.close();
@@ -74,9 +57,6 @@ function ChangePassword() {
           });
         }
       }
-    } else {
-      navigate("/login");
-    }
   };
   return (
     <Container fluid className="mt-3 mb-5">

@@ -8,8 +8,8 @@ from django.core.validators import RegexValidator, MinValueValidator
 from rest_framework.validators import UniqueValidator
 
 
-regex_alphabet_only = r"^[A-Za-z\s]*$"
-regex_number_only = r"^[0-9\s]*$"
+regex_alphabet_only = r"^[A-Za-z]*$"
+regex_number_only = r"^[0-9]*$"
 error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "D1007"
 error_message_only_number = "This field can only contain numbers."
@@ -36,6 +36,7 @@ class AdminUpdateSerializer(serializers.ModelSerializer):
         ],
     )
     email = serializers.EmailField(
+        max_length=100,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(), message=error_message_email_exist
@@ -95,6 +96,7 @@ class ListUserComplaints(serializers.ModelSerializer):
             "created_date",
             "response",
             "user",
+            "complaint_image",
         )
         depth = 1
 

@@ -21,7 +21,7 @@ export default function PickAndDrop(props) {
       props.setSelectedPickStop(localStorage.getItem("pick_stop"));
       props.setSelectedDropStop(localStorage.getItem("drop_stop"));
     }
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     const pickRows = seatData[0]?.map((stop) => ({

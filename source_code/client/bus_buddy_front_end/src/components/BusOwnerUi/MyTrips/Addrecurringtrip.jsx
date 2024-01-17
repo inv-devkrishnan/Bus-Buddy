@@ -21,7 +21,6 @@ export default function Addrecurringtrip() {
  const [selectedEndDate, setSelectedEndDate] = useState(null);
  const [selectedPeriodStartDate, setSelectedPeriodStartDate] = useState(null);
  const [selectedPeriodEndDate, setSelectedPeriodEndDate] = useState(null);
- const [searchMode, setSearchMode] = useState(true);
  const [recurrence,setRecurrence] = useState(0)
  const [startPeriodDateError, setStartPeriodDateError] = useState("");
  const [endPeriodDateError, setEndPeriodDateError] = useState("");

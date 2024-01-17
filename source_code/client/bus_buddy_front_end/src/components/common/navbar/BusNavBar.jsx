@@ -6,7 +6,7 @@ import { PersonCircle, BusFrontFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLogout } from "../../../utils/hooks/useLogout";
-import { IoIosNotificationsOutline } from 'react-icons/io';
+import { IoIosNotificationsOutline } from "react-icons/io";
 import { axiosApi } from "../../../utils/axiosApi";
 function BusNavBar() {
   const navigate = useNavigate(); // to navigate to different pages
@@ -37,9 +37,9 @@ function BusNavBar() {
       const response = await axiosApi.get("bus-owner/view-notifications/");
       setNotifications(response.data);
       console.log(response.data);
-      setNotificationCount(response.data.length); 
+      setNotificationCount(response.data.length);
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      console.error("Error fetching notifications:", error);
     }
   };
   const changenotificationstatus = async () => {
@@ -70,12 +70,24 @@ function BusNavBar() {
 
   useEffect(() => {
     getUserInfo();
-    fetchNotifications(); // Fetch notifications when the component mounts
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
+    if (
+      localStorage.getItem("user_role") &&
+      localStorage.getItem("user_role") !== "-1"
+    ) {
+      fetchNotifications(); // Fetch notifications when the component mounts
+      const interval = setInterval(fetchNotifications, 30000);
+      return () => clearInterval(interval);
+    }
   }, []);
+
   return (
-    <Navbar expand="lg" bg="primary" data-bs-theme="dark"  fixed="top" style={{zIndex:99}}>
+    <Navbar
+      expand="lg"
+      bg="primary"
+      data-bs-theme="dark"
+      fixed="top"
+      style={{ zIndex: 99 }}
+    >
       <Container>
         <Navbar.Brand
           className="fw-bold"
@@ -100,33 +112,45 @@ function BusNavBar() {
           </Nav>
 
           <div className="ms-auto d-flex align-items-center">
-          {user.role !== '-1' && user.role !== 'Guest' && (
-          <NavDropdown
-            title={
-              <>
-                <IoIosNotificationsOutline className="text-light fw-bold" style={{ fontSize: '24px'}} onClick={changenotificationstatus}/>
-                {notificationCount > 0 && (
-                  <span className="badge bg-danger rounded-circle" style={{ position: 'absolute', top: '0', right: '0' } }>
-                    {notificationCount}
-                  </span>
+            {user.role !== "-1" && user.role !== "Guest" && (
+              <NavDropdown
+                title={
+                  <>
+                    <IoIosNotificationsOutline
+                      className="text-light fw-bold"
+                      style={{ fontSize: "24px" }}
+                      onClick={changenotificationstatus}
+                    />
+                    {notificationCount > 0 && (
+                      <span
+                        className="badge bg-danger rounded-circle"
+                        style={{ position: "absolute", top: "0", right: "0" }}
+                      >
+                        {notificationCount}
+                      </span>
+                    )}
+                  </>
+                }
+                className="text-light fw-bold"
+                data-bs-theme="light"
+                id="notifications-dropdown"
+              >
+                {notifications.length === 0 ? (
+                  <NavDropdown.Item>No notifications</NavDropdown.Item>
+                ) : (
+                  notifications.map((notification) => (
+                    <NavDropdown.Item key={notification.id}>
+                      {notification.message}
+                    </NavDropdown.Item>
+                  ))
                 )}
-              </>
-            }
-            className="text-light fw-bold"
-            data-bs-theme="light"
-            id="notifications-dropdown"
-            
-          >
-            {notifications.length === 0 ? (
-              <NavDropdown.Item>No notifications</NavDropdown.Item>
-            ) : (
-              notifications.map((notification) => (
-                <NavDropdown.Item key={notification.id}>{notification.message}</NavDropdown.Item>
-              ))
+              </NavDropdown>
             )}
-          </NavDropdown>
-        )}
-            <PersonCircle className="me-3" color="white" style={{ marginLeft : '15px',marginRight: '20px' }}></PersonCircle>
+            <PersonCircle
+              className="me-3"
+              color="white"
+              style={{ marginLeft: "15px", marginRight: "20px" }}
+            ></PersonCircle>
             {user.name === "Guest" ? ( // based on the guest or registered user the drop down would change
               <NavDropdown
                 title="Hello Guest"
@@ -171,9 +195,7 @@ function BusNavBar() {
                 <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
               </NavDropdown>
             )}
-            
           </div>
-          
         </Navbar.Collapse>
       </Container>
     </Navbar>

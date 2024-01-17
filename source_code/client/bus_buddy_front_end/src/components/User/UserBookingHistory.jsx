@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -16,17 +15,14 @@ import Swal from "sweetalert2";
 import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 import Rating from "@mui/material/Rating";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
+import CustomPaginator from "../common/paginator/CustomPaginator";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
   const [pageSize, setPageSize] = useState(1); // for storing page size
   const [currentPage, setCurrentPage] = useState(1); // for finding current page
-  const [page, setPage] = useState(1); // for storing page number
   const [status, setStatus] = useState(); // for storing status
-  const [next, setNext] = useState(1); // for finding next
-  const [previous, setPrevious] = useState(1); // for finding previous
   const [totalPages, setTotalPages] = useState(0); // for finding total number of pages
-  const [active, setActive] = useState(1); // for setting current page activate
   const [modalShow, setModalShow] = useState(false); // for dealing modal visibility
   const [modalData, setModalData] = useState(null); // for storing data for modal
   const [confirmModalShow, setConfirmModalShow] = useState(false); // for dealing confirm modal visibility
@@ -35,41 +31,40 @@ export default function UserBookingHistory() {
   const [ratingValue, setRatingValue] = useState(0); // to store value of rating
   const [policyModalShow, setPolicyModalShow] = useState(false); // to handle policy modal
 
-  const viewBookingHistory = useCallback(async () => {
-    try {
-      const res = await axiosApi.get(
-        `user/booking-history?page=${page}&&status=${status}`
-      );
+  const viewBookingHistory = useCallback(
+    async (page) => {
+      try {
+        if (page) {
+          const res = await axiosApi.get(
+            `user/booking-history?page=${page}&&status=${status}`
+          );
+          setBookingData(res.data.results);
+          setTotalPages(res.data.total_pages);
+          setCurrentPage(res.data.current_page_number);
+          setPageSize(res.data.page_size);
+        } else {
+          const res = await axiosApi.get(
+            `user/booking-history?page=${1}&&status=${status}`
+          );
 
-      setBookingData(res.data.results);
-      setNext(res.data.has_next);
-      setPrevious(res.data.has_previous);
-      setTotalPages(res.data.total_pages);
-      setCurrentPage(res.data.current_page_number);
-      setPageSize(res.data.page_size);
-    } catch (err) {
-      // Handle errors
-      console.error("Error:", err);
-    }
-    setIsLoading(false);
-  }, [page, status]);
+          setBookingData(res.data.results);
+          setTotalPages(res.data.total_pages);
+          setCurrentPage(res.data.current_page_number);
+          setPageSize(res.data.page_size);
+        }
+      } catch (err) {
+        // Handle errors
+        console.error("Error:", err);
+      }
+      setIsLoading(false);
+    },
+    [status]
+  );
 
   useEffect(() => {
     // for fetching user's booking history
     viewBookingHistory();
   }, [viewBookingHistory]);
-
-  const handlePrevious = () => {
-    // for moving to previous page
-    setActive(active - 1);
-    setPage(page - 1);
-  };
-
-  const handleNext = () => {
-    // for moving to next page
-    setActive(active + 1);
-    setPage(page + 1);
-  };
 
   const handlePolicyClose = () => setPolicyModalShow(false);
   const handlePolicyShow = () => setPolicyModalShow(true);
@@ -123,54 +118,6 @@ export default function UserBookingHistory() {
         });
       });
   };
-
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    // for generating pagination
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-
-  const paginationBasic = (
-    // pagination with previous and next buttons
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
 
   const getStatusColor = (data) => {
     // for colours in table
@@ -239,8 +186,6 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(99);
-                  setPage(1);
-                  setActive(1);
                 }}
               >
                 Cancelled
@@ -248,8 +193,6 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(0);
-                  setPage(1);
-                  setActive(1);
                 }}
               >
                 Booked
@@ -257,8 +200,6 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus(1);
-                  setPage(1);
-                  setActive(1);
                 }}
               >
                 Completed
@@ -266,8 +207,6 @@ export default function UserBookingHistory() {
               <Dropdown.Item
                 onClick={() => {
                   setStatus("");
-                  setPage(1);
-                  setActive(1);
                 }}
               >
                 All
@@ -358,7 +297,11 @@ export default function UserBookingHistory() {
           className="align-self-center"
           style={{ position: "fixed", bottom: 0 }}
         >
-          {paginationBasic}
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={viewBookingHistory}
+          />
         </div>
       </div>
 

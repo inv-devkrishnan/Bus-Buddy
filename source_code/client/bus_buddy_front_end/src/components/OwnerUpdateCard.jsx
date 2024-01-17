@@ -29,6 +29,7 @@ export default function OwnerUpdateForm() {
       phone: currentUserData["phone"],
       companyName: currentUserData["company_name"],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserData]);
 
   const onSubmit = () => {

@@ -35,7 +35,9 @@ export default function Updateamenities() {
         console.log(err.response);
         alert("Bus does not exist!!");
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
   useEffect(() => {
     setFormState({
       emergency_no: currentAmenitiesData.emergency_no,
