@@ -17,7 +17,7 @@ export default function Viewallbus() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-reviews/?page=${page}`
+        `bus-owner/view-reviews/?page=${page}`
       );
       setData(response.data.results);
       console.log(response.data.results);

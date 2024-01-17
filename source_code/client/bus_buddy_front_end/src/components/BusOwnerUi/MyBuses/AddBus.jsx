@@ -40,7 +40,7 @@ export default function Addbus() {
     }
     
     try {
-      const response = await axiosApi.post("http://localhost:8000/bus-owner/add-bus/", {
+      const response = await axiosApi.post("bus-owner/add-bus/", {
         bus_name: bus_name,
         plate_no: plate_no,
         bus_type: bus_type,

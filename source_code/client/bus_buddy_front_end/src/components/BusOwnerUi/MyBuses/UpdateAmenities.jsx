@@ -27,7 +27,7 @@ export default function Updateamenities() {
   const bus = location.state;
   useEffect(() => {
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/update-amenities/${bus}/`)
+      .get(`bus-owner/update-amenities/${bus}/`)
       .then((res) => {
         setCurrentAmenitiesData(res.data);
       })
@@ -64,7 +64,7 @@ export default function Updateamenities() {
 
     try {
       const response = await axiosApi.put(
-        `http://127.0.0.1:8000/bus-owner/update-amenities/${bus}/`,
+        `bus-owner/update-amenities/${bus}/`,
         {
           bus: bus,
           ...formState,

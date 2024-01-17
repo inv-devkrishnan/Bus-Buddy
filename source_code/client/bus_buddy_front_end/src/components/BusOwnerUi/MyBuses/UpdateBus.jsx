@@ -20,7 +20,7 @@ export default function Updatebus() {
 
   useEffect(() => {
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/update-bus/${bus}/`)
+      .get(`bus-owner/update-bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
       })
@@ -42,7 +42,7 @@ export default function Updatebus() {
 
   const onSubmit = async () => {
     try {
-      const response = await axiosApi.put(`http://127.0.0.1:8000/bus-owner/update-bus/${formik.values.id}/`, {
+      const response = await axiosApi.put(`bus-owner/update-bus/${formik.values.id}/`, {
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,

@@ -18,7 +18,7 @@ export default function Viewallroutes() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-routes/?page=${page}`
+        `bus-owner/view-routes/?page=${page}`
       );
       setData(response.data.results);
       setNext(response.data.has_next);
@@ -129,7 +129,7 @@ export default function Viewallroutes() {
   };
   const deleted = (id) => {
     axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/delete-routes/${id}/`)
+      .put(`bus-owner/delete-routes/${id}/`)
       .then((response) => {
         console.log("bus deleted successfuly");
         Swal.fire({

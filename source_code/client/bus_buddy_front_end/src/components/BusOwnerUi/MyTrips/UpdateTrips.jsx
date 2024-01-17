@@ -36,7 +36,7 @@ export default function Updatetrips() {
       }
     try { 
       const response = await axiosApi.put(
-        `http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`,
+        `bus-owner/update-trip/${formik.values.id}/`,
         {
           bus: formik.values.busName,
           route: formik.values.routeName,

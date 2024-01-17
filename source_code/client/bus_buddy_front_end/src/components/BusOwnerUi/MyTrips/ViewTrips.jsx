@@ -22,7 +22,7 @@ export default function Viewallbus() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-trip/?page=${page}`
+        `bus-owner/view-trip/?page=${page}`
       );
       setData(response.data.results);
       setNext(response.data.has_next);
@@ -151,7 +151,7 @@ export default function Viewallbus() {
     console.log(trip)
     
     axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${trip.id}/`)
+      .put(`bus-owner/delete-trip/${trip.id}/`)
       .then((response) => {
         console.log("bus deleted successfuly");
 

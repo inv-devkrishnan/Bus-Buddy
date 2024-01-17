@@ -14,7 +14,6 @@ function BusNavBar() {
   const [user, setUser] = useState({}); // to store current logged user details
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-  const [changeStatus, setChangeStatus] = useState([]);
   const getUserInfo = () => {
     // function to get current user info from localstorage
     let user_name = localStorage.getItem("user_name");
@@ -35,7 +34,7 @@ function BusNavBar() {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axiosApi.get("http://127.0.0.1:8000/bus-owner/view-notifications/");
+      const response = await axiosApi.get("bus-owner/view-notifications/");
       setNotifications(response.data);
       console.log(response.data);
       setNotificationCount(response.data.length); 
@@ -45,8 +44,8 @@ function BusNavBar() {
   };
   const changenotificationstatus = async () => {
     try{
-      const response = await axiosApi.put("http://127.0.0.1:8000/bus-owner/change-notification-status/");
-      setChangeStatus(response.data);
+      const response = await axiosApi.put("bus-owner/change-notification-status/");
+      const changeStatus = response.data;
     }
     catch (error){
       console.error('Error fetching new notifications:', error);
