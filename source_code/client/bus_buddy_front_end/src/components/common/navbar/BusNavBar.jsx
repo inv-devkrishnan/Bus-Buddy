@@ -44,8 +44,7 @@ function BusNavBar() {
   };
   const changenotificationstatus = async () => {
     try{
-      const response = await axiosApi.put("bus-owner/change-notification-status/");
-      const changeStatus = response.data;
+      await axiosApi.put("bus-owner/change-notification-status/");
     }
     catch (error){
       console.error('Error fetching new notifications:', error);
