@@ -13,7 +13,6 @@ import UpdateFormCard from "./UpdateFormCard";
 
 export default function UserProfilePage(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
-
   const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
   const [updateProfileView, setUpdateProfileView] = useState(false);

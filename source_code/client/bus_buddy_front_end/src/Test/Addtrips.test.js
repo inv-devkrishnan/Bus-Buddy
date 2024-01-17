@@ -178,7 +178,6 @@ describe("ReviewHistory component", () => {
   }
 
   mock.onGet(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${'2024-01-16'}&end=${'2024-01-16'}`).reply(200, data);
-  mock.onGet(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${'2024-01-15'}&end=${'2024-01-15'}`).reply(200, data);
   mock.onGet("http://127.0.0.1:8000/bus-owner/view-routes/").reply(200, routeData);
 
     render(
@@ -194,7 +193,7 @@ describe("ReviewHistory component", () => {
       const endDateField = screen.getByLabelText("End Date :");
       fireEvent.change(endDateField,{target:{value :"2024-01-16"}})
 
-      const serachButton = screen.getByText("Add");
+      const serachButton = screen.getByText("search");
       fireEvent.click(serachButton);
 
       const busSelect = screen.getByTestId("bus-select");
@@ -202,12 +201,6 @@ describe("ReviewHistory component", () => {
 
       const routeSelect = screen.getByTestId("route-select");
       fireEvent.change(routeSelect,{target:{value:"3"}});
-
-      const startDateFieldf = screen.getByLabelText("Start Date :");
-      fireEvent.change(startDateFieldf,{target :{value:"2024-01-15"}});
-
-      const endDateFieldf = screen.getByLabelText("End Date :");
-      fireEvent.change(endDateFieldf,{target:{value :"2024-01-15"}})
 
       const addButton = screen.getByText("Add");
       fireEvent.click(addButton);

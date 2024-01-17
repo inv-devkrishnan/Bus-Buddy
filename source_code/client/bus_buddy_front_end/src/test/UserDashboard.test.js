@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import UserDashboard from "../pages/UserDashboard";
 
@@ -12,7 +12,6 @@ jest.mock("../utils/hooks/useAuth", () => ({
   useAuthStatus: jest.fn(() => true),
 }));
 
-jest.mock("../components/common/SideBar");
 jest.mock("../pages/DeleteAccount");
 jest.mock("../components/User/UserProfilePage");
 jest.mock("../components/User/UserBookingHistory");
@@ -24,5 +23,16 @@ describe("UserDashboard component", () => {
 
   it("renders component", () => {
     render(<UserDashboard />);
+    const profileButton = screen.getByText("My Profile");
+    fireEvent.click(profileButton)
+    const tripButton = screen.getByText("My Trips");
+    fireEvent.click(tripButton)
+    const reviewButton = screen.getByText("My Reviews");
+    fireEvent.click(reviewButton)
+    const complaintButton = screen.getByText("Register Complaint");
+    fireEvent.click(complaintButton)
+    const deleteButton = screen.getByText("Delete Account");
+    fireEvent.click(deleteButton)
+
   });
 });

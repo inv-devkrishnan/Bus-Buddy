@@ -94,7 +94,7 @@ export default function Viewallbus() {
     return data.map((trip) => (
       <div key={trip.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>
         <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
+          <Accordion.Item eventKey="1" data-testid = "accordian-button">
             <Accordion.Header>
               <h4>{trip.start_point_name}-{trip.end_point_name}</h4>
             </Accordion.Header>
@@ -124,12 +124,14 @@ export default function Viewallbus() {
                 <button
                   className="btn btn-primary"
                   onClick={() => update(trip.id)}
+                  data-testid = "update-button"
                 >
                   Update
                 </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(trip)}
+                  data-testid = "delete-button"
                 >
                   Delete
                 </button>

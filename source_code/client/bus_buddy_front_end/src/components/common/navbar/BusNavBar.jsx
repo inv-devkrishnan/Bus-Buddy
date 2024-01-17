@@ -75,11 +75,16 @@ function BusNavBar() {
 
   useEffect(() => {
     getUserInfo();
-    fetchNotifications(); // Fetch notifications when the component mounts
-
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
+    if (
+      localStorage.getItem("user_role") &&
+      localStorage.getItem("user_role") !== "-1"
+    ) {
+      fetchNotifications(); // Fetch notifications when the component mounts
+      const interval = setInterval(fetchNotifications, 30000);
+      return () => clearInterval(interval);
+    }
   }, []);
+
   return (
     <Navbar
       expand="lg"
@@ -112,7 +117,7 @@ function BusNavBar() {
           </Nav>
 
           <div className="ms-auto d-flex align-items-center">
-            {user.role !== "-1" && (
+            {user.role !== "-1" && user.role !== "Guest" && (
               <NavDropdown
                 title={
                   <>

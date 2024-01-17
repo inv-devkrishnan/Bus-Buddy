@@ -115,11 +115,12 @@ function UserSleeper(props) {
           onClick={handleSelect}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
+          data-testid="selected sleeper button"
         >
           {select ? (
-            <img src={Selected} alt="sleeper" draggable="false" />
+            <img src={Selected} alt="selected" draggable="false" />
           ) : (
-            <img src={Sleeper} alt="selected" draggable="false" />
+            <img src={Sleeper} alt="sleeper" draggable="false" />
           )}
         </IconButton>
       )}

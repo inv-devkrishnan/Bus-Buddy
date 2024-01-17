@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import SeatDetailCard from "../components/User/SeatDetailCard";
 import { Card } from "@mui/material";
@@ -55,7 +55,6 @@ jest.mock("react-bootstrap", () => ({
 }));
 
 describe("SeatDetailCard component", () => {
-
   it("renders component", () => {
     useNavigate.mockImplementation(() => jest.fn());
     Card.mockImplementation(() => jest.fn());
