@@ -106,12 +106,116 @@ const addLocationAndStops = async () =>
       target: { value: "10:15:00" },
     });
     fireEvent.click(screen.getByText("Add Stop"));
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:20:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
 }
 describe("AddRouteCard component", () => {
   useNavigate.mockImplementation(() => jest.fn());
 
   it("add stop and location valid", async() => {
     await addLocationAndStops();
+  });
+
+    it("add stop and location invalid stop time", async() => {
+    await addLocationAndStops();
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:18:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
+  });
+
+  it("add stop and with different offset location", async() => {
+    mock.onGet(`get-location-data/`).reply(200, data);
+    render(<AddRouteCard />);
+    fireEvent.click(screen.getByText("Add Location"));
+    await new Promise(resolve => setTimeout(resolve, 2000)); // to load locations
+    fireEvent.change(screen.getByTestId("arrival-time"), {
+      target: { value: "10:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("arrival-date-offset"), {
+      target: { value: "0" },
+    });
+    fireEvent.change(screen.getByTestId("depature-time"), {
+      target: { value: "11:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("depature-date-offset"), {
+      target: { value: "1" },
+    });
+    fireEvent.click(screen.getByTestId("add-location-box"));
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:15:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:20:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
+  });
+
+   it("add stop and with different offset location invalid case", async() => {
+    mock.onGet(`get-location-data/`).reply(200, data);
+    render(<AddRouteCard />);
+    fireEvent.click(screen.getByText("Add Location"));
+    await new Promise(resolve => setTimeout(resolve, 2000)); // to load locations
+    fireEvent.change(screen.getByTestId("arrival-time"), {
+      target: { value: "10:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("arrival-date-offset"), {
+      target: { value: "0" },
+    });
+    fireEvent.change(screen.getByTestId("depature-time"), {
+      target: { value: "11:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("depature-date-offset"), {
+      target: { value: "1" },
+    });
+    fireEvent.click(screen.getByTestId("add-location-box"));
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:15:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
+    fireEvent.change(screen.getByPlaceholderText("Stop Name"), {
+      target: { value: "defd" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Landmark"), {
+      target: { value: "dasdasd" },
+    });
+    fireEvent.change(screen.getByTestId("stop-time"), {
+      target: { value: "10:05:00" },
+    });
+    fireEvent.click(screen.getByText("Add Stop"));
   });
 
   it("add stop and location  invalid time", async() => {

@@ -65,6 +65,8 @@ export default function ComplaintForm() {
   });
 
   const onSubmit = (values, actions) => {
+    console.log("Formik Errors:", actions.errors);
+
     // complaint form submission
     showLoadingAlert("Registering complaint");
 

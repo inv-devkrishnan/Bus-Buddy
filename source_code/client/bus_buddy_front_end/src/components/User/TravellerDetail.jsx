@@ -224,6 +224,7 @@ const TravellerDetail = () => {
 
                   <Form.Group className="d-flex align-self-center flex-column m-2">
                     <Form.Check
+                      data-testid="gender-radio"
                       name={`gender_${seatId}`}
                       type="radio"
                       label="male"

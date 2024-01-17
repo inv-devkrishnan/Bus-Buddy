@@ -61,7 +61,7 @@ export default function FormComponent(props) {
   const onSubmit = () => {
     // api call for storing seat details
     axiosApi
-      .post("http://127.0.0.1:8000/bus-owner/add-seat-details", {
+      .post("bus-owner/add-seat-details", {
         bus: props.bus,
         seat_ui_order: propsData,
         seat_number: formik.values.seatNumber,

@@ -309,7 +309,7 @@ export default function ReviewHistory() {
                     cols={10}
                     name="review_body"
                     id="review_body"
-                    placeholder={"Review Body"}
+                    placeholder="Review Body"
                     maxLength={3000}
                     isInvalid={
                       formikProps.errors.review_body &&

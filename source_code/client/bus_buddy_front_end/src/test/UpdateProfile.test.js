@@ -78,6 +78,7 @@ describe("update profile", () => {
       expect(screen.getByTestId("update-profile")).toBeInTheDocument();
     });
     submitForm("Dev", "VA", "dev@gmail.com", "9400531221");
+    await new Promise(resolve => setTimeout(resolve, 1000));
   });
   test("enter details blank", async () => {
     await renderForm();
@@ -102,6 +103,13 @@ describe("update profile", () => {
 
     submitPlatformCharges(10);
     mock.onPut(`account/platformcharges/`).reply(200, "done");
+  });
+
+  test("platform charge failed", async () => {
+    await renderForm();
+
+    submitPlatformCharges(10);
+    mock.onPut(`account/platformcharges/`).reply(400);
   });
 
   test("platform charge null", async () => {

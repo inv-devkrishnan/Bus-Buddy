@@ -149,7 +149,7 @@ describe("ReviewHistory component", () => {
         },
       ],
     };
-    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data)
+    mock.onGet(`user/review-history/?page=${1}&&ordering=`).reply(200, data);
 
     render(<ReviewHistory />);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -200,6 +200,15 @@ describe("ReviewHistory component", () => {
     fireEvent.click(editButton);
 
     mock.onGet(`user/review-update/?review_id=25`).reply(200, data);
+
+    const titleTextbox = screen.getByPlaceholderText("Review Title");
+    fireEvent.change(titleTextbox, { target: { value: "title" } });
+
+    const bodyTextbox = screen.getByPlaceholderText("Review Body");
+    fireEvent.change(bodyTextbox, { target: { value: "body" } });
+
+    const rating = screen.getByTestId("rating");
+    fireEvent.change(rating, { target: { newValue: 1 } });
   });
 
   it("edit data-catch error", async () => {
