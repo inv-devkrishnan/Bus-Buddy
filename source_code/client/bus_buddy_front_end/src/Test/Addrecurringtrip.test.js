@@ -25,7 +25,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("Add Recurring Trip component", () => {
   it("renders component",async () => {
     const data = [
       {
@@ -175,7 +175,7 @@ describe("ReviewHistory component", () => {
         }
     ]
 }
-  mock.onGet(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${'2024-01-16'}&end=${'2024-12-25'}`).reply(200, data);
+  mock.onGet(`bus-owner/view-available-bus/?start=${'2024-01-16'}&end=${'2024-12-25'}`).reply(200, data);
     render(
         <MemoryRouter>
           <Addrecurringtrip />

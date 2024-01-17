@@ -27,7 +27,7 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-describe("ReviewHistory component", () => {
+describe("update Amenities component", () => {
   it("renders component", () => {
     const data = {
       "bus": 9,
@@ -43,7 +43,7 @@ describe("ReviewHistory component", () => {
       "tour_guide": 0,
       "cctv": 0
   }
-  mock.onGet(`http://127.0.0.1:8000/bus-owner/update-amenities/${9}/`).reply(200, data);
+  mock.onGet(`bus-owner/update-amenities/${9}/`).reply(200, data);
     render(
         <MemoryRouter>
           <UpdateAmenities />

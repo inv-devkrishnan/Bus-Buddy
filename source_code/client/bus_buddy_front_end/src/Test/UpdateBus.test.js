@@ -28,7 +28,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("Update Bus component", () => {
   it("renders component", async() => {
     const data = {
       "id": 9,
@@ -43,9 +43,9 @@ describe("ReviewHistory component", () => {
       "updated_date": "2024-01-10T11:39:33.619868Z",
       "user": 1
   }
-    mock.onGet(`http://127.0.0.1:8000/bus-owner/update-bus/${9}/`).reply(200, data);
+    mock.onGet(`bus-owner/update-bus/${9}/`).reply(200, data);
 
-    mock.onPut(`http://127.0.0.1:8000/bus-owner/update-bus/${9}/`).reply(200, data);
+    mock.onPut(`bus-owner/update-bus/${9}/`).reply(200, data);
     
 
 

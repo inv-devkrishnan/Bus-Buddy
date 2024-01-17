@@ -180,8 +180,8 @@ describe("View bus component", () => {
     "user": 1
 }
 
-    mock.onGet(`http://localhost:8000/bus-owner/view-bus/?page=${1}`).reply(200, data);
-    mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-bus/${9}/`).reply(200, deleteData);
+    mock.onGet(`bus-owner/view-bus/?page=${1}`).reply(200, data);
+    mock.onPut(`bus-owner/delete-bus/${9}/`).reply(200, deleteData);
 
     render(
       <MemoryRouter>
@@ -377,8 +377,8 @@ describe("View bus component", () => {
     "user": 1
 }
 
-    mock.onGet(`http://localhost:8000/bus-owner/view-bus/?page=${1}`).reply(200, data);
-    mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-bus/${99}/`).reply(404, deleteData);
+    mock.onGet(`bus-owner/view-bus/?page=${1}`).reply(200, data);
+    mock.onPut(`bus-owner/delete-bus/${99}/`).reply(404, deleteData);
 
     render(
       <MemoryRouter>

@@ -5,7 +5,7 @@ import Addroutes from "../components/BusOwnerUi/MyRoutes/Addroutes.jsx";
 import { MemoryRouter } from 'react-router-dom';
 
 jest.mock("../components/AddRouteCard.jsx");
-describe("ReviewHistory component", () => {
+describe("Add Routes component", () => {
   it("renders component", () => {
     render(
         <MemoryRouter>

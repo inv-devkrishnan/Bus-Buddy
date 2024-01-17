@@ -16,7 +16,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("View Route component", () => {
   it("renders component",async () => {
     const data = {
       "page_size": 15,
@@ -166,9 +166,9 @@ describe("ReviewHistory component", () => {
         }
     ]
 }
-  mock.onGet(`http://localhost:8000/bus-owner/view-routes/?page=${1}`).reply(200, data);
-  mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-routes/${56}/`).reply(404, deleteData);
-  mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-routes/${3}/`).reply(200, deleteData);
+  mock.onGet(`bus-owner/view-routes/?page=${1}`).reply(200, data);
+  mock.onPut(`bus-owner/delete-routes/${56}/`).reply(404, deleteData);
+  mock.onPut(`bus-owner/delete-routes/${3}/`).reply(200, deleteData);
  
     render(
         <MemoryRouter>
@@ -335,8 +335,8 @@ describe("ReviewHistory component", () => {
         }
     ]
 }
-  mock.onGet(`http://localhost:8000/bus-owner/view-routes/?page=${1}`).reply(200, data);
-  mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-routes/${56}/`).reply(404, deleteData);
+  mock.onGet(`bus-owner/view-routes/?page=${1}`).reply(200, data);
+  mock.onPut(`bus-owner/delete-routes/${56}/`).reply(404, deleteData);
  
     render(
         <MemoryRouter>
