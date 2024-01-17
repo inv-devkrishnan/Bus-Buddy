@@ -6,7 +6,7 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User,Amenities,Trip,Routes,LocationData
+from .models import Bus, User,Amenities,Trip,Routes,LocationData,StartStopLocations
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -43,25 +43,7 @@ class BaseTest(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
-        self.loc_1=LocationData.objects.create(
-            location_name = "Alapuzhya"
-        )
-        self.loc_2=LocationData.objects.create(
-            location_name = "Thrivanthapuram"
-        )
-        loc_1_id = self.loc_1.id
-        loc_2_id = self.loc_2.id
         
-        self.route = Routes.objects.create(
-            user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
-        )
-        route_id = self.route.id
-        bus_id=self.bus.id
-        self.amenities = Amenities.objects.create(
-            bus=self.bus
-        )
-        amenities_id = self.amenities.id
-
         self.valid_all_values_seat_details = {
             "bus": self.bus.id,
             "seat_ui_order": 11,
@@ -293,6 +275,71 @@ class BaseTest(TestCase):
             "extra_charges": valid_extra_charges,
         }
 
+        
+        return super().setUp()
+    
+class BaseTest2(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+        self.register_bus_owner = reverse("register-bus-owner")
+        self.create_bus = reverse("add-bus")
+        
+        self.user = User.objects.create_user(
+            email=valid_email,
+            password=valid_password,
+            phone=valid_phone,
+            company_name=valid_company_name,
+            aadhaar_no=valid_aadhaar,
+            msme_no=valid_msme,
+            account_provider=0,
+            role=3,
+        )
+
+        self.client.force_authenticate(self.user)
+        self.bus = Bus.objects.create(
+            bus_name="Bus2", plate_no="CD456EF", user=self.user
+        )
+        self.loc_1=LocationData.objects.create(
+            location_name = "Alapuzhya"
+        )
+        self.loc_2=LocationData.objects.create(
+            location_name = "Thrivanthapuram"
+        )
+        
+        loc_1_id = self.loc_1.id
+        loc_2_id = self.loc_2.id
+        
+        self.route = Routes.objects.create(
+            user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
+        )
+        route_id = self.route.id
+        bus_id=self.bus.id
+        self.amenities = Amenities.objects.create(
+            bus=self.bus
+        )
+        amenities_id = self.amenities.id
+        self.start_stop_1 =StartStopLocations.objects.create(
+            seq_id=1,
+            location=self.loc_1,
+            arrival_time="10:00",  
+            departure_time="11:00",
+            arrival_date_offset=0,
+            departure_date_offset=0,
+            status=0,
+            route=self.route,
+        )
+        self.start_stop_2 =StartStopLocations.objects.create(
+            seq_id=2,
+            location=self.loc_2,
+            arrival_time="13:00",  
+            departure_time="14:00",
+            arrival_date_offset=0,
+            departure_date_offset=0,
+            status=0,
+            route=self.route,
+        )
+        
         self.create_bus_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
@@ -431,8 +478,8 @@ class BaseTest(TestCase):
         self.create_trip = {
             "bus" : bus_id,
             "route" : route_id,
-            "start_date" : "2024-12-09",
-            "end_date" : "2024-12-09",
+            "start_date" : "2024-06-09",
+            "end_date" : "2024-06-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
             
@@ -440,7 +487,7 @@ class BaseTest(TestCase):
         self.cant_create_trip = {
             "bus" : bus_id,
             "route" : route_id,
-            "start_date" : 2024-12-9,
+            "start_date" : "2024-12-9",
             "end_date" : "2024-12-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
@@ -458,7 +505,7 @@ class BaseTest(TestCase):
         return super().setUp()
 
 
-class BusActions(BaseTest):
+class BusActions(BaseTest2):
     def test_can_create_bus(self):
         print("1")
         response = self.client.post(
@@ -489,6 +536,7 @@ class BusActions(BaseTest):
     def test_cant_update_bus_invalid_data(self):
         print("5")
         response = self.client.put(
+            
             self.update_bus, self.update_bus_invalid_data, format="json"
         )
         self.assertEqual(response.status_code, 400)

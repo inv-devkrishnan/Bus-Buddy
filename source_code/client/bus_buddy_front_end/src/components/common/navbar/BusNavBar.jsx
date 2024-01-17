@@ -72,7 +72,6 @@ function BusNavBar() {
   useEffect(() => {
     getUserInfo();
     fetchNotifications(); // Fetch notifications when the component mounts
-
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
