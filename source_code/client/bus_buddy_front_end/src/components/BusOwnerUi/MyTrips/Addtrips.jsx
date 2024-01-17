@@ -55,7 +55,7 @@ export default function Addtrips() {
     }
     // Fetch Bus data
     axiosApi
-      .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
+      .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
       .then((response) => {
         setBusData(response.data);
       })
@@ -63,7 +63,7 @@ export default function Addtrips() {
 
     // Fetch Route data
     axiosApi
-      .get("http://127.0.0.1:8000/bus-owner/view-routes/")
+      .get("bus-owner/view-routes/")
       .then((response) => {
         setRouteData(response.data.results);
       })
@@ -88,7 +88,7 @@ const formattedEndDate = selectedEndDate
   : null;
 
       const response = await axiosApi.post(
-        "http://127.0.0.1:8000/bus-owner/add-trip/",
+        "bus-owner/add-trip/",
         {
           bus: bus,
           route: route,

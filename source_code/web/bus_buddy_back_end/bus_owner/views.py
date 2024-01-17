@@ -363,7 +363,7 @@ class Viewbus(ListAPIView):
             logger.info("gettin the user is from user model")
             user_id = request.user.id
             print(user_id)
-            logger.info("fetching all the data from Bus model matching the condition")
+            logger.info("fetching all  data from Bus model matching the condition")
             queryset = Bus.objects.filter(status=0, user=user_id).order_by(
                 "-id"
             )  # to filter out bus objects which has been soft deleted
@@ -619,6 +619,7 @@ class Addtrip(APIView):
 
     def post(self, request):
         try:
+            import pdb;pdb.set_trace();
             request_data = request.data.copy()
             route = request_data["route"]
             locations = StartStopLocations.objects.filter(route_id=route).order_by(

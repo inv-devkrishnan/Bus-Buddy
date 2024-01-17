@@ -66,7 +66,7 @@ export default function Addrecurringtrip() {
     }
    // Fetch Bus data
    axiosApi
-     .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
+     .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
      .then((response) => {
        setBusData(response.data);
      })
@@ -75,7 +75,7 @@ export default function Addrecurringtrip() {
 
    // Fetch Route data
    axiosApi
-     .get("http://127.0.0.1:8000/bus-owner/view-routes/")
+     .get("bus-owner/view-routes/")
      .then((response) => {
        setRouteData(response.data.results);
      })
@@ -139,7 +139,7 @@ export default function Addrecurringtrip() {
         setEndDateError("")
        }
        const response = await axiosApi.post(
-       `http://127.0.0.1:8000/bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
+       `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
        {
            bus: bus,
            route: route,
