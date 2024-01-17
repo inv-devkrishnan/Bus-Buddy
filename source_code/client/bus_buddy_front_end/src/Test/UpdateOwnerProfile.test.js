@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
 import UpdateOwnerProfile from "../components/BusOwnerUi/UpdateOwnerProfile"
-describe("ReviewHistory component", () => {
+describe("Update OwnerProfile component", () => {
   it("renders component", () => {
     render(
         <MemoryRouter>
