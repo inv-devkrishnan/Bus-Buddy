@@ -346,12 +346,14 @@ class RoutesSerializer(serializers.ModelSerializer):
         model = Routes
         fields = [
             "id",
+            "start_point",
             "end_point",
             "via",
             "travel_fare",
             "duration",
             "distance",
             "location",
+            "user"
         ]
 
     def create(self, validated_data):

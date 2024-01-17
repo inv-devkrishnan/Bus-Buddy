@@ -28,30 +28,25 @@ export default function RegisterCard() {
         phone: formik.values.phone,
       })
       .then((res) => {
+        console.log(res);
         if (res.status === 201) {
           Swal.fire("Success!", "Registered successfully!", "success");
           resetForm();
         }
       })
       .catch((err) => {
-        console.log(err.response);
-        if (err.response.data.email && err.response.data.phone) {
+        console.log(err);
+        if (err.response?.data?.email && err.response?.data?.phone) {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Email and phone is already registered",
-          });
-        } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
+            text: "Email and phone are required",
           });
         } else {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.phone,
+            text: "Something went wrong!",
           });
         }
       });
@@ -186,7 +181,7 @@ export default function RegisterCard() {
                 maxLength={20}
               />
               <InputGroup.Text
-                id="basic-addon1"
+                data-testid="confirm-show-password"
                 onClick={() => {
                   showConfirmPassword
                     ? setShowConfirmPassword(false)
@@ -219,7 +214,12 @@ export default function RegisterCard() {
           </Form.Group>
           <Row>
             <Col>
-              <Button data-testid="submit_button" variant="primary" type="submit" style={{ margin: "5x" }}>
+              <Button
+                data-testid="submit_button"
+                variant="primary"
+                type="submit"
+                style={{ margin: "5x" }}
+              >
                 Submit
               </Button>
               <Button

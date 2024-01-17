@@ -40,13 +40,52 @@ describe("ComplaintForm component", () => {
       target: { files: [file] },
     });
 
-    const clearButton = screen.getByText("Clear");
-    fireEvent.click(clearButton);
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
   });
 
   it("gets admin and bus owner ids-catch error", async () => {
     mock.onGet(`user/register-complaint/`).reply(400);
 
     render(<ComplaintForm />);
+  });
+
+  it("gets admin and form clear", async () => {
+    mock.onGet(`user/register-complaint/`).reply(400);
+
+    render(<ComplaintForm />);
+
+    const clearButton = screen.getByText("Clear");
+    fireEvent.click(clearButton);
+  });
+
+  it("gets admin and form submit", async () => {
+    const data = [1, [[2, "Shekar travels"]]];
+    mock.onGet(`user/register-complaint/`).reply(200, data);
+
+    render(<ComplaintForm />);
+
+    const subjectTextbox = screen.getByPlaceholderText("Subject");
+    fireEvent.change(subjectTextbox, {
+      target: { value: "title" },
+    });
+
+    const descriptionTextbox = screen.getByPlaceholderText("Tell us the details of your issue.");
+    fireEvent.change(descriptionTextbox, {
+      target: { value: "ygdfugsdgf zgfcyuzgdfchsdvfc zxcdvgxdfvytscf zxcvbgdcftygscdvh" },
+    });
+    
+    const adminRadio = screen.getByTestId("admin_radio");
+    fireEvent.click(adminRadio);
+
+    const file = new File(["(⌐□_□)"], "sample.jpg", { type: "image/jpg" });
+    const photoInput = screen.getByLabelText("Upload image as proof:");
+    fireEvent.click(photoInput);
+    fireEvent.change(photoInput, {
+      target: { files: [file] },
+    });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
   });
 });
