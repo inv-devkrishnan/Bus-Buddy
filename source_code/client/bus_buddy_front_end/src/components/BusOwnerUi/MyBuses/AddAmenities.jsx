@@ -36,7 +36,7 @@ export default function Addamenities() {
     e.preventDefault();
     try {
       const response = await axiosApi.post(
-        "http://localhost:8000/bus-owner/add-amenities/",
+        "bus-owner/add-amenities/",
         {
           bus: bus,
           ...formState,

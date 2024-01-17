@@ -352,6 +352,8 @@ class RoutesSerializer(serializers.ModelSerializer):
             "duration",
             "distance",
             "location",
+            "user",
+            "start_point",
         ]
 
     def create(self, validated_data):
