@@ -33,11 +33,17 @@ function UserSleeper(props) {
         if (seat.seat_ui_order === props.row * 10 + props.column) {
           handleSelect();
           break;
+        } else {
+          console.log(seat);
         }
       }
+    } else {
+      console.log("no seat_list");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log((seatData));
 
   useEffect(() => {
     // for finding seat ui order and the respective data

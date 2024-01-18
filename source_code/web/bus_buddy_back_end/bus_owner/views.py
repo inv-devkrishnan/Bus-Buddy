@@ -497,6 +497,7 @@ class Addroutes(APIView):
             request_data = request.data.copy()
             logger.info("fetching user obj ")
             request_data["user"] = request.user.id
+            print(request_data)
             serializer = RoutesSerializer(data=request_data)
             if serializer.is_valid():
                 serializer.save()

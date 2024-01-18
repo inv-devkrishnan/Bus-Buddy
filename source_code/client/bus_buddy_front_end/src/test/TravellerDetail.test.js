@@ -1,8 +1,23 @@
-import React, { useContext } from "react";
-import { render } from "@testing-library/react";
+import React from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import TravellerDetail from "../components/User/TravellerDetail";
-import { useNavigate } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
+import { SeatContextProvider } from "../utils/SeatContext";
+import { AddSeatContextProvider } from "../utils/AddSeatContext";
+import { UserContextProvider } from "../components/User/UserContext";
+import { axiosApi } from "../utils/axiosApi";
+import MockAdapter from "axios-mock-adapter";
+
+let mock;
+
+beforeEach(() => {
+  mock = new MockAdapter(axiosApi);
+});
+
+afterEach(() => {
+  mock.restore();
+});
 
 const currentTrip = {
   data: {
@@ -40,26 +55,13 @@ const currentTrip = {
     startLocationName: "Ernakulam",
   },
 };
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: jest.fn(),
-}));
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useContext: jest.fn(),
-}));
-jest.mock("react-bootstrap", () => ({
-  ...jest.requireActual("react-bootstrap"),
-  Card: jest.fn(),
-}));
+
 jest.mock("../utils/hooks/useAuth", () => ({
   ...jest.requireActual("../utils/hooks/useAuth"),
   useAuthStatus: jest.fn().mockReturnValue(true),
 }));
 
 describe("TravellerDetail component", () => {
-  useNavigate.mockImplementation(() => jest.fn());
-  useContext.mockImplementation(() => jest.fn());
   localStorage.setItem("total_amount", 1000);
   localStorage.setItem(
     "seat_list",
@@ -67,7 +69,49 @@ describe("TravellerDetail component", () => {
   );
   localStorage.setItem("current_trip", JSON.stringify(currentTrip));
 
-  it("renders component", () => {
-    render(<TravellerDetail />);
+  it("renders component unauthorized", () => {
+    localStorage.setItem("user_role", 11);
+
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <TravellerDetail />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+  });
+
+  it("renders component", async () => {
+    localStorage.setItem("user_role", 2);
+
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <TravellerDetail />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const nameTextbox = screen.getByPlaceholderText("Enter name");
+    fireEvent.change(nameTextbox, { target: { value: "name" } });
+
+    const dob = screen.getByPlaceholderText("Enter DOB");
+    fireEvent.change(dob, { target: { value: "2024-12-12" } });
+
+    const radio = screen.getByTestId("gender-radio")
+    fireEvent.click(radio)
+
+    const bookButton = screen.getByText("Book Seat")
+    fireEvent.click(bookButton)
+    mock.onPost("user/create-payment-intent/").reply(200)
   });
 });
