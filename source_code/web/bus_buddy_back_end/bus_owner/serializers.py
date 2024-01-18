@@ -72,6 +72,9 @@ class BusSerializer(serializers.ModelSerializer):
                 regex=r"^[A-Za-z0-9]+$",
                 message="Invalid Plate Number format. It should contain only letters and numbers.",
             ),
+            UniqueValidator(
+                queryset=Bus.objects.all(), message="Plate no already exist"
+            ),
         ],
     )
     bus_seat_type = serializers.IntegerField(
@@ -113,12 +116,6 @@ class BusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
         fields = "__all__"
-
-    def validate_plate_no(self, value):
-        queryset = Bus.objects.filter(plate_no=value)
-        if queryset.exists():
-            raise serializers.ValidationError("Plate number must be unique.")
-        return value
 
 
 def validate_zero_or_one(value):
