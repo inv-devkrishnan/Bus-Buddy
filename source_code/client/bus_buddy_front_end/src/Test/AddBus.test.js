@@ -3,7 +3,7 @@ import { fireEvent, render,screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
 import AddBus from "../components/BusOwnerUi/MyBuses/AddBus"
-describe("ReviewHistory component", () => {
+describe("Add Bus component", () => {
   it("renders component",async () => {
     render(
         <MemoryRouter>

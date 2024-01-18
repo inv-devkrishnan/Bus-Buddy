@@ -16,7 +16,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("View Trips component", () => {
   it("renders component",async () => {
     const data ={
       "page_size": 15,
@@ -131,8 +131,8 @@ describe("ReviewHistory component", () => {
     "route": 1
 }
 
-mock.onGet(`http://localhost:8000/bus-owner/view-trip/?page=${1}`).reply(200, data);
-mock.onPut(`http://127.0.0.1:8000/bus-owner/delete-trip/${20}/`).reply(200, deleteData);
+mock.onGet(`bus-owner/view-trip/?page=${1}`).reply(200, data);
+mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
     render(
         <MemoryRouter>
           <ViewTrips />

@@ -16,7 +16,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("View Review component", () => {
   it("renders component",async () => {
     const data ={
       "page_size": 15,
@@ -102,7 +102,7 @@ describe("ReviewHistory component", () => {
       ]
   }
 
-  mock.onGet(`http://localhost:8000/bus-owner/view-reviews/?page=${1}`).reply(200, data);
+  mock.onGet(`bus-owner/view-reviews/?page=${1}`).reply(200, data);
     render(
         <MemoryRouter>
           <ViewReviews />
@@ -199,7 +199,7 @@ describe("ReviewHistory component", () => {
       ]
   }
 
-  mock.onGet(`http://localhost:8000/bus-owner/view-reviews/?page=${1}`).reply(200, data);
+  mock.onGet(`bus-owner/view-reviews/?page=${1}`).reply(200, data);
     render(
         <MemoryRouter>
           <ViewReviews />

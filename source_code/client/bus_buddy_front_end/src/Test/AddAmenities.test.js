@@ -17,7 +17,7 @@ afterEach(() => {
   mock.restore();
 });
 
-describe("ReviewHistory component", () => {
+describe("Add Amenities component", () => {
   it("renders component",async () => {
     const data = {
       "bus": 48,
@@ -34,7 +34,7 @@ describe("ReviewHistory component", () => {
       "cctv": 0
   } 
 
-  mock.onGet("http://localhost:8000/bus-owner/add-amenities/",).reply(200, data);
+  mock.onGet("bus-owner/add-amenities/",).reply(200, data);
 
     render(
         <MemoryRouter>
