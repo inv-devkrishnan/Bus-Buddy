@@ -818,94 +818,98 @@ class Viewavailablebus(ListAPIView):
 
 
 class Addreccuringrip(APIView):
-    """
-    Function to add new trip from bus owner
-    """
-
     permission_classes = (IsAuthenticated,)
-    serializer = None
 
-    def post(
-        self,
-        request,
-    ):
+    def post(self, request):
         try:
             request_data = request.data.copy()
-            print(request_data)
             request_data["user"] = request.user.id
+
             start_date_str = request_data["start_date"]
             end_date_str = request_data["end_date"]
             routes = request_data["route"]
+
             loc = StartStopLocations.objects.filter(route=routes).order_by("seq_id")
-            print(loc)
             seq_first = loc.first()
             seq_last = loc.last()
-            print(seq_first.arrival_time)
-            print(seq_last.departure_time)
+
             recurrence_type = request_data["recurrence"]
-            print("recurence")
-            print(recurrence_type)
-            start_date = datetime.strptime(start_date_str, date_format)
-            end_date = datetime.strptime(end_date_str, date_format)
-            start_time = seq_first.arrival_time
-            end_time = seq_last.departure_time
-            start_datetime = datetime.combine(start_date, start_time)
-            end_datetime = datetime.combine(end_date, end_time)
+
+            start_date, end_date = datetime.strptime(start_date_str, date_format), datetime.strptime(end_date_str, date_format)
+            start_time, end_time = seq_first.arrival_time, seq_last.departure_time
+            start_datetime, end_datetime = datetime.combine(start_date, start_time), datetime.combine(end_date, end_time)
+
             duration = end_datetime - start_datetime
-            print(duration)
             no_of_days = duration.days
-            print(no_of_days)
-            psd_str = request.GET.get("start")
-            ped_str = request.GET.get("end")
-            psd = datetime.strptime(psd_str, date_format)
-            ped = datetime.strptime(ped_str, date_format) + timedelta(days=1)
-            period = ped - psd
-            if psd <= start_datetime <= ped and psd <= end_datetime <= ped:
-                trip_objects = []
-                print("it is in the range ")
-                if recurrence_type == 1:
-                    iterations = (ped - psd).days + 1  # Daily recurrence
-                elif recurrence_type == 2:
-                    iterations = (ped - psd).days // 7 + 1  # Weekly recurrence
-                else:
-                    return Response({"error": "Invalid recurrence type"}, status=400)
-                if recurrence_type == 1:
-                    period = timedelta(days=1)
-                elif recurrence_type == 2:
-                    period = timedelta(weeks=1)
-                else:
-                    return Response({"error": "Invalid recurrence type"}, status=400)
-                for i in range(iterations):
-                    current_start_date = start_datetime + i * period
-                    current_end_date = end_datetime + i * period
-                    print(current_start_date)
-                    print(current_end_date)
-                    if current_end_date > ped or current_start_date > ped:
-                        break
-                    else:
-                        current_request_data = request_data.copy()
-                        current_request_data[
-                            "start_date"
-                        ] = current_start_date.strftime(date_format)
-                        current_request_data["end_date"] = current_end_date.strftime(
-                            date_format
-                        )
-                        current_request_data["start_time"] = start_time
-                        current_request_data["end_time"] = end_time
-                        current_serializer = TripSerializer(data=current_request_data)
-                        if current_serializer.is_valid():
-                            current_serializer.save()
-                            trip_objects.append(current_serializer.data)
-                        else:
-                            return Response(
-                                {"message": current_serializer.errors}, status=400
-                            )
+
+            psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
+            psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
+
+            if self.is_in_date_range(start_datetime, end_datetime, psd, ped):
+                trip_objects = self.generate_recurring_trips(request_data, start_datetime, end_datetime, psd, ped, recurrence_type)
                 return Response({"message": "Trips inserted", "trips": trip_objects})
             else:
-                return Response({"message": "failed to add recurring trip"}, status=400)
+                return Response({"message": "Failed to add recurring trip"}, status=400)
+
         except ValidationError:
             logger.info(entry)
             return Response(entry, status=400)
+
+    def is_in_date_range(self, start_datetime, end_datetime, psd, ped):
+        return psd <= start_datetime <= ped and psd <= end_datetime <= ped
+
+    def generate_recurring_trips(self, request_data, start_datetime, end_datetime, psd, ped, recurrence_type):
+        trip_objects = []
+        iterations = self.calculate_iterations(psd, ped, recurrence_type)
+
+        if not self.is_valid_recurrence_type(recurrence_type) or iterations is None:
+            return Response({"error": "Invalid recurrence type"}, status=400)
+
+        period = self.calculate_period(recurrence_type)
+
+        for i in range(iterations):
+            current_start_date = start_datetime + i * period
+            current_end_date = end_datetime + i * period
+
+            if not self.is_within_date_range(current_end_date, ped):
+                break
+
+            current_request_data = self.update_request_data_dates(request_data, current_start_date, current_end_date, start_datetime.time(), end_datetime.time())
+
+            current_serializer = TripSerializer(data=current_request_data)
+
+            if current_serializer.is_valid():
+                current_serializer.save()
+                trip_objects.append(current_serializer.data)
+            else:
+                return Response({"message": current_serializer.errors}, status=400)
+
+        return trip_objects
+
+    def calculate_iterations(self, psd, ped, recurrence_type):
+        if recurrence_type == 1:
+            return (ped - psd).days + 1  # Daily recurrence
+        elif recurrence_type == 2:
+            return (ped - psd).days // 7 + 1  # Weekly recurrence
+        else:
+            return None
+
+    def is_valid_recurrence_type(self, recurrence_type):
+        return recurrence_type in [1, 2]
+
+    def calculate_period(self, recurrence_type):
+        return timedelta(days=1) if recurrence_type == 1 else timedelta(weeks=1)
+
+    def is_within_date_range(self, current_end_date, ped):
+        return current_end_date <= ped
+
+    def update_request_data_dates(self, request_data, current_start_date, current_end_date, start_time, end_time):
+        current_request_data = request_data.copy()
+        current_request_data["start_date"] = current_start_date.strftime(date_format)
+        current_request_data["end_date"] = current_end_date.strftime(date_format)
+        current_request_data["start_time"] = start_time
+        current_request_data["end_time"] = end_time
+        return current_request_data
         
 class Viewnotifications(ListAPIView):
     # permission_classes = (IsAuthenticated,)
