@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
-import { Pagination } from "react-bootstrap";
+import CustomPaginator from "../../common/paginator/CustomPaginator";
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [next, setNext] = useState(1);
-  const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [active, setActive] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
 
   const navi = useNavigate();
@@ -58,74 +55,21 @@ export default function Viewallbus() {
       });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axiosApi.get(
-        `bus-owner/view-bus/?page=${page}`
-      );
+  const fetchData = useCallback(async (page) => {
+    try {
+      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}`);
       setData(response.data.results);
       console.log(response.data.results);
-      setNext(response.data.has_next);
-      setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
-    };
-    fetchData();
-  }, [page,deletedBusFlag]);
-  const handlePrevious = () => {
-    setActive(active - 1);
-    setPage(page - 1);
-  };
+      setCurrentPage(response.data.current_page_number);
+    } catch(err) {
+      console.error("Error:", err);}
+  }, []);
 
-  const handleNext = () => {
-    setActive(active + 1);
-    setPage(page + 1);
-  };
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [fetchData,currentPage,deletedBusFlag]);
 
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-
-  const paginationBasic = (
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
   // Function to get the bus type label
   const getBusTypeLabel = (busType) => {
     if (busType === 0) {
@@ -179,28 +123,32 @@ export default function Viewallbus() {
                 <button
                   className="btn btn-primary"
                   onClick={() => update(viewbus.id)}
-                  data-testid = "update-button"
+                  data-testid="update-button"
                 >
                   Update
                 </button>
                 <button
                   className="btn btn-primary"
                   onClick={() => addSeatDetails(viewbus.id)}
-                  data-testid = "add-seat-button"
+                  data-testid="add-seat-button"
                 >
                   Seat Details
                 </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => deleted(viewbus.id)}
-                  data-testid = "delete-button"
+                  data-testid="delete-button"
                 >
                   Delete
                 </button>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid = "accordian-button">
+          <Accordion.Item
+            eventKey="0"
+            onClick={() => viewbus.id}
+            data-testid="accordian-button"
+          >
             <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
               {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
@@ -209,7 +157,7 @@ export default function Viewallbus() {
                   <button
                     className="btn btn-primary"
                     onClick={() => updateAmenities(viewbus.id)}
-                    data-testid = "update-amenities-button"
+                    data-testid="update-amenities-button"
                   >
                     Update amenities
                   </button>
@@ -223,7 +171,7 @@ export default function Viewallbus() {
                   <button
                     className="btn btn-primary"
                     onClick={() => addAmenities(viewbus.id)}
-                    data-testid = "add-amenities-button"
+                    data-testid="add-amenities-button"
                   >
                     Add amenities
                   </button>
@@ -236,18 +184,16 @@ export default function Viewallbus() {
     ));
   };
 
-  
-
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <h1 className="mx-auto">Viewall</h1>
-      <Form style={{ textAlign: "center" }}>
-        <Link to={"/AddBus"}>
-          <button className="btn btn-primary"> + Add Bus</button>
-        </Link>
-      </Form>
-    </Navbar>
+        <h1 className="mx-auto">Viewall</h1>
+        <Form style={{ textAlign: "center" }}>
+          <Link to={"/AddBus"}>
+            <button className="btn btn-primary"> + Add Bus</button>
+          </Link>
+        </Form>
+      </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
         style={{
@@ -258,7 +204,11 @@ export default function Viewallbus() {
           flexDirection: "column",
         }}
       >
-        {paginationBasic}
+        <CustomPaginator
+          totalPages={totalPages}
+          currentPage={currentPage}
+          viewPage={fetch}
+        />
       </div>
     </div>
   );
