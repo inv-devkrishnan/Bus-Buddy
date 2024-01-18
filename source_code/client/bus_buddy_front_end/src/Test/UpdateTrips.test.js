@@ -10,8 +10,8 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
   useLocation: jest.fn().mockReturnValue({
-    state: { id: 9 }, // Add the state object with the id property
-    pathname: "../components/BusOwnerUi/MyBuses/ViewBus.jsx",
+    state: { id: 22 }, // Add the state object with the id property
+    pathname: "../components/BusOwnerUi/MyTrips/ViewTrips.jsx",
   }),
 }));
 
@@ -331,7 +331,20 @@ describe("Update trips component", () => {
           }
       ]
   }
-
+  const tripData ={
+    "id": 22,
+    "bus": 1,
+    "route": 1,
+    "user": 1,
+    "start_date": "2024-01-29",
+    "end_date": "2024-01-30",
+    "start_time": "09:00",
+    "end_time": "10:45",
+    "status": 0,
+    "created_date": "2023-12-29T04:07:30.925466Z",
+    "updated_date": "2023-12-29T05:51:47.236231Z"
+}
+  mock.onGet(`bus-owner/update-trip/${22}/`).reply(200, tripData);
   mock.onGet(`bus-owner/view-available-bus/?start=${'2024-01-16'}&end=${'2024-01-16'}`).reply(200, data);
   mock.onGet("bus-owner/view-routes/").reply(200, routeData);
   mock.onGet(`bus-owner/view-bus/`).reply(200, busData);

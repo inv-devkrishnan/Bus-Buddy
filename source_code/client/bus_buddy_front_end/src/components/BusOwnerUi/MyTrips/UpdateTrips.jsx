@@ -76,7 +76,7 @@ export default function Updatetrips() {
     validationSchema: UpdateTripSchema,
     onSubmit
   });
-
+console.log(formik.errors);
   const dates = (selectedStartDate, selectedEndDate) => {
     // Fetch Bus data
     if (formik.values.startdate && formik.values.enddate) {
@@ -164,7 +164,7 @@ export default function Updatetrips() {
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-5">
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
-                  <Form.Label htmlFor="startDate">Start Date :</Form.Label>
+                  <Form.Label htmlFor="startDate">Start Date:</Form.Label>
                   <DatePicker
                     selected={formik.values.startdate}
                     onChange={(date) =>
@@ -176,6 +176,7 @@ export default function Updatetrips() {
                     maxDate={addMonths(new Date(), 6)}
                     name="startDate"
                     id="startDate"
+                    data-testid="start-date"
                   />
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom04">
@@ -204,10 +205,10 @@ export default function Updatetrips() {
                     as="select"
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     data-testid="bus-select"
-                  >
-                    <option value="">Select option</option>
+                    isInvalid={formik.touched.busName && formik.errors.busName}
+                  >Bus must be a positive number
+                    <option value="">Selected Option</option>
                     { busData.map((bus) => (
                       <option key={bus.id} value={bus.id}>
                         {bus.bus_name}
@@ -218,17 +219,17 @@ export default function Updatetrips() {
                     {formik.errors.busName}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Group as={Col} md="6">
                   <Form.Label>Route</Form.Label>
                   <Form.Control
                     name="routeName"
                     as="select"
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     data-testid = "route-select"
+                    isInvalid={formik.touched.routeName && formik.errors.routeName}
                   >
-                    <option value="">Select option</option>
+                    <option value="">Selected Option</option>
                     {routeData.map((route) => (
                       <option key={route.id} value={route.id}>
                         {route.start_point_name} - {route.end_point_name}
