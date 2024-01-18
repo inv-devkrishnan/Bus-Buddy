@@ -3,22 +3,16 @@ import { React, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import { useFormik } from "formik";
+import { Formik, Field } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
 import { axiosApi } from "../../utils/axiosApi";
 
 export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
 
-  const onSubmit = () => {
+  const onSubmit = (values) => {
     axiosApi
-      .put("user/update-profile", {
-        first_name: formik.values.firstName,
-        last_name: formik.values.lastName,
-        email: formik.values.email,
-        password: formik.values.password,
-        phone: formik.values.phone,
-      })
+      .put("user/update-profile", values)
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
@@ -36,19 +30,8 @@ export default function UpdateForm() {
         });
       });
   };
-  const formik = useFormik({
-    initialValues: {
-      firstName: currentUserData["first_name"],
-      lastName: currentUserData["last_name"],
-      email: currentUserData["email"],
-      phone: currentUserData["phone"],
-    },
-    validationSchema: UpdateSchema,
-    onSubmit,
-  });
 
-  const { resetForm } = formik;
-  const handleClear = () => {
+  const handleClear = (values, { resetForm }) => {
     resetForm();
   };
 
@@ -57,29 +40,13 @@ export default function UpdateForm() {
       .get("user/update-profile")
       .then((res) => {
         setCurrentUserData(res.data);
-        formik.setValues({
-          firstName: currentUserData["first_name"],
-          lastName: currentUserData["last_name"],
-          email: currentUserData["email"],
-          phone: currentUserData["phone"],
-        });
       })
       .catch((err) => {
         console.log(err.response);
         alert("User does not exist!!");
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    formik.setValues({
-      firstName: currentUserData["first_name"],
-      lastName: currentUserData["last_name"],
-      email: currentUserData["email"],
-      phone: currentUserData["phone"],
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserData]);
+  }, []);
 
   return (
     <Card
@@ -89,79 +56,98 @@ export default function UpdateForm() {
       }}
     >
       <Card.Body>
-        <Form onSubmit={formik.handleSubmit} id="userRegisterForm">
-          <Form.Group className="mb-3" controlId="firstName">
-            <Form.Label>First name</Form.Label>
-            <Form.Control
-              name="firstName"
-              type="text"
-              value={formik.values.firstName || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.firstName && formik.errors.firstName}
-              placeholder="Enter first name"
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.firstName}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="lastName">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
-              name="lastName"
-              type="text"
-              value={formik.values.lastName || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.lastName && formik.errors.lastName}
-              placeholder="Enter last name"
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.lastName}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              name="email"
-              type="email"
-              value={formik.values.email || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.email && formik.errors.email}
-              placeholder="Enter email"
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="phone">
-            <Form.Label>Phone number</Form.Label>
-            <Form.Control
-              name="phone"
-              type="text"
-              value={formik.values.phone || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={formik.touched.phone && formik.errors.phone}
-              maxLength={10}
-              placeholder="Phone number"
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.phone}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Button variant="primary" type="submit" style={{ margin: "4px" }}>
-            Submit
-          </Button>
-          <Button
-            variant="secondary"
-            style={{ margin: "4px" }}
-            onClick={handleClear}
-          >
-            Clear
-          </Button>
-        </Form>
+        <Formik
+          initialValues={{
+            first_name: currentUserData["first_name"],
+            last_name: currentUserData["last_name"],
+            email: currentUserData["email"],
+            phone: currentUserData["phone"],
+          }}
+          validationSchema={UpdateSchema}
+          onSubmit={onSubmit}
+          enableReinitialize={true}
+        >
+          {(formikProps) => (
+            <Form onSubmit={formikProps.handleSubmit} id="userRegisterForm">
+              <Form.Group className="mb-3">
+                <Form.Label>First name</Form.Label>
+                <Field
+                  as={Form.Control}
+                  name="first_name"
+                  id="first_name"
+                  placeholder="Enter first name"
+                  maxLength={100}
+                  isInvalid={
+                    formikProps.touched.first_name &&
+                    formikProps.errors.first_name
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formikProps.errors.first_name}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Last name</Form.Label>
+                <Field
+                  as={Form.Control}
+                  name="last_name"
+                  id="last_name"
+                  placeholder="Enter last name"
+                  maxLength={100}
+                  isInvalid={
+                    formikProps.touched.last_name &&
+                    formikProps.errors.last_name
+                  }
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formikProps.errors.last_name}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email address</Form.Label>
+                <Field
+                  as={Form.Control}
+                  name="email"
+                  id="email"
+                  maxLength={100}
+                  isInvalid={
+                    formikProps.touched.email && formikProps.errors.email
+                  }
+                  placeholder="Enter email"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formikProps.errors.email}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Phone number</Form.Label>
+                <Field
+                  as={Form.Control}
+                  name="phone"
+                  id="phone"
+                  maxLength={10}
+                  isInvalid={
+                    formikProps.touched.phone && formikProps.errors.phone
+                  }
+                  placeholder="Phone number"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formikProps.errors.phone}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Button variant="primary" type="submit" style={{ margin: "4px" }}>
+                Submit
+              </Button>
+              <Button
+                variant="secondary"
+                style={{ margin: "4px" }}
+                onClick={() => handleClear(formikProps.values, formikProps)}
+              >
+                Clear
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </Card.Body>
     </Card>
   );
