@@ -87,5 +87,8 @@ describe("ComplaintForm component", () => {
 
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
   });
 });
