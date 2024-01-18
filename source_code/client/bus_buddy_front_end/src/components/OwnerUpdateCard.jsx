@@ -48,27 +48,29 @@ export default function OwnerUpdateForm() {
         }
       })
       .catch((err) => {
-        console.log(err);
-        if (err.response.data.email && err.response.data.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone is already registered",
-          });
-        } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
-        }
+        const errorMessage = error(
+          err.response?.data?.email,
+          err.response?.data?.phone
+        );
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: errorMessage,
+        });
       });
+  };
+
+  const error = (email, phone) => {
+    if (email && phone) {
+      return "Email and phone is already registered";
+    } else if (email) {
+      return "Email is already registered";
+    } else if (phone) {
+      return "Phone is already registered";
+    } else {
+      return "Something went wrong";
+    }
   };
 
   const formik = useFormik({
