@@ -87,5 +87,6 @@ describe("ComplaintForm component", () => {
 
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
+    screen.debug()
   });
 });

@@ -144,11 +144,11 @@ export default function UserBookingHistory() {
 
   const onSubmit = (values) => {
     // review form submission
-    console.log(values);
     showLoadingAlert("Submitting review");
     axiosApi
       .post(`user/review-trip/?booking_id=${modalData?.id}`, values)
       .then((res) => {
+        console.log(res);
         Swal.fire({
           title: "Success",
           text: "Review submitted successfully",
@@ -160,6 +160,7 @@ export default function UserBookingHistory() {
         viewBookingHistory();
       })
       .catch((err) => {
+        console.log(err);
         Swal.fire({
           title: "Oops!",
           text: "Something went wrong",
@@ -556,6 +557,7 @@ export default function UserBookingHistory() {
                   <FormLabel htmlFor="review_body">Rating:</FormLabel>
                   <br />
                   <Rating
+                    data-testid="rating"
                     name="rating"
                     value={ratingValue}
                     onChange={(event, newValue) => {
