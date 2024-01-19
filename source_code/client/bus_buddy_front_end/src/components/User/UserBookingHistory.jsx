@@ -533,19 +533,19 @@ export default function UserBookingHistory() {
 
                   <Form.Control
                     as="textarea"
-                    rows={3}
-                    cols={10}
                     name="review_body"
                     id="review_body"
                     placeholder="Review Body"
+                    value={formikProps.values.review_body}
+                    onChange={formikProps.handleChange}
+                    onBlur={formikProps.handleBlur}
                     maxLength={1000}
+                    rows={3}
+                    cols={10}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body
                     }
-                    value={formikProps.values.review_body}
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
                   />
                   <ErrorMessage
                     component="span"
