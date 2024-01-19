@@ -142,7 +142,6 @@ export default function Updatebus() {
                     data-testid = "busType"
                     isInvalid={formik.touched.bustype && formik.errors.bustype}
                   >
-                    <option value="">updated option</option>
                     <option value="0"> Low floor </option>
                     <option value="1"> Multi axel </option>
                     <option value="2"> Both </option>
@@ -164,8 +163,8 @@ export default function Updatebus() {
                     isInvalid={
                       formik.touched.busseattype && formik.errors.busseattype
                     }
+                    disabled={true} 
                   >
-                    <option value="">updated option</option>
                     <option value="0"> Sleeper </option>
                     <option value="1"> Seater </option>
                     <option value="2"> Both </option>
@@ -186,7 +185,6 @@ export default function Updatebus() {
                     data-testid = "busAcType"
                     isInvalid={formik.touched.busac && formik.errors.busac}
                   >
-                    <option value="">updated option</option>
                     <option value="0"> A/C </option>
                     <option value="1"> Non A/C </option>
                   </Form.Control>

@@ -1,57 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import { StarFill } from 'react-bootstrap-icons';
-import { Pagination,Badge } from "react-bootstrap";
+import { Badge } from "react-bootstrap";
+import CustomPaginator from "../../common/paginator/CustomPaginator";
+
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [next, setNext] = useState(1);
-  const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [active, setActive] = useState(1);
+  const [currentPage,setCurrentPage] = useState(1)
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(async (page) => {
+    try {
       const response = await axiosApi.get(
         `bus-owner/view-reviews/?page=${page}`
       );
       setData(response.data.results);
       console.log(response.data.results);
-      setNext(response.data.has_next);
-      setPrevious(response.data.has_previous);
       setTotalPages(response.data.total_pages);
-    };
-    fetchData();
-  }, [page]);
-  const handlePrevious = () => {
-    setActive(active - 1);
-    setPage(page - 1);
-  };
+      setCurrentPage(response.data.current_page_number);
+    }
+    catch(err) {
+      console.error("Error:", err);}
+    
+  }, []);
 
-  const handleNext = () => {
-    setActive(active + 1);
-    setPage(page + 1);
-  };
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [fetchData,currentPage,]);
 
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
 
   const getBadgeColor = (rate) => {
     switch (rate) {
@@ -72,36 +52,7 @@ export default function Viewallbus() {
     }
   };
 
-  const paginationBasic = (
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
-
+  
   const renderCards = () => {
     return data.map((viewreview) => (
       <div
@@ -151,7 +102,11 @@ export default function Viewallbus() {
           flexDirection: "column",
         }}
       >
-        {paginationBasic}
+        <CustomPaginator
+          totalPages={totalPages}
+          currentPage={currentPage}
+          viewPage={fetchData}
+        />
       </div>
     </div>
   );
