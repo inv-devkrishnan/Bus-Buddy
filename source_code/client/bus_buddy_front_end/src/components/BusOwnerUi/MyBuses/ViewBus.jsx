@@ -207,7 +207,7 @@ export default function Viewallbus() {
         <CustomPaginator
           totalPages={totalPages}
           currentPage={currentPage}
-          viewPage={fetch}
+          viewPage={fetchData}
         />
       </div>
     </div>

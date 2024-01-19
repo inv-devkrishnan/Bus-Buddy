@@ -99,7 +99,7 @@ export default function Updatebus() {
           <div style={{ display: "flex" }}>
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-5">
-                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Group as={Col} md="6" >
                   <Form.Label> Name</Form.Label>
                   <Form.Control
                     name="busName"
@@ -115,7 +115,7 @@ export default function Updatebus() {
                     {formik.errors.busName}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Group as={Col} md="6" >
                   <Form.Label>Plate Number</Form.Label>
                   <Form.Control
                     name="plateno"
@@ -131,7 +131,7 @@ export default function Updatebus() {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="4" >
                   <Form.Label>Bus Type</Form.Label>
                   <Form.Control
                     name="bustype"
@@ -151,7 +151,7 @@ export default function Updatebus() {
                     {formik.errors.bustype}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="4" >
                   <Form.Label>Bus Seat Type</Form.Label>
                   <Form.Control
                     name="busseattype"
@@ -174,7 +174,7 @@ export default function Updatebus() {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="4" controlId="validationCustom04">
+                <Form.Group as={Col} md="4" >
                   <Form.Label>Bus A/C</Form.Label>
                   <Form.Control
                     name="busac"
