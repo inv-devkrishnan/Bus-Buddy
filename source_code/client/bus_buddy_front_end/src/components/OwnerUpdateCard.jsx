@@ -45,6 +45,8 @@ export default function OwnerUpdateForm() {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
           resetForm();
+        } else {
+          console.log(res);
         }
       })
       .catch((err) => {
