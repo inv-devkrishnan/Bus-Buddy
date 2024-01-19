@@ -23,6 +23,8 @@ export default function PickAndDrop(props) {
     }
   }, [props]);
 
+  console.log(seatData);
+
   useEffect(() => {
     const pickRows = seatData[0]?.map((stop) => ({
       // for mapping pick point data as rows according to columns

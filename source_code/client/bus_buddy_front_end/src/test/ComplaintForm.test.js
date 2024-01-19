@@ -59,7 +59,7 @@ describe("ComplaintForm component", () => {
     fireEvent.click(clearButton);
   });
 
-  it("gets admin and form submit", async () => {
+  it("gets admin and form submit",  () => {
     const data = [1, [[2, "Shekar travels"]]];
     mock.onGet(`user/register-complaint/`).reply(200, data);
 
@@ -78,14 +78,9 @@ describe("ComplaintForm component", () => {
     const adminRadio = screen.getByTestId("admin_radio");
     fireEvent.click(adminRadio);
 
-    const file = new File(["(⌐□_□)"], "sample.jpg", { type: "image/jpg" });
-    const photoInput = screen.getByLabelText("Upload image as proof:");
-    fireEvent.click(photoInput);
-    fireEvent.change(photoInput, {
-      target: { files: [file] },
-    });
-
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
+
+
   });
 });

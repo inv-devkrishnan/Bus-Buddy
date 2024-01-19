@@ -3,11 +3,11 @@ const phoneRules = /^\d+$/;
 const nameRules = /^[A-Za-z]+$/;
 
 export const UpdateSchema = yup.object().shape({
-  firstName: yup
+  first_name: yup
     .string()
     .matches(nameRules, "Name must be letters")
     .required("First name is required"),
-  lastName: yup
+  last_name: yup
     .string()
     .matches(nameRules, "Name must be letters")
     .required("Last name is required"),

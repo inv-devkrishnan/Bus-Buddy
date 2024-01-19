@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Seater from "../components/BusOwner/SeatComponents/Seater";
 
@@ -27,7 +27,7 @@ jest.mock("react", () => ({
 }));
 describe("Seater component", () => {
   it("renders card", () => {
-    render(<Seater column={1} row={2} />)
+    render(<Seater column={1} row={2} />);
   });
   it("renders card has selected", () => {
     render(<Seater column={1} row={1} />);
