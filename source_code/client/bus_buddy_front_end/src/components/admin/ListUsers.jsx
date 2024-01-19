@@ -77,8 +77,9 @@ function ListUsers(props) {
 
   useEffect(() => {
     // loads the users during page startup
+    userStatus.current = props.busApproval ? 3 : 100
     getUsers();
-  }, [getUsers]);
+  }, [getUsers,props.busApproval]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
