@@ -27,6 +27,8 @@ export default function RegisterCard() {
         if (res.status === 201) {
           Swal.fire("Success!", "Registered successfully!", "success");
           actions.resetForm();
+        } else {
+          console.log(res);
         }
       })
       .catch((err) => {

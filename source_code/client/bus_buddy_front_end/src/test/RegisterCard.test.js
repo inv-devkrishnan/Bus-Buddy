@@ -71,6 +71,92 @@ describe("RegisterCard component", () => {
     );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.blur(firstNameTextbox);
+    fireEvent.change(firstNameTextbox, { target: { value: "first" } });
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.blur(lastNameTextbox);
+    fireEvent.change(lastNameTextbox, { target: { value: "second" } });
+
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.blur(emailTextbox);
+    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
+
+    const passwordTextbox = screen.getByPlaceholderText("Enter password");
+    fireEvent.blur(passwordTextbox);
+    fireEvent.change(passwordTextbox, { target: { value: "Qwerty@123" } });
+
+    const confirmTextbox = screen.getByPlaceholderText("Confirm password");
+    fireEvent.blur(confirmTextbox);
+    fireEvent.change(confirmTextbox, { target: { value: "Qwerty@123" } });
+
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.blur(phoneTextbox);
+    fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      mock.onPost(`user/registration/`).reply(201);
+    });
+  });
+
+  it("renders component form submit 3", async () => {
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <RegisterCard />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.blur(firstNameTextbox);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.blur(lastNameTextbox);
+
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.blur(emailTextbox);
+
+    const passwordTextbox = screen.getByPlaceholderText("Enter password");
+    fireEvent.blur(passwordTextbox);
+
+    const confirmTextbox = screen.getByPlaceholderText("Confirm password");
+    fireEvent.blur(confirmTextbox);
+
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.blur(phoneTextbox);
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      mock.onPost(`user/registration/`).reply(201);
+    });
+  });
+
+  it("renders component form submit 2", async () => {
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <RegisterCard />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
 
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
@@ -92,9 +178,9 @@ describe("RegisterCard component", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      mock.onPost(`user/registration/`).reply(201);
-    });  });
-
+      mock.onPost(`user/registration/`).reply(204);
+    });
+  });
   it("renders component form submit catch error", () => {
     render(
       <SeatContextProvider>
@@ -130,5 +216,43 @@ describe("RegisterCard component", () => {
     fireEvent.click(submitButton);
 
     mock.onPost("user/registration/", data).reply(400);
+  });
+  it("renders component form submit catch error 2", async () => {
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <RegisterCard />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.change(firstNameTextbox, { target: { value: "first" } });
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.change(lastNameTextbox, { target: { value: "second" } });
+
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
+
+    const passwordTextbox = screen.getByPlaceholderText("Enter password");
+    fireEvent.change(passwordTextbox, { target: { value: "Qwerty@123" } });
+
+    const confirmTextbox = screen.getByPlaceholderText("Confirm password");
+    fireEvent.change(confirmTextbox, { target: { value: "Qwerty@123" } });
+
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+    const response = { email: "email error", phone: "error" };
+    await waitFor(() => {
+      mock.onPost("user/registration/", data).reply(400, response);
+    });
   });
 });

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import OwnerRegisterCard from "../components/OwnerRegisterCard.jsx";
 import { openAxiosApi } from "../utils/axiosApi";
