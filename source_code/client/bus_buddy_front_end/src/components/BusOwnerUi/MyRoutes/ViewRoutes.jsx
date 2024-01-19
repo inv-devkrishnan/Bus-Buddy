@@ -1,89 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import { Link,} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import { axiosApi } from "../../../utils/axiosApi";
 import Accordion from "react-bootstrap/Accordion";
 import Swal from "sweetalert2";
-import { Pagination } from "react-bootstrap";
+import CustomPaginator from "../../common/paginator/CustomPaginator";
+
 
 export default function Viewallroutes() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [next, setNext] = useState(1);
-  const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [active, setActive] = useState(1);
+  const [currentPage,setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(async (page) => {
+    try{
       const response = await axiosApi.get(
         `bus-owner/view-routes/?page=${page}`
       );
       setData(response.data.results);
-      setNext(response.data.has_next);
-      setPrevious(response.data.has_previous);
+      console.log(response.data.results);
       setTotalPages(response.data.total_pages);
-    };
-    fetchData();
-  }, [page]);
+      setCurrentPage(response.data.current_page_number);
+    }catch(err) {
+      console.error("Error:", err);}
+    
+  }, []);
+
+  useEffect(() => {
+    
+    fetchData(currentPage);
+  }, [fetchData,currentPage]);
   console.log(data)
 
-  const handlePrevious = () => {
-    setActive(active - 1);
-    setPage(page - 1);
-  };
 
-  const handleNext = () => {
-    setActive(active + 1);
-    setPage(page + 1);
-  };
-
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-
-  const paginationBasic = (
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
 
   const renderCards = () => {
     return data.map((viewroutes) => (
@@ -172,7 +122,11 @@ export default function Viewallroutes() {
           flexDirection:"column"
         }}
       >
-        {paginationBasic}
+        <CustomPaginator
+          totalPages={totalPages}
+          currentPage={currentPage}
+          viewPage={fetchData}
+        />
       </div>
     </div>
   );

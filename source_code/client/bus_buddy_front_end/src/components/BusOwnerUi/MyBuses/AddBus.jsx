@@ -81,7 +81,7 @@ export default function Addbus() {
           <div style={{ display: "flex" }}>
             <Form  onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-2">
-                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Group as={Col} md="6" >
                   <Form.Label> Name</Form.Label>
                   <Form.Control
                     required
@@ -93,7 +93,7 @@ export default function Addbus() {
                   />
                   {busNameError && <div style={{ color: 'red',fontSize:"11px"}}>{busNameError}</div>}
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Group as={Col} md="6" >
                   <Form.Label>Plate Number</Form.Label>
                   <Form.Control
                     required
@@ -107,7 +107,7 @@ export default function Addbus() {
                 </Form.Group>
               </Row>
               <Row className="mb-5">
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="4" >
                   <Form.Label>Bus Type</Form.Label>
                   <Form.Control
                     as="select"
@@ -120,7 +120,7 @@ export default function Addbus() {
                     <option value="2"> Both </option>
                   </Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom03">
+                <Form.Group as={Col} md="4" >
                   <Form.Label>Bus Seat Type</Form.Label>
                   <Form.Control
                     as="select"
@@ -134,7 +134,7 @@ export default function Addbus() {
                     <option value="2"> Both </option>
                   </Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md="4" controlId="validationCustom04">
+                <Form.Group as={Col} md="4">
                   <Form.Label>Bus A/C</Form.Label>
                   <Form.Control
                     as="select"

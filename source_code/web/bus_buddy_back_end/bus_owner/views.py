@@ -386,10 +386,9 @@ class Viewreviews(ListAPIView):
     function to list all bus of the bus owner
     """
 
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ReviewSerializer
     pagination_class = CustomPagination
-    # queryset = UserReview.objects.all()
     
     def list(self, request):
         try:
@@ -682,7 +681,6 @@ class Updatetrip(UpdateAPIView):
             request_data["start_time"] = first_seq.arrival_time
             request_data["end_time"] = last_seq.departure_time
             present_date = datetime.now().date()
-            # present_date = datetime.strptime(today, date_format)
             start_date = datetime.strptime(
                 request_data["start_date"], date_format
             ).date()
@@ -839,8 +837,6 @@ class Addreccuringrip(APIView):
             start_time, end_time = seq_first.arrival_time, seq_last.departure_time
             start_datetime, end_datetime = datetime.combine(start_date, start_time), datetime.combine(end_date, end_time)
 
-            duration = end_datetime - start_datetime
-            no_of_days = duration.days
 
             psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
             psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
@@ -912,7 +908,7 @@ class Addreccuringrip(APIView):
         return current_request_data
         
 class Viewnotifications(ListAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ViewNotificationsSerializer 
     def list(self, request):
         try :

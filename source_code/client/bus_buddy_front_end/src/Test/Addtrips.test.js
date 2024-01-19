@@ -141,6 +141,15 @@ describe("Add trip component", () => {
           "user": 1
       }
   ]
+    const tripData = {
+      "bus": 4,
+      "route": 3,
+      "start_date": "2024-6-03",
+      "end_date": "2023-6-03",
+      "start_time": "22:00:00",
+      "end_time": "17:00:00",
+      "status": 0
+    }
 
     const routeData = {
       "start_point_name": "Palakkad",
@@ -179,6 +188,8 @@ describe("Add trip component", () => {
 
   mock.onGet(`bus-owner/view-available-bus/?start=${'2024-01-16'}&end=${'2024-01-16'}`).reply(200, data);
   mock.onGet("bus-owner/view-routes/").reply(200, routeData);
+  mock.onPost("bus-owner/add-trip/").reply(200, tripData);
+
 
     render(
       <MemoryRouter>
