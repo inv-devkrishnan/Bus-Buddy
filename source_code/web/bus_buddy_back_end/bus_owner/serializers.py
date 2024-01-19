@@ -32,6 +32,7 @@ error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
 error_message_phone_exist = "Phone number is already registered"
+date_format = "%Y-%m-%d"
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -381,8 +382,8 @@ class TripSerializer(serializers.ModelSerializer):
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
-    start_date = serializers.DateField(format="%Y-%m-%d")
-    end_date = serializers.DateField(format="%Y-%m-%d")
+    start_date = serializers.DateField(format=date_format)
+    end_date = serializers.DateField(format=date_format)
 
     def validate_start_date(self, value):
         today = datetime.now().date()
@@ -401,7 +402,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_end_date(self, value):
         start_date_str = self.initial_data.get("start_date")
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+        start_date = datetime.strptime(start_date_str, date_format).date()
 
         if value < start_date:
             raise serializers.ValidationError(

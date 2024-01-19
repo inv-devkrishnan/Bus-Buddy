@@ -32,7 +32,7 @@ export default function Addrecurringtrip() {
 
  const dates = (selectedPeriodStartDate, selectedPeriodEndDate) => {
   const today = new Date();
-  const sixMonthsFromNow = new Date(today); ;
+  const sixMonthsFromNow = new Date(today); 
   sixMonthsFromNow.setMonth(today.getMonth() + 6);
 
   const today_date =today
@@ -86,7 +86,7 @@ export default function Addrecurringtrip() {
  const handleSubmit = async (e) => {
    e.preventDefault();
    const today = new Date();
-   const sixMonthsFromNow = new Date(today); ;
+   const sixMonthsFromNow = new Date(today); 
   sixMonthsFromNow.setMonth(today.getMonth() + 6);
    try {
        const formattedStartDate = selectedStartDate
@@ -192,7 +192,7 @@ export default function Addrecurringtrip() {
            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
            <p style={{fontSize:"13px"}}>Please select the period that you want your trip to reccur </p>
              <Row className="mb-2">
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
+               <Form.Group as={Col} md="6" >
                  <Form.Label htmlFor="periodStartDate">Start Date :</Form.Label>
                  <DatePicker
                    selected={selectedPeriodStartDate}
@@ -207,7 +207,7 @@ export default function Addrecurringtrip() {
                  />
                  {startPeriodDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startPeriodDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
+               <Form.Group as={Col} md="6" >
                  <Form.Label htmlFor="periodEndDate">End Date :</Form.Label>
                  <DatePicker
                    selected={selectedPeriodEndDate}
@@ -228,7 +228,7 @@ export default function Addrecurringtrip() {
                <p style={{fontSize:"13px"}}>Press the search button to search for buses available for the dates you have entered</p>
              </Row>
              <Row className="mb-2">
-             <Form.Group as={Col} md="6" controlId="validationCustom02">
+             <Form.Group as={Col} md="6" >
                  <Form.Label htmlFor="startDate">Start Date:</Form.Label>
                  <DatePicker
                    selected={selectedStartDate}
@@ -242,7 +242,7 @@ export default function Addrecurringtrip() {
                  />
                  {startDateError && <div style={{ color: 'red',fontSize:"11px"}}>{startDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
+               <Form.Group as={Col} md="6" >
                  <Form.Label htmlFor="endDate">End Date:</Form.Label>
                  <DatePicker
                    selected={selectedEndDate}
@@ -256,7 +256,7 @@ export default function Addrecurringtrip() {
                  />
                  {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom01">
+               <Form.Group as={Col} md="6" >
                  <Form.Label>Bus</Form.Label>
                  <Form.Control
                    as="select"
@@ -273,7 +273,7 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom03">
+               <Form.Group as={Col} md="6" >
                  <Form.Label>Route</Form.Label>
                  <Form.Control
                    as="select"
@@ -290,7 +290,7 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-               <Form.Group as={Col} md="4" controlId="validationCustom04">
+               <Form.Group as={Col} md="4" >
                   <Form.Label>Recurrence Type</Form.Label>
                   <Form.Control
                     as="select"
