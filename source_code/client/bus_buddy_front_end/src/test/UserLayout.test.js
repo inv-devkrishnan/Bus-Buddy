@@ -17,7 +17,12 @@ afterEach(() => {
 });
 
 jest.mock("../assets/driver.png");
-
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  SeatContext: jest.fn().mockReturnValue({
+    updateSeatList: jest.fn(),
+  }),
+}));
 describe("UserLayout component", () => {
   it("renders card", () => {
     const data = [
@@ -371,7 +376,7 @@ describe("UserLayout component", () => {
       .reply(200, data);
     render(
       <SeatContextProvider>
-        <UserLayout  />
+        <UserLayout />
       </SeatContextProvider>
     );
   });

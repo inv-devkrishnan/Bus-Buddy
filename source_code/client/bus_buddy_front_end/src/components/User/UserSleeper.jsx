@@ -43,8 +43,6 @@ function UserSleeper(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log((seatData));
-
   useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order

@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import TravellerDetail from "../components/User/TravellerDetail";
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { SeatContextProvider } from "../utils/SeatContext";
 import { AddSeatContextProvider } from "../utils/AddSeatContext";
 import { UserContextProvider } from "../components/User/UserContext";

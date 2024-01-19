@@ -16,6 +16,8 @@ export default function UpdateForm() {
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
+        } else {
+          console.log(res);
         }
       })
       .catch((err) => {
