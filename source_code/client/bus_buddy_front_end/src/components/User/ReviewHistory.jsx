@@ -333,15 +333,15 @@ export default function ReviewHistory() {
                     name="rating"
                     value={ratingValue}
                     onChange={(event, newValue) => {
-                      if (newValue) {
-                        setRatingValue(newValue);
-                        formikProps.setFieldValue("rating", newValue);
-                      } else {
+                      if (!newValue) {
                         setRatingValue(existingData?.rating);
                         formikProps.setFieldValue(
                           "rating",
                           existingData?.rating
                         );
+                      } else {
+                        setRatingValue(newValue);
+                        formikProps.setFieldValue("rating", newValue);
                       }
                     }}
                   />
