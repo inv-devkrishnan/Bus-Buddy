@@ -103,6 +103,7 @@ function Sleeper(props) {
         }}
         onClose={handleMouseOut}
         disableRestoreFocus
+        disableScrollLock
       >
         <Typography sx={{ p: 1 }}>
           seat: {presentSeat.seat_number}

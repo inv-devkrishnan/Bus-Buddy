@@ -12,13 +12,7 @@ import {
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  Formik,
-  Field,
-  FieldArray,
-  ErrorMessage,
-  Form,
-} from "formik";
+import { Formik, Field, FieldArray, ErrorMessage, Form } from "formik";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 
@@ -27,11 +21,7 @@ import { AddSeatContext } from "../../../utils/AddSeatContext";
 import { axiosApi } from "../../../utils/axiosApi";
 
 export default function FormComponent(props) {
-  const {
-
-    addSeatList,
-    updateAddSeatList,
-  } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
+  const { addSeatList, updateAddSeatList } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
 
   const validationSchema = yup.object().shape({
     seat: yup.array().of(
@@ -52,9 +42,16 @@ export default function FormComponent(props) {
 
   const onSubmit = (values) => {
     // api call for storing seat details
-    console.log(values);
-    alert(values);
-
+    axiosApi
+      .post(`bus-owner/add-seat-details?bus=${props.bus}`, values)
+      .then((res) => {
+        console.log(res);
+        alert("added");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("error");
+      });
   };
 
   const initialValues = {
