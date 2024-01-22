@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 export default function OwnerRegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [swalText, setSwalText] = useState("");
 
   const onSubmit = () => {
     openAxiosApi
@@ -109,6 +108,7 @@ export default function OwnerRegisterCard() {
                       formik.touched.firstName && formik.errors.firstName
                     }
                     placeholder="Enter first name"
+                    maxLength={100}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.firstName}
@@ -129,6 +129,7 @@ export default function OwnerRegisterCard() {
                       formik.touched.lastName && formik.errors.lastName
                     }
                     placeholder="Enter last name"
+                    maxLength={100}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.lastName}
@@ -147,6 +148,7 @@ export default function OwnerRegisterCard() {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.email && formik.errors.email}
                 placeholder="Enter email"
+                maxLength={100}
               />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.email}
@@ -164,6 +166,7 @@ export default function OwnerRegisterCard() {
                   onBlur={formik.handleBlur}
                   isInvalid={formik.touched.password && formik.errors.password}
                   placeholder="Enter password"
+                  maxLength={20}
                 />
                 <InputGroup.Text
                   id="basic-addon1"
@@ -195,6 +198,7 @@ export default function OwnerRegisterCard() {
                     formik.errors.confirmPassword
                   }
                   placeholder="Confirm password"
+                  maxLength={20}
                 />
                 <InputGroup.Text
                   id="basic-addon1"
@@ -240,6 +244,7 @@ export default function OwnerRegisterCard() {
                   formik.touched.companyName && formik.errors.companyName
                 }
                 placeholder="Enter the company name"
+                maxLength={100}
               />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.companyName}
@@ -273,6 +278,7 @@ export default function OwnerRegisterCard() {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.msme && formik.errors.msme}
                 placeholder="MSME number"
+                maxLength={25}
               />
               <Form.Text className="text-muted">
                 Udyan number of your company
@@ -282,7 +288,7 @@ export default function OwnerRegisterCard() {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="extraCharges">
-              <Form.Label>G.S.T</Form.Label>
+              <Form.Label>GST</Form.Label>
               <InputGroup className="mb-3">
                 <Form.Control
                   name="extraCharges"
@@ -293,7 +299,9 @@ export default function OwnerRegisterCard() {
                   isInvalid={
                     formik.touched.extraCharges && formik.errors.extraCharges
                   }
-                  placeholder="G.S.T charges"
+                  placeholder="GST charges by the company"
+                  max={100}
+                  min={0}
                 />
 
                 <InputGroup.Text id="basic-addon1">%</InputGroup.Text>

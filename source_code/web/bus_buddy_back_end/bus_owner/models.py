@@ -5,7 +5,7 @@ from account_manage.models import User
 class Bus(models.Model):
     bus_name = models.CharField(max_length=100, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    plate_no = models.CharField(max_length=100, null=False)
+    plate_no = models.CharField(max_length=100,null=False)
     status = models.SmallIntegerField(default=0)
     bus_seat_type = models.SmallIntegerField(default=2)
     bus_type = models.SmallIntegerField(default=0)

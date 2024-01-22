@@ -16,5 +16,24 @@ urlpatterns = [
     ),
     path("book-seat/", views.BookSeat.as_view(), name="book-seat"),
     path("cancel-booking/", views.CancelBooking.as_view(), name="cancel-booking"),
-    path("create-payment-intent/",views.CreatePaymentIntent.as_view(),name="create-payment-intent"),
+    path(
+        "create-payment-intent/",
+        views.CreatePaymentIntent.as_view(),
+        name="create-payment-intent",
+    ),
+    path("review-trip/", views.ReviewTrip.as_view(), name="review-trip"),
+    path("review-history/", views.HistoryReviewTrip.as_view(), name="review-history"),
+    path("review-update/", views.UpdateReviewTrip.as_view(), name="review-update"),
+    path(
+        "register-complaint/",
+        views.RegisterComplaint.as_view(),
+        name="register-complaint",
+    ),
+    path(
+        "list-complaints/",
+        views.ViewComplaintResponse.as_view(),
+        name="list-complaints",
+    ),
+    path("available-coupons/", views.ListCoupons.as_view(), name="available-coupons"),
+    path("redeem-coupon/", views.RedeemCoupon.as_view(), name="redeem-coupon"),
 ]

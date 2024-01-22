@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
 from datetime import timedelta
 import os
-
-
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,13 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
-
+print(load_dotenv('busbuddy-api.env'), "<<<<<<<<<<<loadenv")
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool)
+DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "http://localhost:3000",
+    "http://bus-buddy-api.innovaturelabs.com",
+    "https://bus-buddy-api.innovaturelabs.com",
+    "bus-buddy-api.innovaturelabs.com",
+    "127.0.0.1",
+]
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -55,18 +59,20 @@ INSTALLED_APPS = [
     "bus_owner",
     "normal_user",
     "debug_toolbar",
+    "batch_tasks",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 DEBUG_TOOLBAR_PANELS = [
@@ -114,11 +120,11 @@ AUTH_USER_MODEL = "account_manage.User"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": config("DBNAME"),
-        "USER": config("UNAME"),
-        "PASSWORD": config("PASSWORD"),
-        "HOST": config("HOST"),
-        "PORT": config("PORT"),
+        "NAME": os.getenv("DBNAME"),
+        "USER": os.getenv("UNAME"),
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
     }
 }
 
@@ -158,6 +164,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_ROOT = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -186,12 +195,15 @@ SIMPLE_JWT = {
 
 # Cors origin
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://bus-buddy.innovaturelabs.com",
+    "https://bus-buddy.innovaturelabs.com",
 ]
 
 # Logging
 import logging
+
 
 class FileFilter(logging.Filter):
     def __init__(self, included_files):
@@ -204,6 +216,7 @@ class FileFilter(logging.Filter):
 
 
 import logging
+
 
 class FileFilter(logging.Filter):
     def __init__(self, included_files):
@@ -234,7 +247,7 @@ LOGGING = {
             "class": "logging.FileHandler",
             "filename": "logData.log",
             "formatter": "verbose",
-            "filters":["file_filter"],
+            "filters": ["file_filter"],
         },
         "terminal": {
             "level": "INFO",
@@ -242,11 +255,11 @@ LOGGING = {
             "formatter": "simple",
         },
     },
-    "filters":{
-      "file_filter":{
-          "()":FileFilter,
-          "included_files":["views.py","serializer.py"]
-      },  
+    "filters": {
+        "file_filter": {
+            "()": FileFilter,
+            "included_files": ["views.py", "serializer.py"],
+        },
     },
     "root": {
         "handlers": ["file"],
@@ -272,8 +285,8 @@ TEMPLATES = [
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT") 
-EMAIL_USE_TLS = config("EMAIL_USE_TLS") 
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")

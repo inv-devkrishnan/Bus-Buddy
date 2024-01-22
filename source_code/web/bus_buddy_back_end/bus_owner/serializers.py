@@ -14,9 +14,8 @@ from .models import (
 from django.db import models
 from .models import User
 from .models import Trip
-from .models import Bus
-from .models import Routes
-from .models import User
+from account_manage.models import Notifications
+from normal_user.models import UserReview
 from django.core.validators import (
     MaxLengthValidator,
     MinLengthValidator,
@@ -33,6 +32,18 @@ error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
 error_message_phone_exist = "Phone number is already registered"
+date_format = "%Y-%m-%d"
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+    serializer for model Userreviews. For listing
+    """
+
+    class Meta:
+        model = UserReview
+        fields = "__all__"
+        depth = 1
 
 
 class BusSerializer(serializers.ModelSerializer):
@@ -45,7 +56,7 @@ class BusSerializer(serializers.ModelSerializer):
         validators=[
             RegexValidator(
                 r"^[A-Za-z0-9 ():',\.]+$",
-                message="Invalid Name format. Only letters are allowed.",
+                message="Invalid Name format. Only letters, numbers or (),: are allowed.",
             )
         ],
     )
@@ -61,6 +72,9 @@ class BusSerializer(serializers.ModelSerializer):
             RegexValidator(
                 regex=r"^[A-Za-z0-9]+$",
                 message="Invalid Plate Number format. It should contain only letters and numbers.",
+            ),
+            UniqueValidator(
+                queryset=Bus.objects.all(), message="Plate no already exist"
             ),
         ],
     )
@@ -330,14 +344,14 @@ class RoutesSerializer(serializers.ModelSerializer):
         model = Routes
         fields = [
             "id",
-            "user",
-            "start_point",
             "end_point",
             "via",
             "travel_fare",
             "duration",
             "distance",
             "location",
+            "user",
+            "start_point",
         ]
 
     def create(self, validated_data):
@@ -368,8 +382,8 @@ class TripSerializer(serializers.ModelSerializer):
     route = serializers.PrimaryKeyRelatedField(queryset=Routes.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
-    start_date = serializers.DateField(format="%Y-%m-%d")
-    end_date = serializers.DateField(format="%Y-%m-%d")
+    start_date = serializers.DateField(format=date_format)
+    end_date = serializers.DateField(format=date_format)
 
     def validate_start_date(self, value):
         today = datetime.now().date()
@@ -388,7 +402,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     def validate_end_date(self, value):
         start_date_str = self.initial_data.get("start_date")
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+        start_date = datetime.strptime(start_date_str, date_format).date()
 
         if value < start_date:
             raise serializers.ValidationError(
@@ -478,11 +492,12 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         ],
     )
     email = serializers.EmailField(
+        max_length=100,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(), message=error_message_email_exist
             ),
-        ]
+        ],
     )
     password = serializers.CharField(
         min_length=8,
@@ -532,7 +547,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    extra_charges = serializers.DecimalField(max_digits=12, decimal_places=5)
+    extra_charges = serializers.IntegerField(min_value=0, max_value=100)
 
     # password encryption
     def create(self, validated_data):
@@ -602,3 +617,10 @@ class GetSeatSerializer(serializers.ModelSerializer):
             "deck",
             "seat_cost",
         )
+
+class ViewNotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
+        fields = "__all__"
+        depth = 1
+        

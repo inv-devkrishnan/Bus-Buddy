@@ -1,76 +1,170 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import SideBar from "../components/common/SideBar";
-import { useAuthStatus } from "../utils/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import ProfileView from "../components/admin/ProfileView";
-import ListUsers from "../components/admin/ListUsers";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 function AdminDashboard() {
-  // three state variable for three options
-  const [profileSelect, setProfileSelect] = useState(true); // if true shows profile component
-  const [listUserSelect, setListUserSelect] = useState(false); // if true shows listuser component
-  const [busSelect, setBusSelect] = useState(false); // if true shows bus owner approval component
+  // three state variable for three option
   const navigate = useNavigate();
-  const authStatus = useAuthStatus();
+  const location = useLocation();
 
+  const optionSelection = (state, action) => {
+    switch (action.type) {
+      case "profile":
+        return {
+          profile: true,
+          listUser: false,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listUser":
+        return {
+          profile: false,
+          listUser: true,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listOwner":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: true,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listComplaint":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: false,
+          listComplaint: true,
+          listCoupon: false,
+        };
+      case "listCoupon":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: true,
+        };
+      default:
+        return state;
+    }
+  };
+  const initialState = {
+    profile: false,
+    listUser: false,
+    listOwner: false,
+    listComplaint: false,
+    listCoupon: false,
+  };
+  const [state, dispatch] = useReducer(optionSelection, initialState);
   const profileSelected = () => {
     // when executed it displays the profile
-    setProfileSelect(true);
-    setListUserSelect(false);
-    setBusSelect(false);
+    dispatch({ type: "profile" });
+    navigate("/admin-dashboard/view-profile");
   };
   const listUserSelected = () => {
     // when executed it displays the list user
-    setProfileSelect(false);
-    setListUserSelect(true);
-    setBusSelect(false);
+    dispatch({ type: "listUser" });
+    navigate("/admin-dashboard/list-users");
   };
   const busSelected = () => {
     // when executed it displays the bus owner approval
-    setProfileSelect(false);
-    setListUserSelect(false);
-    setBusSelect(true);
+    dispatch({ type: "listOwner" });
+    navigate("/admin-dashboard/list-busowners");
+  };
+  const complaintSelected = () => {
+    dispatch({ type: "listComplaint" });
+    navigate("/admin-dashboard/view-complaints");
+  };
+
+  const couponSelected = () => {
+    dispatch({ type: "listCoupon" });
+    navigate("/admin-dashboard/show-coupon");
   };
 
   const options = [
     // options list  for the sidebar component
     {
       name: "Profile",
-      state: profileSelect,
+      state: state.profile,
       onChange: profileSelected,
     },
     {
       name: "List User",
-      state: listUserSelect,
+      state: state.listUser,
       onChange: listUserSelected,
     },
 
     {
       name: "Bus Owner Approval",
-      state: busSelect,
+      state: state.listOwner,
       onChange: busSelected,
+    },
+
+    {
+      name: "View Complaints",
+      state: state.listComplaint,
+      onChange: complaintSelected,
+    },
+    {
+      name: "Coupons",
+      state: state.listCoupon,
+      onChange: couponSelected,
     },
   ];
 
-  useEffect(() => {
-    if (authStatus) {
-      if (localStorage.getItem("user_role") !== "1") {
-        // if user is not admin redirect to login
-        navigate("/login");
-      }
-    } else {
-      navigate("/login"); // if user not logged in redirect to login
+  const highlightSelected = useCallback(() => {
+    switch (location.pathname) {
+      case "/admin-dashboard/view-profile":
+        dispatch({ type: "profile" });
+        break;
+      case "/admin-dashboard/view-profile/update":
+        dispatch({ type: "profile" });
+        break;
+      case "/admin-dashboard/view-profile/change-password":
+        dispatch({ type: "profile" });
+        break;
+      case "/admin-dashboard/show-coupon":
+        dispatch({ type: "listCoupon" });
+        break;
+      case "/admin-dashboard/create-coupon":
+        dispatch({ type: "listCoupon" });
+        break;
+      case "/admin-dashboard/view-complaints":
+        dispatch({ type: "listComplaint" });
+        break;
+      case "/admin-dashboard/list-busowners":
+        dispatch({ type: "listOwner" });
+        break;
+      case "/admin-dashboard/list-users":
+        dispatch({ type: "listUser" });
+        break;
+      default:
+        console.log("invalid path");
     }
-  }, [navigate, authStatus]);
+  }, [location]);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("user_role") !== "1" ||
+      localStorage.getItem("token_expire_time") < Date.now()
+    ) {
+      // if user is not admin redirect to login
+      navigate("/login");
+    }
+    highlightSelected();
+  }, [navigate, highlightSelected]);
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
         <SideBar heading="Admin Profile" options={options} />
       </div>
       <div className="main_content" style={{ width: "100vw" }}>
-        {profileSelect && <ProfileView />}
-        {listUserSelect && <ListUsers busApproval={false} />}
-        {busSelect && <ListUsers busApproval={true} />}
+        <Outlet />
       </div>
     </div>
   );

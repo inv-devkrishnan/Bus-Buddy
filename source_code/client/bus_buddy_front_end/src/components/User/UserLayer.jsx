@@ -7,42 +7,61 @@ export default function UserLayer(props) {
   const { seatData } = useContext(SeatContext); // use context which contain the seat data
   const [nearFemale, setNearFemale] = useState(false); // true if current seat is near a female booked seat
   const [nearMale, setNearMale] = useState(false); // true if current seat is near a male booked seat
-
-  useEffect(() => {
-    let layerData = []; // for storing seat data of same layer
+  const processSeatData = (layerData) => {
     let hasMale = false;
     let hasFemale = false;
 
-    for (let loop = 1; loop < seatData.length; loop++) {
-      // Loop through the seat data
-      const seat = seatData[loop];
-      const seatUiOrder = seat?.seat_ui_order;
-      const layerFromUiOrder = Math.floor(seatUiOrder / 10);
+    for (const seat of layerData) {
+      if (seat.booked.length > 0) {
+        const gender = seat.booked[0].traveller_gender;
 
-      if (layerFromUiOrder === props.row && seatUiOrder % 10 !== 1) {
-        // grouping seats on the same layer but avoids the single seats
-        layerData.push(seat);
-
-        if (seat.booked.length > 0) {
-          // Check if the current seat has been booked by a male or female traveler
-          if (seat.booked[0].traveller_gender === 1) {
-            hasMale = true;
-            break;
-          } else if (seat.booked[0].traveller_gender === 2) {
-            hasFemale = true;
-            break;
-          }
+        if (gender === 1) {
+          hasMale = true;
+          break;
+        } else if (gender === 2) {
+          hasFemale = true;
+          break;
         }
       }
     }
 
-    if (layerData.length === 2 && hasMale) {
-      // Male has booked nearby seats
-      setNearMale(true);
-    } else if (layerData.length === 2 && hasFemale) {
-      // Female has booked nearby seats
-      setNearFemale(true);
+    return { hasMale, hasFemale };
+  };
+
+  const processLayerData = (layerData) => {
+    if (layerData.length === 2) {
+      const { hasMale, hasFemale } = processSeatData(layerData);
+
+      if (hasMale) {
+        setNearMale(true);
+      } else if (hasFemale) {
+        setNearFemale(true);
+      }
     }
+  };
+
+  const processSeatUiOrder = (seat) => {
+    const seatUiOrder = seat?.seat_ui_order;
+    const layerFromUiOrder = Math.floor(seatUiOrder / 10);
+
+    return { seatUiOrder, layerFromUiOrder };
+  };
+
+  useEffect(() => {
+    let layerData = [];
+
+    for (let loop = 1; loop < seatData.length; loop++) {
+      const seat = seatData[loop];
+      const { seatUiOrder, layerFromUiOrder } = processSeatUiOrder(seat);
+
+      if (layerFromUiOrder === props.row && seatUiOrder % 10 !== 1) {
+        // to assign seat data to the respective layer (also checks whether the seat is not in first column)
+        layerData.push(seat);
+      }
+    }
+
+    processLayerData(layerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.row, seatData]);
 
   return (

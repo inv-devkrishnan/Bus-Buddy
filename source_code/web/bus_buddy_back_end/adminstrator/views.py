@@ -1,13 +1,22 @@
+import re
 import logging
 import stripe
-from decouple import config
+import uuid
+import os
+from dotenv import load_dotenv
+load_dotenv('busbuddy_api.env')
+from datetime import datetime
 from django.db.models import Q
-from rest_framework.generics import UpdateAPIView
+from django.db import transaction, DatabaseError
+from rest_framework.generics import UpdateAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from adminstrator.models import CouponDetails
 from account_manage.models import User
-from normal_user.models import Bookings, BookedSeats, Payment
+from normal_user.models import Bookings, BookedSeats, Payment, UserComplaints
 from bus_owner.models import (
     Trip,
     Bus,
@@ -18,11 +27,17 @@ from bus_owner.models import (
     SeatDetails,
 )
 from bus_buddy_back_end.email import send_email_with_template
-from bus_buddy_back_end.permissions import AllowAdminsOnly
+from bus_buddy_back_end.permissions import AllowAdminsOnly, AllowBusOwnerAndAdminsOnly
 from .serializer import AdminUpdateSerializer as AUS
 from .serializer import ListUserSerializer as LUS
+from .serializer import ListUserComplaints as LUC
+from .serializer import ComplaintResponseSerializer as CRS
 from .serializer import BanUserSerializer as BUS
-from .pagination import CustomPagination
+from .serializer import BusOwnerListSerializer as BOL
+from .serializer import TripListSerializer as TLS
+from .serializer import CouponCreationSerializer as CCS
+from .serializer import CouponViewSerializer as CVS
+from .pagination import CustomPagination, ComplaintPagination, CouponPagination
 
 
 logger = logging.getLogger("django")
@@ -103,7 +118,7 @@ def ban_normal_user(old_status, new_status, instance):
         new_status (_type_): new status
         instance (_type_): user instance
     """
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
         (old_status == 0 and new_status == 2)
         or (old_status == 0 and new_status == 99)
@@ -183,7 +198,7 @@ def ban_bus_owner(old_status, new_status, instance):
        new_status (_type_): new status
        instance (_type_): user instance
     """
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key =  os.getenv("STRIPE_API_KEY")
     if old_status == 0 and new_status == 2 and instance.role == 3:
         logger.info("Bus owner ban initated")
         try:
@@ -239,7 +254,7 @@ def remove_bus_owner_buses(instance):
 
 
 def remove_bus_owner(old_status, new_status, instance):
-    stripe.api_key = config("STRIPE_API_KEY")
+    stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
         (old_status == 0 and new_status == 99) or (old_status == 2 and new_status == 99)
     ) and instance.role == 3:
@@ -284,14 +299,20 @@ def update_status(self, user_id, status):
             if serializer.is_valid():
                 if status != instance.status:  # checks if status is already same
                     old_status = instance.status
-                    self.perform_update(serializer)
-                    logger.info("user status changed to " + str(status))
-                    bus_owner_approval(old_status, status, instance)
-                    ban_normal_user(old_status, status, instance)
-                    ban_bus_owner(old_status, status, instance)
-                    unban_user(old_status, status, instance)
-                    remove_bus_owner(old_status, status, instance)
-                    return Response({"success_code": "D2005"})
+                    try:
+                        with transaction.atomic():
+                            self.perform_update(serializer)
+                            logger.info("user status changed to " + str(status))
+                            bus_owner_approval(old_status, status, instance)
+                            ban_normal_user(old_status, status, instance)
+                            ban_bus_owner(old_status, status, instance)
+                            unban_user(old_status, status, instance)
+                            remove_bus_owner(old_status, status, instance)
+                            return Response({"success_code": "D2005"})
+                    except DatabaseError as e:
+                        logger.warn("DataBase Error ! Reason : " + str(e))
+                        return Response({"error_code": "D1029"}, status=400)
+                        
                 else:
                     logger.info(
                         "user status is already " + str(status) + " no change needed"
@@ -356,9 +377,14 @@ class AdminProfileUpdation(UpdateAPIView):
             serializer = AUS(instance, data=current_data, partial=True)
             if serializer.is_valid():
                 logger.info("validated incoming data")
-                self.perform_update(serializer)
-                logger.info("update performed successfully")
-                return Response({"success_code": "D2002"})
+                try:
+                    with transaction.atomic():
+                        self.perform_update(serializer)
+                        logger.info("update performed successfully")
+                        return Response({"success_code": "D2002"})
+                except DatabaseError as e:
+                    logger.warn("Data Base Error ! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
             else:
                 # error handling
                 email_error = serializer._errors.get("email")  # gets email error
@@ -526,3 +552,376 @@ class ApproveBusOwner(UpdateAPIView):
     def put(self, request, user_id):
         logger.info("Approving Bus Owner with id " + str(user_id))
         return self.update(request, user_id)
+
+
+class ViewUserComplaints(ListAPIView):
+    permission_classes = (AllowBusOwnerAndAdminsOnly,)
+    pagination_class = ComplaintPagination
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filterset_fields = {"status": ["exact"], "created_date": ["range"]}
+    search_fields = [
+        "complaint_title",
+    ]
+
+    def validate_date(self, date_range):
+        """function to validate date given as query param
+
+        Args:
+            from_date (string): from date
+            to_date (string): to date
+        Returns:
+            _type_: _description_
+        """
+        if date_range:
+            logger.info("Date argument provided")
+            try:
+                dates = date_range.split(",")
+                from_date = dates[0]
+                to_date = dates[1]
+                pattern = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+                if bool(pattern.match(from_date)) and bool(pattern.match(to_date)):
+                    from_val = datetime.strptime(from_date, "%Y-%m-%d")
+                    to_val = datetime.strptime(to_date, "%Y-%m-%d")
+                    if from_val <= to_val:
+                        logger.info("Date validated Successfully")
+                        return {"status": True, "code": "00000"}
+                    else:
+                        logger.warn("Start date cant be after end date")
+                        return {"status": False, "code": "D1018"}
+                else:
+                    logger.warn("Date validated Failed")
+                    return {"status": False, "code": "D1006"}
+            except IndexError:
+                logger.warn("Date validated Failed")
+                return {"status": False, "code": "D1006"}
+        else:
+            logger.info("Date argument not provided")
+            return {"status": False, "code": "00000"}
+
+    def validate_responded(self, responded):
+        """function to validate responded argument given as query param
+
+        Args:
+            responded (string): responded argument
+
+        Returns:
+            _type_: _description_
+        """
+        if responded:
+            logger.info("Responded argument provided")
+            if responded == "0" or responded == "1":
+                logger.info("Responded argument validated Successfully")
+                return {"status": True, "code": "00000"}
+            else:
+                logger.warn("Responded argument validated Failed")
+                return {"status": False, "code": "D1006"}
+        else:
+            logger.info("Responded argument not provided")
+            return {"status": False, "code": "00000"}
+
+    def list(self, request):
+        """function to return complaints based on users
+
+        Args:
+            request (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # validate query params
+        validated_date = self.validate_date(request.GET.get("created_date__range"))
+        validated_responded = self.validate_responded(request.GET.get("status"))
+        # error handling
+        if validated_responded["code"] == "D1006" or validated_date["code"] == "D1006":
+            return Response({"error_code": "D1006"}, status=400)
+        elif validated_date["code"] == "D1018":
+            return Response({"error_code": "D1018"}, status=400)
+        queryset = UserComplaints.objects.filter(
+            complaint_for_id=request.user.id
+        ).order_by("-id")
+        serializer_class = LUC
+        data = self.filter_queryset(queryset)
+        page = self.paginate_queryset(data)
+        if page is not None:
+            serialized_data = serializer_class(page, many=True)
+        return Response(
+            {
+                "complaints": serialized_data.data,
+                "pages": self.paginator.page.paginator.num_pages,
+                "current_page": self.paginator.page.number,
+                "has_previous": self.paginator.page.has_previous(),
+                "has_next": self.paginator.page.has_next(),
+                "total_count": self.paginator.page.paginator.count,
+            }
+        )
+
+
+class SendComplaintResponse(UpdateAPIView):
+    permission_classes = (AllowBusOwnerAndAdminsOnly,)
+
+    def update(self, request, complaint_id):
+        """function to send complaint response
+
+        Args:
+            request (_type_): _description_
+            complaint_id (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        try:
+            # gets the existing complaint instance
+            complaint_instance = UserComplaints.objects.get(id=complaint_id)
+            # updated status along with response statement
+            new_data = {"status": 1, "response": request.data.get("response")}
+            serialized_data = CRS(complaint_instance, data=new_data, partial=True)
+            if serialized_data.is_valid():
+                # only perform response if responded user is the intended user
+                if complaint_instance.complaint_for_id == request.user.id:
+                    # only perform response if not responded earlier
+                    if complaint_instance.status == 0:
+                        self.perform_update(serialized_data)
+                        logger.info("Responsed to Complaint successfully")
+                        return Response({"success_code": "D2010"})
+                    else:
+                        logger.warn(
+                            "Cannot Respond to the complaint that is already responded"
+                        )
+                        return Response({"error_code": "D1020"})
+                else:
+                    logger.info("Cannot Respond to the comment for the current user")
+                    return Response({"error_code": "D2022"})
+            else:
+                logger.warn("Validation Failed Reason " + str(serialized_data.errors))
+                return Response({"error_code": "D1002"})
+        except UserComplaints.DoesNotExist:
+            logger.warn("Complaint with given id doesn't exising")
+            return Response({"error_code": "D1021"})
+        except Exception as e:
+            logger.warn("Responding to Complaint Failed Reason : " + str(e))
+            return Response({"error_code": "D1019"}, status=400)
+
+    def put(self, request, complaint_id):
+        return self.update(request, complaint_id)
+
+
+class CreateCoupon(APIView):
+    def generate_coupon_code(self):
+        """function to generate unique random 10 digit  coupon code
+
+        Returns:
+            str: coupon code
+        """
+        unique_id = str(uuid.uuid4())
+        alphanumeric_code = "".join(c for c in unique_id if c.isalnum())
+        unique_code = alphanumeric_code[:10]  # striping 10 digits of uuid code
+        return unique_code.upper()  # returning unique coupon code in uppercase
+
+    permission_classes = (AllowAdminsOnly,)
+
+    def get(self, request):
+        """function to return bus owner list or trip list based on query param
+
+        Args:
+            request (_type_): request data from client
+
+        Returns:
+            _type_: _description_
+        """
+        status = request.GET.get("status")
+        if status:
+            if status == "0":
+                bus_owner_list = User.objects.filter(
+                    role=3, status=0
+                )  # filters active bus owners
+                serialized_data = BOL(bus_owner_list, many=True)
+                logger.info("Returned Bus owner List")
+                return Response(serialized_data.data)
+            elif status == "1":
+                trip_list = Trip.objects.filter(status=0)  # filters active trips
+                serialized_data = TLS(trip_list, many=True)
+                logger.info("Returned trip list")
+                return Response(serialized_data.data)
+            else:
+                logger.warn("invalid query params")
+                return Response({"error_code": "D1006"})
+        else:
+            logger.warn("query params not provided")
+            return Response({"error_code": "D1005"})
+
+    def post(self, request):
+        """function to create coupon
+
+        Args:
+            request (_type_): coupon data from the client
+
+        Returns:
+            _type_: _description_
+        """
+
+        try:
+            request_data = request.data.copy()  # creates a copy of request data
+            request_data[
+                "coupon_code"
+            ] = (
+                self.generate_coupon_code()
+            )  # appends unique coupon code to the request data
+            serialized_data = CCS(data=request_data)
+            if serialized_data.is_valid():  # checks the validity of data
+                serialized_data.save()
+                logger.info("Coupon Created !")
+                return Response({"success_code": "D2011"}, status=201)
+            else:
+                logger.warn(
+                    "Data Validation Failed Reason :" + str(serialized_data.errors)
+                )
+                return Response({"error_code": "D1002"})
+        except Exception as e:
+            logger.warn("Coupon Creation Failed Reason :" + str(e))
+            return Response({"error_code": "D1023"}, status=400)
+
+
+class ViewCoupons(ListAPIView):
+    """API To view Coupons
+
+    Args:
+        ListAPIView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+
+    permission_classes = (AllowAdminsOnly,)
+    queryset = CouponDetails.objects.filter(~Q(status=99)).order_by("-created_date")
+    serializer_class = CVS
+    pagination_class = CouponPagination
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    filterset_fields = ["status"]
+    search_fields = [
+        "coupon_name",
+    ]
+
+    def list(self, request, *args, **kwargs):
+        if (
+            (request.GET.get("status") != "0")
+            and (request.GET.get("status") != "1")
+            and (request.GET.get("status"))
+        ):
+            logger.warn("invalid query params")
+            return Response({"error_code": "D1006"})
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serialized_data = self.get_serializer(page, many=True)
+            logger.info(
+                "coupons list returned with "
+                + str(self.paginator.page.paginator.count)
+                + " items"
+            )
+            return Response(
+                {
+                    "coupons": serialized_data.data,
+                    "pages": self.paginator.page.paginator.num_pages,
+                    "current_page": self.paginator.page.number,
+                    "has_previous": self.paginator.page.has_previous(),
+                    "has_next": self.paginator.page.has_next(),
+                    "total_count": self.paginator.page.paginator.count,
+                }
+            )
+
+
+class DeleteCoupon(UpdateAPIView):
+    permission_classes = (AllowAdminsOnly,)
+
+    def put(self, request, coupon_id):
+        """function to delete Coupon
+
+        Args:
+            request (_type_): incoming request
+            coupon_id (_type_):coupon id to be deleted
+
+        Returns:
+            response:
+        """
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            # cannot delete already deleted coupon
+            if current_status != 99:
+                try:
+                    with transaction.atomic():
+                        coupon_instance.status = 99
+                        coupon_instance.save()
+                        logger.info("Coupon with Id : " + str(coupon_id) + " deleted !")
+                        return Response({"success_code": "D2012"})
+                except DatabaseError as e:
+                    logger.warn("Database Error! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
+            else:
+                logger.warn("Coupon Already Deleted !")
+                return Response({"success_code": "D2013"})
+        except Exception as e:
+            logger.warn("Coupon Deletion Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1024"}, status=400)
+
+
+class DeactivateCoupon(UpdateAPIView):
+    permission_classes = (AllowAdminsOnly,)
+
+    def put(self, request, coupon_id):
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            # cannot deactivate already deleted coupon
+            if current_status == 0:
+                try:
+                    with transaction.atomic():
+                        coupon_instance.status = 1
+                        coupon_instance.save()
+                        logger.info(
+                            "Coupon with id : " + str(coupon_id) + " Deactivated !"
+                        )
+                        return Response({"success_code": "D2014"})
+                except DatabaseError as e:
+                    logger.warn("Database Error : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
+            elif current_status == 99:
+                logger.warn("Cannot Deactivate Deleted Coupon !")
+                return Response({"error_code": "D1026"})
+            else:
+                logger.warn("Coupon Already Deactivated !")
+                return Response({"success_code": "D2015"})
+        except Exception as e:
+            logger.warn("Coupon Deactivation Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1025"}, status=400)
+
+
+class ActivateCoupon(UpdateAPIView):
+    permission_classes = (AllowAdminsOnly,)
+
+    def put(self, request, coupon_id):
+        try:
+            coupon_instance = CouponDetails.objects.get(id=coupon_id)
+            current_status = coupon_instance.status
+            # cannot activate already deleted coupon
+            if current_status == 1:
+                coupon_instance.status = 0
+                try:
+                    with transaction.atomic():
+                        coupon_instance.save()
+                        logger.info(
+                            "Coupon with id : " + str(coupon_id) + " activated !"
+                        )
+                        return Response({"success_code": "D2016"})
+                except DatabaseError as e:
+                    logger.warn("DataBase Error ! Reason : " + str(e))
+                    return Response({"error_code": "D1029"}, status=400)
+            elif current_status == 99:
+                logger.warn("Cannot activate deleted coupon!")
+                return Response({"error_code": "D1027"})
+            else:
+                logger.warn("Coupon Already Deactivated !")
+                return Response({"success_code": "D2017"})
+        except Exception as e:
+            logger.warn("Coupon Deactivation Failed ! Reason : " + str(e))
+            return Response({"error_code": "D1028"}, status=400)

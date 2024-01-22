@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import { useFormik } from "formik";
 import { UpdateTripSchema} from "../UpdateTripSchema"
 import { axiosApi } from "../../../utils/axiosApi";
-import { format } from "date-fns";
+import { format,addMonths } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
@@ -21,12 +21,22 @@ export default function Updatetrips() {
   const [routeData, setRouteData] = useState([]);
   const [currentTripData, setCurrentTripData] = useState([]);
   const navi = useNavigate();
-  let id = trip;
+  
 
   const onSubmit = async (e) => {
-    try {
+    const startTimeDifference = new Date(formik.values.startdate).getTime() - new Date().getTime();
+    const hoursUntilStartTime = startTimeDifference / (1000 * 60 * 60);
+      if (hoursUntilStartTime < 48) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The start time of the trip should be at least 48 hours from now.",
+        });
+        return;
+      }
+    try { 
       const response = await axiosApi.put(
-        `http://127.0.0.1:8000/bus-owner/update-trip/${formik.values.id}/`,
+        `bus-owner/update-trip/${formik.values.id}/`,
         {
           bus: formik.values.busName,
           route: formik.values.routeName,
@@ -38,7 +48,6 @@ export default function Updatetrips() {
       );
       console.log("updated");
       if (response.status === 200) {
-        console.log("Amenities Inserted");
         Swal.fire({
           icon: "success",
           title: "Updated Successfully",
@@ -67,12 +76,13 @@ export default function Updatetrips() {
     validationSchema: UpdateTripSchema,
     onSubmit
   });
-
+console.log(formik.errors);
   const dates = (selectedStartDate, selectedEndDate) => {
     // Fetch Bus data
     if (formik.values.startdate && formik.values.enddate) {
       const start = new Date(formik.values.startdate).toISOString().split("T")[0];
       const end = new Date(formik.values.enddate).toISOString().split("T")[0];
+     
   
       axiosApi
         .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -127,7 +137,8 @@ export default function Updatetrips() {
         console.log(err.response);
         alert("Trip does not exist!!");
       });
-  }, [trip]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   console.log(formik.errors);
   return (
@@ -153,7 +164,7 @@ export default function Updatetrips() {
             <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5rem" }}>
               <Row className="mb-5">
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
-                  <Form.Label>Start Date</Form.Label>
+                  <Form.Label htmlFor="startDate">Start Date:</Form.Label>
                   <DatePicker
                     selected={formik.values.startdate}
                     onChange={(date) =>
@@ -161,10 +172,15 @@ export default function Updatetrips() {
                     }
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
+                    name="startDate"
+                    id="startDate"
+                    data-testid="start-date"
                   />
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom04">
-                  <Form.Label>End Date</Form.Label>
+                  <Form.Label htmlFor="endDate">End Date :</Form.Label>
                   <DatePicker
                     selected={formik.values.enddate}
                     onChange={(date) =>
@@ -172,6 +188,10 @@ export default function Updatetrips() {
                     }
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
+                    name = "endDate"
+                    id= "endDate"
                   />
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
@@ -185,9 +205,10 @@ export default function Updatetrips() {
                     as="select"
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                    <option value="">Select option</option>
+                    data-testid="bus-select"
+                    isInvalid={formik.touched.busName && formik.errors.busName}
+                  >Bus must be a positive number
+                    <option value="">Selected Option</option>
                     { busData.map((bus) => (
                       <option key={bus.id} value={bus.id}>
                         {bus.bus_name}
@@ -198,16 +219,17 @@ export default function Updatetrips() {
                     {formik.errors.busName}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom02">
+                <Form.Group as={Col} md="6">
                   <Form.Label>Route</Form.Label>
                   <Form.Control
                     name="routeName"
                     as="select"
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    data-testid = "route-select"
+                    isInvalid={formik.touched.routeName && formik.errors.routeName}
                   >
-                    <option value="">Select option</option>
+                    <option value="">Selected Option</option>
                     {routeData.map((route) => (
                       <option key={route.id} value={route.id}>
                         {route.start_point_name} - {route.end_point_name}

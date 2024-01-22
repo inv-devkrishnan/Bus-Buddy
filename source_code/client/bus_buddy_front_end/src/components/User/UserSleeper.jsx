@@ -33,45 +33,31 @@ function UserSleeper(props) {
         if (seat.seat_ui_order === props.row * 10 + props.column) {
           handleSelect();
           break;
+        } else {
+          console.log(seat);
         }
       }
+    } else {
+      console.log("no seat_list");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     // for finding seat ui order and the respective data
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
-    let loop = 0;
-    while (loop < seatData.length) {
-      if (seatData[loop]?.seat_ui_order === uiOrder) {
-        // checks for the seat ui order and store it into seatData
-        setPresentSeat(seatData[loop]);
-      }
-      loop++;
-    }
+    const foundSeat = seatData.find((seat) => seat?.seat_ui_order === uiOrder);
+    setPresentSeat(foundSeat || {});
   }, [props, seatData, uiOrder]);
 
   useEffect(() => {
-    let loop = 0;
+    const foundSeat = seatData.find((seat) => seat?.seat_ui_order === uiOrder);
 
-    while (loop < seatData.length) {
-      if (
-        seatData[loop]?.seat_ui_order === uiOrder &&
-        seatData[loop]?.booked.length > 0
-      ) {
-        setSeatOccupied(true);
-        // if booked field is not empty then seat is already booked
-        if (seatData[loop]?.booked[0]?.traveller_gender === 2) {
-          setSeatFemaleOccupied(true);
-          break;
-        } else {
-          setSeatFemaleOccupied(false);
-        }
-        break;
-      } else {
-        setSeatOccupied(false);
-      }
-      loop++;
+    if (foundSeat?.booked?.length > 0) {
+      setSeatOccupied(true);
+      setSeatFemaleOccupied(foundSeat.booked[0].traveller_gender === 2);
+    } else {
+      setSeatOccupied(false);
     }
   }, [seatData, uiOrder]);
 
@@ -89,7 +75,11 @@ function UserSleeper(props) {
     // gets details of nearby seat and set them if they are male or female only
     selectedSeat.female_only = props.nearFemale;
     selectedSeat.male_only = props.nearMale;
-    if (seatList.includes(presentSeat)) {
+    const isSeatAlreadySelected = seatList.some(
+      (seat) => seat.id === presentSeat.id
+    );
+
+    if (isSeatAlreadySelected) {
       const newArray = seatList.filter((seat) => seat.id !== presentSeat.id);
       // update seat list array once seat is removed
       updateSeatList(newArray);
@@ -129,11 +119,12 @@ function UserSleeper(props) {
           onClick={handleSelect}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
+          data-testid="selected sleeper button"
         >
           {select ? (
-            <img src={Selected} alt="sleeper" draggable="false" />
+            <img src={Selected} alt="selected" draggable="false" />
           ) : (
-            <img src={Sleeper} alt="selected" draggable="false" />
+            <img src={Sleeper} alt="sleeper" draggable="false" />
           )}
         </IconButton>
       )}
@@ -154,6 +145,7 @@ function UserSleeper(props) {
         }}
         onClose={handleMouseOut}
         disableRestoreFocus
+        disableScrollLock
       >
         <Typography sx={{ p: 1 }}>
           seat: {presentSeat.seat_number} <br />

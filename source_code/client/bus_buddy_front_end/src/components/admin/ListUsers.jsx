@@ -22,13 +22,9 @@ import CustomPaginator from "../common/paginator/CustomPaginator";
 function ListUsers(props) {
   const [users, setUsers] = useState([]); // to store user list
 
-  const PAGE_LIMIT = 5; // initial number of page numbers that should be shown in the pagination
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
   const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
-  const [hasNext, setHasNext] = useState(false); // to check if current page has next page
-  const [pageEndLimit, setPageEndLimit] = useState(PAGE_LIMIT); // end limit of page numbers to be shown in pagination
-  const [pageStartLimit, setPageStartLimit] = useState(1); // start limit of page numbers to be shown in pagination
 
   const [searchField, setSearchField] = useState(""); // to store search key words
   const [searchMode, setSearchMode] = useState(false);
@@ -69,7 +65,6 @@ function ListUsers(props) {
           setCurrentPage(result?.data?.current_page);
           setCurrentPage(result?.data?.current_page);
           setHasPrevious(Boolean(result?.data?.has_previous));
-          setHasNext(Boolean(result?.data?.has_next));
           console.log(result.data);
         })
         .catch(function (error) {
@@ -82,8 +77,9 @@ function ListUsers(props) {
 
   useEffect(() => {
     // loads the users during page startup
+    userStatus.current = props.busApproval ? 3 : 100
     getUsers();
-  }, [getUsers]);
+  }, [getUsers,props.busApproval]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -312,7 +308,7 @@ function ListUsers(props) {
       </Row>
 
       <Row>
-        <Col className="ms-5">
+        <Col xl={4} lg={4} md={6} sm={3}>
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current sorting mode */}
@@ -350,7 +346,7 @@ function ListUsers(props) {
           </Dropdown>
         </Col>
 
-        <Col>
+        <Col xl={4} lg={4} md={6} sm={3}>
           <Dropdown className={props.busApproval ? "invisible" : "visible"}>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current user status mode */}
@@ -390,7 +386,7 @@ function ListUsers(props) {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col>
+        <Col xl={4} lg={4} md={12} sm={6}>
           <div className="d-flex">
             <Form.Control
               placeholder="Search"
@@ -531,17 +527,10 @@ function ListUsers(props) {
       </Row>
       <Row>
         <CustomPaginator
-          PAGE_LIMIT={PAGE_LIMIT}
+        
           totalPages={totalPages}
           currentPage={currentPage}
-          hasPrevious={hasPrevious}
-          hasNext={hasNext}
-          pageStartLimit={pageStartLimit}
-          pageEndLimit={pageEndLimit}
-          setPageStartLimit={setPageStartLimit}
-          setPageEndLimit={setPageEndLimit}
           viewPage={getUsersbyPage}
-          width={"70%"}
         ></CustomPaginator>
       </Row>
       <Modal

@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from "react";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton"
 import AddedSeater from "../../../assets/maleSeater.png";
 import SelectedSeater from "../../../assets/selectedSeater.png";
 import SeaterImage from "../../../assets/seater.png";
@@ -34,17 +34,17 @@ function Seater(props) {
       {hasAdded ? (
         <IconButton onClick={handleSelect}>
           {select && propsData === props.row * 10 + props.column ? (
-            <img src={SelectedSeater} alt="sleeper" />
+            <img src={SelectedSeater} alt="selected" />
           ) : (
-            <img src={AddedSeater} alt="sleeper" />
+            <img src={AddedSeater} alt="added" />
           )}
         </IconButton>
       ) : (
-        <IconButton onClick={handleSelect}>
+        <IconButton onClick={handleSelect} data-testid="selected_seater">
           {select && propsData === props.row * 10 + props.column ? (
-            <img src={SelectedSeater} alt="sleeper" />
+            <img src={SelectedSeater} alt="selected" />
           ) : (
-            <img src={SeaterImage} alt="sleeper" />
+            <img src={SeaterImage} alt="seater" />
           )}
         </IconButton>
       )}

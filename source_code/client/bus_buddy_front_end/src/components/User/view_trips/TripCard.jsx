@@ -37,6 +37,7 @@ function TripCard(props) {
         updateSeatList([]);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelectSeat = () => {

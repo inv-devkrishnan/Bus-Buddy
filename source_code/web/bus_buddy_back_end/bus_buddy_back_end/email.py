@@ -1,8 +1,10 @@
 import logging
 import smtplib
+import os
+from dotenv import load_dotenv
+load_dotenv('busbuddy_api.env')
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
-from decouple import config
 from adminstrator.models import Email
 
 logger = logging.getLogger("django")
@@ -27,7 +29,7 @@ def send_email_with_template(subject, template, context, recipient_list, status)
     - Exception: If an unknown error occurs while sending the email.
     """
     message = render_to_string(template, context=context)
-    from_email = config("EMAIL_HOST_USER")
+    from_email = os.getenv("EMAIL_HOST_USER")
     try:
         send_mail(subject, message, from_email, recipient_list, html_message=message)
         logger.info("mail sent !")
@@ -76,7 +78,7 @@ def send_email_with_attachment(
     - smtplib.SMTPAuthenticationError: If there is an SMTP authentication error while sending the email.
     - Exception: If an unknown error occurs while sending the email.
     """
-    from_email = config("EMAIL_HOST_USER")
+    from_email = os.getenv("EMAIL_HOST_USER")
     email = EmailMessage(subject, message, from_email, recipient_list)
     email.attach(attachment_filename, attachment_content, content_type)
 

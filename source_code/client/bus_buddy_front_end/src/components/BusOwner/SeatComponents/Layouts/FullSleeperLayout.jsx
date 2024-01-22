@@ -21,6 +21,7 @@ export default function FullSleeperLayout(props) {
       .catch((err) => {
         console.log("error");
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.bus, reRender]);
 
   return (

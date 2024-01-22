@@ -18,8 +18,12 @@ export default function PickAndDrop(props) {
     if (storedPickUp && storedDropOff) {
       props.setSelectionModelPick(storedPickUp);
       props.setSelectionModelDrop(storedDropOff);
+      props.setSelectedPickStop(localStorage.getItem("pick_stop"));
+      props.setSelectedDropStop(localStorage.getItem("drop_stop"));
     }
-  }, []);
+  }, [props]);
+
+  console.log(seatData);
 
   useEffect(() => {
     const pickRows = seatData[0]?.map((stop) => ({
@@ -58,8 +62,10 @@ export default function PickAndDrop(props) {
           onChange={() => {
             if (props.selectionModelPick.includes(params.id)) {
               props.setSelectionModelPick([]);
+              props.setSelectedPickStop([]);
             } else {
               props.setSelectionModelPick([params.id]);
+              props.setSelectedPickStop([params.row.stops]);
             }
           }}
           value={params.id}
@@ -91,8 +97,10 @@ export default function PickAndDrop(props) {
           onChange={() => {
             if (props.selectionModelDrop.includes(params.id)) {
               props.setSelectionModelDrop([]);
+              props.setSelectedDropStop([]);
             } else {
               props.setSelectionModelDrop([params.id]);
+              props.setSelectedDropStop([params.row.stops]);
             }
           }}
           value={params.id}
@@ -183,4 +191,6 @@ PickAndDrop.propTypes = {
   setSelectionModelPick: PropTypes.func,
   selectionModelDrop: PropTypes.array,
   setSelectionModelDrop: PropTypes.func,
+  setSelectedPickStop: PropTypes.func,
+  setSelectedDropStop: PropTypes.func,
 };

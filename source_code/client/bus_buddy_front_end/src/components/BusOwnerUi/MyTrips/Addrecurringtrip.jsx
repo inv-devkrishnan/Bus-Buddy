@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { addMonths } from "date-fns";
 import { axiosApi } from "../../../utils/axiosApi";
 
 
@@ -20,9 +21,6 @@ export default function Addrecurringtrip() {
  const [selectedEndDate, setSelectedEndDate] = useState(null);
  const [selectedPeriodStartDate, setSelectedPeriodStartDate] = useState(null);
  const [selectedPeriodEndDate, setSelectedPeriodEndDate] = useState(null);
- const [startTime, setStartTime] = useState("");
- const [endTime, setEndTime] = useState("");
- const [searchMode, setSearchMode] = useState(true);
  const [recurrence,setRecurrence] = useState(0)
  const [startPeriodDateError, setStartPeriodDateError] = useState("");
  const [endPeriodDateError, setEndPeriodDateError] = useState("");
@@ -34,6 +32,9 @@ export default function Addrecurringtrip() {
 
  const dates = (selectedPeriodStartDate, selectedPeriodEndDate) => {
   const today = new Date();
+  const sixMonthsFromNow = new Date(today); 
+  sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
   const today_date =today
   ? new Date(today.getTime() - today.getTimezoneOffset() * 60000)
       .toISOString()
@@ -53,19 +54,19 @@ export default function Addrecurringtrip() {
        .split("T")[0]
    : null;
 
-   if(start < today_date){
-    setStartPeriodDateError("Period start date should be present date or in the future ");
+   if(start < today_date || start > sixMonthsFromNow){
+    setStartPeriodDateError("Period start date should be present date or in the future and less than 6 months");
   } else {
     setStartPeriodDateError(""); 
   }
-   if(end < start ){
-    setEndPeriodDateError("End date should be the same as the start date or a future");
+   if(end < start || end >sixMonthsFromNow ){
+    setEndPeriodDateError("End date should be the same as the start date or a future and less than 6 months");
     } else {
       setEndPeriodDateError(""); 
     }
    // Fetch Bus data
    axiosApi
-     .get(`http://127.0.0.1:8000/bus-owner/view-available-bus/?start=${start}&end=${end}`)
+     .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
      .then((response) => {
        setBusData(response.data);
      })
@@ -74,10 +75,9 @@ export default function Addrecurringtrip() {
 
    // Fetch Route data
    axiosApi
-     .get("http://127.0.0.1:8000/bus-owner/view-routes/")
+     .get("bus-owner/view-routes/")
      .then((response) => {
        setRouteData(response.data.results);
-       setSearchMode(false)
      })
      .catch((error) => console.error("Error fetching Route data:", error));
  };
@@ -86,6 +86,8 @@ export default function Addrecurringtrip() {
  const handleSubmit = async (e) => {
    e.preventDefault();
    const today = new Date();
+   const sixMonthsFromNow = new Date(today); 
+  sixMonthsFromNow.setMonth(today.getMonth() + 6);
    try {
        const formattedStartDate = selectedStartDate
        ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
@@ -123,28 +125,26 @@ export default function Addrecurringtrip() {
        console.log(end)
        console.log(formattedEndDate)
       
-       if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start){
-        setStartDateError("Start date should be same as the present date or future dates")
+       if (!formattedStartDate || formattedStartDate < today_date || formattedStartDate < start || formattedStartDate > sixMonthsFromNow){
+        setStartDateError("Start date should be same as the present date or future dates and less than 6 months")
        }
        else{
         setStartDateError("")
        }
        
-       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end){
-        setEndDateError("End date should be either start date or any future dates")
+       if (!formattedEndDate || formattedEndDate < formattedStartDate || formattedEndDate > end || formattedEndDate > sixMonthsFromNow){
+        setEndDateError("End date should be either start date or any future dates and less than 6 months")
        }
        else {
         setEndDateError("")
        }
        const response = await axiosApi.post(
-       `http://127.0.0.1:8000/bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
+       `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
        {
            bus: bus,
            route: route,
            start_date: formattedStartDate,
            end_date: formattedEndDate,
-           start_time: startTime,
-           end_time: endTime,
            recurrence: parseInt(recurrence)
        }
        );
@@ -192,23 +192,33 @@ export default function Addrecurringtrip() {
            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
            <p style={{fontSize:"13px"}}>Please select the period that you want your trip to reccur </p>
              <Row className="mb-2">
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
-                 <Form.Label>Start Date :</Form.Label>
+               <Form.Group as={Col} md="6" >
+                 <Form.Label htmlFor="periodStartDate">Start Date :</Form.Label>
                  <DatePicker
                    selected={selectedPeriodStartDate}
                    onChange={(date) => setSelectedPeriodStartDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
+                   data-testid = "period-start-date"
+                   name = "periodStartDate"
+                   id="periodStartDate"
                  />
                  {startPeriodDateError && <div style={{ color: 'red',fontSize:"11px" }}>{startPeriodDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
-                 <Form.Label>End Date:</Form.Label>
+               <Form.Group as={Col} md="6" >
+                 <Form.Label htmlFor="periodEndDate">End Date :</Form.Label>
                  <DatePicker
                    selected={selectedPeriodEndDate}
                    onChange={(date) => setSelectedPeriodEndDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
+                   data-testid = "period-end-date"
+                   name="periodEndDate"
+                   id="periodEndDate"
                  />
                  {endPeriodDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endPeriodDateError}</div>}
                </Form.Group>
@@ -218,33 +228,42 @@ export default function Addrecurringtrip() {
                <p style={{fontSize:"13px"}}>Press the search button to search for buses available for the dates you have entered</p>
              </Row>
              <Row className="mb-2">
-             <Form.Group as={Col} md="6" controlId="validationCustom02">
-                 <Form.Label>Start Date :</Form.Label>
+             <Form.Group as={Col} md="6" >
+                 <Form.Label htmlFor="startDate">Start Date:</Form.Label>
                  <DatePicker
                    selected={selectedStartDate}
                    onChange={(date) => setSelectedStartDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                   minDate={new Date()} // Disable dates before today
+                   maxDate={addMonths(new Date(), 6)}
+                   name="startDate"
+                   id="startDate"
                  />
                  {startDateError && <div style={{ color: 'red',fontSize:"11px"}}>{startDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom02">
-                 <Form.Label>End Date:</Form.Label>
+               <Form.Group as={Col} md="6" >
+                 <Form.Label htmlFor="endDate">End Date:</Form.Label>
                  <DatePicker
                    selected={selectedEndDate}
                    onChange={(date) => setSelectedEndDate(date)}
                    className="form-control"
                    dateFormat="yyyy-MM-dd"
+                    minDate={new Date()} // Disable dates before today
+                    maxDate={addMonths(new Date(), 6)}
+                    name="endDate"
+                    id="endDate"
                  />
                  {endDateError && <div style={{ color: 'red',fontSize:"11px"}}>{endDateError}</div>}
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom01">
+               <Form.Group as={Col} md="6" >
                  <Form.Label>Bus</Form.Label>
                  <Form.Control
                    as="select"
                    onChange={(e) => {
                      setBus(e.target.value);
                    }}
+                   data-testid = "bus-select"
                  >
                    <option value="">Select option</option>
                    {busData.map((bus) => (
@@ -254,13 +273,14 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-               <Form.Group as={Col} md="6" controlId="validationCustom03">
+               <Form.Group as={Col} md="6" >
                  <Form.Label>Route</Form.Label>
                  <Form.Control
                    as="select"
                    onChange={(e) => {
                      setRoute(e.target.value);
                    }}
+                   data-testid = "route-select"
                  >
                    <option value="">Select option</option>
                    {routeData.map((route) => (
@@ -270,12 +290,13 @@ export default function Addrecurringtrip() {
                    ))}
                  </Form.Control>
                </Form.Group>
-               <Form.Group as={Col} md="4" controlId="validationCustom04">
+               <Form.Group as={Col} md="4" >
                   <Form.Label>Recurrence Type</Form.Label>
                   <Form.Control
                     as="select"
                     onChange={(e) => setRecurrence(e.target.value)}
                     value={recurrence}
+                    data-testid = "recurrence-select"
                   >
                     <option value="0">Select option</option>
                     <option value="1"> Daily </option>

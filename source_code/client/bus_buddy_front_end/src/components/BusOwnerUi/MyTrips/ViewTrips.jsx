@@ -1,102 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Pagination } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
-import Form from "react-bootstrap/Form";
-
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
+import CustomPaginator from "../../common/paginator/CustomPaginator";
 
 
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [next, setNext] = useState(1);
-  const [previous, setPrevious] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [active, setActive] = useState(1);
-  const [updateFlag, setUpdateFlag] = useState(false);
+  const [currentPage,setCurrentPage] = useState(1);
+  const [updateFlag, setUpdateFlag] = useState(false)
 
   const navi = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(async (page) => {
+    try{
       const response = await axiosApi.get(
-        `http://localhost:8000/bus-owner/view-trip/?page=${page}`
+        `bus-owner/view-trip/?page=${page}`
       );
       setData(response.data.results);
-      setNext(response.data.has_next);
-      setPrevious(response.data.has_previous);
+      console.log(response.data.results);
       setTotalPages(response.data.total_pages);
-      console.log(response.data);
-    };
-    fetchData();
-  }, [page,updateFlag]);
+      setCurrentPage(response.data.current_page_number);
+    }catch(err) {
+      console.error("Error:", err);}
+   
+  },[]);
+
+  useEffect(() => {
+    
+    fetchData(currentPage);
+  }, [fetchData,currentPage,updateFlag]);
   console.log(data);
 
-  const handlePrevious = () => {
-    setActive(active - 1);
-    setPage(page - 1);
-  };
+  
 
-  const handleNext = () => {
-    setActive(active + 1);
-    setPage(page + 1);
-  };
-
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === active}
-        onClick={() => {
-          setActive(number);
-          setPage(number);
-        }}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-
-  const paginationBasic = (
-    <div>
-      <Pagination>
-        <Pagination.First
-          onClick={() => {
-            setActive(1);
-            setPage(1);
-          }}
-        />
-        {previous ? (
-          <Pagination.Prev onClick={handlePrevious} />
-        ) : (
-          <Pagination.Prev onClick={handlePrevious} disabled />
-        )}
-        {items}
-        {next ? (
-          <Pagination.Next onClick={handleNext} />
-        ) : (
-          <Pagination.Next onClick={handleNext} disabled />
-        )}
-        <Pagination.Last
-          onClick={() => {
-            setActive(totalPages);
-            setPage(totalPages);
-          }}
-        />
-      </Pagination>
-    </div>
-  );
+  
 
   const renderCards = () => {
     return data.map((trip) => (
       <div key={trip.id} style={{ marginBottom: "2.5%",borderBlockColor:"black"}}>
         <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
+          <Accordion.Item eventKey="1" data-testid = "accordian-button">
             <Accordion.Header>
               <h4>{trip.start_point_name}-{trip.end_point_name}</h4>
             </Accordion.Header>
@@ -126,12 +74,14 @@ export default function Viewallbus() {
                 <button
                   className="btn btn-primary"
                   onClick={() => update(trip.id)}
+                  data-testid = "update-button"
                 >
                   Update
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleted(trip.id)}
+                  onClick={() => deleted(trip)}
+                  data-testid = "delete-button"
                 >
                   Delete
                 </button>
@@ -147,9 +97,11 @@ export default function Viewallbus() {
   const update = (id) => {
     navi("/update-trips", { state: `${id}` });
   };
-  const deleted = (id) => {
+  const deleted = (trip) => {
+    console.log(trip)
+    
     axiosApi
-      .put(`http://127.0.0.1:8000/bus-owner/delete-trip/${id}/`)
+      .put(`bus-owner/delete-trip/${trip.id}/`)
       .then((response) => {
         console.log("bus deleted successfuly");
 
@@ -195,7 +147,11 @@ export default function Viewallbus() {
           flexDirection:"column"
         }}
       >
-        {paginationBasic}
+        <CustomPaginator
+          totalPages={totalPages}
+          currentPage={currentPage}
+          viewPage={fetchData}
+        />
       </div>
     </div>
   );
