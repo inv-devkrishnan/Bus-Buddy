@@ -87,9 +87,9 @@ function ShowTrips(props) {
     ));
   } else {
     tripsContent = (
-      <div className="d-flex mt-5 ms-5">
+      <div className="d-flex mt-5 ms-5  justify-content-center">
         <ExclamationCircle color="red" size={96}></ExclamationCircle>
-        <div className="ms-3">
+        <div className="ms-3 mb-5">
           <h2>No Matching Trips Found !!</h2>
           <h6>Try another trip or change filter options</h6>
         </div>
