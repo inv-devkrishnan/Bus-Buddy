@@ -313,8 +313,12 @@ class BaseTest2(TestCase):
         self.route = Routes.objects.create(
             user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
         )
+        self.trip = Trip.objects.create( 
+            user=self.user,bus=self.bus,route=self.route,status=0,start_date="2024-07-03",end_date="2024-07-03"
+        )
         route_id = self.route.id
         bus_id=self.bus.id
+        trip_id = self.trip.id
         self.amenities = Amenities.objects.create(
             bus=self.bus
         )
@@ -499,6 +503,8 @@ class BaseTest2(TestCase):
         self.add_route = reverse("add-routes")
         self.update_amenities = reverse("update-amenities", args=[amenities_id])
         self.can_delete_route = reverse("delete-routes", args=[route_id])
+        self.can_delete_trip = reverse("delete-trip", args=[trip_id])
+
 
         return super().setUp()
 
@@ -587,43 +593,62 @@ class BusActions(BaseTest2):
         )
 
         self.assertEqual(response.status_code, 404)
+    
+    def test_cant_update_amenities_invalid_data(self):
+        print("13")
+        response = self.client.put(
+             self.add_amenities_invalid_data, format="json"
+        )
+
+        self.assertEqual(response.status_code, 404)
 
     def test_can_delete_route(self):
-        print("13")
+        print("14")
         response = self.client.put(self.can_delete_route)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_delete_route(self):
-        print("14")
+        print("15")
         self.cant_delete_route = reverse("delete-routes", args=[990])
         response = self.client.put(self.cant_delete_route)
         self.assertEqual(response.status_code, 404)
 
     def test_can_create_route(self):
-        print("15")
+        print("16")
         response = self.client.post(self.add_route, self.create_route, format="json")
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_route_invalid_data(self):
-        print("16")
+        print("17")
         response = self.client.post(
             self.add_route, self.cant_create_route, format="json"
         )
         self.assertEqual(response.status_code, 400)
 
     def test_can_create_trip(self):
-        print("17")
+        print("18")
         response = self.client.post(self.add_trip, self.create_trip, format="json")
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_trip(self):
-        print("18")
+        print("19")
         response = self.client.post(self.add_trip, self.cant_create_trip, format="json")
         print("Status Code:", response.status_code)
         print("Response Content:", response.content)
         self.assertEqual(response.status_code, 400)
+        
+    def test_can_delete_trip(self):
+        print("20")
+        response = self.client.put(self.can_delete_trip)
+        self.assertEqual(response.status_code, 200)
+    
+    def test_cant_delete_trip(self):
+        print("21")
+        self.cant_delete_trip = reverse("delete-trip", args=[990])
+        response = self.client.put(self.cant_delete_trip)
+        self.assertEqual(response.status_code, 404)
 
 
 class RegisterOwnerTest(BaseTest):

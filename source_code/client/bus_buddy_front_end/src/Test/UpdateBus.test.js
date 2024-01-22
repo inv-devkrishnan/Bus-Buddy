@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render,screen } from "@testing-library/react";
+import { fireEvent, render,screen,waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter} from 'react-router-dom';
 import UpdateBus from "../components/BusOwnerUi/MyBuses/UpdateBus"
@@ -10,8 +10,7 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
   useLocation: jest.fn().mockReturnValue({
-    state: { id: 9 }, // Add the state object with the id property
-    pathname: "../components/BusOwnerUi/MyBuses/ViewBus.jsx",
+    state:9, // Add the state object with the id property
   }),
 }));
 
@@ -32,21 +31,26 @@ describe("Update Bus component", () => {
   it("renders component", async() => {
     const data = {
       "id": 9,
-      "bus_name": "Shamida",
-      "plate_no": "KL08AC9799",
+      "bus_name": "Sera",
+      "plate_no": "KL08AZ7887",
       "bus_seat_type": 0,
       "status": 0,
       "bus_type": 0,
       "bus_ac": 0,
-      "bus_details_status": 1,
-      "created_date": "2024-01-10T11:30:02.078000Z",
-      "updated_date": "2024-01-10T11:39:33.619868Z",
+      "bus_details_status": 2,
+      "created_date": "2023-12-14T07:09:43.785033Z",
+      "updated_date": "2023-12-29T05:51:30.075291Z",
       "user": 1
   }
-    mock.onGet(`bus-owner/update-bus/${9}/`).reply(200, data);
-
-    mock.onPut(`bus-owner/update-bus/${9}/`).reply(200, data);
-    
+  const updateData = {
+    "bus_name": "Anthony",
+    "user": 1,
+    "plate_no": "KL 32 A 7099",
+    "bus_type": 2,
+    "bus_ac": 0
+}
+    mock.onGet(`bus-owner/update-bus/${9}/`).reply(200, data)
+   
 
 
     render(
@@ -67,9 +71,16 @@ describe("Update Bus component", () => {
 
       const busSeatType = screen.getByTestId("busSeatType");
       fireEvent.change(busSeatType,{target :{value :"1"}});
+      
+      const busAcType = screen.getByTestId("busAcType");
+      fireEvent.change(busAcType,{target :{value :"1"}});
 
-    
       const update = screen.getByText("Update");
       fireEvent.click(update)
-  });
+
+
+    await waitFor(() => {
+      mock.onPut(`bus-owner/update-bus/${9}/`).reply(200, updateData);
+    });
+  }, 500000);
 });
