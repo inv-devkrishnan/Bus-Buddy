@@ -155,6 +155,10 @@ function AddRouteLocation(props) {
       setErrorMessage("Arrival date offset can't be past depature date offset");
     } else if (arrivalTime > departureTime && arrivalDate === departureDate) {
       setErrorMessage("Arrival time can't be past depature time");
+    } else if (departureDate - arrivalDate >= 2) {
+      setErrorMessage(
+        "Arrival date offset and departure date offset difference should not be greater than 1"
+      );
     } else if (checkPreviousLocationTime()) {
       const locationStop = {
         seq_id: props.sequenceId,
@@ -304,17 +308,16 @@ function AddRouteLocation(props) {
               </Button>
             </Form>
             <div className="d-flex justify-content-end">
-            <Button
-              variant="success"
-              onClick={() => {
-                saveDetails();
-              }}
-              className="mt-2 ms-auto"
-            >
-              Save Changes
-            </Button>
+              <Button
+                variant="success"
+                onClick={() => {
+                  saveDetails();
+                }}
+                className="mt-2 ms-auto"
+              >
+                Save Changes
+              </Button>
             </div>
-           
           </>
         ) : (
           <Form
@@ -410,7 +413,11 @@ function AddRouteLocation(props) {
             <label className="text-danger d-block ms-2 me-2">
               {errorMessage}
             </label>
-            <Button variant="primary mt-2" type="submit" data-testid="add-location-box">
+            <Button
+              variant="primary mt-2"
+              type="submit"
+              data-testid="add-location-box"
+            >
               Add Location
             </Button>
           </Form>
