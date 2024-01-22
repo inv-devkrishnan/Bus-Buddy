@@ -1,16 +1,16 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Sleeper from "../components/BusOwner/SeatComponents/Sleeper";
+import { AddSeatContextProvider } from "../utils/AddSeatContext";
 
 jest.mock("../assets/sleeper.png");
 jest.mock("../assets/selectedSleeper.png");
 jest.mock("../assets/maleSleeper.png");
-jest.mock("@mui/material/IconButton");
 
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
-  useContext: jest.fn().mockReturnValue({
+  AddSeatContext: jest.fn().mockReturnValue({
     updateIsClicked: jest.fn(),
     propsData: 11,
     updatePropsData: jest.fn(),
@@ -29,9 +29,20 @@ jest.mock("react", () => ({
 
 describe("SeatDescription component", () => {
   it("renders card", () => {
-    render(<Sleeper column={1} row={1} />);
+    render(
+      <AddSeatContextProvider>
+        <Sleeper column={1} row={1} />
+      </AddSeatContextProvider>
+    );
   });
   it("renders card has selected", () => {
-    render(<Sleeper column={2} row={3} />);
+    render(
+      <AddSeatContextProvider>
+        <Sleeper column={2} row={3} />
+      </AddSeatContextProvider>
+    );
+
+    const seaterButton = screen.getByTestId("selected_sleeper");
+    fireEvent.click(seaterButton);
   });
 });

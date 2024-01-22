@@ -36,6 +36,9 @@ export default function UserLayer(props) {
         setNearMale(true);
       } else if (hasFemale) {
         setNearFemale(true);
+      } else {
+        setNearFemale(false);
+        setNearMale(false);
       }
     }
   };
