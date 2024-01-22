@@ -240,6 +240,28 @@ describe("AddRouteCard component", () => {
     
   });
 
+  it("add stop and location  invalid offset difference", async() => {
+   
+    mock.onGet(`get-location-data/`).reply(200, data);
+    render(<AddRouteCard />);
+    fireEvent.click(screen.getByText("Add Location"));
+    await new Promise(resolve => setTimeout(resolve, 2000)); // to load locations
+    fireEvent.change(screen.getByTestId("arrival-time"), {
+      target: { value: "10:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("arrival-date-offset"), {
+      target: { value: "0" },
+    });
+    fireEvent.change(screen.getByTestId("depature-time"), {
+      target: { value: "11:00:00" },
+    });
+    fireEvent.change(screen.getByTestId("depature-date-offset"), {
+      target: { value: "2" },
+    });
+    fireEvent.click(screen.getByTestId("add-location-box"));
+    
+  });
+
   it("add stop and location  invalid offset", async() => {
     mock.onGet(`get-location-data/`).reply(200, data);
     render(<AddRouteCard />);
