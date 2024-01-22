@@ -15,8 +15,8 @@ function Sleeper(props) {
     for (let seat of currentData) {
       if (seat.seat_ui_order === props.row * 10 + props.column) {
         setHasAdded(true);
-        break
-      }else{
+        break;
+      } else {
         setHasAdded(false);
       }
     }
@@ -41,7 +41,7 @@ function Sleeper(props) {
           )}
         </IconButton>
       ) : (
-        <IconButton onClick={handleSelect}>
+        <IconButton onClick={handleSelect} data-testid=" selected_sleeper">
           {select && propsData === props.row * 10 + props.column ? (
             <img src={SelectedSleeper} alt="sleeper" draggable="false" />
           ) : (
