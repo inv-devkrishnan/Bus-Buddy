@@ -69,8 +69,8 @@ function TripCard(props) {
     <>
       <Container>
         <Row>
-          <Col md={12} lg={16}>
-            <Card className="p-3 mt-3 mb-3" style={{ width: "100%" }}>
+          <Col sm={12} md={12} lg={12} xl={12} xxl={12}>
+            <Card className="p-3 mt-3 mb-3 w-100">
               <CardBody>
                 <Container>
                   <Row>
@@ -86,7 +86,7 @@ function TripCard(props) {
                     </Col>
                   </Row>
                   <Row>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3}>
                       <div style={{ textAlign: "center" }}>
                         <h6>{props?.startLocationName}</h6>
                         <p className="mb-1">
@@ -98,7 +98,7 @@ function TripCard(props) {
                       </div>
                     </Col>
                     <Col
-                      xs={8}
+                      xs={12}
                       md={3}
                       className="d-flex justify-content-center"
                     >
@@ -107,7 +107,7 @@ function TripCard(props) {
                         <p>via {props?.data?.via}</p>
                       </div>
                     </Col>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3}>
                       <div style={{ textAlign: "center" }}>
                         <h6>{props?.endLocationName}</h6>
                         <p className="mb-1">
@@ -118,7 +118,7 @@ function TripCard(props) {
                         </p>
                       </div>
                     </Col>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3}>
                       <h6>Fare Starts from : ₹ {props?.data?.travel_fare}</h6>
                     </Col>
                   </Row>

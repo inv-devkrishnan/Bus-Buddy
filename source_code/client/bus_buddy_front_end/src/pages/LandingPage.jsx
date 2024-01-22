@@ -107,7 +107,7 @@ function LandingPage(props) {
                 <Col md={3}>
                   <Image src={splashscreen} fluid />
                 </Col>
-                <Col className="mt-5" md={4}>
+                <Col className="mt-5" md={9}>
                   <h1>Find your Trip</h1>
                   <h2 className="text-primary mt-3">@ Affordable Prices</h2>
                 </Col>
@@ -116,7 +116,7 @@ function LandingPage(props) {
           </Row>
 
           <Row className="justify-content-end">
-            <Col xs={12} md={3}>
+            <Col lg={12} xl={3} >
               <input
                 className="form-control mb-1"
                 list="datalistOptions"
@@ -126,7 +126,7 @@ function LandingPage(props) {
                 placeholder="From location"
               />
             </Col>
-            <Col xs={12} md={3}>
+            <Col  lg={12}  xl={3}>
               <input
                 className="form-control  mb-1"
                 list="datalistOptions"
@@ -136,7 +136,7 @@ function LandingPage(props) {
                 placeholder="To location"
               />
             </Col>
-            <Col xs={12} md={3}>
+            <Col  lg={12}  xl={3}>
               <input
                 className="form-control  mb-1"
                 data-testid="date-selector"
@@ -146,7 +146,7 @@ function LandingPage(props) {
                 min={getCurrentDate()}
               />
             </Col>
-            <Col xs={12} md={2}>
+            <Col  lg={12}  xl={2}>
               <Button
                 disabled={!enableSearch}
                 onClick={() => {

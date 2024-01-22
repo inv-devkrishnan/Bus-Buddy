@@ -34,7 +34,7 @@ function ShowTrips(props) {
   useEffect(() => {
     getTrips(props, 1, seatType, busType, busAc);
   }, [props, seatType, busType, busAc]);
-  
+
   const getTrips = async (value, page, seatType, busType, busAc) => {
     // function to get trip details from backend
     setIsLoading(true);
@@ -49,7 +49,7 @@ function ShowTrips(props) {
         console.log(result.data);
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         Swal.fire({
           title: "Something went wrong !",
           icon: "error",
@@ -101,8 +101,8 @@ function ShowTrips(props) {
     <div>
       <Container fluid className="mb-5 ms-0 me-0">
         <Row>
-          <Col md={6} lg={3}>
-            <Card style={{ width: "20rem" }} className="m-3 p-3">
+          <Col sm={12} md={3} lg={3} xl={3}>
+            <Card className=" mt-3 p-3 w-100">
               <div className="d-flex justify-content-between">
                 <h5 className="mt-2">Filters</h5>
                 <Button variant="danger" size="sm" onClick={clearFilters}>
@@ -115,7 +115,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Seater"
-                  data-testid ="seater"
+                  data-testid="seater"
                   value={1}
                   onChange={(e) => {
                     setSeatType(Number(e.target.value));
@@ -126,7 +126,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Sleeper"
-                  data-testid ="sleeper"
+                  data-testid="sleeper"
                   value={0}
                   checked={seatType === 0}
                   onChange={(e) => {
@@ -137,7 +137,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Both"
-                  data-testid ="both-sleeper"
+                  data-testid="both-sleeper"
                   value={2}
                   checked={seatType === 2}
                   onChange={(e) => {
@@ -152,7 +152,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Low Floor"
-                  data-testid ="low-floor"
+                  data-testid="low-floor"
                   value={0}
                   checked={busType === 0}
                   onChange={(e) => {
@@ -163,7 +163,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Multi-Axle"
-                  data-testid ="multi-axle"
+                  data-testid="multi-axle"
                   value={1}
                   checked={busType === 1}
                   onChange={(e) => {
@@ -174,7 +174,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="both"
-                  data-testid ="both-bus"
+                  data-testid="both-bus"
                   value={2}
                   checked={busType === 2}
                   onChange={(e) => {
@@ -189,7 +189,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="Yes"
-                  data-testid ="yes"
+                  data-testid="yes"
                   value={0}
                   checked={busAc === 0}
                   onChange={(e) => {
@@ -200,7 +200,7 @@ function ShowTrips(props) {
                 <Form.Check
                   type="radio"
                   label="No"
-                  data-testid ="no"
+                  data-testid="no"
                   value={1}
                   checked={busAc === 1}
                   onChange={(e) => {
@@ -211,27 +211,35 @@ function ShowTrips(props) {
               </Form>
             </Card>
           </Col>
-          <Col md={6} lg={9} className="col-offset-auto">
-            {isLoading ? (
-              <div className="mt-5">
-                <ProgressBar
-                  animated
-                  now={100}
-                  className="w-25 ms-auto me-auto"
-                />
-                <p className="ms-3 mt-3 text-center">
-                  Searching for trip.Please Wait...
-                </p>
-              </div>
-            ) : (
-              tripsContent
-            )}
+          <Col sm={12} md={9} lg={9} xl={9}>
             <Container>
-              <CustomPaginator
-                totalPages={totalPages}
-                currentPage={currentPage}
-                viewPage={viewPage}
-              ></CustomPaginator>
+              <Row>
+                <Col>
+                  {isLoading ? (
+                    <div className="mt-5">
+                      <ProgressBar
+                        animated
+                        now={100}
+                        className="w-25 ms-auto me-auto"
+                      />
+                      <p className="ms-3 mt-3 text-center">
+                        Searching for trip.Please Wait...
+                      </p>
+                    </div>
+                  ) : (
+                    tripsContent
+                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <CustomPaginator
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    viewPage={viewPage}
+                  ></CustomPaginator>
+                </Col>
+              </Row>
             </Container>
           </Col>
         </Row>
