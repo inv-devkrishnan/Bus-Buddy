@@ -84,7 +84,7 @@ function ProfileView() {
             )}
           </Col>
           <Col xl={6} lg={12}>
-            <Image fluid src={AdminProfileSplash} alt="admin_splash"></Image>
+            <Image fluid draggable={false} src={AdminProfileSplash} alt="admin_splash"></Image>
           </Col>
         </Row>
       </Container>
