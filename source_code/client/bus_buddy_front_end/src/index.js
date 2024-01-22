@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { UserContextProvider } from "./components/User/UserContext";
+import { UserContext } from "./components/User/UserContext";
 import { SeatContextProvider } from "./utils/SeatContext";
 import { AddSeatContextProvider } from "./utils/AddSeatContext";
 
@@ -15,11 +15,11 @@ root.render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
     <SeatContextProvider>
       <AddSeatContextProvider>
-        <UserContextProvider>
+        <UserContext.Provider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </UserContextProvider>
+        </UserContext.Provider>
       </AddSeatContextProvider>
     </SeatContextProvider>
   </GoogleOAuthProvider>

@@ -12,16 +12,12 @@ export default function UserLayout(props) {
   const { updateSeatData } = useContext(SeatContext); // use context for updating seat data
 
   useEffect(() => {
-    console.log(
-      `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}`
-    );
     openAxiosApi
       .get(
         `user/view-seats/?trip_id=${props?.trip}&&start_location=${props?.startLocation}&&end_location=${props?.endLocation}
         `
       )
       .then((res) => {
-        console.log(res.data);
         updateSeatData(res.data);
       })
       .catch((err) => {
@@ -32,12 +28,12 @@ export default function UserLayout(props) {
 
   return (
     <div className="d-flex flex-column">
-      <Grid item m={2}>
+      <Grid item m={1}>
         <span style={{ color: "cornflowerblue" }}>Lower Deck</span>
         <Card
           sx={{
             border: 1,
-            width: 300, // Default width for larger viewports
+            width: 250,
           }}
         >
           <CardContent>
@@ -47,7 +43,7 @@ export default function UserLayout(props) {
                 <img src={driver} alt="driver" />
               </Grid>
             </Grid>
-
+            <br />
             <UserLayer row={1} />
             <UserLayer row={2} />
             <UserLayer row={3} />
@@ -56,9 +52,14 @@ export default function UserLayout(props) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item m={2}>
+      <Grid item m={1}>
         <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
-        <Card sx={{ width: 300, border: 1 }}>
+        <Card
+          sx={{
+            width: 250,
+            border: 1,
+          }}
+        >
           <CardContent>
             <Grid container>
               <Grid item xs={9}></Grid>
@@ -66,6 +67,7 @@ export default function UserLayout(props) {
                 <HorizontalRuleIcon sx={{ color: "white" }} />{" "}
               </Grid>
             </Grid>
+            <br />
             <UserLayer row={6} />
             <UserLayer row={7} />
             <UserLayer row={8} />

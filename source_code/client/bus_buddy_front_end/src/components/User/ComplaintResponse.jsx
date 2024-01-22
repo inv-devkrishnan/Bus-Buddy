@@ -89,7 +89,7 @@ export default function ComplaintResponse() {
                 </Accordion.Header>
                 <Accordion.Body className="d-flex flex-column m-1">
                   {data?.complaint_body}
-                  <Image src={data?.complaint_image} alt="" width={500} />
+                  <Image src={data?.complaint_image} alt="" width="70%" />
 
                   <Button
                     variant="link"
