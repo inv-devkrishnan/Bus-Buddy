@@ -66,6 +66,12 @@ class BaseTest(TestCase):
             "email": "devk@gmail.com",
             "phone": "1111111111",
         }
+        self.invalid_update_with_invalid_email = {
+            "first_name": "Dev",
+            "last_name": "VA",
+            "email": "dgcom",
+            "phone": "9847193950",
+        }
         self.update_data_invalid_first_name = {
             "first_name": "Devkrish3an",
             "last_name": "VD",
@@ -167,6 +173,7 @@ class UpdateAdminProfile(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+
     def test_09_cant_update_with_database_error(self):
         response = self.client.put(
             self.admin_profile_update_url,
@@ -178,7 +185,21 @@ class UpdateAdminProfile(BaseTest):
 
             response = self.client.put(self.admin_profile_update_url, format="json")
         self.assertEqual(response.content, self.database_error)
-       
+
+    def test_10_cannot_update_with_invalid_email(self):
+        self.user = User.objects.create_user(
+            email="dorke@gmail.com",
+            password="12345678",
+            phone="1111111111",
+            account_provider=0,
+            role=1,
+        )
+        response = self.client.put(
+            self.admin_profile_update_url,
+            data=self.invalid_update_with_invalid_email,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
 
 
 class ListUsersTest(BaseTest):
@@ -356,20 +377,53 @@ class BanUserTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
-        
+
     def test_07_cant_ban_busowner_user_with_database_error(self):
         self.user = User.objects.create_user(
             email="dummy17@gmail.com", password="123456738", account_provider=0, role=3
         )
         cur_user = User.objects.get(email="dummy17@gmail.com")
         ban_user_url = reverse("ban_user", kwargs={"user_id": cur_user.id})
-        
+
         with patch("adminstrator.views.UpdateAPIView.perform_update") as mock_get:
             mock_get.side_effect = DatabaseError("Simulated Database error")
 
             response = self.client.put(ban_user_url, format="json")
         self.assertEqual(response.content, self.database_error)
+
+    def test_08_cant_unban_already_unbanned_user(self):
+        self.user = User.objects.create_user(
+            email="dummy25@gmail.com",
+            password="12345678",
+            account_provider=0,
+            role=2,
+            status=0,
+        )
+        cur_user = User.objects.get(email="dummy25@gmail.com")
+        unban_user_url = reverse("unban_user", kwargs={"user_id": cur_user.id})
+
+        response = self.client.put(
+            unban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
         
+    def test_09_cant_unban_admin(self):
+        self.user = User.objects.create_user(
+            email="dummy35@gmail.com",
+            password="12345678",
+            account_provider=0,
+            role=1,
+            status=2,
+        )
+        cur_user = User.objects.get(email="dummy35@gmail.com")
+        unban_user_url = reverse("unban_user", kwargs={"user_id": cur_user.id})
+
+        response = self.client.put(
+            unban_user_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)    
 
 
 class BusOwnerApprovalTest(BaseTest):
@@ -529,22 +583,27 @@ class SendComplaintResponseTest(BaseTest):
 
 
 class CreateCouponTest(BaseTest):
-    def test_01_can_get_list(self):
+    def test_01_can_get_bus_list(self):
         url = f"{reverse('create_coupon')}?status=0"
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, 200)
 
-    def test_02_cant_get_lis_invalid_params(self):
+    def test_02_can_get_trip_list(self):
+        url = f"{reverse('create_coupon')}?status=1"
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_03_cant_get_lis_invalid_params(self):
         url = f"{reverse('create_coupon')}?status=dfkjsh"
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, 200)
 
-    def test_03_cant_get_list_no_params(self):
+    def test_04_cant_get_list_no_params(self):
         url = reverse("create_coupon")
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, 200)
 
-    def test_04_can_create_coupon(self):
+    def test_05_can_create_coupon(self):
         url = reverse("create_coupon")
         data = {
             "coupon_name": "Flat 50% off",
@@ -558,7 +617,7 @@ class CreateCouponTest(BaseTest):
         response = self.client.post(url, data=data, format="json")
         self.assertEqual(response.status_code, 201)
 
-    def test_05_cant_create_coupon_invalid_data(self):
+    def test_06_cant_create_coupon_invalid_data(self):
         url = reverse("create_coupon")
         data = {
             "coupon_name": "Flat 50% off",
@@ -571,6 +630,33 @@ class CreateCouponTest(BaseTest):
         }
         response = self.client.post(url, data=data, format="json")
         self.assertEqual(response.status_code, 200)
+        
+    def test_07_cant_create_coupon_invalid_data_nobusowner(self):
+        url = reverse("create_coupon")
+        data = {
+            "coupon_name": "Flat 20% off",
+            "coupon_description": "flat 20% off on first booking",
+            "coupon_eligibility": 1,
+            "coupon_availability": 1,
+            "valid_till": "2025-12-19",
+            "one_time_use": 1,
+            "discount": 2,
+        }
+        response = self.client.post(url, data=data, format="json")
+        self.assertEqual(response.status_code, 200)
+    def test_08_cant_create_coupon_invalid_data_notrip(self):
+        url = reverse("create_coupon")
+        data = {
+            "coupon_name": "Flat 10% off",
+            "coupon_description": "flat 10% off on first booking",
+            "coupon_eligibility": 1,
+            "coupon_availability": 2,
+            "valid_till": "2025-12-19",
+            "one_time_use": 1,
+            "discount": 2,
+        }
+        response = self.client.post(url, data=data, format="json")
+        self.assertEqual(response.status_code, 200)     
 
 
 class ViewCouponTest(BaseTest):
