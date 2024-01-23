@@ -764,9 +764,9 @@ class Viewtrip(ListAPIView):
             print(serializer.data)
 
             return Response(serializer.data)
-
-        except ValueError:
-            return Response(serializer._errors)
+        
+        except Exception as e:
+            return Response(e)
 
 
 class Viewavailablebus(ListAPIView):
