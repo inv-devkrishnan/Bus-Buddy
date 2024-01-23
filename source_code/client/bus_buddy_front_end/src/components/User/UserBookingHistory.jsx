@@ -216,7 +216,7 @@ export default function UserBookingHistory() {
           </Dropdown>
         </div>
         <div className="flex-fill m-2">
-          <Table hover responsive="sm">
+          <Table hover responsive="lg">
             <thead style={{ color: "blueviolet" }}>
               <tr>
                 <th>SI No.</th>
@@ -319,7 +319,7 @@ export default function UserBookingHistory() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="d-flex flex-row justify-content-around">
+          <div className="d-flex flex-column flex-lg-row justify-content-around">
             <div className="m-2">
               <p>
                 Booking date:{" "}
@@ -402,7 +402,7 @@ export default function UserBookingHistory() {
                 Total amount: <strong>{modalData?.total_amount}</strong>
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Passenger Details</h5>
-              <Table>
+              <Table responsive="md">
                 <thead>
                   <tr>
                     <th>Name</th>

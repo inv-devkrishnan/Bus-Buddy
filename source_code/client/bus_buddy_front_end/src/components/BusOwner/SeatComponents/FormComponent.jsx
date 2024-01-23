@@ -74,6 +74,8 @@ export default function FormComponent(props) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
           updateReRender(!reRender);
+        } else {
+          console.log(res);
         }
       })
       .catch((err) => {
@@ -122,6 +124,7 @@ export default function FormComponent(props) {
           <Typography>id: {propsData}</Typography>
           <FormControl fullWidth margin="normal">
             <TextField
+              data-testid="seat_number"
               id="seatNumber"
               label="Seat number"
               variant="outlined"
@@ -138,6 +141,7 @@ export default function FormComponent(props) {
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="seatType">Seat type</InputLabel>
             <Select
+              data-testid="seat_type"
               id="seatType"
               name="seatType"
               label="Seat type"
@@ -157,6 +161,7 @@ export default function FormComponent(props) {
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="seatType">Deck</InputLabel>
             <Select
+              data-testid="deck"
               id="deck"
               name="deck"
               label="Deck"
@@ -177,6 +182,7 @@ export default function FormComponent(props) {
 
           <FormControl fullWidth margin="normal">
             <TextField
+              data-testid="seat_cost"
               id="seatCost"
               name="seatCost"
               label="Seat cost"

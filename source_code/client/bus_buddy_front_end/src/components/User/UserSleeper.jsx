@@ -11,7 +11,7 @@ import MaleSleeper from "../../assets/maleSleeper.png";
 import { SeatContext } from "../../utils/SeatContext";
 
 const Alert = forwardRef(function Alert(props, ref) {
-  // function to show alert
+  // function to show alert for the gender
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
@@ -28,13 +28,14 @@ function UserSleeper(props) {
   useEffect(() => {
     if (localStorage.getItem("seat_list")) {
       const existingSeatList = JSON.parse(localStorage.getItem("seat_list"));
-      updateSeatList(existingSeatList);
+      updateSeatList(existingSeatList);// holds the data of seats if any already selected
       for (const seat of existingSeatList) {
         if (seat.seat_ui_order === props.row * 10 + props.column) {
           handleSelect();
           break;
         } else {
           console.log(seat);
+          break;
         }
       }
     } else {
@@ -44,13 +45,14 @@ function UserSleeper(props) {
   }, []);
 
   useEffect(() => {
-    // for finding seat ui order and the respective data
+    // for finding seat ui order and the respective data as the seats are loading
     setUiOrder(props.row * 10 + props.column); // for calculating respective seat ui order
     const foundSeat = seatData.find((seat) => seat?.seat_ui_order === uiOrder);
     setPresentSeat(foundSeat || {});
   }, [props, seatData, uiOrder]);
 
   useEffect(() => {
+    // for finding wether the seat is occupied or not
     const foundSeat = seatData.find((seat) => seat?.seat_ui_order === uiOrder);
 
     if (foundSeat?.booked?.length > 0) {
@@ -107,7 +109,7 @@ function UserSleeper(props) {
   return (
     <>
       {seatOccupied ? (
-        <IconButton onClick={handleSelect} disabled>
+        <IconButton onClick={handleSelect} size="small" disabled>
           {seatFemaleOccupied ? (
             <img src={FemaleSleeper} alt="female booked" draggable="false" />
           ) : (
@@ -120,6 +122,7 @@ function UserSleeper(props) {
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
           data-testid="selected sleeper button"
+          size="small"
         >
           {select ? (
             <img src={Selected} alt="selected" draggable="false" />

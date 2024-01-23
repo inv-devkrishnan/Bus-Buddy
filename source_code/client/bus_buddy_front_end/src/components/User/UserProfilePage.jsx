@@ -59,8 +59,18 @@ export default function UserProfilePage(props) {
         console.log(err.reponse);
         setIsProfileLoading(false);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
+
+  let imageUrl;
+
+  if (changePasswordView) {
+    imageUrl = "";
+  } else if (updateProfileView) {
+    imageUrl = UpdateImage;
+  } else {
+    imageUrl = ProfileImage;
+  }
 
   return (
     <>
@@ -195,9 +205,7 @@ export default function UserProfilePage(props) {
       )}
       <div>
         <Image
-          src={
-            changePasswordView || updateProfileView ? UpdateImage : ProfileImage
-          }
+          src={imageUrl}
           className="d-none d-md-block d-sm-block"
           style={{ position: "absolute", bottom: 0, right: 0, width: "15%" }}
         />
