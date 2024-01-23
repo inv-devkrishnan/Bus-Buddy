@@ -14,12 +14,12 @@ function RefundPolicy()
             <tbody>
               <tr>
                 <td>1</td>
-                <td>Before 48 hours from trip start time</td>
+                <td>Before 48 hours from the trip start time</td>
                 <td>100 %</td>
               </tr>
               <tr>
                 <td>2</td>
-                <td>After 48 hours from trip start time</td>
+                <td>Within 48 hours from the trip start time</td>
                 <td>50%</td>
               </tr>
               <tr>

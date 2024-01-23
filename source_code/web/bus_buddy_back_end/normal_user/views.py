@@ -352,7 +352,7 @@ class ViewTrip(APIView):
             ON r.id = s.route_id and r.status = 0
             INNER JOIN trip t
             ON t.route_id = s.route_id and
-            t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) and
+            (t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.arrival_date_offset DAY)) or t.start_date = (SELECT DATE_ADD(%s, INTERVAL -s.departure_date_offset DAY))) and
             t.status = 0
             INNER JOIN bus b
             ON b.id = t.bus_id and b.status = 0 and b.bus_details_status = 2
@@ -368,7 +368,7 @@ class ViewTrip(APIView):
                 query = query + self.filter_query(seat_type, bus_type, bus_ac)
 
             result = StartStopLocations.objects.raw(
-                query, [start_location, end_location, date]
+                query, [start_location, end_location, date,date]
             )
             trip_list = []
             desired_timezone = pytz.timezone("Asia/Kolkata")
