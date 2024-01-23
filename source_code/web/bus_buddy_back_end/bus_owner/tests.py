@@ -7,6 +7,7 @@ from unittest.mock import patch
 from django.urls import reverse
 from rest_framework import status
 from .models import Bus, User,Amenities,Trip,Routes,LocationData,StartStopLocations
+from account_manage.models import Notifications
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -306,6 +307,7 @@ class BaseTest2(TestCase):
         self.loc_2=LocationData.objects.create(
             location_name = "Thrivanthapuram"
         )
+        self.notification = Notifications.objects.create(user= self.user,status = 0,message="you are great")
         
         loc_1_id = self.loc_1.id
         loc_2_id = self.loc_2.id
@@ -314,7 +316,7 @@ class BaseTest2(TestCase):
             user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
         )
         self.trip = Trip.objects.create( 
-            user=self.user,bus=self.bus,route=self.route,status=0,start_date="2024-07-03",end_date="2024-07-03"
+            user=self.user,bus=self.bus,route=self.route,status=0,start_date="2024-07-03",end_date="2024-07-03",start_time="10:00",end_time="11:00"
         )
         route_id = self.route.id
         bus_id=self.bus.id
@@ -487,6 +489,24 @@ class BaseTest2(TestCase):
             "start_time": "13:00:00",
             "end_time": "17:00:00",
         }
+        self.create_reccuring_trip = {
+            "bus" : bus_id,
+            "route" : route_id,
+            "start_date" : "2024-06-09",
+            "end_date" : "2024-06-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            "recurrence" : 1
+        }
+        self.create_reccuring_trip_invalid_data = {
+            "bus" : bus_id,
+            "route" : route_id,
+            "start_date" : "2024-06-09",
+            "end_date" : "2024-06-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            "recurrence" : 1
+        }
         self.cant_create_trip = {
             "bus" : bus_id,
             "route" : route_id,
@@ -501,10 +521,11 @@ class BaseTest2(TestCase):
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        self.update_amenities = reverse("update-amenities", args=[amenities_id])
+        self.update_amenities = reverse("update-amenities", args=[bus_id])
         self.can_delete_route = reverse("delete-routes", args=[route_id])
         self.can_delete_trip = reverse("delete-trip", args=[trip_id])
-
+        self.can_update_trip = reverse("update-trip",args=[trip_id])
+        self.change_notification_status = reverse("change-notification-status")
 
         return super().setUp()
 
@@ -628,15 +649,11 @@ class BusActions(BaseTest2):
     def test_can_create_trip(self):
         print("18")
         response = self.client.post(self.add_trip, self.create_trip, format="json")
-        print("Status Code:", response.status_code)
-        print("Response Content:", response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_trip(self):
         print("19")
         response = self.client.post(self.add_trip, self.cant_create_trip, format="json")
-        print("Status Code:", response.status_code)
-        print("Response Content:", response.content)
         self.assertEqual(response.status_code, 400)
         
     def test_can_delete_trip(self):
@@ -649,6 +666,86 @@ class BusActions(BaseTest2):
         self.cant_delete_trip = reverse("delete-trip", args=[990])
         response = self.client.put(self.cant_delete_trip)
         self.assertEqual(response.status_code, 404)
+        
+    def test_can_create_reccuring_trip(self):
+        print("22")
+        self.can_add_reccuring_trip = f"{reverse('add-reccuring-trip')}?start=2024-06-09&end=2024-07-15"
+        response = self.client.post(self.can_add_reccuring_trip, self.create_reccuring_trip, format="json")
+        self.assertEqual(response.status_code, 200)  
+    
+    def test_cant_create_reccuring_trip(self):
+        print("23")
+        self.cant_add_reccuring_trip = f"{reverse('add-reccuring-trip')}?start=2024-07-01&end=2024-07-15"
+        response = self.client.post(self.cant_add_reccuring_trip, self.create_reccuring_trip_invalid_data, format="json")
+        self.assertEqual(response.status_code, 400)   
+    
+    def test_can_update_trip(self):
+        print("24")
+        response = self.client.put(self.can_update_trip,self.create_trip,format = "json")
+        self.assertEqual(response.status_code, 200)
+    
+    def test_cant_update_trip(self):
+        print("25")
+        response = self.client.put(self.can_update_trip,self.cant_create_trip,format = "json")
+        self.assertEqual(response.status_code, 400)
+        
+    def test_change_notification_status(self):
+        print("26")
+        response = self.client.put(self.change_notification_status)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_bus(self):
+        print("27")
+        response = self.client.get(
+            reverse("view-bus"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_route(self):
+        print("28")
+        response = self.client.get(
+        reverse("view-routes"),
+        format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_trip(self):
+        print("29")
+        response = self.client.get(
+        f"{reverse('view-trips')}?page=1",
+        format="json",
+        ) 
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_notifications(self):
+        print("30")
+        response = self.client.get(
+        reverse("view-notifications"),
+        format="json",
+        ) 
+        self.assertEqual(response.status_code, 200)
+    
+    def test_get_reviews(self):
+        print("31")
+        response = self.client.get(
+        reverse("view-reviews"),
+        format="json",
+        ) 
+        self.assertEqual(response.status_code, 200)
+   
+    def test_get_trip(self):
+        print("32")
+        response = self.client.get(
+        f"{reverse('view-available-bus')}?start=2023-12-01&end=2023-12-29",
+        format="json",
+        ) 
+        self.assertEqual(response.status_code, 200)
+        
+    
+        
 
 
 class RegisterOwnerTest(BaseTest):
