@@ -103,7 +103,7 @@ class BookedSeatsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookedSeats
-        fields = ["traveller_gender", "trip"]
+        fields = ["traveller_gender", "trip","traveller_name","seat_id"]
 
 
 class SeatDetailsViewSerialzer(serializers.ModelSerializer):

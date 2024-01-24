@@ -616,6 +616,7 @@ class BusActions(BaseTest2):
             self.update_amenities, self.update_amenities_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
+    
 
     def test_cant_update_amenities_invalid_id(self):
         print("12")
@@ -778,6 +779,16 @@ class BusActions(BaseTest2):
             f"{reverse('view-available-bus')}?start=2024-01-24&end=2024-01-31",
             format="json",
         )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+    
+    def test_can_delete_bus_without_amenities(self):
+        print("34")
+        self.bus3 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456ET", user=self.user,bus_details_status=2,status=99
+        )
+        self.amenities = Amenities.objects.create(bus=self.bus3,status=99)
+        response = self.client.put(self.delete_bus, format="json")
         print(response.content)
         self.assertEqual(response.status_code, 200)
         

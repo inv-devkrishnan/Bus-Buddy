@@ -15,9 +15,10 @@ from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User,Notifications
-from normal_user.models import UserReview
+from normal_user.models import UserReview,BookedSeats
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
+from normal_user.serializer import BookedSeatsSerializer
 
 from .serializers import (
     BusSerializer,
@@ -921,7 +922,7 @@ class Viewnotifications(ListAPIView):
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         except ValidationError:
-            return Response(serializer._errors,status = 200)
+            return Response(serializer._errors,status = 400)
         
 class Changenotificationstatus(APIView):
     permission_classes = (IsAuthenticated,)
@@ -935,5 +936,22 @@ class Changenotificationstatus(APIView):
             return Response({"message":"Notification Status updated"},status = 200)
         except ValidationError:
             return Response({"message":"error"},status = 400)
+        
+class Getpassengerlist(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BookedSeatsSerializer
+    def get(self,request,id):
+        try:
+            passengers = BookedSeats.objects.filter(trip = id)
+            print(passengers)
+            listlen = len(passengers)
+            serializer = self.get_serializer(passengers,many = True)
+            data = serializer.data
+            return Response({"data": data, "listlen": listlen})
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+            
+            
+            
                     
         

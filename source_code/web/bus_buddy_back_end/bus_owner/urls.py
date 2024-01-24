@@ -24,4 +24,5 @@ urlpatterns = [
     path('view-reviews/',views.Viewreviews.as_view(),name="view-reviews"),
     path('view-notifications/',views.Viewnotifications.as_view(),name="view-notifications"),
     path('change-notification-status/',views.Changenotificationstatus.as_view(),name="change-notification-status"),
+    path('passenger-list/<int:id>/',views.Getpassengerlist.as_view(),name="passenger-list"),
 ]
