@@ -1225,3 +1225,32 @@ class RedeemCouponTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 400)
+
+
+class ViewReviewsByTripTest(BaseTest):
+    def test_01_can_get_reviews_with_valid_user_id(self):
+        user = User.objects.create_user(
+            email="dev@gmail.com", password="12345678", account_provider=0, role=3
+        )
+        review_url = f"{reverse('view-reviews')}?user_id=" + str(user.id)
+        response = self.client.get(
+            review_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_02_cant_get_reviews_with_invalid_user_id(self):
+        review_url = f"{reverse('view-reviews')}?user_id=fsdfe"
+        response = self.client.get(
+            review_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_03_cant_get_reviews_with_no_user_id_(self):
+        review_url = f"{reverse('view-reviews')}"
+        response = self.client.get(
+            review_url,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)

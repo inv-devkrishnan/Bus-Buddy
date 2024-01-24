@@ -424,3 +424,19 @@ class ListCouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = CouponDetails
         fields = "__all__"
+
+
+class ListUserNamesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name',]
+    
+    
+class ListReviewsByBusownerSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing reviews based on busowner 
+    """        
+    user_id = ListUserNamesSerializer();
+    class Meta:
+        model =  UserReview
+        fields = ["id","review_title","review_body","rating","created_date","user_id"]
