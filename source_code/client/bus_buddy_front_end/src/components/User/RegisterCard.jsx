@@ -55,8 +55,8 @@ export default function RegisterCard() {
 
   return (
     <Card
-      className="shadow-lg bg-body rounded m-2 p-3"
-      style={{ width: "80%" }}
+      className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mt-4 mb-3 bg-body rounded"
+      style={{ width: "80%", height: "35rem", overflowY: "scroll" }}
     >
       <Card.Title>
         Sign Up <ShieldLockFill color="cornflowerblue" />
@@ -232,7 +232,7 @@ export default function RegisterCard() {
                 />
               </Form.Group>
               <Row>
-                <Col>
+                <Col className="d-flex justify-content-center align-items-center">
                   <Button
                     data-testid="submit_button"
                     variant="primary"
@@ -254,7 +254,7 @@ export default function RegisterCard() {
           )}
         </Formik>
 
-        <Card.Text style={{ alignContent: "center" }}>
+        <Card.Text className="d-flex justify-content-center align-items-center">
           Already have an account?
           <Link to="/login" style={{ textDecoration: "none" }}>
             Login

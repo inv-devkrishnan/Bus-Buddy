@@ -1,21 +1,56 @@
 from django.test import TestCase
-from datetime import date,time
-from .tasks import update_booking_status
-from unittest.mock import patch,MagicMock
-from bus_owner.models import Trip
+from datetime import date, time, datetime, timedelta
+from .tasks import update_booking_status, send_mail_to_bookings_under_the_trip
+from unittest.mock import patch, MagicMock, call
+from bus_owner.models import Trip, StartStopLocations
+from normal_user.models import Bookings, PickAndDrop
+from account_manage.models import User
+
+trip_object_filter = "bus_owner.models.Trip.objects.filter"
 
 
-# Create your tests here.
 class UpdateBookingStatusTestCase(TestCase):
     def test_01_batch_update_booking_status(self):
-       with patch("bus_owner.models.Trip.objects.filter") as mock_filter:
-          trip_instance =  Trip(end_date=date(2024,1,8),end_time=time(12,0,0))
-          mock_filter.return_value = [trip_instance]
-          res = update_booking_status()
-       self.assertEqual(res, 0)
-   
+        with patch(trip_object_filter) as mock_filter:
+            trip_instance = Trip(end_date=date(2024, 1, 8), end_time=time(12, 0, 0))
+            mock_filter.return_value = [trip_instance]
+            res = update_booking_status()
+        self.assertEqual(res, 0)
+
     def test_02_batch_update_booking_status_fail(self):
-        with patch("bus_owner.models.Trip.objects.filter") as mock_filter:
-          mock_filter.side_effect = Exception("Simulated database error")
-          res = update_booking_status()
+        with patch(trip_object_filter) as mock_filter:
+            mock_filter.side_effect = Exception("Simulated database error")
+            res = update_booking_status()
+        self.assertEqual(res, -1)
+
+
+class BookingReminderEmailTestCase(TestCase):
+    def test_01_batch_email_send_status(self):
+        with patch(trip_object_filter) as mock_filter:
+            current_date = datetime.now().date()
+            day_after_tomorrow = current_date + timedelta(days=2)
+            trip_instance = Trip(start_date=day_after_tomorrow)
+            mock_filter.return_value = [trip_instance]
+            res = send_mail_to_bookings_under_the_trip()
+        self.assertEqual(res, 1)
+
+    def test_02_batch_email_send_else_status(self):
+        with patch(trip_object_filter) as mock_filter:
+            current_date = datetime.now().date()
+            day_after_tomorrow = current_date + timedelta(days=5)
+            trip_instance = Trip(start_date=day_after_tomorrow)
+            mock_filter.return_value = [trip_instance]
+            res = send_mail_to_bookings_under_the_trip()
+        self.assertEqual(res, 0)
+
+    def test_03_batch_email_send_status_fail(self):
+        with patch(trip_object_filter) as mock_filter:
+            mock_filter.side_effect = Trip.DoesNotExist("DoesNotExist")
+            res = send_mail_to_bookings_under_the_trip()
+        self.assertEqual(res, -1)
+
+    def test_04_batch_email_send_fail(self):
+        with patch(trip_object_filter) as mock_filter:
+            mock_filter.side_effect = Exception("DB error")
+            res = send_mail_to_bookings_under_the_trip()
         self.assertEqual(res, -1)

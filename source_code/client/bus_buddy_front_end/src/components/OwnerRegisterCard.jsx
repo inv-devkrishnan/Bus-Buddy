@@ -83,12 +83,14 @@ export default function OwnerRegisterCard() {
 
   return (
     <Card
-      className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mb-5 bg-body rounded"
+      className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mt-3 mb-3 bg-body rounded"
       style={{
         boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+        height: "35rem",
+        overflowY: "scroll",
       }}
     >
-      <Card.Title>
+      <Card.Title className="d-flex justify-content-center align-items-center">
         Sign Up <ShieldLockFill color="cornflowerblue" />
       </Card.Title>
       <Col>
@@ -97,7 +99,7 @@ export default function OwnerRegisterCard() {
             <Row>
               <Col>
                 <Form.Group className="mb-3" controlId="firstName">
-                  <Form.Label>Fisrt name</Form.Label>
+                  <Form.Label>First name</Form.Label>
                   <Form.Control
                     name="firstName"
                     type="text"
@@ -233,7 +235,7 @@ export default function OwnerRegisterCard() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="companyName">
-              <Form.Label>Comapny name</Form.Label>
+              <Form.Label>Company name</Form.Label>
               <Form.Control
                 name="companyName"
                 type="text"
@@ -264,7 +266,7 @@ export default function OwnerRegisterCard() {
                 placeholder="Adhaar number"
               />
               <Form.Control.Feedback type="invalid">
-                {formik.errors.companyName}
+                {formik.errors.aadhaar}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -278,10 +280,10 @@ export default function OwnerRegisterCard() {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.msme && formik.errors.msme}
                 placeholder="MSME number"
-                maxLength={25}
+                maxLength={19}
               />
               <Form.Text className="text-muted">
-                Udyan number of your company
+                Udyam number of your company (Example: UDYAM-XX-00-0000000)
               </Form.Text>
               <Form.Control.Feedback type="invalid">
                 {formik.errors.msme}
@@ -292,7 +294,7 @@ export default function OwnerRegisterCard() {
               <InputGroup className="mb-3">
                 <Form.Control
                   name="extraCharges"
-                  type="number"
+                  type="text"
                   value={formik.values.extraCharges}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -311,7 +313,7 @@ export default function OwnerRegisterCard() {
               </InputGroup>
             </Form.Group>
             <Row>
-              <Col>
+              <Col className="d-flex justify-content-center align-items-center">
                 <Button
                   variant="primary"
                   type="submit"
@@ -329,7 +331,7 @@ export default function OwnerRegisterCard() {
               </Col>
             </Row>
           </Form>
-          <Card.Text style={{ alignContent: "center" }}>
+          <Card.Text className="d-flex justify-content-center align-items-center">
             Already have an account?
             <Link to="/login" style={{ textDecoration: "none" }}>
               Login

@@ -369,7 +369,18 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Departure Date: <strong>{modalData?.trip?.start_date}</strong>
+                Departure Date:{" "}
+                <strong>
+                  {new Date(
+                    new Date(modalData?.trip?.start_date).getTime() +
+                      modalData?.pick_up?.start_stop_location
+                        ?.arrival_date_offset *
+                        24 *
+                        60 *
+                        60 *
+                        1000
+                  ).toDateString()}
+                </strong>
               </p>
               <p>
                 Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>

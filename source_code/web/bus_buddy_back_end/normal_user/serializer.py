@@ -5,8 +5,8 @@ from adminstrator.models import CouponDetails
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
 from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
 
-regex_alphabet_only = r"^[A-Za-z\s]*$"
-regex_number_only = r"^[0-9\s]*$"
+regex_alphabet_only = r"^[A-Za-z]*$"
+regex_number_only = r"^[0-9]*$"
 error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
@@ -146,7 +146,7 @@ class TravellerDataSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                regex=regex_alphabet_only,
+                regex=r"^[A-Za-z\s.]*$",
                 message=error_message_only_letter,
             ),
         ],

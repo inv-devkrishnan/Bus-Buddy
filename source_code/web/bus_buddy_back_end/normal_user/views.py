@@ -2,7 +2,8 @@ import stripe
 import pytz
 import os
 from dotenv import load_dotenv
-load_dotenv('busbuddy_api.env')
+
+load_dotenv("busbuddy_api.env")
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Subquery, OuterRef
@@ -13,7 +14,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from datetime import datetime, date,timedelta
+from datetime import datetime, date, timedelta
 
 from account_manage.models import User
 from adminstrator.models import CouponHistory, CouponDetails
@@ -368,7 +369,7 @@ class ViewTrip(APIView):
                 query = query + self.filter_query(seat_type, bus_type, bus_ac)
 
             result = StartStopLocations.objects.raw(
-                query, [start_location, end_location, date,date]
+                query, [start_location, end_location, date, date]
             )
             trip_list = []
             desired_timezone = pytz.timezone("Asia/Kolkata")
@@ -513,7 +514,8 @@ class BookSeat(APIView):
             "recipient": request.user.first_name,
             "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
             "drop_off": {"point": drop_off.bus_stop, "time": drop_off.arrival_time},
-            "trip_start": trip.start_date,
+            "trip_start": trip.start_date
+            + timedelta(days=pick_up.start_stop_location.arrival_date_offset),
             "bus": bus.bus_name,
             "route": {"from": route_start.location_name, "to": route_end.location_name},
             "travellers": request_data["booked_seats"],

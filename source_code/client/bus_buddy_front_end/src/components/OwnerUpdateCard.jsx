@@ -102,7 +102,7 @@ export default function OwnerUpdateForm() {
       <Card.Body>
         <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
           <Form.Group className="mb-3" controlId="firstName">
-            <Form.Label>Fisrt name</Form.Label>
+            <Form.Label>First name</Form.Label>
             <Form.Control
               name="firstName"
               type="text"
@@ -111,6 +111,7 @@ export default function OwnerUpdateForm() {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.firstName && formik.errors.firstName}
               placeholder="Enter first name"
+              maxLength={100}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.firstName}
@@ -127,6 +128,7 @@ export default function OwnerUpdateForm() {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.lastName && formik.errors.lastName}
               placeholder="Enter last name"
+              maxLength={100}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.lastName}
@@ -143,6 +145,7 @@ export default function OwnerUpdateForm() {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.email && formik.errors.email}
               placeholder="Enter email"
+              maxLength={100}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.email}
@@ -158,6 +161,7 @@ export default function OwnerUpdateForm() {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.phone && formik.errors.phone}
               maxLength={10}
+              minLength={10}
               placeholder="Phone number"
             />
             <Form.Control.Feedback type="invalid">
@@ -166,7 +170,7 @@ export default function OwnerUpdateForm() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="companyName">
-            <Form.Label>Comapny name</Form.Label>
+            <Form.Label>Company name</Form.Label>
             <Form.Control
               name="companyName"
               type="text"
@@ -177,6 +181,7 @@ export default function OwnerUpdateForm() {
                 formik.touched.companyName && formik.errors.companyName
               }
               placeholder="Enter the company name"
+              maxLength={100}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.companyName}
