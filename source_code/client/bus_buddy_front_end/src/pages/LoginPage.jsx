@@ -20,6 +20,7 @@ import LoginSplash from "../assets/images/login_splash.jpg";
 
 import { SeatContext } from "../utils/SeatContext";
 import { useAuthStatus } from "../utils/hooks/useAuth";
+import "../pages/login_page.css";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -143,14 +144,14 @@ function LoginPage() {
     navigate("/");
   };
   return (
-    <Container fluid className="mt-5">
-      <Row>
-        <Col>
+    <Container style={{height:"100vh"}}>
+      <Row style={{height:"100%"}}>
+        <Col  className="d-flex justify-content-center align-items-center hide-div">
           <Image src={LoginSplash} draggable={false} fluid></Image>
         </Col>
-        <Col lg={6} md={8} sm={12}>
-          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
-            <h1>Login</h1>
+        <Col xl={6} lg={7} md={12} sm={12} xs={12} className="d-flex justify-content-center align-items-center">
+          <Card className="p-5 shadow-lg p-3 bg-body rounded">
+            <h1 className="text-center">Login</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -202,59 +203,70 @@ function LoginPage() {
               <Form.Label className="d-block text-danger text-center">
                 {errorMessage}
               </Form.Label>
-              <Button data-testid="login-button" variant="primary" type="submit" className="mb-3">
+              <Button
+                data-testid="login-button"
+                style={{ width: "100%" }}
+                variant="primary"
+                type="submit"
+                className="mb-3"
+              >
                 Login
               </Button>
-              <Card.Link
-               data-testid="browse-guest"
-                onClick={() => {
-                  browseAsGuest();
-                }}
-                className="ms-3"
-                style={{ cursor: "pointer" }}
-              >
-                Browse as guest
-              </Card.Link>
-              <Card.Text>
-                <Dropdown>
-                  <Dropdown.Toggle
-                   data-testid="register"
-                    variant="light"
-                    className="text-primary"
-                    id="dropdown-basic"
-                  >
-                    Not registered ?
-                  </Dropdown.Toggle>
+              <div className="d-flex justify-content-center">
+                <Card.Link
+                  data-testid="browse-guest"
+                  onClick={() => {
+                    browseAsGuest();
+                  }}
+                  style={{ display: "block", cursor: "pointer" }}
+                >
+                  Browse as guest
+                </Card.Link>
+              </div>
+              <div className="d-flex justify-content-center mt-3">
+                <Card.Text>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      data-testid="register"
+                      variant="light"
+                      className="text-primary"
+                      id="dropdown-basic"
+                    >
+                      Not registered ?
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu
-                 >
-                    <Dropdown.Item
-                    data-testid="register-user"
-                      onClick={() => {
-                        navigate("/register-user");
-                      }}
-                    >
-                      Register as user
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                     data-testid="register-owner"
-                      onClick={() => {
-                        navigate("/register-owner");
-                      }}
-                    >
-                      Register as bus owner
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Card.Text>
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        data-testid="register-user"
+                        onClick={() => {
+                          navigate("/register-user");
+                        }}
+                      >
+                        Register as user
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        data-testid="register-owner"
+                        onClick={() => {
+                          navigate("/register-owner");
+                        }}
+                      >
+                        Register as bus owner
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Card.Text>
+              </div>
+
               <Card.Text className="d-flex justify-content-around mt-0">
                 or
               </Card.Text>
-              <GoogleLogin
-                data-testid="google-login"
-                onSuccess={authenicateGoogleUser}
-                onError={googleLoginFail}
-              />
+              <div className="d-flex justify-content-center">
+                <GoogleLogin
+                  data-testid="google-login"
+                  onSuccess={authenicateGoogleUser}
+                  onError={googleLoginFail}
+                />
+              </div>
             </Form>
           </Card>
         </Col>
