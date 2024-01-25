@@ -653,6 +653,7 @@ class ViewTripsTest(BaseTest):
             "emergency_no": "7575952387",
             "water_bottle": 0,
             "charging_point": 0,
+            "busowner": 2,
             "usb_port": 0,
             "blankets": 0,
             "pillows": 0,

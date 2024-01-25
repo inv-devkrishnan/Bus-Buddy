@@ -439,4 +439,4 @@ class ListReviewsByBusownerSerializer(serializers.ModelSerializer):
     user_id = ListUserNamesSerializer();
     class Meta:
         model =  UserReview
-        fields = ["id","review_title","review_body","rating","created_date","user_id"]
+        fields = ["id","review_title","review_body","rating","created_date","updated_time","user_id"]

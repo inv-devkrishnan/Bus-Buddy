@@ -346,7 +346,7 @@ class ViewTrip(APIView):
                 r.via, (r.travel_fare+seat_details.cost) as starting_cost,
                 DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
                 DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
-                t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
+                t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,u.id as busowner,
                 am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
                 am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows,r.travel_fare as route_cost, u.extra_charges as gst
             FROM start_stop_locations s
@@ -390,6 +390,7 @@ class ViewTrip(APIView):
                         + " skipped since current time passed start time"
                     )
                 else:
+                    logger.info(data)
                     trip_data = {
                         # stores each trip information
                         "route": data.route_id,
@@ -401,6 +402,7 @@ class ViewTrip(APIView):
                         "travel_fare": data.starting_cost,
                         "trip": data.trip_id,
                         "bus_name": data.bus_name,
+                        "bus_owner": data.busowner,
                         "bus": data.bus_id,
                         "company_name": data.company_name,
                         "route_cost": data.route_cost,
@@ -1313,7 +1315,7 @@ class ViewReviewsByTrip(ListAPIView):
         bus_owner_id = request.GET.get("user_id")
         if bus_owner_id:
             if self.validate_user_id(bus_owner_id):
-                queryset = UserReview.objects.filter(user_id=bus_owner_id).order_by("-created_date")
+                queryset = UserReview.objects.filter(review_for_id=bus_owner_id).order_by("-created_date")
                 page = self.paginate_queryset(queryset)
                 serialized_data = ListReviewsByBusownerSerializer(page, many=True)
                 logger.info("review list returned total items : "+ str(self.paginator.page.paginator.count))
