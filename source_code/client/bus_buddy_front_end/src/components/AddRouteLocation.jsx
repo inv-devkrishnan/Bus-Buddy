@@ -151,6 +151,8 @@ function AddRouteLocation(props) {
       setLocationFormValidated(true);
     } else if (checkLocationAlreadyExists(locationValue)) {
       setErrorMessage("This location is already added");
+    } else if (props.stopLocations.length === 0 && arrivalDate !== "0") {
+      setErrorMessage("Arrival date offset should be 0 for the first Location");
     } else if (arrivalDate > departureDate) {
       setErrorMessage("Arrival date offset can't be past depature date offset");
     } else if (arrivalTime > departureTime && arrivalDate === departureDate) {
