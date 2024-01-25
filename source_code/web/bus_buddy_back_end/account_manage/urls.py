@@ -9,5 +9,7 @@ urlpatterns = [
     path("change-password/",views.ChangePassword.as_view(),name="change_password"),
     path("refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("platformcharges/", views.UpdatePlatformCharges.as_view(), name="platformcharges"),
+    path("forgot-password-send-mail/", views.ForgetPasswordSendMail.as_view(), name="forgotpasswordsendmail"),
+    path("forgot-password-verify/", views.ForgetPasswordTokenVerify.as_view(), name="forgotpasswordverify"),
    
 ]
