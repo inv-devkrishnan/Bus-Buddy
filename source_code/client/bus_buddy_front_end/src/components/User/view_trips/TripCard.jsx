@@ -255,7 +255,7 @@ function TripCard(props) {
                 <Modal.Header closeButton>
                   <Modal.Title>Reviews</Modal.Title>
                 </Modal.Header>
-                <Modal.Body id="review-list" style={{ overflowY: "scroll", height: "75vh" }}>
+                <Modal.Body data-testid="list-review" id="review-list" style={{ overflowY: "scroll", height: "75vh" }}>
                   <Container>
                     <Row>
                       <Col>
