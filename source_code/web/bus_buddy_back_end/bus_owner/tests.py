@@ -6,8 +6,9 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User, Amenities, Trip, Routes, LocationData, StartStopLocations
+from .models import Bus, User, Amenities, Trip, Routes, LocationData, StartStopLocations,PickAndDrop
 from account_manage.models import Notifications
+from normal_user.models import BookedSeats,SeatDetails,Bookings
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -310,7 +311,7 @@ class BaseTest2(TestCase):
         self.notification = Notifications.objects.create(
             user=self.user, status=0, message="you are great"
         )
-
+        
         loc_1_id = self.loc_1.id
         loc_2_id = self.loc_2.id
 
@@ -357,7 +358,48 @@ class BaseTest2(TestCase):
             status=0,
             route=self.route,
         )
+        self.seat_detail = SeatDetails.objects.create(
+            bus=self.bus,
+            seat_number='B2',
+            seat_ui_order=2,
+            seat_type=1,
+            deck=0,
+            seat_cost=40.0
+        )
 
+        self.pick_1 = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop='Test Bus Stop',
+            arrival_time='12:00',
+            landmark='Test Landmark',
+            start_stop_location=self.start_stop_1
+        )
+        self.drop_1 = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop='Another Bus Stop',
+            arrival_time='14:00',
+            landmark='Another Landmark',
+            start_stop_location=self.start_stop_2
+        )
+        self.booking = Bookings.objects.create(
+            user=self.user,
+            trip=self.trip,
+            pick_up=self.pick_1,
+            drop_off=self.drop_1,
+            total_amount=100.0,
+            booking_id='BK6YR20244658'
+        )
+        
+        self.booked_seat = BookedSeats.objects.create(
+            booking=self.booking,
+            trip=self.trip,
+            traveller_name='Test Traveller',
+            traveller_gender=1,
+            traveller_dob="2001-03-01",
+            seat=self.seat_detail
+        )
+        booked_seat_id = self.booked_seat.id
+        
         self.create_bus_data = {
             "bus_name": "boss",
             "plate_no": "Kl08A7099",
@@ -538,6 +580,7 @@ class BaseTest2(TestCase):
         self.can_delete_trip = reverse("delete-trip", args=[trip_id])
         self.can_update_trip = reverse("update-trip", args=[trip_id])
         self.change_notification_status = reverse("change-notification-status")
+        self.passenger_list = reverse("passenger-list",args = [trip_id])
 
         return super().setUp()
 
@@ -791,6 +834,23 @@ class BusActions(BaseTest2):
         response = self.client.put(self.delete_bus, format="json")
         print(response.content)
         self.assertEqual(response.status_code, 200)
+    
+    def test_get_passenger_list(self):
+        print("35")
+        response = self.client.get(
+            self.passenger_list,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_passenger_list_fail(self):
+        print("36")
+        response = self.client.get(
+            reverse("passenger-list",args=[54]),
+            format="json",
+        )
+        self.assertEqual(response.status_code, 404)
+    
         
         
 

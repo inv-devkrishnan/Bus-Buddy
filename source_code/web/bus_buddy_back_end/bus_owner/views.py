@@ -18,7 +18,6 @@ from account_manage.models import User,Notifications
 from normal_user.models import UserReview,BookedSeats
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
-from normal_user.serializer import BookedSeatsSerializer
 
 from .serializers import (
     BusSerializer,
@@ -34,7 +33,8 @@ from .serializers import (
     SeatDetailSerializer,
     GetSeatSerializer,
     ReviewSerializer,
-    ViewNotificationsSerializer
+    ViewNotificationsSerializer,
+    PassengerListSerializer
 )
 import logging
 
@@ -939,15 +939,21 @@ class Changenotificationstatus(APIView):
         
 class Getpassengerlist(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = BookedSeatsSerializer
-    def get(self,request,id):
+    serializer_class = PassengerListSerializer
+    pagination_class = CustomPagination  
+
+    def get(self, request, id):
         try:
-            passengers = BookedSeats.objects.filter(trip = id)
-            print(passengers)
-            listlen = len(passengers)
-            serializer = self.get_serializer(passengers,many = True)
-            data = serializer.data
-            return Response({"data": data, "listlen": listlen})
+            if id is None:  
+                return Response(status=400)            
+            passengers = BookedSeats.objects.filter(trip=id)
+            if passengers.exists():
+                listlen = len(passengers)
+                page = self.paginate_queryset(passengers)
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response({"listlen": listlen, "data": serializer.data})
+            else:
+                return Response(status=404)
         except Exception as e:
             return Response({"error": f"{e}"}, status=400)
             
