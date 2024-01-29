@@ -11,6 +11,7 @@ from .serializer import GoogleAuthSerializer as GAS
 from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
 from .serializer import ForgetPasswordSerializer as FPS
+from .serializer import ForgotPasswordChangeSerializer as FPCS
 from .models import User
 from .token import generate_token, generate_jwt_token
 from .google_auth import Google
@@ -231,7 +232,7 @@ class ForgetPasswordSendMail(APIView):
                 else:
                     return Response(
                         {
-                            "error_code": "",
+                            "error_code": "1031",
                             "error_message": "forgot password email sent failed",
                         }
                     )
@@ -239,7 +240,7 @@ class ForgetPasswordSendMail(APIView):
             except User.DoesNotExist:
                 return Response(
                     {
-                        "error_code": "",
+                        "error_code": "D1030",
                         "error_message": "user doesn't exist or is banned",
                     }
                 )
@@ -256,14 +257,70 @@ class ForgetPasswordTokenVerify(APIView):
     def post(self, request):
         token = request.data.get("token")  # gets token for request body
         if token:
-            token = token.strip()
+            token = token.strip()  # removes any white spaces
             try:
-                value = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=["HS256"])
-                return Response(value)
+                value = jwt.decode(
+                    token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
+                )  # decodes the token
+                email = value.get("user_mail")
+                User.objects.get(
+                    email=email, status=0
+                )  # cross check wether such mail exist's
+                return Response({"is_token_valid": True})
             except Exception as e:
                 logger.info(str(e))
                 return Response(
-                    {"error_code": "", "error_message": "provided token is invalid"}
+                    {
+                        "error_code": "D1032",
+                        "error_message": "provided forgot passsword token is invalid or expired",
+                    }
                 )
         else:
             return Response({"error_code": "D1002", "error_message": "token required"})
+
+
+class ForgetPasswordChange(APIView):
+    def put(self, request):
+        serialized_data = FPCS(data=request.data)
+        if serialized_data.is_valid():
+            token = serialized_data.validated_data["token"].strip()
+            try:
+                value = jwt.decode(
+                    token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
+                )  # decodes the token
+                email = value.get("user_mail")
+                user = User.objects.get(
+                    email=email, status=0
+                )  # cross check wether such mail exist's
+                if (
+                    user.password != serialized_data._validated_data["new_password"]
+                ):  # check weather new password is same as old
+                    user.password = serialized_data.validated_data[
+                        "new_password"
+                    ]  # updates the password
+                    user.save()
+                    return Response({"message": "password changed"}, status=200)
+                else:
+                    return Response(
+                        {
+                            "error_code": "D1033",
+                            "error_message": "Old password cant be same as new password",
+                        }
+                    )
+            except Exception as e:
+                logger.info(str(e))
+                return Response(
+                    {
+                        "error_code": "D1032",
+                        "error_message": "provided forgot passsword token is invalid or expired",
+                    }
+                )
+        else:
+            return Response(
+                {
+                    "error_code": "D1002",
+                    "error_message": serialized_data.errors.get(
+                        next(iter(serialized_data.errors))
+                    )[0],
+                }
+            )
