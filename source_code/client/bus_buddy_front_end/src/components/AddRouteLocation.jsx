@@ -358,6 +358,9 @@ function AddRouteLocation(props) {
                 data-testid="arrival-time"
                 required
               />
+               <Form.Control.Feedback type="invalid">
+                Please provide a valid time
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Arrival Date offset</Form.Label>
@@ -373,6 +376,9 @@ function AddRouteLocation(props) {
                 data-testid="arrival-date-offset"
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a integer between 0 and 10
+              </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Number of days which is required to reach this location from the
                 start date of the trip.(difference of trip start date and
@@ -391,6 +397,9 @@ function AddRouteLocation(props) {
                 data-testid="depature-time"
                 required
               />
+               <Form.Control.Feedback type="invalid">
+                Please provide a valid time
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Departure Date offset</Form.Label>
@@ -406,6 +415,9 @@ function AddRouteLocation(props) {
                 }}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a integer between 0 and 10
+              </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Number of days after which we leave this location from the start
                 date of the trip.(difference of trip start date and location
