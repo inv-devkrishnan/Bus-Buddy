@@ -53,7 +53,15 @@ describe("Change Password", () => {
     });
 
     fireEvent.blur(screen.getByPlaceholderText("Re enter Password"))
+    
+    fireEvent.click(screen.getByTestId("set-show-oldpassword"));
+    fireEvent.click(screen.getByTestId("set-show-oldpassword"));
 
+    fireEvent.click(screen.getByTestId("set-show-newpassword"));
+    fireEvent.click(screen.getByTestId("set-show-newpassword"));
+
+    fireEvent.click(screen.getByTestId("set-show-repassword"));
+    fireEvent.click(screen.getByTestId("set-show-repassword"));
     // Submit the form
     fireEvent.click(screen.getByText("Change Password"));
   });
