@@ -212,6 +212,7 @@ export default function AddRouteCard() {
                     id="via"
                     type="text"
                     placeholder="Enter the location"
+                    maxLength={100}
                     pattern="^[a-zA-Z]+$"
                     required
                   />
@@ -232,17 +233,18 @@ export default function AddRouteCard() {
                       type="number"
                       step={0.1}
                       min={1}
-                      max={500}
+                      max={100}
                       maxLength={6}
                       placeholder="Enter the total time"
                       required
                     />
                     <InputGroup.Text>hrs</InputGroup.Text>
-                  </InputGroup>
-
-                  <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback type="invalid">
                     Please provide valid Duration
                   </Form.Control.Feedback>
+                  </InputGroup>
+
+                
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -273,7 +275,7 @@ export default function AddRouteCard() {
                       type="number"
                       placeholder="Enter the travel fare"
                       min={0}
-                      max={1000000}
+                      max={100000}
                       required
                       step="0.01"
                     />
