@@ -7,7 +7,7 @@ import { Formik, Field } from "formik";
 import { UpdateSchema } from "./UpdateSchema";
 import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
-import EmailVerification from "./EmailVerification";
+import EmailVerification from "../common/EmailVerification";
 
 export default function UpdateForm(props) {
   const [currentUserData, setCurrentUserData] = useState([]);

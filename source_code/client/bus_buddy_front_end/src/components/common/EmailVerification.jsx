@@ -8,7 +8,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../utils/axiosApi";
-import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
+import { showLoadingAlert } from "./loading_alert/LoadingAlert";
 
 export default function EmailVerification(props) {
   const otpRules = /^\d+$/;

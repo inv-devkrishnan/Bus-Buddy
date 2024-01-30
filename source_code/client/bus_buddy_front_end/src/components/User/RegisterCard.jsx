@@ -12,7 +12,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import Swal from "sweetalert2";
 import { openAxiosApi } from "../../utils/axiosApi";
 import { RegistrationSchema } from "./RegistrationSchema";
-import EmailVerification from "./EmailVerification";
+import EmailVerification from "../common/EmailVerification";
 
 export default function RegisterCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function RegisterCard() {
       .then((res) => {
         console.log(res);
         if (res.status === 201) {
-          Swal.close()
+          Swal.close();
           Swal.fire("Success!", "Registered successfully!", "success");
           actions.resetForm();
         } else {
