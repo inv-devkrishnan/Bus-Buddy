@@ -1,9 +1,18 @@
 import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  Col,
+  Container,
+  ProgressBar,
+  Row,
+} from "react-bootstrap";
 import {
   ArrowRight,
   CheckCircleFill,
+  ExclamationCircle,
   XCircleFill,
 } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
@@ -28,6 +37,7 @@ function TripCard(props) {
   const [reviewList, setReviewList] = useState([]);
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
+  const [isLoading, setIsLoading] = useState(false); // to show loading screen
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -77,6 +87,7 @@ function TripCard(props) {
   };
 
   const getBusOwnerReviews = async (page = 1) => {
+    setIsLoading(true);
     await openAxiosApi
       .get(`user/view-reviews/?user_id=${props?.data?.bus_owner}&page=${page}`)
       .then((result) => {
@@ -101,6 +112,7 @@ function TripCard(props) {
         });
         console.log(error);
       });
+    setIsLoading(false);
   };
 
   const getReviewbyPage = async (page) => {
@@ -255,26 +267,60 @@ function TripCard(props) {
                 <Modal.Header closeButton>
                   <Modal.Title>Reviews</Modal.Title>
                 </Modal.Header>
-                <Modal.Body data-testid="list-review" id="review-list" style={{ overflowY: "scroll", height: "75vh" }}>
+                <Modal.Body
+                  data-testid="list-review"
+                  id="review-list"
+                  style={{ overflowY: "scroll", height: "75vh" }}
+                >
                   <Container>
                     <Row>
                       <Col>
-                        {reviewList.map((review) => (
-                          <ReviewCard
-                            key={review.id}
-                            review={review}
-                          ></ReviewCard>
-                        ))}
+                        {isLoading ? (
+                          <div className="mt-5">
+                            <ProgressBar
+                              animated
+                              now={100}
+                              className="w-25 ms-auto me-auto"
+                            />
+                            <p className="ms-3 mt-3 text-center">Please Wait</p>
+                          </div>
+                        ) : (
+                          <div>
+                            {reviewList.length > 0 ? (
+                              <div>
+                                {reviewList.map((review) => (
+                                  <ReviewCard
+                                    key={review.id}
+                                    review={review}
+                                  ></ReviewCard>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="mt-5">
+                                <div className="d-flex justify-content-center">
+                                  <ExclamationCircle
+                                    size={36}
+                                  ></ExclamationCircle>
+                                </div>
+                                <h3 className="text-center mt-3">
+                                  No Reviews !
+                                </h3>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </Col>
                     </Row>
-                    <Row >
-                      <Col className="d-flex justify-content-center">
-                        <CustomPaginator
-                          totalPages={totalPages}
-                          currentPage={currentPage}
-                          viewPage={getReviewbyPage}
-                        ></CustomPaginator>
-                      </Col>
+                    <Row>
+                      {reviewList.length > 0 && !isLoading && (
+                        <Col className="d-flex justify-content-center">
+                          <CustomPaginator
+                            totalPages={totalPages}
+                            currentPage={currentPage}
+                            viewPage={getReviewbyPage}
+                          ></CustomPaginator>
+                        </Col>
+                      )}
                     </Row>
                   </Container>
                 </Modal.Body>
