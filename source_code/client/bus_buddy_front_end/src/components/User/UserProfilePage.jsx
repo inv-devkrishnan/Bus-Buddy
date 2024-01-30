@@ -22,6 +22,7 @@ export default function UserProfilePage(props) {
     setMyProfileView(true);
     setChangePasswordView(false);
     setUpdateProfileView(false);
+    fetchUserData();
   };
 
   const changePasswordViewSelected = () => {
@@ -38,29 +39,41 @@ export default function UserProfilePage(props) {
 
   const [googleUser, setGoogleUser] = useState(false);
 
+  const fetchUserData = async () => {
+    try {
+      const res = await axiosApi.get("user/update-profile");
+      setCurrentUserData(res.data);
+
+      if (localStorage.getItem("account_provider") === "1") {
+        setGoogleUser(true);
+      }
+      setIsProfileLoading(false);
+    } catch (err) {
+      console.error(err.response);
+      setIsProfileLoading(false);
+    }
+  };
+
   useEffect(() => {
-    axiosApi
-      .get("user/update-profile")
-      .then((res) => {
-        setCurrentUserData(res.data);
-        if (localStorage.getItem("account_provider") === "1") {
-          setGoogleUser(true);
-        }
-        props.setUserName(
-          `${
-            currentUserData["first_name"] +
-            " " +
-            (currentUserData["last_name"] ? currentUserData["last_name"] : "")
-          }`
-        );
-        setIsProfileLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.reponse);
-        setIsProfileLoading(false);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserData();
   }, [props]);
+
+  const updateUserName = () => {
+    props.setUserName(
+      `${
+        currentUserData["first_name"] +
+        " " +
+        (currentUserData["last_name"] ? currentUserData["last_name"] : "")
+      }`
+    );
+  };
+
+  useEffect(() => {
+    if (!isProfileLoading) {
+      updateUserName();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserData, isProfileLoading]);
 
   let imageUrl;
 
@@ -195,8 +208,10 @@ export default function UserProfilePage(props) {
             </div>
           )}
           {changePasswordView && <ChangePassword />}
-          {updateProfileView && <UpdateFormCard />}
-        </div>{" "}
+          {updateProfileView && (
+            <UpdateFormCard goToProfile={myProfileViewSelected} />
+          )}
+        </div>
       </div>
       {myProfileView ? null : (
         <div className="m-2">

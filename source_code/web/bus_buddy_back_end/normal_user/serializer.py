@@ -4,6 +4,7 @@ from rest_framework import serializers
 from adminstrator.models import CouponDetails
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
 from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
+from account_manage.models import EmailAndOTP
 
 regex_alphabet_only = r"^[A-Za-z]*$"
 regex_number_only = r"^[0-9]*$"
