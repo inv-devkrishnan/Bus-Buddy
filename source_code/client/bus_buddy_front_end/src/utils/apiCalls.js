@@ -1,11 +1,11 @@
-import { axiosApi } from "./axiosApi";
+import { axiosApi, openAxiosApi } from "./axiosApi";
 export async function login(userCredentials) {
   let status;
   let message;
   await axiosApi
     .post("account/local-login/", userCredentials)
     .then((result) => {
-      message = result.data
+      message = result.data;
       status = true;
     })
     .catch(function (error) {
@@ -21,7 +21,7 @@ export async function loginWithGoogle(credToken) {
   await axiosApi
     .post("account/google-login/", credToken)
     .then((result) => {
-      message = result.data
+      message = result.data;
       status = true;
     })
     .catch(function (error) {
@@ -63,12 +63,11 @@ export async function deleteUserAccount() {
   return { status: status, message: message };
 }
 
-export async function changePassword(passwordData)
-{
+export async function changePassword(passwordData) {
   let status;
   let message;
   await axiosApi
-    .put("account/change-password/",passwordData)
+    .put("account/change-password/", passwordData)
     .then((result) => {
       message = result.data;
       status = true;
@@ -77,5 +76,21 @@ export async function changePassword(passwordData)
       status = false;
       message = error;
     });
-    return{status:status,message:message}
+  return { status: status, message: message };
+}
+
+export async function forgotPasswordSendEmail(emailData) {
+  let status;
+  let message;
+  await openAxiosApi
+    .post("account/forgot-password-send-mail/", emailData)
+    .then((result) => {
+      message = result.data;
+      status = true;
+    })
+    .catch(function (error) {
+      status = false;
+      message = error;
+    });
+  return { status: status, message: message };
 }

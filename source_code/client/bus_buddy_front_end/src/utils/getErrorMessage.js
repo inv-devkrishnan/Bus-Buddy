@@ -98,3 +98,18 @@ export function getComplaintErrorMessages(errorCode) {
       return getErrorMessage(errorCode);
   }
 }
+
+export function getForgotPasswordErrorMessages(errorCode) {
+  switch (errorCode) {
+    case "D1030":
+      return "Email not Registered or Banned";
+    case "D1031":
+      return "forgot password email sent failed";
+    case "D1032":
+      return "Current Session is invalid or expired please try again";
+    case "D1033":
+      return "Old password can't be same as new password";
+    default:
+      return getErrorMessage(errorCode);
+  }
+}

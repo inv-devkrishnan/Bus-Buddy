@@ -295,9 +295,7 @@ class ForgetPasswordChange(APIView):
                 if (
                     user.password != serialized_data._validated_data["new_password"]
                 ):  # check weather new password is same as old
-                    user.password = serialized_data.validated_data[
-                        "new_password"
-                    ]  # updates the password
+                    user.set_password(serialized_data.validated_data["new_password"])
                     user.save()
                     return Response({"message": "password changed"}, status=200)
                 else:

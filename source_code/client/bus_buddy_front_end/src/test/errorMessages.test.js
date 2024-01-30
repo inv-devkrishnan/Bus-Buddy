@@ -5,6 +5,7 @@ import {
   getPaymentErrorMessages,
   getCouponErrorMessages,
   getComplaintErrorMessages,
+  getForgotPasswordErrorMessages,
 } from "../utils/getErrorMessage";
 
 describe("Error Messages", () => {
@@ -184,4 +185,26 @@ describe("Error Messages", () => {
       );
     });
   });
+
+  describe("getforgotPasswordErrorMessagees", () => {
+    it("Email not Registered or Banned", () => {
+      expect(getForgotPasswordErrorMessages("D1030")).toBe(
+        "Email not Registered or Banned"
+      );
+      expect(getForgotPasswordErrorMessages("D1031")).toBe(
+        "forgot password email sent failed"
+      );
+      expect(getForgotPasswordErrorMessages("D1032")).toBe(
+        "Current Session is invalid or expired please try again"
+      );
+      expect(getForgotPasswordErrorMessages("D1033")).toBe(
+        "Old password can't be same as new password"
+      );
+      expect(getForgotPasswordErrorMessages("UNKNOWN_ERROR_CODE")).toBe(
+        "Unknown error"
+      );
+    });
+  });
+
+  
 });
