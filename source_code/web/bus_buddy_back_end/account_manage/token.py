@@ -18,11 +18,11 @@ def generate_token(user):
         'user_name': user.first_name,
     }
     
-def generate_jwt_token(user_mail, expiration_minutes=30):
+def generate_jwt_token(user_id, expiration_minutes):
     # Define the payload (data to be included in the token)
     payload = {
-        'user_mail': user_mail,
-        'exp': datetime.utcnow() + timedelta(minutes=expiration_minutes),
+        'user_id': user_id,
+        'exp': datetime.utcnow() + timedelta(minutes=eval(expiration_minutes)),
         'iat': datetime.utcnow(),
     }
 

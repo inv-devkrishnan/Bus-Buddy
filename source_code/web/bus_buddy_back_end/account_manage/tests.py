@@ -236,10 +236,40 @@ class ForgetPasswordTest(BaseTest):
         )
         self.assertEquals(response.status_code, 200)
 
-    def test_04_can_verify_valid_token(self):
+    def test_04_can_send_change_password_banned_account(self):
+        User.objects.create_user(
+            email="dragon@gmail.com", password=password, account_provider=0, status=2
+        )
+        request_data = {"email": "dragon@gmail.com"}
+        response = self.client.post(
+            self.forgot_password_mail,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            b'{"error_code":"D1033","error_message":"Only applicable for active accounts"}',
+        )
+
+    def test_05_can_send_change_password_3rd_party_sign_in_account(self):
+        User.objects.create_user(
+            email="dragon3rd@gmail.com", password=password, account_provider=1, status=0
+        )
+        request_data = {"email": "dragon3rd@gmail.com"}
+        response = self.client.post(
+            self.forgot_password_mail,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            b'{"error_code":"D1030","error_message":"not applicable for google sign in or other 3rd party sign in users"}',
+        )
+
+    def test_06_can_verify_valid_token(self):
         valid_token = jwt.encode(
             {
-                "user_mail": self.email,
+                "user_id": self.user.id,
                 "exp": datetime.utcnow() + timedelta(minutes=30),
                 "iat": datetime.utcnow(),
             },
@@ -254,7 +284,7 @@ class ForgetPasswordTest(BaseTest):
         )
         self.assertEquals(response.content, b'{"is_token_valid":true}')
 
-    def test_05_cant_verify_empty_token(self):
+    def test_07_cant_verify_empty_token(self):
         request_data = {"token": ""}
         response = self.client.post(
             self.forgot_password_verify,
@@ -265,7 +295,7 @@ class ForgetPasswordTest(BaseTest):
             response.content, b'{"error_code":"D1002","error_message":"token required"}'
         )
 
-    def test_06_cant_verify_invalid_token(self):
+    def test_08_cant_verify_invalid_token(self):
         request_data = {
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX21haWwiOiJkZXZhbmFzd2luaWt1bWFyOEBnbWFpbC5jb20iLCJleHAiOjE3MDY1MDQ5NDQsImlhdCI6MTcwNjUwMzE0NH0.8yp58pTwQFVmSIgSU3od4ZNrdTWXgVoAjl1rAFN"
         }
@@ -279,10 +309,10 @@ class ForgetPasswordTest(BaseTest):
             200,
         )
 
-    def test_07_can_change_forgotten_password(self):
+    def test_09_can_change_forgotten_password(self):
         valid_token = jwt.encode(
             {
-                "user_mail": self.email,
+                "user_id": self.user.id,
                 "exp": datetime.utcnow() + timedelta(minutes=30),
                 "iat": datetime.utcnow(),
             },
@@ -297,30 +327,7 @@ class ForgetPasswordTest(BaseTest):
         )
         self.assertEquals(response.content, b'{"message":"password changed"}')
 
-    def test_08_cant_change_forgotten_with_old_password(self):
-        valid_token = jwt.encode(
-            {
-                "user_mail": self.email,
-                "exp": datetime.utcnow() + timedelta(minutes=30),
-                "iat": datetime.utcnow(),
-            },
-            os.getenv("SECRET_KEY"),
-            algorithm="HS256",
-        )
-        self.user.password = "Devk@206"
-        self.user.save()
-        request_data = {"token": valid_token, "new_password": "Devk@206"}
-        response = self.client.put(
-            self.forgot_password_change_password,
-            data=request_data,
-            format="json",
-        )
-        self.assertEquals(
-            response.content,
-            b'{"error_code":"D1033","error_message":"Old password cant be same as new password"}',
-        )
-
-    def test_09_cant_change_forgotten_password_with_invalid_token(self):
+    def test_10_cant_change_forgotten_password_with_invalid_token(self):
         valid_token = "gffjdhgjdhshretui"
         request_data = {"token": valid_token, "new_password": "Devk@706"}
         response = self.client.put(
@@ -333,7 +340,7 @@ class ForgetPasswordTest(BaseTest):
             b'{"error_code":"D1032","error_message":"provided forgot passsword token is invalid or expired"}',
         )
 
-    def test_10_cant_change_forgotten_password_with_empty_token(self):
+    def test_11_cant_change_forgotten_password_with_empty_token(self):
         valid_token = ""
         request_data = {"token": valid_token, "new_password": "Devk@806"}
         response = self.client.put(

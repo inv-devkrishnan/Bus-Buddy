@@ -1,10 +1,18 @@
-import { Col, Container, Row, Card, Form, Button } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Card,
+  Form,
+  Button,
+  InputGroup,
+} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import PasswordRequirements from "../components/common/password_requirements/PasswordRequirements";
 import { useEffect, useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { openAxiosApi } from "../utils/axiosApi";
-import { ExclamationCircleFill } from "react-bootstrap-icons";
+import { ExclamationCircleFill, Eye, EyeSlash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 import { getForgotPasswordErrorMessages } from "../utils/getErrorMessage";
 import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
@@ -22,6 +30,8 @@ function ForgotPasswordPage() {
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [validToken, setValidToken] = useState("");
+  const [showRePassword, setShowRePassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const getTokenFromUrl = useCallback(() => {
     // function to extract token from url
@@ -85,6 +95,11 @@ function ForgotPasswordPage() {
             text: getForgotPasswordErrorMessages(result.data?.error_code),
             icon: "error",
           });
+          if (result.data?.error_code === "D1032") {
+            navigate("/login", { replace: true });
+          } else {
+            console.log("session not expired");
+          }
         }
       })
       .catch(function (error) {
@@ -125,19 +140,37 @@ function ForgotPasswordPage() {
                           controlId="formBasicPassword"
                         >
                           <Form.Label>New password</Form.Label>
-                          <Form.Control
-                            type="password"
-                            maxLength={20}
-                            placeholder="New Password"
-                            {...register("new_password", {
-                              required: true,
-                              pattern:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
-                            })}
-                            onBlur={() => {
-                              trigger("new_password");
-                            }}
-                          />
+                          <InputGroup>
+                            <Form.Control
+                              type={showNewPassword ? "text" : "password"}
+                              maxLength={20}
+                              placeholder="New Password"
+                              {...register("new_password", {
+                                required: true,
+                                pattern:
+                                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
+                              })}
+                              onBlur={() => {
+                                trigger("new_password");
+                              }}
+                            />
+                            <InputGroup.Text
+                              id="basic-addon1"
+                              data-testid="set-show-newpassword"
+                              onClick={() => {
+                                showNewPassword
+                                  ? setShowNewPassword(false)
+                                  : setShowNewPassword(true);
+                              }}
+                            >
+                              {showNewPassword ? (
+                                <EyeSlash></EyeSlash>
+                              ) : (
+                                <Eye></Eye>
+                              )}
+                            </InputGroup.Text>
+                          </InputGroup>
+
                           {errors.new_password &&
                             errors.new_password.type === "required" && (
                               <p className="text-danger">* required field</p>
@@ -154,19 +187,37 @@ function ForgotPasswordPage() {
                           controlId="formBasicPassword"
                         >
                           <Form.Label>Re enter password</Form.Label>
-                          <Form.Control
-                            type="password"
-                            maxLength={20}
-                            placeholder="Re enter Password"
-                            {...register("re_password", {
-                              required: true,
-                              validate: (value) =>
-                                value === getValues("new_password"),
-                            })}
-                            onBlur={() => {
-                              trigger("re_password");
-                            }}
-                          />
+                          <InputGroup>
+                            <Form.Control
+                              type={showRePassword ? "text" : "password"}
+                              maxLength={20}
+                              placeholder="Re enter Password"
+                              {...register("re_password", {
+                                required: true,
+                                validate: (value) =>
+                                  value === getValues("new_password"),
+                              })}
+                              onBlur={() => {
+                                trigger("re_password");
+                              }}
+                            />
+                            <InputGroup.Text
+                              id="basic-addon2"
+                              data-testid="set-show-repassword"
+                              onClick={() => {
+                                showRePassword
+                                  ? setShowRePassword(false)
+                                  : setShowRePassword(true);
+                              }}
+                            >
+                              {showRePassword ? (
+                                <EyeSlash></EyeSlash>
+                              ) : (
+                                <Eye></Eye>
+                              )}
+                            </InputGroup.Text>
+                          </InputGroup>
+
                           {errors.re_password &&
                             errors.re_password.type === "required" && (
                               <p className="text-danger">* required field</p>

@@ -106,13 +106,17 @@ describe("forgot password page", () => {
      target : {value: "Devk@207"}
    })
    fireEvent.blur((screen.getByPlaceholderText("Re enter Password")))
+   fireEvent.click((screen.getByTestId("set-show-repassword")))
+   fireEvent.click((screen.getByTestId("set-show-repassword")))
+   fireEvent.click((screen.getByTestId("set-show-newpassword")))
+   fireEvent.click((screen.getByTestId("set-show-newpassword")))
    fireEvent.click(screen.getByText("Change Password"));
    await new Promise(resolve => setTimeout(resolve, 2000));
   })
 
   test("render with valid new password fail 1",async()=>{
     let res={
-        error_code : "D1023",
+        error_code : "D1032",
     }
     mock.onPut(`account/forgot-password-change/`).reply(200,res);
     await renderWithValidToken();
@@ -131,6 +135,24 @@ describe("forgot password page", () => {
   test("render with valid new password fail 2",async()=>{
     
     mock.onPut(`account/forgot-password-change/`).reply(400);
+    await renderWithValidToken();
+    fireEvent.change(screen.getByPlaceholderText("New Password"),{
+      target : {value: "Devk@207"}
+    })
+    fireEvent.blur((screen.getByPlaceholderText("New Password")))
+    fireEvent.change(screen.getByPlaceholderText("Re enter Password"),{
+     target : {value: "Devk@207"}
+   })
+   fireEvent.blur((screen.getByPlaceholderText("Re enter Password")))
+   fireEvent.click(screen.getByText("Change Password"));
+   await new Promise(resolve => setTimeout(resolve, 2000));
+  })
+
+  test("render with valid new password fail 3",async()=>{
+    let res={
+        error_code : "D1002",
+    }
+    mock.onPut(`account/forgot-password-change/`).reply(200,res);
     await renderWithValidToken();
     fireEvent.change(screen.getByPlaceholderText("New Password"),{
       target : {value: "Devk@207"}

@@ -130,7 +130,7 @@ function LoginPage() {
       });
     } else if (result.message?.error_code) {
       Swal.fire({
-        title: "Account not available",
+        title: "Operation Failed",
         text: getForgotPasswordErrorMessages(result.message?.error_code),
         icon: "error",
       });

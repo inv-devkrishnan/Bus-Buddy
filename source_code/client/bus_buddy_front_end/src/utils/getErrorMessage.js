@@ -1,6 +1,8 @@
 // all error messages related to error codes are stored here
 export function getErrorMessage(errorCode) {
   switch (errorCode) {
+    case "D1001":
+      return "User doesn't exist ";
     case "D1002":
       return "Data validation failed";
     case "D1004":
@@ -33,8 +35,6 @@ export function getLoginErrorMessages(errorCode) {
   switch (errorCode) {
     case "D1000":
       return "Invalid Login Credentials";
-    case "D1001":
-      return "User doesn't exist ";
     case "G1003":
       return "Unauthorized client (google auth)";
     case "G1004":
@@ -102,13 +102,13 @@ export function getComplaintErrorMessages(errorCode) {
 export function getForgotPasswordErrorMessages(errorCode) {
   switch (errorCode) {
     case "D1030":
-      return "Email not Registered or Banned";
+      return "Operation not applicable for google sign in or other 3rd party sign in users";
     case "D1031":
-      return "forgot password email sent failed";
+      return "Forgot password email sent failed";
     case "D1032":
       return "Current Session is invalid or expired please try again";
     case "D1033":
-      return "Old password can't be same as new password";
+      return "Operation only applicable for active accounts";
     default:
       return getErrorMessage(errorCode);
   }

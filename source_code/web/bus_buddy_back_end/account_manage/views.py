@@ -210,9 +210,12 @@ class ForgetPasswordSendMail(APIView):
         serialized_data = FPS(data=request.data)
         if serialized_data.is_valid():
             try:
-                print(serialized_data.data)
-                user = User.objects.get(email=serialized_data.data["email"], status=0)
-                token = generate_jwt_token(user.email)
+                user = User.objects.get(
+                    email=serialized_data.data["email"], status=0, account_provider=0
+                )
+                token = generate_jwt_token(
+                    user.id, os.getenv("FORGOT_PASSWORD_EXPIRATION_IN_MINUTES")
+                )
                 is_email_sent = send_email_with_template(
                     subject="Password Reset",
                     context={
@@ -220,6 +223,7 @@ class ForgetPasswordSendMail(APIView):
                         "link": os.getenv("FRONT_END_BASE_URL")
                         + "forgot-password/?token="
                         + token,
+                        "time": str(os.getenv("FORGOT_PASSWORD_EXPIRATION_IN_MINUTES")),
                     },
                     recipient_list=[
                         user.email,
@@ -238,12 +242,31 @@ class ForgetPasswordSendMail(APIView):
                     )
 
             except User.DoesNotExist:
-                return Response(
-                    {
-                        "error_code": "D1030",
-                        "error_message": "user doesn't exist or is banned",
-                    }
-                )
+                try:
+                    user = User.objects.get(email=serialized_data.data["email"])
+                    if user.status != 0:
+                        return Response(
+                            {
+                                "error_code": "D1033",
+                                "error_message": "Only applicable for active accounts",
+                            }
+                        )
+                    elif user.account_provider != 0:
+                        return Response(
+                            {
+                                "error_code": "D1030",
+                                "error_message": "not applicable for google sign in or other 3rd party sign in users",
+                            }
+                        )
+
+                except User.DoesNotExist:
+                    return Response(
+                        {
+                            "error_code": "D1001",
+                            "error_message": "User doesn't exist",
+                        }
+                    )
+
         else:
             return Response(
                 {
@@ -262,13 +285,13 @@ class ForgetPasswordTokenVerify(APIView):
                 value = jwt.decode(
                     token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
                 )  # decodes the token
-                email = value.get("user_mail")
+                user_id = value.get("user_id")
                 User.objects.get(
-                    email=email, status=0
+                    id=user_id, status=0, account_provider=0
                 )  # cross check wether such mail exist's
                 return Response({"is_token_valid": True})
             except Exception as e:
-                logger.info(str(e))
+                logger.warn(str(e))
                 return Response(
                     {
                         "error_code": "D1032",
@@ -288,25 +311,15 @@ class ForgetPasswordChange(APIView):
                 value = jwt.decode(
                     token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
                 )  # decodes the token
-                email = value.get("user_mail")
+                user_id = value.get("user_id")
                 user = User.objects.get(
-                    email=email, status=0
+                    id=user_id, status=0, account_provider=0
                 )  # cross check wether such mail exist's
-                if (
-                    user.password != serialized_data._validated_data["new_password"]
-                ):  # check weather new password is same as old
-                    user.set_password(serialized_data.validated_data["new_password"])
-                    user.save()
-                    return Response({"message": "password changed"}, status=200)
-                else:
-                    return Response(
-                        {
-                            "error_code": "D1033",
-                            "error_message": "Old password cant be same as new password",
-                        }
-                    )
+                user.set_password(serialized_data.validated_data["new_password"])
+                user.save()
+                return Response({"message": "password changed"}, status=200)
             except Exception as e:
-                logger.info(str(e))
+                logger.warn(str(e))
                 return Response(
                     {
                         "error_code": "D1032",
