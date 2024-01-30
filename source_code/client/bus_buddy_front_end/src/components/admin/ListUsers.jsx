@@ -391,6 +391,7 @@ function ListUsers(props) {
             <Form.Control
               placeholder="Search"
               value={searchField}
+              maxLength={50}
               onChange={(e) => {
                 setSearchField(e.target.value);
               }}
