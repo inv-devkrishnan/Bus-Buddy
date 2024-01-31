@@ -126,7 +126,7 @@ def send_mail_to_bookings_under_the_trip():
 def update_counter_for_otp_generation():
     """For changing the counter back to 0 for otp generation for the next day"""
     try:
-        entries = EmailAndOTP.objects.filter(counter=5)
+        entries = EmailAndOTP.objects.filter(counter=5, status=0)
         for entry in entries:
             data = {"counter": 0}
             serialized_data = EmailOtpUpdateSerializer(

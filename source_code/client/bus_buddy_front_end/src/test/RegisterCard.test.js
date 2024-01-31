@@ -57,7 +57,7 @@ describe("RegisterCard component", () => {
     fireEvent.click(clearButton);
   });
 
-  it("renders component form submit", async () => {
+  it("renders component form submit and email verification", async () => {
     render(
       <SeatContextProvider>
         <AddSeatContextProvider>
@@ -117,8 +117,7 @@ describe("RegisterCard component", () => {
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.blur(firstNameTextbox);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
     fireEvent.blur(lastNameTextbox);
@@ -217,6 +216,7 @@ describe("RegisterCard component", () => {
 
     mock.onPost("user/registration/", data).reply(400);
   });
+
   it("renders component form submit catch error 2", async () => {
     render(
       <SeatContextProvider>
@@ -251,6 +251,7 @@ describe("RegisterCard component", () => {
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
     const response = { email: "email error", phone: "error" };
+
     await waitFor(() => {
       mock.onPost("user/registration/", data).reply(400, response);
     });

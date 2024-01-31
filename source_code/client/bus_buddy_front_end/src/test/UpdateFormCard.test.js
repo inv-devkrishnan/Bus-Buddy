@@ -19,12 +19,34 @@ describe("RegisterUser component", () => {
   it("renders card", () => {
     render(<UpdateForm />);
 
-    const clearButton = screen.getByText("Clear");
+    const clearButton = screen.getByText("Cancel");
     fireEvent.click(clearButton);
   });
 
-  it("form submit", async () => {
+  it("form submit get data error", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+    };
+    mock.onGet("user/update-profile").reply(400, data);
+
     render(<UpdateForm />);
+  });
+
+  it("form submit get data put error", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+    };
+    mock.onGet("user/update-profile").reply(200, data);
+
+    render(<UpdateForm />);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
@@ -33,7 +55,42 @@ describe("RegisterUser component", () => {
     fireEvent.change(lastNameTextbox, { target: { value: "second" } });
 
     const emailTextbox = screen.getByPlaceholderText("Enter email");
-    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
+    fireEvent.change(emailTextbox, {
+      target: { value: "valid_email@gfmail.com" },
+    });
+
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+
+    mock.onPut("user/update-profile", data).reply(400);
+  });
+
+  it("form submit get data put success", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+    };
+    mock.onGet("user/update-profile").reply(200, data);
+
+    render(<UpdateForm />);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.change(firstNameTextbox, { target: { value: "first" } });
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.change(lastNameTextbox, { target: { value: "second" } });
+
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.change(emailTextbox, {
+      target: { value: "valid_email@gfmail.com" },
+    });
 
     const phoneTextbox = screen.getByPlaceholderText("Phone number");
     fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
@@ -45,8 +102,41 @@ describe("RegisterUser component", () => {
       mock.onPut("user/update-profile").reply(200);
     });
   });
+  it("form submit get data put success reply", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+    };
+    mock.onGet("user/update-profile").reply(200, data);
 
-  it("form submit get data", async () => {
+    render(<UpdateForm />);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.change(firstNameTextbox, { target: { value: "first" } });
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.change(lastNameTextbox, { target: { value: "second" } });
+
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.change(emailTextbox, {
+      target: { value: "valid_email@gfmail.com" },
+    });
+
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      mock.onPut("user/update-profile").reply(200);
+    });
+  });
+  it("form submit get data email verification", async () => {
     const data = {
       first_name: "valid_first_name",
       last_name: "valid_last_name",
@@ -63,17 +153,13 @@ describe("RegisterUser component", () => {
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
     fireEvent.change(lastNameTextbox, { target: { value: "second" } });
 
-    const emailTextbox = screen.getByPlaceholderText("Enter email");
-    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
-
     const phoneTextbox = screen.getByPlaceholderText("Phone number");
     fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
 
+    const emailTextbox = screen.getByPlaceholderText("Enter email");
+    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
+
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      mock.onPut("user/update-profile").reply(204);
-    });
   });
 });

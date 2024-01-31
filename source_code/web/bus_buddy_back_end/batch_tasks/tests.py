@@ -1,12 +1,17 @@
 from django.test import TestCase
 from datetime import date, time, datetime, timedelta
-from .tasks import update_booking_status, send_mail_to_bookings_under_the_trip
+from .tasks import (
+    update_booking_status,
+    send_mail_to_bookings_under_the_trip,
+    update_counter_for_otp_generation,
+)
 from unittest.mock import patch, MagicMock, call
 from bus_owner.models import Trip, StartStopLocations
 from normal_user.models import Bookings, PickAndDrop
-from account_manage.models import User
+from account_manage.models import User, EmailAndOTP
 
 trip_object_filter = "bus_owner.models.Trip.objects.filter"
+email_and_otp = "account_manage.models.EmailAndOTP.objects.filter"
 
 
 class UpdateBookingStatusTestCase(TestCase):
@@ -53,4 +58,25 @@ class BookingReminderEmailTestCase(TestCase):
         with patch(trip_object_filter) as mock_filter:
             mock_filter.side_effect = Exception("DB error")
             res = send_mail_to_bookings_under_the_trip()
+        self.assertEqual(res, -1)
+
+
+class EmailVerificationCounterResetTestCase(TestCase):
+    def test_01_reset_counter(self):
+        with patch(email_and_otp) as mock_filter:
+            email_instance = EmailAndOTP(counter=5, status=0)
+            mock_filter.return_value = [email_instance]
+            res = update_counter_for_otp_generation()
+        self.assertEqual(res, 1)
+
+    def test_02_reset_counter_exception(self):
+        with patch(email_and_otp) as mock_filter:
+            mock_filter.side_effect = Exception("DB error")
+            res = update_counter_for_otp_generation()
+        self.assertEqual(res, -1)
+
+    def test_03_reset_counter_exception_no_data(self):
+        with patch(email_and_otp) as mock_filter:
+            mock_filter.side_effect = EmailAndOTP.DoesNotExist("DoesNotExist")
+            res = update_counter_for_otp_generation()
         self.assertEqual(res, -1)

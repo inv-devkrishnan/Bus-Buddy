@@ -32,9 +32,9 @@ export default function UpdateForm(props) {
           icon: "error",
           title: "Oops...",
           text:
-            err.response.data.email ||
-            err.response.data.phone ||
-            err.response.data.email + err.response.data.phone,
+            err.response?.data?.email ||
+            err.response?.data?.phone ||
+            err.response?.data?.email + err.response?.data?.phone,
         });
       });
   };

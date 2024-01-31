@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -19,7 +19,14 @@ export default function EmailVerification(props) {
   const [timer, setTimer] = useState(300); // for setting timer
   const [intervalId, setIntervalId] = useState(null); // for setting timer interval
 
-  const handleClose = () => props.setShow(false); //for closing the modal
+  useEffect(() => {
+    setOtpSend(false);
+  }, []);
+
+  const handleClose = () => {
+    props.setShow(false);
+    setOtpSend(false);
+  }; //for closing the modal
 
   const getButtonLabel = () => {
     // for changing otp button's label
@@ -116,13 +123,15 @@ export default function EmailVerification(props) {
       .then((res) => {
         if (res.status === 201) {
           Swal.fire("Success!", "Email verified successfully!", "success");
-          handleClose();
           showLoadingAlert(props.alertMessage);
+          handleClose();
           setTimeout(() => {
             props.afterFunction(props.values); // completes the process
           }, 2000);
+          setOtpSend(false);
         } else if (res.status === 200) {
           Swal.fire("Oops!", "Validation error", "error");
+          setOtpSend(false);
         } else if (res.status === 205) {
           Swal.fire("Oops!", "Incorrect OTP", "warning");
         } else {
@@ -132,6 +141,7 @@ export default function EmailVerification(props) {
       .catch((err) => {
         console.log(err);
         Swal.fire("Oops!", "Something went wrong", "error");
+        setOtpSend(false);
       });
   };
 
@@ -231,6 +241,7 @@ export default function EmailVerification(props) {
                   </Button>
                 )}
                 <Button
+                  data-testid="otpButton"
                   variant={disable ? "primary" : "outline-primary"}
                   onClick={() => {
                     sendOtpApi();

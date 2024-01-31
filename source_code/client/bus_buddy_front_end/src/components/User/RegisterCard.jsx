@@ -54,9 +54,9 @@ export default function RegisterCard() {
   };
 
   const onSubmit = (values, actions) => {
-    setShowEmailVerify(true);
     setValues(values);
     setActions(actions);
+    setShowEmailVerify(true);
   };
 
   const handleClear = (values, { resetForm }) => {
