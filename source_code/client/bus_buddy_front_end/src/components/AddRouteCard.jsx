@@ -145,7 +145,7 @@ export default function AddRouteCard() {
                   </Button>
                   {stopLocations.length > 0 && (
                     <div>
-                      <Table className="w-100" responsive>
+                      <Table className="w-100" responsive style={{verticalAlign:"middle"}}>
                         <thead>
                           <tr>
                             <th>S.no</th>
