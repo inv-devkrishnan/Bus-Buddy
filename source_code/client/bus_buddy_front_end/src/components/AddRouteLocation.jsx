@@ -1,8 +1,9 @@
 import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
-import { Form } from "react-bootstrap";
+import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import "../index.css";
 function AddRouteLocation(props) {
   const [locationValue, setLocationValue] = useState(1);
   const [arrivalTime, setArrivalTime] = useState("");
@@ -234,18 +235,29 @@ function AddRouteLocation(props) {
     setStopsArray([]);
     setIsNextDay(false);
     setLocationFormValidated(false);
+    setStopFormValidated(false);
     props.handleClose();
   };
   return (
-    <Modal show={props.show} onHide={onClose}>
-      <Modal.Header closeButton>
+    <Modal
+      show={props.show}
+      onHide={onClose}
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header>
         <Modal.Title>
           {props.locationAdded ? "Add Stops" : "Add Location"}
         </Modal.Title>
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
+        >
+          <Button variant="close" onClick={onClose} />
+        </OverlayTrigger>
       </Modal.Header>
       <Modal.Body>
         {props.locationAdded ? (
-          <>
             <Form
               noValidate
               validated={stopFormValidated}
@@ -259,15 +271,18 @@ function AddRouteLocation(props) {
                 <Form.Control
                   type="text"
                   placeholder="Stop Name"
+                  maxLength={100}
                   value={stopName}
                   onChange={(e) => {
                     setStopName(e.target.value);
                   }}
                   pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
+                  className="remove-bootstrap-form-color"
                   required
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please provide valid Stop Name
+                Please provide a landmark (one or more alphabetic character ,
+                  only allows alphabets and numbers)
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3">
@@ -277,6 +292,7 @@ function AddRouteLocation(props) {
                   placeholder="Time"
                   value={stopArrivalTime}
                   data-testid="stop-time"
+                  className="remove-bootstrap-form-color"
                   onChange={(e) => {
                     setStopArrivalTime(e.target.value);
                   }}
@@ -291,7 +307,9 @@ function AddRouteLocation(props) {
                 <Form.Control
                   type="text"
                   placeholder="Landmark"
+                  maxLength={100}
                   value={landmark}
+                  className="remove-bootstrap-form-color"
                   onChange={(e) => {
                     setLandmark(e.target.value);
                   }}
@@ -299,17 +317,18 @@ function AddRouteLocation(props) {
                   required
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please provide a landmark
+                  Please provide a landmark (one or more alphabetic character ,
+                  only allows alphabets and numbers)
                 </Form.Control.Feedback>
               </Form.Group>
               <label className="text-danger d-block ms-2 me-2">
                 {errorMessage}
               </label>
-              <Button type="submit" className="ms-2 me-2">
+           
+            <div className="d-flex justify-content-end">
+              <Button type="submit" className="ms-2 mt-2 me-2">
                 Add Stop
               </Button>
-            </Form>
-            <div className="d-flex justify-content-end">
               <Button
                 variant="success"
                 onClick={() => {
@@ -320,7 +339,8 @@ function AddRouteLocation(props) {
                 Save Changes
               </Button>
             </div>
-          </>
+            </Form>
+         
         ) : (
           <Form
             noValidate
@@ -358,6 +378,9 @@ function AddRouteLocation(props) {
                 data-testid="arrival-time"
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid time
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Arrival Date offset</Form.Label>
@@ -373,6 +396,9 @@ function AddRouteLocation(props) {
                 data-testid="arrival-date-offset"
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a integer between 0 and 10
+              </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Number of days which is required to reach this location from the
                 start date of the trip.(difference of trip start date and
@@ -391,6 +417,9 @@ function AddRouteLocation(props) {
                 data-testid="depature-time"
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid time
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Departure Date offset</Form.Label>
@@ -406,6 +435,9 @@ function AddRouteLocation(props) {
                 }}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                Please provide a integer between 0 and 10
+              </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Number of days after which we leave this location from the start
                 date of the trip.(difference of trip start date and location

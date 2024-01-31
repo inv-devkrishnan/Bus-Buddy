@@ -77,9 +77,9 @@ function ListUsers(props) {
 
   useEffect(() => {
     // loads the users during page startup
-    userStatus.current = props.busApproval ? 3 : 100
+    userStatus.current = props.busApproval ? 3 : 100;
     getUsers();
-  }, [getUsers,props.busApproval]);
+  }, [getUsers, props.busApproval]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -462,8 +462,10 @@ function ListUsers(props) {
                       <tr key={user.id}>
                         <td className="fw-bold">{user.id}</td>
                         <td>{user.first_name}</td>
-                        <td>{user.role===3 && "Bus Owner"}
-                        {user.role===2 && "Normal User"}</td>
+                        <td>
+                          {user.role === 3 && "Bus Owner"}
+                          {user.role === 2 && "Normal User"}
+                        </td>
                         <td>{user.email}</td>
                         <td>
                           {user.status === 2 && (
@@ -519,7 +521,7 @@ function ListUsers(props) {
                   <div className="d-flex justify-content-center">
                     <ExclamationCircle size={36}></ExclamationCircle>
                   </div>
-                  <h3 className="text-center mt-3">List empty !</h3>
+                  <h3 className="text-center mt-3 mb-5">List empty !</h3>
                 </div>
               )}
             </div>
@@ -527,12 +529,13 @@ function ListUsers(props) {
         </div>
       </Row>
       <Row>
-        <CustomPaginator
-        
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={getUsersbyPage}
-        ></CustomPaginator>
+        <Col className="d-flex justify-content-center">
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={getUsersbyPage}
+          ></CustomPaginator>
+        </Col>
       </Row>
       <Modal
         show={show}
