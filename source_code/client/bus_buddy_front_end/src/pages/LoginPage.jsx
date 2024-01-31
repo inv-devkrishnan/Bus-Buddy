@@ -375,9 +375,11 @@ function LoginPage() {
                 <p className="text-danger mt-2"> * Email invalid</p>
               )}
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Send Email
-            </Button>
+            <div className="d-flex justify-content-center">
+              <Button variant="primary" type="submit">
+                Send Email
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
         <Modal.Footer>
