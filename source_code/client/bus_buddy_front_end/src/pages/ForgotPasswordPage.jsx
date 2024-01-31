@@ -143,6 +143,7 @@ function ForgotPasswordPage() {
                           <InputGroup>
                             <Form.Control
                               type={showNewPassword ? "text" : "password"}
+                              id="new_pass_word"
                               maxLength={20}
                               placeholder="New Password"
                               {...register("new_password", {
@@ -152,6 +153,7 @@ function ForgotPasswordPage() {
                               })}
                               onBlur={() => {
                                 trigger("new_password");
+                                document.getElementById("re_pass_word").value && trigger("re_password")  
                               }}
                             />
                             <InputGroup.Text
@@ -190,6 +192,7 @@ function ForgotPasswordPage() {
                           <InputGroup>
                             <Form.Control
                               type={showRePassword ? "text" : "password"}
+                              id="re_pass_word"
                               maxLength={20}
                               placeholder="Re enter Password"
                               {...register("re_password", {
