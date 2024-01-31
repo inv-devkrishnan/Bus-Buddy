@@ -13,6 +13,7 @@ import { changePassword } from "../utils/apiCalls";
 import { useLogout } from "../utils/hooks/useLogout";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
+import PasswordRequirements from "../components/common/password_requirements/PasswordRequirements";
 import { InputGroup } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
@@ -204,15 +205,7 @@ function ChangePassword() {
             <Card.Title className="text-center">
               Password Requirements
             </Card.Title>
-            <div className="d-flex justify-content-center">
-              <ul>
-                <li>8 ~ 20 characters</li>
-                <li>Atleast one Capital-case letter in English (A B C … Z) </li>
-                <li>Atleast one Lower-case letter in English (a b c … z)</li>
-                <li>Atleast one Number (0 1 2 … 9)</li>
-                <li>Atleast one Special characters (! @ # ...)</li>
-              </ul>
-            </div>
+            <PasswordRequirements/>
           </Card>
         </Col>
       </Row>
