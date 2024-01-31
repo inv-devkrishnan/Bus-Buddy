@@ -1233,7 +1233,7 @@ class ViewReviewsByTripTest(BaseTest):
         user = User.objects.create_user(
             email="dev@gmail.com", password="12345678", account_provider=0, role=3
         )
-        review_url = f"{reverse('view-reviews')}?user_id=" + str(user.id)
+        review_url = f"{reverse('view-reviews-normal-user')}?user_id=" + str(user.id)
         response = self.client.get(
             review_url,
             format="json",
@@ -1241,7 +1241,7 @@ class ViewReviewsByTripTest(BaseTest):
         self.assertEqual(response.status_code, 200)
 
     def test_02_cant_get_reviews_with_invalid_user_id(self):
-        review_url = f"{reverse('view-reviews')}?user_id=fsdfe"
+        review_url = f"{reverse('view-reviews-normal-user')}?user_id=fsdfe"
         response = self.client.get(
             review_url,
             format="json",
@@ -1249,7 +1249,7 @@ class ViewReviewsByTripTest(BaseTest):
         self.assertEqual(response.status_code, 400)
 
     def test_03_cant_get_reviews_with_no_user_id_(self):
-        review_url = f"{reverse('view-reviews')}"
+        review_url = f"{reverse('view-reviews-normal-user')}"
         response = self.client.get(
             review_url,
             format="json",
