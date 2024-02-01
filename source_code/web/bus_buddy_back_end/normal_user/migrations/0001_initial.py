@@ -4,7 +4,8 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 
-
+bus_owner_trip = "bus_owner.trip"
+normal_user_bookings = "normal_user.bookings"
 class Migration(migrations.Migration):
     initial = True
 
@@ -50,7 +51,7 @@ class Migration(migrations.Migration):
                 (
                     "trip",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.trip"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_trip
                     ),
                 ),
                 (
@@ -86,7 +87,7 @@ class Migration(migrations.Migration):
                     "booking_id",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="normal_user.bookings",
+                        to=normal_user_bookings,
                     ),
                 ),
                 (
@@ -100,7 +101,7 @@ class Migration(migrations.Migration):
                 (
                     "trip_id",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.trip"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_trip
                     ),
                 ),
                 (
@@ -179,7 +180,7 @@ class Migration(migrations.Migration):
                     "booking",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="normal_user.bookings",
+                        to=normal_user_bookings,
                     ),
                 ),
             ],
@@ -209,7 +210,7 @@ class Migration(migrations.Migration):
                     "booking",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="normal_user.bookings",
+                        to=normal_user_bookings,
                     ),
                 ),
                 (
@@ -222,7 +223,7 @@ class Migration(migrations.Migration):
                 (
                     "trip",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.trip"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_trip
                     ),
                 ),
             ],

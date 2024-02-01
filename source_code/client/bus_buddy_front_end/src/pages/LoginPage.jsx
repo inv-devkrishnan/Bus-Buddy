@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Button from "react-bootstrap/Button";
-import { Container, Card, InputGroup } from "react-bootstrap";
+import { Container, Card, InputGroup, Modal } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -14,12 +14,23 @@ import Swal from "sweetalert2";
 
 import { GoogleLogin } from "@react-oauth/google";
 
-import { login, loginWithGoogle } from "../utils/apiCalls";
-import { getLoginErrorMessages } from "../utils/getErrorMessage";
+import { useForm } from "react-hook-form";
+
+import {
+  login,
+  loginWithGoogle,
+  forgotPasswordSendEmail,
+} from "../utils/apiCalls";
+import {
+  getForgotPasswordErrorMessages,
+  getLoginErrorMessages,
+} from "../utils/getErrorMessage";
 import LoginSplash from "../assets/images/login_splash.jpg";
 
 import { SeatContext } from "../utils/SeatContext";
 import { useAuthStatus } from "../utils/hooks/useAuth";
+import "../pages/login_page.css";
+import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
 
 function LoginPage() {
   const [validated, setValidated] = useState(false);
@@ -31,6 +42,22 @@ function LoginPage() {
   const { seatList } = useContext(SeatContext);
   console.log(seatList);
   const authStatus = useAuthStatus();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const handleForgotPasswordClose = () => {
+    setShowForgotPassword(false);
+    unregister("email");
+    document.getElementById("forgot-password-form").reset();
+  };
+  const handleForgotPasswordShow = () => setShowForgotPassword(true);
+
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    unregister,
+    formState: { errors },
+  } = useForm();
+
   useEffect(() => {
     if (authStatus) {
       navigate("/");
@@ -89,6 +116,34 @@ function LoginPage() {
     loginResponse(loginRes);
   };
 
+  const forgotPasswordSendMail = async (data) => {
+    // function to send forgotPasswordMail
+    console.log(data);
+    showLoadingAlert("Please Wait");
+    const result = await forgotPasswordSendEmail(data);
+    Swal.close();
+    if (result.message?.message === "email sent") {
+      Swal.fire({
+        title: "Email Sent",
+        text: "Check your inbox for a password reset mail",
+        icon: "success",
+      });
+    } else if (result.message?.error_code) {
+      Swal.fire({
+        title: "Operation Failed",
+        text: getForgotPasswordErrorMessages(result.message?.error_code),
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: "Unknown Error",
+        icon: "error",
+      });
+    }
+    handleForgotPasswordClose();
+  };
+
   const loginResponse = (loginRes) => {
     // function which is reponsible for showing error and success messages after login
     if (loginRes.status) {
@@ -124,7 +179,7 @@ function LoginPage() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleLoginSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -143,15 +198,22 @@ function LoginPage() {
     navigate("/");
   };
   return (
-    <Container fluid className="mt-5">
-      <Row>
-        <Col>
+    <Container style={{ height: "100vh" }}>
+      <Row style={{ height: "100%" }}>
+        <Col className="d-flex justify-content-center align-items-center hide-div">
           <Image src={LoginSplash} draggable={false} fluid></Image>
         </Col>
-        <Col lg={6} md={8} sm={12}>
-          <Card className="p-5 shadow-lg p-3 mb-5 bg-body rounded">
-            <h1>Login</h1>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Col
+          xl={6}
+          lg={7}
+          md={12}
+          sm={12}
+          xs={12}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <Card className="p-5 shadow-lg p-3 bg-body rounded">
+            <h1 className="text-center">Login</h1>
+            <Form noValidate validated={validated} onSubmit={handleLoginSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -202,63 +264,130 @@ function LoginPage() {
               <Form.Label className="d-block text-danger text-center">
                 {errorMessage}
               </Form.Label>
-              <Button data-testid="login-button" variant="primary" type="submit" className="mb-3">
+              <Button
+                data-testid="login-button"
+                style={{ width: "100%" }}
+                variant="primary"
+                type="submit"
+                className="mb-3"
+              >
                 Login
               </Button>
-              <Card.Link
-               data-testid="browse-guest"
-                onClick={() => {
-                  browseAsGuest();
-                }}
-                className="ms-3"
-                style={{ cursor: "pointer" }}
-              >
-                Browse as guest
-              </Card.Link>
-              <Card.Text>
-                <Dropdown>
-                  <Dropdown.Toggle
-                   data-testid="register"
-                    variant="light"
-                    className="text-primary"
-                    id="dropdown-basic"
-                  >
-                    Not registered ?
-                  </Dropdown.Toggle>
+              <div className="d-flex justify-content-center">
+                <Card.Link
+                  data-testid="browse-guest"
+                  onClick={() => {
+                    browseAsGuest();
+                  }}
+                  style={{ display: "block", cursor: "pointer" }}
+                >
+                  Browse as guest
+                </Card.Link>
+              </div>
+              <div className="d-flex justify-content-center mt-2">
+                <Card.Link
+                  data-testid="forgot-password"
+                  onClick={handleForgotPasswordShow}
+                  style={{ display: "block", cursor: "pointer" }}
+                >
+                  Forgot Password ?
+                </Card.Link>
+              </div>
+              <div className="d-flex justify-content-center mt-2">
+                <Card.Text>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      data-testid="register"
+                      variant="light"
+                      className="text-primary"
+                      id="dropdown-basic"
+                    >
+                      Not registered ?
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu
-                 >
-                    <Dropdown.Item
-                    data-testid="register-user"
-                      onClick={() => {
-                        navigate("/register-user");
-                      }}
-                    >
-                      Register as user
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                     data-testid="register-owner"
-                      onClick={() => {
-                        navigate("/register-owner");
-                      }}
-                    >
-                      Register as bus owner
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Card.Text>
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        data-testid="register-user"
+                        onClick={() => {
+                          navigate("/register-user");
+                        }}
+                      >
+                        Register as user
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        data-testid="register-owner"
+                        onClick={() => {
+                          navigate("/register-owner");
+                        }}
+                      >
+                        Register as bus owner
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Card.Text>
+              </div>
+
               <Card.Text className="d-flex justify-content-around mt-0">
                 or
               </Card.Text>
-              <GoogleLogin
-                data-testid="google-login"
-                onSuccess={authenicateGoogleUser}
-                onError={googleLoginFail}
-              />
+              <div className="d-flex justify-content-center">
+                <GoogleLogin
+                  data-testid="google-login"
+                  onSuccess={authenicateGoogleUser}
+                  onError={googleLoginFail}
+                />
+              </div>
             </Form>
           </Card>
         </Col>
       </Row>
+      <Modal
+        show={showForgotPassword}
+        onHide={handleForgotPasswordClose}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Forgot Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form
+            id="forgot-password-form"
+            onSubmit={handleSubmit(forgotPasswordSendMail)}
+          >
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label> Enter the registered email id</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                maxLength={100}
+                {...register("email", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                })}
+                onBlur={() => {
+                  trigger("email");
+                }}
+              />
+              {errors.email && errors.email.type === "required" && (
+                <p className="text-danger mt-2"> * Email required</p>
+              )}
+              {errors.email && errors.email.type === "pattern" && (
+                <p className="text-danger mt-2"> * Email invalid</p>
+              )}
+            </Form.Group>
+            <div className="d-flex justify-content-center">
+              <Button variant="primary" type="submit">
+                Send Email
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleForgotPasswordClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

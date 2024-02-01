@@ -291,13 +291,15 @@ function ViewComplaints() {
         )}
       </Row>
       <Row>
-        {!complaintListLoading && (
-          <CustomPaginator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            viewPage={getComplaintsbyPage}
-          ></CustomPaginator>
-        )}
+        <Col className="d-flex justify-content-center">
+          {!complaintListLoading && (
+            <CustomPaginator
+              totalPages={totalPages}
+              currentPage={currentPage}
+              viewPage={getComplaintsbyPage}
+            ></CustomPaginator>
+          )}
+        </Col>
       </Row>
       <Modal show={showFilter} onHide={handleFilterClose}>
         <Modal.Header closeButton>

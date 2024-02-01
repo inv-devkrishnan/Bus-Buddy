@@ -232,7 +232,7 @@ function ShowTrips(props) {
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Col className="d-flex justify-content-center">
                   <CustomPaginator
                     totalPages={totalPages}
                     currentPage={currentPage}

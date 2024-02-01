@@ -234,13 +234,15 @@ function ListCoupon() {
         {couponListLoading ? renderLoading : renderCouponList}
       </Row>
       <Row>
-        {!couponListLoading && (
-          <CustomPaginator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            viewPage={getCouponsByPage}
-          ></CustomPaginator>
-        )}
+        <Col className="d-flex justify-content-center">
+          {!couponListLoading && (
+            <CustomPaginator
+              totalPages={totalPages}
+              currentPage={currentPage}
+              viewPage={getCouponsByPage}
+            ></CustomPaginator>
+          )}
+        </Col>
       </Row>
     </Container>
   );

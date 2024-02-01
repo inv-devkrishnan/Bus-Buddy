@@ -1,4 +1,6 @@
 import logging
+import os
+import jwt
 from django.db.utils import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
@@ -8,9 +10,15 @@ from rest_framework.authentication import authenticate
 from .serializer import GoogleAuthSerializer as GAS
 from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
+from .serializer import ForgetPasswordSerializer as FPS
+from .serializer import ForgotPasswordChangeSerializer as FPCS
 from .models import User
-from .token import generate_token
+from .token import generate_token, generate_jwt_token
 from .google_auth import Google
+from bus_buddy_back_end.email import send_email_with_template
+from dotenv import load_dotenv
+
+load_dotenv("busbuddy_api.env")
 
 logger = logging.getLogger("django")
 
@@ -169,21 +177,161 @@ class UpdatePlatformCharges(UpdateAPIView):
     """
 
     permission_classes = (IsAuthenticated,)
+
     def put(self, request):  # update function
         try:
             request_data = request.data.copy()
-            user_id = request.user.id  
+            user_id = request.user.id
             user_role = request.user.role
-            if (user_role == 1):
+            if user_role == 1:
                 instance = User.objects.get(id=user_id)
                 extra_charges = request_data.get("extra_charges")
-                if (extra_charges >= 0 and extra_charges <= 100):
+                if extra_charges >= 0 and extra_charges <= 100:
                     instance.extra_charges = extra_charges
                     instance.save()
                     return Response({"message": "updated succesffully"}, status=200)
-                else :
-                    return Response({"message": "extra charges should be in range 0 to 100"},status =400)
-            else :
-                return Response({"message": "The logged in user is not Admin"},status=400)
-        except Exception :
+                else:
+                    return Response(
+                        {"message": "extra charges should be in range 0 to 100"},
+                        status=400,
+                    )
+            else:
+                return Response(
+                    {"message": "The logged in user is not Admin"}, status=400
+                )
+        except Exception:
             return Response("Invalid data", status=404)
+
+
+class ForgetPasswordSendMail(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serialized_data = FPS(data=request.data)
+        if serialized_data.is_valid():
+            try:
+                user = User.objects.get(
+                    email=serialized_data.data["email"], status=0, account_provider=0
+                )
+                token = generate_jwt_token(
+                    user.id, os.getenv("FORGOT_PASSWORD_EXPIRATION_IN_MINUTES")
+                )
+                is_email_sent = send_email_with_template(
+                    subject="Password Reset",
+                    context={
+                        "recipient_name": user.first_name,
+                        "link": os.getenv("FRONT_END_BASE_URL")
+                        + "forgot-password/?token="
+                        + token,
+                        "time": str(os.getenv("FORGOT_PASSWORD_EXPIRATION_IN_MINUTES")),
+                    },
+                    recipient_list=[
+                        user.email,
+                    ],
+                    template="forgot_password.html",
+                    status=8,
+                )
+                if is_email_sent:
+                    return Response({"message": "email sent"})
+                else:
+                    return Response(
+                        {
+                            "error_code": "1031",
+                            "error_message": "forgot password email sent failed",
+                        }
+                    )
+
+            except User.DoesNotExist:
+                try:
+                    user = User.objects.get(email=serialized_data.data["email"])
+                    if user.status != 0:
+                        return Response(
+                            {
+                                "error_code": "D1033",
+                                "error_message": "Only applicable for active accounts",
+                            }
+                        )
+                    elif user.account_provider != 0:
+                        return Response(
+                            {
+                                "error_code": "D1030",
+                                "error_message": "not applicable for google sign in or other 3rd party sign in users",
+                            }
+                        )
+
+                except User.DoesNotExist:
+                    return Response(
+                        {
+                            "error_code": "D1001",
+                            "error_message": "User doesn't exist",
+                        }
+                    )
+
+        else:
+            return Response(
+                {
+                    "error_code": "D1002",
+                    "error_message": serialized_data.errors.get("email")[0],
+                }
+            )
+
+
+class ForgetPasswordTokenVerify(APIView):
+    def post(self, request):
+        token = request.data.get("token")  # gets token for request body
+        if token:
+            token = token.strip()  # removes any white spaces
+            try:
+                value = jwt.decode(
+                    token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
+                )  # decodes the token
+                user_id = value.get("user_id")
+                User.objects.get(
+                    id=user_id, status=0, account_provider=0
+                )  # cross check wether such mail exist's
+                return Response({"is_token_valid": True})
+            except Exception as e:
+                logger.warn(str(e))
+                return Response(
+                    {
+                        "error_code": "D1032",
+                        "error_message": "provided forgot passsword token is invalid or expired",
+                    }
+                )
+        else:
+            return Response({"error_code": "D1002", "error_message": "token required"})
+
+
+class ForgetPasswordChange(APIView):
+    def put(self, request):
+        serialized_data = FPCS(data=request.data)
+        if serialized_data.is_valid():
+            token = serialized_data.validated_data["token"].strip()
+            try:
+                value = jwt.decode(
+                    token, os.getenv("SECRET_KEY"), algorithms=["HS256"]
+                )  # decodes the token
+                user_id = value.get("user_id")
+                user = User.objects.get(
+                    id=user_id, status=0, account_provider=0
+                )  # cross check wether such mail exist's
+                user.set_password(serialized_data.validated_data["new_password"])
+                user.save()
+                return Response({"message": "password changed"}, status=200)
+            except Exception as e:
+                logger.warn(str(e))
+                return Response(
+                    {
+                        "error_code": "D1032",
+                        "error_message": "provided forgot passsword token is invalid or expired",
+                    }
+                )
+        else:
+            return Response(
+                {
+                    "error_code": "D1002",
+                    "error_message": serialized_data.errors.get(
+                        next(iter(serialized_data.errors))
+                    )[0],
+                }
+            )

@@ -4,7 +4,9 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 
-
+location_data = "bus_owner.locationdata"
+bus_owner_bus = "bus_owner.bus"
+bus_owner_routes = "bus_owner.routes"
 class Migration(migrations.Migration):
     initial = True
 
@@ -90,7 +92,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="end_point",
-                        to="bus_owner.locationdata",
+                        to=location_data,
                     ),
                 ),
                 (
@@ -98,7 +100,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="start_point",
-                        to="bus_owner.locationdata",
+                        to=location_data,
                     ),
                 ),
                 (
@@ -135,14 +137,14 @@ class Migration(migrations.Migration):
                 (
                     "bus",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.bus"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_bus
                     ),
                 ),
                 (
                     "route",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="bus_owner.routes",
+                        to=bus_owner_routes,
                     ),
                 ),
                 (
@@ -179,7 +181,7 @@ class Migration(migrations.Migration):
                     "location",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="bus_owner.locationdata",
+                        to=location_data,
                     ),
                 ),
                 (
@@ -188,7 +190,7 @@ class Migration(migrations.Migration):
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="location",
-                        to="bus_owner.routes",
+                        to=bus_owner_routes,
                     ),
                 ),
             ],
@@ -219,7 +221,7 @@ class Migration(migrations.Migration):
                 (
                     "bus",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.bus"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_bus
                     ),
                 ),
             ],
@@ -248,7 +250,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="bus_owner.routes",
+                        to=bus_owner_routes,
                     ),
                 ),
                 (
@@ -285,7 +287,7 @@ class Migration(migrations.Migration):
                 (
                     "bus",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.bus"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_bus
                     ),
                 ),
             ],
@@ -322,7 +324,7 @@ class Migration(migrations.Migration):
                 (
                     "bus",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bus_owner.bus"
+                        on_delete=django.db.models.deletion.CASCADE, to=bus_owner_bus
                     ),
                 ),
             ],
