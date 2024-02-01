@@ -10,16 +10,20 @@ function Sleeper(props) {
   const [hasAdded, setHasAdded] = useState(false); // flag to check data is added or not
   const { updateIsClicked, propsData, updatePropsData, currentData } =
     useContext(AddSeatContext); // use context that for setting props data and button value
+
   useEffect(() => {
     // for checking seat details is added or not
-    for (let seat of currentData) {
-      if (seat.seat_ui_order === props.row * 10 + props.column) {
-        setHasAdded(true);
-        break;
-      } else {
-        setHasAdded(false);
-        break;
+    if (currentData && Array.isArray(currentData)) {
+      for (let seat of currentData) {
+        if (seat.seat_ui_order === props.row * 10 + props.column) {
+          setHasAdded(true);
+          break;
+        } else {
+          setHasAdded(false);
+        }
       }
+    } else {
+      setHasAdded(false);
     }
   }, [currentData, props]);
 

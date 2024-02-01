@@ -128,7 +128,7 @@ class GetSeatDetails(APIView):
                 logger.info(serialized_data)
                 return Response(serialized_data.data)
             else:
-                logger.warning(serialized_data.errors)
+                logger.warning("No Seat data")
                 return Response({"data": "no data"}, status=200)
         except Exception as e:
             logger.error(e)

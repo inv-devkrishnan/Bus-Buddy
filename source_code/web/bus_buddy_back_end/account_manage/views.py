@@ -257,7 +257,7 @@ class GenerateEmailOtp(APIView):
                     context={"otp": request_body["otp"]},
                     recipient_list=[request_body["email"]],
                     template="email_verification_otp.html",
-                    status=8,
+                    status=9,
                 )
                 logger.info("otp email has been send")
                 return Response({"message": "otp generated succesffully"}, status=201)

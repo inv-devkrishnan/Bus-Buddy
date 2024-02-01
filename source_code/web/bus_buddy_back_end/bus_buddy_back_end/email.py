@@ -31,7 +31,7 @@ def send_email_with_template(
                 5->user unban
                 6->user delete
                 7->booking reminder
-                8->email verification(otp)
+                9->email verification(otp)
 
     Returns:
     Boolean
