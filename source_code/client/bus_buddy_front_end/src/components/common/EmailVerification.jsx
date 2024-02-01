@@ -71,6 +71,7 @@ export default function EmailVerification(props) {
           startTimer();
         } else {
           console.log(res);
+          setOtpSend(false);
         }
       })
       .catch((err) => {

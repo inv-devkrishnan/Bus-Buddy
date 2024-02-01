@@ -346,10 +346,8 @@ class ReviewTripSerializer(serializers.ModelSerializer):
             "rating",
         )
 
-    review_title = serializers.CharField(
-        max_length=1000,
-    )
-    review_body = serializers.CharField()
+    review_title = serializers.CharField(max_length=255)
+    review_body = serializers.CharField(max_length=1000)
     rating = serializers.IntegerField(
         validators=[
             RegexValidator(
@@ -402,7 +400,7 @@ class ComplaintSerializer(serializers.ModelSerializer):
         )
 
     complaint_title = serializers.CharField(max_length=100)
-    complaint_body = serializers.CharField(max_length=5000)
+    complaint_body = serializers.CharField(max_length=3000)
 
 
 class ListComplaintSerializer(serializers.ModelSerializer):
