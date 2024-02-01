@@ -7,7 +7,7 @@ import "../index.css";
 function AddRouteLocation(props) {
   const [locationValue, setLocationValue] = useState(1);
   const [arrivalTime, setArrivalTime] = useState("");
-  const [arrivalDate, setArrivalDate] = useState("");
+  const [arrivalDate, setArrivalDate] = useState("0");
   const [departureTime, setDepartureTime] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [locationFormValidated, setLocationFormValidated] = useState(false);
@@ -60,6 +60,18 @@ function AddRouteLocation(props) {
       }
     }
 
+    return status;
+  };
+
+  const checkIfStopNameIsSame = () => {
+    let status = true;
+    stopsArray.forEach(function (stop) {
+      if (stop.bus_stop ===stopName) {
+        // if previous stop time is greater than current stop
+        status = false;
+        setErrorMessage("Stop with same name already exist's");
+      }
+    });
     return status;
   };
 
@@ -152,8 +164,6 @@ function AddRouteLocation(props) {
       setLocationFormValidated(true);
     } else if (checkLocationAlreadyExists(locationValue)) {
       setErrorMessage("This location is already added");
-    } else if (props.stopLocations.length === 0 && arrivalDate !== "0") {
-      setErrorMessage("Arrival date offset should be 0 for the first Location");
     } else if (arrivalDate > departureDate) {
       setErrorMessage("Arrival date offset can't be past depature date offset");
     } else if (arrivalTime > departureTime && arrivalDate === departureDate) {
@@ -167,7 +177,7 @@ function AddRouteLocation(props) {
         seq_id: props.sequenceId,
         location: locationValue,
         arrival_time: arrivalTime,
-        arrival_date_offset: arrivalDate,
+        arrival_date_offset: props.stopLocations.length === 0 ? "0" : arrivalDate,
         departure_time: departureTime,
         departure_date_offset: departureDate,
       };
@@ -190,7 +200,7 @@ function AddRouteLocation(props) {
       event.preventDefault();
       event.stopPropagation();
       setStopFormValidated(true);
-    } else if (checkStopLocationTime()) {
+    }else if (checkStopLocationTime() && checkIfStopNameIsSame()) {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,
@@ -258,73 +268,73 @@ function AddRouteLocation(props) {
       </Modal.Header>
       <Modal.Body>
         {props.locationAdded ? (
-            <Form
-              noValidate
-              validated={stopFormValidated}
-              onSubmit={stopHandleSubmit}
-            >
-              <Form.Text>
-                Add stops for the location.Once done save the changes{" "}
-              </Form.Text>
-              <Form.Group className="mb-3">
-                <Form.Label>Stop Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Stop Name"
-                  maxLength={100}
-                  value={stopName}
-                  onChange={(e) => {
-                    setStopName(e.target.value);
-                  }}
-                  pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
-                  className="remove-bootstrap-form-color"
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
+          <Form
+            noValidate
+            validated={stopFormValidated}
+            onSubmit={stopHandleSubmit}
+          >
+            <Form.Text>
+              Add stops for the location.Once done save the changes{" "}
+            </Form.Text>
+            <Form.Group className="mb-3">
+              <Form.Label>Stop Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Stop Name"
+                maxLength={100}
+                value={stopName}
+                onChange={(e) => {
+                  setStopName(e.target.value);
+                }}
+                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
+                className="remove-bootstrap-form-color"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
                 Please provide a landmark (one or more alphabetic character ,
-                  only allows alphabets and numbers)
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label> Stop Arrival Time</Form.Label>
-                <Form.Control
-                  type="time"
-                  placeholder="Time"
-                  value={stopArrivalTime}
-                  data-testid="stop-time"
-                  className="remove-bootstrap-form-color"
-                  onChange={(e) => {
-                    setStopArrivalTime(e.target.value);
-                  }}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid time.
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Landmark</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Landmark"
-                  maxLength={100}
-                  value={landmark}
-                  className="remove-bootstrap-form-color"
-                  onChange={(e) => {
-                    setLandmark(e.target.value);
-                  }}
-                  pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a landmark (one or more alphabetic character ,
-                  only allows alphabets and numbers)
-                </Form.Control.Feedback>
-              </Form.Group>
-              <label className="text-danger d-block ms-2 me-2">
-                {errorMessage}
-              </label>
-           
+                only allows alphabets and numbers)
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label> Stop Arrival Time</Form.Label>
+              <Form.Control
+                type="time"
+                placeholder="Time"
+                value={stopArrivalTime}
+                data-testid="stop-time"
+                className="remove-bootstrap-form-color"
+                onChange={(e) => {
+                  setStopArrivalTime(e.target.value);
+                }}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid time.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Landmark</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Landmark"
+                maxLength={100}
+                value={landmark}
+                className="remove-bootstrap-form-color"
+                onChange={(e) => {
+                  setLandmark(e.target.value);
+                }}
+                pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]+$"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a landmark (one or more alphabetic character ,
+                only allows alphabets and numbers)
+              </Form.Control.Feedback>
+            </Form.Group>
+            <label className="text-danger d-block ms-2 me-2">
+              {errorMessage}
+            </label>
+
             <div className="d-flex justify-content-end">
               <Button type="submit" className="ms-2 mt-2 me-2">
                 Add Stop
@@ -339,8 +349,7 @@ function AddRouteLocation(props) {
                 Save Changes
               </Button>
             </div>
-            </Form>
-         
+          </Form>
         ) : (
           <Form
             noValidate
@@ -389,7 +398,8 @@ function AddRouteLocation(props) {
                 placeholder="Enter number of days"
                 min={0}
                 max={10}
-                value={arrivalDate}
+                value={props.stopLocations.length === 0 ? "0" : arrivalDate}
+                disabled={props.stopLocations.length === 0}
                 onChange={(e) => {
                   setArrivalDate(e.target.value);
                 }}
