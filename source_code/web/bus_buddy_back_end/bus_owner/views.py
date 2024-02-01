@@ -635,7 +635,7 @@ class Addtrip(APIView):
                 "seq_id"
             )
             stop_date_str = request_data["end_date"]
-            stop_date = datetime.strptime(stop_date_str, 'date_format')
+            stop_date = datetime.strptime(stop_date_str, date_format)
             print("stop :",stop_date)
             request_data["user"] = request.user.id
             seq_first = locations.first()
@@ -643,7 +643,7 @@ class Addtrip(APIView):
             offset = seq_last.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)
             print("stop offset :",stop_date_offset)
-            stop_date_offset_str = stop_date_offset.strftime('date_format')
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
             print("end_ date :",stop_date_offset_str )
             request_data["start_time"] = seq_first.arrival_time
@@ -693,10 +693,10 @@ class Updatetrip(UpdateAPIView):
             last_seq = locations.last()
             print(locations)
             stop_date_str = request_data["end_date"]
-            stop_date = datetime.strptime(stop_date_str, 'date_format')
+            stop_date = datetime.strptime(stop_date_str, date_format)
             offset = last_seq.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)
-            stop_date_offset_str = stop_date_offset.strftime('date_format')
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
             if not Bus.objects.filter(id=buses, status=0).exists():
                 return Response({"message": "bus missing"}, status=404)
@@ -857,10 +857,10 @@ class Addreccuringrip(APIView):
             seq_first = loc.first()
             seq_last = loc.last()
             stop_date_str = request_data["end_date"]
-            stop_date = datetime.strptime(stop_date_str, 'date_format')
+            stop_date = datetime.strptime(stop_date_str, date_format)
             offset = seq_last.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)
-            stop_date_offset_str = stop_date_offset.strftime('date_format')
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
             
 
