@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from "react";
-import IconButton from "@mui/material/IconButton"
+import IconButton from "@mui/material/IconButton";
 import AddedSeater from "../../../assets/maleSeater.png";
 import SelectedSeater from "../../../assets/selectedSeater.png";
 import SeaterImage from "../../../assets/seater.png";
@@ -13,12 +13,19 @@ function Seater(props) {
 
   useEffect(() => {
     // for checking seat details is added or not
-    for (let i of currentData) {
-      const seat = i;
-      if (seat.seat_ui_order === props.row * 10 + props.column) {
-        setHasAdded(true);
+    if (currentData) {
+      for (let seat of currentData) {
+        if (seat.seat_ui_order === props.row * 10 + props.column) {
+          setHasAdded(true);
+          break;
+        } else {
+          setHasAdded(false);
+        }
       }
+    } else {
+      setHasAdded(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updatePropsData, props]);
 
   const handleSelect = () => {

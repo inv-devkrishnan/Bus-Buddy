@@ -31,17 +31,22 @@ export default function FormComponent(props) {
     updateReRender,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [changedSeatType, setChangedSeatType] = useState("");
+
   useEffect(() => {
     // for setting current seat data using ui order(propsData)
-    for (let i of currentData) {
-      if (propsData === i.seat_ui_order) {
-        updateCurrentSeatData(i);
-        break;
-      } else {
-        updateCurrentSeatData([]);
-        resetForm();
-        break;
+    if (currentData && Array.isArray(currentData)) {
+      for (let i of currentData) {
+        if (propsData === i.seat_ui_order) {
+          updateCurrentSeatData(i);
+          break;
+        } else {
+          updateCurrentSeatData([]);
+          resetForm();
+          break;
+        }
       }
+    } else {
+      updateCurrentSeatData([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);

@@ -108,7 +108,7 @@ def send_mail_to_bookings_under_the_trip():
         for trip in active_trips:
             booking_reminder = Email.objects.filter(trip=trip, status=7)
             if (not booking_reminder) and (trip.start_date - current_date).days == 2:
-                bookings_under_trip = Bookings.objects.filter(trip=trip.id)
+                bookings_under_trip = Bookings.objects.filter(trip=trip.id, status=0)
                 send_email_for(bookings_under_trip, trip)
                 return 1
             else:
