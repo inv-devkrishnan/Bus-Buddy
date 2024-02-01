@@ -50,7 +50,7 @@ describe("FormComponent component", () => {
   it("renders card", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={0}/>
       </AddSeatContextProvider>
     );
   });
@@ -58,14 +58,14 @@ describe("FormComponent component", () => {
   it("form submit", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={1}/>
       </AddSeatContextProvider>
     );
 
-    const numberTextbox = screen.getByLabelText("Seat number");
+    const numberTextbox = screen.getByLabelText("Enter seat number");
     fireEvent.change(numberTextbox, { target: { value: 1 } });
 
-    const costTextbox = screen.getByLabelText("Seat cost");
+    const costTextbox = screen.getByLabelText("Enter seat cost");
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
@@ -77,14 +77,14 @@ describe("FormComponent component", () => {
   it("form submit success else", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={2}/>
       </AddSeatContextProvider>
     );
 
-    const numberTextbox = screen.getByLabelText("Seat number");
+    const numberTextbox = screen.getByLabelText("Enter seat number");
     fireEvent.change(numberTextbox, { target: { value: 1 } });
 
-    const costTextbox = screen.getByLabelText("Seat cost");
+    const costTextbox = screen.getByLabelText("Enter seat cost");
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
@@ -96,14 +96,14 @@ describe("FormComponent component", () => {
   it("form submit catch error", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={0}/>
       </AddSeatContextProvider>
     );
 
-    const numberTextbox = screen.getByLabelText("Seat number");
+    const numberTextbox = screen.getByLabelText("Enter seat number");
     fireEvent.change(numberTextbox, { target: { value: 1 } });
 
-    const costTextbox = screen.getByLabelText("Seat cost");
+    const costTextbox = screen.getByLabelText("Enter seat cost");
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
@@ -117,14 +117,14 @@ describe("FormComponent component", () => {
   it("form submit catch error 2", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={0}/>
       </AddSeatContextProvider>
     );
 
-    const numberTextbox = screen.getByLabelText("Seat number");
+    const numberTextbox = screen.getByLabelText("Enter seat number");
     fireEvent.change(numberTextbox, { target: { value: 1 } });
 
-    const costTextbox = screen.getByLabelText("Seat cost");
+    const costTextbox = screen.getByLabelText("Enter seat cost");
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
@@ -135,14 +135,14 @@ describe("FormComponent component", () => {
   it("form submit catch error 3", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} />
+        <FormComponent bus={1} seatType={0}/>
       </AddSeatContextProvider>
     );
 
-    const numberTextbox = screen.getByLabelText("Seat number");
+    const numberTextbox = screen.getByLabelText("Enter seat number");
     fireEvent.change(numberTextbox, { target: { value: 1 } });
 
-    const costTextbox = screen.getByLabelText("Seat cost");
+    const costTextbox = screen.getByLabelText("Enter seat cost");
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");

@@ -184,7 +184,7 @@ export default function OwnerRegisterCard() {
                     maxLength={20}
                   />
                   <InputGroup.Text
-                    id="basic-addon1"
+                    data-testid="show-password"
                     onClick={() => {
                       showPassword
                         ? setShowPassword(false)
@@ -216,7 +216,7 @@ export default function OwnerRegisterCard() {
                     maxLength={20}
                   />
                   <InputGroup.Text
-                    id="basic-addon1"
+                      data-testid="confirm-show-password"
                     onClick={() => {
                       showConfirmPassword
                         ? setShowConfirmPassword(false)
@@ -276,7 +276,7 @@ export default function OwnerRegisterCard() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   isInvalid={formik.touched.aadhaar && formik.errors.aadhaar}
-                  placeholder="Adhaar number"
+                  placeholder="Aadhaar number"
                 />
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.aadhaar}

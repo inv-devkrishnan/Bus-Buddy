@@ -180,6 +180,7 @@ describe("RegisterCard component", () => {
       mock.onPost(`user/registration/`).reply(204);
     });
   });
+  
   it("renders component form submit catch error", () => {
     render(
       <SeatContextProvider>

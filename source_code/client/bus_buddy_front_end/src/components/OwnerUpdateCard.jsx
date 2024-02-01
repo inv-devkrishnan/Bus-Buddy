@@ -203,6 +203,7 @@ export default function OwnerUpdateForm() {
               Submit
             </Button>
             <Button
+              data-testid="Cancel"
               variant="secondary"
               style={{ margin: "4px" }}
               onClick={() => navigate("/BusHome")}

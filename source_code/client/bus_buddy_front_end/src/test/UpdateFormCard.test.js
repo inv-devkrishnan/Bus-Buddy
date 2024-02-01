@@ -46,8 +46,7 @@ describe("RegisterUser component", () => {
 
     render(<UpdateForm />);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
-
+    await new Promise((resolve) => setTimeout(resolve, 2000)); 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
 
