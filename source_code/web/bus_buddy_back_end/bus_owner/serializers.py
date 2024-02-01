@@ -165,6 +165,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "bus_ac",
             "amenities_data",
             "user",
+            "bus_seat_type"
         )
 
 
@@ -594,7 +595,7 @@ class SeatDetailSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
+    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=2)
     seat_ui_order = serializers.IntegerField()
 
 

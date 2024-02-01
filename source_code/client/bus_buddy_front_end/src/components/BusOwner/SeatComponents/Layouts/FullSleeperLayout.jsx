@@ -19,9 +19,9 @@ export default function FullSleeperLayout(props) {
         updateCurrentData(res.data);
       })
       .catch((err) => {
-        console.log("error");
+        console.log(err);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.bus, reRender]);
 
   return (
