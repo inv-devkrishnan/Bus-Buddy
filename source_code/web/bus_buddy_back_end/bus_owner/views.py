@@ -680,6 +680,7 @@ class Updatetrip(UpdateAPIView):
 
     def put(self, request, id):
         try:
+            request_data = request.data.copy()
             logger.info("fetching the trip obj matching the id")
             instance = Trip.objects.get(id=id, status=0)
             # saving the present values to instance variable
