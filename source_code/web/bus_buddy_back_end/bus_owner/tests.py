@@ -398,7 +398,6 @@ class BaseTest2(TestCase):
             traveller_dob="2001-03-01",
             seat=self.seat_detail
         )
-        booked_seat_id = self.booked_seat.id
         
         self.create_bus_data = {
             "bus_name": "boss",

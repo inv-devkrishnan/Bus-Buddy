@@ -29,28 +29,30 @@ export default function PassengerList() {
   console.log(data);
 
   const renderTable = () => {
+    let content;
+  
     if (!data || data.length === 0) {
-      return (
+      content = (
         <tr>
-          <td colSpan="5">No data available</td>
+          <td colSpan="4">No data available</td>
         </tr>
       );
+    } else {
+      content = data.map((passenger, index) => {
+        const gender = passenger.traveller_gender === 1 ? "Male" : "Female";
+        return (
+          <tr key={passenger.id}>
+            <td>{index + 1}</td>
+            <td>{passenger.traveller_name}</td>
+            <td>{passenger.seat_number}</td>
+            <td>{gender}</td>
+          </tr>
+        );
+      });
     }
-
-    return data.map((passenger, index) => {
-      const gender = passenger.traveller_gender === 1 ? "Male" : "Female";
-
-      return (
-        <tr key={passenger.id}>
-          <td>{index + 1}</td>
-          <td>{passenger.traveller_name}</td>
-          <td>{passenger.seat_number}</td>
-          <td>{gender}</td>
-        </tr>
-      );
-    });
+  
+    return content;  // This was missing in your original code
   };
-
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
