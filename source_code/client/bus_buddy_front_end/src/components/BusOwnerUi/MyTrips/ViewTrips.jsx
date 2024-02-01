@@ -85,6 +85,13 @@ export default function Viewallbus() {
                 >
                   Delete
                 </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => passengers(trip.id)}
+                  data-testid = "update-button"
+                >
+                  Passenger List
+                </button>
               </div>
             </Accordion.Body>
           </Accordion.Item>
@@ -94,6 +101,9 @@ export default function Viewallbus() {
   };
 
 
+  const passengers = (id) => {
+    navi("/passengers-list", { state: `${id}` });
+  };
   const update = (id) => {
     navi("/update-trips", { state: `${id}` });
   };
