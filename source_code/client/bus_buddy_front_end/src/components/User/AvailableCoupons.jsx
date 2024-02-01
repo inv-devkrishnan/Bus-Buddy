@@ -59,17 +59,24 @@ export default function AvailableCoupons(props) {
   }, []);
 
   const handleChange = (e) => {
-    setCouponValue(e.target.value);
-    if (couponValue.length < 1) {
-      setCouponData([]);
-    } else {
+    const inputValue = e.target.value;
+
+    const alphanumericRegex = /^[A-Z0-9]+$/;
+
+    if (inputValue === "") {
+      setCouponValue("");
+      setCouponError(true);
+    } else if (alphanumericRegex.test(inputValue)) {
+      setCouponValue(inputValue);
       setCouponError(false);
+    } else {
+      setCouponError(true);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (couponValue.length < 1) {
+    if (couponValue.length < 1 || couponValue.trim().length < 1) {
       setCouponError(true);
     } else {
       showLoadingAlert("Applying coupon");
@@ -159,12 +166,18 @@ export default function AvailableCoupons(props) {
                   minLength={10}
                   maxLength={10}
                 />
-                <Button data-testid="apply_coupon" type="submit" variant="outline-primary">
+                <Button
+                  data-testid="apply_coupon"
+                  type="submit"
+                  variant="outline-primary"
+                >
                   Apply Coupon
                 </Button>
               </InputGroup>
               {couponError ? (
-                <div style={{ color: "red" }}>Please enter the coupon code</div>
+                <div style={{ color: "red" }}>
+                  Please enter a valid coupon code
+                </div>
               ) : (
                 ""
               )}
