@@ -10,7 +10,7 @@ error_message_email_exist = "Email is already registered"
 email_regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 regex_number_only = r"^\d*$"
 
-
+password_regex = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$"
 class GoogleAuthSerializer(serializers.Serializer):
     cred_token = serializers.CharField()
 
@@ -30,8 +30,8 @@ class PasswordSerializer(serializers.Serializer):
         max_length=20,
         validators=[
             RegexValidator(
-                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
-                message="password not valid",
+                regex=password_regex,
+                message="old password not valid",
             ),
         ],
     )
@@ -39,8 +39,8 @@ class PasswordSerializer(serializers.Serializer):
         max_length=20,
         validators=[
             RegexValidator(
-                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
-                message="password not valid",
+                regex=password_regex,
+                message="new password not valid",
             ),
         ],
     )
@@ -129,3 +129,31 @@ class EmailOtpUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailAndOTP
         fields = ("email", "otp", "counter", "status")
+class ForgetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=100,error_messages={
+            'invalid': 'Please enter a valid email address',
+            'max_length': 'Email address must be at most {max_length} characters long.',
+            'required': 'Email Field is required',
+            'blank': 'email field must not be blank',
+        })
+    
+class ForgotPasswordChangeSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length=600,error_messages={
+            'required': 'token field is required',
+            'max_length': 'token must be at most {max_length} characters long.',
+            'blank': 'token field must not be blank',
+        })
+    new_password = serializers.CharField(
+        max_length=20,
+        validators=[
+            RegexValidator(
+                regex=password_regex,
+                message="password not valid",
+            ),
+        ],
+        error_messages={
+            'required': 'new_password field is required',
+            'blank': 'new_password field cant be blank',
+        }
+    )
+        

@@ -119,20 +119,20 @@ function ComplaintCard(props) {
             {props.complaint.complaint_body}
             {props.complaint?.complaint_image && (
               <div>
-                <br></br>
-
-                <h6 className="mt-3">Attached Image :</h6>
-                <Image
-                  className="mt-2 mb-2"
-                  fluid
-                  src={
-                    process.env.REACT_APP_BASEURL +
-                    props.complaint.complaint_image
-                  }
-                  width={500}
-                  height={250}
-                  alt="complaint_image"
-                ></Image>
+                <h6 className="mt-3 text-center">Attached Image</h6>
+                <div className="d-flex justify-content-center">
+                  <Image
+                    className="mt-2 mb-2"
+                    fluid
+                    src={
+                      process.env.REACT_APP_BASEURL +
+                      props.complaint.complaint_image
+                    }
+                    width={500}
+                    height={250}
+                    alt="complaint_image"
+                  ></Image>
+                </div>
               </div>
             )}
 
@@ -141,7 +141,7 @@ function ComplaintCard(props) {
                 noValidate
                 validated={validated}
                 onSubmit={handleSubmit}
-                className="mt-5 me-2 ms-2"
+                className="mt-5 me-2"
               >
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label className="fw-bold">
@@ -157,9 +157,11 @@ function ComplaintCard(props) {
                     required field.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button type="submit" variant="success" className="mt-2 mb-5">
-                  Send Response
-                </Button>
+                <div className="d-flex justify-content-center">
+                  <Button type="submit" variant="success" className="mt-2 mb-5">
+                    Send Response
+                  </Button>
+                </div>
               </Form>
             )}
             {props.complaint.status === 1 && (

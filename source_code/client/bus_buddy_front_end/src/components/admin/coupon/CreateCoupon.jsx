@@ -330,8 +330,8 @@ function CreateCoupon() {
             )}
           </Form.Group>
         </Row>
-        <Row className="mt-3">
-          <Col>
+        <Row className="mt-5">
+          <Col className="d-flex justify-content-center">
             <Button type="submit">Create Coupon</Button>
           </Col>
         </Row>

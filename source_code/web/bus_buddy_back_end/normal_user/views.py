@@ -1,6 +1,7 @@
 import stripe
 import pytz
 import os
+import re
 from dotenv import load_dotenv
 
 load_dotenv("busbuddy_api.env")
@@ -17,6 +18,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from datetime import datetime, date, timedelta
 
 from account_manage.models import User
+from adminstrator.pagination import ReviewPagination
 from adminstrator.models import CouponHistory, CouponDetails
 from normal_user.models import (
     Bookings,
@@ -49,6 +51,7 @@ from .serializer import (
     ComplaintSerializer,
     ListComplaintSerializer,
     ListCouponSerializer,
+    ListReviewsByBusownerSerializer,
 )
 from bus_buddy_back_end.email import (
     send_email_with_attachment,
@@ -343,7 +346,7 @@ class ViewTrip(APIView):
                 r.via, (r.travel_fare+seat_details.cost) as starting_cost,
                 DATE_ADD(t.start_date,INTERVAL s.arrival_date_offset DAY) as start_date,
                 DATE_ADD(t.start_date,INTERVAL e.arrival_date_offset DAY) as end_date,
-                t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,
+                t.id as trip_id, b.bus_name, b.id as bus_id, u.company_name,u.id as busowner,
                 am.emergency_no,am.water_bottle,am.charging_point,am.usb_port,am.blankets,
                 am.reading_light,am.toilet,am.snacks,am.tour_guide,am.cctv,am.pillows,r.travel_fare as route_cost, u.extra_charges as gst
             FROM start_stop_locations s
@@ -387,6 +390,7 @@ class ViewTrip(APIView):
                         + " skipped since current time passed start time"
                     )
                 else:
+                    logger.info(data)
                     trip_data = {
                         # stores each trip information
                         "route": data.route_id,
@@ -398,6 +402,7 @@ class ViewTrip(APIView):
                         "travel_fare": data.starting_cost,
                         "trip": data.trip_id,
                         "bus_name": data.bus_name,
+                        "bus_owner": data.busowner,
                         "bus": data.bus_id,
                         "company_name": data.company_name,
                         "route_cost": data.route_cost,
@@ -1297,3 +1302,44 @@ class RedeemCoupon(APIView):
             return Response({"error": "This coupon doesn't exist"}, status=400)
         except Exception as e:
             return Response({"error": f"{e}"}, status=400)
+
+
+class ViewReviewsByTrip(ListAPIView):
+    permission_classes = (AllowAny,)
+    pagination_class = ReviewPagination
+
+    def validate_user_id(self, user_id):
+        pattern = r"^[1-9]\d*$"
+        return bool(re.match(pattern, user_id))
+
+    def get(self, request):
+        bus_owner_id = request.GET.get("user_id")
+        if bus_owner_id:
+            if self.validate_user_id(bus_owner_id):
+                queryset = UserReview.objects.filter(review_for_id=bus_owner_id).order_by("-created_date")
+                page = self.paginate_queryset(queryset)
+                serialized_data = ListReviewsByBusownerSerializer(page, many=True)
+                logger.info("review list returned total items : "+ str(self.paginator.page.paginator.count))
+                return Response(
+                    {
+                        "reviews": serialized_data.data,
+                        "pages": self.paginator.page.paginator.num_pages,
+                        "current_page": self.paginator.page.number,
+                        "has_previous": self.paginator.page.has_previous(),
+                        "has_next": self.paginator.page.has_next(),
+                        "total_count": self.paginator.page.paginator.count,
+                    },
+                    status=200,
+                )
+            else:
+                logger.warn("invalid query params")
+                return Response(
+                    {"error_message": "invalid query param", "error_code": "D1006"},
+                    status=400,
+                )
+        else:
+            logger.warn("query params not provided")
+            return Response(
+                {"error_message": "query param not provided (user_id)", "error_code": "D1005"},
+                status=400,
+            )

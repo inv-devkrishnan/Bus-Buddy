@@ -1,0 +1,20 @@
+
+.rotate-arrow {
+    
+    margin-left: 1.5rem;
+  }
+@media screen and (max-width: 768px) {
+  .center-div {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .center-fare {
+    margin-top: 10px;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .rotate-arrow {
+    transform: rotate(90deg);
+    margin-left: 35px !important;
+  }
+}

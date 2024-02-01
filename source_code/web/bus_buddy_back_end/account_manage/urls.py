@@ -15,4 +15,8 @@ urlpatterns = [
     ),
     path("generate-otp/", views.GenerateEmailOtp.as_view(), name="generate_otp"),
     path("verify-email/", views.VerifyOTP.as_view(), name="verify_email"),
+    path("forgot-password-send-mail/", views.ForgetPasswordSendMail.as_view(), name="forgotpasswordsendmail"),
+    path("forgot-password-verify/", views.ForgetPasswordTokenVerify.as_view(), name="forgotpasswordverify"),
+    path("forgot-password-change/", views.ForgetPasswordChange.as_view(), name="forgotpasswordchange"),
+   
 ]

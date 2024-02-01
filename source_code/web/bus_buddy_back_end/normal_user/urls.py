@@ -36,4 +36,5 @@ urlpatterns = [
     ),
     path("available-coupons/", views.ListCoupons.as_view(), name="available-coupons"),
     path("redeem-coupon/", views.RedeemCoupon.as_view(), name="redeem-coupon"),
+    path("view-reviews/", views.ViewReviewsByTrip.as_view(), name="view-reviews-normal-user"),
 ]
