@@ -87,9 +87,9 @@ function ShowTrips(props) {
     ));
   } else {
     tripsContent = (
-      <div className="d-flex mt-5 ms-5  justify-content-center">
+      <div className="d-flex mt-5 ms-5  justify-content-center h-100 align-items-center">
         <ExclamationCircle color="red" size={96}></ExclamationCircle>
-        <div className="ms-3 mb-5">
+        <div className="ms-3">
           <h2>No Matching Trips Found !!</h2>
           <h6>Try another trip or change filter options</h6>
         </div>
@@ -212,9 +212,9 @@ function ShowTrips(props) {
             </Card>
           </Col>
           <Col sm={12} md={9} lg={9} xl={9}>
-            <Container>
-              <Row>
-                <Col>
+            <Container style={{height:"50vh"}}>
+              <Row className="h-100">
+                <Col  className="h-100">
                   {isLoading ? (
                     <div className="mt-5">
                       <ProgressBar
@@ -232,13 +232,15 @@ function ShowTrips(props) {
                 </Col>
               </Row>
               <Row>
-                <Col className="d-flex justify-content-center">
-                  <CustomPaginator
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    viewPage={viewPage}
-                  ></CustomPaginator>
-                </Col>
+                {trips.length > 0 && (
+                  <Col className="d-flex justify-content-center" style={{"zIndex":"-1"}}>
+                    <CustomPaginator
+                      totalPages={totalPages}
+                      currentPage={currentPage}
+                      viewPage={viewPage}
+                    ></CustomPaginator>
+                  </Col>
+                )}
               </Row>
             </Container>
           </Col>
