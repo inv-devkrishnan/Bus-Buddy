@@ -156,6 +156,7 @@ export default function AvailableCoupons(props) {
                   placeholder="Coupon Code"
                   value={couponValue}
                   onChange={handleChange}
+                  minLength={10}
                   maxLength={10}
                 />
                 <Button data-testid="apply_coupon" type="submit" variant="outline-primary">

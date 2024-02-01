@@ -1,5 +1,5 @@
 import { React, useContext } from "react";
-import {useLocation} from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 import { Grid } from "@mui/material";
 
@@ -20,14 +20,19 @@ export default function FullSleeperDetails() {
       justifyContent="space-between"
     >
       <Grid item md={12} xs={12} sm={12} lg={12}>
-        <SeatDescription/>
+        <SeatDescription />
       </Grid>
       <Grid item md={9} xs={12} sm={12} lg={6}>
-        <FullSleeperLayout bus={location?.state}/>
+        <FullSleeperLayout bus={location?.state?.id} />
       </Grid>
 
       <Grid item md={4} xs={12} sm={12} lg={6}>
-        {isClicked && <FormComponent bus={location?.state}/>}
+        {isClicked && (
+          <FormComponent
+            bus={location?.state?.id}
+            seatType={location?.state?.bus_seat_type}
+          />
+        )}
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}
       </Grid>

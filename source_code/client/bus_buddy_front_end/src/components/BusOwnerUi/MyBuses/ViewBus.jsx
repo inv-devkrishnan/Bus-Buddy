@@ -24,9 +24,9 @@ export default function Viewallbus() {
   const update = (id) => {
     navi("/UpdateBus", { state: `${id}` });
   };
-  const addSeatDetails = (id) => {
+  const addSeatDetails = (id, bus_seat_type) => {
     navi("/full-sleeper-details", {
-      state: `${id}`,
+      state: { id: `${id}`, bus_seat_type: bus_seat_type },
     });
   };
   const deleted = (id) => {
@@ -62,13 +62,14 @@ export default function Viewallbus() {
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
-    } catch(err) {
-      console.error("Error:", err);}
+    } catch (err) {
+      console.error("Error:", err);
+    }
   }, []);
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [fetchData,currentPage,deletedBusFlag]);
+  }, [fetchData, currentPage, deletedBusFlag]);
 
   // Function to get the bus type label
   const getBusTypeLabel = (busType) => {
@@ -129,7 +130,9 @@ export default function Viewallbus() {
                 </button>
                 <button
                   className="btn btn-primary"
-                  onClick={() => addSeatDetails(viewbus.id)}
+                  onClick={() =>
+                    addSeatDetails(viewbus.id, viewbus.bus_seat_type)
+                  }
                   data-testid="add-seat-button"
                 >
                   Seat Details

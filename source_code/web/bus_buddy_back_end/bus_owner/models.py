@@ -45,7 +45,7 @@ class SeatDetails(models.Model):
     seat_ui_order = models.IntegerField()
     seat_type = models.SmallIntegerField(default=0)
     deck = models.SmallIntegerField(default=0)
-    seat_cost = models.DecimalField(max_digits=10, decimal_places=3)
+    seat_cost = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.SmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

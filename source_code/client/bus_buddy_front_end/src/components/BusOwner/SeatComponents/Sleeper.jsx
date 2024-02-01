@@ -18,6 +18,7 @@ function Sleeper(props) {
         break;
       } else {
         setHasAdded(false);
+        break;
       }
     }
   }, [currentData, props]);
