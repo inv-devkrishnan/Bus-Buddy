@@ -61,7 +61,7 @@ export default function AvailableCoupons(props) {
   const handleChange = (e) => {
     const inputValue = e.target.value;
 
-    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    const alphanumericRegex = /^[A-Z0-9]+$/;
 
     if (inputValue === "") {
       setCouponValue("");
