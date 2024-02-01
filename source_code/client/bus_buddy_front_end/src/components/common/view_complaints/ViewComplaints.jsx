@@ -239,6 +239,7 @@ function ViewComplaints() {
         >
           <Button
             className="ms-2"
+            data-testid="Filter by Date"
             onClick={() => {
               handleFilterShow();
             }}
@@ -246,7 +247,13 @@ function ViewComplaints() {
             title="Filter by Dates"
             size="sm"
           >
-            Filter by Date
+            {fromSelectedDate.current ? (
+              <div>
+              Filter from : {fromSelectedDate.current} - {toSelectedDate.current}
+              </div>
+            ) : (
+              "Filter by Date"
+            )}
           </Button>
         </Col>
       </Row>

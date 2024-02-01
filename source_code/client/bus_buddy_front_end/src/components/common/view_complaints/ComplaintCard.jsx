@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Button, Card, Form, Image, Modal } from "react-bootstrap";
+import { Button, Card, Form, Image, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
@@ -111,12 +111,19 @@ function ComplaintCard(props) {
         </Button>
       </div>
       <Modal show={show} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>{props.complaint.complaint_title}</Modal.Title>
+          <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
+        >
+          <Button variant="close" onClick={handleClose} />
+        </OverlayTrigger>
         </Modal.Header>
         <Modal.Body>
           <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
-            {props.complaint.complaint_body}
+            <div className="ms-2">{props.complaint.complaint_body}</div>
+
             {props.complaint?.complaint_image && (
               <div>
                 <h6 className="mt-3 text-center">Attached Image</h6>
@@ -141,7 +148,7 @@ function ComplaintCard(props) {
                 noValidate
                 validated={validated}
                 onSubmit={handleSubmit}
-                className="mt-5 me-2"
+                className="mt-5 me-2 ms-2"
               >
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label className="fw-bold">
@@ -157,8 +164,8 @@ function ComplaintCard(props) {
                     required field.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <div className="d-flex justify-content-center">
-                  <Button type="submit" variant="success" className="mt-2 mb-5">
+                <div className="d-flex justify-content-center mt-5">
+                  <Button type="submit" variant="success" className="mt-2 mb-1">
                     Send Response
                   </Button>
                 </div>
@@ -182,11 +189,6 @@ function ComplaintCard(props) {
             )}
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </Card>
   );
