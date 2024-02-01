@@ -131,9 +131,9 @@ export default function FormComponent(props) {
 
   const seatTypeInitialValue = () => {
     if (props.seatType === 0) {
-      return 1;
+      return "1";
     } else if (props.seatType === 1) {
-      return 0;
+      return "0";
     } else {
       return changedSeatType;
     }
@@ -162,7 +162,7 @@ export default function FormComponent(props) {
     initialValues: {
       seatNumber: "",
       seatType: seatTypeInitialValue(),
-      deck: "",
+      deck: floorValue < 6 ? "0" : "1",
       seatCost: "",
     },
     validationSchema: FormComponentSchema,
