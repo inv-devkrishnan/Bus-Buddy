@@ -1,5 +1,4 @@
 import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import Proptypes from "prop-types";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -34,7 +33,6 @@ function CustomPaginator(props) {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Stack>
           <Pagination
             color="primary"
             shape="rounded"
@@ -43,8 +41,8 @@ function CustomPaginator(props) {
             page={props.currentPage}
             onChange={handleChange}
             className="mb-3"
+            style={{width:"fit-content"}}
           />
-        </Stack>
       </ThemeProvider>
     </div>
   );

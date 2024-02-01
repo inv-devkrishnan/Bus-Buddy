@@ -79,6 +79,7 @@ const renderWtihLocationData = () => {
 
 const addLocationAndStops = async () =>
 {
+  localStorage.clear()
   mock.onGet(`get-location-data/`).reply(200, data);
     render(<AddRouteCard />);
     fireEvent.click(screen.getByText("Add Location"));
@@ -218,7 +219,7 @@ describe("AddRouteCard component", () => {
     fireEvent.click(screen.getByText("Add Stop"));
   });
 
-  it("add stop and location  invalid time", async() => {
+  it("01 test add stop and location  invalid time", async() => {
    
     mock.onGet(`get-location-data/`).reply(200, data);
     render(<AddRouteCard />);
@@ -243,7 +244,7 @@ describe("AddRouteCard component", () => {
   it("add stop and location  invalid offset difference", async() => {
    
     mock.onGet(`get-location-data/`).reply(200, data);
-    render(<AddRouteCard />);
+    render(<AddRouteCard stopLocations={[1,2]} />);
     fireEvent.click(screen.getByText("Add Location"));
     await new Promise(resolve => setTimeout(resolve, 2000)); // to load locations
     fireEvent.change(screen.getByTestId("arrival-time"), {
@@ -288,20 +289,20 @@ describe("AddRouteCard component", () => {
       '[{"seq_id":1,"location":1,"arrival_time":"10:00","arrival_date_offset":"0","departure_time":"11:00","departure_date_offset":"0","pick_and_drop":[{"bus_stop":"tvm center","location":1,"arrival_time":"10:05","landmark":"dfsdfsd","status":0}]},{"seq_id":2,"location":2,"arrival_time":"12:00","arrival_date_offset":"0","departure_time":"13:00","departure_date_offset":"0","pick_and_drop":[{"bus_stop":"pathanam cenetrer","location":1,"arrival_time":"12:15","landmark":"fsdf","status":0}]},{"seq_id":3,"location":3,"arrival_time":"09:00","arrival_date_offset":"1","departure_time":"13:00","departure_date_offset":"1","pick_and_drop":[{"bus_stop":"kotayam stop","location":1,"arrival_time":"09:15","landmark":"dfs","status":0}]}]'
     );
     mock.onGet(`get-location-data/`).reply(200, data);
-    render(<AddRouteCard />);
+    render(<AddRouteCard/>);
     fireEvent.click(screen.getByText("Add Location"));
     await new Promise(resolve => setTimeout(resolve, 2000)); // to load locations
     fireEvent.change(screen.getByTestId("arrival-time"), {
       target: { value: "10:00:00" },
     });
     fireEvent.change(screen.getByTestId("arrival-date-offset"), {
-      target: { value: "0" },
+      target: { value: "1" },
     });
     fireEvent.change(screen.getByTestId("depature-time"), {
       target: { value: "11:00:00" },
     });
     fireEvent.change(screen.getByTestId("depature-date-offset"), {
-      target: { value: "0" },
+      target: { value: "1" },
     });
     fireEvent.click(screen.getByTestId("add-location-box"));
     localStorage.clear();

@@ -36,6 +36,7 @@ import ListCoupon from "./components/admin/coupon/ListCoupon";
 import ListUsers from "./components/admin/ListUsers";
 import AdminProfile from "./components/admin/profile/AdminProfile";
 import UpdateProfile from "./components/admin/profile/UpdateProfile";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function App() {
   return (
@@ -105,6 +106,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/register-owner" element={<RegisterOwner />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
