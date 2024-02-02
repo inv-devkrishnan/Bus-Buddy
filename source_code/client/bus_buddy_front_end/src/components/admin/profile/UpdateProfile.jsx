@@ -128,19 +128,19 @@ function UpdateProfile() {
                   if (!values.first_name) {
                     errors.first_name = "Required";
                   } else if (!/^[A-Z]+$/i.test(values.first_name)) {
-                    errors.first_name = "Invalid first name";
+                    errors.first_name = "Invalid first name (only alphabets allowed)";
                   }
                   if (!values.last_name) {
                     errors.last_name = "Required";
                   } else if (!/^[A-Z]+$/i.test(values.last_name)) {
-                    errors.last_name = "Invalid last name";
+                    errors.last_name = "Invalid last name (only alphabets allowed)";
                   }
                   if (!values.phone) {
                     errors.phone = "Required";
                   } else if (!/^\d+$/i.test(values.phone)) {
-                    errors.phone = "Invalid phone Number";
+                    errors.phone = "Invalid phone number";
                   } else if (values.phone.length !== 10) {
-                    errors.phone = "phone Number Should be 10 digits";
+                    errors.phone = "Phone number should be 10 digits";
                   }
                   return errors;
                 }}
@@ -243,7 +243,7 @@ function UpdateProfile() {
                       }}
                     >
                       <Button
-                        style={{ width: "150px" }}
+                        style={{ width: "100%" }}
                         data-testid="update-profile"
                         variant="primary"
                         type="submit"
@@ -256,8 +256,8 @@ function UpdateProfile() {
                 )}
               </Formik>
               <Card.Footer className="mt-2 ms-0 me-0 pe-0 ps-0">
-                <div className="d-flex justify-content-end">
-                  <Button variant="primary" onClick={handleShowModal}>
+                <div className="d-flex justify-content-center">
+                  <Button variant="primary" style={{width:"100%"}} onClick={handleShowModal}>
                     Platform Charges
                   </Button>
                 </div>
