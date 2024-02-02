@@ -8,7 +8,7 @@ def start():
     print("inside scheduler task")
     scheduler = BackgroundScheduler(timezone=pytz.timezone('Asia/Kolkata'))
     scheduler.add_job(batch_operations,'interval', seconds=30)
-    scheduler.add_job(updatetasksstatus, 'interval', seconds=86400)  # Adjust the time as needed
+    scheduler.add_job(updatetasksstatus, 'interval', seconds=30)  # Adjust the time as needed
     scheduler.start()
 
 # Run the scheduler when the Django app is ready

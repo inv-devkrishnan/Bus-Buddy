@@ -31,30 +31,15 @@ def get_completed_trips():
 
 
 def updatetasksstatus():
-    trips= Trip.objects.filter(status=0)
+
+    trips =  get_completed_trips()
     print(trips)
-    timezone = indian_timezone
-    today = datetime.now()
-    today = timezone.localize(today)
-    print("new : ", today, " timezone : ", today.tzinfo)
-    date = today.date()
-    time = today.time()
-
     for trip in trips:
-        print(trip.end_date, "end_date")
-        print(trip.end_time, "end_time")
-        print("today")
-
-        print(time, "time")
-        print(date, "date")
-        if trip.end_date < date:
-            trip.status = 1
-            trip.save()
-            logger.info("Trip status updated to 1")
-        if trip.end_date == date and trip.end_time < time:
-            trip.status = 1
-            trip.save()
-            logger.info("Trip status updated to 1")
+        trip.status=1
+        trip.save()
+        
+    
+            
 
 
 def update_booking_status():
