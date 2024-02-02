@@ -42,11 +42,11 @@ export default function FormComponent(props) {
         } else {
           updateCurrentSeatData([]);
           resetForm();
-          break;
         }
       }
     } else {
       updateCurrentSeatData([]);
+      resetForm()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);
