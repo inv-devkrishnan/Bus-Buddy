@@ -92,6 +92,18 @@ export default function Viewallbus() {
       return "Unknown";
     }
   };
+  const getBusSeatLabel = (busSeat) => {
+    if (busSeat === 0) {
+      return "Sleeper";
+    } else if (busSeat === 1) {
+      return "Seater";
+    } else if (busSeat ===2) {
+      return "Both";
+    }
+    else{
+      return "Unknown"
+    }
+  };
 
   const renderCards = () => {
     return data.map((viewbus) => (
@@ -112,6 +124,7 @@ export default function Viewallbus() {
                 </div>
                 <div style={{ marginLeft: "10%" }}>
                   <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
+                  <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_type)} </p>
                 </div>
               </div>
               <div
@@ -193,7 +206,7 @@ export default function Viewallbus() {
         <h1 className="mx-auto">Viewall</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/AddBus"}>
-            <button className="btn btn-primary"> + Add Bus</button>
+          <button className="btn btn-primary" style={{ marginRight: "10px" }}>+ Add Bus</button>
           </Link>
         </Form>
       </Navbar>

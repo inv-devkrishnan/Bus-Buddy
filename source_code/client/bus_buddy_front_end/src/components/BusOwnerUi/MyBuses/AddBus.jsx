@@ -16,9 +16,12 @@ export default function Addbus() {
   const [bus_ac, setBusAC] = useState("");
   const [busNameError, setBusNameError] = useState("")
   const [plateNoError,setPlateNoError] = useState("")
+  const [busTypeError,setBusTypeError] = useState("")
+  const [busSeatTypeError,setBusSeatTypeError] = useState("")
+  const [busAcError,setBusAcError] = useState("")
   const navi = useNavigate();
-  const busNameRegex = /^[A-Za-z0-9 ():',.]+$/;
-  const plateNoRegex = /^[A-Za-z0-9]+$/
+  const busNameRegex = /^[A-Za-z0-9():',.]+$/;
+  const plateNoRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/
 
 
   const handleSubmit = async (e) => {
@@ -31,14 +34,31 @@ export default function Addbus() {
       setBusNameError("");
     }
     if(!plateNoRegex.test(plate_no)){
-      setPlateNoError("Plate number can only have numbers and letters");
+      setPlateNoError("Plate number should only have numbers and letters");
     }
     else if (!plate_no || plate_no.length > 10 || plate_no.length < 9) {
       setPlateNoError("Plate number should have a minimum of 9 and a maximum of 10 characters without spaces");
     } else {
       setPlateNoError("");
     }
-    
+    if (!bus_type) {
+      setBusTypeError("Any bus type must be selected");
+    }
+    else{
+      setBusTypeError("");
+    }
+    if (!bus_seat_type) {
+      setBusSeatTypeError("Any bus seat type must be selected");
+    }
+    else{
+      setBusSeatTypeError("");
+    }
+    if (!bus_ac) {
+      setBusAcError("Bus A/c must be selected");
+    }
+    else{
+      setBusAcError("");
+    }
     try {
       const response = await axiosApi.post("bus-owner/add-bus/", {
         bus_name: bus_name,
@@ -56,12 +76,17 @@ export default function Addbus() {
         navi("/Addamenities", { state: data });
       }
     } catch (error) {
-      console.error("Error adding bus:", error);
-      Swal.fire({
-        icon: "Error",
-        title: "Error",
-        text: "Error adding bus",
-      });
+      console.error("Error adding bus:", error?.response?.data?.plate_no[0]);
+      if(error?.response?.data?.plate_no[0] ==="Plate no already exist"){
+        setPlateNoError("Plate number already exists");
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error adding Bus",
+        });
+      }
     }
   };
 
@@ -119,6 +144,7 @@ export default function Addbus() {
                     <option value="1"> Multi axel </option>
                     <option value="2"> Both </option>
                   </Form.Control>
+                  {busTypeError && <div style={{ color: 'red',fontSize:"11px"}}>{busTypeError}</div>}
                 </Form.Group>
                 <Form.Group as={Col} md="4" >
                   <Form.Label>Bus Seat Type</Form.Label>
@@ -133,6 +159,7 @@ export default function Addbus() {
                     <option value="1"> Seater </option>
                     <option value="2"> Both </option>
                   </Form.Control>
+                  {busSeatTypeError && <div style={{ color: 'red',fontSize:"11px"}}>{busSeatTypeError}</div>}
                 </Form.Group>
                 <Form.Group as={Col} md="4">
                   <Form.Label>Bus A/C</Form.Label>
@@ -146,6 +173,7 @@ export default function Addbus() {
                     <option value="0"> A/C </option>
                     <option value="1"> Non A/C </option>
                   </Form.Control>
+                  {busAcError && <div style={{ color: 'red',fontSize:"11px"}}>{busAcError}</div>}
                 </Form.Group>
               </Row>
               <div style={{ paddingTop: "1.5rem",display: "flex", justifyContent: "center" }}>
