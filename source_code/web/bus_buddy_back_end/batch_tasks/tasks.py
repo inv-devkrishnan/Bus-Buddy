@@ -102,9 +102,11 @@ def send_mail_to_bookings_under_the_trip():
                 )
                 return 0
     except Trip.DoesNotExist:
+        logger.warn("Trip doesn't exist")
         return -1
 
-    except Exception:
+    except Exception as e:
+        logger.warn("Send Mail to booking under the trip failed  :"+str(e))
         return -1
 
 
@@ -135,6 +137,7 @@ def update_counter_for_otp_generation():
 
 
 def batch_operations():
+    logger.info("Batch Running !!")
     update_booking_status()
     updatetasksstatus()
     send_mail_to_bookings_under_the_trip()
