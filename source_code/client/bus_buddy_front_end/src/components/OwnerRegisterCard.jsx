@@ -25,11 +25,13 @@ export default function OwnerRegisterCard() {
       .post("bus-owner/registration/", values)
       .then((res) => {
         if (res.status === 201) {
+          Swal.close()
           Swal.fire("Success!", "Registered successfully!", "success");
           resetForm();
         }
       })
       .catch((err) => {
+        Swal.close()
         console.log(err.response);
         if (err.response.data.email && err.response.data.phone) {
           Swal.fire({

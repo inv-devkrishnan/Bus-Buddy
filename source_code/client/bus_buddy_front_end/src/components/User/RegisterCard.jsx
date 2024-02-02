@@ -36,6 +36,7 @@ export default function RegisterCard() {
         }
       })
       .catch((err) => {
+        Swal.close();
         console.log(err);
         if (err.response?.data?.email && err.response?.data?.phone) {
           Swal.fire({
