@@ -162,7 +162,7 @@ export default function FormComponent(props) {
     initialValues: {
       seatNumber: "",
       seatType: seatTypeInitialValue(),
-      deck: floorValue < 6 ? "0" : "1",
+      deck: "",
       seatCost: "",
     },
     validationSchema: FormComponentSchema,
