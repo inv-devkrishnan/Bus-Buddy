@@ -29,6 +29,7 @@ export default function FormComponent(props) {
     updateCurrentSeatData,
     reRender,
     updateReRender,
+    updateIsClicked,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [changedSeatType, setChangedSeatType] = useState("");
 
@@ -76,6 +77,7 @@ export default function FormComponent(props) {
         seat_cost: formik.values.seatCost,
       })
       .then((res) => {
+        updateIsClicked(false)
         if (res.status === 201) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
