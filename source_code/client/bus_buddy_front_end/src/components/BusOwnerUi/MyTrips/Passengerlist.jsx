@@ -28,12 +28,12 @@ export default function PassengerList() {
   }, [fetchData, currentPage]);
   console.log(data);
 
-  const renderTable = () => {
-    let content;
+  const getContent = () => {
+    let content = [];
   
     if (!data || data.length === 0) {
-      content = (
-        <tr>
+      content.push(
+        <tr key="no-data">
           <td colSpan="4">No data available</td>
         </tr>
       );
@@ -51,8 +51,9 @@ export default function PassengerList() {
       });
     }
   
-    return content;  // This was missing in your original code
+    return content;
   };
+  
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
@@ -68,7 +69,7 @@ export default function PassengerList() {
               <th>Gender</th>
             </tr>
           </thead>
-          <tbody>{renderTable()}</tbody>
+          <tbody>{getContent()}</tbody>
         </table>
       </div>
       <div
