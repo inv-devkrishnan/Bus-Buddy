@@ -99,8 +99,8 @@ export default function ReviewHistory() {
 
   const validationSchema = yup.object().shape({
     // validation for the form
-    review_title: yup.string().required("Review Title is required"),
-    review_body: yup.string().required("Description is required"),
+    review_title: yup.string().trim().required("Review Title is required"),
+    review_body: yup.string().trim().required("Description is required"),
     rating: yup
       .number()
       .integer("Rating must be an integer")
@@ -310,7 +310,7 @@ export default function ReviewHistory() {
                     name="review_body"
                     id="review_body"
                     placeholder="Review Body"
-                    maxLength={3000}
+                    maxLength={1000}
                     isInvalid={
                       formikProps.errors.review_body &&
                       formikProps.touched.review_body

@@ -9,9 +9,11 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import { axiosApi } from "../../../../utils/axiosApi";
 
 export default function FullSleeperLayout(props) {
-  const { updateCurrentData, reRender } = useContext(AddSeatContext);
+  const { updateCurrentData, reRender, updateIsClicked } =
+    useContext(AddSeatContext);
 
   useEffect(() => {
+    updateIsClicked(false);
     console.log(reRender);
     axiosApi
       .get(`bus-owner/get-seat-details?bus_id=${props.bus}`)
@@ -19,9 +21,9 @@ export default function FullSleeperLayout(props) {
         updateCurrentData(res.data);
       })
       .catch((err) => {
-        console.log("error");
+        console.log(err);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.bus, reRender]);
 
   return (

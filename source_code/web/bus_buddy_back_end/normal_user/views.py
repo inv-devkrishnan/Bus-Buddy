@@ -519,7 +519,8 @@ class BookSeat(APIView):
             "recipient": request.user.first_name,
             "pick_up": {"point": pick_up.bus_stop, "time": pick_up.arrival_time},
             "drop_off": {"point": drop_off.bus_stop, "time": drop_off.arrival_time},
-            "trip_start": trip.start_date,
+            "trip_start": trip.start_date
+            + timedelta(days=pick_up.start_stop_location.arrival_date_offset),
             "bus": bus.bus_name,
             "route": {"from": route_start.location_name, "to": route_end.location_name},
             "travellers": request_data["booked_seats"],

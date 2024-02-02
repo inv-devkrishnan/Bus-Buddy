@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import OwnerUpdateForm from "../components/OwnerUpdateCard";
@@ -14,9 +15,15 @@ beforeEach(() => {
 afterEach(() => {
   mock.restore();
 });
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
 
 describe("OwnerUpdateCard component", () => {
-  it("renders card", async () => {
+  useNavigate.mockImplementation(() => jest.fn());
+
+  it("renders card and form submit put error", async () => {
     const data = {
       first_name: "valid_first_name",
       last_name: "valid_last_name",
@@ -31,14 +38,49 @@ describe("OwnerUpdateCard component", () => {
 
     render(<OwnerUpdateForm />);
 
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
 
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
     fireEvent.change(lastNameTextbox, { target: { value: "second" } });
 
-    const emailTextbox = screen.getByPlaceholderText("Enter email");
-    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
+    const phoneTextbox = screen.getByPlaceholderText("Phone number");
+    fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
+
+    const companyTextbox = screen.getByPlaceholderText(
+      "Enter the company name"
+    );
+    fireEvent.change(companyTextbox, { target: { value: "Company" } });
+
+    const submitButton = screen.getByText("Submit");
+    fireEvent.click(submitButton);
+
+    mock.onPut("bus-owner/update-profile").reply(400);
+  });
+
+  it("form submit put success", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+      company_name: "valid_company_name",
+      aadhaar_no: 123456789123,
+      msme_no: "valid_msme",
+      extra_charges: 18,
+    };
+    mock.onGet("bus-owner/update-profile").reply(200, data);
+
+    render(<OwnerUpdateForm />);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
+    fireEvent.change(firstNameTextbox, { target: { value: "first" } });
+
+    const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
+    fireEvent.change(lastNameTextbox, { target: { value: "second" } });
 
     const phoneTextbox = screen.getByPlaceholderText("Phone number");
     fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
@@ -55,7 +97,8 @@ describe("OwnerUpdateCard component", () => {
       mock.onPut("bus-owner/update-profile").reply(200);
     });
   });
-  it("form submit", async () => {
+
+  it("form submit put success else", async () => {
     const data = {
       first_name: "valid_first_name",
       last_name: "valid_last_name",
@@ -69,15 +112,13 @@ describe("OwnerUpdateCard component", () => {
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
     render(<OwnerUpdateForm />);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
 
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
     fireEvent.change(lastNameTextbox, { target: { value: "second" } });
-
-    const emailTextbox = screen.getByPlaceholderText("Enter email");
-    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
 
     const phoneTextbox = screen.getByPlaceholderText("Phone number");
     fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
@@ -94,11 +135,30 @@ describe("OwnerUpdateCard component", () => {
       mock.onPut("bus-owner/update-profile").reply(204);
     });
   });
+
   it("renders card catch error", () => {
     mock.onGet("bus-owner/update-profile").reply(400);
 
     render(<OwnerUpdateForm />);
-    const clearButton = screen.getByText("Clear");
+  });
+
+  it("renders card cancel button", async () => {
+    const data = {
+      first_name: "valid_first_name",
+      last_name: "valid_last_name",
+      email: "valid_email@gfmail.com",
+      phone: 1234567890,
+      company_name: "valid_company_name",
+      aadhaar_no: 123456789123,
+      msme_no: "valid_msme",
+      extra_charges: 18,
+    };
+    mock.onGet("bus-owner/update-profile").reply(200, data);
+
+    render(<OwnerUpdateForm />);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const clearButton = screen.getByTestId("Cancel");
     fireEvent.click(clearButton);
   });
 
@@ -123,9 +183,6 @@ describe("OwnerUpdateCard component", () => {
     const lastNameTextbox = screen.getByPlaceholderText("Enter last name");
     fireEvent.change(lastNameTextbox, { target: { value: "second" } });
 
-    const emailTextbox = screen.getByPlaceholderText("Enter email");
-    fireEvent.change(emailTextbox, { target: { value: "email@gmail.com" } });
-
     const phoneTextbox = screen.getByPlaceholderText("Phone number");
     fireEvent.change(phoneTextbox, { target: { value: "9512478630" } });
 
@@ -136,6 +193,7 @@ describe("OwnerUpdateCard component", () => {
 
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
+
     const response = { email: "email error" };
     await waitFor(() => {
       mock.onPut("bus-owner/update-profile").reply(400, response);

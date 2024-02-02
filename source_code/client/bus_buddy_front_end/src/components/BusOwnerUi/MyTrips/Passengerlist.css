@@ -1,0 +1,18 @@
+.passenger-table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .passenger-table th, .passenger-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .passenger-row td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

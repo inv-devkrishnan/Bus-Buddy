@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 from django.urls import reverse
 from decouple import config
 from rest_framework.test import APIClient
+from .models import User, EmailAndOTP
 from .models import User
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -22,6 +23,11 @@ class BaseTest(TestCase):
         self.email = "tester@gmail.com"
         # creating a test user
 
+        self.instance = EmailAndOTP.objects.create(
+            email="Anyone@gmail.com",
+            otp=845698,
+            counter=5,
+        )
         self.user = User.objects.create_user(
             email=self.email, password=password, account_provider=0
         )
@@ -31,6 +37,8 @@ class BaseTest(TestCase):
         self.google_login_url = reverse("google_login")
         self.account_delete_url = reverse("delete_account")
         self.account_change_password = reverse("change_password")
+        self.generate_otp = reverse("generate_otp")
+        self.verify_otp = reverse("verify_email")
         self.forgot_password_mail = reverse("forgotpasswordsendmail")
         self.forgot_password_verify = reverse("forgotpasswordverify")
         self.forgot_password_change_password = reverse("forgotpasswordchange")
@@ -208,6 +216,89 @@ class ChangePasswordTestCase(BaseTest):
         self.assertEqual(response.status_code, 403)
 
 
+class OTPGenerationTest(BaseTest):
+    @patch("bus_buddy_back_end.email.send_email_with_template")
+    def test_01_generate_otp_success(self, mock_validate):
+        mock_validate.return_value = True
+        response = self.client.post(
+            self.generate_otp, {"email": "thisguy@gmail.com"}, format="json"
+        )
+        self.assertEqual(response.status_code, 201)
+
+    def test_02_email_already_exist(self):
+        response = self.client.post(
+            self.generate_otp, {"email": "tester@gmail.com"}, format="json"
+        )
+        self.assertEqual(response.status_code, 204)
+
+    def test_03_serializer_error(self):
+        response = self.client.post(
+            self.generate_otp, {"email": "tester"}, format="json"
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_04_existing_otp_no_more_chances(self):
+        self.instance = EmailAndOTP.objects.create(
+            email="someone@gmail.com",
+            otp=2569,
+            counter=5,
+        )
+        response = self.client.post(
+            self.generate_otp, {"email": "someone@gmail.com"}, format="json"
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_05_existing_otp(self):
+        self.instance = EmailAndOTP.objects.create(
+            email="some@gmail.com",
+            otp=2569,
+            counter=0,
+        )
+        response = self.client.post(
+            self.generate_otp, {"email": "some@gmail.com"}, format="json"
+        )
+        self.assertEqual(response.status_code, 201)
+
+
+class VerifyOTP(BaseTest):
+    def test_01_verify_otp_success(self):
+        response = self.client.get(
+            f"{self.verify_otp}?email=Anyone@gmail.com&otp=845698", format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 201)
+
+    def test_02_validation_error_verify(self):
+        response = self.client.get(
+            f"{self.verify_otp}?email=Anyone.com&otp=2569", format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_03_wrong_otp(self):
+        response = self.client.get(
+            f"{self.verify_otp}?email=Anyone@gmail.com&otp=27869", format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 205)
+        
+    @patch("bus_buddy_back_end.email.send_email_with_template")
+    def test_04_exception_verify(self, mock_validate):
+        mock_validate.side_effect = EmailAndOTP.DoesNotExist
+        response = self.client.get(
+            f"{self.verify_otp}?email=Anyone.com&otp=2569", format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
+        
+    @patch("bus_buddy_back_end.email.send_email_with_template")
+    def test_05_exception_verify(self, mock_validate):
+        mock_validate.side_effect = Exception("DB error")
+        response = self.client.get(
+            f"{self.verify_otp}?email=Anyone.com&otp=2569", format="json"
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 400)
 class ForgetPasswordTest(BaseTest):
     def test_01_can_send_change_password_email(self):
         request_data = {"email": self.email}

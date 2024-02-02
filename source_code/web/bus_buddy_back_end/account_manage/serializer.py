@@ -1,7 +1,14 @@
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.forms import ValidationError
 from rest_framework import serializers
-from .models import User
+from .models import User, EmailAndOTP
+from rest_framework.validators import UniqueValidator
+
+error_message_only_number = "This field can only contain numbers."
+error_message_otp_exist = "This OTP already exists."
+error_message_email_exist = "Email is already registered"
+email_regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+regex_number_only = r"^\d*$"
 
 password_regex = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$"
 class GoogleAuthSerializer(serializers.Serializer):
@@ -59,6 +66,69 @@ class PlatformChargesSerializers(serializers.Serializer):
         fields = "extra_charges"
 
 
+class EmailOtpSerializer(serializers.ModelSerializer):
+    """
+    For storing the otp details
+    """
+
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=EmailAndOTP.objects.all(), message=error_message_email_exist
+            ),
+            RegexValidator(
+                regex=email_regex,
+                message="Invalid email",
+            ),
+        ]
+    )
+    otp = serializers.IntegerField(
+        validators=[
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
+            UniqueValidator(
+                queryset=EmailAndOTP.objects.all(), message=error_message_otp_exist
+            ),
+            MinValueValidator(0, message="OTP must be a non-negative integer."),
+            MaxValueValidator(999999, message="OTP must have at most 6 digits."),
+        ],
+    )
+
+    class Meta:
+        model = EmailAndOTP
+        fields = ("email", "otp", "status")
+
+
+class EmailOtpUpdateSerializer(serializers.ModelSerializer):
+    """
+    For storing the otp details
+    """
+
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=EmailAndOTP.objects.all(), message=error_message_email_exist
+            ),
+            RegexValidator(
+                regex=email_regex,
+                message="Invalid email",
+            ),
+        ]
+    )
+    otp = serializers.IntegerField(
+        validators=[
+            RegexValidator(regex=regex_number_only, message=error_message_only_number),
+            UniqueValidator(
+                queryset=EmailAndOTP.objects.all(), message=error_message_otp_exist
+            ),
+            MinValueValidator(0, message="OTP must be a non-negative integer."),
+            MaxValueValidator(999999, message="OTP must have at most 6 digits."),
+        ],
+        allow_null=True,
+    )
+
+    class Meta:
+        model = EmailAndOTP
+        fields = ("email", "otp", "counter", "status")
 class ForgetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=100,error_messages={
             'invalid': 'Please enter a valid email address',

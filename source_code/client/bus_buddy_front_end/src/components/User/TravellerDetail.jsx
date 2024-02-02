@@ -67,7 +67,10 @@ const TravellerDetail = () => {
       selectedSeats,
       (acc, seat) => {
         acc[seat.id] = Yup.object().shape({
-          [`name_${seat.id}`]: Yup.string().required("Name is required"),
+          [`name_${seat.id}`]: Yup.string()
+            .matches(/^[A-Za-z\s.]+$/, "Name must be letters")
+            .trim()
+            .required("Name is required"),
           [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),
           [`gender_${seat.id}`]: Yup.string().required("Select a gender"),
         });
@@ -88,6 +91,7 @@ const TravellerDetail = () => {
         traveller_gender: formik.values[seatId]?.[`gender_${seatId}`],
         trip: parseInt(currentTrip.data.trip),
         seat: parseInt(seatId),
+        seat_number: formik.values[seatId]?.[`seat_number_${seatId}`],
       };
       bookedSeats.push(traveller);
     }
@@ -136,6 +140,7 @@ const TravellerDetail = () => {
           [`name_${seat.id}`]: "",
           [`dob_${seat.id}`]: "",
           [`gender_${seat.id}`]: "",
+          [`seat_number_${seat.id}`]: seat.seat_number,
         };
         return acc;
       },
@@ -172,7 +177,7 @@ const TravellerDetail = () => {
                     <Form.Label>{data.seat_number}</Form.Label>
                   </Form.Group>
                   <Form.Group className="m-2">
-                    <Form.Label>Traveller name</Form.Label>
+                    <Form.Label>Name</Form.Label>
                     <Form.Control
                       name={`name_${seatId}`}
                       id={`name_${seatId}`}
@@ -190,6 +195,7 @@ const TravellerDetail = () => {
                           e.target.value
                         )
                       }
+                      maxLength={50}
                     />
                     <Form.Control.Feedback type="invalid">
                       {formik.touched[seatId]?.[`name_${seatId}`] &&
@@ -258,10 +264,10 @@ const TravellerDetail = () => {
                         formik.errors[seatId]?.[`gender_${seatId}`]
                       }
                     />
-                    <Form.Control.Feedback type="invalid">
+                    <span style={{ color: "#ff0000", fontSize: "14px" }}>
                       {formik.touched[seatId]?.[`gender_${seatId}`] &&
                         formik.errors[seatId]?.[`gender_${seatId}`]}
-                    </Form.Control.Feedback>
+                    </span>
                   </Form.Group>
                 </Form.Group>
               );
