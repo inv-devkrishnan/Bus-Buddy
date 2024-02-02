@@ -25,13 +25,13 @@ export default function Addbus() {
     e.preventDefault();
 
     if (!busNameRegex.test(bus_name)) {
-      setBusNameError("Bus name can only have letters , Numbers , : are allowed");
+      setBusNameError("Only letters , Numbers , `:`.`()` are allowed");
     }
     else {
       setBusNameError("");
     }
     if(!plateNoRegex.test(plate_no)){
-      setPlateNoError("Plate number van only have numbers and letters");
+      setPlateNoError("Plate number can only have numbers and letters");
     }
     else if (!plate_no || plate_no.length > 10 || plate_no.length < 9) {
       setPlateNoError("Plate number should have a minimum of 9 and a maximum of 10 characters without spaces");
