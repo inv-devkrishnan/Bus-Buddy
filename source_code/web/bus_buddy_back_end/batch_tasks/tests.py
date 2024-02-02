@@ -4,6 +4,7 @@ from .tasks import (
     update_booking_status,
     send_mail_to_bookings_under_the_trip,
     update_counter_for_otp_generation,
+    batch_operations,
 )
 from unittest.mock import patch, MagicMock, call
 from bus_owner.models import Trip, StartStopLocations
@@ -27,6 +28,9 @@ class UpdateBookingStatusTestCase(TestCase):
             mock_filter.side_effect = Exception("Simulated database error")
             res = update_booking_status()
         self.assertEqual(res, -1)
+
+    def test_03_whole_batch_test(self):
+        batch_operations()
 
 
 class BookingReminderEmailTestCase(TestCase):

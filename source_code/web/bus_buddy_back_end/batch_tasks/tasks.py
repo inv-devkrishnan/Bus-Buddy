@@ -135,6 +135,7 @@ def update_counter_for_otp_generation():
 
 
 def batch_operations():
+    logger.info("Batch Running !!")
     update_booking_status()
     updatetasksstatus()
     send_mail_to_bookings_under_the_trip()
