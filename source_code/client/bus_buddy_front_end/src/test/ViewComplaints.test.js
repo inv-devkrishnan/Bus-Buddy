@@ -58,7 +58,7 @@ describe('ViewComplaints component', () => {
     render(<ViewComplaints />);
 
     // Simulate clicking the "Filter by Date" button
-    fireEvent.click(screen.getByText('Filter by Date'));
+    fireEvent.click(screen.getByTestId('Filter by Date'));
 
     // Check if the date filter modal is opened
 
@@ -81,7 +81,7 @@ describe('ViewComplaints component', () => {
     render(<ViewComplaints />);
 
     // Simulate clicking the "Filter by Date" button
-    fireEvent.click(screen.getByText('Filter by Date'));
+    fireEvent.click(screen.getByTestId('Filter by Date'));
 
     // Check if the date filter modal is opened
 
@@ -103,7 +103,7 @@ describe('ViewComplaints component', () => {
     render(<ViewComplaints />);
 
     // Simulate clicking the "Filter by Date" button
-    fireEvent.click(screen.getByText('Filter by Date'));
+    fireEvent.click(screen.getByTestId('Filter by Date'));
 
     // Check if the date filter modal is opened
     // Simulate selecting "From" and "To" dates in the filter modal
@@ -124,7 +124,7 @@ describe('ViewComplaints component', () => {
     render(<ViewComplaints />);
 
     // Simulate clicking the "Filter by Date" button
-    fireEvent.click(screen.getByText('Filter by Date'));
+    fireEvent.click(screen.getByTestId('Filter by Date'));
 
     // Check if the date filter modal is opened
 

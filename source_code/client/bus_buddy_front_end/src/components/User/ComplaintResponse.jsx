@@ -88,7 +88,9 @@ export default function ComplaintResponse() {
                   {data?.complaint_title} - ({data?.created_date})
                 </Accordion.Header>
                 <Accordion.Body className="d-flex flex-column m-1">
-                  {data?.complaint_body}
+                  <div style={{ overflowWrap: "break-word" }}>
+                    {data?.complaint_body}
+                  </div>
                   <Image src={data?.complaint_image} alt="" width="70%" />
 
                   <Button

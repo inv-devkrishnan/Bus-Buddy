@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reminder: Upcoming Trip</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p>Dear {{ recipient_name }},</p>
+
+  <p>
+    We trust this message finds you in good health. We would like to bring to your attention that the upcoming trip with
+    Booking ID {{booking_id}} is scheduled to commence in two days.
+  </p>
+
+  <p><strong>Booking Details:</strong></p>
+  <ul>
+    <li><strong>Booking ID:</strong> {{booking_id}}</li>
+    <li><strong>Trip Date:</strong> {{trip_date}}</li>
+    <li><strong>Pickup Point:</strong> {{pick}}</li>
+    <li><strong>Pickup Point Arrival Time:</strong> {{arrival_time}}</li>
+  </ul>
+
+  <p>
+    Kindly ensure your presence at the designated pickup point for the trip. Should you have any further questions or
+    concerns, please do not hesitate to reach out to us.
+  </p>
+
+  <p>
+    Your understanding is greatly appreciated, and we look forward to the opportunity to serve you in the future.
+  </p>
+
+  <p>Best regards,</p>
+  <p>Bus Buddy Team</p>
+
+</body>
+
+</html>

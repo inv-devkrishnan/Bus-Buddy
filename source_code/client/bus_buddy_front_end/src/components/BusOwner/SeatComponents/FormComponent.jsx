@@ -1,4 +1,4 @@
-import { React, useEffect, useContext } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import {
   FormControl,
   TextField,
@@ -30,17 +30,23 @@ export default function FormComponent(props) {
     reRender,
     updateReRender,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
+  const [changedSeatType, setChangedSeatType] = useState("");
 
   useEffect(() => {
     // for setting current seat data using ui order(propsData)
-    for (let i of currentData) {
-      if (propsData === i.seat_ui_order) {
-        updateCurrentSeatData(i);
-        break;
-      } else {
-        updateCurrentSeatData([]);
-        resetForm();
+    if (currentData && Array.isArray(currentData)) {
+      for (let i of currentData) {
+        if (propsData === i.seat_ui_order) {
+          updateCurrentSeatData(i);
+          break;
+        } else {
+          updateCurrentSeatData([]);
+          resetForm();
+          break;
+        }
       }
+    } else {
+      updateCurrentSeatData([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);
@@ -98,12 +104,65 @@ export default function FormComponent(props) {
       });
   };
 
+  const seatTypeMenu = (type) => {
+    if (type === 0) {
+      return [
+        <MenuItem key={1} value={1}>
+          Sleeper
+        </MenuItem>,
+      ];
+    } else if (type === 1) {
+      return [
+        <MenuItem key={0} value={0}>
+          Seater
+        </MenuItem>,
+      ];
+    } else {
+      return [
+        <MenuItem key={0} value={0}>
+          Seater
+        </MenuItem>,
+        <MenuItem key={1} value={1}>
+          Sleeper
+        </MenuItem>,
+      ];
+    }
+  };
+
+  const seatTypeInitialValue = () => {
+    if (props.seatType === 0) {
+      return "1";
+    } else if (props.seatType === 1) {
+      return "0";
+    } else {
+      return changedSeatType;
+    }
+  };
+
+  const floorValue = Math.floor(propsData / 10);
+
+  const deckTypeMenu = () => {
+    if (floorValue < 6) {
+      return [
+        <MenuItem key={0} value={0}>
+          Lower deck
+        </MenuItem>,
+      ];
+    } else {
+      return [
+        <MenuItem key={1} value={1}>
+          Upper deck
+        </MenuItem>,
+      ];
+    }
+  };
+
   const formik = useFormik({
     // formik initialisation
     initialValues: {
       seatNumber: "",
-      seatType: 0,
-      deck: 0,
+      seatType: seatTypeInitialValue(),
+      deck: floorValue < 6 ? "0" : "1",
       seatCost: "",
     },
     validationSchema: FormComponentSchema,
@@ -126,11 +185,13 @@ export default function FormComponent(props) {
             <TextField
               data-testid="seat_number"
               id="seatNumber"
-              label="Seat number"
+              label="Enter seat number"
               variant="outlined"
               name="seatNumber"
+              inputProps={{ maxLength: 50 }}
               value={formik.values.seatNumber}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               error={
                 formik.touched.seatNumber && Boolean(formik.errors.seatNumber)
               }
@@ -147,11 +208,14 @@ export default function FormComponent(props) {
               label="Seat type"
               variant="outlined"
               value={formik.values.seatType}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.setFieldValue("seatType", parseInt(e.target.value));
+                setChangedSeatType(parseInt(e.target.value));
+              }}
+              onBlur={formik.handleBlur}
               error={formik.touched.seatType && Boolean(formik.errors.seatType)}
             >
-              <MenuItem value={0}>Seater</MenuItem>
-              <MenuItem value={1}>Sleeper</MenuItem>
+              {seatTypeMenu(props.seatType)}
             </Select>
             <FormHelperText error>
               {formik.touched.seatType && formik.errors.seatType}
@@ -170,10 +234,10 @@ export default function FormComponent(props) {
               onChange={(e) =>
                 formik.setFieldValue("deck", parseInt(e.target.value))
               }
+              onBlur={formik.handleBlur}
               error={formik.touched.deck && Boolean(formik.errors.deck)}
             >
-              <MenuItem value={0}>Lower deck</MenuItem>
-              <MenuItem value={1}>Upper deck</MenuItem>
+              {deckTypeMenu()}
             </Select>
             <FormHelperText error>
               {formik.touched.deck && formik.errors.deck}
@@ -185,10 +249,11 @@ export default function FormComponent(props) {
               data-testid="seat_cost"
               id="seatCost"
               name="seatCost"
-              label="Seat cost"
+              label="Enter seat cost"
               variant="outlined"
               value={formik.values.seatCost}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               error={formik.touched.seatCost && Boolean(formik.errors.seatCost)}
               helperText={formik.touched.seatCost && formik.errors.seatCost}
               InputProps={{

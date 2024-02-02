@@ -1,4 +1,5 @@
 import logging
+import random
 import os
 import jwt
 from django.db.utils import IntegrityError
@@ -10,9 +11,11 @@ from rest_framework.authentication import authenticate
 from .serializer import GoogleAuthSerializer as GAS
 from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
+from .serializer import EmailOtpSerializer, EmailOtpUpdateSerializer
+from .models import User, EmailAndOTP
+from .google_auth import Google
 from .serializer import ForgetPasswordSerializer as FPS
 from .serializer import ForgotPasswordChangeSerializer as FPCS
-from .models import User
 from .token import generate_token, generate_jwt_token
 from .google_auth import Google
 from bus_buddy_back_end.email import send_email_with_template
@@ -203,6 +206,98 @@ class UpdatePlatformCharges(UpdateAPIView):
             return Response("Invalid data", status=404)
 
 
+class GenerateEmailOtp(APIView):
+    """
+    For generating and storing otp for email verification
+    """
+
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        request_body = request.data.copy()
+        try:
+            random_number = random.randint(0, 999999)
+            generated_otp = str(random_number).zfill(6)
+            request_body["otp"] = generated_otp
+            instance = (
+                EmailAndOTP.objects.get(email=request.data.get("email"))
+                if EmailAndOTP.objects.filter(email=request.data.get("email")).exists()
+                else None
+            )
+
+            if instance:
+                request_body["counter"] = instance.counter + 1
+                serialized_data = EmailOtpUpdateSerializer(
+                    instance, data=request_body, partial=True
+                )  # updates existing data
+            else:
+                serialized_data = EmailOtpSerializer(
+                    data=request_body
+                )  # create new data
+
+            if User.objects.filter(email=request.data.get("email")):
+                logger.info("Email already registered")
+                return Response(
+                    {"message": "The email has been already registered"},
+                    status=204,
+                )
+            elif instance and instance.counter >= 5:
+                logger.info("Out of chance in otp generation")
+                return Response(
+                    {
+                        "message": "Regrettably, the allotted chances for today have been exhausted."
+                    },
+                    status=200,
+                )
+            elif serialized_data.is_valid():
+                serialized_data.save()
+                logger.info("otp saved")
+                send_email_with_template(
+                    subject="Email verification",
+                    context={"otp": request_body["otp"]},
+                    recipient_list=[request_body["email"]],
+                    template="email_verification_otp.html",
+                    status=9,
+                )
+                logger.info("otp email has been send")
+                return Response({"message": "otp generated succesffully"}, status=201)
+            else:
+                logger.info(serialized_data.errors)
+                return Response({"error": serialized_data.errors}, status=400)
+        except Exception as e:
+            logger.error(f"Error: {e}")
+            return Response({"error": str(e)}, status=400)
+
+
+class VerifyOTP(UpdateAPIView):
+    """
+    For generating and storing otp for email verification
+    """
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        try:
+            instance = EmailAndOTP.objects.get(email=request.GET.get("email"))
+            if str(instance.otp).zfill(6) == str(request.GET.get("otp")):
+                data = {"otp": None, "status": 1}
+                serialized_data = EmailOtpUpdateSerializer(
+                    instance, data=data, partial=True
+                )  # updates existing data
+                if serialized_data.is_valid():
+                    self.perform_update(serialized_data)
+                    return Response({"message": "Email has been verified"}, status=201)
+                else:
+                    return Response({"error": serialized_data.errors}, status=200)
+            else:
+                return Response({"error": "Wrong otp"}, status=205)
+
+        except EmailAndOTP.DoesNotExist:
+            logger.error("Error: No otp")
+            return Response({"error": "There is no otp with this email"}, status=400)
+        except Exception as e:
+            logger.error(f"Error: {e}")
+            return Response({"error": str(e)}, status=400)
 class ForgetPasswordSendMail(APIView):
     permission_classes = (AllowAny,)
 
