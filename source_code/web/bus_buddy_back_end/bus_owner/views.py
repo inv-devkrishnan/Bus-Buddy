@@ -634,7 +634,7 @@ class Addtrip(APIView):
             locations = StartStopLocations.objects.filter(route_id=route).order_by(
                 "seq_id"
             )
-            stop_date_str = request_data["end_date"]
+            stop_date_str = request_data["start_date"]
             stop_date = datetime.strptime(stop_date_str, date_format)
             print("stop :",stop_date)
             request_data["user"] = request.user.id
@@ -693,7 +693,7 @@ class Updatetrip(UpdateAPIView):
             first_seq = locations.first()
             last_seq = locations.last()
             print(locations)
-            stop_date_str = request_data["end_date"]
+            stop_date_str = request_data["start_date"]
             stop_date = datetime.strptime(stop_date_str, date_format)
             offset = last_seq.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)
@@ -857,7 +857,7 @@ class Addreccuringrip(APIView):
             loc = StartStopLocations.objects.filter(route=routes).order_by("seq_id")
             seq_first = loc.first()
             seq_last = loc.last()
-            stop_date_str = request_data["end_date"]
+            stop_date_str = request_data["start_date"]
             stop_date = datetime.strptime(stop_date_str, date_format)
             offset = seq_last.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)

@@ -90,9 +90,19 @@ function UpdateProfile() {
       .then((response) => {
         console.log(response.data);
         console.log("Platform charges updated successfully");
+        Swal.fire({
+          icon: "success",
+          title: "Updated Successfully",
+          text: "Platform charges updated successfully",
+        });
       })
       .catch((error) => {
         console.error("Error updating platform charges:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error updating platform charges",
+        });
       });
 
     setShowModal(false);

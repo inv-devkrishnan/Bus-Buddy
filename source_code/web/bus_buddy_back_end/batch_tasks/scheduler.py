@@ -8,12 +8,9 @@ import pytz
 
 def start():
     print("inside scheduler task")
-    scheduler = BackgroundScheduler(timezone=pytz.timezone("Asia/Kolkata"))
-    scheduler.add_job(batch_operations, "interval", seconds=30)
-    scheduler.add_job(
-        updatetasksstatus, "interval", seconds=86400
-    )  # Adjust the time as needed
-    scheduler.add_job(update_counter_for_otp_generation, "interval", days=1)
+    scheduler = BackgroundScheduler(timezone=pytz.timezone('Asia/Kolkata'))
+    scheduler.add_job(batch_operations,'interval', seconds=30)
+    scheduler.add_job(updatetasksstatus, 'interval', seconds=30)  # Adjust the time as needed
     scheduler.start()
 
 
