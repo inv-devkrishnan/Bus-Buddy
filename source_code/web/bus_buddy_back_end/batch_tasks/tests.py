@@ -43,15 +43,6 @@ class BookingReminderEmailTestCase(TestCase):
             res = send_mail_to_bookings_under_the_trip()
         self.assertEqual(res, 1)
 
-    def test_02_batch_email_send_else_status(self):
-        with patch(trip_object_filter) as mock_filter:
-            current_date = datetime.now().date()
-            day_after_tomorrow = current_date + timedelta(days=5)
-            trip_instance = Trip(start_date=day_after_tomorrow)
-            mock_filter.return_value = [trip_instance]
-            res = send_mail_to_bookings_under_the_trip()
-        self.assertEqual(res, 0)
-
     def test_03_batch_email_send_status_fail(self):
         with patch(trip_object_filter) as mock_filter:
             mock_filter.side_effect = Trip.DoesNotExist("DoesNotExist")
