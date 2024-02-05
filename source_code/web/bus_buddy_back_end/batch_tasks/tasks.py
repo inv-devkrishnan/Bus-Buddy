@@ -92,7 +92,9 @@ def send_mail_to_bookings_under_the_trip():
         current_date = date.today()
         for trip in active_trips:
             booking_reminder = Email.objects.filter(trip=trip, status=7)
-            if (not booking_reminder) and (trip.start_date - current_date).days == 2:
+            if (booking_reminder.count() == 0) and (
+                trip.start_date - current_date
+            ).days == 2:
                 bookings_under_trip = Bookings.objects.filter(trip=trip.id, status=0)
                 send_email_for(bookings_under_trip, trip)
                 return 1
@@ -100,11 +102,12 @@ def send_mail_to_bookings_under_the_trip():
                 logger.info(
                     f"Date is not before 2 days for this trip: {trip} or mail has already been send for: {booking_reminder}"
                 )
-                return 0
     except Trip.DoesNotExist:
+        logger.warn("Trip doesn't exist")
         return -1
 
-    except Exception:
+    except Exception as e:
+        logger.warn("Send Mail to booking under the trip failed  :"+str(e))
         return -1
 
 
@@ -123,7 +126,6 @@ def update_counter_for_otp_generation():
                 return 1
             else:
                 logger.info("No otp updation")
-                return 0
 
     except EmailAndOTP.DoesNotExist:
         logger.info("No entry in otp table with counter 5")
@@ -135,6 +137,7 @@ def update_counter_for_otp_generation():
 
 
 def batch_operations():
+    logger.info("Batch Running !!")
     update_booking_status()
     updatetasksstatus()
     send_mail_to_bookings_under_the_trip()

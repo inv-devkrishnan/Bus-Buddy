@@ -29,6 +29,7 @@ export default function FormComponent(props) {
     updateCurrentSeatData,
     reRender,
     updateReRender,
+    updateIsClicked,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [changedSeatType, setChangedSeatType] = useState("");
 
@@ -42,11 +43,11 @@ export default function FormComponent(props) {
         } else {
           updateCurrentSeatData([]);
           resetForm();
-          break;
         }
       }
     } else {
       updateCurrentSeatData([]);
+      resetForm()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);
@@ -76,6 +77,7 @@ export default function FormComponent(props) {
         seat_cost: formik.values.seatCost,
       })
       .then((res) => {
+        updateIsClicked(false)
         if (res.status === 201) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
@@ -162,7 +164,7 @@ export default function FormComponent(props) {
     initialValues: {
       seatNumber: "",
       seatType: seatTypeInitialValue(),
-      deck: floorValue < 6 ? "0" : "1",
+      deck: "",
       seatCost: "",
     },
     validationSchema: FormComponentSchema,
