@@ -21,18 +21,19 @@ import { AddSeatContext } from "../../../utils/AddSeatContext";
 import { axiosApi } from "../../../utils/axiosApi";
 
 export default function FormComponent(props) {
+  console.log(props);
   const { addSeatList, updateAddSeatList } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
 
   const validationSchema = yup.object().shape({
     seat: yup.array().of(
       yup.object().shape({
-        seatNumber: yup
+        seat_number: yup
           .string()
-          .matches(/^[a-zA-Z0-9]+$/, "Invalid seat number")
+          .matches(/^[a-zA-Z0-9]+$/, "Only letters and numbers are allowed")
           .required("Seat number is required"),
-        seatType: yup.number().required("Seat type is required"),
+        seat_type: yup.number().required("Seat type is required"),
         deck: yup.number().required("Deck is required"),
-        seatCost: yup
+        seat_cost: yup
           .string()
           .matches(/^\d+$/, "Seat cost must be numbers")
           .required("Seat cost is required"),
@@ -42,24 +43,69 @@ export default function FormComponent(props) {
 
   const onSubmit = (values) => {
     // api call for storing seat details
+    console.log(values.seat);
     axiosApi
-      .post(`bus-owner/add-seat-details?bus=${props.bus}`, values)
+      .post(`bus-owner/add-seat-details?bus=${props.bus}`, values.seat)
       .then((res) => {
-        console.log(res);
-        alert("added");
+        Swal.fire({
+          icon: "success",
+          title: "Info",
+          text: res.data?.message,
+        });
       })
       .catch((err) => {
-        console.log(err);
-        alert("error");
+        console.log(err.response);
       });
   };
 
+  const seatTypeMenu = (type) => {
+    if (type === 1) {
+      return [
+        <MenuItem key={1} value={1}>
+          Sleeper
+        </MenuItem>,
+      ];
+    } else if (type === 0) {
+      return [
+        <MenuItem key={0} value={0}>
+          Seater
+        </MenuItem>,
+      ];
+    } else {
+      return [
+        <MenuItem key={0} value={0}>
+          Seater
+        </MenuItem>,
+        <MenuItem key={1} value={1}>
+          Sleeper
+        </MenuItem>,
+      ];
+    }
+  };
+
+  const deckMenu = (propsData) => {
+    const floorValue = Math.floor(propsData / 10);
+    if (floorValue < 6) {
+      return [
+        <MenuItem key={0} value={0}>
+          Lower deck
+        </MenuItem>,
+      ];
+    } else {
+      return [
+        <MenuItem key={1} value={1}>
+          Upper deck
+        </MenuItem>,
+      ];
+    }
+  };
   const initialValues = {
     seat: addSeatList.map((seat) => ({
-      seatNumber: "",
-      seatType: "",
+      seat_ui_order: seat,
+      seat_number: "",
+      seat_type: props.seatType === 1 ? 0 : 1,
       deck: "",
-      seatCost: "",
+      seat_cost: "",
     })),
   };
 
@@ -69,6 +115,7 @@ export default function FormComponent(props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
+        enableReinitialize
       >
         <Form className="m-3">
           <FieldArray name="seat">
@@ -86,11 +133,11 @@ export default function FormComponent(props) {
                           as={TextField}
                           label="Seat Number"
                           variant="outlined"
-                          id={`seat[${index}].seatNumber`}
-                          name={`seat[${index}].seatNumber`}
+                          id={`seat[${index}].seat_number`}
+                          name={`seat[${index}].seat_number`}
                         />
                         <ErrorMessage
-                          name={`seat[${index}].seatNumber`}
+                          name={`seat[${index}].seat_number`}
                           component={FormHelperText}
                           error
                         />
@@ -101,14 +148,13 @@ export default function FormComponent(props) {
                           as={Select}
                           label="Seat type"
                           variant="outlined"
-                          id={`seat[${index}].seatType`}
-                          name={`seat[${index}].seatType`}
+                          id={`seat[${index}].seat_type`}
+                          name={`seat[${index}].seat_type`}
                         >
-                          <MenuItem value={0}>Seater</MenuItem>
-                          <MenuItem value={1}>Sleeper</MenuItem>
+                          {seatTypeMenu(props.seatType)}
                         </Field>
                         <ErrorMessage
-                          name={`seat[${index}].seatType`}
+                          name={`seat[${index}].seat_type`}
                           component={FormHelperText}
                           error
                         />
@@ -122,8 +168,7 @@ export default function FormComponent(props) {
                           id={`seat[${index}].deck`}
                           name={`seat[${index}].deck`}
                         >
-                          <MenuItem value={0}>Lower deck</MenuItem>
-                          <MenuItem value={1}>Upper Deck</MenuItem>
+                          {deckMenu(seat)}
                         </Field>
                         <ErrorMessage
                           name={`seat[${index}].deck`}
@@ -136,8 +181,8 @@ export default function FormComponent(props) {
                           as={TextField}
                           label="Seat Cost"
                           variant="outlined"
-                          id={`seat[${index}].seatCost`}
-                          name={`seat[${index}].seatCost`}
+                          id={`seat[${index}].seat_cost`}
+                          name={`seat[${index}].seat_cost`}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
@@ -147,7 +192,7 @@ export default function FormComponent(props) {
                           }}
                         />
                         <ErrorMessage
-                          name={`seat[${index}].seatCost`}
+                          name={`seat[${index}].seat_cost`}
                           component={FormHelperText}
                           error
                         />
