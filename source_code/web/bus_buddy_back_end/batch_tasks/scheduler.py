@@ -1,17 +1,23 @@
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.apps import apps
-from .tasks import batch_operations
+from .tasks import batch_operations, update_counter_for_otp_generation
 from batch_tasks.tasks import updatetasksstatus
 import pytz
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("django")
+
 def start():
-    print("inside scheduler task")
+    logger.info("inside scheduler task")
     scheduler = BackgroundScheduler(timezone=pytz.timezone('Asia/Kolkata'))
     scheduler.add_job(batch_operations,'interval', seconds=30)
-    scheduler.add_job(updatetasksstatus, 'interval', seconds=86400)  # Adjust the time as needed
+    scheduler.add_job(updatetasksstatus, 'interval', seconds=30)  # Adjust the time as needed
     scheduler.start()
+
 
 # Run the scheduler when the Django app is ready
 def ready():
-      if os.environ.get('RUN_MAIN'): # scheduler only starts in main process
-        start()
+    logger.info("Batch Ready")
+    logger.info("Batch Started")
+    start()

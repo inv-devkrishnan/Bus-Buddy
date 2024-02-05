@@ -7,7 +7,7 @@ export const UpdateBusSchema = yup.object().shape({
     .string()
     .matches(
       busNameRules,
-      "Bus name can only have , : letters , numbers are allowed"
+      "Only letters , Numbers , `:`,`()` are allowed"
     )
     .required("name is required"),
   plateno: yup

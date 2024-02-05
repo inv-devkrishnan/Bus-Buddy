@@ -23,8 +23,10 @@ export default function Updatebus() {
       .get(`bus-owner/update-bus/${bus}/`)
       .then((res) => {
         setCurrentBusData(res.data);
+        console.log(res)
       })
       .catch((err) => {
+        console.log(err)
         console.error("Error Response:", err.response);
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +46,7 @@ export default function Updatebus() {
 
   const onSubmit = async () => {
     try {
-      const response = await axiosApi.put(`bus-owner/update-bus/${formik.values.id}/`, {
+      const response = await axiosApi.put(`bus-owner/update-bus/${bus}/`, {
         bus_name:formik.values.busName,
         plate_no: formik.values.plateno,
         bus_type: formik.values.bustype,
@@ -83,6 +85,8 @@ export default function Updatebus() {
     validationSchema: UpdateBusSchema,
     onSubmit,
   });
+
+  console.log(formik.errors);
 
   return (
     <div

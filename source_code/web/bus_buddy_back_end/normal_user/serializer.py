@@ -4,9 +4,10 @@ from rest_framework import serializers
 from adminstrator.models import CouponDetails
 from bus_owner.models import SeatDetails, Trip, PickAndDrop, Routes
 from .models import User, Bookings, BookedSeats, Payment, UserReview, UserComplaints
+from account_manage.models import EmailAndOTP
 
-regex_alphabet_only = r"^[A-Za-z\s]*$"
-regex_number_only = r"^[0-9\s]*$"
+regex_alphabet_only = r"^[A-Za-z]*$"
+regex_number_only = r"^[0-9]*$"
 error_message_only_letter = "This field can only contain letters"
 error_message_email_exist = "Email is already registered"
 error_message_only_number = "This field can only contain numbers."
@@ -146,7 +147,7 @@ class TravellerDataSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                regex=regex_alphabet_only,
+                regex=r"^[A-Za-z\s.]*$",
                 message=error_message_only_letter,
             ),
         ],
@@ -345,10 +346,8 @@ class ReviewTripSerializer(serializers.ModelSerializer):
             "rating",
         )
 
-    review_title = serializers.CharField(
-        max_length=1000,
-    )
-    review_body = serializers.CharField()
+    review_title = serializers.CharField(max_length=255)
+    review_body = serializers.CharField(max_length=1000)
     rating = serializers.IntegerField(
         validators=[
             RegexValidator(
@@ -401,7 +400,7 @@ class ComplaintSerializer(serializers.ModelSerializer):
         )
 
     complaint_title = serializers.CharField(max_length=100)
-    complaint_body = serializers.CharField(max_length=5000)
+    complaint_body = serializers.CharField(max_length=3000)
 
 
 class ListComplaintSerializer(serializers.ModelSerializer):
@@ -424,3 +423,19 @@ class ListCouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = CouponDetails
         fields = "__all__"
+
+
+class ListUserNamesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name',]
+    
+    
+class ListReviewsByBusownerSerializer(serializers.ModelSerializer):
+    """
+    serializer for listing reviews based on busowner 
+    """        
+    user_id = ListUserNamesSerializer();
+    class Meta:
+        model =  UserReview
+        fields = ["id","review_title","review_body","rating","created_date","updated_time","user_id"]

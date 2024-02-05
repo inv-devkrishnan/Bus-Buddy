@@ -39,14 +39,26 @@ class User(AbstractBaseUser):
 
     class Meta:
         db_table = "user"
-    
+
+
 class Notifications(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.SmallIntegerField(default=0)
     message = models.CharField(max_length=50, null=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-    
-    
+
     class Meta:
         db_table = "notifications"
+
+
+class EmailAndOTP(models.Model):
+    email = models.EmailField(max_length=255, null=False)
+    otp = models.IntegerField(null=True)
+    counter = models.SmallIntegerField(default=0)
+    status = models.SmallIntegerField(default=0)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "email_and_otp"

@@ -12,25 +12,30 @@ export default function FullSleeperDetails() {
   const { isClicked } = useContext(AddSeatContext);
   const location = useLocation();
   return (
-    <div className="d-flex flex-start flex-column flex-lg-row m-3">
-      <Grid
-        container
-        m={3}
-        alignItems="flex-start"
-        justifyContent="space-between"
-      >
-        <Grid item md={12} xs={12} sm={12} lg={12}>
-          <SeatDescription />
-        </Grid>
-        <Grid item md={9} xs={12} sm={12} lg={6}>
-          <FullSleeperLayout bus={location?.state} />
-        </Grid>
+    <Grid
+      container
+      m={2}
+      spacing={2}
+      alignItems="flex-start"
+      justifyContent="space-between"
+    >
+      <Grid item md={12} xs={12} sm={12} lg={12}>
+        <SeatDescription />
       </Grid>
-      <div>
-        {isClicked && <FormComponent bus={location?.state} />}
+      <Grid item md={9} xs={12} sm={12} lg={6}>
+        <FullSleeperLayout bus={location?.state?.id} />
+      </Grid>
+
+      <Grid item md={4} xs={12} sm={12} lg={6}>
+        {isClicked && (
+          <FormComponent
+            bus={location?.state?.id}
+            seatType={location?.state?.bus_seat_type}
+          />
+        )}
         {/* to render the form component outside the layout 
       but the isClicked value is determined by the sleeper component */}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }

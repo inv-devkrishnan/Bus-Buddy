@@ -132,8 +132,8 @@ export default function UserBookingHistory() {
 
   const validationSchema = yup.object().shape({
     // review form validation
-    review_title: yup.string().required("Review Title is required"),
-    review_body: yup.string().required("Description is required"),
+    review_title: yup.string().trim().required("Review Title is required"),
+    review_body: yup.string().trim().required("Description is required"),
     rating: yup
       .number()
       .integer("Rating must be an integer")
@@ -369,7 +369,18 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Departure Date: <strong>{modalData?.trip?.start_date}</strong>
+                Departure Date:{" "}
+                <strong>
+                  {new Date(
+                    new Date(modalData?.trip?.start_date).getTime() +
+                      modalData?.pick_up?.start_stop_location
+                        ?.arrival_date_offset *
+                        24 *
+                        60 *
+                        60 *
+                        1000
+                  ).toDateString()}
+                </strong>
               </p>
               <p>
                 Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>

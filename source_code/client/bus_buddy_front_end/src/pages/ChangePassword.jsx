@@ -1,7 +1,5 @@
-
-
 import { useForm } from "react-hook-form";
-
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -15,8 +13,16 @@ import { changePassword } from "../utils/apiCalls";
 import { useLogout } from "../utils/hooks/useLogout";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { showLoadingAlert } from "../components/common/loading_alert/LoadingAlert";
+import PasswordRequirements from "../components/common/password_requirements/PasswordRequirements";
+import { InputGroup } from "react-bootstrap";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
+
 
 function ChangePassword() {
+
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -70,8 +76,9 @@ function ChangePassword() {
           >
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label> Old password</Form.Label>
+              <InputGroup>
               <Form.Control
-                type="password"
+                type={showOldPassword ? "text" : "password"}
                 maxLength={20}
                 placeholder="Old Password"
                 {...register("old_password", {
@@ -83,6 +90,19 @@ function ChangePassword() {
                   trigger("old_password");
                 }}
               />
+               <InputGroup.Text
+                    id="basic-addon1"
+                    data-testid="set-show-oldpassword"
+                    onClick={() => {
+                      showOldPassword
+                        ? setShowOldPassword(false)
+                        : setShowOldPassword(true);
+                    }}
+                  >
+                    {showOldPassword ? <EyeSlash></EyeSlash> : <Eye></Eye>}
+                  </InputGroup.Text>
+              </InputGroup>
+             
               {errors.old_password &&
                 errors.old_password.type === "required" && (
                   <p className="text-danger">* required field</p>
@@ -96,8 +116,9 @@ function ChangePassword() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>New password</Form.Label>
+              <InputGroup>
               <Form.Control
-                type="password"
+                type={showNewPassword ? "text" : "password"}
                 maxLength={20}
                 placeholder="New Password"
                 {...register("new_password", {
@@ -110,6 +131,19 @@ function ChangePassword() {
                   trigger("new_password");
                 }}
               />
+              <InputGroup.Text
+                    id="basic-addon1"
+                    data-testid="set-show-newpassword"
+                    onClick={() => {
+                      showNewPassword
+                        ? setShowNewPassword(false)
+                        : setShowNewPassword(true);
+                    }}
+                  >
+                    {showNewPassword ? <EyeSlash></EyeSlash> : <Eye></Eye>}
+                  </InputGroup.Text>
+              </InputGroup>
+              
               {errors.new_password &&
                 errors.new_password.type === "required" && (
                   <p className="text-danger">* required field</p>
@@ -126,8 +160,9 @@ function ChangePassword() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Re enter password</Form.Label>
+              <InputGroup>
               <Form.Control
-                type="password"
+                type={showRePassword ? "text" : "password"}
                 maxLength={20}
                 placeholder="Re enter Password"
                 {...register("re_password", {
@@ -138,6 +173,19 @@ function ChangePassword() {
                   trigger("re_password");
                 }}
               />
+                <InputGroup.Text
+                    id="basic-addon1"
+                    data-testid="set-show-repassword"
+                    onClick={() => {
+                      showRePassword
+                        ? setShowRePassword(false)
+                        : setShowRePassword(true);
+                    }}
+                  >
+                    {showNewPassword ? <EyeSlash></EyeSlash> : <Eye></Eye>}
+                  </InputGroup.Text>
+              </InputGroup>
+             
               {errors.re_password &&
                 errors.re_password.type === "required" && (
                   <p className="text-danger">* required field</p>
@@ -157,15 +205,7 @@ function ChangePassword() {
             <Card.Title className="text-center">
               Password Requirements
             </Card.Title>
-            <div className="d-flex justify-content-center">
-              <ul>
-                <li>8 ~ 20 characters</li>
-                <li>Atleast one Capital-case letter in English (A B C … Z) </li>
-                <li>Atleast one Lower-case letter in English (a b c … z)</li>
-                <li>Atleast one Number (0 1 2 … 9)</li>
-                <li>Atleast one Special characters (! @ # ...)</li>
-              </ul>
-            </div>
+            <PasswordRequirements/>
           </Card>
         </Col>
       </Row>

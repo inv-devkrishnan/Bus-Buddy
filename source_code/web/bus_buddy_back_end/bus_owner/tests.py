@@ -6,7 +6,9 @@ from unittest.mock import patch
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
-from .models import Bus, User,Amenities,Trip,Routes,LocationData,StartStopLocations
+from .models import Bus, User, Amenities, Trip, Routes, LocationData, StartStopLocations,PickAndDrop
+from account_manage.models import Notifications
+from normal_user.models import BookedSeats,SeatDetails,Bookings
 from .serializers import BusSerializer
 
 valid_first_name = "Sakki"
@@ -63,6 +65,10 @@ class BaseTest(TestCase):
             }
         ]
         
+        self.bus2 = Bus.objects.create(
+            bus_name="Bus6", plate_no="CD456ET", user=self.user
+        )
+
         self.valid_all_values_seat_details = {
             "bus": self.bus.id,
             "seat_ui_order": 11,
@@ -300,16 +306,16 @@ class BaseTest(TestCase):
             "extra_charges": valid_extra_charges,
         }
 
-        
         return super().setUp()
-    
+
+
 class BaseTest2(TestCase):
     def setUp(self):
         self.client = APIClient()
 
         self.register_bus_owner = reverse("register-bus-owner")
         self.create_bus = reverse("add-bus")
-        
+
         self.user = User.objects.create_user(
             email=valid_email,
             password=valid_password,
@@ -325,44 +331,98 @@ class BaseTest2(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
-        self.loc_1=LocationData.objects.create(
-            location_name = "Alapuzhya"
-        )
-        self.loc_2=LocationData.objects.create(
-            location_name = "Thrivanthapuram"
+        
+        self.loc_1 = LocationData.objects.create(location_name="Alapuzhya")
+        self.loc_2 = LocationData.objects.create(location_name="Thrivanthapuram")
+        self.notification = Notifications.objects.create(
+            user=self.user, status=0, message="you are great"
         )
         
         loc_1_id = self.loc_1.id
         loc_2_id = self.loc_2.id
-        
+
         self.route = Routes.objects.create(
-            user= self.user,start_point= self.loc_1,end_point = self.loc_2,via = "Kollam",distance = 120, duration = 2,travel_fare = 399
+            user=self.user,
+            start_point=self.loc_1,
+            end_point=self.loc_2,
+            via="Kollam",
+            distance=120,
+            duration=2,
+            travel_fare=399,
+        )
+        self.trip = Trip.objects.create(
+            user=self.user,
+            bus=self.bus,
+            route=self.route,
+            status=0,
+            start_date="2024-07-03",
+            end_date="2024-07-03",
+            start_time="10:00",
+            end_time="11:00",
         )
         route_id = self.route.id
-        bus_id=self.bus.id
-        self.amenities = Amenities.objects.create(
-            bus=self.bus
-        )
-        amenities_id = self.amenities.id
-        self.start_stop_1 =StartStopLocations.objects.create(
+        bus_id = self.bus.id
+        trip_id = self.trip.id
+        self.amenities = Amenities.objects.create(bus=self.bus)
+        self.start_stop_1 = StartStopLocations.objects.create(
             seq_id=1,
             location=self.loc_1,
-            arrival_time="10:00",  
+            arrival_time="10:00",
             departure_time="11:00",
             arrival_date_offset=0,
             departure_date_offset=0,
             status=0,
             route=self.route,
         )
-        self.start_stop_2 =StartStopLocations.objects.create(
+        self.start_stop_2 = StartStopLocations.objects.create(
             seq_id=2,
             location=self.loc_2,
-            arrival_time="13:00",  
+            arrival_time="13:00",
             departure_time="14:00",
             arrival_date_offset=0,
             departure_date_offset=0,
             status=0,
             route=self.route,
+        )
+        self.seat_detail = SeatDetails.objects.create(
+            bus=self.bus,
+            seat_number='B2',
+            seat_ui_order=2,
+            seat_type=1,
+            deck=0,
+            seat_cost=40.0
+        )
+
+        self.pick_1 = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop='Test Bus Stop',
+            arrival_time='12:00',
+            landmark='Test Landmark',
+            start_stop_location=self.start_stop_1
+        )
+        self.drop_1 = PickAndDrop.objects.create(
+            route=self.route,
+            bus_stop='Another Bus Stop',
+            arrival_time='14:00',
+            landmark='Another Landmark',
+            start_stop_location=self.start_stop_2
+        )
+        self.booking = Bookings.objects.create(
+            user=self.user,
+            trip=self.trip,
+            pick_up=self.pick_1,
+            drop_off=self.drop_1,
+            total_amount=100.0,
+            booking_id='BK6YR20244658'
+        )
+        
+        self.booked_seat = BookedSeats.objects.create(
+            booking=self.booking,
+            trip=self.trip,
+            traveller_name='Test Traveller',
+            traveller_gender=1,
+            traveller_dob="2001-03-01",
+            seat=self.seat_detail
         )
         
         self.create_bus_data = {
@@ -501,18 +561,36 @@ class BaseTest2(TestCase):
             "travel_fare": 299,
         }
         self.create_trip = {
-            "bus" : bus_id,
-            "route" : route_id,
-            "start_date" : "2024-06-09",
-            "end_date" : "2024-06-09",
+            "bus": bus_id,
+            "route": route_id,
+            "start_date": "2024-06-09",
+            "end_date": "2024-06-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
         }
+        self.create_reccuring_trip = {
+            "bus": bus_id,
+            "route": route_id,
+            "start_date": "2024-06-09",
+            "end_date": "2024-06-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            "recurrence": 1,
+        }
+        self.create_reccuring_trip_invalid_data = {
+            "bus": bus_id,
+            "route": route_id,
+            "start_date": "2024-06-09",
+            "end_date": "2024-06-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+            "recurrence": 1,
+        }
         self.cant_create_trip = {
-            "bus" : bus_id,
-            "route" : route_id,
-            "start_date" : "2024-12-9",
-            "end_date" : "2024-12-09",
+            "bus": bus_id,
+            "route": route_id,
+            "start_date": "2024-12-9",
+            "end_date": "2024-12-09",
             "start_time": "13:00:00",
             "end_time": "17:00:00",
         }
@@ -522,8 +600,12 @@ class BaseTest2(TestCase):
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
-        self.update_amenities = reverse("update-amenities", args=[amenities_id])
+        self.update_amenities = reverse("update-amenities", args=[bus_id])
         self.can_delete_route = reverse("delete-routes", args=[route_id])
+        self.can_delete_trip = reverse("delete-trip", args=[trip_id])
+        self.can_update_trip = reverse("update-trip", args=[trip_id])
+        self.change_notification_status = reverse("change-notification-status")
+        self.passenger_list = reverse("passenger-list",args = [trip_id])
 
         return super().setUp()
 
@@ -559,7 +641,6 @@ class BusActions(BaseTest2):
     def test_cant_update_bus_invalid_data(self):
         print("5")
         response = self.client.put(
-            
             self.update_bus, self.update_bus_invalid_data, format="json"
         )
         self.assertEqual(response.status_code, 400)
@@ -603,6 +684,7 @@ class BusActions(BaseTest2):
             self.update_amenities, self.update_amenities_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
+    
 
     def test_cant_update_amenities_invalid_id(self):
         print("12")
@@ -613,42 +695,189 @@ class BusActions(BaseTest2):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_can_delete_route(self):
+    def test_cant_update_amenities_invalid_data(self):
         print("13")
+        response = self.client.put(self.add_amenities_invalid_data, format="json")
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_can_delete_route(self):
+        print("14")
         response = self.client.put(self.can_delete_route)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_delete_route(self):
-        print("14")
+        print("15")
         self.cant_delete_route = reverse("delete-routes", args=[990])
         response = self.client.put(self.cant_delete_route)
         self.assertEqual(response.status_code, 404)
 
     def test_can_create_route(self):
-        print("15")
+        print("16")
         response = self.client.post(self.add_route, self.create_route, format="json")
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_route_invalid_data(self):
-        print("16")
+        print("17")
         response = self.client.post(
             self.add_route, self.cant_create_route, format="json"
         )
         self.assertEqual(response.status_code, 400)
 
     def test_can_create_trip(self):
-        print("17")
+        print("18")
         response = self.client.post(self.add_trip, self.create_trip, format="json")
-        print("Status Code:", response.status_code)
-        print("Response Content:", response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_trip(self):
-        print("18")
+        print("19")
         response = self.client.post(self.add_trip, self.cant_create_trip, format="json")
-        print("Status Code:", response.status_code)
-        print("Response Content:", response.content)
         self.assertEqual(response.status_code, 400)
+
+    def test_can_delete_trip(self):
+        print("20")
+        response = self.client.put(self.can_delete_trip)
+        self.assertEqual(response.status_code, 200)
+
+    def test_cant_delete_trip(self):
+        print("21")
+        self.cant_delete_trip = reverse("delete-trip", args=[990])
+        response = self.client.put(self.cant_delete_trip)
+        self.assertEqual(response.status_code, 404)
+
+    def test_can_create_reccuring_trip(self):
+        print("22")
+        self.can_add_reccuring_trip = (
+            f"{reverse('add-reccuring-trip')}?start=2024-06-09&end=2024-07-15"
+        )
+        response = self.client.post(
+            self.can_add_reccuring_trip, self.create_reccuring_trip, format="json"
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_cant_create_reccuring_trip(self):
+        print("23")
+        self.cant_add_reccuring_trip = (
+            f"{reverse('add-reccuring-trip')}?start=2024-07-01&end=2024-07-15"
+        )
+        response = self.client.post(
+            self.cant_add_reccuring_trip,
+            self.create_reccuring_trip_invalid_data,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_can_update_trip(self):
+        print("24")
+        response = self.client.put(
+            self.can_update_trip, self.create_trip, format="json"
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_cant_update_trip(self):
+        print("25")
+        response = self.client.put(
+            self.can_update_trip, self.cant_create_trip, format="json"
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_change_notification_status(self):
+        print("26")
+        response = self.client.put(self.change_notification_status)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bus(self):
+        print("27")
+        response = self.client.get(
+            reverse("view-bus"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_route(self):
+        print("28")
+        response = self.client.get(
+            reverse("view-routes"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_trip(self):
+        print("29")
+        response = self.client.get(
+            f"{reverse('view-trips')}?page=1",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_notifications(self):
+        print("30")
+        response = self.client.get(
+            reverse("view-notifications"),
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_reviews(self):
+        print("31")
+        response = self.client.get(
+            reverse("view-reviews"),
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_available_trips(self):
+        print("32")
+        response = self.client.get(
+            f"{reverse('view-available-bus')}?start=2024-01-24&end=2024-01-31",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_view_available_trips_no_bus(self):
+        print("33")
+        self.bus2 = Bus.objects.create(
+            bus_name="Bus6", plate_no="CD456ET", user=self.user,bus_details_status=2
+        )
+        response = self.client.get(
+            f"{reverse('view-available-bus')}?start=2024-01-24&end=2024-01-31",
+            format="json",
+        )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+    
+    def test_can_delete_bus_without_amenities(self):
+        print("34")
+        self.bus3 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456ET", user=self.user,bus_details_status=2,status=99
+        )
+        self.amenities = Amenities.objects.create(bus=self.bus3,status=99)
+        response = self.client.put(self.delete_bus, format="json")
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+    
+    def test_get_passenger_list(self):
+        print("35")
+        response = self.client.get(
+            self.passenger_list,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_passenger_list_fail(self):
+        print("36")
+        response = self.client.get(
+            reverse("passenger-list",args=[54]),
+            format="json",
+        )
+        self.assertEqual(response.status_code, 404)
+    
+        
+        
 
 
 class RegisterOwnerTest(BaseTest):

@@ -2,7 +2,8 @@ import logging
 import smtplib
 import os
 from dotenv import load_dotenv
-load_dotenv('busbuddy_api.env')
+
+load_dotenv("busbuddy_api.env")
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from adminstrator.models import Email
@@ -10,7 +11,9 @@ from adminstrator.models import Email
 logger = logging.getLogger("django")
 
 
-def send_email_with_template(subject, template, context, recipient_list, status):
+def send_email_with_template(
+    subject, template, context, recipient_list, status, trip=-1
+):
     """
     Sends an email with a rendered HTML template.
 
@@ -19,7 +22,16 @@ def send_email_with_template(subject, template, context, recipient_list, status)
     - template (str): The path to the HTML template to be rendered.
     - context (dict): A dictionary containing context data to be used in rendering the template.
     - recipient_list (list): A list of email addresses to send the email to.
-    - status: indicates the type of mail 0->booking confirmation,1->booking cancelation,2->bus owner approval
+    - status: indicates the type of mail
+                0->booking confirmation
+                1->booking cancelation
+                2->bus owner approval
+                3->booking failure
+                4->user ban
+                5->user unban
+                6->user delete
+                7->booking reminder
+                9->email verification(otp)
 
     Returns:
     Boolean
@@ -33,12 +45,22 @@ def send_email_with_template(subject, template, context, recipient_list, status)
     try:
         send_mail(subject, message, from_email, recipient_list, html_message=message)
         logger.info("mail sent !")
-        for to_email in recipient_list:
-            Email.objects.create(
-                from_email=from_email, to_email=to_email, status=status
-            )
-        logger.info("added Entry to mail table")
-        return True
+        if trip == -1:
+            # there is no trip argument
+            for to_email in recipient_list:
+                Email.objects.create(
+                    from_email=from_email, to_email=to_email, status=status
+                )
+            logger.info("added Entry to mail table without trip")
+            return True
+        else:
+            # there is trip argument
+            for to_email in recipient_list:
+                Email.objects.create(
+                    from_email=from_email, to_email=to_email, status=status, trip=trip
+                )
+            logger.info("added Entry to mail table with trip")
+            return True
 
     except smtplib.SMTPAuthenticationError as e:
         logger.warn("Authentication Error Occured while Sending mail\n" + str(e))

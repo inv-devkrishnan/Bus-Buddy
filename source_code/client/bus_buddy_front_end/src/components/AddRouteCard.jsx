@@ -4,11 +4,11 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import RouteImage from "../assets/route.jpg";
 import AddRouteLocation from "./AddRouteLocation";
-import { Container, Row} from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { axiosApi, openAxiosApi } from "../utils/axiosApi";
 import { showLoadingAlert } from "./common/loading_alert/LoadingAlert";
 
@@ -21,7 +21,7 @@ export default function AddRouteCard() {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const navi = useNavigate();
-  
+
   const handleClose = () => {
     setShow(false);
     setLocationAdded(false);
@@ -51,7 +51,7 @@ export default function AddRouteCard() {
 
     // to get previously added  locations if page refresh
     if (localStorage.getItem("stopLocationList") !== null) {
-      console.log(localStorage.getItem("stopLocationList"))
+      console.log(localStorage.getItem("stopLocationList"));
       let stopLocationList = JSON.parse(
         localStorage.getItem("stopLocationList")
       );
@@ -90,10 +90,7 @@ export default function AddRouteCard() {
       };
       console.log(routeData);
       showLoadingAlert("Adding Route");
-      const response = await axiosApi.post(
-        "bus-owner/add-routes/",
-        routeData
-      );
+      const response = await axiosApi.post("bus-owner/add-routes/", routeData);
       Swal.close();
       if (response.status === 200) {
         console.log("Route Added");
@@ -148,7 +145,7 @@ export default function AddRouteCard() {
                   </Button>
                   {stopLocations.length > 0 && (
                     <div>
-                      <Table className="w-100" responsive>
+                      <Table className="w-100" responsive style={{verticalAlign:"middle"}}>
                         <thead>
                           <tr>
                             <th>S.no</th>
@@ -212,11 +209,13 @@ export default function AddRouteCard() {
                     id="via"
                     type="text"
                     placeholder="Enter the location"
+                    maxLength={100}
                     pattern="^[a-zA-Z]+$"
                     required
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please provide valid Via location
+                    Please provide valid via location (only alphabetic
+                    characters)
                   </Form.Control.Feedback>
                   <Form.Text muted>
                     Via is the location that helps the travellers to identify in
@@ -232,17 +231,16 @@ export default function AddRouteCard() {
                       type="number"
                       step={0.1}
                       min={1}
-                      max={500}
+                      max={100}
                       maxLength={6}
                       placeholder="Enter the total time"
                       required
                     />
                     <InputGroup.Text>hrs</InputGroup.Text>
+                    <Form.Control.Feedback type="invalid">
+                      Please provide valid Duration
+                    </Form.Control.Feedback>
                   </InputGroup>
-
-                  <Form.Control.Feedback type="invalid">
-                    Please provide valid Duration
-                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -273,7 +271,7 @@ export default function AddRouteCard() {
                       type="number"
                       placeholder="Enter the travel fare"
                       min={0}
-                      max={1000000}
+                      max={100000}
                       required
                       step="0.01"
                     />

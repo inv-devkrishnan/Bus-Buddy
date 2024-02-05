@@ -15,7 +15,7 @@ from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
 from account_manage.models import User,Notifications
-from normal_user.models import UserReview
+from normal_user.models import UserReview,BookedSeats
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
 
@@ -33,7 +33,8 @@ from .serializers import (
     SeatDetailSerializer,
     GetSeatSerializer,
     ReviewSerializer,
-    ViewNotificationsSerializer
+    ViewNotificationsSerializer,
+    PassengerListSerializer
 )
 import logging
 
@@ -43,6 +44,15 @@ entry = "Invalid entry"
 dentry = "Deleted the record"
 missing = "missing"
 date_format = "%Y-%m-%d"
+
+def get_status(bus_instance):
+        if bus_instance.bus_details_status == 1 :
+            return 2
+        elif bus_instance.bus_details_status == 0:
+            return 1
+        else:
+            logger.info(f"seat detail status :{bus_instance.bus_details_status}")
+            return 0
 
 
 class AddSeatDetails(ListCreateAPIView):
@@ -113,9 +123,7 @@ class AddSeatDetails(ListCreateAPIView):
             logger.info(bus_instance, "current bus")
             count = SeatDetails.objects.filter(bus=bus_id).count()
             if count == 30:
-                bus_instance.bus_details_status = (
-                    2  # to mark the finish of bus detail entry
-                )
+                bus_instance.bus_details_status = get_status(bus_instance)
                 bus_instance.save()
                 logger.info("seat detail complete")
                 return Response({"data": "All seats have been registered"}, status=400)
@@ -171,7 +179,7 @@ class GetSeatDetails(APIView):
                 logger.info(serialized_data)
                 return Response(serialized_data.data)
             else:
-                logger.warning(serialized_data.errors)
+                logger.warning("No Seat data")
                 return Response({"data": "no data"}, status=200)
         except Exception as e:
             logger.error(e)
@@ -481,7 +489,8 @@ class Addamenities(APIView):
                 current_bus = Bus.objects.get(
                     id=bus_id
                 )  # to get the bus object to change the status of adding bus to 1
-                current_bus.bus_details_status = 1
+                
+                current_bus.bus_details_status = get_status(current_bus)
                 current_bus.save()
 
                 logger.info("Inserted")
@@ -667,9 +676,18 @@ class Addtrip(APIView):
             locations = StartStopLocations.objects.filter(route_id=route).order_by(
                 "seq_id"
             )
+            stop_date_str = request_data["start_date"]
+            stop_date = datetime.strptime(stop_date_str, date_format)
+            print("stop :",stop_date)
             request_data["user"] = request.user.id
             seq_first = locations.first()
             seq_last = locations.last()
+            offset = seq_last.departure_date_offset
+            stop_date_offset = stop_date + timedelta(days=offset)
+            print("stop offset :",stop_date_offset)
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
+            request_data["end_date"] = stop_date_offset_str
+            print("end_ date :",stop_date_offset_str )
             request_data["start_time"] = seq_first.arrival_time
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
@@ -704,6 +722,7 @@ class Updatetrip(UpdateAPIView):
 
     def put(self, request, id):
         try:
+            request_data = request.data.copy()
             logger.info("fetching the trip obj matching the id")
             instance = Trip.objects.get(id=id, status=0)
             # saving the present values to instance variable
@@ -716,6 +735,12 @@ class Updatetrip(UpdateAPIView):
             first_seq = locations.first()
             last_seq = locations.last()
             print(locations)
+            stop_date_str = request_data["start_date"]
+            stop_date = datetime.strptime(stop_date_str, date_format)
+            offset = last_seq.departure_date_offset
+            stop_date_offset = stop_date + timedelta(days=offset)
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
+            request_data["end_date"] = stop_date_offset_str
             if not Bus.objects.filter(id=buses, status=0).exists():
                 return Response({"message": "bus missing"}, status=404)
             if not Routes.objects.filter(id=routes, status=0).exists():
@@ -808,9 +833,9 @@ class Viewtrip(ListAPIView):
             print(serializer.data)
 
             return Response(serializer.data)
-
-        except ValueError:
-            return Response(serializer._errors)
+        
+        except Exception as e:
+            return Response(e)
 
 
 class Viewavailablebus(ListAPIView):
@@ -874,6 +899,13 @@ class Addreccuringrip(APIView):
             loc = StartStopLocations.objects.filter(route=routes).order_by("seq_id")
             seq_first = loc.first()
             seq_last = loc.last()
+            stop_date_str = request_data["start_date"]
+            stop_date = datetime.strptime(stop_date_str, date_format)
+            offset = seq_last.departure_date_offset
+            stop_date_offset = stop_date + timedelta(days=offset)
+            stop_date_offset_str = stop_date_offset.strftime(date_format)
+            request_data["end_date"] = stop_date_offset_str
+            
 
             recurrence_type = request_data["recurrence"]
 
@@ -965,7 +997,7 @@ class Viewnotifications(ListAPIView):
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         except ValidationError:
-            return Response(serializer._errors,status = 200)
+            return Response(serializer._errors,status = 400)
         
 class Changenotificationstatus(APIView):
     permission_classes = (IsAuthenticated,)
@@ -979,5 +1011,28 @@ class Changenotificationstatus(APIView):
             return Response({"message":"Notification Status updated"},status = 200)
         except ValidationError:
             return Response({"message":"error"},status = 400)
+        
+class Getpassengerlist(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PassengerListSerializer
+    pagination_class = CustomPagination  
+
+    def get(self, request, id):
+        try:
+            if id is None:  
+                return Response(status=400)            
+            passengers = BookedSeats.objects.filter(trip=id)
+            if passengers.exists():
+                listlen = len(passengers)
+                page = self.paginate_queryset(passengers)
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response({"listlen": listlen, "data": serializer.data})
+            else:
+                return Response(status=404)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+            
+            
+            
                     
         

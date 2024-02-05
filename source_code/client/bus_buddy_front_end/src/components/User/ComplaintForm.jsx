@@ -44,8 +44,8 @@ export default function ComplaintForm() {
 
   const validationSchema = yup.object().shape({
     // validation for the form
-    complaint_title: yup.string().required("Subject is required"),
-    complaint_body: yup.string().required("Description is required"),
+    complaint_title: yup.string().trim().required("Subject is required"),
+    complaint_body: yup.string().trim().required("Description is required"),
     complaint_for: yup
       .string()
       .matches(/^\d+$/, "You have to choose an option")
@@ -54,7 +54,7 @@ export default function ComplaintForm() {
       .mixed()
       .test(
         "is-valid-type",
-        "Not valid a type",
+        "Not a valid type(jpeg,jpg or png)",
         (value) => photoRules.includes(value?.type) || []
       )
       .test(
@@ -98,6 +98,7 @@ export default function ComplaintForm() {
           icon: "error",
         });
       });
+      
   };
 
   return (
@@ -121,7 +122,7 @@ export default function ComplaintForm() {
                 name="complaint_title"
                 id="complaint_title"
                 placeholder="Subject"
-                maxLength={255}
+                maxLength={100}
                 isInvalid={
                   formikProps.errors.complaint_title &&
                   formikProps.touched.complaint_title

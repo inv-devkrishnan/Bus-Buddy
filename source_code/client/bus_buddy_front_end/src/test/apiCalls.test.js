@@ -1,6 +1,6 @@
 // apiCalls.test.js
-import { login, loginWithGoogle,getAcessToken,deleteUserAccount,changePassword } from '../utils/apiCalls';
-import { axiosApi } from '../utils/axiosApi';
+import { login, loginWithGoogle,getAcessToken,deleteUserAccount,changePassword,forgotPasswordSendEmail } from '../utils/apiCalls';
+import { axiosApi, openAxiosApi } from '../utils/axiosApi';
 
 jest.mock('../utils/axiosApi');
 
@@ -100,6 +100,17 @@ describe('API Calls', () => {
 
     const result = await getAcessToken();
     console.log(result)
+  });
+
+  it('forgotPasswordSendEmail - success API call', async () => {
+    openAxiosApi.post.mockResolvedValueOnce({ data: 'success' });
+    await forgotPasswordSendEmail({ email: 'dev@gmail.com'});
+  });
+
+  it('forgotPasswordSendEmail - failed API call', async () => {
+    const error = new Error('Failed');
+    openAxiosApi.post.mockRejectedValueOnce(error);
+    await forgotPasswordSendEmail({ email: 'dev@gmail.com'});
   });
 
   // Similar test cases for other functions (loginWithGoogle, getAcessToken, deleteUserAccount, changePassword)

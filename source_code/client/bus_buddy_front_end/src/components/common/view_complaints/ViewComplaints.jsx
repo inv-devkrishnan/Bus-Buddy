@@ -239,6 +239,7 @@ function ViewComplaints() {
         >
           <Button
             className="ms-2"
+            data-testid="Filter by Date"
             onClick={() => {
               handleFilterShow();
             }}
@@ -246,7 +247,13 @@ function ViewComplaints() {
             title="Filter by Dates"
             size="sm"
           >
-            Filter by Date
+            {fromSelectedDate.current ? (
+              <div>
+              Filter from : {fromSelectedDate.current} - {toSelectedDate.current}
+              </div>
+            ) : (
+              "Filter by Date"
+            )}
           </Button>
         </Col>
       </Row>
@@ -291,13 +298,15 @@ function ViewComplaints() {
         )}
       </Row>
       <Row>
-        {!complaintListLoading && (
-          <CustomPaginator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            viewPage={getComplaintsbyPage}
-          ></CustomPaginator>
-        )}
+        <Col className="d-flex justify-content-center">
+          {!complaintListLoading && (
+            <CustomPaginator
+              totalPages={totalPages}
+              currentPage={currentPage}
+              viewPage={getComplaintsbyPage}
+            ></CustomPaginator>
+          )}
+        </Col>
       </Row>
       <Modal show={showFilter} onHide={handleFilterClose}>
         <Modal.Header closeButton>

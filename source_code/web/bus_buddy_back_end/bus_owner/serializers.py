@@ -15,7 +15,7 @@ from django.db import models
 from .models import User
 from .models import Trip
 from account_manage.models import Notifications
-from normal_user.models import UserReview
+from normal_user.models import UserReview,BookedSeats,Bookings
 from django.core.validators import (
     MaxLengthValidator,
     MinLengthValidator,
@@ -165,6 +165,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "bus_ac",
             "amenities_data",
             "user",
+            "bus_seat_type"
         )
 
 
@@ -504,7 +505,7 @@ class OwnerModelSerializer(serializers.ModelSerializer):
         max_length=12,
         validators=[
             RegexValidator(
-                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*()_+])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
+                regex=r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>])[A-Za-z\d!@#\$%^&*()_+]{8,20}$",
                 message="Password failed",
             ),
         ],
@@ -598,7 +599,7 @@ class SeatDetailSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=3)
+    seat_cost = serializers.DecimalField(max_digits=10, decimal_places=2)
     seat_ui_order = serializers.IntegerField()
 
 
@@ -624,3 +625,46 @@ class ViewNotificationsSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 1
         
+class PassengerListSerializer(serializers.ModelSerializer):
+    """
+    For viewing booked seat data for view seat details
+    """
+
+    seat_number = serializers.SerializerMethodField(method_name="get_seat_number")
+
+    def get_seat_number(self, obj):
+        # Get the corresponding seat number for the booked seat
+        return obj.seat.seat_number if obj.seat else None
+
+    class Meta:
+        model = BookedSeats
+        fields = ["traveller_gender", "trip", "traveller_name", "seat_id", "seat_number"]
+        depth = 1
+
+        
+class SeatDetailsViewSerialzer(serializers.ModelSerializer):
+    """
+    For viewing seat details
+    """
+
+    def get_booked(self, obj):
+        # Filter the BookedSeats to include only those with 'trp_id'
+        trip_id = self.context.get("trip_id")
+        booked_seats = obj.bookedseats_set.filter(trip_id=trip_id, status=2)
+        return PassengerListSerializer(booked_seats, many=True, context={"seat_info": obj}).data
+
+    booked = serializers.SerializerMethodField(method_name="get_booked")
+
+    class Meta:
+        model = SeatDetails
+        fields = [
+            "id",
+            "seat_number",
+            "seat_type",
+            "deck",
+            "seat_cost",
+            "bus",
+            "seat_ui_order",
+            "booked",
+        ]
+

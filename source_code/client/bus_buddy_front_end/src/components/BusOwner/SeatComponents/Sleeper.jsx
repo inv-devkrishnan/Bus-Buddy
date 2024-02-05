@@ -20,6 +20,7 @@ function Sleeper(props) {
     addSeatList,
     updateAddSeatList,
   } = useContext(AddSeatContext); // use context that for setting props data and button value
+  
   useEffect(() => {
     // for checking seat details is added or not
     for (let seat of currentData) {

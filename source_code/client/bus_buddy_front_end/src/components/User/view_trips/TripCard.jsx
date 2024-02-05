@@ -1,22 +1,43 @@
 import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, CardBody, Col, Container, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  Col,
+  Container,
+  ProgressBar,
+  Row,
+} from "react-bootstrap";
 import {
   ArrowRight,
   CheckCircleFill,
+  ExclamationCircle,
   XCircleFill,
 } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
+import Swal from "sweetalert2";
 import ViewSeatDetails from "../../../pages/ViewSeatDetails";
 import { SeatContext } from "../../../utils/SeatContext";
+import { openAxiosApi } from "../../../utils/axiosApi";
+import ReviewCard from "./ReviewCard";
+import CustomPaginator from "../../common/paginator/CustomPaginator";
+import "../../User/view_trips/trip_card.css";
 
 function TripCard(props) {
-  const [show, setShow] = useState(false); // to show/hide the amenities modal
-  const handleClose = () => setShow(false); // function to close amenties modal
-  const handleShow = () => setShow(true); // function to show amenties modal
+  const [showAmenites, setShowAmenites] = useState(false); // to show/hide the amenities modal
+  const handleAmenitiesClose = () => setShowAmenites(false); // function to close amenties modal
+  const handleAmenitesShow = () => setShowAmenites(true); // function to show amenties modal
+  const [showReviews, setShowReviews] = useState(false); // to show/hide the amenities modal
+  const handleReviewsClose = () => setShowReviews(false); // function to close amenties modal
+  const handleReviewsShow = () => setShowReviews(true); // function to show amenties modal
   const [viewSeatFlag, setViewSeatFlag] = useState(false); // flag to know if any seat view is open
   const { updateTripID, updateSeatList } = useContext(SeatContext); //
+  const [reviewList, setReviewList] = useState([]);
+  const [totalPages, setTotalPages] = useState(0); // to store total pages
+  const [currentPage, setCurrentPage] = useState(1); // to get current page
+  const [isLoading, setIsLoading] = useState(false); // to show loading screen
 
   const formatKey = (key) => {
     // function which takes the key of amenties object and removes underscore and Capitalize the first letter to make it more presentable
@@ -65,12 +86,49 @@ function TripCard(props) {
     updateSeatList([]);
   };
 
+  const getBusOwnerReviews = async (page = 1) => {
+    setIsLoading(true);
+    await openAxiosApi
+      .get(`user/view-reviews/?user_id=${props?.data?.bus_owner}&page=${page}`)
+      .then((result) => {
+        if (result.data?.error_code) {
+          Swal.fire({
+            title: "Something went wrong !",
+            icon: "error",
+            text: result.data?.error_message,
+          });
+        } else {
+          console.log(result.data);
+          setReviewList(result.data?.reviews);
+          setTotalPages(result?.data?.pages);
+          setCurrentPage(result?.data?.current_page);
+        }
+      })
+      .catch(function (error) {
+        Swal.fire({
+          title: "Something went wrong !",
+          icon: "error",
+          text: "Unkown Error",
+        });
+        console.log(error);
+      });
+    setIsLoading(false);
+  };
+
+  const getReviewbyPage = async (page) => {
+    await getBusOwnerReviews(page);
+    document.getElementById("review-list").scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <Container>
         <Row>
-          <Col md={12} lg={16}>
-            <Card className="p-3 mt-3 mb-3" style={{ width: "100%" }}>
+          <Col sm={12} md={12} lg={12} xl={12} xxl={12}>
+            <Card className="p-3 mt-3 mb-3 w-100">
               <CardBody>
                 <Container>
                   <Row>
@@ -86,7 +144,7 @@ function TripCard(props) {
                     </Col>
                   </Row>
                   <Row>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3}>
                       <div style={{ textAlign: "center" }}>
                         <h6>{props?.startLocationName}</h6>
                         <p className="mb-1">
@@ -98,16 +156,16 @@ function TripCard(props) {
                       </div>
                     </Col>
                     <Col
-                      xs={8}
+                      xs={12}
                       md={3}
                       className="d-flex justify-content-center"
                     >
                       <div>
-                        <ArrowRight className="ms-4" size={24} />
+                        <ArrowRight className="rotate-arrow" size={24} />
                         <p>via {props?.data?.via}</p>
                       </div>
                     </Col>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3}>
                       <div style={{ textAlign: "center" }}>
                         <h6>{props?.endLocationName}</h6>
                         <p className="mb-1">
@@ -118,35 +176,59 @@ function TripCard(props) {
                         </p>
                       </div>
                     </Col>
-                    <Col xs={8} md={3}>
+                    <Col xs={12} md={3} className="center-fare">
                       <h6>Fare Starts from : ₹ {props?.data?.travel_fare}</h6>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col>
-                      <div className="w-0 ms-auto">
+                  <Row className="mt-3 d-flex justify-content-center">
+                    <Col md={4} lg={3} className="center-div">
+                      <Button
+                        className="mb-1"
+                        size="sm"
+                        onClick={handleAmenitesShow}
+                        style={{ width: "118px" }}
+                      >
+                        View Amenities
+                      </Button>
+                    </Col>
+                    <Col md={4} lg={3} className="center-div">
+                      {viewSeatFlag && props.isOpen ? (
                         <Button
-                          className="me-5 mb-1"
                           size="sm"
-                          onClick={handleShow}
+                          className="mb-1"
+                          style={{ width: "118px" }}
+                          onClick={handleSelectSeatClose}
                         >
-                          View Amenities
+                          Close
                         </Button>
-                        {viewSeatFlag && props.isOpen ? (
-                          <Button size="sm" onClick={handleSelectSeatClose}>
-                            Close
-                          </Button>
-                        ) : (
-                          <Button size="sm" onClick={handleSelectSeat}>
-                            Select Seats
-                          </Button>
-                        )}
-                      </div>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className="mb-1"
+                          style={{ width: "118px" }}
+                          onClick={handleSelectSeat}
+                        >
+                          Select Seats
+                        </Button>
+                      )}
+                    </Col>
+                    <Col md={4} lg={3} className="center-div">
+                      <Button
+                        className="mb-1"
+                        size="sm"
+                        onClick={async () => {
+                          handleReviewsShow();
+                          await getBusOwnerReviews();
+                        }}
+                        style={{ width: "118px" }}
+                      >
+                        View Reviews
+                      </Button>
                     </Col>
                   </Row>
                 </Container>
               </CardBody>
-              <Modal show={show} onHide={handleClose} centered>
+              <Modal show={showAmenites} onHide={handleAmenitiesClose} centered>
                 <Modal.Header closeButton>
                   <Modal.Title>Bus Amenties</Modal.Title>
                 </Modal.Header>
@@ -170,7 +252,80 @@ function TripCard(props) {
                   </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
+                  <Button variant="secondary" onClick={handleAmenitiesClose}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
+              <Modal
+                show={showReviews}
+                onHide={handleReviewsClose}
+                size="lg"
+                centered
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Reviews</Modal.Title>
+                </Modal.Header>
+                <Modal.Body
+                  data-testid="list-review"
+                  id="review-list"
+                  style={{ overflowY: "scroll", height: "75vh" }}
+                >
+                  <Container>
+                    <Row>
+                      <Col>
+                        {isLoading ? (
+                          <div className="mt-5">
+                            <ProgressBar
+                              animated
+                              now={100}
+                              className="w-25 ms-auto me-auto"
+                            />
+                            <p className="ms-3 mt-3 text-center">Please Wait</p>
+                          </div>
+                        ) : (
+                          <div>
+                            {reviewList.length > 0 ? (
+                              <div>
+                                {reviewList.map((review) => (
+                                  <ReviewCard
+                                    key={review.id}
+                                    review={review}
+                                  ></ReviewCard>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="mt-5">
+                                <div className="d-flex justify-content-center">
+                                  <ExclamationCircle
+                                    size={36}
+                                  ></ExclamationCircle>
+                                </div>
+                                <h3 className="text-center mt-3">
+                                  No Reviews !
+                                </h3>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                    <Row>
+                      {reviewList.length > 0 && !isLoading && (
+                        <Col className="d-flex justify-content-center">
+                          <CustomPaginator
+                            totalPages={totalPages}
+                            currentPage={currentPage}
+                            viewPage={getReviewbyPage}
+                          ></CustomPaginator>
+                        </Col>
+                      )}
+                    </Row>
+                  </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleReviewsClose}>
                     Close
                   </Button>
                 </Modal.Footer>

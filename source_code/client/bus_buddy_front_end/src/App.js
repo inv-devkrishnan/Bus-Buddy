@@ -36,6 +36,8 @@ import ListCoupon from "./components/admin/coupon/ListCoupon";
 import ListUsers from "./components/admin/ListUsers";
 import AdminProfile from "./components/admin/profile/AdminProfile";
 import UpdateProfile from "./components/admin/profile/UpdateProfile";
+import Passengerlist from "./components/BusOwnerUi/MyTrips/Passengerlist";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function App() {
   return (
@@ -99,12 +101,14 @@ function App() {
         <Route path="/Update-Profile" element={<UpdateOwnerProfile />} />
         <Route path="/search-trip" element={<SearchTrips />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="/passengers-list" element={<Passengerlist/>}/>
       </Route>
       {/* pages which don't have navbar */}
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/register-owner" element={<RegisterOwner />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
