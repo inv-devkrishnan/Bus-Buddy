@@ -76,6 +76,19 @@ describe("list user", () => {
 
 
     })
+    test("list user by  role", async () => {
+        await renderListUser();
+        fireEvent.click(screen.getByText("Show All Roles"));
+        fireEvent.click(screen.getByText("Normal Users"));
+        await waitFor(() => {
+            expect(screen.getByText('Show Normal Users')).toBeInTheDocument();
+        });
+        fireEvent.click(screen.getByText("Show Normal Users"));
+        fireEvent.click(screen.getByText("Bus Owners"));
+        fireEvent.click(screen.getByText("Show All"));
+
+
+    })
 
     test("list user by Unbanned Users", async () => {
         await renderListUser();
@@ -267,6 +280,12 @@ describe("list user", () => {
     })
 
     test("list bus owner view details and aproval", async () => {
+        let data = {
+            users: [{ id: 2, first_name: "tom", role: 3, email: "tom@gmail.com", status: 3 }],
+            pages: 1,
+            current_page: 1,
+            has_previous: false
+        }
         mock.onGet(`adminstrator/list-users/?status=3`).reply(200, data);
         render(
             <BrowserRouter>
@@ -280,6 +299,26 @@ describe("list user", () => {
         fireEvent.click(screen.getByText("Approve Bus Owner"));
         fireEvent.click(screen.getByText("Yes"));
         mock.onPut(`adminstrator/approve-bus-owner/2/`).reply(200, data);
+    })
+
+    test("list user owner view details", async () => {
+        let data = {
+            users: [{ id: 2, first_name: "tom", role: 2, email: "tom@gmail.com", status: 0 }],
+            pages: 1,
+            current_page: 1,
+            has_previous: false
+        }
+        mock.onGet(`adminstrator/list-users/`).reply(200, data);
+        render(
+            <BrowserRouter>
+                <ListUsers/>
+            </BrowserRouter>
+        )
+        await waitFor(() => {
+            expect(screen.getByText('Role')).toBeInTheDocument();
+        });
+        fireEvent.click(screen.getByText("View Details"));
+        fireEvent.click(screen.getByText("Close"));
     })
     test("list bus owner view details and aproval fail", async () => {
         let data = {

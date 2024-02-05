@@ -61,29 +61,36 @@ function AdminDashboard() {
     listCoupon: false,
   };
   const [state, dispatch] = useReducer(optionSelection, initialState);
+  const navigation = (url) => {
+    if (location.pathname === url) {
+      navigate(url, { replace: true });
+    } else {
+      navigate(url);
+    }
+  };
   const profileSelected = () => {
     // when executed it displays the profile
     dispatch({ type: "profile" });
-    navigate("/admin-dashboard/view-profile");
+    navigation("/admin-dashboard/view-profile");
   };
   const listUserSelected = () => {
     // when executed it displays the list user
     dispatch({ type: "listUser" });
-    navigate("/admin-dashboard/list-users");
+    navigation("/admin-dashboard/list-users");
   };
   const busSelected = () => {
     // when executed it displays the bus owner approval
     dispatch({ type: "listOwner" });
-    navigate("/admin-dashboard/list-busowners");
+    navigation("/admin-dashboard/list-busowners");
   };
   const complaintSelected = () => {
     dispatch({ type: "listComplaint" });
-    navigate("/admin-dashboard/view-complaints");
+    navigation("/admin-dashboard/view-complaints");
   };
 
   const couponSelected = () => {
     dispatch({ type: "listCoupon" });
-    navigate("/admin-dashboard/show-coupon");
+    navigation("/admin-dashboard/show-coupon");
   };
 
   const options = [

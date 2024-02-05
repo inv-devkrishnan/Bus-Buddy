@@ -4,7 +4,8 @@ import stripe
 import uuid
 import os
 from dotenv import load_dotenv
-load_dotenv('busbuddy_api.env')
+
+load_dotenv("busbuddy_api.env")
 from datetime import datetime
 from django.db.models import Q
 from django.db import transaction, DatabaseError
@@ -198,7 +199,7 @@ def ban_bus_owner(old_status, new_status, instance):
        new_status (_type_): new status
        instance (_type_): user instance
     """
-    stripe.api_key =  os.getenv("STRIPE_API_KEY")
+    stripe.api_key = os.getenv("STRIPE_API_KEY")
     if old_status == 0 and new_status == 2 and instance.role == 3:
         logger.info("Bus owner ban initated")
         try:
@@ -312,7 +313,7 @@ def update_status(self, user_id, status):
                     except DatabaseError as e:
                         logger.warn("DataBase Error ! Reason : " + str(e))
                         return Response({"error_code": "D1029"}, status=400)
-                        
+
                 else:
                     logger.info(
                         "user status is already " + str(status) + " no change needed"
@@ -399,31 +400,23 @@ class AdminProfileUpdation(UpdateAPIView):
         return self.update(request)
 
 
-class ListUsers(APIView, CustomPagination):
-    permission_classes = (AllowAdminsOnly,)
+class CustomSearchFilter(SearchFilter):
+    search_param = "keyword"
 
-    def search_user(self, keyword, search_type):
-        # function to search user by their first_name
-        if search_type == "0":
-            logger.info("Searching user with keyword '" + str(keyword) + "'")
-            users = User.objects.filter(
-                ~Q(role=1),
-                ~Q(status=99),
-                first_name__icontains=keyword,
-            ).order_by("created_date")
-            return users
-        else:
-            logger.info("Searching bus owner with keyword '" + str(keyword) + "'")
-            users = User.objects.filter(
-                ~Q(status=99),
-                ~Q(status=0),
-                role=3,
-                first_name__icontains=keyword,
-            ).order_by("created_date")
-            return users
+
+class ListUsers(ListAPIView):
+    permission_classes = (AllowAdminsOnly,)
+    pagination_class = CustomPagination
+    filter_backends = [CustomSearchFilter, DjangoFilterBackend]
+    filterset_fields = {"status": ["exact"], "role": ["exact"]}
+    SEARCH_PARAM = "keyword"
+    search_fields = [
+        "first_name",
+    ]
+    error_message = ""
 
     def ordering(self, order):
-        current_ordering = "created_date"
+        current_ordering = "-created_date"
         if order:
             if order == "1":
                 current_ordering = "-first_name"
@@ -434,69 +427,88 @@ class ListUsers(APIView, CustomPagination):
                 logger.info("ordering list by ascending order")
 
             elif order == "-1":
-                current_ordering = "created_date"
+                current_ordering = "-created_date"
                 logger.info("default ordering")
             else:
-                current_ordering = "created_date"
+                current_ordering = "-created_date"
                 logger.warn("invalid order given reverting to default ordering")
 
         return current_ordering
 
-    def getUsersbyStatus(self, status, order):
-        # function to get user's based on thier status
-        current_ordering = self.ordering(order)
-        if status == "0":
-            users = User.objects.filter(~Q(role=1), ~Q(status=99), status=0).order_by(
-                current_ordering
-            )
-            logger.info("sort by unbanned users")
-        elif status == "2":
-            users = User.objects.filter(~Q(role=1), ~Q(status=99), status=2).order_by(
-                current_ordering
-            )
-            logger.info("sort by banned users")
-        elif status == "3":
-            users = User.objects.filter(~Q(role=1), ~Q(status=99), status=3).order_by(
-                current_ordering
-            )
-            logger.info("sort by unapproved bus owners users")
-        return users
+    def validate_ordering(self, order):
+        if order:
+            if order in {"0", "1","-1"}:
+                return True
+            else:
+                logger.warn("invalid order param")
+                self.error_message = "invalid order param"
+                return False
+        else:
+            logger.info("order param not provided")
+            return True
+
+    def validate_status(self, status):
+        if status:
+            if status in {"0", "2", "3"}:
+                return True
+            else:
+                logger.warn("invalid status param")
+                self.error_message = "invalid status param"
+                return False
+        else:
+            logger.info("status param not provided")
+            return True
+
+    def validate_role(self, role):
+        if role:
+            if role in {"2", "3"}:
+                return True
+            else:
+                logger.warn("invalid role param")
+                self.error_message = "invalid role param"
+                return False
+        else:
+            logger.info("role param not provided")
+            return True
+
 
     def get(self, request):
-        # extract query parameters
-        keyword = request.GET.get("keyword")
         order = request.GET.get("order")
         status = request.GET.get("status")
-        search_type = request.GET.get("type")
-        # validate and handle query parameters
-        if keyword and search_type in {"0", "1"}:
-            users = self.search_user(keyword, search_type)
-        elif status in {"0", "2", "3"}:
-            users = self.getUsersbyStatus(status, order)
-        else:
-            users = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+        role = request.GET.get("role")
+        if (
+            self.validate_ordering(order)
+            and self.validate_status(status)
+            and self.validate_role(role)
+        ):
+            queryset = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
                 self.ordering(order)
             )
+            data = self.filter_queryset(queryset)
+            page = self.paginate_queryset(data)
+            serialized_data = LUS(
+                page,
+                many=True,
+            )
+            # Logging
+            logger.info(
+                f"Returned user list with {self.paginator.page.paginator.count} entries"
+            )
 
-        # Serialize and return response
-        serialized_data = LUS(
-            CustomPagination.paginate_queryset(self, queryset=users, request=request),
-            many=True,
-        )
-
-        # Logging
-        logger.info(f"Returned user list with {self.page.paginator.count} entries")
-
-        return Response(
-            {
-                "users": serialized_data.data,
-                "pages": self.page.paginator.num_pages,
-                "current_page": self.page.number,
-                "has_previous": self.page.has_previous(),
-                "has_next": self.page.has_next(),
-                "total_count": self.page.paginator.count,
-            }
-        )
+            return Response(
+                {
+                    "users": serialized_data.data,
+                    "pages": self.paginator.page.paginator.num_pages,
+                    "current_page": self.paginator.page.number,
+                    "has_previous": self.paginator.page.has_previous(),
+                    "has_next": self.paginator.page.has_next(),
+                    "total_count": self.paginator.page.paginator.count,
+                }
+            )
+        else:
+            return Response(
+                {"error_code": "D1006", "error_message": self.error_message}, status=400
+            )
 
 
 class BanUser(UpdateAPIView):
@@ -761,9 +773,7 @@ class CreateCoupon(APIView):
 
         try:
             request_data = request.data.copy()  # creates a copy of request data
-            request_data[
-                "coupon_code"
-            ] = (
+            request_data["coupon_code"] = (
                 self.generate_coupon_code()
             )  # appends unique coupon code to the request data
             serialized_data = CCS(data=request_data)
