@@ -20,20 +20,22 @@ function Sleeper(props) {
     addSeatList,
     updateAddSeatList,
   } = useContext(AddSeatContext); // use context that for setting props data and button value
-  
+
   useEffect(() => {
     // for checking seat details is added or not
-    for (let seat of currentData) {
-      setPresentSeat(seat);
-      if (seat.seat_ui_order === props.row * 10 + props.column) {
-        setHasAdded(true);
-        break;
-      } else {
-        setHasAdded(false);
+    if (currentData && Array.isArray(currentData)) {
+      for (let seat of currentData) {
+        setPresentSeat(seat);
+        if (seat.seat_ui_order === props.row * 10 + props.column) {
+          setHasAdded(true);
+          break;
+        } else {
+          setHasAdded(false);
+        }
       }
     }
   }, [currentData, props]);
-
+  
   const handleSelect = () => {
     // calls form and also set prop data for current seat
     //set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103

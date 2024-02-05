@@ -15,7 +15,7 @@ from django.db import models
 from .models import User
 from .models import Trip
 from account_manage.models import Notifications
-from normal_user.models import UserReview,BookedSeats,Bookings
+from normal_user.models import UserReview, BookedSeats, Bookings
 from django.core.validators import (
     MaxLengthValidator,
     MinLengthValidator,
@@ -165,7 +165,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "bus_ac",
             "amenities_data",
             "user",
-            "bus_seat_type"
+            "bus_seat_type",
         )
 
 
@@ -578,7 +578,6 @@ class SeatDetailSerializer(serializers.ModelSerializer):
             "seat_type",
             "deck",
             "seat_cost",
-            "bus",
         )
 
     seat_number = serializers.CharField(max_length=50)
@@ -619,12 +618,14 @@ class GetSeatSerializer(serializers.ModelSerializer):
             "seat_cost",
         )
 
+
 class ViewNotificationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notifications
         fields = "__all__"
         depth = 1
-        
+
+
 class PassengerListSerializer(serializers.ModelSerializer):
     """
     For viewing booked seat data for view seat details
@@ -638,10 +639,16 @@ class PassengerListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookedSeats
-        fields = ["traveller_gender", "trip", "traveller_name", "seat_id", "seat_number"]
+        fields = [
+            "traveller_gender",
+            "trip",
+            "traveller_name",
+            "seat_id",
+            "seat_number",
+        ]
         depth = 1
 
-        
+
 class SeatDetailsViewSerialzer(serializers.ModelSerializer):
     """
     For viewing seat details
@@ -651,7 +658,9 @@ class SeatDetailsViewSerialzer(serializers.ModelSerializer):
         # Filter the BookedSeats to include only those with 'trp_id'
         trip_id = self.context.get("trip_id")
         booked_seats = obj.bookedseats_set.filter(trip_id=trip_id, status=2)
-        return PassengerListSerializer(booked_seats, many=True, context={"seat_info": obj}).data
+        return PassengerListSerializer(
+            booked_seats, many=True, context={"seat_info": obj}
+        ).data
 
     booked = serializers.SerializerMethodField(method_name="get_booked")
 
@@ -667,4 +676,3 @@ class SeatDetailsViewSerialzer(serializers.ModelSerializer):
             "seat_ui_order",
             "booked",
         ]
-

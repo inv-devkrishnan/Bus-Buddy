@@ -19,14 +19,14 @@ export default function FullSleeperDetails() {
       alignItems="flex-start"
       justifyContent="space-between"
     >
-      <Grid item md={12} xs={12} sm={12} lg={12}>
+      <Grid item xs={12} md={12} lg={12}>
         <SeatDescription />
       </Grid>
-      <Grid item md={9} xs={12} sm={12} lg={6}>
+      <Grid item xs={12} md={12} lg={3}>
         <FullSleeperLayout bus={location?.state?.id} />
       </Grid>
 
-      <Grid item md={4} xs={12} sm={12} lg={6}>
+      <Grid item xs={12} md={12} lg={9}>
         {isClicked && (
           <FormComponent
             bus={location?.state?.id}

@@ -14,8 +14,8 @@ from .models import Bus, SeatDetails
 from .models import Routes, PickAndDrop, StartStopLocations
 from .models import Amenities
 from .models import Trip
-from account_manage.models import User,Notifications
-from normal_user.models import UserReview,BookedSeats
+from account_manage.models import User, Notifications
+from normal_user.models import UserReview, BookedSeats
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
 
@@ -34,7 +34,7 @@ from .serializers import (
     GetSeatSerializer,
     ReviewSerializer,
     ViewNotificationsSerializer,
-    PassengerListSerializer
+    PassengerListSerializer,
 )
 import logging
 
@@ -45,14 +45,15 @@ dentry = "Deleted the record"
 missing = "missing"
 date_format = "%Y-%m-%d"
 
+
 def get_status(bus_instance):
-        if bus_instance.bus_details_status == 1 :
-            return 2
-        elif bus_instance.bus_details_status == 0:
-            return 1
-        else:
-            logger.info(f"seat detail status :{bus_instance.bus_details_status}")
-            return 0
+    if bus_instance.bus_details_status == 1:
+        return 2
+    elif bus_instance.bus_details_status == 0:
+        return 1
+    else:
+        logger.info(f"seat detail status :{bus_instance.bus_details_status}")
+        return 0
 
 
 class AddSeatDetails(ListCreateAPIView):
@@ -69,33 +70,29 @@ class AddSeatDetails(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = SeatDetailSerializer
 
-    def validate_and_bulk_create(self, request_data, bus_id, seat_ui_orders, bus):
+    def validate_and_bulk_create(self, request_data, seat_ui_orders, seat_numbers, bus):
         response = {}
         serialized_data_list = []
         for data in request_data:
-            if str(data["bus"]) == bus_id:
-                if int(data["seat_ui_order"]) not in seat_ui_orders:
-                    serializer = SeatDetailSerializer(data=data)
-                    if serializer.is_valid():
-                        serialized_data = serializer.data
-                        serialized_data["bus"] = bus
-                        serialized_data_list.append(serialized_data)
-                    else:
-                        logger.error(serializer.errors)
-                        response[f"error{data['seat_ui_order'] }"] = serializer.errors
-
-                else:
-                    logger.info("Seat already registered")
-                    response[
-                        f"message{data['seat_ui_order'] }"
-                    ] = f"Seat with {data['seat_ui_order']} ui order is already registered for this bus"
-
+            if data["seat_ui_order"] in seat_ui_orders:
+                logger.info("Seat already registered")
+                response[f"message{data['seat_ui_order'] }"] = (
+                    f"Seat with {data['seat_ui_order']} ui order is already registered for this bus"
+                )
+            elif data["seat_number"] in seat_numbers:
+                logger.info("Seat number is already registered")
+                response[f"message{data['seat_ui_order'] }"] = (
+                    f"Seat number with {data['seat_number']} is already registered for this bus"
+                )
             else:
-                new_bus = Bus.objects.get(id=data["bus"])
-                logger.info(f"{new_bus}: mismatched bus id")
-                response[
-                    f"message{data['seat_ui_order'] }"
-                ] = f"Bus id mismatch in ui order {data['seat_ui_order'] }"
+                serializer = SeatDetailSerializer(data=data)
+                if serializer.is_valid():
+                    serialized_data = serializer.data
+                    serialized_data["bus"] = bus
+                    serialized_data_list.append(serialized_data)
+                else:
+                    logger.error(serializer.errors)
+                    response[f"error{data['seat_ui_order'] }"] = serializer.errors
 
         # fetch instances
         seat_details_instances = [SeatDetails(**data) for data in serialized_data_list]
@@ -103,55 +100,48 @@ class AddSeatDetails(ListCreateAPIView):
         SeatDetails.objects.bulk_create(seat_details_instances, batch_size=50)
 
         if seat_details_instances:
-            response[
-                f"message{data['seat_ui_order'] }"
-            ] = f"Seat details of {data['seat_ui_order']} added successfully"
+            for instance in seat_details_instances:
+                response[f"message{instance.seat_ui_order}"] = (
+                    f"Seat details of {instance.seat_ui_order} added successfully"
+                )
 
         return response
 
     def post(self, request):
         user_id = request.user.id
-        bus_id = request.data.get("bus")
-        ui_order = request.data.get("seat_ui_order")
-        seat_number = request.data.get("seat_number")
-        serialized_data = SeatDetailSerializer(data=request.data)
+        bus_id = request.GET.get("bus")
+        request_data = request.data.copy()
 
         try:
-            bus_instance = get_object_or_404(
-                Bus, id=bus_id, user=user_id
-            )  # get the object or raise 404 error
+            bus_instance = Bus.objects.get(id=bus_id, user=user_id)
             logger.info(bus_instance, "current bus")
             count = SeatDetails.objects.filter(bus=bus_id).count()
             if count == 30:
                 bus_instance.bus_details_status = get_status(bus_instance)
                 bus_instance.save()
                 logger.info("seat detail complete")
-                return Response({"data": "All seats have been registered"}, status=400)
+                return Response({"data": "All seats have been registered"}, status=200)
             else:
-                if SeatDetails.objects.filter(
-                    seat_ui_order=ui_order, bus=bus_id
-                ) or SeatDetails.objects.filter(seat_number=seat_number, bus=bus_id):
-                    logger.info("seat already registered")
-                    return Response(
-                        {"data": "seat number already registered"}, status=400
-                    )
-                else:
-                    if serialized_data.is_valid():
-                        serialized_data.save()
-                        count = SeatDetails.objects.filter(bus=bus_id).count()
-                        if count == 30:
-                            bus_instance.bus_details_status = (
-                                2  # to mark the finish of bus detail entry
-                            )
-                            bus_instance.save()
-                            logger.info("seat detail complete")
-                        logger.info("seat data saved successfully")
-                        return Response(
-                            {"message": "details added successfully"}, status=201
-                        )
-                    else:
-                        logger.warning(serialized_data.errors)
-                        return Response(serialized_data.errors, status=400)
+                seat_details_objects = SeatDetails.objects.filter(bus=bus_id)
+                seat_ui_orders = []
+                seat_numbers = []
+                for data in seat_details_objects:
+                    seat_ui_orders.append(data.seat_ui_order)
+                for data in seat_details_objects:
+                    seat_numbers.append(data.seat_number)
+                response = self.validate_and_bulk_create(
+                    request_data,
+                    seat_ui_orders,
+                    seat_numbers,
+                    bus_instance,
+                )
+                logger.info(response)
+                return Response({"message": response}, status=200)
+
+        except Bus.DoesNotExist:
+            logger.error("No bus")
+            return Response({"error": "No such Bus for this owner"}, status=400)
+
         except Exception as e:
             logger.error(e)
             return Response({"error": f"{e}"}, status=400)
@@ -304,7 +294,7 @@ class Deletebus(APIView):
                     bus=id
                 )  # to get the amenities obj associated with bus obj
                 if data.status == 99:
-                   logger.info("Amenities already deleted")
+                    logger.info("Amenities already deleted")
                 else:
                     data.status = 99  # soft delete
                     data.save()
@@ -432,7 +422,8 @@ class Viewbus(ListAPIView):
 
         except ValueError:
             return Response(serializer._errors)
-        
+
+
 class Viewreviews(ListAPIView):
     """
     function to list all bus of the bus owner
@@ -441,14 +432,14 @@ class Viewreviews(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ReviewSerializer
     pagination_class = CustomPagination
-    
+
     def list(self, request):
         try:
             logger.info("getting the user is from user model")
             user_id = request.user.id
             print(user_id)
             logger.info("fetching all the data from Bus model matching the condition")
-            queryset = UserReview.objects.filter(review_for = user_id)
+            queryset = UserReview.objects.filter(review_for=user_id)
             print(queryset)
             serializer = ReviewSerializer(queryset)
             page = self.paginate_queryset(queryset)
@@ -489,7 +480,7 @@ class Addamenities(APIView):
                 current_bus = Bus.objects.get(
                     id=bus_id
                 )  # to get the bus object to change the status of adding bus to 1
-                
+
                 current_bus.bus_details_status = get_status(current_bus)
                 current_bus.save()
 
@@ -628,7 +619,7 @@ class Deleteroutes(APIView):
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)
-            return Response({"message":"route not found"},status = 404)
+            return Response({"message": "route not found"}, status=404)
 
 
 class Viewroutes(ListAPIView):
@@ -678,16 +669,16 @@ class Addtrip(APIView):
             )
             stop_date_str = request_data["start_date"]
             stop_date = datetime.strptime(stop_date_str, date_format)
-            print("stop :",stop_date)
+            print("stop :", stop_date)
             request_data["user"] = request.user.id
             seq_first = locations.first()
             seq_last = locations.last()
             offset = seq_last.departure_date_offset
             stop_date_offset = stop_date + timedelta(days=offset)
-            print("stop offset :",stop_date_offset)
+            print("stop offset :", stop_date_offset)
             stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
-            print("end_ date :",stop_date_offset_str )
+            print("end_ date :", stop_date_offset_str)
             request_data["start_time"] = seq_first.arrival_time
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
@@ -833,7 +824,7 @@ class Viewtrip(ListAPIView):
             print(serializer.data)
 
             return Response(serializer.data)
-        
+
         except Exception as e:
             return Response(e)
 
@@ -905,20 +896,31 @@ class Addreccuringrip(APIView):
             stop_date_offset = stop_date + timedelta(days=offset)
             stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
-            
 
             recurrence_type = request_data["recurrence"]
 
-            start_date, end_date = datetime.strptime(start_date_str, date_format), datetime.strptime(end_date_str, date_format)
+            start_date, end_date = datetime.strptime(
+                start_date_str, date_format
+            ), datetime.strptime(end_date_str, date_format)
             start_time, end_time = seq_first.arrival_time, seq_last.departure_time
-            start_datetime, end_datetime = datetime.combine(start_date, start_time), datetime.combine(end_date, end_time)
-
+            start_datetime, end_datetime = datetime.combine(
+                start_date, start_time
+            ), datetime.combine(end_date, end_time)
 
             psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
-            psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
+            psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(
+                ped_str, date_format
+            ) + timedelta(days=1)
 
             if self.is_in_date_range(start_datetime, end_datetime, psd, ped):
-                trip_objects = self.generate_recurring_trips(request_data, start_datetime, end_datetime, psd, ped, recurrence_type)
+                trip_objects = self.generate_recurring_trips(
+                    request_data,
+                    start_datetime,
+                    end_datetime,
+                    psd,
+                    ped,
+                    recurrence_type,
+                )
                 return Response({"message": "Trips inserted", "trips": trip_objects})
             else:
                 return Response({"message": "Failed to add recurring trip"}, status=400)
@@ -930,7 +932,9 @@ class Addreccuringrip(APIView):
     def is_in_date_range(self, start_datetime, end_datetime, psd, ped):
         return psd <= start_datetime <= ped and psd <= end_datetime <= ped
 
-    def generate_recurring_trips(self, request_data, start_datetime, end_datetime, psd, ped, recurrence_type):
+    def generate_recurring_trips(
+        self, request_data, start_datetime, end_datetime, psd, ped, recurrence_type
+    ):
         trip_objects = []
         iterations = self.calculate_iterations(psd, ped, recurrence_type)
 
@@ -946,7 +950,13 @@ class Addreccuringrip(APIView):
             if not self.is_within_date_range(current_end_date, ped):
                 break
 
-            current_request_data = self.update_request_data_dates(request_data, current_start_date, current_end_date, start_datetime.time(), end_datetime.time())
+            current_request_data = self.update_request_data_dates(
+                request_data,
+                current_start_date,
+                current_end_date,
+                start_datetime.time(),
+                end_datetime.time(),
+            )
 
             current_serializer = TripSerializer(data=current_request_data)
 
@@ -975,64 +985,68 @@ class Addreccuringrip(APIView):
     def is_within_date_range(self, current_end_date, ped):
         return current_end_date <= ped
 
-    def update_request_data_dates(self, request_data, current_start_date, current_end_date, start_time, end_time):
+    def update_request_data_dates(
+        self, request_data, current_start_date, current_end_date, start_time, end_time
+    ):
         current_request_data = request_data.copy()
         current_request_data["start_date"] = current_start_date.strftime(date_format)
         current_request_data["end_date"] = current_end_date.strftime(date_format)
         current_request_data["start_time"] = start_time
         current_request_data["end_time"] = end_time
         return current_request_data
-        
+
+
 class Viewnotifications(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = ViewNotificationsSerializer 
+    serializer_class = ViewNotificationsSerializer
+
     def list(self, request):
-        try :
-            
+        try:
+
             logger.info("getting the user is from user model")
             user_id = request.user.id
-            queryset = Notifications.objects.filter(user = user_id,status = 0)
+            queryset = Notifications.objects.filter(user=user_id, status=0)
             print(len(queryset))
             print(queryset)
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         except ValidationError:
-            return Response(serializer._errors,status = 400)
-        
+            return Response(serializer._errors, status=400)
+
+
 class Changenotificationstatus(APIView):
     permission_classes = (IsAuthenticated,)
-    def put(self,request):
+
+    def put(self, request):
         try:
             user_id = request.user.id
-            notifications = Notifications.objects.filter(user = user_id , status = 0)
-            for notification in notifications :
+            notifications = Notifications.objects.filter(user=user_id, status=0)
+            for notification in notifications:
                 notification.status = 1
                 notification.save()
-            return Response({"message":"Notification Status updated"},status = 200)
+            return Response({"message": "Notification Status updated"}, status=200)
         except ValidationError:
-            return Response({"message":"error"},status = 400)
-        
+            return Response({"message": "error"}, status=400)
+
+
 class Getpassengerlist(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PassengerListSerializer
-    pagination_class = CustomPagination  
+    pagination_class = CustomPagination
 
     def get(self, request, id):
         try:
-            if id is None:  
-                return Response(status=400)            
+            if id is None:
+                return Response(status=400)
             passengers = BookedSeats.objects.filter(trip=id)
             if passengers.exists():
                 listlen = len(passengers)
                 page = self.paginate_queryset(passengers)
                 serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response({"listlen": listlen, "data": serializer.data})
+                return self.get_paginated_response(
+                    {"listlen": listlen, "data": serializer.data}
+                )
             else:
                 return Response(status=404)
         except Exception as e:
             return Response({"error": f"{e}"}, status=400)
-            
-            
-            
-                    
-        
