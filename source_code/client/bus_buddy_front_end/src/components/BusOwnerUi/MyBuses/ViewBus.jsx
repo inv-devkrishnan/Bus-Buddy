@@ -203,7 +203,7 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <h1 className="mx-auto">Viewall</h1>
+        <h1 className="mx-auto">View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/AddBus"}>
           <button className="btn btn-primary" style={{ marginRight: "10px" }}>+ Add Bus</button>

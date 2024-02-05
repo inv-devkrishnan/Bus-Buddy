@@ -12,17 +12,17 @@ export default function Addamenities() {
   const bus = location.state;
   const navi = useNavigate();
   const [formState, setFormState] = useState({
-    Emergency_No: 0,
-    Water_Bottle: 0,
-    Charging_Point: 0,
-    Usb_Port: 0,
-    Blankets: 0,
-    Pillows: 0,
-    Reading_Light: 0,
-    Toilet: 0,
-    Snacks: 0,
-    Tour_guide: 0,
-    Cctv: 0,
+    emergency_no: 0,
+    water_bottle: 0,
+    charging_point: 0,
+    usb_port: 0,
+    blankets: 0,
+    pillows: 0,
+    reading_light: 0,
+    toilet: 0,
+    snacks: 0,
+    tour_guide: 0,
+    cctv: 0,
   });
 
   const handleCheckboxChange = (amenity) => {
@@ -88,7 +88,7 @@ export default function Addamenities() {
                   <Form.Check
                     type="checkbox"
                     id={`amenity-${amenity}`}
-                    label={amenity.replace(/_/g,' ')}
+                    label ={ amenity.replace(/_/g, ' ').replace(/(^|\s)\S/g, match => match.toUpperCase())}
                     checked={formState[amenity] === 1}
                     onChange={() => handleCheckboxChange(amenity)}
                     data-testid = "check-button"

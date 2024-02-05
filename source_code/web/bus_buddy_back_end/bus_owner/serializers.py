@@ -55,7 +55,7 @@ class BusSerializer(serializers.ModelSerializer):
         max_length=100,
         validators=[
             RegexValidator(
-                r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$",
+                r"^[A-Za-z0-9]+$",
                 message="Invalid Name format. Only letters, numbers or (),: are allowed.",
             )
         ],
@@ -70,7 +70,7 @@ class BusSerializer(serializers.ModelSerializer):
                 limit_value=10, message="Plate number can be at most 10 characters."
             ),
             RegexValidator(
-                regex=r"^[A-Za-z0-9]+$",
+                regex=r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$",
                 message="Invalid Plate Number format. It should contain only letters and numbers.",
             ),
             UniqueValidator(
@@ -196,7 +196,9 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
             source="end_point.location_name", read_only=True
         )
     )  # to get name matchin the id from location
-
+    
+    start_time = serializers.SerializerMethodField()
+    stop_time = serializers.SerializerMethodField()
     class Meta:
         model = Routes
         fields = (
@@ -209,7 +211,16 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "location",
+            "start_time",
+            "stop_time",
         )
+    def get_start_time(self, obj):
+        start_stop_location = obj.location.first()
+        return start_stop_location.arrival_time if start_stop_location else None
+
+    def get_stop_time(self, obj):
+        start_stop_location = obj.location.last()
+        return start_stop_location.departure_time if start_stop_location else None
 
 
 class PickAndDropSerializer(serializers.ModelSerializer):

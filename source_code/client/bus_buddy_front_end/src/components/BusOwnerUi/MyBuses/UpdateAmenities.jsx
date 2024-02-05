@@ -120,7 +120,7 @@ export default function Updateamenities() {
                   <Form.Check
                     type="checkbox"
                     id={`amenity-${amenity}`}
-                    label={amenity}
+                    label ={ amenity.replace(/_/g, ' ').replace(/(^|\s)\S/g, match => match.toUpperCase())}
                     checked={formState[amenity] === 1}
                     onChange={() => handleCheckboxChange(amenity)}
                   />

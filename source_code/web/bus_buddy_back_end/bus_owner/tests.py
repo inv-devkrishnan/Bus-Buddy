@@ -401,7 +401,7 @@ class BaseTest2(TestCase):
         
         self.create_bus_data = {
             "bus_name": "boss",
-            "plate_no": "Kl08A7099",
+            "plate_no": "Kl08AB7099",
             "bus_type": 0,
             "bus_ac": 0,
             "bus_seat_type": 2,
@@ -590,6 +590,7 @@ class BusActions(BaseTest2):
         response = self.client.post(
             self.create_bus, self.create_bus_data, format="json"
         )
+        print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_bus_invalid_data(self):

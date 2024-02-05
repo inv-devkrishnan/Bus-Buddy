@@ -51,9 +51,13 @@ export default function Viewallroutes() {
                   <p>Via: {viewroutes.via}</p>
                 </div>
                 <div style={{ marginLeft: "10%" }}>
-                  <p>Distance: {viewroutes.distance}</p>
-                  <p>Duration: {viewroutes.duration}</p>
-                  <p>Travel Fare: {viewroutes.travel_fare}</p>
+                  <p>Distance: {parseFloat(viewroutes.distance).toFixed(2)}</p>
+                  <p>Duration: {parseFloat(viewroutes.duration).toFixed(2)}</p>
+                  <p>Travel Fare: {parseFloat(viewroutes.travel_fare).toFixed(2)}</p>
+                </div>
+                <div style={{ marginLeft: "10%" }}>
+                  <p>Start Time: {viewroutes.start_time}</p>
+                  <p>Stop Time: {viewroutes.stop_time}</p>
                 </div>
               </div>
               <div
@@ -105,7 +109,7 @@ export default function Viewallroutes() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <h1 className="mx-auto">Viewall</h1>
+      <h1 className="mx-auto">View All Routes</h1>
       <Form style={{ textAlign: "center" }}>
       <Link to={"/Addroutes"}>
           <button className="btn btn-primary">Add Routes</button>
