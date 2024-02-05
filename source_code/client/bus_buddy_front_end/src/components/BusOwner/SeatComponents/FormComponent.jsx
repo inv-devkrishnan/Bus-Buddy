@@ -47,7 +47,7 @@ export default function FormComponent(props) {
       }
     } else {
       updateCurrentSeatData([]);
-      resetForm()
+      resetForm();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsData]);
@@ -77,7 +77,7 @@ export default function FormComponent(props) {
         seat_cost: formik.values.seatCost,
       })
       .then((res) => {
-        updateIsClicked(false)
+        updateIsClicked(false);
         if (res.status === 201) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
@@ -175,7 +175,7 @@ export default function FormComponent(props) {
 
   return (
     <div>
-      <Card sx={{ width: "20rem", margin: 5, boxShadow: 4 }}>
+      <Card sx={{ width: "60%", marginLeft: 2, marginRight: 2, boxShadow: 4 }}>
         <Box
           component="form"
           onSubmit={formik.handleSubmit}
