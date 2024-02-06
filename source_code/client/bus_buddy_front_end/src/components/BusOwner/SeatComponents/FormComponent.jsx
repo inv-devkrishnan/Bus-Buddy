@@ -22,7 +22,14 @@ import { axiosApi } from "../../../utils/axiosApi";
 
 export default function FormComponent(props) {
   console.log(props);
-  const { addSeatList, updateAddSeatList } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
+  const {
+    addSeatList,
+    updateAddSeatList,
+    reRender,
+    updateReRender,
+    reInitialize,
+    updateReInitialize,
+  } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
 
   const validationSchema = yup.object().shape({
     seat: yup.array().of(
@@ -47,14 +54,31 @@ export default function FormComponent(props) {
     axiosApi
       .post(`bus-owner/add-seat-details?bus=${props.bus}`, values.seat)
       .then((res) => {
-        Swal.fire({
-          icon: "success",
-          title: "Info",
-          text: res.data?.message,
-        });
+        const messages = res.data?.message;
+
+        if (messages) {
+          const combinedMessage = Object.keys(messages)
+            .map((key) => messages[key])
+            .join("\n");
+
+          Swal.fire({
+            icon: "info",
+            title: "Info",
+            text: combinedMessage,
+          });
+        } else {
+          console.log(messages);
+        }
+        updateAddSeatList([]);
+        updateReRender(!reRender);
       })
       .catch((err) => {
         console.log(err.response);
+        Swal.fire({
+          icon: "error",
+          title: "Oops..",
+          text: "Something went wrong!",
+        });
       });
   };
 
@@ -99,11 +123,12 @@ export default function FormComponent(props) {
       ];
     }
   };
+
   const initialValues = {
     seat: addSeatList.map((seat) => ({
       seat_ui_order: seat,
       seat_number: "",
-      seat_type: props.seatType === 1 ? 0 : 1,
+      seat_type: "",
       deck: "",
       seat_cost: "",
     })),
@@ -115,7 +140,7 @@ export default function FormComponent(props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
-        enableReinitialize
+        enableReinitialize={reInitialize}
       >
         <Form className="m-3">
           <FieldArray name="seat">
@@ -197,19 +222,22 @@ export default function FormComponent(props) {
                           error
                         />
                       </FormControl>
-                      {addSeatList.length > 1 && (
-                        <Button
-                          onClick={() => {
-                            arrayProps.remove(index);
-                            const updatedList = addSeatList.filter(
-                              (seatId) => seatId !== seat
-                            );
-                            updateAddSeatList(updatedList);
-                          }}
-                        >
-                          <DeleteIcon color="error" />
-                        </Button>
-                      )}
+                      <div className="d-flex justify-content-center align-items-start">
+                        {addSeatList.length > 1 && (
+                          <Button
+                            onClick={() => {
+                              arrayProps.remove(index);
+                              const updatedList = addSeatList.filter(
+                                (seatId) => seatId !== seat
+                              );
+                              updateAddSeatList(updatedList);
+                              updateReInitialize(false);
+                            }}
+                          >
+                            <DeleteIcon color="error" />
+                          </Button>
+                        )}
+                      </div>
                     </FormControl>
                   ))}
                 </div>

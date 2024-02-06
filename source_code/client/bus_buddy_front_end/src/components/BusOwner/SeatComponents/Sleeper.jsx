@@ -19,6 +19,7 @@ function Sleeper(props) {
     currentData,
     addSeatList,
     updateAddSeatList,
+    updateReInitialize,
   } = useContext(AddSeatContext); // use context that for setting props data and button value
 
   useEffect(() => {
@@ -35,11 +36,12 @@ function Sleeper(props) {
       }
     }
   }, [currentData, props]);
-  
+
   const handleSelect = () => {
     // calls form and also set prop data for current seat
     //set propsData as (row*10+column). eg: row=10 and column=3 -> propsData=103
     updateIsClicked(true);
+    updateReInitialize(true);
     updatePropsData(props.row * 10 + props.column);
     setSelect(true);
     if (!addSeatList.includes(props.row * 10 + props.column)) {

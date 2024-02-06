@@ -9,11 +9,12 @@ import { AddSeatContext } from "../../../../utils/AddSeatContext";
 import { axiosApi } from "../../../../utils/axiosApi";
 
 export default function FullSleeperLayout(props) {
-  const { updateCurrentData, reRender, updateIsClicked } =
+  const { updateCurrentData, reRender, updateIsClicked,updateAddSeatList } =
     useContext(AddSeatContext);
 
   useEffect(() => {
     updateIsClicked(false);
+    updateAddSeatList([])
     console.log(reRender);
     axiosApi
       .get(`bus-owner/get-seat-details?bus_id=${props.bus}`)
