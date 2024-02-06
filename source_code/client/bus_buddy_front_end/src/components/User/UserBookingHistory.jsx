@@ -282,12 +282,16 @@ export default function UserBookingHistory() {
                       ))}
                     </>
                   ) : (
-                    <div className="d-flex m-5">
-                      <ExclamationCircle color="grey" size={90} />
-                      <div className="m-3">
-                        <h3>No booking data Found !!</h3>
-                      </div>
-                    </div>
+                    <tr>
+                      <td colSpan="6" className="text-center">
+                        <div className="d-flex justify-content-center align-items-center m-5">
+                          <ExclamationCircle color="grey" size={90} />
+                          <div className="m-3">
+                            <h3>No booking data Found !!</h3>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                   )}
                 </>
               )}
@@ -426,7 +430,9 @@ export default function UserBookingHistory() {
                 <tbody>
                   {modalData?.booked_seats?.map((passenger) => (
                     <tr key={passenger?.id}>
-                      <td>{passenger?.traveller_name}</td>
+                      <td style={{ maxWidth: "100px", wordWrap: "break-word" }}>
+                        {passenger?.traveller_name}
+                      </td>
                       <td>
                         {passenger?.traveller_gender === 1 ? "Male" : "Female"}
                       </td>

@@ -94,7 +94,7 @@ export default function SeatDetailCard(props) {
                     >
                       <TableCell align="center">{seat.seat_number}</TableCell>
                       <TableCell align="center">
-                        {seat.seat_type ? "Seater" : "Sleeper"}
+                        {seat.seat_type === 0 ? "Seater" : "Sleeper"}
                       </TableCell>
                       <TableCell align="center">{seat.seat_cost}</TableCell>
                     </TableRow>

@@ -20,15 +20,15 @@ function SeatLegend() {
       </Typography>
       <div className="d-flex align-items-center flex-sm-row  flex-md-row">
         <img src={Sleeper} alt="sleeper" draggable="false"></img>
-        <p>Available Sleeper</p>
+        <p>Available</p>
       </div>
       <div className="d-flex align-items-center flex-sm-row flex-md-row">
         <img src={MaleSleeper} alt="sleeper" draggable="false"></img>
-        <p>Sleeper Booked by Male</p>
+        <p>Booked by Male</p>
       </div>
       <div className="d-flex align-items-center flex-sm-row flex-md-row">
         <img src={FemaleSleeper} alt="sleeper" draggable="false"></img>
-        <p>Sleeper Booked by Female</p>
+        <p>Booked by Female</p>
       </div>
     </Card>
   );
