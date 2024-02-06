@@ -148,7 +148,7 @@ class RegisterUser(APIView):
                 return Response({"message": "registration successfull"}, status=201)
             else:
                 logger.info(serialized_data.errors)
-                return Response(serialized_data.errors, status=200)
+                return Response(serialized_data.errors, status=400)
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)

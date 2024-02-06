@@ -140,6 +140,7 @@ export default function EmailVerification(props) {
         }
       })
       .catch((err) => {
+        Swal.close()
         console.log(err);
         Swal.fire("Oops!", "Something went wrong", "error");
         setOtpSend(false);

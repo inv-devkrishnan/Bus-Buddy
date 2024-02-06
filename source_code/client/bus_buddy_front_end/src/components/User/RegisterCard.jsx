@@ -32,25 +32,29 @@ export default function RegisterCard() {
           Swal.fire("Success!", "Registered successfully!", "success");
           actions.resetForm();
         } else {
+          Swal.close();
           console.log(res);
         }
       })
       .catch((err) => {
-        Swal.close();
         console.log(err);
-        if (err.response?.data?.email && err.response?.data?.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone are already registered",
-          });
+        let message;
+
+        if (err.response?.data?.email) {
+          message = "Email is already registered";
+        } else if (err.response?.data?.phone) {
+          message = "Phone number is already registered";
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-          });
+          message = "Email and Phone number are already registered";
         }
+        
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: message,
+        });
       });
   };
 
