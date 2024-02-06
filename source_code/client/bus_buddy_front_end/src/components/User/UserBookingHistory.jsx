@@ -430,7 +430,7 @@ export default function UserBookingHistory() {
                 <tbody>
                   {modalData?.booked_seats?.map((passenger) => (
                     <tr key={passenger?.id}>
-                      <td style={{ maxWidth: "100px", wordWrap: "break-word" }}>
+                      <td style={{ maxWidth: "150px", wordWrap: "break-word" }}>
                         {passenger?.traveller_name}
                       </td>
                       <td>
