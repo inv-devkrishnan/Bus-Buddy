@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../index.css";
 function AddRouteLocation(props) {
   const [locationValue, setLocationValue] = useState(1);
@@ -12,7 +12,7 @@ function AddRouteLocation(props) {
   const [departureDate, setDepartureDate] = useState("");
   const [locationFormValidated, setLocationFormValidated] = useState(false);
   const [location, setLocation] = useState("");
-  const [isNextDay, setIsNextDay] = useState(false);
+  const dayTransition = useRef(0);
 
   const [stopName, setStopName] = useState("");
   const [stopArrivalTime, setStopArrivalTime] = useState("");
@@ -50,7 +50,9 @@ function AddRouteLocation(props) {
       // if there are previous stops
 
       let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
-      if (previous_stop.arrival_time >= stopArrivalTime) {
+      if (dayTransition.current === 1) {
+        dayTransition.current = 2;
+      } else if (previous_stop.arrival_time >= stopArrivalTime) {
         // if previous stop time is greater than current stop
         status = false;
         setErrorMessage(
@@ -66,36 +68,12 @@ function AddRouteLocation(props) {
   const checkIfStopNameIsSame = () => {
     let status = true;
     stopsArray.forEach(function (stop) {
-      if (stop.bus_stop ===stopName) {
+      if (stop.bus_stop === stopName) {
         // if previous stop time is greater than current stop
         status = false;
         setErrorMessage("Stop with same name already exist's");
       }
     });
-    return status;
-  };
-
-  const checkInBetweenStopsDifferentDay = () => {
-    let status = true;
-    if (stopsArray.length > 0) {
-      // if there are previous stops
-
-      let previous_stop = stopsArray[stopsArray.length - 1]; // get the latest previous stop
-      if (previous_stop.arrival_time >= stopArrivalTime) {
-        // if previouse stop time is greater than current stop time
-        if (stopArrivalTime < departureTime && !isNextDay) {
-          // if the previous stop is on current day not next day and current stop is on next day
-          setIsNextDay(true); // now its next day
-        } else {
-          // show error message
-          status = false;
-          setErrorMessage(
-            "Stop arrival time should be greater than " +
-              previous_stop.arrival_time
-          );
-        }
-      }
-    }
     return status;
   };
 
@@ -119,6 +97,35 @@ function AddRouteLocation(props) {
       } else return true;
     } else return true;
   };
+
+  const checkStopLocationNextDay = (status) => {
+    let selectElement = document.getElementById("stop-date-select");
+    let selectedValue = selectElement.value;
+    console.log(selectedValue);
+    if (selectedValue === arrivalDate) {
+      if (stopArrivalTime > arrivalTime) {
+        status = checkInBetweenStopsSameDay();
+      } else {
+        status = false;
+        setErrorMessage(
+          "Stop arrival time should be greater than " + arrivalTime
+        );
+      }
+    } else if (selectedValue === departureDate) {
+      if (dayTransition.current === 0) {
+        dayTransition.current = 1;
+      }
+      if (stopArrivalTime < departureTime) {
+        status = checkInBetweenStopsSameDay();
+      } else {
+        status = false;
+        setErrorMessage(
+          "Stop arrival time should be less than " + departureTime
+        );
+      }
+    }
+    return status;
+  };
   const checkStopLocationTime = () => {
     let status = true;
     if (arrivalDate === departureDate) {
@@ -135,20 +142,8 @@ function AddRouteLocation(props) {
             departureTime
         );
       }
-    } else if (
-      (stopArrivalTime > arrivalTime && stopArrivalTime < Date("00:00")) ||
-      stopArrivalTime < departureTime
-    ) {
-      status = checkInBetweenStopsDifferentDay();
     } else {
-      status = false;
-      setErrorMessage(
-        "Stop arrival time should be between " +
-          arrivalTime +
-          " of current day and " +
-          departureTime +
-          " of next day"
-      );
+      status = checkStopLocationNextDay(status);
     }
 
     return status;
@@ -177,11 +172,12 @@ function AddRouteLocation(props) {
         seq_id: props.sequenceId,
         location: locationValue,
         arrival_time: arrivalTime,
-        arrival_date_offset: props.stopLocations.length === 0 ? "0" : arrivalDate,
+        arrival_date_offset:
+          props.stopLocations.length === 0 ? "0" : arrivalDate,
         departure_time: departureTime,
         departure_date_offset: departureDate,
       };
-      props.stopLocations.length === 0  && setArrivalDate("0")
+      props.stopLocations.length === 0 && setArrivalDate("0");
       setLocation(locationStop);
       localStorage.setItem("locationStop", JSON.stringify(locationStop));
       setLocationValue(1);
@@ -200,7 +196,7 @@ function AddRouteLocation(props) {
       event.preventDefault();
       event.stopPropagation();
       setStopFormValidated(true);
-    }else if (checkStopLocationTime() && checkIfStopNameIsSame()) {
+    } else if (checkStopLocationTime() && checkIfStopNameIsSame()) {
       event.preventDefault();
       const newStop = {
         bus_stop: stopName,
@@ -243,7 +239,7 @@ function AddRouteLocation(props) {
     setDepartureTime("");
     setErrorMessage("");
     setStopsArray([]);
-    setIsNextDay(false);
+    dayTransition.current = 0;
     setLocationFormValidated(false);
     setStopFormValidated(false);
     props.handleClose();
@@ -312,6 +308,18 @@ function AddRouteLocation(props) {
                 Please provide a valid time.
               </Form.Control.Feedback>
             </Form.Group>
+            {arrivalDate !== departureDate && (
+              <Form.Group className="mb-3">
+                <Form.Label> Stop Arrival Date </Form.Label>
+
+                <Form.Select id="stop-date-select">
+                  {dayTransition.current === 0 && (
+                    <option value={arrivalDate}>Same day</option>
+                  )}
+                  <option value={departureDate}>Next day</option>
+                </Form.Select>
+              </Form.Group>
+            )}
             <Form.Group className="mb-3">
               <Form.Label>Landmark</Form.Label>
               <Form.Control
