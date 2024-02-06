@@ -4,19 +4,21 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { PersonCircle, BusFrontFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext, useCallback } from "react";
 import { useLogout } from "../../../utils/hooks/useLogout";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { axiosApi } from "../../../utils/axiosApi";
+import { UserContext } from "../../User/UserContext";
 function BusNavBar() {
   const navigate = useNavigate(); // to navigate to different pages
   const logout = useLogout();
+  const { firstName } = useContext(UserContext);
   const [user, setUser] = useState({}); // to store current logged user details
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-  const getUserInfo = () => {
+  const getUserInfo = useCallback( () => {
     // function to get current user info from localstorage
-    let user_name = localStorage.getItem("user_name");
+    let user_name = firstName;
     let user_role = localStorage.getItem("user_role");
     let user = {};
     if (user_name && user_role) {
@@ -30,7 +32,7 @@ function BusNavBar() {
     }
     console.log(user);
     setUser(user);
-  };
+  },[firstName]);
 
   const fetchNotifications = async () => {
     try {
@@ -77,7 +79,7 @@ function BusNavBar() {
       const interval = setInterval(fetchNotifications, 30000);
       return () => clearInterval(interval);
     }
-  }, []);
+  }, [getUserInfo,]);
 
   return (
     <Navbar
