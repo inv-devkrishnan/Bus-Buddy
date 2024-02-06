@@ -35,30 +35,15 @@ def get_completed_trips():
 
 
 def updatetasksstatus():
-    trips = Trip.objects.filter(status=0)
+
+    trips =  get_completed_trips()
     print(trips)
-    timezone = indian_timezone
-    today = datetime.now()
-    today = timezone.localize(today)
-    print("new : ", today, " timezone : ", today.tzinfo)
-    date = today.date()
-    time = today.time()
-
     for trip in trips:
-        print(trip.end_date, "end_date")
-        print(trip.end_time, "end_time")
-        print("today")
-
-        print(time, "time")
-        print(date, "date")
-        if trip.end_date < date:
-            trip.status = 1
-            trip.save()
-            logger.info("Trip status updated to 1")
-        if trip.end_date == date and trip.end_time < time:
-            trip.status = 1
-            trip.save()
-            logger.info("Trip status updated to 1")
+        trip.status=1
+        trip.save()
+        
+    
+            
 
 
 def update_booking_status():
@@ -119,9 +104,11 @@ def send_mail_to_bookings_under_the_trip():
                     f"Date is not before 2 days for this trip: {trip} or mail has already been send for: {booking_reminder}"
                 )
     except Trip.DoesNotExist:
+        logger.warn("Trip doesn't exist")
         return -1
 
-    except Exception:
+    except Exception as e:
+        logger.warn("Send Mail to booking under the trip failed  :"+str(e))
         return -1
 
 
@@ -151,6 +138,7 @@ def update_counter_for_otp_generation():
 
 
 def batch_operations():
+    logger.info("Batch Running !!")
     update_booking_status()
     updatetasksstatus()
     send_mail_to_bookings_under_the_trip()

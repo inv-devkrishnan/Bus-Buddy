@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { addMonths } from "date-fns";
 import { axiosApi } from "../../../utils/axiosApi";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
 
 
 export default function Addrecurringtrip() {
@@ -88,6 +89,7 @@ export default function Addrecurringtrip() {
    const today = new Date();
    const sixMonthsFromNow = new Date(today); 
   sixMonthsFromNow.setMonth(today.getMonth() + 6);
+  showLoadingAlert("Adding reccuring trips")
    try {
        const formattedStartDate = selectedStartDate
        ? new Date(selectedStartDate.getTime() - selectedStartDate.getTimezoneOffset() * 60000)
@@ -138,6 +140,7 @@ export default function Addrecurringtrip() {
        else {
         setEndDateError("")
        }
+       
        const response = await axiosApi.post(
        `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
        {
@@ -150,6 +153,7 @@ export default function Addrecurringtrip() {
        );
        if (response.status === 200) {
            console.log("trips Inserted");
+           Swal.close()
            Swal.fire({
            icon: "success",
            title: "Added Successfully",
@@ -160,6 +164,7 @@ export default function Addrecurringtrip() {
    }
    catch (error) {
      console.error("Error adding trips:", error);
+     Swal.close()
      Swal.fire({
        icon: "error",
        title: "Error",
