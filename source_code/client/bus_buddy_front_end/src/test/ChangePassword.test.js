@@ -1,30 +1,35 @@
 import React from "react";
-import { render, fireEvent, screen,waitFor } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import ChangePassword from "../pages/ChangePassword";
 import { BrowserRouter } from "react-router-dom";
 import { changePassword } from "../utils/apiCalls";
+import { UserContextProvider } from "../components/User/UserContext";
 jest.mock("../utils/apiCalls");
 describe("Change Password", () => {
   test("change password render", () => {
     render(
-      <BrowserRouter>
-        <ChangePassword />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <ChangePassword />
+        </BrowserRouter>
+      </UserContextProvider>
     );
   });
 
-  test("change password blank entry",async()=>{
+  test("change password blank entry", async () => {
     render(
-      <BrowserRouter>
-        <ChangePassword />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <ChangePassword />
+        </BrowserRouter>
+      </UserContextProvider>
     );
-     // Submit the form
-     fireEvent.click(screen.getByText("Change Password"));
-     await waitFor(() => {
-      expect(screen.getAllByText('* required field')[0]).toBeInTheDocument();
+    // Submit the form
+    fireEvent.click(screen.getByText("Change Password"));
+    await waitFor(() => {
+      expect(screen.getAllByText("* required field")[0]).toBeInTheDocument();
+    });
   });
-  })
 
   test("change password click", () => {
     changePassword.mockResolvedValueOnce({
@@ -32,28 +37,30 @@ describe("Change Password", () => {
       message: {},
     });
     render(
-      <BrowserRouter>
-        <ChangePassword />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <ChangePassword />
+        </BrowserRouter>
+      </UserContextProvider>
     );
     fireEvent.change(screen.getByPlaceholderText("Old Password"), {
       target: { value: "Devk@207#" },
     });
-    fireEvent.blur(screen.getByPlaceholderText("Old Password"))
+    fireEvent.blur(screen.getByPlaceholderText("Old Password"));
 
     // Fill in the new password field
     fireEvent.change(screen.getByPlaceholderText("New Password"), {
       target: { value: "Devk@308#" },
     });
-    fireEvent.blur(screen.getByPlaceholderText("New Password"))
+    fireEvent.blur(screen.getByPlaceholderText("New Password"));
 
     // Fill in the re-enter password field
     fireEvent.change(screen.getByPlaceholderText("Re enter Password"), {
       target: { value: "Devk@308#" },
     });
 
-    fireEvent.blur(screen.getByPlaceholderText("Re enter Password"))
-    
+    fireEvent.blur(screen.getByPlaceholderText("Re enter Password"));
+
     fireEvent.click(screen.getByTestId("set-show-oldpassword"));
     fireEvent.click(screen.getByTestId("set-show-oldpassword"));
 
@@ -78,9 +85,11 @@ describe("Change Password", () => {
       },
     });
     render(
-      <BrowserRouter>
-        <ChangePassword />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <ChangePassword />
+        </BrowserRouter>
+      </UserContextProvider>
     );
     fireEvent.change(screen.getByPlaceholderText("Old Password"), {
       target: { value: "Devk@207#" },
