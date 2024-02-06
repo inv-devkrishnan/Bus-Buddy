@@ -114,7 +114,7 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h4>Name : {viewbus.bus_name}</h4>
+              <h4 style={{maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
@@ -165,7 +165,7 @@ export default function Viewallbus() {
             onClick={() => viewbus.id}
             data-testid="accordian-button"
           >
-            <Accordion.Header>Amenities of {viewbus.bus_name}</Accordion.Header>
+            <Accordion.Header style={{maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
               {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
                 <>

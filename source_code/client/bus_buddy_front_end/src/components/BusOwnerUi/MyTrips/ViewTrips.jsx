@@ -58,10 +58,10 @@ export default function Viewallbus() {
                 <p>Bus : {trip.bus_name}</p>
                 <p>Route : {trip.start_point_name}-{trip.end_point_name}</p>
                 </div>
-                <div style={{ marginLeft: "10%" }}>
-                <p>
-
-                </p>   
+                <div style={{display:"flex",marginLeft:"10%",flexDirection:"column"}}>
+                  <p>Via :{trip.route.via}</p>  
+                  <p>Duration :{parseFloat(trip.route.duration).toFixed(2)}</p>
+                  <p>Distance :{parseFloat(trip.route.distance).toFixed(2)}</p>
                 </div>
               </div>
               <div
@@ -143,7 +143,7 @@ export default function Viewallbus() {
           <Link to={"/add-trips"}>
             <button className="btn btn-primary"> + Add Trip</button>
           </Link>
-      <h1 className="mx-auto">Viewall</h1>
+      <h1 className="mx-auto">View All Trips</h1>
           <Link to={"/add-recurring-trips"}>
             <button className="btn btn-primary"> + Add Recurring Trip</button>
           </Link>

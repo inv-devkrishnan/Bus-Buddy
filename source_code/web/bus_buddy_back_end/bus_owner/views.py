@@ -993,4 +993,18 @@ class Getpassengerlist(ListAPIView):
             
             
                     
-        
+class Getvalidbus(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BusSerializer
+    pagination_class = CustomPagination  
+
+    def get(self, request):
+        try:
+            user_id=request.user.id
+            valid_bus = Bus.objects.filter(status=0,user=user_id, bus_details_status=2)
+            page = self.paginate_queryset(valid_bus)
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response( serializer.data)
+        except Exception as e:
+            return Response({"error": f"{e}"}, status=400)
+            

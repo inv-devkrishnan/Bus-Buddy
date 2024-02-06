@@ -22,8 +22,6 @@ export default function Addtrips() {
   const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
 
-
-
   const callFunction = (start, end) => {
     axiosApi
       .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -57,6 +55,7 @@ export default function Addtrips() {
       });
     }
   };
+
   const dates = (selectedStartDate, selectedEndDate) => {
     console.log(selectedStartDate);
     const today = new Date();
@@ -99,8 +98,7 @@ export default function Addtrips() {
     }
     callFunction(start, end);
   };
-  console.log(busData);
-  console.log(routeData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -123,6 +121,21 @@ export default function Addtrips() {
             .split("T")[0]
         : null;
 
+      // Call the custom date validation
+      dates(selectedStartDate, selectedEndDate);
+
+      // Check for errors from the custom validation
+      if (startDateError || endDateError) {
+        // Display an error message using Swal if there are errors
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Invalid dates. Please check your selected dates.",
+        });
+        return; // Stop execution if there are errors
+      }
+
+      // Proceed with the API call if there are no errors
       callApi(formattedStartDate, formattedEndDate);
       navi("/BusHome");
     } catch (error) {
@@ -148,7 +161,6 @@ export default function Addtrips() {
         style={{
           paddingTop: "3%",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
-          
           width: "35%",
           height: "28%",
         }}
@@ -230,7 +242,6 @@ export default function Addtrips() {
                       </option>
                     ))}
                   </Form.Control>
-                  
                 </Form.Group>
                 <Form.Group as={Col} md="6">
                   <Form.Label>Route</Form.Label>
@@ -249,7 +260,6 @@ export default function Addtrips() {
                       </option>
                     ))}
                   </Form.Control>
-                  
                 </Form.Group>
               </Row>
               <div

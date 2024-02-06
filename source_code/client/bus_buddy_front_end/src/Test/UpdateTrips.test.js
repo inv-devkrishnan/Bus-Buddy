@@ -219,7 +219,7 @@ describe("Update trips component", () => {
             }
         ]
     }
-    mock.onGet(`bus-owner/view-bus/`).reply(200, busData);
+    mock.onGet(`bus-owner/get-valid-bus/`).reply(200, busData);
     const routeData = {
         "page_size": 15,
         "total_objects": 3,

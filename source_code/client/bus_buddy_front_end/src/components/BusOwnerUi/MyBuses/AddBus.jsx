@@ -20,7 +20,7 @@ export default function Addbus() {
   const [busSeatTypeError,setBusSeatTypeError] = useState("")
   const [busAcError,setBusAcError] = useState("")
   const navi = useNavigate();
-  const busNameRegex = /^[A-Za-z0-9():',.]+$/;
+  const busNameRegex = /^[A-Za-z0-9():',. ]+$/;
   const plateNoRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/
 
 

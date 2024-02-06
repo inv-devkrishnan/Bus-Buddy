@@ -48,7 +48,7 @@ export default function Viewallroutes() {
                 <div>
                   <p>Start Point: {viewroutes.start_point_name}</p>
                   <p>End Point: {viewroutes.end_point_name}</p>
-                  <p>Via: {viewroutes.via}</p>
+                  <p style={{maxWidth: "100%", wordWrap: "break-word" }}>Via: {viewroutes.via}</p>
                 </div>
                 <div style={{ marginLeft: "10%" }}>
                   <p>Distance: {parseFloat(viewroutes.distance).toFixed(2)}</p>
@@ -112,7 +112,7 @@ export default function Viewallroutes() {
       <h1 className="mx-auto">View All Routes</h1>
       <Form style={{ textAlign: "center" }}>
       <Link to={"/Addroutes"}>
-          <button className="btn btn-primary">Add Routes</button>
+          <button className="btn btn-primary">+ Add Routes</button>
         </Link>
       </Form>
     </Navbar>
