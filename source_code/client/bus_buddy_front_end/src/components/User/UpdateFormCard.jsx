@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,17 +8,20 @@ import { UpdateSchema } from "./UpdateSchema";
 import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
 import EmailVerification from "../common/EmailVerification";
+import { UserContext } from "./UserContext";
 
 export default function UpdateForm(props) {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [values, setValues] = useState([]);
+  const { updateFirstName } = useContext(UserContext);
 
   const UpdateUser = (values) => {
     axiosApi
       .put("user/update-profile", values)
       .then((res) => {
         if (res.status === 200) {
+          updateFirstName(values.first_name);
           Swal.close();
           Swal.fire("Success!", "Updated successfully!", "success");
           props.goToProfile();
