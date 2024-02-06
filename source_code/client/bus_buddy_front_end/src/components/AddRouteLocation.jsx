@@ -181,7 +181,7 @@ function AddRouteLocation(props) {
         departure_time: departureTime,
         departure_date_offset: departureDate,
       };
-
+      props.stopLocations.length === 0  && setArrivalDate("0")
       setLocation(locationStop);
       localStorage.setItem("locationStop", JSON.stringify(locationStop));
       setLocationValue(1);
