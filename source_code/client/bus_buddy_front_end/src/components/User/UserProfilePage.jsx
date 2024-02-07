@@ -9,7 +9,7 @@ import { axiosApi } from "../../utils/axiosApi";
 import ChangePassword from "../../pages/ChangePassword";
 import UpdateFormCard from "./UpdateFormCard";
 
-export default function UserProfilePage(props) {
+export default function UserProfilePage() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
@@ -54,24 +54,7 @@ export default function UserProfilePage(props) {
 
   useEffect(() => {
     fetchUserData();
-  }, [props]);
-
-  const updateUserName = () => {
-    props.setUserName(
-      `${
-        currentUserData["first_name"] +
-        " " +
-        (currentUserData["last_name"] ? currentUserData["last_name"] : "")
-      }`
-    );
-  };
-
-  useEffect(() => {
-    if (!isProfileLoading) {
-      updateUserName();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserData, isProfileLoading]);
+  }, []);
 
   return (
     <>

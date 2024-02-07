@@ -45,7 +45,7 @@ export default function RegisterCard() {
         } else if (err.response?.data?.phone) {
           message = "Phone number is already registered";
         } else {
-          message = "Email and Phone number are already registered";
+          message = "Something went wrong!";
         }
         
         Swal.close();

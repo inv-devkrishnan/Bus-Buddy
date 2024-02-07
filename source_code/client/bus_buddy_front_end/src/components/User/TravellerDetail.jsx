@@ -41,6 +41,9 @@ const TravellerDetail = () => {
   const [totalAmount, setTotalAmount] = useState(0); // to save the total charges
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayDate = yesterday.toISOString().split("T")[0];
 
   useEffect(() => {
     if (authStatus) {
@@ -221,6 +224,7 @@ const TravellerDetail = () => {
                           e.target.value
                         )
                       }
+                      max={yesterdayDate}
                     />
                     <Form.Control.Feedback type="invalid">
                       {formik.touched[seatId]?.[`dob_${seatId}`] &&

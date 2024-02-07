@@ -128,6 +128,7 @@ export default function PickAndDrop(props) {
             Pick Up point
           </Typography>
           <DataGrid
+            disableColumnMenu
             disableRowSelectionOnClick
             rows={pick}
             columns={columnsPick}
@@ -157,6 +158,7 @@ export default function PickAndDrop(props) {
             Drop Off point
           </Typography>
           <DataGrid
+            disableColumnMenu
             disableRowSelectionOnClick
             rows={drop}
             columns={columnsDrop}
