@@ -663,6 +663,7 @@ class ViewTripsTest(BaseTest):
             "tour_guide": 0,
             "cctv": 0,
             "route_cost": 100,
+            "available_seats": 30,
             "gst": 10,
         }
         obj = DictToObject(dict_data)
