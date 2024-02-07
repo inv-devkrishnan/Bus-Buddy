@@ -15,6 +15,6 @@
   }
   .rotate-arrow {
     transform: rotate(90deg);
-    margin-left: 35px !important;
+    margin-left: 0px !important;
   }
 }

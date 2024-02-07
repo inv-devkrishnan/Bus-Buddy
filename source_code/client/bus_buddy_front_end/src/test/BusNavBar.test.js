@@ -41,10 +41,24 @@ describe("BusNavBar", () => {
       </UserContextProvider>
     );
 
+    
+
     // Click on the "Search Trips" link
     fireEvent.click(screen.getByText("Search Trips"));
 
     // Check if the navigation occurred correctly
+  });
+
+  test('user with large name', () => {
+    localStorage.setItem("user_role", "2");
+    localStorage.setItem("user_name", "fdsfhdsfldshfdkjhskhfjfkdhsfjhdsfkdjsfhdjshfdkashfdjshfdasfkjdhfdsjafhdskjfhdsjfhdsfjkfdsfds");
+    render(
+      <UserContextProvider>
+        <BrowserRouter>
+          <BusNavBar />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
   });
 
   test("navbar as admin", () => {
