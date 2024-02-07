@@ -1,5 +1,6 @@
 import Container from "react-bootstrap/Container";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { PersonCircle, BusFrontFill } from "react-bootstrap-icons";
@@ -9,10 +10,12 @@ import { useLogout } from "../../../utils/hooks/useLogout";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { axiosApi } from "../../../utils/axiosApi";
 import { UserContext } from "../../User/UserContext";
+import truncateText from "../../../utils/truncateText";
+
 function BusNavBar() {
   const navigate = useNavigate(); // to navigate to different pages
   const logout = useLogout();
-  const { firstName} = useContext(UserContext);
+  const { firstName } = useContext(UserContext);
   const [user, setUser] = useState({}); // to store current logged user details
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
@@ -180,20 +183,25 @@ function BusNavBar() {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavDropdown
-                title={"Hello " + user.name}
-                className="text-light fw-bold"
-                data-bs-theme="light"
+              <OverlayTrigger
+              placement="left"
+              overlay={<Tooltip id="tooltip">{user.name}</Tooltip>}
               >
-                <NavDropdown.Item
-                  onClick={() => {
-                    getProfile(user.role);
-                  }}
+                <NavDropdown
+                  title={"Hello " + truncateText(user.name, 20)}
+                  className="text-light fw-bold"
+                  data-bs-theme="light"
                 >
-                  View Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-              </NavDropdown>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      getProfile(user.role);
+                    }}
+                  >
+                    View Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </OverlayTrigger>
             )}
           </div>
         </Navbar.Collapse>
