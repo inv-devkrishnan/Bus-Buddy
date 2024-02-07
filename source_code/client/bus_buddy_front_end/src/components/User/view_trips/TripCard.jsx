@@ -6,8 +6,10 @@ import {
   CardBody,
   Col,
   Container,
+  OverlayTrigger,
   ProgressBar,
   Row,
+  Tooltip,
 } from "react-bootstrap";
 import {
   ArrowRight,
@@ -23,6 +25,7 @@ import { SeatContext } from "../../../utils/SeatContext";
 import { openAxiosApi } from "../../../utils/axiosApi";
 import ReviewCard from "./ReviewCard";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import truncateText from "../../../utils/truncateText";
 import "../../User/view_trips/trip_card.css";
 
 function TripCard(props) {
@@ -128,9 +131,9 @@ function TripCard(props) {
       <Container>
         <Row>
           <Col sm={12} md={12} lg={12} xl={12} xxl={12}>
-            <Card className="p-3 mt-3 mb-3 w-100">
+            <Card className="p-1 mt-3 mb-3 w-100">
               <CardBody>
-                <Container>
+                <Container className="m-0 p-0">
                   <Row>
                     <Col>
                       <h5 className="text-primary">
@@ -161,8 +164,18 @@ function TripCard(props) {
                       className="d-flex justify-content-center"
                     >
                       <div>
+                        <div className="d-flex justify-content-center">
                         <ArrowRight className="rotate-arrow" size={24} />
-                        <p>via {props?.data?.via}</p>
+                        </div>
+                        
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip id="tooltip">{props?.data?.via}</Tooltip>
+                          }
+                        >
+                          <p>via {truncateText(props?.data?.via, 10)}</p>
+                        </OverlayTrigger>
                       </div>
                     </Col>
                     <Col xs={12} md={3}>
