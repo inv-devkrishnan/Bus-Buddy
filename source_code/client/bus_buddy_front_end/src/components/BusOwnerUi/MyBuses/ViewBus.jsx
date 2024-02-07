@@ -14,6 +14,7 @@ export default function Viewallbus() {
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
 
   const navi = useNavigate();
+
   const addAmenities = (id) => {
     navi("/Addamenities", { state: `${id}` });
   };
@@ -21,38 +22,54 @@ export default function Viewallbus() {
   const updateAmenities = (id) => {
     navi("/Updateamenities", { state: `${id}` });
   };
+
   const update = (id) => {
     navi("/UpdateBus", { state: `${id}` });
   };
+
   const addSeatDetails = (id, bus_seat_type) => {
     navi("/full-sleeper-details", {
       state: { id: `${id}`, bus_seat_type: bus_seat_type },
     });
   };
+
   const deleted = (id) => {
-    axiosApi
-      .put(`bus-owner/delete-bus/${id}/`)
-      .then((response) => {
-        console.log("bus deleted successfuly");
-        Swal.fire({
-          icon: "success",
-          title: "Deleted",
-          text: "Bus Deleted successfully",
-        });
-        setDeletedBusFlag((prevFlag) => !prevFlag);
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log("HTTP status code:", error.response.status);
-        } else {
-          console.error("An error occurred:", error.message);
-        }
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error Deleting Bus",
-        });
-      });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this bus!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#3085d6',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosApi
+          .put(`bus-owner/delete-bus/${id}/`)
+          .then((response) => {
+            console.log("Bus deleted successfully");
+            Swal.fire({
+              icon: "success",
+              title: "Deleted",
+              text: "Bus Deleted successfully",
+            });
+            setDeletedBusFlag((prevFlag) => !prevFlag);
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log("HTTP status code:", error.response.status);
+            } else {
+              console.error("An error occurred:", error.message);
+            }
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error Deleting Bus",
+            });
+          });
+      }
+    });
   };
 
   const fetchData = useCallback(async (page) => {
@@ -92,29 +109,26 @@ export default function Viewallbus() {
       return "Unknown";
     }
   };
+
   const getBusSeatLabel = (busSeat) => {
     if (busSeat === 0) {
       return "Sleeper";
     } else if (busSeat === 1) {
       return "Seater";
-    } else if (busSeat ===2) {
+    } else if (busSeat === 2) {
       return "Both";
-    }
-    else{
-      return "Unknown"
+    } else {
+      return "Unknown";
     }
   };
 
   const renderCards = () => {
     return data.map((viewbus) => (
-      <div
-        key={viewbus.id}
-        style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
-      >
+      <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
-              <h4 style={{maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
+              <h4 style={{ maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
@@ -124,71 +138,36 @@ export default function Viewallbus() {
                 </div>
                 <div style={{ marginLeft: "10%" }}>
                   <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
-                  <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_type)} </p>
+                  <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_seat_type)} </p>
                 </div>
               </div>
-              <div
-                style={{
-                  marginBottom: "1%",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <button
-                  className="btn btn-primary"
-                  onClick={() => update(viewbus.id)}
-                  data-testid="update-button"
-                >
+              <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
+                <button className="btn btn-primary" onClick={() => update(viewbus.id)} data-testid="update-button">
                   Update
                 </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    addSeatDetails(viewbus.id, viewbus.bus_seat_type)
-                  }
-                  data-testid="add-seat-button"
-                >
+                <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id, viewbus.bus_seat_type)} data-testid="add-seat-button">
                   Seat Details
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deleted(viewbus.id)}
-                  data-testid="delete-button"
-                >
+                <button className="btn btn-danger" onClick={() => deleted(viewbus.id)} data-testid="delete-button">
                   Delete
                 </button>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item
-            eventKey="0"
-            onClick={() => viewbus.id}
-            data-testid="accordian-button"
-          >
-            <Accordion.Header style={{maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
+          <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid="accordian-button">
+            <Accordion.Header style={{ maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
             <Accordion.Body>
               {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
                 <>
                   <p>Do you want to update the existing amenities?</p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => updateAmenities(viewbus.id)}
-                    data-testid="update-amenities-button"
-                  >
+                  <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)} data-testid="update-amenities-button">
                     Update amenities
                   </button>
                 </>
               ) : (
                 <>
-                  <p>
-                    There are no Amenities added for this bus. Please add
-                    amenities for your bus.
-                  </p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => addAmenities(viewbus.id)}
-                    data-testid="add-amenities-button"
-                  >
+                  <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
+                  <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)} data-testid="add-amenities-button">
                     Add amenities
                   </button>
                 </>
@@ -206,25 +185,13 @@ export default function Viewallbus() {
         <h1 className="mx-auto">View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/AddBus"}>
-          <button className="btn btn-primary" style={{ marginRight: "10px" }}>+ Add Bus</button>
+            <button className="btn btn-primary" style={{ marginRight: "10px" }}>+ Add Bus</button>
           </Link>
         </Form>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "20px",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <CustomPaginator
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={fetchData}
-        />
+      <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
+        <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
       </div>
     </div>
   );
