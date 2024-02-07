@@ -1,10 +1,22 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Button, Card, Form, Image, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import { getComplaintErrorMessages } from "../../../utils/getErrorMessage";
+import truncateText from "../../../utils/truncateText";
 
 function ComplaintCard(props) {
   const [show, setShow] = useState(false);
@@ -70,19 +82,35 @@ function ComplaintCard(props) {
   const handleShow = () => setShow(true);
   return (
     <Card className="p-3 w-100">
-      <div className="d-flex justify-content-between align-items-top">
-        <div>
-          <Card.Title className="mb-1">
-            {props.complaint.complaint_title}
-          </Card.Title>
-          <Card.Text className="text-secondary">
-            From {props.complaint.user.first_name}
-          </Card.Text>
-        </div>
-        <Card.Text className="text-secondary">
-          Submitted on {props.complaint.created_date}
-        </Card.Text>
-      </div>
+      <Container className="m-0 p-0">
+        <Row>
+          <Col>
+            <Card.Title className="mb-1">
+              {truncateText(props.complaint.complaint_title, 30)}
+            </Card.Title>
+          </Col>
+        </Row>
+        <Row className="mb-2">
+          <Col xl={9}>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>{props.complaint.user.first_name}</Tooltip>}
+            >
+              <Card.Text
+                className="text-secondary"
+                style={{ width: "wrap-content" }}
+              >
+                From {truncateText(props.complaint.user.first_name, 25)}
+              </Card.Text>
+            </OverlayTrigger>
+          </Col>
+          <Col xl={3} className="d-flex justify-content-end">
+            <Card.Text className="text-secondary">
+              Submitted on {props.complaint.created_date}
+            </Card.Text>
+          </Col>
+        </Row>
+      </Container>
       <div className="d-flex justify-content-between">
         <div>
           {props.complaint.status === 0 && (
@@ -112,13 +140,15 @@ function ComplaintCard(props) {
       </div>
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header>
-          <Modal.Title>{props.complaint.complaint_title}</Modal.Title>
+          <Modal.Title style={{ wordWrap: "anywhere" }}>
+            {props.complaint.complaint_title}
+          </Modal.Title>
           <OverlayTrigger
-          placement="right"
-          overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
-        >
-          <Button variant="close" onClick={handleClose} />
-        </OverlayTrigger>
+            placement="right"
+            overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
+          >
+            <Button variant="close" onClick={handleClose} />
+          </OverlayTrigger>
         </Modal.Header>
         <Modal.Body>
           <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
