@@ -13,8 +13,7 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
 
-export default function ComplaintResponse() {
-  const [complaintData, setComplaintData] = useState([]);
+export default function ComplaintResponse(props) {
   const [sortQuery, setSortQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -25,11 +24,12 @@ export default function ComplaintResponse() {
     axiosApi
       .get(`user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`)
       .then((res) => {
-        setComplaintData(res.data);
+        props.setComplaintData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, sortQuery]);
 
   const sortBar = () => {
@@ -80,9 +80,9 @@ export default function ComplaintResponse() {
       </div>
       <br />
       <Accordion>
-        {complaintData.length > 0 ? (
+        {props.complaintData.length > 0 ? (
           <>
-            {complaintData.map((data) => (
+            {props.complaintData.map((data) => (
               <Accordion.Item key={data?.id} eventKey={data?.id}>
                 <Accordion.Header>
                   {data?.complaint_title} - ({data?.created_date})

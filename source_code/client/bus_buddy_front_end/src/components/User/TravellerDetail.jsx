@@ -9,6 +9,8 @@ import {
   Button,
   Tabs,
   Tab,
+  Tooltip,
+  OverlayTrigger,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 
@@ -26,7 +28,7 @@ import SquareIcon from "@mui/icons-material/Square";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-
+import truncateText from "../../utils/truncateText";
 import { axiosApi } from "../../utils/axiosApi";
 import { useAuthStatus } from "../../utils/hooks/useAuth";
 import { getPaymentErrorMessages } from "../../utils/getErrorMessage";
@@ -158,6 +160,24 @@ const TravellerDetail = () => {
     // for saving data dynamically using formik with on change property
     formik.setFieldValue(`${seatId}.${field}`, value);
     formik.handleBlur(`${seatId}.${field}`);
+  };
+
+  const withTooltip = (
+    WrappedComponent,
+    tooltipText,
+    truncateLength,
+    typographyProps
+  ) => {
+    return (
+      <OverlayTrigger
+        placement="bottom"
+        overlay={<Tooltip id="tooltip">{tooltipText}</Tooltip>}
+      >
+        <WrappedComponent {...typographyProps}>
+          {truncateText(tooltipText, truncateLength)}
+        </WrappedComponent>
+      </OverlayTrigger>
+    );
   };
 
   return (
@@ -321,9 +341,12 @@ const TravellerDetail = () => {
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent style={{ py: "12px", px: 2 }}>
-                    <Typography variant="h6" component="span">
-                      {currentTrip?.startLocationName}
-                    </Typography>
+                    {withTooltip(
+                      Typography,
+                      currentTrip?.startLocationName,
+                      7,
+                      { variant: "h6", component: "span" }
+                    )}
                     <Typography>
                       {currentTrip?.data?.start_location_arrival_date}
                     </Typography>
@@ -336,9 +359,12 @@ const TravellerDetail = () => {
                     align="right"
                     variant="body2"
                   >
-                    <Typography variant="p" component="span">
-                      {localStorage.getItem("pick_stop")}
-                    </Typography>
+                    {withTooltip(
+                      Typography,
+                      localStorage.getItem("pick_stop"),
+                      10,
+                      { variant: "p", component: "span" }
+                    )}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
@@ -355,9 +381,11 @@ const TravellerDetail = () => {
                     style={{ m: "auto 0" }}
                     variant="body2"
                   >
-                    <Typography variant="h6" component="span">
-                      {currentTrip?.endLocationName}
-                    </Typography>
+                    {withTooltip(Typography, currentTrip?.endLocationName, 7, {
+                      variant: "h6",
+                      component: "span",
+                    })}
+
                     <Typography>
                       {currentTrip?.data?.end_location_arrival_date}
                     </Typography>
@@ -392,9 +420,12 @@ const TravellerDetail = () => {
                     <TimelineConnector />
                   </TimelineSeparator>
                   <TimelineContent sx={{ py: "12px", px: 2, m: "auto 0" }}>
-                    <Typography variant="p" component="span">
-                      {localStorage.getItem("drop_stop")}
-                    </Typography>
+                    {withTooltip(
+                      Typography,
+                      localStorage.getItem("drop_stop"),
+                      10,
+                      { variant: "p", component: "span" }
+                    )}
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>

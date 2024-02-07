@@ -47,7 +47,7 @@ export default function RegisterCard() {
         } else {
           message = "Something went wrong!";
         }
-        
+
         Swal.close();
 
         Swal.fire({
@@ -74,7 +74,7 @@ export default function RegisterCard() {
         className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mt-4 mb-3 bg-body rounded"
         style={{ width: "80%", height: "35rem", overflowY: "scroll" }}
       >
-        <Card.Title>
+        <Card.Title className="d-flex justify-content-center align-items-center">
           Sign Up <ShieldLockFill color="cornflowerblue" />
         </Card.Title>
         <Card.Body>
