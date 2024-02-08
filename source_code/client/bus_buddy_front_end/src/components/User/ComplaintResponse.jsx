@@ -112,6 +112,7 @@ export default function ComplaintResponse(props) {
           <Button
             variant="outline-primary"
             onClick={() => setSearchQuery(searchText)}
+            style={{ zIndex: 0 }}
           >
             Search
           </Button>
