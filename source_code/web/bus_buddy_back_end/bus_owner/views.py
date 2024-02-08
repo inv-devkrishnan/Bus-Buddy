@@ -313,12 +313,10 @@ class Updatebus(UpdateAPIView):
 
     def put(self, request, id):  # update function
         try:
-            # import pdb;pdb.set_trace();
             instance = Bus.objects.get(id=id, status=0)
             bookings = Bookings.objects.filter(status=0)
             booked_bus = [booking.trip.bus.id for booking in bookings]
-            # for booking in bookings :
-            #     booked_bus = Bus.objects.filter(id=booking.trip.bus.id)
+
             
             if instance:
                 request_data = request.data.copy()
