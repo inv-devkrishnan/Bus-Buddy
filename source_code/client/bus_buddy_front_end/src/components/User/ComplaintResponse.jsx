@@ -13,8 +13,7 @@ import { ExclamationCircle } from "react-bootstrap-icons";
 
 import { axiosApi } from "../../utils/axiosApi";
 
-export default function ComplaintResponse() {
-  const [complaintData, setComplaintData] = useState([]);
+export default function ComplaintResponse(props) {
   const [sortQuery, setSortQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -25,11 +24,12 @@ export default function ComplaintResponse() {
     axiosApi
       .get(`user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`)
       .then((res) => {
-        setComplaintData(res.data);
+        props.setComplaintData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, sortQuery]);
 
   const sortBar = () => {
@@ -63,7 +63,7 @@ export default function ComplaintResponse() {
       <div className="d-flex justify-content-end">
         <InputGroup className="mb-3">
           <Form.Control
-            maxLength={50}
+            maxLength={100}
             placeholder="Enter text"
             name="searchText"
             onChange={handleChange}
@@ -80,9 +80,9 @@ export default function ComplaintResponse() {
       </div>
       <br />
       <Accordion>
-        {complaintData.length > 0 ? (
+        {props.complaintData.length > 0 ? (
           <>
-            {complaintData.map((data) => (
+            {props.complaintData.map((data) => (
               <Accordion.Item key={data?.id} eventKey={data?.id}>
                 <Accordion.Header>
                   {data?.complaint_title} - ({data?.created_date})
@@ -109,7 +109,7 @@ export default function ComplaintResponse() {
             ))}
           </>
         ) : (
-          <div className="d-flex m-5">
+          <div className="d-flex justify-content-center align-items-center m-5">
             <ExclamationCircle color="grey" size={90} />
             <div className="m-4">
               {searchQuery.length > 0 ? (

@@ -140,6 +140,7 @@ export default function EmailVerification(props) {
         }
       })
       .catch((err) => {
+        Swal.close();
         console.log(err);
         Swal.fire("Oops!", "Something went wrong", "error");
         setOtpSend(false);
@@ -158,7 +159,13 @@ export default function EmailVerification(props) {
   });
 
   return (
-    <Modal show={props.show} onHide={handleClose} centered>
+    <Modal
+      show={props.show}
+      onHide={handleClose}
+      centered
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Header closeButton>
         <Modal.Title>Email Verification</Modal.Title>
       </Modal.Header>

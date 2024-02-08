@@ -28,14 +28,14 @@ export default function FullSleeperLayout(props) {
 
   return (
     <Grid container spacing={12} justifyContent="space-evenly">
-      <Grid item md={6} xs={12} sm={6}>
+      <Grid item md={6} xs={12} sm={12}>
         <span style={{ color: "cornflowerblue" }}>Lower Deck</span>
         <Card sx={{ width: 300, border: 1 }}>
           <CardContent>
             <Grid container>
               <Grid item xs={9}></Grid>
               <Grid item xs={3}>
-                <img src={driver} alt="driver" />
+                <img src={driver} alt="driver" draggable={false} />
               </Grid>
             </Grid>
             <FullSleeperLayer row={1} />
@@ -47,7 +47,7 @@ export default function FullSleeperLayout(props) {
         </Card>
       </Grid>
 
-      <Grid item md={6} xs={12} sm={6}>
+      <Grid item md={6} xs={12} sm={12}>
         <span style={{ color: "cornflowerblue" }}>Upper Deck</span>
         <Card sx={{ width: 300, border: 1 }}>
           <CardContent>
