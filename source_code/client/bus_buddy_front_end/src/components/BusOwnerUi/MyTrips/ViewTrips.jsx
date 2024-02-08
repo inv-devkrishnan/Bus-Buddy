@@ -35,6 +35,7 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
+              <h4>{trip.id}</h4>
               <h4>
                 {trip.start_point_name}-{trip.end_point_name}
               </h4>
@@ -87,7 +88,7 @@ export default function Viewallbus() {
   };
 
   const update = (id) => {
-    navi("/update-trips", { state: `${id}` });
+    navi("/BusHome/update-trips", { state: `${id}` });
   };
 
   const deleted = (trip) => {
@@ -132,11 +133,11 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <Link to={"/add-trips"}>
+        <Link to={"/BusHome/add-trips"}>
           <button className="btn btn-primary"> + Add Trip</button>
         </Link>
         <h1 className="mx-auto">View All Trips</h1>
-        <Link to={"/add-recurring-trips"}>
+        <Link to={"/BusHome/add-recurring-trips"}>
           <button className="btn btn-primary"> + Add Recurring Trip</button>
         </Link>
       </Navbar>

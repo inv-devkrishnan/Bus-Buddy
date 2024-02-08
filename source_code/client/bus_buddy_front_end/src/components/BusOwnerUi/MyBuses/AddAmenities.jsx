@@ -51,7 +51,7 @@ export default function Addamenities() {
           text: "Bus Amenities added successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/ViewBus");
     } catch (error) {
       console.error("Error adding amenities:", error);
       Swal.fire({

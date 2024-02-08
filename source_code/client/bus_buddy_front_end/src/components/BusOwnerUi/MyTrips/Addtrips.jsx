@@ -137,7 +137,7 @@ export default function Addtrips() {
 
       // Proceed with the API call if there are no errors
       callApi(formattedStartDate, formattedEndDate);
-      navi("/BusHome");
+      navi("/BusHome/view-trips");
     } catch (error) {
       console.error("Error adding Trip:", error);
       Swal.fire({
@@ -161,7 +161,7 @@ export default function Addtrips() {
         style={{
           paddingTop: "3%",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
-          width: "35%",
+          width: "40%",
           height: "28%",
         }}
       >

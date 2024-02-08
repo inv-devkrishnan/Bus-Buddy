@@ -56,16 +56,25 @@ export default function Updatetrips() {
           text: "trip Updated successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/view-trips");
     } catch (error) {
-      console.error("Error updating:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error updating trip",
-      });
+      console.error("Error updating:",  error?.response?.data);
+      const errorMessage = error?.response?.data;
+      if (errorMessage === "The trip has bookings") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The trip has Bookings",
+        });
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Updating Bus",
+        });
     }
-  };
+  }};
   const formik = useFormik({
     initialValues: {
       busName: "",

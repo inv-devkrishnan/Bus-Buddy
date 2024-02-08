@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Outlet,useLocation } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth.js";
 import DeleteAccount from "../../pages/DeleteAccount.jsx";
 import ViewBus from "./MyBuses/ViewBus.jsx"
@@ -14,7 +14,71 @@ import ViewComplaints from "../common/view_complaints/ViewComplaints.jsx";
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const navigation = (url) => {
+    if (location.pathname === url) {
+      navigate(url, { replace: true });
+    } else {
+      navigate(url);
+    }
+  };
+
+
+
+  const optionSelection = (state, action) => {
+    switch (action.type) {
+      case "profile":
+        return {
+          profile: true,
+          listUser: false,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listUser":
+        return {
+          profile: false,
+          listUser: true,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listOwner":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: true,
+          listComplaint: false,
+          listCoupon: false,
+        };
+      case "listComplaint":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: false,
+          listComplaint: true,
+          listCoupon: false,
+        };
+      case "listCoupon":
+        return {
+          profile: false,
+          listUser: false,
+          listOwner: false,
+          listComplaint: false,
+          listCoupon: true,
+        };
+      default:
+        return state;
+    }
+  };
+  const initialState = {
+    profile: false,
+    listUser: false,
+    listOwner: false,
+    listComplaint: false,
+    listCoupon: false,
+  };
 
   const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myBusSelect, setMyBusSelect] = useState(false);
@@ -32,6 +96,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setMyReviewsSelect(false)
     setComplaintSelect(false);
+    navigation("/BusHome/Ownerprofile")
   };
   const myBusSelected = () => {
     setMyProfileSelect(false);
@@ -41,6 +106,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setMyReviewsSelect(false)
     setComplaintSelect(false);
+    navigation("/BusHome/ViewBus")
   };  
   const myRouteSelected = () => {
     setMyProfileSelect(false);
@@ -50,6 +116,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setMyReviewsSelect(false)
     setComplaintSelect(false);
+    navigation("/BusHome/ViewRoutes")
   };
   const myTripSelected = () => {
     setMyProfileSelect(false);
@@ -59,6 +126,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setMyReviewsSelect(false)
     setComplaintSelect(false);
+    navigation("/BusHome/view-trips")
   };
   const deleteSelected = () => {
     setMyProfileSelect(false);
@@ -68,6 +136,7 @@ export default function UserDashboard() {
     setDeleteSelect(true);
     setMyReviewsSelect(false)
     setComplaintSelect(false);
+    navigation("/BusHome/delete-account")
   };
 
   const complaintSelected = () => {
@@ -78,6 +147,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setComplaintSelect(true);
     setMyReviewsSelect(false)
+    navigation("/BusHome/view-complaints")
   };
   const myReviewsSelected = () => {
     setMyProfileSelect(false);
@@ -87,6 +157,7 @@ export default function UserDashboard() {
     setDeleteSelect(false);
     setMyReviewsSelect(true)
     setComplaintSelect(false);
+    navigation("/BusHome/view-reviews")
   }
 
   const options = [
@@ -143,19 +214,13 @@ export default function UserDashboard() {
   }, [navigate,authStatus]);
 
   return (
-    <div>
-      <div>
+    <div className="d-flex flex-column flex-md-row flex-lg-row">
+      <div  className="fixed-sidebar">
         <SideBar heading="Bus Owner Profile" options={options} 
         />
       </div>
-      <div className="main_content">
-        {myProfileSelect && <Ownerprofile/>}
-        {myBusSelect && <ViewBus/>}
-        {myRouteSelect && <ViewRoutes/>}
-        {myTripSelect && <ViewTrips/>}
-        {myReviewsSelect && <ViewReviews />}
-        {deleteSelect && <DeleteAccount />}
-        {complaintSelect && <ViewComplaints/>}
+      <div className="main_content" style={{ width: "98vw"}}>
+        <Outlet />
       </div>
     </div>
   );

@@ -168,7 +168,7 @@ function LoginPage() {
       } else if (loginRes.message.user_role === 1) {
         navigate("/admin-dashboard/view-profile");
       } else {
-        navigate("/BusHome");
+        navigate("/BusHome/Ownerprofile");
       }
     } else {
       // if login fail's it shows the error message

@@ -81,7 +81,7 @@ export default function Updateamenities() {
           text: "Bus Amenities updated successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/ViewBus");
     } catch (error) {
       console.error("Error updating amenities:", error);
       Swal.fire({
@@ -127,7 +127,7 @@ export default function Updateamenities() {
                 </div>
               ))}
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="submit">Update Amenities</Button>
+                <Button type="submit">Update Amenitie</Button>
               </div>
             </Form>
           </div>

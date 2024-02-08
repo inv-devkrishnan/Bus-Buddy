@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
+import Dropdown from 'react-bootstrap/Dropdown';
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
@@ -12,23 +13,24 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
+  const [filter,setfilter] = useState(2)
 
   const navi = useNavigate();
 
   const addAmenities = (id) => {
-    navi("/Addamenities", { state: `${id}` });
+    navi("/BusHome/Addamenities", { state: `${id}` });
   };
 
   const updateAmenities = (id) => {
-    navi("/Updateamenities", { state: `${id}` });
+    navi("/BusHome/Updateamenities", { state: `${id}` });
   };
 
   const update = (id) => {
-    navi("/UpdateBus", { state: `${id}` });
+    navi("/BusHome/UpdateBus", { state: `${id}` });
   };
 
   const addSeatDetails = (id, bus_seat_type) => {
-    navi("/full-sleeper-details", {
+    navi("/BusHome/full-sleeper-details", {
       state: { id: `${id}`, bus_seat_type: bus_seat_type },
     });
   };
@@ -74,7 +76,7 @@ export default function Viewallbus() {
 
   const fetchData = useCallback(async (page) => {
     try {
-      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}`);
+      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${filter}`);
       setData(response.data.results);
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
@@ -82,7 +84,7 @@ export default function Viewallbus() {
     } catch (err) {
       console.error("Error:", err);
     }
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     fetchData(currentPage);
@@ -182,10 +184,22 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+      <Dropdown style={{width:"10%",marginLeft:"1%"}}>
+      <Dropdown.Toggle variant="primary" id="dropdown-basic">
+        Filter By
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={()=>setfilter('')} > All </Dropdown.Item>
+        <Dropdown.Item onClick={()=>setfilter(0)} > Details not completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setfilter(1)} > Partial completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setfilter(2)} > Fully  completed</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
         <h1 className="mx-auto">View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
-          <Link to={"/AddBus"}>
-            <button className="btn btn-primary" style={{ marginRight: "10px" }}>+ Add Bus</button>
+          <Link to={"/BusHome/AddBus"}>
+            <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>
           </Link>
         </Form>
       </Navbar>

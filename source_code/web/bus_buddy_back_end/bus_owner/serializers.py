@@ -165,7 +165,8 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "bus_ac",
             "amenities_data",
             "user",
-            "bus_seat_type"
+            "bus_seat_type",
+            "bus_details_status"
         )
 
 
@@ -214,6 +215,7 @@ class ViewRoutesSerializer(serializers.ModelSerializer):
             "start_time",
             "stop_time",
         )
+        depth=1
     def get_start_time(self, obj):
         start_stop_location = obj.location.first()
         return start_stop_location.arrival_time if start_stop_location else None

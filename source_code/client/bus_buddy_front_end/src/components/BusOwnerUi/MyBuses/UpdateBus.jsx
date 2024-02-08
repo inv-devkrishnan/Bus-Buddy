@@ -66,17 +66,23 @@ export default function Updatebus() {
           text: "Bus Updated ",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/ViewBus");
     } catch (error) {
-      console.error("Error adding bus:", error?.response?.data?.plate_no[0]);
-      if(error?.response?.data?.plate_no[0] ==="Plate no already exist"){
+      if (error?.response?.data?.plate_no?.[0] === "Plate no already exist") {
         setPlateNoError("Plate number already exists");
+      }
+      else if(error?.response?.data ==="Bus has Bookings"){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Updating Bus as it has bookings",
+        });
       }
       else{
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Error adding Bus",
+          text: "Error Updating Bus",
         });
       }
     }

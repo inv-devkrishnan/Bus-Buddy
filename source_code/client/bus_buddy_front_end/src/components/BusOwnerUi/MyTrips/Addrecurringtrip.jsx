@@ -204,7 +204,7 @@ export default function Addrecurringtrip() {
           text: "Recurring trip added successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/view-trips");
     } catch (error) {
       console.error("Error adding trips:", error);
       Swal.close();
@@ -227,7 +227,7 @@ export default function Addrecurringtrip() {
     >
       <Card
         style={{
-          width: "35%",
+          width: "40%",
           height: "37%",
           paddingTop: "3%",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",

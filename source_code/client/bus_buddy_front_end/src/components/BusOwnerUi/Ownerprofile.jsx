@@ -35,10 +35,10 @@ export default function Ownerprofile() {
             <p>Email ID: {currentUserData['email']}</p>
             <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>Company Name: {currentUserData['company_name']}</p>
             <div style={{display:"flex",justifyContent:"flex-end"}}>
-            <Link to="/Update-Profile">
+            <Link to="/BusHome/update-owner">
               <button className="btn btn-primary m-3">Update Profile</button>
             </Link>
-            <Link to="/change-password">
+            <Link to="/BusHome/change-password">
               <button className="btn btn-primary m-3">Change Password</button>
             </Link>
             </div>

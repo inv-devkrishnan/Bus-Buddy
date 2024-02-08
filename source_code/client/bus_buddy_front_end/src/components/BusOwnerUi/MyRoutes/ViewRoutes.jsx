@@ -58,6 +58,14 @@ export default function Viewallroutes() {
                   Delete
                 </button>
               </div>
+              <Accordion defaultActiveKey="1" style={{ backgroundColor: "#cce6ff", borderRadius: "0.25rem", padding: "0.5rem", marginTop: "10px" }}>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Stop Locations</Accordion.Header>
+                  <Accordion.Body>
+                    <p>stop 1: {viewroutes.location.id}</p>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
@@ -112,7 +120,7 @@ export default function Viewallroutes() {
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
         <h1 className="mx-auto">View All Routes</h1>
         <Form style={{ textAlign: "center" }}>
-          <Link to={"/Addroutes"}>
+          <Link to={"/BusHome/Addroutes"}>
             <button className="btn btn-primary">+ Add Routes</button>
           </Link>
         </Form>

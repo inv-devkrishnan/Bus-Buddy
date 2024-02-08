@@ -91,7 +91,7 @@ export default function Addbus() {
         console.log(response);
         const data =  response.data.bus
         console.log(data);
-        navi("/Addamenities", { state: data });
+        navi("/BusHome/Addamenities", { state: data });
       }
     } catch (error) {
       console.error("Error adding bus:", error?.response?.data?.bus_name?.[0]);
