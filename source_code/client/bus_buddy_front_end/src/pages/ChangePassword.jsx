@@ -84,7 +84,7 @@ function ChangePassword() {
                 {...register("old_password", {
                   required: true,
                   pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
+                    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
                 })}
                 onBlur={() => {
                   trigger("old_password");
@@ -124,7 +124,7 @@ function ChangePassword() {
                 {...register("new_password", {
                   required: true,
                   pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
+                    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
                   validate: (value) => value !== getValues("old_password")  
                 })}
                 onBlur={() => {
