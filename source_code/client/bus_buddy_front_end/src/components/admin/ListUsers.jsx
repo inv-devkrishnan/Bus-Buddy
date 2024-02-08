@@ -226,7 +226,7 @@ function ListUsers(props) {
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Last Name</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.last_name}</p>
+          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.last_name || "Not Provided"}</p>
         </ListGroup.Item>
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Email</p>
@@ -236,7 +236,7 @@ function ListUsers(props) {
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Phone</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.phone}</p>
+          <p className="m-0 ms-3">{busOwnerInfo.phone || "Not Provided"}</p>
         </ListGroup.Item>
       </>
     );

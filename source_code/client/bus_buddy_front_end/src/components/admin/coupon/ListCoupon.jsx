@@ -235,7 +235,7 @@ function ListCoupon() {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          {!couponListLoading && (
+          {!couponListLoading && couponList.length > 0 && (
             <CustomPaginator
               totalPages={totalPages}
               currentPage={currentPage}
