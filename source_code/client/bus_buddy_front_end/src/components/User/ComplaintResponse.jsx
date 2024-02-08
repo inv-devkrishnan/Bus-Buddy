@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import {
   Button,
@@ -10,8 +10,10 @@ import {
   Image,
 } from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
+import Swal from "sweetalert2";
 
 import { axiosApi } from "../../utils/axiosApi";
+import CustomPaginator from "../common/paginator/CustomPaginator";
 
 export default function ComplaintResponse(props) {
   const [sortQuery, setSortQuery] = useState("");
@@ -19,18 +21,37 @@ export default function ComplaintResponse(props) {
   const [searchText, setSearchText] = useState("");
   const [responseData, setResponseData] = useState("");
   const [show, setShow] = useState(false);
+  const viewComplaintHistory = useCallback(
+    async (page) => {
+      // api call for getting all reviews
+      await axiosApi
+        .get(
+          `user/list-complaints/?page=${
+            page ?? 1
+          }&&ordering=${sortQuery}&&search=${searchQuery}`
+        )
+        .then((res) => {
+          props.setComplaintData(res.data.results);
+          props.setCurentPage(res.data.current_page_number);
+          props.setTotalPages(res.data.total_pages);
+        })
+        .catch((err) => {
+          console.log(err.response);
+          Swal.fire({
+            title: "Oops",
+            text: "Something went wrong",
+            icon: "error",
+          });
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchQuery, sortQuery]
+  );
 
   useEffect(() => {
-    axiosApi
-      .get(`user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`)
-      .then((res) => {
-        props.setComplaintData(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, sortQuery]);
+    // api call
+    viewComplaintHistory();
+  }, [viewComplaintHistory]);
 
   const sortBar = () => {
     return (
@@ -121,31 +142,53 @@ export default function ComplaintResponse(props) {
           </div>
         )}
       </Accordion>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        className="p-2"
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {responseData.length > 0
-              ? "Response from the Complaint Viewer"
-              : "No Response Yet"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {responseData.length > 0 ? (
-            responseData
-          ) : (
-            <>
-              <ExclamationCircle color="indianred" size={30} /> &ensp; The
-              viewer has not provided a response yet!
-            </>
-          )}
-        </Modal.Body>
-      </Modal>
+        <div
+          className="align-self-center"
+          style={{ position: "fixed", bottom: 0 }}
+        >
+          <CustomPaginator
+            totalPages={props.totalPages}
+            currentPage={props.curentPage}
+            viewPage={viewComplaintHistory}
+          />
+        </div>
+      </div>
+
+      <div>
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="p-2"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {responseData.length > 0
+                ? "Response from the Complaint Viewer"
+                : "No Response Yet"}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {responseData.length > 0 ? (
+              responseData
+            ) : (
+              <>
+                <ExclamationCircle color="indianred" size={30} /> &ensp; The
+                viewer has not provided a response yet!
+              </>
+            )}
+          </Modal.Body>
+        </Modal>
+      </div>
     </div>
   );
 }
