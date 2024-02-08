@@ -121,7 +121,7 @@ function CreateCoupon() {
               maxLength={80}
               placeholder="Coupon Name (maximum 80 characters)"
               name="coupon_name"
-              {...register("coupon_name", { required: true, maxLength: 80 })}
+              {...register("coupon_name", { required: true, maxLength: 80, pattern: /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3}).*$/ })}
               onBlur={() => {
                 trigger("coupon_name");
               }}
@@ -129,8 +129,8 @@ function CreateCoupon() {
             {errors.coupon_name && errors.coupon_name.type === "required" && (
               <p className="text-danger mt-2"> * Coupon name required</p>
             )}
-            {errors.coupon_name && errors.coupon_name.type === "maxLength" && (
-              <p className="text-danger mt-2"> Maximum allowed 80 characters</p>
+            {errors.coupon_name && errors.coupon_name.type === "pattern" && (
+              <p className="text-danger mt-2"> * Minimum 3 alphabetic characters required</p>
             )}
           </Form.Group>
           <Form.Group as={Col} md="6" lg="6" xl="5" xxl="4">
@@ -143,6 +143,7 @@ function CreateCoupon() {
               placeholder="Coupon Description (maximum 500 characters)"
               {...register("coupon_description", {
                 required: true,
+                pattern: /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3}).*$/,
                 maxLength: 500,
               })}
               onBlur={() => {
@@ -156,11 +157,11 @@ function CreateCoupon() {
                   * Coupon Description required
                 </p>
               )}
-            {errors.coupon_description &&
-              errors.coupon_description.type === "maxLength" && (
+                 {errors.coupon_description &&
+              errors.coupon_description.type === "pattern" && (
                 <p className="text-danger mt-2">
                   {" "}
-                  Maximum allowed 500 characters
+                  * Minimum 3 alphabetic characters required
                 </p>
               )}
           </Form.Group>

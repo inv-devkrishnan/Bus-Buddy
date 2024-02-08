@@ -161,6 +161,7 @@ function ComplaintCard(props) {
                   <Image
                     className="mt-2 mb-2"
                     fluid
+                    draggable={false}
                     src={
                       process.env.REACT_APP_BASEURL +
                       props.complaint.complaint_image
@@ -189,9 +190,20 @@ function ComplaintCard(props) {
                     rows={3}
                     required
                     maxLength={5000}
+                    onInput={(event) => {
+                      const value = event.target.value;
+                      const regex = /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3}).*$/;
+                      if (!regex.test(value)) {
+                        event.target.setCustomValidity(
+                          "Input must contain at least three alphabet characters."
+                        );
+                      } else {
+                        event.target.setCustomValidity("");
+                      }
+                    }}
                   />
                   <Form.Control.Feedback type="invalid">
-                    required field.
+                    * Required field (Atleast 3 alphabetic characters required).
                   </Form.Control.Feedback>
                 </Form.Group>
                 <div className="d-flex justify-content-center mt-5">
