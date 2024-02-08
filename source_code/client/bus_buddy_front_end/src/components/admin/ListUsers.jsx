@@ -26,16 +26,22 @@ function ListUsers(props) {
   const [currentPage, setCurrentPage] = useState(1); // to get current page
   const [hasPrevious, setHasPrevious] = useState(false); // to check if current page has previous page
 
-  const [searchField, setSearchField] = useState(""); // to store search key words
   const [searchMode, setSearchMode] = useState(false);
   const listOrder = useRef(-1); // to store the sorting order
   const userStatus = useRef(props.busApproval ? 3 : 100); // to store the user status
+  const userRole = useRef(100); // to store current user role
   const [isTableLoading, setIsTableLoading] = useState(false);
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showBusOwnerInfo, setShowBusOwnerInfo] = useState(false);
+  const handleBusOwnerInfoClose = () => setShowBusOwnerInfo(false);
+  const handleBusOwnerInfoShow = () => setShowBusOwnerInfo(true);
+
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const handleUserInfoClose = () => setShowUserInfo(false);
+  const handleUserInfoShow = () => setShowUserInfo(true);
+
   const [busOwnerInfo, setBusOwnerInfo] = useState({});
+  let searchbox = document.getElementById("search_box");
 
   const displayErrorMessage = (error) => {
     Swal.fire({
@@ -78,8 +84,15 @@ function ListUsers(props) {
   useEffect(() => {
     // loads the users during page startup
     userStatus.current = props.busApproval ? 3 : 100;
+    userRole.current = 100;
+    listOrder.current = -1;
+    if (searchbox) {
+      searchbox.value = "";
+      setSearchMode(false);
+    }
+
     getUsers();
-  }, [getUsers, props.busApproval]);
+  }, [getUsers, props.busApproval, searchbox]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -97,10 +110,20 @@ function ListUsers(props) {
     // this function allows us to call specific page of userlist
 
     // if user status is 100 means all users
-    if (userStatus.current !== 100) {
+    if (userStatus.current !== 100 || userRole.current !== 100) {
       getUsers(
-        `adminstrator/list-users/?page=${page}&order=${listOrder.current}&status=${userStatus.current}`
+        `adminstrator/list-users/?page=${page}&order=${listOrder.current}${
+          userStatus.current !== 100 ? "&status=" + userStatus.current : ""
+        }${userRole.current !== 100 ? "&role=" + userRole.current : ""}`
       );
+    } else if (searchbox.value) {
+      props.busApproval
+        ? getUsers(
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&status=3`
+          )
+        : getUsers(
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}`
+          );
     } else {
       getUsers(
         `adminstrator/list-users/?page=${page}&order=${listOrder.current}`
@@ -108,14 +131,48 @@ function ListUsers(props) {
     }
   };
 
-  const searchUsers = async (keyword) => {
+  const showRoles = (role) => {
+    switch (role) {
+      case 2:
+        return "Normal Users";
+      case 3:
+        return "Bus Owners";
+      default:
+        return "All Roles";
+    }
+  };
+
+  const showStatus = (status) => {
+    switch (status) {
+      case 0:
+        return "Unbanned Users";
+      case 2:
+        return "Banned Users";
+      default:
+        return "All Users";
+    }
+  };
+  const showOrder = (order) => {
+    switch (order) {
+      case 0:
+        return " Name Ascending";
+      case 1:
+        return " Name Descending";
+      default:
+        return "None";
+    }
+  };
+
+  const searchUsers = async () => {
     // this function allows us to search users
-    if (searchField) {
+    if (searchbox.value) {
       setSearchMode(true);
       // check if its bus owner approval page or not if yes only search for busowners
       props.busApproval
-        ? getUsers(`adminstrator/list-users/?keyword=${keyword}&type=1`)
-        : getUsers(`adminstrator/list-users/?keyword=${keyword}&type=0`);
+        ? getUsers(
+            `adminstrator/list-users/?keyword=${searchbox.value}&status=3`
+          )
+        : getUsers(`adminstrator/list-users/?keyword=${searchbox.value}`);
 
       listOrder.current = -1;
       userStatus.current = 100;
@@ -156,6 +213,33 @@ function ListUsers(props) {
           displayErrorMessage(error);
         });
     }
+  };
+
+  const userInfo = () => {
+    return (
+      <>
+        <ListGroup.Item className="d-flex">
+          <p className="m-0 me-3">First Name</p>
+          <p className="m-0">:</p>
+          <p className="m-0 ms-3">{busOwnerInfo.first_name}</p>
+        </ListGroup.Item>
+        <ListGroup.Item className="d-flex">
+          <p className="m-0 me-3">Last Name</p>
+          <p className="m-0">:</p>
+          <p className="m-0 ms-3">{busOwnerInfo.last_name}</p>
+        </ListGroup.Item>
+        <ListGroup.Item className="d-flex">
+          <p className="m-0 me-3">Email</p>
+          <p className="m-0">:</p>
+          <p className="m-0 ms-3">{busOwnerInfo.email}</p>
+        </ListGroup.Item>
+        <ListGroup.Item className="d-flex">
+          <p className="m-0 me-3">Phone</p>
+          <p className="m-0">:</p>
+          <p className="m-0 ms-3">{busOwnerInfo.phone}</p>
+        </ListGroup.Item>
+      </>
+    );
   };
 
   const unBanUser = async (user_id) => {
@@ -285,7 +369,7 @@ function ListUsers(props) {
   };
 
   const formatAadhaarNumber = (aadhaarNo) => {
-    if (aadhaarNo !== undefined) {
+    if (aadhaarNo !== undefined && aadhaarNo !== null) {
       let partLength = Math.ceil(aadhaarNo.length / 3);
 
       // Divide the string into four parts
@@ -308,13 +392,11 @@ function ListUsers(props) {
       </Row>
 
       <Row>
-        <Col xl={4} lg={4} md={6} sm={3}>
+        <Col xl={3} lg={3} md={6} sm={3}>
           <Dropdown>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current sorting mode */}
-              Sort : {listOrder.current === -1 && "None"}
-              {listOrder.current === 0 && " Name Ascending"}
-              {listOrder.current === 1 && " Name Descending"}
+              Sort : {showOrder(listOrder.current)}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -346,13 +428,11 @@ function ListUsers(props) {
           </Dropdown>
         </Col>
 
-        <Col xl={4} lg={4} md={6} sm={3}>
+        <Col xl={3} lg={3} md={6} sm={3}>
           <Dropdown className={props.busApproval ? "invisible" : "visible"}>
             <Dropdown.Toggle variant="light" disabled={searchMode}>
               {/* shows current user status mode */}
-              Show {userStatus.current === 100 && "All Users"}
-              {userStatus.current === 0 && "Unbanned Users"}
-              {userStatus.current === 2 && "Banned Users"}
+              Show {showStatus(userStatus.current)}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -386,15 +466,50 @@ function ListUsers(props) {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col xl={4} lg={4} md={12} sm={6}>
+        <Col xl={3} lg={3} md={6} sm={3}>
+          <Dropdown className={props.busApproval ? "invisible" : "visible"}>
+            <Dropdown.Toggle variant="light" disabled={searchMode}>
+              {/* shows current user status mode */}
+              Show {showRoles(userRole.current)}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  userRole.current = 2;
+                  console.log(userRole.current);
+                  getUsersbyPage(1);
+                }}
+              >
+                Normal Users
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  userRole.current = 3;
+                  console.log(userRole.current);
+                  getUsersbyPage(1);
+                }}
+              >
+                Bus Owners
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  userRole.current = 100;
+                  console.log(userRole.current);
+                  getUsersbyPage(1);
+                }}
+              >
+                Show All
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+        <Col xl={3} lg={3} md={12} sm={6}>
           <div className="d-flex">
             <Form.Control
               placeholder="Search"
-              value={searchField}
+              id="search_box"
               maxLength={50}
-              onChange={(e) => {
-                setSearchField(e.target.value);
-              }}
               disabled={searchMode}
             />
             {searchMode ? (
@@ -402,10 +517,10 @@ function ListUsers(props) {
                 variant="danger"
                 className="d-block ms-3"
                 onClick={() => {
-                  setSearchField("");
+                  searchbox.value = "";
                   props.busApproval && (userStatus.current = 3);
-                  getUsersbyPage(1);
                   setSearchMode(false);
+                  getUsersbyPage(1);
                 }}
               >
                 Clear
@@ -414,7 +529,7 @@ function ListUsers(props) {
               <Button
                 className="d-block ms-3"
                 onClick={() => {
-                  searchUsers(searchField);
+                  searchUsers();
                 }}
               >
                 Search
@@ -427,7 +542,7 @@ function ListUsers(props) {
         // to show search results info
         searchMode && (
           <Row className="mt-5 ms-5">
-            <h2>Search Results for : {searchField}</h2>
+            <h2>Search Results for : {searchbox.value}</h2>
           </Row>
         )
       }
@@ -453,6 +568,7 @@ function ListUsers(props) {
                       <th>Name</th>
                       <th>Role</th>
                       <th>Email</th>
+                      <th></th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -488,17 +604,19 @@ function ListUsers(props) {
                               Ban User
                             </Button>
                           )}
-                          {user.status === 3 && props.busApproval && (
-                            <Button
-                              variant="primary"
-                              onClick={() => {
-                                setBusOwnerInfo(user);
-                                handleShow();
-                              }}
-                            >
-                              View Details
-                            </Button>
-                          )}
+                        </td>
+                        <td>
+                          <Button
+                            variant="primary"
+                            onClick={() => {
+                              setBusOwnerInfo(user);
+                              user.role === 3
+                                ? handleBusOwnerInfoShow()
+                                : handleUserInfoShow();
+                            }}
+                          >
+                            View Details
+                          </Button>
                         </td>
                         {!props.busApproval && (
                           <td>
@@ -530,16 +648,18 @@ function ListUsers(props) {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          <CustomPaginator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            viewPage={getUsersbyPage}
-          ></CustomPaginator>
+          {!isTableLoading && users.length > 0 && (
+            <CustomPaginator
+              totalPages={totalPages}
+              currentPage={currentPage}
+              viewPage={getUsersbyPage}
+            ></CustomPaginator>
+          )}
         </Col>
       </Row>
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={showBusOwnerInfo}
+        onHide={handleBusOwnerInfoClose}
         backdrop="static"
         keyboard={false}
         centered
@@ -549,26 +669,7 @@ function ListUsers(props) {
         </Modal.Header>
         <Modal.Body>
           <ListGroup>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">First Name</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.first_name}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Last Name</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.last_name}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Email</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.email}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Phone</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.phone}</p>
-            </ListGroup.Item>
+            {userInfo()}
             <ListGroup.Item className="d-flex">
               <p className="m-0 me-3">Company Name</p>
               <p className="m-0">:</p>
@@ -593,17 +694,39 @@ function ListUsers(props) {
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleBusOwnerInfoClose}>
             Close
           </Button>
-          <Button
-            variant="success"
-            onClick={() => {
-              approveBusOwner(busOwnerInfo.id);
-              handleClose();
-            }}
-          >
-            Approve Bus Owner
+          {props.busApproval && (
+            <Button
+              variant="success"
+              onClick={() => {
+                approveBusOwner(busOwnerInfo.id);
+                handleBusOwnerInfoClose();
+              }}
+            >
+              Approve Bus Owner
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showUserInfo}
+        onHide={handleUserInfoClose}
+        backdrop="static"
+        keyboard={false}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>User Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ListGroup>{userInfo()}</ListGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleUserInfoClose}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>

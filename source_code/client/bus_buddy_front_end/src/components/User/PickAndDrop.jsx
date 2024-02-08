@@ -117,7 +117,7 @@ export default function PickAndDrop(props) {
   return (
     <Card
       className="p-3"
-      sx={{ width: "90%", height: "auto", margin: 4, boxShadow: 5 }}
+      sx={{ width: "70%", height: "auto", margin: 4, boxShadow: 5 }}
     >
       <Typography gutterBottom variant="h5">
         Pick up and Drop off points
@@ -128,13 +128,14 @@ export default function PickAndDrop(props) {
             Pick Up point
           </Typography>
           <DataGrid
+            disableColumnMenu
             disableRowSelectionOnClick
             rows={pick}
             columns={columnsPick}
             pagination
             autoPageSize
             getRowHeight={() => "auto"}
-            getEstimatedRowHeight={() => 200}
+            getEstimatedRowHeight={() => 300}
             selectionModel={props.selectionModelPick}
             onSelectionModelChange={(newSelectionModel) => {
               props.setSelectionModelPick(newSelectionModel);
@@ -157,6 +158,7 @@ export default function PickAndDrop(props) {
             Drop Off point
           </Typography>
           <DataGrid
+            disableColumnMenu
             disableRowSelectionOnClick
             rows={drop}
             columns={columnsDrop}

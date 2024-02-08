@@ -237,9 +237,9 @@ export default function ReviewHistory() {
               </Col>
             </Container>
           ) : (
-            <div className="d-flex m-5">
+            <div className="d-flex justify-content-center m-5">
               <ExclamationCircle color="grey" size={90} />
-              <div className="m-3">
+              <div className="m-4">
                 <h3>You have no reviews yet!!</h3>
               </div>
             </div>

@@ -22,11 +22,11 @@ export default function FullSleeperDetails() {
       <Grid item md={12} xs={12} sm={12} lg={12}>
         <SeatDescription />
       </Grid>
-      <Grid item md={9} xs={12} sm={12} lg={6}>
+      <Grid item md={9} xs={12} sm={12} lg={7}>
         <FullSleeperLayout bus={location?.state?.id} />
       </Grid>
 
-      <Grid item md={4} xs={12} sm={12} lg={6}>
+      <Grid item md={3} xs={12} sm={12} lg={5}>
         {isClicked && (
           <FormComponent
             bus={location?.state?.id}

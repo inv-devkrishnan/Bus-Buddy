@@ -87,6 +87,7 @@ def send_email_for(bookings_under_trip, trip):
 
 def send_mail_to_bookings_under_the_trip():
     """Function to send mail to all the bookings in a trip 2 days prior"""
+    print("in reminder mail send batch!!!!")
     try:
         active_trips = Trip.objects.filter(status=0)
         current_date = date.today()

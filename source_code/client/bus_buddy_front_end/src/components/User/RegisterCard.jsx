@@ -32,25 +32,29 @@ export default function RegisterCard() {
           Swal.fire("Success!", "Registered successfully!", "success");
           actions.resetForm();
         } else {
+          Swal.close();
           console.log(res);
         }
       })
       .catch((err) => {
-        Swal.close();
         console.log(err);
-        if (err.response?.data?.email && err.response?.data?.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone are already registered",
-          });
+        let message;
+
+        if (err.response?.data?.email) {
+          message = "Email is already registered";
+        } else if (err.response?.data?.phone) {
+          message = "Phone number is already registered";
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-          });
+          message = "Something went wrong!";
         }
+
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: message,
+        });
       });
   };
 
@@ -70,7 +74,7 @@ export default function RegisterCard() {
         className="d-grid gap-1 gap-md-2 gap-lg-3 gap-xl-3 p-4 p-3 mt-4 mb-3 bg-body rounded"
         style={{ width: "80%", height: "35rem", overflowY: "scroll" }}
       >
-        <Card.Title>
+        <Card.Title className="d-flex justify-content-center align-items-center">
           Sign Up <ShieldLockFill color="cornflowerblue" />
         </Card.Title>
         <Card.Body>

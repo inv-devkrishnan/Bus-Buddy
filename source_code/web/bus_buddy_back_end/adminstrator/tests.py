@@ -30,9 +30,11 @@ class BaseTest(TestCase):
         self.admin_list_unapproved_users = f"{reverse('list_users')}?status=3"
         self.admin_list_unban_users = f"{reverse('list_users')}?status=0"
         self.admin_search_user = f"{reverse('list_users')}?keyword=0&type=0"
-        self.admin_search_bus_owner = f"{reverse('list_users')}?keyword=0&type=1"
+        self.admin_search_bus_owner = f"{reverse('list_users')}?keyword=0"
         self.admin_invalid_search = f"{reverse('list_users')}?keyword=0"
-        self.admin_list_invalid_query_param = f"{reverse('list_users')}?status=34"
+        self.admin_list_invalid_status = f"{reverse('list_users')}?status=34"
+        self.admin_list_invalid_role = f"{reverse('list_users')}?role=5"
+        self.admin_list_valid_role = f"{reverse('list_users')}?role=3"
         self.admin_view_complaints = reverse("view_complaints")
         self.admin_view_complaints_responded_param = (
             f"{reverse('view_complaints')}?status=1"
@@ -264,7 +266,7 @@ class ListUsersTest(BaseTest):
             self.admin_list_user_invalid,
             format="json",
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
     def test_10_can_list_users_default_order(self):
         response = self.client.get(
@@ -272,6 +274,27 @@ class ListUsersTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_11_can_list_users_valid_role(self):
+        response = self.client.get(
+            self.admin_list_valid_role,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_12_can_list_users_invalid_role(self):
+        response = self.client.get(
+            self.admin_list_invalid_role,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_13_can_list_users_invalid_status(self):
+        response = self.client.get(
+            self.admin_list_invalid_status,
+            format="json",
+        )
+        self.assertEqual(response.status_code, 400)
 
 
 class BanUserTest(BaseTest):
@@ -407,7 +430,7 @@ class BanUserTest(BaseTest):
             format="json",
         )
         self.assertEqual(response.status_code, 200)
-        
+
     def test_09_cant_unban_admin(self):
         self.user = User.objects.create_user(
             email="dummy35@gmail.com",
@@ -423,7 +446,7 @@ class BanUserTest(BaseTest):
             unban_user_url,
             format="json",
         )
-        self.assertEqual(response.status_code, 400)    
+        self.assertEqual(response.status_code, 400)
 
 
 class BusOwnerApprovalTest(BaseTest):
@@ -630,7 +653,7 @@ class CreateCouponTest(BaseTest):
         }
         response = self.client.post(url, data=data, format="json")
         self.assertEqual(response.status_code, 200)
-        
+
     def test_07_cant_create_coupon_invalid_data_nobusowner(self):
         url = reverse("create_coupon")
         data = {
@@ -644,6 +667,7 @@ class CreateCouponTest(BaseTest):
         }
         response = self.client.post(url, data=data, format="json")
         self.assertEqual(response.status_code, 200)
+
     def test_08_cant_create_coupon_invalid_data_notrip(self):
         url = reverse("create_coupon")
         data = {
@@ -656,7 +680,7 @@ class CreateCouponTest(BaseTest):
             "discount": 2,
         }
         response = self.client.post(url, data=data, format="json")
-        self.assertEqual(response.status_code, 200)     
+        self.assertEqual(response.status_code, 200)
 
 
 class ViewCouponTest(BaseTest):

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,11 +8,13 @@ import { OwnerUpdationSchema } from "./OwmerUpdationSchema";
 import { axiosApi } from "../utils/axiosApi";
 import Swal from "sweetalert2";
 import EmailVerification from "./common/EmailVerification";
+import { UserContext } from "./User/UserContext";
 
 export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [updateValues, setUpdateValues] = useState([]);
+  const { updateFirstName } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -64,6 +66,8 @@ export default function OwnerUpdateForm() {
   }, [currentUserData]);
 
   const onSubmit = (values) => {
+    updateFirstName(values.first_name);
+
     const data = {
       first_name: values.firstName,
       last_name: values.lastName,

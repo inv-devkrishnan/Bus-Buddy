@@ -148,7 +148,7 @@ class RegisterUser(APIView):
                 return Response({"message": "registration successfull"}, status=201)
             else:
                 logger.info(serialized_data.errors)
-                return Response(serialized_data.errors, status=200)
+                return Response(serialized_data.errors, status=400)
         except Exception as e:
             logger.info(e)
             return Response("errors:" f"{e}", status=400)
@@ -562,9 +562,9 @@ class BookSeat(APIView):
                     template = render_template(templates_folder, template_file, context)
 
                     subject = "Booking Confirmation - Bus Buddy"
-                    message = (
-                        message
-                    ) = f"Dear {request.user.first_name},\n\nThank you for choosing Bus Buddy for your travel needs! We're excited to confirm your booking with booking ID: {request_data['booking_id']} has been successful.\n\nYour ticket is attached to this email. Please ensure you have it with you during your journey. If you have any questions or need further assistance, feel free to reach out to us.\n\nSafe travels, and thank you for using Bus Buddy!\n\nBest regards,\nBus Buddy Team"
+                    message = message = (
+                        f"Dear {request.user.first_name},\n\nThank you for choosing Bus Buddy for your travel needs! We're excited to confirm your booking with booking ID: {request_data['booking_id']} has been successful.\n\nYour ticket is attached to this email. Please ensure you have it with you during your journey. If you have any questions or need further assistance, feel free to reach out to us.\n\nSafe travels, and thank you for using Bus Buddy!\n\nBest regards,\nBus Buddy Team"
+                    )
 
                     recipient_list = [request.user.email]
                     pdf_content = convert_template_to_pdf(template)
@@ -1118,7 +1118,7 @@ class ViewComplaintResponse(ListAPIView):
     permission_classes = (AllowNormalUsersOnly,)
     serializer_class = ListComplaintSerializer
     filter_backends = [OrderingFilter, SearchFilter]
-    search_fields = ["complaint_title", "complaint_body"]
+    search_fields = ["complaint_title"]
     ordering_fields = ["created_date"]
 
     def list(self, request):
@@ -1316,10 +1316,15 @@ class ViewReviewsByTrip(ListAPIView):
         bus_owner_id = request.GET.get("user_id")
         if bus_owner_id:
             if self.validate_user_id(bus_owner_id):
-                queryset = UserReview.objects.filter(review_for_id=bus_owner_id).order_by("-created_date")
+                queryset = UserReview.objects.filter(
+                    review_for_id=bus_owner_id
+                ).order_by("-created_date")
                 page = self.paginate_queryset(queryset)
                 serialized_data = ListReviewsByBusownerSerializer(page, many=True)
-                logger.info("review list returned total items : "+ str(self.paginator.page.paginator.count))
+                logger.info(
+                    "review list returned total items : "
+                    + str(self.paginator.page.paginator.count)
+                )
                 return Response(
                     {
                         "reviews": serialized_data.data,
@@ -1340,6 +1345,9 @@ class ViewReviewsByTrip(ListAPIView):
         else:
             logger.warn("query params not provided")
             return Response(
-                {"error_message": "query param not provided (user_id)", "error_code": "D1005"},
+                {
+                    "error_message": "query param not provided (user_id)",
+                    "error_code": "D1005",
+                },
                 status=400,
             )

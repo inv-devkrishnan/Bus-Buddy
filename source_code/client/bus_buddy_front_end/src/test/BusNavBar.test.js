@@ -3,24 +3,28 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter } from "react-router-dom";
 import BusNavBar from "../components/common/navbar/BusNavBar";
-
+import { UserContextProvider } from "../components/User/UserContext";
 const renderwithUser = (userName, userRole) => {
   localStorage.setItem("user_role", userRole);
   localStorage.setItem("user_name", userName);
   render(
-    <BrowserRouter>
-      <BusNavBar />
-    </BrowserRouter>
+    <UserContextProvider>
+      <BrowserRouter>
+        <BusNavBar />
+      </BrowserRouter>
+    </UserContextProvider>
   );
-  fireEvent.click(screen.getByText("Hello "+userName));
+  fireEvent.click(screen.getByText("Hello " + userName));
   fireEvent.click(screen.getByText("View Profile"));
 };
 describe("BusNavBar", () => {
   test("renders BusNavBar component with guest user", () => {
     render(
-      <BrowserRouter>
-        <BusNavBar />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <BusNavBar />
+        </BrowserRouter>
+      </UserContextProvider>
     );
     fireEvent.click(screen.getByText("Hello Guest"));
     fireEvent.click(screen.getByText("Login"));
@@ -30,15 +34,31 @@ describe("BusNavBar", () => {
 
   test('clicking on "Search Trips" link navigates to the correct page', () => {
     render(
-      <BrowserRouter>
-        <BusNavBar />
-      </BrowserRouter>
+      <UserContextProvider>
+        <BrowserRouter>
+          <BusNavBar />
+        </BrowserRouter>
+      </UserContextProvider>
     );
+
+    
 
     // Click on the "Search Trips" link
     fireEvent.click(screen.getByText("Search Trips"));
 
     // Check if the navigation occurred correctly
+  });
+
+  test('user with large name', () => {
+    localStorage.setItem("user_role", "2");
+    localStorage.setItem("user_name", "fdsfhdsfldshfdkjhskhfjfkdhsfjhdsfkdjsfhdjshfdkashfdjshfdasfkjdhfdsjafhdskjfhdsjfhdsfjkfdsfds");
+    render(
+      <UserContextProvider>
+        <BrowserRouter>
+          <BusNavBar />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
   });
 
   test("navbar as admin", () => {
