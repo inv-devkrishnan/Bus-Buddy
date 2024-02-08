@@ -35,7 +35,6 @@ function UserSleeper(props) {
           break;
         } else {
           console.log(seat);
-          break;
         }
       }
     } else {

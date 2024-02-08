@@ -63,7 +63,7 @@ export default function ComplaintResponse(props) {
       <div className="d-flex justify-content-end">
         <InputGroup className="mb-3">
           <Form.Control
-            maxLength={50}
+            maxLength={100}
             placeholder="Enter text"
             name="searchText"
             onChange={handleChange}
@@ -109,7 +109,7 @@ export default function ComplaintResponse(props) {
             ))}
           </>
         ) : (
-          <div className="d-flex m-5">
+          <div className="d-flex justify-content-center align-items-center m-5">
             <ExclamationCircle color="grey" size={90} />
             <div className="m-4">
               {searchQuery.length > 0 ? (

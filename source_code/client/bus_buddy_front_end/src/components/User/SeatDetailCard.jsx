@@ -26,9 +26,10 @@ export default function SeatDetailCard(props) {
       });
       const routeCost = Number(props?.routeCost);
       const gst = Number(props?.gst) || 0;
-      setTotalCost(
-        sumOfCost + routeCost + ((sumOfCost + routeCost) * gst) / 100
-      );
+      const result =
+        sumOfCost + routeCost + ((sumOfCost + routeCost) * gst) / 100;
+      const roundedResult = result.toFixed(2);
+      setTotalCost(parseFloat(roundedResult));
     } else {
       setTotalCost(0);
     }
@@ -66,17 +67,18 @@ export default function SeatDetailCard(props) {
 
   return (
     <>
-      <Card sx={{ width: "90%", margin: 4, padding: 2, boxShadow: 5 }}>
-        <div className="d-flex flex-column flex-lg-row">
-          <div style={{ width: "100%" }}>
+      <Card sx={{width: "68%", margin: 4, padding: 2, boxShadow: 5 }}>
+        <div className="d-flex flex-column">
+          <div>
             <Typography id="modal-modal-title" variant="h5" component="h2">
               Seat Details
             </Typography>
 
             <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
               <Table
-                sx={{ minWidth: 200 }}
+                responsive="md"
                 stickyHeader
+                sx={{ minWidth: "100%" }}
                 aria-label="simple table"
               >
                 <TableHead>

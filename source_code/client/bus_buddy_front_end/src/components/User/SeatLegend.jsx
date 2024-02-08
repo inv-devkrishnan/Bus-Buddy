@@ -26,7 +26,7 @@ function SeatLegend() {
         <img src={MaleSleeper} alt="sleeper" draggable="false"></img>
         <p>Booked by Male</p>
       </div>
-      <div className="d-flex align-items-center flex-sm-row flex-md-row">
+      <div className="d-flex align-items-start flex-sm-row flex-md-row">
         <img src={FemaleSleeper} alt="sleeper" draggable="false"></img>
         <p>Booked by Female</p>
       </div>

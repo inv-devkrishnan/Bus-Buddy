@@ -35,7 +35,7 @@ export default function FullSleeperLayout(props) {
             <Grid container>
               <Grid item xs={9}></Grid>
               <Grid item xs={3}>
-                <img src={driver} alt="driver" />
+                <img src={driver} alt="driver" draggable={false} />
               </Grid>
             </Grid>
             <FullSleeperLayer row={1} />
