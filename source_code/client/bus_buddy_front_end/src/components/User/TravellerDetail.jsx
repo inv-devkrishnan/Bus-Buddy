@@ -73,7 +73,7 @@ const TravellerDetail = () => {
       (acc, seat) => {
         acc[seat.id] = Yup.object().shape({
           [`name_${seat.id}`]: Yup.string()
-            .matches(/^[A-Za-z\s.]+$/, "Name must be letters")
+            .matches(/^[A-Za-z\s.]+$/, "Name must be letters with spaces or dot")
             .trim()
             .required("Name is required"),
           [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),

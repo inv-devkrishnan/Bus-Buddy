@@ -7,18 +7,23 @@ import { axiosApi } from "../../utils/axiosApi";
 
 export default function UserComplaint() {
   const [complaintData, setComplaintData] = useState([]);
+  const [curentPage, setCurentPage] = useState(0); // for storing current page data
+  const [totalPages, setTotalPages] = useState(0); // for finding total number of pages
 
   const handleTabSelect = (key) => {
     if (key === "response") {
       axiosApi
         .get("user/list-complaints/", {
           params: {
+            page: 1,
             ordering: "",
             search: "",
           },
         })
         .then((res) => {
-          setComplaintData(res.data);
+          setComplaintData(res.data.results);
+          setCurentPage(res.data.current_page_number);
+          setTotalPages(res.data.total_pages);
         })
         .catch((err) => {
           console.log(err.response);
@@ -45,6 +50,10 @@ export default function UserComplaint() {
           <ComplaintResponse
             complaintData={complaintData}
             setComplaintData={setComplaintData}
+            curentPage={curentPage}
+            setCurentPage={setCurentPage}
+            totalPages={totalPages}
+            setTotalPages={setTotalPages}
           />
         </Tab>
       </Tabs>

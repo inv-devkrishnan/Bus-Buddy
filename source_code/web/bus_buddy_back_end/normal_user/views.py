@@ -1117,6 +1117,7 @@ class ViewComplaintResponse(ListAPIView):
 
     permission_classes = (AllowNormalUsersOnly,)
     serializer_class = ListComplaintSerializer
+    pagination_class = CustomPagination
     filter_backends = [OrderingFilter, SearchFilter]
     search_fields = ["complaint_title"]
     ordering_fields = ["created_date"]
@@ -1127,10 +1128,15 @@ class ViewComplaintResponse(ListAPIView):
             queryset = UserComplaints.objects.filter(user_id=user_id)
 
             queryset = self.filter_queryset(queryset)
+            page = self.paginate_queryset(queryset)
+
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
             serializer = self.get_serializer(queryset, many=True)
             logger.info(serializer.data, "complaint history")
-            return Response(serializer.data, status=200)
+            return Response(serializer.data)
 
         except Exception as e:
             logger.error(str(e))

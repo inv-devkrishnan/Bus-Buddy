@@ -33,13 +33,27 @@ describe("ComplaintResponse component", () => {
     ];
     mock.onGet(`user/list-complaints/?ordering=&&search=`).reply(200, data);
     render(
-      <ComplaintResponse complaintData={[]} setComplaintData={jest.fn()} />
+      <ComplaintResponse
+        complaintData={[]}
+        setComplaintData={jest.fn()}
+        curentPage={1}
+        setCurentPage={jest.fn()}
+        totalPages={1}
+        setTotalPages={jest.fn()}
+      />
     );
   });
 
   it("search and sort onclick", () => {
     render(
-      <ComplaintResponse complaintData={[]} setComplaintData={jest.fn()} />
+      <ComplaintResponse
+        complaintData={[]}
+        setComplaintData={jest.fn()}
+        curentPage={1}
+        setCurentPage={jest.fn()}
+        totalPages={1}
+        setTotalPages={jest.fn()}
+      />
     );
     const searchField = screen.getByPlaceholderText("Enter text");
     fireEvent.change(searchField, { target: { value: "adghgj" } });
