@@ -14,7 +14,7 @@ class Bookings(models.Model):
         PickAndDrop, on_delete=models.CASCADE, null=False, related_name="drop_off_id"
     )
     status = models.SmallIntegerField(default=0, null=False)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=3)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     booking_id = models.CharField(max_length=255, null=False, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, null=False)
     updated_date = models.DateTimeField(auto_now=True, null=False)

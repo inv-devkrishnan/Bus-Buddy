@@ -14,7 +14,8 @@ export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [updateValues, setUpdateValues] = useState([]);
-  const { updateFirstName } = useContext(UserContext)
+  const { updateFirstName } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const UpdateOwner = (values) => {
@@ -66,6 +67,8 @@ export default function OwnerUpdateForm() {
   }, [currentUserData]);
 
   const onSubmit = (values) => {
+    updateFirstName(values.first_name);
+
     const data = {
       first_name: values.firstName,
       last_name: values.lastName,

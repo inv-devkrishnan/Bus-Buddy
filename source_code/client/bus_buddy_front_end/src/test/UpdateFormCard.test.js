@@ -1,6 +1,10 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import { BrowserRouter } from "react-router-dom";
+import { SeatContextProvider } from "../utils/SeatContext";
+import { AddSeatContextProvider } from "../utils/AddSeatContext";
+import { UserContextProvider } from "../components/User/UserContext";
 import UpdateForm from "../components/User/UpdateFormCard";
 import { axiosApi } from "../utils/axiosApi";
 import MockAdapter from "axios-mock-adapter";
@@ -17,7 +21,17 @@ afterEach(() => {
 
 describe("RegisterUser component", () => {
   it("renders card", () => {
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const clearButton = screen.getByText("Cancel");
     fireEvent.click(clearButton);
@@ -32,7 +46,17 @@ describe("RegisterUser component", () => {
     };
     mock.onGet("user/update-profile").reply(400, data);
 
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
   });
 
   it("form submit get data put error", async () => {
@@ -44,9 +68,19 @@ describe("RegisterUser component", () => {
     };
     mock.onGet("user/update-profile").reply(200, data);
 
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
-    await new Promise((resolve) => setTimeout(resolve, 2000)); 
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
 
@@ -76,7 +110,17 @@ describe("RegisterUser component", () => {
     };
     mock.onGet("user/update-profile").reply(200, data);
 
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
 
@@ -110,7 +154,17 @@ describe("RegisterUser component", () => {
     };
     mock.onGet("user/update-profile").reply(200, data);
 
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 2000)); // to load locations
 
@@ -144,7 +198,17 @@ describe("RegisterUser component", () => {
     };
     mock.onGet("user/update-profile").reply(200, data);
 
-    render(<UpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <UpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });

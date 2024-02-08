@@ -3,15 +3,13 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardText from "react-bootstrap/esm/CardText";
-import { Image, Placeholder } from "react-bootstrap";
+import { Placeholder } from "react-bootstrap";
 
 import { axiosApi } from "../../utils/axiosApi";
-import UpdateImage from "../../assets/update.png";
-import ProfileImage from "../../assets/profile.png";
 import ChangePassword from "../../pages/ChangePassword";
 import UpdateFormCard from "./UpdateFormCard";
 
-export default function UserProfilePage(props) {
+export default function UserProfilePage() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [myProfileView, setMyProfileView] = useState(true);
   const [changePasswordView, setChangePasswordView] = useState(false);
@@ -56,34 +54,7 @@ export default function UserProfilePage(props) {
 
   useEffect(() => {
     fetchUserData();
-  }, [props]);
-
-  const updateUserName = () => {
-    props.setUserName(
-      `${
-        currentUserData["first_name"] +
-        " " +
-        (currentUserData["last_name"] ? currentUserData["last_name"] : "")
-      }`
-    );
-  };
-
-  useEffect(() => {
-    if (!isProfileLoading) {
-      updateUserName();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserData, isProfileLoading]);
-
-  let imageUrl;
-
-  if (changePasswordView) {
-    imageUrl = "";
-  } else if (updateProfileView) {
-    imageUrl = UpdateImage;
-  } else {
-    imageUrl = ProfileImage;
-  }
+  }, []);
 
   return (
     <>
@@ -218,13 +189,6 @@ export default function UserProfilePage(props) {
           <Button onClick={myProfileViewSelected}>Back</Button>
         </div>
       )}
-      <div>
-        <Image
-          src={imageUrl}
-          className="d-none d-md-block d-sm-block"
-          style={{ position: "absolute", bottom: 0, right: 0, width: "15%" }}
-        />
-      </div>
     </>
   );
 }

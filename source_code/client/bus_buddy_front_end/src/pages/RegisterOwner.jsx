@@ -10,6 +10,7 @@ export default function RegisterOwner() {
         src={RegisterImage}
         alt="register user"
         fluid
+        draggable={false}
         style={{ width: "40%", height: "auto" }}
       />
       <OwnerRegisterCard />

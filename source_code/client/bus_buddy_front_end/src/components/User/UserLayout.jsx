@@ -40,7 +40,7 @@ export default function UserLayout(props) {
             <Grid container>
               <Grid item xs={9}></Grid>
               <Grid item xs={3}>
-                <img src={driver} alt="driver" />
+                <img src={driver} draggable={false} alt="driver" />
               </Grid>
             </Grid>
             <br />

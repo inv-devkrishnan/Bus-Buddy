@@ -8,6 +8,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Form from "react-bootstrap/Form";
 import FormLabel from "react-bootstrap/FormLabel";
 import { ExclamationCircle } from "react-bootstrap-icons";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { axiosApi } from "../../utils/axiosApi";
@@ -16,6 +17,8 @@ import { showLoadingAlert } from "../common/loading_alert/LoadingAlert";
 import Rating from "@mui/material/Rating";
 import RefundPolicy from "../common/refund_policy_table/RefundPolicy";
 import CustomPaginator from "../common/paginator/CustomPaginator";
+import truncateText from "../../utils/truncateText";
+import { Typography } from "@mui/material";
 
 export default function UserBookingHistory() {
   const [bookingData, setBookingData] = useState([]); // for storing booking data
@@ -173,6 +176,24 @@ export default function UserBookingHistory() {
       });
   };
 
+  const withTooltip = (
+    WrappedComponent,
+    tooltipText,
+    truncateLength,
+    componentProps
+  ) => {
+    return (
+      <OverlayTrigger
+        placement="bottom"
+        overlay={<Tooltip id="tooltip">{tooltipText}</Tooltip>}
+      >
+        <WrappedComponent {...componentProps}>
+          {truncateText(tooltipText, truncateLength)}
+        </WrappedComponent>
+      </OverlayTrigger>
+    );
+  };
+
   return (
     <>
       <div className="d-flex flex-column p-2 bd-highlight">
@@ -282,12 +303,16 @@ export default function UserBookingHistory() {
                       ))}
                     </>
                   ) : (
-                    <div className="d-flex m-5">
-                      <ExclamationCircle color="grey" size={90} />
-                      <div className="m-3">
-                        <h3>No booking data Found !!</h3>
-                      </div>
-                    </div>
+                    <tr>
+                      <td colSpan="6" className="text-center">
+                        <div className="d-flex justify-content-center align-items-center m-5">
+                          <ExclamationCircle color="grey" size={90} />
+                          <div className="m-3">
+                            <h3>No booking data Found !!</h3>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                   )}
                 </>
               )}
@@ -352,21 +377,23 @@ export default function UserBookingHistory() {
               <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
               <p>
                 From:{" "}
-                <strong>
-                  {
-                    modalData?.pick_up?.start_stop_location?.location
-                      ?.location_name
-                  }
-                </strong>
+                {withTooltip(
+                  Typography,
+                  modalData?.pick_up?.start_stop_location?.location
+                    ?.location_name,
+                  10,
+                  { style: { fontWeight: "bold" }, component: "span" }
+                )}
               </p>
               <p>
                 To:{" "}
-                <strong>
-                  {
-                    modalData?.drop_off?.start_stop_location?.location
-                      ?.location_name
-                  }
-                </strong>
+                {withTooltip(
+                  Typography,
+                  modalData?.drop_off?.start_stop_location?.location
+                    ?.location_name,
+                  10,
+                  { style: { fontWeight: "bold" }, component: "span" }
+                )}
               </p>
               <p>
                 Departure Date:{" "}
@@ -383,7 +410,11 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Pick up point: <strong>{modalData?.pick_up?.bus_stop}</strong>
+                Pick up point:{" "}
+                {withTooltip(Typography, modalData?.pick_up?.bus_stop, 10, {
+                  style: { fontWeight: "bold" },
+                  component: "span",
+                })}
                 <br />
                 Pick up time:{" "}
                 <strong>
@@ -391,7 +422,11 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Drop off point: <strong>{modalData?.drop_off?.bus_stop}</strong>
+                Drop off point:{" "}
+                {withTooltip(Typography, modalData?.drop_off?.bus_stop, 10, {
+                  style: { fontWeight: "bold" },
+                  component: "span",
+                })}
                 <br />
                 Drop off time:{" "}
                 <strong>
@@ -402,7 +437,11 @@ export default function UserBookingHistory() {
             <div className="m-2">
               <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
               <p>
-                Bus Name: <strong>{modalData?.trip?.bus?.bus_name}</strong>
+                Bus Name:{" "}
+                {withTooltip(Typography, modalData?.trip?.bus?.bus_name, 10, {
+                  style: { fontWeight: "bold" },
+                  component: "span",
+                })}
               </p>
               <p>
                 Bus Plate Number:{" "}
@@ -426,7 +465,17 @@ export default function UserBookingHistory() {
                 <tbody>
                   {modalData?.booked_seats?.map((passenger) => (
                     <tr key={passenger?.id}>
-                      <td>{passenger?.traveller_name}</td>
+                      <td>
+                        {withTooltip(
+                          Typography,
+                          passenger?.traveller_name,
+                          10,
+                          {
+                            style: { fontWeight: "bold" },
+                            component: "span",
+                          }
+                        )}
+                      </td>
                       <td>
                         {passenger?.traveller_gender === 1 ? "Male" : "Female"}
                       </td>

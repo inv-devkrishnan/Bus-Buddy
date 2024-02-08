@@ -20,6 +20,7 @@ from .token import generate_token, generate_jwt_token
 from .google_auth import Google
 from bus_buddy_back_end.email import send_email_with_template
 from dotenv import load_dotenv
+from urllib.parse import unquote
 
 load_dotenv("busbuddy_api.env")
 
@@ -278,7 +279,10 @@ class VerifyOTP(UpdateAPIView):
 
     def get(self, request):
         try:
-            instance = EmailAndOTP.objects.get(email=request.GET.get("email"))
+            encoded_email = request.GET.get('email')
+            decoded_email = encoded_email.replace(' ', '+')
+            print(decoded_email)
+            instance = EmailAndOTP.objects.get(email=decoded_email)
             if str(instance.otp).zfill(6) == str(request.GET.get("otp")):
                 data = {"otp": None, "status": 1}
                 serialized_data = EmailOtpUpdateSerializer(

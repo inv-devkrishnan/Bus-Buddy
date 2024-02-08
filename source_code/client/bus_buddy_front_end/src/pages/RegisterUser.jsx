@@ -8,7 +8,13 @@ export default function RegisterUser() {
     <Container fluid>
       <Row>
         <Col lg={6} md={4} sm={12}>
-          <Image src={RegisterImage} alt="register user" width="80%" />
+          <Image
+            draggable={false}
+            src={RegisterImage}
+            alt="register user"
+            width="80%"
+            fluid
+          />
         </Col>
         <Col lg={6} md={8} sm={12} className="p-0">
           <RegisterCard />

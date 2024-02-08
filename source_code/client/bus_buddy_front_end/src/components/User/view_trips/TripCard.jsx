@@ -165,9 +165,9 @@ function TripCard(props) {
                     >
                       <div>
                         <div className="d-flex justify-content-center">
-                        <ArrowRight className="rotate-arrow" size={24} />
+                          <ArrowRight className="rotate-arrow" size={24} />
                         </div>
-                        
+
                         <OverlayTrigger
                           placement="bottom"
                           overlay={
@@ -190,7 +190,18 @@ function TripCard(props) {
                       </div>
                     </Col>
                     <Col xs={12} md={3} className="center-fare">
-                      <h6>Fare Starts from : ₹ {props?.data?.travel_fare}</h6>
+                      <Container className="m-0 p-0">
+                        <Row>
+                          <Col>
+                            <h6 className="text-center">
+                              Fare Starts from : ₹ {props?.data?.travel_fare}
+                            </h6>
+                            <h6 className="text-center">
+                              Available Seats : {props?.data?.available_seats}
+                            </h6>
+                          </Col>
+                        </Row>
+                      </Container>
                     </Col>
                   </Row>
                   <Row className="mt-3 d-flex justify-content-center">
@@ -243,7 +254,7 @@ function TripCard(props) {
               </CardBody>
               <Modal show={showAmenites} onHide={handleAmenitiesClose} centered>
                 <Modal.Header closeButton>
-                  <Modal.Title>Bus Amenties</Modal.Title>
+                  <Modal.Title>Bus Amenities</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <ListGroup>
