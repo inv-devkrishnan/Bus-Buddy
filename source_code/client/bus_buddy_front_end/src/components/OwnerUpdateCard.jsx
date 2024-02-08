@@ -24,6 +24,7 @@ export default function OwnerUpdateForm() {
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
+          updateFirstName(values.first_name)
           navigate("/BusHome");
         } else {
           console.log(res);
@@ -114,7 +115,7 @@ export default function OwnerUpdateForm() {
 
   return (
     <>
-      <Card style={{ width: "50rem" }}>
+      <Card style={{ width: "50%" }}>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

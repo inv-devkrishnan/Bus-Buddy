@@ -16,7 +16,7 @@ export default function Updatebus() {
   const bus = location.state;
   const navi = useNavigate();
   const [currentBusData, setCurrentBusData] = useState([]);
-
+  const [plateNoError,setPlateNoError] = useState("")
 
   useEffect(() => {
     axiosApi
@@ -32,6 +32,8 @@ export default function Updatebus() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  
+
   useEffect(() => {
     formik.setValues({
       id: currentBusData["id"],
@@ -45,6 +47,7 @@ export default function Updatebus() {
   }, [currentBusData]);
 
   const onSubmit = async () => {
+    setPlateNoError("");
     try {
       const response = await axiosApi.put(`bus-owner/update-bus/${bus}/`, {
         bus_name:formik.values.busName,
@@ -63,14 +66,25 @@ export default function Updatebus() {
           text: "Bus Updated ",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/ViewBus");
     } catch (error) {
-      console.error("Error updating:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error Updating Bus",
-      });
+      if (error?.response?.data?.plate_no?.[0] === "Plate no already exist") {
+        setPlateNoError("Plate number already exists");
+      }
+      else if(error?.response?.data ==="Bus has Bookings"){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Updating Bus as it has bookings",
+        });
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Updating Bus",
+        });
+      }
     }
   };
   const formik = useFormik({
@@ -133,6 +147,7 @@ export default function Updatebus() {
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.plateno}
                   </Form.Control.Feedback>
+                  {plateNoError && <div style={{ color: 'red',fontSize:"11px"}}>{plateNoError}</div>}
                 </Form.Group>
 
                 <Form.Group as={Col} md="4" >

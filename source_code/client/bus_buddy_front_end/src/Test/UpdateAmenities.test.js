@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render,screen, } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
 import UpdateAmenities from "../components/BusOwnerUi/MyBuses/UpdateAmenities"
@@ -22,8 +22,9 @@ jest.mock("react-router-dom", () => ({
 }));
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
   useLocation: jest.fn().mockReturnValue({
-    pathname: "../components/BusOwnerUi/MyBuses/ViewBus.jsx",
+    state:9, // Add the state object with the id property
   }),
 }));
 
@@ -44,6 +45,33 @@ describe("update Amenities component", () => {
       "cctv": 0
   }
   mock.onGet(`bus-owner/update-amenities/${9}/`).reply(200, data);
+  mock.onPut(`bus-owner/update-amenities/${9}/`).reply(200, data);
+    render(
+        <MemoryRouter>
+          <UpdateAmenities />
+        </MemoryRouter>
+      );
+      const update = screen.getByText("Update Amenitie");
+      fireEvent.click(update)
+  
+  });
+
+  it("renders component get fail", () => {
+    const data = {
+      "bus": 9,
+      "emergency_no": 0,
+      "water_bottle": 1,
+      "charging_point": 0,
+      "usb_port": 0,
+      "blankets": 1,
+      "pillows": 0,
+      "reading_light": 0,
+      "toilet": 0,
+      "snacks": 0,
+      "tour_guide": 0,
+      "cctv": 0
+  }
+  mock.onGet(`bus-owner/update-amenities/${405}/`).reply(200, data);
     render(
         <MemoryRouter>
           <UpdateAmenities />

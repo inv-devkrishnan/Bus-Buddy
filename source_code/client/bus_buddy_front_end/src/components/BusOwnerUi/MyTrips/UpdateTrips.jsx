@@ -20,6 +20,8 @@ export default function Updatetrips() {
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
   const [currentTripData, setCurrentTripData] = useState([]);
+  const [startDateError, setStartDateError] = useState("");
+  const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
   
 
@@ -54,16 +56,25 @@ export default function Updatetrips() {
           text: "trip Updated successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/view-trips");
     } catch (error) {
-      console.error("Error updating:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error updating trip",
-      });
+      console.error("Error updating:",  error?.response?.data);
+      const errorMessage = error?.response?.data;
+      if (errorMessage === "The trip has bookings") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The trip has Bookings",
+        });
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error Updating Bus",
+        });
     }
-  };
+  }};
   const formik = useFormik({
     initialValues: {
       busName: "",
@@ -82,7 +93,20 @@ console.log(formik.errors);
     if (formik.values.startdate && formik.values.enddate) {
       const start = new Date(formik.values.startdate).toISOString().split("T")[0];
       const end = new Date(formik.values.enddate).toISOString().split("T")[0];
-     
+      if (!start ) {
+        setStartDateError(
+          "Start date should be present date or in the future and in the range of the period"
+        );
+      } else {
+        setStartDateError("");
+      }
+      if (!end || end < start) {
+        setEndDateError(
+          "End date should be the same as the start date or a future date within the period"
+        );
+      } else {
+        setEndDateError("");
+      }
   
       axiosApi
         .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -97,7 +121,7 @@ console.log(formik.errors);
   useEffect(() => {
     // Fetch Bus data without date filtering
     axiosApi
-      .get(`bus-owner/view-bus/`)
+      .get(`bus-owner/get-valid-bus/`)
       .then((response) => {
         setBusData(response.data.results);
       })
@@ -146,24 +170,24 @@ console.log(formik.errors);
       style={{
         display: "flex",
         justifyContent: "center",
-        marginRight: "5rem",
-        paddingTop: "5rem",
+        marginRight: "5%",
+        paddingTop: "5%",
       }}
     >
       <Card
         style={{
-          width: "35rem",
-          height: "30rem",
-          paddingTop: "3rem",
+          width: "40%",
+          height: "30%",
+          paddingTop: "3%",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
         }}
       >
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Update Trip</Card.Title>
           <div style={{ display: "flex" }}>
-            <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5rem" }}>
+            <Form onSubmit={formik.handleSubmit} style={{ paddingTop: "1.5%" }}>
               <Row className="mb-5">
-                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                <Form.Group as={Col} md="6" >
                   <Form.Label htmlFor="startDate">Start Date:</Form.Label>
                   <DatePicker
                     selected={formik.values.startdate}
@@ -177,9 +201,15 @@ console.log(formik.errors);
                     name="startDate"
                     id="startDate"
                     data-testid="start-date"
+                    required
                   />
+                  {startDateError && (
+                    <div style={{ color: "red", fontSize: "11px" }}>
+                      {startDateError}
+                    </div>
+                  )}
                 </Form.Group>
-                <Form.Group as={Col} md="6" controlId="validationCustom04">
+                <Form.Group as={Col} md="6" >
                   <Form.Label htmlFor="endDate">End Date :</Form.Label>
                   <DatePicker
                     selected={formik.values.enddate}
@@ -192,13 +222,19 @@ console.log(formik.errors);
                     maxDate={addMonths(new Date(), 6)}
                     name = "endDate"
                     id= "endDate"
+                    required
                   />
+                  {endDateError && (
+                    <div style={{ color: "red", fontSize: "11px" }}>
+                      {endDateError}
+                    </div>
+                  )}
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
                   <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>search</Button>
                 </div>
                 <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the new dates you have entered<br/>Please Select the bus once again if you have changed the dates</p>
-                <Form.Group as={Col} md="6" controlId="validationCustom01">
+                <Form.Group as={Col} md="6">
                   <Form.Label>Bus Name</Form.Label>
                   <Form.Control
                     name="busName"
@@ -206,6 +242,7 @@ console.log(formik.errors);
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
                     data-testid="bus-select"
+                    required
                     isInvalid={formik.touched.busName && formik.errors.busName}
                   >Bus must be a positive number
                     <option value="">Selected Option</option>
@@ -227,6 +264,7 @@ console.log(formik.errors);
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
                     data-testid = "route-select"
+                    required
                     isInvalid={formik.touched.routeName && formik.errors.routeName}
                   >
                     <option value="">Selected Option</option>
@@ -241,7 +279,7 @@ console.log(formik.errors);
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
-              <div style={{ paddingTop: "1rem",display:"flex",justifyContent:"center"}}>
+              <div style={{ paddingTop: "1%",display:"flex",justifyContent:"center"}}>
                 <Button type="submit">Update</Button>
               </div>
             </Form>

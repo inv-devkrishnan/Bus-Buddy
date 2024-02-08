@@ -55,6 +55,7 @@ export default function Addtrips() {
       });
     }
   };
+
   const dates = (selectedStartDate, selectedEndDate) => {
     console.log(selectedStartDate);
     const today = new Date();
@@ -97,10 +98,10 @@ export default function Addtrips() {
     }
     callFunction(start, end);
   };
-  console.log(busData);
-  console.log(routeData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const formattedStartDate = selectedStartDate
         ? new Date(
@@ -120,8 +121,23 @@ export default function Addtrips() {
             .split("T")[0]
         : null;
 
+      // Call the custom date validation
+      dates(selectedStartDate, selectedEndDate);
+
+      // Check for errors from the custom validation
+      if (startDateError || endDateError) {
+        // Display an error message using Swal if there are errors
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Invalid dates. Please check your selected dates.",
+        });
+        return; // Stop execution if there are errors
+      }
+
+      // Proceed with the API call if there are no errors
       callApi(formattedStartDate, formattedEndDate);
-      navi("/BusHome");
+      navi("/BusHome/view-trips");
     } catch (error) {
       console.error("Error adding Trip:", error);
       Swal.fire({
@@ -135,25 +151,24 @@ export default function Addtrips() {
   return (
     <div
       style={{
-        marginRight: "5rem",
-        paddingTop: "2.5rem",
+        marginRight: "5%",
+        paddingTop: "2.5%",
         display: "flex",
         justifyContent: "center",
       }}
     >
       <Card
         style={{
-          paddingTop: "3rem",
+          paddingTop: "3%",
           boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
-          
-          width: "35rem",
-          height: "28rem",
+          width: "40%",
+          height: "28%",
         }}
       >
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Trip</Card.Title>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5rem" }}>
+            <Form onSubmit={handleSubmit} style={{ paddingTop: "1.5%" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6">
                   <Form.Label htmlFor="startDate">Start Date :</Form.Label>
@@ -166,6 +181,7 @@ export default function Addtrips() {
                     onChange={(date) => setSelectedStartDate(date)}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
+                    required
                   />
                   {startDateError && (
                     <div style={{ color: "red", fontSize: "11px" }}>
@@ -184,6 +200,7 @@ export default function Addtrips() {
                     maxDate={addMonths(new Date(), 6)}
                     name="endDate"
                     id="endDate"
+                    required
                   />
                   {endDateError && (
                     <div style={{ color: "red", fontSize: "11px" }}>
@@ -216,6 +233,7 @@ export default function Addtrips() {
                       setBus(e.target.value);
                     }}
                     data-testid="bus-select"
+                    required
                   >
                     <option value="">Select option</option>
                     {busData.map((bus) => (
