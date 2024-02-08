@@ -138,7 +138,8 @@ function ComplaintCard(props) {
           View Details
         </Button>
       </div>
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="lg" backdrop="static"
+        keyboard={false}  centered>
         <Modal.Header>
           <Modal.Title style={{ wordWrap: "anywhere" }}>
             {props.complaint.complaint_title}
@@ -151,7 +152,7 @@ function ComplaintCard(props) {
           </OverlayTrigger>
         </Modal.Header>
         <Modal.Body>
-          <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
+          <div style={{ maxHeight: "80vh", overflowY: "scroll" }}>
             <div className="ms-2">{props.complaint.complaint_body}</div>
 
             {props.complaint?.complaint_image && (

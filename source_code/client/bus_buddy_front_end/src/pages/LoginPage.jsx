@@ -344,6 +344,8 @@ function LoginPage() {
       <Modal
         show={showForgotPassword}
         onHide={handleForgotPasswordClose}
+        backdrop="static"
+        keyboard={false}
         centered
       >
         <Modal.Header closeButton>

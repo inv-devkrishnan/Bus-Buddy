@@ -306,7 +306,8 @@ function CouponCard(props) {
             </Col>
           </Row>
         </Container>
-        <Modal show={showCouponDetails} onHide={handleClose} centered>
+        <Modal show={showCouponDetails} onHide={handleClose} centered backdrop="static"
+        keyboard={false}>
           <Modal.Header closeButton>
             <Modal.Title>Coupon Details</Modal.Title>
           </Modal.Header>

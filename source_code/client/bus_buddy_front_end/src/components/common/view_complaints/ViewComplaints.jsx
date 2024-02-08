@@ -308,7 +308,8 @@ function ViewComplaints() {
           )}
         </Col>
       </Row>
-      <Modal show={showFilter} onHide={handleFilterClose}>
+      <Modal show={showFilter} onHide={handleFilterClose}  backdrop="static"
+        keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Filter by Date</Modal.Title>
         </Modal.Header>
