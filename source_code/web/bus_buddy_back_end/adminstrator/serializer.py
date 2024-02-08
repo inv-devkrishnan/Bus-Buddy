@@ -74,6 +74,7 @@ class ListUserSerializer(serializers.ModelSerializer):
             "aadhaar_no",
             "msme_no",
             "status",
+            "extra_charges",
         )
 
 

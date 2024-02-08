@@ -391,6 +391,10 @@ class ViewTrip(APIView):
                     )
                 else:
                     logger.info(data)
+                    seat_count = SeatDetails.objects.filter(bus_id=data.bus_id).count()
+                    booked_seats = BookedSeats.objects.filter(trip_id=data.trip_id,status=2).count()
+                    logger.info("seat count of bus "+str(data.bus_id)+": "+str(seat_count))
+                    logger.info("booked seats of trip "+str(data.trip_id)+": "+str(booked_seats))
                     trip_data = {
                         # stores each trip information
                         "route": data.route_id,
@@ -407,6 +411,7 @@ class ViewTrip(APIView):
                         "company_name": data.company_name,
                         "route_cost": data.route_cost,
                         "gst": data.gst,
+                        "available_seats": (seat_count-booked_seats),
                         "amenities": {
                             "emergency_no": data.emergency_no,
                             "water_bottle": data.water_bottle,

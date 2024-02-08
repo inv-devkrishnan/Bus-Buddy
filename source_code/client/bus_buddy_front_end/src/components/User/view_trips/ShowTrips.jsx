@@ -240,7 +240,7 @@ function ShowTrips(props) {
                 </Col>
               </Row>
               <Row>
-                {trips.length > 0 && (
+                {trips.length > 0 && !isLoading && (
                   <Col
                     className="d-flex justify-content-center"
                   >

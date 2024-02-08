@@ -31,6 +31,29 @@ describe("create coupon", () => {
 
     })
 
+    it("create coupon invalid coupon name and description", async () => {
+        render(
+            <BrowserRouter>
+                <CreateCoupon />
+            </BrowserRouter>
+
+        )
+        userEvent.type(
+            screen.getByPlaceholderText("Coupon Name (maximum 80 characters)"),
+            "   12"
+        );
+        userEvent.type(
+            screen.getByPlaceholderText("Coupon Description (maximum 500 characters)"),
+            "  12"
+        );
+            fireEvent.click(screen.getByText("Create Coupon"));
+            await waitFor(() => {
+                expect(screen.getAllByText('* Minimum 3 alphabetic characters required')[0]).toBeInTheDocument();
+            });
+
+    })
+    
+
     it("create coupon render valid entry", () => {
         render(
             <BrowserRouter>

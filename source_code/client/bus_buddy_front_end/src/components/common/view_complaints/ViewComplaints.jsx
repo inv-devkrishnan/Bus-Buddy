@@ -299,7 +299,7 @@ function ViewComplaints() {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          {!complaintListLoading && (
+          {!complaintListLoading && complaintList.length >0 && (
             <CustomPaginator
               totalPages={totalPages}
               currentPage={currentPage}
