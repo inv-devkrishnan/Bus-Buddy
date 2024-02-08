@@ -9,7 +9,7 @@ import UserBookingHistory from "../components/User/UserBookingHistory";
 import UserComplaint from "../components/User/UserComplaint";
 import ReviewHistory from "../components/User/ReviewHistory";
 
-export default function UserDashboard() {
+export default function UserDashboardReal() {
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
   const [myProfileSelect, setMyProfileSelect] = useState(true);
