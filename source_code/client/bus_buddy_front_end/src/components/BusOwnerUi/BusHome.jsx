@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate,Outlet,useLocation } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth.js";
-import DeleteAccount from "../../pages/DeleteAccount.jsx";
-import ViewBus from "./MyBuses/ViewBus.jsx"
-import ViewRoutes from "./MyRoutes/ViewRoutes.jsx"
-import ViewTrips from "./MyTrips/ViewTrips.jsx"
-import Ownerprofile from "./Ownerprofile.jsx";
 import SideBar from "../common/SideBar.jsx";
 import "aos/dist/aos.css";
-import ViewReviews from "./MyReviews/ViewReviews.jsx";
-import ViewComplaints from "../common/view_complaints/ViewComplaints.jsx";
+;
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -26,59 +20,6 @@ export default function UserDashboard() {
 
 
 
-  const optionSelection = (state, action) => {
-    switch (action.type) {
-      case "profile":
-        return {
-          profile: true,
-          listUser: false,
-          listOwner: false,
-          listComplaint: false,
-          listCoupon: false,
-        };
-      case "listUser":
-        return {
-          profile: false,
-          listUser: true,
-          listOwner: false,
-          listComplaint: false,
-          listCoupon: false,
-        };
-      case "listOwner":
-        return {
-          profile: false,
-          listUser: false,
-          listOwner: true,
-          listComplaint: false,
-          listCoupon: false,
-        };
-      case "listComplaint":
-        return {
-          profile: false,
-          listUser: false,
-          listOwner: false,
-          listComplaint: true,
-          listCoupon: false,
-        };
-      case "listCoupon":
-        return {
-          profile: false,
-          listUser: false,
-          listOwner: false,
-          listComplaint: false,
-          listCoupon: true,
-        };
-      default:
-        return state;
-    }
-  };
-  const initialState = {
-    profile: false,
-    listUser: false,
-    listOwner: false,
-    listComplaint: false,
-    listCoupon: false,
-  };
 
   const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myBusSelect, setMyBusSelect] = useState(false);
