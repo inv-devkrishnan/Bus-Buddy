@@ -8,6 +8,7 @@ function PasswordRequirements()
                 <li>Atleast one Lower-case letter in English (a b c … z)</li>
                 <li>Atleast one Number (0 1 2 … 9)</li>
                 <li>Atleast one Special characters (! @ # ...)</li>
+                <li>Whitespaces not allowed</li>
               </ul>
             </div>
     )
