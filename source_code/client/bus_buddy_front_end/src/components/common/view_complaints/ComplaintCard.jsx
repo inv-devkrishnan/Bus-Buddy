@@ -98,7 +98,7 @@ function ComplaintCard(props) {
             >
               <Card.Text
                 className="text-secondary"
-                style={{ width: "wrap-content" }}
+                style={{ width: "fit-content" }}
               >
                 From {truncateText(props.complaint.user.first_name, 25)}
               </Card.Text>
