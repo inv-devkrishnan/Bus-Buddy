@@ -305,6 +305,9 @@ class BaseTest2(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
+        self.bus2 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456GF", user=self.user
+        )
         
         self.loc_1 = LocationData.objects.create(location_name="Alapuzhya")
         self.loc_2 = LocationData.objects.create(location_name="Thrivanthapuram")
@@ -334,9 +337,23 @@ class BaseTest2(TestCase):
             start_time="10:00",
             end_time="11:00",
         )
+        
+        self.trip2 = Trip.objects.create(
+            user=self.user,
+            bus=self.bus2,
+            route=self.route,
+            status=0,
+            start_date="2024-07-03",
+            end_date="2024-07-03",
+            start_time="10:00",
+            end_time="11:00",
+        )
+        
         route_id = self.route.id
         bus_id = self.bus.id
+        bus2_id = self.bus2.id
         trip_id = self.trip.id
+        trip2_id = self.trip2.id
         self.amenities = Amenities.objects.create(bus=self.bus)
         self.start_stop_1 = StartStopLocations.objects.create(
             seq_id=1,
@@ -401,7 +418,7 @@ class BaseTest2(TestCase):
         
         self.create_bus_data = {
             "bus_name": "boss",
-            "plate_no": "Kl08A7099",
+            "plate_no": "Kl08AB7099",
             "bus_type": 0,
             "bus_ac": 0,
             "bus_seat_type": 2,
@@ -415,7 +432,7 @@ class BaseTest2(TestCase):
         }
         self.update_bus_data = {
             "bus_name": "boss",
-            "plate_no": "Kl08A7099",
+            "plate_no": "Kl08A7899",
             "bus_type": 0,
             "bus_ac": 0,
             "bus_seat_type": 2,
@@ -542,6 +559,14 @@ class BaseTest2(TestCase):
             "start_time": "13:00:00",
             "end_time": "17:00:00",
         }
+        self.update_trip = {
+            "bus": bus2_id,
+            "route": route_id,
+            "start_date": "2024-06-09",
+            "end_date": "2024-06-09",
+            "start_time": "13:00:00",
+            "end_time": "17:00:00",
+        }
         self.create_reccuring_trip = {
             "bus": bus_id,
             "route": route_id,
@@ -570,14 +595,16 @@ class BaseTest2(TestCase):
         }
 
         self.add_trip = reverse("add-trip")
-        self.update_bus = reverse("update-bus", args=[bus_id])
+        self.update_bus = reverse("update-bus", args=[bus2_id])
+        self.cant_update_bus = reverse("update-bus", args=[bus_id])
         self.delete_bus = reverse("delete-bus", args=[bus_id])
         self.add_amenities = reverse("add-amenities")
         self.add_route = reverse("add-routes")
         self.update_amenities = reverse("update-amenities", args=[bus_id])
         self.can_delete_route = reverse("delete-routes", args=[route_id])
         self.can_delete_trip = reverse("delete-trip", args=[trip_id])
-        self.can_update_trip = reverse("update-trip", args=[trip_id])
+        self.can_update_trip = reverse("update-trip", args=[trip2_id])
+        self.can_update_trip_booking = reverse("update-trip", args=[trip_id])
         self.change_notification_status = reverse("change-notification-status")
         self.passenger_list = reverse("passenger-list",args = [trip_id])
 
@@ -590,6 +617,7 @@ class BusActions(BaseTest2):
         response = self.client.post(
             self.create_bus, self.create_bus_data, format="json"
         )
+        print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_create_bus_invalid_data(self):
@@ -603,6 +631,10 @@ class BusActions(BaseTest2):
         print("3")
         response = self.client.put(self.update_bus, self.update_bus_data, format="json")
         self.assertEqual(response.status_code, 200)
+    def test_cant_update_bus_booking(self):
+        print("3")
+        response = self.client.put(self.cant_update_bus, self.update_bus_data, format="json")
+        self.assertEqual(response.status_code, 400)
 
     def test_cant_update_bus(self):
         print("4")
@@ -744,8 +776,17 @@ class BusActions(BaseTest2):
     def test_can_update_trip(self):
         print("24")
         response = self.client.put(
-            self.can_update_trip, self.create_trip, format="json"
+            self.can_update_trip, self.update_trip, format="json"
         )
+        print(response.content)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_can_update_trip_booking(self):
+        print("25")
+        response = self.client.put(
+            self.can_update_trip, self.update_trip, format="json"
+        )
+        print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_update_trip(self):
@@ -753,6 +794,7 @@ class BusActions(BaseTest2):
         response = self.client.put(
             self.can_update_trip, self.cant_create_trip, format="json"
         )
+        print(response.content)
         self.assertEqual(response.status_code, 400)
 
     def test_change_notification_status(self):
@@ -784,7 +826,6 @@ class BusActions(BaseTest2):
             f"{reverse('view-trips')}?page=1",
             format="json",
         )
-        print(response.content)
         self.assertEqual(response.status_code, 200)
 
     def test_get_notifications(self):
@@ -803,7 +844,7 @@ class BusActions(BaseTest2):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_view_available_trips(self):
+    def test_view_available_bus(self):
         print("32")
         response = self.client.get(
             f"{reverse('view-available-bus')}?start=2024-01-24&end=2024-01-31",
@@ -812,7 +853,7 @@ class BusActions(BaseTest2):
         print(response.content)
         self.assertEqual(response.status_code, 404)
         
-    def test_view_available_trips_no_bus(self):
+    def test_view_available_bus_no_bus(self):
         print("33")
         self.bus2 = Bus.objects.create(
             bus_name="Bus6", plate_no="CD456ET", user=self.user,bus_details_status=2
@@ -849,6 +890,16 @@ class BusActions(BaseTest2):
             format="json",
         )
         self.assertEqual(response.status_code, 404)
+    
+    def test_get_valid_bus(self):
+        print("39")
+        response = self.client.get(
+            reverse("get-valid-bus"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+    
     
         
         

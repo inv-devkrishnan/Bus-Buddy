@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import {
   Button,
@@ -8,29 +8,52 @@ import {
   Form,
   InputGroup,
   Image,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { ExclamationCircle } from "react-bootstrap-icons";
-
+import Swal from "sweetalert2";
+import truncateText from "../../utils/truncateText";
 import { axiosApi } from "../../utils/axiosApi";
-
-export default function ComplaintResponse() {
-  const [complaintData, setComplaintData] = useState([]);
+import CustomPaginator from "../common/paginator/CustomPaginator";
+import { Typography } from "@mui/material";
+export default function ComplaintResponse(props) {
   const [sortQuery, setSortQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [responseData, setResponseData] = useState("");
   const [show, setShow] = useState(false);
+  const viewComplaintHistory = useCallback(
+    async (page) => {
+      // api call for getting all reviews
+      await axiosApi
+        .get(
+          `user/list-complaints/?page=${
+            page ?? 1
+          }&&ordering=${sortQuery}&&search=${searchQuery}`
+        )
+        .then((res) => {
+          props.setComplaintData(res.data.results);
+          props.setCurentPage(res.data.current_page_number);
+          props.setTotalPages(res.data.total_pages);
+        })
+        .catch((err) => {
+          console.log(err.response);
+          Swal.fire({
+            title: "Oops",
+            text: "Something went wrong",
+            icon: "error",
+          });
+        });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchQuery, sortQuery]
+  );
 
   useEffect(() => {
-    axiosApi
-      .get(`user/list-complaints/?ordering=${sortQuery}&&search=${searchQuery}`)
-      .then((res) => {
-        setComplaintData(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }, [searchQuery, sortQuery]);
+    // api call
+    viewComplaintHistory();
+  }, [viewComplaintHistory]);
 
   const sortBar = () => {
     return (
@@ -58,12 +81,30 @@ export default function ComplaintResponse() {
     setSearchText(event.target.value);
   };
 
+  const withTooltip = (
+    WrappedComponent,
+    tooltipText,
+    truncateLength,
+    componentProps
+  ) => {
+    return (
+      <OverlayTrigger
+        placement="bottom"
+        overlay={<Tooltip id="tooltip">{tooltipText}</Tooltip>}
+      >
+        <WrappedComponent {...componentProps}>
+          {truncateText(tooltipText, truncateLength)}
+        </WrappedComponent>
+      </OverlayTrigger>
+    );
+  };
+
   return (
     <div className="m-3">
       <div className="d-flex justify-content-end">
         <InputGroup className="mb-3">
           <Form.Control
-            maxLength={50}
+            maxLength={100}
             placeholder="Enter text"
             name="searchText"
             onChange={handleChange}
@@ -71,6 +112,7 @@ export default function ComplaintResponse() {
           <Button
             variant="outline-primary"
             onClick={() => setSearchQuery(searchText)}
+            style={{ zIndex: 0 }}
           >
             Search
           </Button>
@@ -80,12 +122,17 @@ export default function ComplaintResponse() {
       </div>
       <br />
       <Accordion>
-        {complaintData.length > 0 ? (
+        {props.complaintData.length > 0 ? (
           <>
-            {complaintData.map((data) => (
+            {props.complaintData.map((data) => (
               <Accordion.Item key={data?.id} eventKey={data?.id}>
-                <Accordion.Header>
-                  {data?.complaint_title} - ({data?.created_date})
+                <Accordion.Header style={{ overflowWrap: "break-word" }}>
+                  {withTooltip(
+                    Typography,
+                    `${data?.complaint_title}-(${data?.created_date})`,
+                    20,
+                    { style: { fontWeight: "bold" }, component: "span" }
+                  )}
                 </Accordion.Header>
                 <Accordion.Body className="d-flex flex-column m-1">
                   <div style={{ overflowWrap: "break-word" }}>
@@ -109,7 +156,7 @@ export default function ComplaintResponse() {
             ))}
           </>
         ) : (
-          <div className="d-flex m-5">
+          <div className="d-flex justify-content-center align-items-center m-5">
             <ExclamationCircle color="grey" size={90} />
             <div className="m-4">
               {searchQuery.length > 0 ? (
@@ -121,31 +168,53 @@ export default function ComplaintResponse() {
           </div>
         )}
       </Accordion>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        className="p-2"
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {responseData.length > 0
-              ? "Response from the Complaint Viewer"
-              : "No Response Yet"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {responseData.length > 0 ? (
-            responseData
-          ) : (
-            <>
-              <ExclamationCircle color="indianred" size={30} /> &ensp; The
-              viewer has not provided a response yet!
-            </>
-          )}
-        </Modal.Body>
-      </Modal>
+        <div
+          className="align-self-center"
+          style={{ position: "fixed", bottom: 0 }}
+        >
+          <CustomPaginator
+            totalPages={props.totalPages}
+            currentPage={props.curentPage}
+            viewPage={viewComplaintHistory}
+          />
+        </div>
+      </div>
+
+      <div>
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="p-2"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {responseData.length > 0
+                ? "Response from the Complaint Viewer"
+                : "No Response Yet"}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {responseData.length > 0 ? (
+              responseData
+            ) : (
+              <>
+                <ExclamationCircle color="indianred" size={30} /> &ensp; The
+                viewer has not provided a response yet!
+              </>
+            )}
+          </Modal.Body>
+        </Modal>
+      </div>
     </div>
   );
 }

@@ -6,8 +6,10 @@ import {
   CardBody,
   Col,
   Container,
+  OverlayTrigger,
   ProgressBar,
   Row,
+  Tooltip,
 } from "react-bootstrap";
 import {
   ArrowRight,
@@ -23,6 +25,7 @@ import { SeatContext } from "../../../utils/SeatContext";
 import { openAxiosApi } from "../../../utils/axiosApi";
 import ReviewCard from "./ReviewCard";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import truncateText from "../../../utils/truncateText";
 import "../../User/view_trips/trip_card.css";
 
 function TripCard(props) {
@@ -128,9 +131,9 @@ function TripCard(props) {
       <Container>
         <Row>
           <Col sm={12} md={12} lg={12} xl={12} xxl={12}>
-            <Card className="p-3 mt-3 mb-3 w-100">
+            <Card className="p-1 mt-3 mb-3 w-100">
               <CardBody>
-                <Container>
+                <Container className="m-0 p-0">
                   <Row>
                     <Col>
                       <h5 className="text-primary">
@@ -161,8 +164,18 @@ function TripCard(props) {
                       className="d-flex justify-content-center"
                     >
                       <div>
-                        <ArrowRight className="rotate-arrow" size={24} />
-                        <p>via {props?.data?.via}</p>
+                        <div className="d-flex justify-content-center">
+                          <ArrowRight className="rotate-arrow" size={24} />
+                        </div>
+
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip id="tooltip">{props?.data?.via}</Tooltip>
+                          }
+                        >
+                          <p>via {truncateText(props?.data?.via, 10)}</p>
+                        </OverlayTrigger>
                       </div>
                     </Col>
                     <Col xs={12} md={3}>
@@ -177,7 +190,18 @@ function TripCard(props) {
                       </div>
                     </Col>
                     <Col xs={12} md={3} className="center-fare">
-                      <h6>Fare Starts from : ₹ {props?.data?.travel_fare}</h6>
+                      <Container className="m-0 p-0">
+                        <Row>
+                          <Col>
+                            <h6 className="text-center">
+                              Fare Starts from : ₹ {props?.data?.travel_fare}
+                            </h6>
+                            <h6 className="text-center">
+                              Available Seats : {props?.data?.available_seats}
+                            </h6>
+                          </Col>
+                        </Row>
+                      </Container>
                     </Col>
                   </Row>
                   <Row className="mt-3 d-flex justify-content-center">
@@ -230,7 +254,7 @@ function TripCard(props) {
               </CardBody>
               <Modal show={showAmenites} onHide={handleAmenitiesClose} centered>
                 <Modal.Header closeButton>
-                  <Modal.Title>Bus Amenties</Modal.Title>
+                  <Modal.Title>Bus Amenities</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <ListGroup>

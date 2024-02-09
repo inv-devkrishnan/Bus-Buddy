@@ -221,22 +221,22 @@ function ListUsers(props) {
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">First Name</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.first_name}</p>
+          <p className="m-0 ms-3" style={{wordWrap:"anywhere"}}>{busOwnerInfo.first_name}</p>
         </ListGroup.Item>
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Last Name</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.last_name}</p>
+          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.last_name || "Not Provided"}</p>
         </ListGroup.Item>
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Email</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.email}</p>
+          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.email}</p>
         </ListGroup.Item>
         <ListGroup.Item className="d-flex">
           <p className="m-0 me-3">Phone</p>
           <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.phone}</p>
+          <p className="m-0 ms-3">{busOwnerInfo.phone || "Not Provided"}</p>
         </ListGroup.Item>
       </>
     );
@@ -673,7 +673,7 @@ function ListUsers(props) {
             <ListGroup.Item className="d-flex">
               <p className="m-0 me-3">Company Name</p>
               <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.company_name}</p>
+              <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.company_name}</p>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex">
               <p className="m-0 me-3">Aadhaar No</p>
@@ -690,6 +690,11 @@ function ListUsers(props) {
               <p className="m-0 me-3">MSME number</p>
               <p className="m-0">:</p>
               <p className="m-0 ms-3">{busOwnerInfo.msme_no}</p>
+            </ListGroup.Item>
+            <ListGroup.Item className="d-flex">
+              <p className="m-0 me-3">GST</p>
+              <p className="m-0">:</p>
+              <p className="m-0 ms-3">{busOwnerInfo.extra_charges} %</p>
             </ListGroup.Item>
           </ListGroup>
         </Modal.Body>

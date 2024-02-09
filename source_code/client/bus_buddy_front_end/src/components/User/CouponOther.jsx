@@ -99,7 +99,9 @@ export default function CouponOther(props) {
         <Modal.Header closeButton>
           <Modal.Title>Coupon List</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{props.data?.coupon_description}</Modal.Body>
+        <Modal.Body style={{ wordWrap: "break-word" }}>
+          {props.data?.coupon_description}
+        </Modal.Body>
       </Modal>
     </>
   );

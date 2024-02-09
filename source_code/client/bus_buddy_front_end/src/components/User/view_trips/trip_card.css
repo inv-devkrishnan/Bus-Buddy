@@ -1,8 +1,12 @@
 
 .rotate-arrow {
     
-    margin-left: 1.5rem;
+    margin-left: 0rem;
   }
+  .center-div {
+    display: flex !important;
+    justify-content: center !important;
+  }  
 @media screen and (max-width: 768px) {
   .center-div {
     display: flex !important;
@@ -15,6 +19,6 @@
   }
   .rotate-arrow {
     transform: rotate(90deg);
-    margin-left: 35px !important;
+    margin-left: 0px !important;
   }
 }

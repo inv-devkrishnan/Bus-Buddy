@@ -101,7 +101,7 @@ export default function AddRouteCard() {
         });
       }
       setErrorMessage("");
-      navi("/BusHome");
+      navi("/BusHome/ViewRoutes");
     } else {
       setErrorMessage("Submission Failed: Atleast add 2 locations !");
     }

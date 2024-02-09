@@ -102,13 +102,40 @@ describe('ComplaintCard component', () => {
     const textareaElement = screen.getByRole('textbox');
 
     // Triggering a change event with a new value
-    fireEvent.change(textareaElement, { target: { value: '' } });
+    fireEvent.input(textareaElement, { target: { value: '' } });
     // Simulate submitting the response form
     fireEvent.submit(screen.getByText('Send Response'));
-    fireEvent.change(textareaElement, { target: { value: 'fsdffsdffs' } });
+    fireEvent.input(textareaElement, { target: { value: 'fsdffsdffs' } });
     fireEvent.submit(screen.getByText('Send Response'));
     mock.onPut(`adminstrator/respond-complaint/1/`).reply(200);
 
+
+  });
+
+  it('invalid form submission', async () => {
+    // Mock Axios PUT request
+    render(
+      <ComplaintCard
+        complaint={mockComplaint}
+        getComplaintsbyPage={() => { }}
+        currentPage={1}
+        complaintListLenght={1}
+        hasPrevious={false}
+      />
+    );
+
+    // Simulate clicking the "View Details" button
+    fireEvent.click(screen.getByText('View Details'));
+
+    // Check if the "Send Response" button is rendered
+    const textareaElement = screen.getByRole('textbox');
+
+    // Triggering a change event with a new value
+    fireEvent.input(textareaElement, { target: { value: '' } });
+    // Simulate submitting the response form
+    fireEvent.submit(screen.getByText('Send Response'));
+    fireEvent.input(textareaElement, { target: { value: '12' } });
+    fireEvent.submit(screen.getByText('Send Response'));
 
   });
 

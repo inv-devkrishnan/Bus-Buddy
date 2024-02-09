@@ -51,7 +51,7 @@ export default function Addamenities() {
           text: "Bus Amenities added successfully",
         });
       }
-      navi("/BusHome");
+      navi("/BusHome/ViewBus");
     } catch (error) {
       console.error("Error adding amenities:", error);
       Swal.fire({
@@ -88,7 +88,7 @@ export default function Addamenities() {
                   <Form.Check
                     type="checkbox"
                     id={`amenity-${amenity}`}
-                    label={amenity}
+                    label ={ amenity.replace(/_/g, ' ').replace(/(^|\s)\S/g, match => match.toUpperCase())}
                     checked={formState[amenity] === 1}
                     onChange={() => handleCheckboxChange(amenity)}
                     data-testid = "check-button"

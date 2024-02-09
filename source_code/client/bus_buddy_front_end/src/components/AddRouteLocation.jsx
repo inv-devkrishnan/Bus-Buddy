@@ -287,7 +287,7 @@ function AddRouteLocation(props) {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a Stop Name (one or more alphabetic character ,
+                Please provide a valid stop name (one or more alphabetic character ,
                 only allows alphabets and numbers)
               </Form.Control.Feedback>
             </Form.Group>
@@ -335,7 +335,7 @@ function AddRouteLocation(props) {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                Please provide a landmark (one or more alphabetic character ,
+                Please provide a valid landmark (one or more alphabetic character ,
                 only allows alphabets and numbers)
               </Form.Control.Feedback>
             </Form.Group>

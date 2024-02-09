@@ -9,7 +9,7 @@ import UserBookingHistory from "../components/User/UserBookingHistory";
 import UserComplaint from "../components/User/UserComplaint";
 import ReviewHistory from "../components/User/ReviewHistory";
 
-export default function UserDashboard() {
+export default function UserDashboardReal() {
   const navigate = useNavigate();
   const authStatus = useAuthStatus();
   const [myProfileSelect, setMyProfileSelect] = useState(true);
@@ -17,7 +17,6 @@ export default function UserDashboard() {
   const [deleteSelect, setDeleteSelect] = useState(false);
   const [complaintSelect, setComplaintSelect] = useState(false);
   const [reviewHistorySelect, setReviewHistorySelect] = useState(false);
-  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     if (authStatus) {
@@ -98,10 +97,10 @@ export default function UserDashboard() {
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
-        <SideBar heading={userName} options={options} />
+        <SideBar heading={"Profile"} options={options} />
       </div>
       <div className="flex-fill bd-highlight main_content">
-        {myProfileSelect && <UserProfilePage setUserName={setUserName} />}
+        {myProfileSelect && <UserProfilePage />}
         {myTripSelect && <UserBookingHistory />}
         {deleteSelect && <DeleteAccount />}
         {complaintSelect && <UserComplaint />}

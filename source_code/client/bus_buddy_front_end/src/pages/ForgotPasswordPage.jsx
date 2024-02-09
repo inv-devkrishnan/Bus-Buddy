@@ -149,7 +149,7 @@ function ForgotPasswordPage() {
                               {...register("new_password", {
                                 required: true,
                                 pattern:
-                                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
+                                  /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~/\\]).{8,20}$/,
                               })}
                               onBlur={() => {
                                 trigger("new_password");

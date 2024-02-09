@@ -299,7 +299,7 @@ function ViewComplaints() {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          {!complaintListLoading && (
+          {!complaintListLoading && complaintList.length >0 && (
             <CustomPaginator
               totalPages={totalPages}
               currentPage={currentPage}
@@ -308,7 +308,8 @@ function ViewComplaints() {
           )}
         </Col>
       </Row>
-      <Modal show={showFilter} onHide={handleFilterClose}>
+      <Modal show={showFilter} onHide={handleFilterClose}  backdrop="static"
+        keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Filter by Date</Modal.Title>
         </Modal.Header>

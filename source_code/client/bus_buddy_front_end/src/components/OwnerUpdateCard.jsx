@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,11 +8,13 @@ import { OwnerUpdationSchema } from "./OwmerUpdationSchema";
 import { axiosApi } from "../utils/axiosApi";
 import Swal from "sweetalert2";
 import EmailVerification from "./common/EmailVerification";
+import { UserContext } from "./User/UserContext";
 
 export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [updateValues, setUpdateValues] = useState([]);
+  const { updateFirstName } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ export default function OwnerUpdateForm() {
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
+          updateFirstName(values.first_name)
           navigate("/BusHome");
         } else {
           console.log(res);
@@ -64,6 +67,8 @@ export default function OwnerUpdateForm() {
   }, [currentUserData]);
 
   const onSubmit = (values) => {
+    updateFirstName(values.first_name);
+
     const data = {
       first_name: values.firstName,
       last_name: values.lastName,
@@ -110,7 +115,7 @@ export default function OwnerUpdateForm() {
 
   return (
     <>
-      <Card style={{ width: "50rem" }}>
+      <Card style={{ width: "50%" }}>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
             <Form.Group className="mb-3" controlId="firstName">

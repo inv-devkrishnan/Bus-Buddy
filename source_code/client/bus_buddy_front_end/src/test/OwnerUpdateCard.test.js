@@ -1,7 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, BrowserRouter } from "react-router-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import { SeatContextProvider } from "../utils/SeatContext";
+import { AddSeatContextProvider } from "../utils/AddSeatContext";
+import { UserContextProvider } from "../components/User/UserContext";
 import OwnerUpdateForm from "../components/OwnerUpdateCard";
 import { axiosApi } from "../utils/axiosApi";
 import MockAdapter from "axios-mock-adapter";
@@ -36,7 +39,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -73,7 +86,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
@@ -111,7 +134,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
@@ -139,7 +172,17 @@ describe("OwnerUpdateCard component", () => {
   it("renders card catch error", () => {
     mock.onGet("bus-owner/update-profile").reply(400);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
   });
 
   it("renders card cancel button", async () => {
@@ -155,7 +198,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const clearButton = screen.getByTestId("Cancel");
@@ -175,7 +228,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
@@ -213,7 +276,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
@@ -253,7 +326,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });
@@ -293,7 +376,17 @@ describe("OwnerUpdateCard component", () => {
     };
     mock.onGet("bus-owner/update-profile").reply(200, data);
 
-    render(<OwnerUpdateForm />);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <OwnerUpdateForm />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
 
     const firstNameTextbox = screen.getByPlaceholderText("Enter first name");
     fireEvent.change(firstNameTextbox, { target: { value: "first" } });

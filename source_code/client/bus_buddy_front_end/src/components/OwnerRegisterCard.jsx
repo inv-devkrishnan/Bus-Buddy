@@ -25,33 +25,32 @@ export default function OwnerRegisterCard() {
       .post("bus-owner/registration/", values)
       .then((res) => {
         if (res.status === 201) {
-          Swal.close()
+          Swal.close();
           Swal.fire("Success!", "Registered successfully!", "success");
           resetForm();
         }
       })
       .catch((err) => {
-        Swal.close()
+        Swal.close();
         console.log(err.response);
-        if (err.response.data.email && err.response.data.phone) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email and phone is already registered",
-          });
-        } else if (err.response.data.email) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.email,
-          });
+        let message;
+        if (err.response?.data?.phone) {
+          message = "Phone is already registered";
+        } else if (err.response?.data?.email) {
+          message = "Email is already registered";
+        } else if (err.response?.data?.aadhaar_no) {
+          message = "Aadhaar is already registered";
+        } else if (err.response?.data?.msme_no) {
+          message = "Msme is already registered";
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.phone,
-          });
+          message = "Something went wrong!";
         }
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: message,
+        });
       });
   };
 
@@ -218,7 +217,7 @@ export default function OwnerRegisterCard() {
                     maxLength={20}
                   />
                   <InputGroup.Text
-                      data-testid="confirm-show-password"
+                    data-testid="confirm-show-password"
                     onClick={() => {
                       showConfirmPassword
                         ? setShowConfirmPassword(false)

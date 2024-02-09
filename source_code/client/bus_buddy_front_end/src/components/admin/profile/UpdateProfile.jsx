@@ -12,13 +12,15 @@ import Swal from "sweetalert2";
 import AdminProfileSplash from "../../../assets/images/adminProfileView.png";
 import { axiosApi } from "../../../utils/axiosApi";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+import { UserContext } from "../../User/UserContext";
 
 function UpdateProfile() {
   // updates the profile when executed
   const [showModal, setShowModal] = useState(false);
+  const { updateFirstName } = useContext(UserContext);
   const [charges, setCharges] = useState("");
   const message =
     "Platform charges are expected in % and should be in range 0 - 100";
@@ -59,17 +61,18 @@ function UpdateProfile() {
           icon: "success",
           title: "Profile Updated !",
         });
+        updateFirstName(values.first_name);
         navigate("/admin-dashboard/view-profile");
       })
       .catch(function (error) {
         Swal.close();
+        console.log(error)
         Swal.fire({
           icon: "error",
           title: "Profile Update Failed !",
           text: getErrorMessage(error?.response?.data?.error_code),
         });
       });
-   
   };
   const handleUpdatePlatformCharges = (charges) => {
     if (!charges) {
@@ -138,12 +141,14 @@ function UpdateProfile() {
                   if (!values.first_name) {
                     errors.first_name = "Required";
                   } else if (!/^[A-Z]+$/i.test(values.first_name)) {
-                    errors.first_name = "Invalid first name (only alphabets allowed)";
+                    errors.first_name =
+                      "Invalid first name (only alphabets allowed)";
                   }
                   if (!values.last_name) {
                     errors.last_name = "Required";
                   } else if (!/^[A-Z]+$/i.test(values.last_name)) {
-                    errors.last_name = "Invalid last name (only alphabets allowed)";
+                    errors.last_name =
+                      "Invalid last name (only alphabets allowed)";
                   }
                   if (!values.phone) {
                     errors.phone = "Required";
@@ -267,7 +272,11 @@ function UpdateProfile() {
               </Formik>
               <Card.Footer className="mt-2 ms-0 me-0 pe-0 ps-0">
                 <div className="d-flex justify-content-center">
-                  <Button variant="primary" style={{width:"100%"}} onClick={handleShowModal}>
+                  <Button
+                    variant="primary"
+                    style={{ width: "100%" }}
+                    onClick={handleShowModal}
+                  >
                     Platform Charges
                   </Button>
                 </div>
@@ -276,7 +285,7 @@ function UpdateProfile() {
           ) : (
             <Card className="p-5 pt-3 mt-2 mb-5 shadow-lg w-100">
               <Placeholder as={Card.Title} animation="glow">
-              <Placeholder xs={12} />
+                <Placeholder xs={12} />
               </Placeholder>
               <Placeholder as={Form.Group} animation="glow">
                 <Placeholder xs={12} />
@@ -288,7 +297,7 @@ function UpdateProfile() {
                 <Placeholder xs={12} />
                 <Placeholder xs={8} />
               </Placeholder>
-              <Placeholder.Button className="h-25" animation="glow"  xs={6}/>
+              <Placeholder.Button className="h-25" animation="glow" xs={6} />
             </Card>
           )}
         </Col>
