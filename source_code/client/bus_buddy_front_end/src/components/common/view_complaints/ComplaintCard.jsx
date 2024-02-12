@@ -138,22 +138,35 @@ function ComplaintCard(props) {
           View Details
         </Button>
       </div>
-      <Modal show={show} onHide={handleClose} size="lg" backdrop="static"
-        keyboard={false}  centered>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="lg"
+        backdrop="static"
+        keyboard={false}
+        centered
+      >
         <Modal.Header>
-          <Modal.Title style={{ wordWrap: "anywhere" }}>
-            {props.complaint.complaint_title}
-          </Modal.Title>
-          <OverlayTrigger
-            placement="right"
-            overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
-          >
-            <Button variant="close" onClick={handleClose} />
-          </OverlayTrigger>
+          <div style={{width:"100%"}}>
+            <div className="d-flex justify-content-end">
+              <OverlayTrigger
+                placement="right"
+                overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
+              >
+                <Button variant="close" onClick={handleClose} />
+              </OverlayTrigger>
+            </div>
+
+            <Modal.Title style={{ wordWrap: "anywhere" }}>
+              {props.complaint.complaint_title}
+            </Modal.Title>
+          </div>
         </Modal.Header>
         <Modal.Body>
           <div style={{ maxHeight: "80vh", overflowY: "scroll" }}>
-            <div className="ms-2">{props.complaint.complaint_body}</div>
+            <div className="ms-2" style={{ wordWrap: "anywhere" }}>
+              {props.complaint.complaint_body}
+            </div>
 
             {props.complaint?.complaint_image && (
               <div>
