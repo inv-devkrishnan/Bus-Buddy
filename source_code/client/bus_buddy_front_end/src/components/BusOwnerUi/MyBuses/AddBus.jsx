@@ -98,7 +98,7 @@ export default function Addbus() {
       const errorMessage = error?.response?.data?.bus_name?.[0];
       if (errorMessage === "This field may not be blank.") {
         setBusNameError("Bus name cannot be blank");
-      } else if (errorMessage === "Plate no already exist") {
+      } else if (error?.response?.data?.plate_no?.[0] === "Plate no already exist") {
         setPlateNoError("Plate number already exists");
       }
       else{
