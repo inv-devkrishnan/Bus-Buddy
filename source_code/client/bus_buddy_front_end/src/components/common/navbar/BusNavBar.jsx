@@ -61,7 +61,7 @@ function BusNavBar() {
         navigate("/admin-dashboard/view-profile");
         break;
       case "2":
-        navigate("/user-dashboard");
+        navigate("/user-dashboard/profile");
         break;
       case "3":
         navigate("/BusHome");
@@ -184,8 +184,8 @@ function BusNavBar() {
               </NavDropdown>
             ) : (
               <OverlayTrigger
-              placement="left"
-              overlay={<Tooltip id="tooltip">{user.name}</Tooltip>}
+                placement="left"
+                overlay={<Tooltip id="tooltip">{user.name}</Tooltip>}
               >
                 <NavDropdown
                   title={"Hello " + truncateText(user.name, 20)}

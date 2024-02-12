@@ -48,6 +48,11 @@ const TravellerDetail = () => {
   const yesterdayDate = yesterday.toISOString().split("T")[0];
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
     if (authStatus) {
       if (localStorage.getItem("user_role") !== "2") {
         // if user is not user redirect to login
@@ -73,7 +78,10 @@ const TravellerDetail = () => {
       (acc, seat) => {
         acc[seat.id] = Yup.object().shape({
           [`name_${seat.id}`]: Yup.string()
-            .matches(/^[A-Za-z\s.]+$/, "Name must be letters with spaces or dot")
+            .matches(
+              /^[A-Za-z\s.]+$/,
+              "Name must be letters with spaces or dot"
+            )
             .trim()
             .required("Name is required"),
           [`dob_${seat.id}`]: Yup.date().required("Date of birth is required"),

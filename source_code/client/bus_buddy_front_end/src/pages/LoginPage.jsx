@@ -164,7 +164,7 @@ function LoginPage() {
       if (localStorage.getItem("current_trip") && seatList.length > 0) {
         navigate("/traveller-data");
       } else if (loginRes.message.user_role === 2) {
-        navigate("/user-dashboard");
+        navigate("/user-dashboard/profile");
       } else if (loginRes.message.user_role === 1) {
         navigate("/admin-dashboard/view-profile");
       } else {

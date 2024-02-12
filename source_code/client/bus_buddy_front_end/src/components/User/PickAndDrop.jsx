@@ -132,8 +132,7 @@ export default function PickAndDrop(props) {
             disableRowSelectionOnClick
             rows={pick}
             columns={columnsPick}
-            pagination
-            autoPageSize
+            pageSizeOptions={[5]}
             getRowHeight={() => "auto"}
             getEstimatedRowHeight={() => 300}
             selectionModel={props.selectionModelPick}
@@ -162,7 +161,7 @@ export default function PickAndDrop(props) {
             disableRowSelectionOnClick
             rows={drop}
             columns={columnsDrop}
-            autoPageSize
+            pageSizeOptions={[5]}
             getRowHeight={() => "auto"}
             getEstimatedRowHeight={() => 200}
             selectionModel={props.selectionModelDrop}
