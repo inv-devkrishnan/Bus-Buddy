@@ -186,7 +186,7 @@ export default function Addrecurringtrip() {
       }
 
       const response = await axiosApi.post(
-        `bus-owner/add-recurring-trip/?start=${start}&end=${end}`,
+        `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
         {
           bus: bus,
           route: route,
