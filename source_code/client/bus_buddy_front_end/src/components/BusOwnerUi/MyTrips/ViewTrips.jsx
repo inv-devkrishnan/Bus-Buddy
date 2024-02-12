@@ -35,7 +35,6 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
-              <h4>{trip.id}</h4>
               <h4>
                 {trip.start_point_name}-{trip.end_point_name}
               </h4>

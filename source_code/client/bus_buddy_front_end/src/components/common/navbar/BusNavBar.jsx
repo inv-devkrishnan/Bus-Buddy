@@ -64,7 +64,7 @@ function BusNavBar() {
         navigate("/user-dashboard");
         break;
       case "3":
-        navigate("/BusHome");
+        navigate("/BusHome/Ownerprofile");
         break;
       default:
         console.log("invalid role");
