@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
+import Dropdown from 'react-bootstrap/Dropdown';
 import Form from "react-bootstrap/Form";
 import { axiosApi } from "../../../utils/axiosApi";
 import Accordion from "react-bootstrap/Accordion";
@@ -11,22 +14,27 @@ export default function Viewallroutes() {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [order, setOrder] = useState('');
 
   const fetchData = useCallback(async (page) => {
     try {
-      const response = await axiosApi.get(`bus-owner/view-routes/?page=${page}`);
+      const response = await axiosApi.get(`bus-owner/view-routes/?page=${page}&search=${search}&ordering=${order}`);
       setData(response.data.results);
-      console.log(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
     } catch (err) {
       console.error("Error:", err);
     }
-  }, []);
+  }, [order, search]);
 
   useEffect(() => {
     fetchData(currentPage);
   }, [fetchData, currentPage]);
+
+  const handleSearchClick = () => {
+    fetchData(currentPage);
+  };
 
   const renderCards = () => {
     return data.map((viewroutes) => (
@@ -108,19 +116,43 @@ export default function Viewallroutes() {
   };
 
   return (
-    <div>
-      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <h1 className="mx-auto">View All Routes</h1>
-        <Form style={{ textAlign: "center" }}>
-          <Link to={"/BusHome/Addroutes"}>
-            <button className="btn btn-primary">+ Add Routes</button>
-          </Link>
-        </Form>
-      </Navbar>
-      <div className="card-container">{renderCards()}</div>
-      <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
-        <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
-      </div>
+  <div>
+    <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+      <Dropdown style={{ width: "10%", marginLeft: "1%" }}>
+        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+          Filter By
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => setOrder('')}> Latest </Dropdown.Item>
+          <Dropdown.Item onClick={() => setOrder("-travel_fare")}>Travel Fair high - low</Dropdown.Item>
+          <Dropdown.Item onClick={() => setOrder("travel_fare")}>Travel Fair low - high</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      <Form style={{ textAlign: "center" }}>
+        <div className="input-group" style={{ width: "60%",marginLeft:"-80%" }}>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      </Form>
+      <h1  style={{ marginLeft: "-50%" }}>View All Routes</h1>
+      <Form style={{ textAlign: "center" }}>
+        <Link to={"/BusHome/Addroutes"}>
+          <button className="btn btn-primary">+ Add Routes</button>
+        </Link>
+      </Form>
+    </Navbar>
+    <div className="card-container">{renderCards()}</div>
+    <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
+      <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
     </div>
-  );
+  </div>
+);
 }
