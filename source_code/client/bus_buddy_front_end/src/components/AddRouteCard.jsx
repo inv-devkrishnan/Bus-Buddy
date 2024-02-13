@@ -124,7 +124,7 @@ export default function AddRouteCard() {
         <div className="d-flex justify-content-center">
           <Card className="mb-5 mt-5">
             <div className="d-flex align-items-center">
-              <Card.Img variant="top w-25" src={RouteImage} />
+              <Card.Img variant="top w-25"draggable={false}  src={RouteImage} />
               <h1>Add Route</h1>
             </div>
             <Card.Body>
