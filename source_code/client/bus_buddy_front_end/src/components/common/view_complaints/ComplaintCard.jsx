@@ -147,14 +147,14 @@ function ComplaintCard(props) {
         centered
       >
         <Modal.Header>
-          <div style={{width:"100%"}}>
+          <div style={{ width: "100%" }}>
             <div className="d-flex justify-content-end">
-              <OverlayTrigger
-                placement="right"
-                overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
-              >
-                <Button variant="close" onClick={handleClose} />
-              </OverlayTrigger>
+              <Button
+                variant="close"
+                onClick={handleClose}
+                data-toggle="tooltip"
+                title="Close"
+              />
             </div>
 
             <Modal.Title style={{ wordWrap: "anywhere" }}>
