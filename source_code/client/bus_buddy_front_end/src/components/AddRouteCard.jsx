@@ -270,8 +270,8 @@ export default function AddRouteCard() {
                       id="travel_fare"
                       type="number"
                       placeholder="Enter the travel fare"
-                      min={0}
-                      max={100000}
+                      min={1}
+                      max={10000}
                       required
                       step="0.01"
                     />
