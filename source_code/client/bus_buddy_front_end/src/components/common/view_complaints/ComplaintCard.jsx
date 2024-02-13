@@ -100,7 +100,7 @@ function ComplaintCard(props) {
                 className="text-secondary"
                 style={{ width: "fit-content" }}
               >
-                From {truncateText(props.complaint.user.first_name, 25)}
+                From {truncateText(props.complaint.user.first_name, 18)}
               </Card.Text>
             </OverlayTrigger>
           </Col>
