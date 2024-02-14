@@ -119,10 +119,10 @@ function ListUsers(props) {
     } else if (searchbox.value) {
       props.busApproval
         ? getUsers(
-            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&status=3`
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&status=3&order=${listOrder.current}`
           )
         : getUsers(
-            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}`
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&order=${listOrder.current}`
           );
     } else {
       getUsers(
@@ -174,8 +174,8 @@ function ListUsers(props) {
           )
         : getUsers(`adminstrator/list-users/?keyword=${searchbox.value}`);
 
-      listOrder.current = -1;
       userStatus.current = 100;
+      userRole.current =100;
     }
   };
   const banUser = async (user_id) => {
@@ -394,7 +394,7 @@ function ListUsers(props) {
       <Row>
         <Col xl={3} lg={3} md={6} sm={3}>
           <Dropdown>
-            <Dropdown.Toggle variant="light" disabled={searchMode}>
+            <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
               Sort : {showOrder(listOrder.current)}
             </Dropdown.Toggle>
@@ -521,6 +521,7 @@ function ListUsers(props) {
                   props.busApproval && (userStatus.current = 3);
                   setSearchMode(false);
                   getUsersbyPage(1);
+                 
                 }}
               >
                 Clear

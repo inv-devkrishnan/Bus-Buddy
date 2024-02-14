@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
-import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import "../index.css";
 function AddRouteLocation(props) {
@@ -255,12 +255,8 @@ function AddRouteLocation(props) {
         <Modal.Title>
           {props.locationAdded ? "Add Stops" : "Add Location"}
         </Modal.Title>
-        <OverlayTrigger
-          placement="right"
-          overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
-        >
-          <Button variant="close" onClick={onClose} />
-        </OverlayTrigger>
+          <Button variant="close" onClick={onClose}  data-toggle="tooltip"
+                title="Close" />
       </Modal.Header>
       <Modal.Body>
         {props.locationAdded ? (
