@@ -175,7 +175,7 @@ function ListUsers(props) {
         : getUsers(`adminstrator/list-users/?keyword=${searchbox.value}`);
 
       userStatus.current = 100;
-      userRole.current =100;
+      userRole.current = 100;
     }
   };
   const banUser = async (user_id) => {
@@ -217,28 +217,67 @@ function ListUsers(props) {
 
   const userInfo = () => {
     return (
-      <>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">First Name</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3" style={{wordWrap:"anywhere"}}>{busOwnerInfo.first_name}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Last Name</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.last_name || "Not Provided"}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Email</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.email}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Phone</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.phone || "Not Provided"}</p>
-        </ListGroup.Item>
-      </>
+      <Container>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">First Name</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.first_name}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Last Name</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.last_name || "Not Provided"}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Email</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.email}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Phone</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0">{busOwnerInfo.phone || "Not Provided"}</p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+      </Container>
     );
   };
 
@@ -521,7 +560,6 @@ function ListUsers(props) {
                   props.busApproval && (userStatus.current = 3);
                   setSearchMode(false);
                   getUsersbyPage(1);
-                 
                 }}
               >
                 Clear
@@ -671,32 +709,70 @@ function ListUsers(props) {
         <Modal.Body>
           <ListGroup>
             {userInfo()}
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Company Name</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.company_name}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Aadhaar No</p>
-              <p className="m-0">:</p>
-              <div className="d-flex ms-3">
-                {formatAadhaarNumber(busOwnerInfo.aadhaar_no).map((block) => (
-                  <p className="m-0" key={block}>
-                    {block}&nbsp;
-                  </p>
-                ))}
-              </div>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">MSME number</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.msme_no}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">GST</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.extra_charges} %</p>
-            </ListGroup.Item>
+            <Container>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">Company Name</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                      {busOwnerInfo.company_name}
+                    </p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">Aadhaar No</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <div className="d-flex">
+                      {formatAadhaarNumber(busOwnerInfo.aadhaar_no).map(
+                        (block) => (
+                          <p className="m-0" key={block}>
+                            {block}&nbsp;
+                          </p>
+                        )
+                      )}
+                    </div>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">MSME number</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0">{busOwnerInfo.msme_no}</p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">GST</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0">{busOwnerInfo.extra_charges} %</p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+            </Container>
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
