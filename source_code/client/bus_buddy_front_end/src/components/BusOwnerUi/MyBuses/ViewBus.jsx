@@ -196,7 +196,7 @@ export default function Viewallbus() {
         <Dropdown.Item onClick={()=>setfilter(2)} > Fully  completed</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-        <h1 className="mx-auto">View All Bus</h1>
+        <h1 style={{marginLeft:"-10%"}}>View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>
