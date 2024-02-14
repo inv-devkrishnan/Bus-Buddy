@@ -22,6 +22,7 @@ export default function UpdateForm(props) {
       .then((res) => {
         if (res.status === 200) {
           updateFirstName(values.first_name);
+          localStorage.setItem("user_name", values.first_name);
           Swal.close();
           Swal.fire("Success!", "Updated successfully!", "success");
           props.goToProfile();

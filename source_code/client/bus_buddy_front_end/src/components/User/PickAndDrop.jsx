@@ -49,7 +49,7 @@ export default function PickAndDrop(props) {
     {
       field: "radioButton",
       headerName: "",
-      width: 100,
+      width: 50,
       sortable: false,
       filterable: false,
       editable: false,
@@ -84,7 +84,7 @@ export default function PickAndDrop(props) {
     {
       field: "radioButton",
       headerName: "",
-      width: 100,
+      width: 50,
       sortable: false,
       filterable: false,
       editable: false,
@@ -116,8 +116,8 @@ export default function PickAndDrop(props) {
 
   return (
     <Card
-      className="p-3"
-      sx={{ width: "70%", height: "auto", margin: 4, boxShadow: 5 }}
+      className="m-2 p-3"
+      sx={{ width: "70%", height: "auto", boxShadow: 5 }}
     >
       <Typography gutterBottom variant="h5">
         Pick up and Drop off points

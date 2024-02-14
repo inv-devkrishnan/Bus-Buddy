@@ -173,13 +173,9 @@ export default function ComplaintResponse(props) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
         }}
       >
-        <div
-          className="align-self-center"
-          style={{ position: "fixed", bottom: 0 }}
-        >
+        <div className="align-self-center m-3">
           <CustomPaginator
             totalPages={props.totalPages}
             currentPage={props.curentPage}
@@ -203,7 +199,7 @@ export default function ComplaintResponse(props) {
                 : "No Response Yet"}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ overflowWrap: "break-word" }}>
             {responseData.length > 0 ? (
               responseData
             ) : (

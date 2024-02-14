@@ -24,16 +24,19 @@ export default function OwnerUpdateForm() {
       .then((res) => {
         if (res.status === 200) {
           Swal.fire("Success!", "Updated successfully!", "success");
-          updateFirstName(values.first_name)
+          updateFirstName(values.first_name);
           navigate("/BusHome");
         } else {
           console.log(res);
         }
       })
       .catch((err) => {
-        const errorMessage =
-          error(err.response?.data?.email, err.response?.data?.phone) ||
-          "Something went wrong!";
+        const errorMessage = error(
+          err.response?.data?.email,
+          err.response?.data?.phone,
+          err.response?.data?.aadhaar_no,
+          err.response?.data?.msme_no
+        );
 
         Swal.fire({
           icon: "error",
@@ -68,6 +71,7 @@ export default function OwnerUpdateForm() {
 
   const onSubmit = (values) => {
     updateFirstName(values.first_name);
+    localStorage.setItem("user_name", values.first_name);
 
     const data = {
       first_name: values.firstName,
@@ -84,13 +88,15 @@ export default function OwnerUpdateForm() {
     }
   };
 
-  const error = (email, phone) => {
-    if (email && phone) {
-      return "Email and phone is already registered";
-    } else if (email) {
+  const error = (email, phone, aadhar, msme) => {
+    if (email) {
       return "Email is already registered";
     } else if (phone) {
       return "Phone is already registered";
+    } else if (aadhar) {
+      return "Aadhar is already registered";
+    } else if (msme) {
+      return "Msme is already registered";
     } else {
       return "Something went wrong";
     }

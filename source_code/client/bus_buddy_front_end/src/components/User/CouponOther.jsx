@@ -29,7 +29,7 @@ export default function CouponOther(props) {
                 <Card.Title
                   style={{ color: "lightgoldenrodyellow", fontSize: "20px" }}
                 >
-                  {truncateText(props.data?.coupon_name, 25)}
+                  {truncateText(props.data?.coupon_name, 10)}
                 </Card.Title>
                 <Card.Body>
                   <Card.Text
@@ -96,7 +96,15 @@ export default function CouponOther(props) {
       </Card>
 
       <Modal show={show} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "start",
+            margin: 2,
+          }}
+        >
           <Modal.Title style={{ wordWrap: "break-word", maxWidth: "95%" }}>
             {props.data?.coupon_name}
           </Modal.Title>

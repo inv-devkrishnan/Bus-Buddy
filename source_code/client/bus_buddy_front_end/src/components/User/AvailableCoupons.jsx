@@ -205,7 +205,7 @@ export default function AvailableCoupons(props) {
         </>
       )}
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="md">
         <Modal.Header closeButton>
           <Modal.Title>Coupon List</Modal.Title>
         </Modal.Header>
@@ -223,8 +223,16 @@ export default function AvailableCoupons(props) {
               <TableBody>
                 {couponList.map((data) => (
                   <TableRow key={data?.id}>
-                    <TableCell>{data?.coupon_name}</TableCell>
-                    <TableCell>{data?.coupon_description}</TableCell>
+                    <TableCell>
+                      <div style={{ wordWrap: "break-word", maxWidth: 200 }}>
+                        {data?.coupon_name}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ wordWrap: "break-word", maxWidth: 250 }}>
+                        {data?.coupon_description}
+                      </div>
+                    </TableCell>
                     <TableCell>
                       {data?.coupon_code}
                       <Tooltip

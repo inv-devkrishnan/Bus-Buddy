@@ -189,7 +189,7 @@ const TravellerDetail = () => {
   };
 
   return (
-    <div className="d-flex justify-content-lg-center flex-column flex-lg-row">
+    <div className="d-flex justify-content-lg-center align-items-center align-items-lg-start flex-column flex-lg-row">
       <Card style={{ padding: 10 }} className="m-3 w-75">
         <CardTitle>Traveller Details</CardTitle>
         <CardBody>

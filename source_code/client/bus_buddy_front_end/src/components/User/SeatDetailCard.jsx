@@ -25,7 +25,7 @@ export default function SeatDetailCard(props) {
         sumOfCost = Number(element.seat_cost) + sumOfCost; // adds the cost of all seats
       });
       const routeCost = Number(props?.routeCost);
-      const gst = Number(props?.gst) || 0;
+      const gst = Number(props?.gst) === 0 ? 1 : Number(props?.gst);
       const result =
         sumOfCost + routeCost + ((sumOfCost + routeCost) * gst) / 100;
       const roundedResult = result.toFixed(2);
@@ -67,7 +67,7 @@ export default function SeatDetailCard(props) {
 
   return (
     <>
-      <Card sx={{width: "68%", margin: 4, padding: 2, boxShadow: 5 }}>
+      <Card className="m-2 p-3" sx={{ width: "68%", boxShadow: 5 }}>
         <div className="d-flex flex-column">
           <div>
             <Typography id="modal-modal-title" variant="h5" component="h2">
