@@ -48,7 +48,7 @@ function DeleteAccount() {
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Conformation</Modal.Title>
+          <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete ?</Modal.Body>
         <Modal.Footer>

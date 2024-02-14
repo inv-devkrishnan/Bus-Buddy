@@ -27,7 +27,7 @@ describe("Change Password", () => {
     // Submit the form
     fireEvent.click(screen.getByText("Change Password"));
     await waitFor(() => {
-      expect(screen.getAllByText("* required field")[0]).toBeInTheDocument();
+      expect(screen.getAllByText("* Required field")[0]).toBeInTheDocument();
     });
   });
 
