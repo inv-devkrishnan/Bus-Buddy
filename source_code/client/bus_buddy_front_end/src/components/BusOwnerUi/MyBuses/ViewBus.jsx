@@ -213,7 +213,7 @@ export default function Viewallbus() {
       </Dropdown.Menu>
     </Dropdown>
     <Form style={{ textAlign: "center" }}>
-        <div className="input-group" style={{ width: "60%",marginLeft:"-20%" }}>
+        <div className="input-group" style={{ width: "60%",marginLeft:"-90%" }}>
           <input
             type="text"
             className="form-control"
@@ -226,7 +226,7 @@ export default function Viewallbus() {
           </button>
         </div>
       </Form>
-        <h1 style={{marginLeft:"-10%"}}>View All Bus</h1>
+        <h1 style={{marginLeft:"-60%"}}>View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>
