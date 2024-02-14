@@ -126,7 +126,7 @@ export default function Viewallbus() {
 
   const renderCards = () => {
     return data.map((viewbus) => (
-      <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
+      <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black"}}>
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1">
             <Accordion.Header>
@@ -182,7 +182,7 @@ export default function Viewallbus() {
   };
 
   return (
-    <div>
+    <div style={{minHeight:"50vh"}}>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
       <Dropdown style={{width:"10%",marginLeft:"1%"}}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -196,7 +196,7 @@ export default function Viewallbus() {
         <Dropdown.Item onClick={()=>setfilter(2)} > Fully  completed</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-        <h1 className="mx-auto">View All Bus</h1>
+        <h1 style={{marginLeft:"-10%"}}>View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>

@@ -610,6 +610,10 @@ class Viewroutes(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
     pagination_class = CustomPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ["start_point__location_name","end_point__location_name"]
+    ordering_fields = ["travel_fare"]
+
     
 
     def list(self, request):
@@ -619,6 +623,7 @@ class Viewroutes(ListAPIView):
             logger.info("fetching all data from routes model matching the conditions")
             queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewRoutesSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
 
             if page is not None:
@@ -793,14 +798,19 @@ class Viewtrip(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewTripSerializer
     pagination_class = CustomPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ["bus__bus_name", "route__start_point__location_name", "route__end_point__location_name"]
+    ordering_fields = ["start_date"]
+    
 
     def list(self, request):
         try:
             user_id = request.user.id
             queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
-            serializer = ViewRoutesSerializer(queryset)
+            serializer = ViewTripSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
-
+            
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
