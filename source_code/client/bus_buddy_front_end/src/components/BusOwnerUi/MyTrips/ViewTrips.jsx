@@ -35,7 +35,6 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
-              <h4>{trip.id}</h4>
               <h4>
                 {trip.start_point_name}-{trip.end_point_name}
               </h4>
@@ -51,7 +50,7 @@ export default function Viewallbus() {
                   <p>Route : {trip.start_point_name}-{trip.end_point_name}</p>
                 </div>
                 <div style={{ display: "flex", marginLeft: "10%", flexDirection: "column" }}>
-                  <p>Via :{trip.route.via}</p>
+                  <p style={{ maxWidth: "20vw", wordWrap: "break-word" }}>Via :{trip.route.via}</p>
                   <p>Duration :{parseFloat(trip.route.duration).toFixed(2)}</p>
                   <p>Distance :{parseFloat(trip.route.distance).toFixed(2)}</p>
                 </div>
@@ -115,6 +114,7 @@ export default function Viewallbus() {
             setUpdateFlag((prevFlag) => !prevFlag);
           })
           .catch((error) => {
+            console.error("Error adding trip:", error?.response?.data?.message)
             if (error.response) {
               console.log("HTTP status code:", error.response.status);
             } else {

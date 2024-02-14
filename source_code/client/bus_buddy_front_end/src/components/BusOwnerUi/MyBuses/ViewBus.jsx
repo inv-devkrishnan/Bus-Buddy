@@ -13,7 +13,7 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
-  const [filter,setfilter] = useState(2)
+  const [filter,setfilter] = useState('')
 
   const navi = useNavigate();
 
