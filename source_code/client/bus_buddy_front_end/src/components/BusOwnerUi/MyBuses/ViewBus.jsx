@@ -132,70 +132,71 @@ export default function Viewallbus() {
     }
   };
 
-  const renderCards = () => {
-    if (data.length === 0) {
-      return (
-        <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
-          No data found
-        </div>
-      );
-    }
-
-    return data.map((viewbus) => (
-      <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black"}}>
-        <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>
-              <h4 style={{ maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
-            </Accordion.Header>
-            <Accordion.Body>
-              <div style={{ display: "flex" }}>
-                <div>
-                  <p>Plate No : {viewbus.plate_no}</p>
-                  <p>Bus A/c : {getBusACLabel(viewbus.bus_ac)}</p>
-                </div>
-                <div style={{ marginLeft: "10%" }}>
-                  <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
-                  <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_seat_type)} </p>
-                </div>
-              </div>
-              <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
-                <button className="btn btn-primary" onClick={() => update(viewbus.id)} data-testid="update-button">
-                  Update
-                </button>
-                <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id, viewbus.bus_seat_type)} data-testid="add-seat-button">
-                  Seat Details
-                </button>
-                <button className="btn btn-danger" onClick={() => deleted(viewbus.id)} data-testid="delete-button">
-                  Delete
-                </button>
-              </div>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid="accordian-button">
-            <Accordion.Header style={{ maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
-            <Accordion.Body>
-              {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
-                <>
-                  <p>Do you want to update the existing amenities?</p>
-                  <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)} data-testid="update-amenities-button">
-                    Update amenities
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
-                  <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)} data-testid="add-amenities-button">
-                    Add amenities
-                  </button>
-                </>
-              )}
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+  const renderCards = () => (
+    !data || data.length === 0 ? (
+      <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+        No data found
       </div>
-    ));
-  };
+    ) : (
+      <div>
+        {data.map((viewbus) => (
+          <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black"}}>
+            <Accordion defaultActiveKey="1">
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>
+                  <h4 style={{ maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
+                </Accordion.Header>
+                <Accordion.Body>
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <p>Plate No : {viewbus.plate_no}</p>
+                      <p>Bus A/c : {getBusACLabel(viewbus.bus_ac)}</p>
+                    </div>
+                    <div style={{ marginLeft: "10%" }}>
+                      <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
+                      <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_seat_type)} </p>
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
+                    <button className="btn btn-primary" onClick={() => update(viewbus.id)} data-testid="update-button">
+                      Update
+                    </button>
+                    <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id, viewbus.bus_seat_type)} data-testid="add-seat-button">
+                      Seat Details
+                    </button>
+                    <button className="btn btn-danger" onClick={() => deleted(viewbus.id)} data-testid="delete-button">
+                      Delete
+                    </button>
+                  </div>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid="accordian-button">
+                <Accordion.Header style={{ maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
+                <Accordion.Body>
+                  {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
+                    <>
+                      <p>Do you want to update the existing amenities?</p>
+                      <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)} data-testid="update-amenities-button">
+                        Update amenities
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
+                      <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)} data-testid="add-amenities-button">
+                        Add amenities
+                      </button>
+                    </>
+                  )}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </div>
+        ))}
+      </div>
+    )
+  );
+  
 
   return (
     <div style={{minHeight:"50vh"}}>
