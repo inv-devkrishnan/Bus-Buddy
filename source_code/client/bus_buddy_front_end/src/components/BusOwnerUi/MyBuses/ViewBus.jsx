@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -13,7 +15,9 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
-  const [filter,setfilter] = useState('')
+  const [filter,setFilter] = useState('')
+  const [search, setSearch] = useState('');
+
 
   const navi = useNavigate();
 
@@ -33,6 +37,10 @@ export default function Viewallbus() {
     navi("/BusHome/full-sleeper-details", {
       state: { id: `${id}`, bus_seat_type: bus_seat_type },
     });
+  };
+
+  const handleSearchClick = () => {
+    fetchData(currentPage);
   };
 
   const deleted = (id) => {
@@ -76,7 +84,7 @@ export default function Viewallbus() {
 
   const fetchData = useCallback(async (page) => {
     try {
-      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${filter}`);
+      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${search}&bus_details_status=${filter}`);
       setData(response.data.results);
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
@@ -84,7 +92,7 @@ export default function Viewallbus() {
     } catch (err) {
       console.error("Error:", err);
     }
-  }, [filter]);
+  }, [filter, search]);
 
   useEffect(() => {
     fetchData(currentPage);
@@ -125,6 +133,14 @@ export default function Viewallbus() {
   };
 
   const renderCards = () => {
+    if (data.length === 0) {
+      return (
+        <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+          No data found
+        </div>
+      );
+    }
+
     return data.map((viewbus) => (
       <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black"}}>
         <Accordion defaultActiveKey="1">
@@ -190,13 +206,27 @@ export default function Viewallbus() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setfilter('')} > All </Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(0)} > Details not completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(1)} > Partial completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(2)} > Fully  completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter('')} > All </Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(0)} > Details not completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(1)} > Partial completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(2)} > Fully  completed</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-        <h1 style={{marginLeft:"-10%"}}>View All Bus</h1>
+    <Form style={{ textAlign: "center" }}>
+        <div className="input-group" style={{ width: "60%",marginLeft:"-90%" }}>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Bus name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      </Form>
+        <h1 style={{marginLeft:"-60%"}}>View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>

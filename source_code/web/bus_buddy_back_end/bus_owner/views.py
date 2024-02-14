@@ -19,6 +19,7 @@ from normal_user.models import UserReview,BookedSeats,Bookings
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
 from rest_framework.filters import OrderingFilter, SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
     BusSerializer,
@@ -375,9 +376,9 @@ class Viewbus(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter]
-    search_fields = ["bus_details_status"]
-
+    filter_backends = [SearchFilter,DjangoFilterBackend]
+    search_fields = ["bus_details_status","bus_name"]
+    filterset_fields = {"bus_details_status"}
 
 
     def list(self, request):

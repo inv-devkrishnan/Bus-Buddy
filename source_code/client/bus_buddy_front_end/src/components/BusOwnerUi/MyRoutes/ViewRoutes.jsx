@@ -37,6 +37,13 @@ export default function Viewallroutes() {
   };
 
   const renderCards = () => {
+    if (data.length === 0) {
+      return (
+        <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+          No data found
+        </div>
+      );
+    }
     return data.map((viewroutes) => (
       <div key={viewroutes.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
         <Accordion defaultActiveKey="1">
@@ -114,13 +121,13 @@ export default function Viewallroutes() {
         });
       });
   };
-
+  
   return (
   <div>
     <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
       <Dropdown style={{ width: "10%", marginLeft: "1%" }}>
         <Dropdown.Toggle variant="primary" id="dropdown-basic">
-          Filter By
+          Order By
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => setOrder('')}> Latest </Dropdown.Item>
@@ -133,7 +140,7 @@ export default function Viewallroutes() {
           <input
             type="text"
             className="form-control"
-            placeholder="Search..."
+            placeholder="start / end location "
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

@@ -180,7 +180,7 @@ describe("View bus component", () => {
     "user": 1
 }
 
-    mock.onGet(`bus-owner/view-bus/?page=${1}&search=${''}`).reply(200, data);
+    mock.onGet(`bus-owner/view-bus/?page=${1}&search=${""}&bus_details_status=${""}`).reply(200, data);
     mock.onPut(`bus-owner/delete-bus/${9}/`).reply(200, deleteData);
 
     render(
@@ -392,7 +392,7 @@ describe("View bus component", () => {
     "user": 1
 }
 
-mock.onGet(`bus-owner/view-bus/?page=${1}&search=${''}`).reply(200, data);
+mock.onGet(`bus-owner/view-bus/?page=${1}&search=${""}&bus_details_status=${""}`).reply(200, data);
     mock.onPut(`bus-owner/delete-bus/${99}/`).reply(404, deleteData);
 
     render(
@@ -571,7 +571,7 @@ it("renders component modal cancel", async() => {
     "user": 1
 }
 
-    mock.onGet(`bus-owner/view-bus/?page=${1}&search=${''}`).reply(200, data);
+    mock.onGet(`bus-owner/view-bus/?page=${1}&search=${""}&bus_details_status=${""}`).reply(200, data);
     mock.onPut(`bus-owner/delete-bus/${9}/`).reply(200, deleteData);
 
     render(
