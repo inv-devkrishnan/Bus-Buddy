@@ -17,7 +17,6 @@ export default function Viewallbus() {
   const [updateFlag, setUpdateFlag] = useState(false);
   const [order, setOrder] = useState("");
   const [search, setSearch] = useState("");
-
   const navi = useNavigate();
 
   const fetchData = useCallback(async (page) => {
@@ -29,18 +28,22 @@ export default function Viewallbus() {
     } catch (err) {
       console.error("Error:", err);
     }
-  }, []);
+  }, [order, search]);
 
   useEffect(() => {
     fetchData(currentPage);
   }, [fetchData, currentPage, updateFlag]);
 
   const renderCards = () => {
+    if (data.length === 0) {
+      return (
+        <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+          No data found
+        </div>
+      );
+    }
     return data.map((trip) => (
-      <div
-        key={trip.id}
-        style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
-      >
+      <div key={trip.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
@@ -49,75 +52,34 @@ export default function Viewallbus() {
               </h4>
             </Accordion.Header>
             <Accordion.Body>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                }}
-              >
+              <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
                 <div>
                   <p>Start Date : {trip.start_date}</p>
                   <p>Stop Date : {trip.end_date}</p>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "10%",
-                    flexDirection: "column",
-                  }}
-                >
+                <div style={{ display: "flex", marginLeft: "10%", flexDirection: "column" }}>
                   <p>Bus : {trip.bus_name}</p>
-                  <p>
-                    Route : {trip.start_point_name}-{trip.end_point_name}
-                  </p>
+                  <p>Route : {trip.start_point_name}-{trip.end_point_name}</p>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "10%",
-                    flexDirection: "column",
-                  }}
-                >
-                  <p style={{ maxWidth: "20vw", wordWrap: "break-word" }}>
-                    Via :{trip.route.via}
-                  </p>
+                <div style={{ display: "flex", marginLeft: "10%", flexDirection: "column" }}>
+                  <p style={{ maxWidth: "20vw", wordWrap: "break-word" }}>Via :{trip.route.via}</p>
                   <p>Duration :{parseFloat(trip.route.duration).toFixed(2)}</p>
                   <p>Distance :{parseFloat(trip.route.distance).toFixed(2)}</p>
                 </div>
               </div>
-              <div
-                style={{
-                  marginBottom: "1%",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <button
-                  className="btn btn-primary"
-                  onClick={() => update(trip.id)}
-                  data-testid="update-button"
-                >
+              <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
+                <button className="btn btn-primary" onClick={() => update(trip.id)} data-testid="update-button">
                   Update
                 </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deleted(trip)}
-                  data-testid="delete-button"
-                >
+                <button className="btn btn-danger" onClick={() => deleted(trip)} data-testid="delete-button">
                   Delete
                 </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => passengers(trip.id)}
-                  data-testid="update-button"
-                >
+                <button className="btn btn-primary" onClick={() => passengers(trip.id)} data-testid="update-button">
                   Passenger List
                 </button>
               </div>
               <p style={{ fontSize: "small", color: "coral" }}>
-                *The end date may have been or may have not been according to
-                the departure date offset set
+                *The end date may have been or may have not been according to the departure date offset set
               </p>
             </Accordion.Body>
           </Accordion.Item>
@@ -192,7 +154,7 @@ export default function Viewallbus() {
             <input
               type="text"
               className="form-control"
-              placeholder="Search..."
+              placeholder="Bus name/start/end location"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -209,7 +171,7 @@ export default function Viewallbus() {
         <h1 style={{marginLeft:"-13%"}}>View All Trips</h1>
         <Dropdown style={{ width: "10%", marginLeft: "1%" }}>
           <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Filter By
+            Order By
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => setOrder("")}> Latest trip </Dropdown.Item>
