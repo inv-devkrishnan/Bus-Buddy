@@ -36,49 +36,50 @@ export default function Viewallroutes() {
     fetchData(currentPage);
   };
 
-  const renderCards = () => {
-    if (data.length === 0) {
-      return (
-        <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
-          No data found
-        </div>
-      );
-    }
-    return data.map((viewroutes) => (
-      <div key={viewroutes.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
-        <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1" data-testid="accordian-button">
-            <Accordion.Header>
-              <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
-            </Accordion.Header>
-            <Accordion.Body>
-              <div style={{ display: "flex" }}>
-                <div>
-                  <p>Start Point: {viewroutes.start_point_name}</p>
-                  <p>End Point: {viewroutes.end_point_name}</p>
-                  <p style={{ maxWidth: "20vw", wordWrap: "break-word" }}>Via: {viewroutes.via}</p>
-                </div>
-                <div style={{ marginLeft: "10%" }}>
-                  <p>Distance: {parseFloat(viewroutes.distance).toFixed(2)}</p>
-                  <p>Duration: {parseFloat(viewroutes.duration).toFixed(2)}</p>
-                  <p>Travel Fare: {parseFloat(viewroutes.travel_fare).toFixed(2)}</p>
-                </div>
-                <div style={{ marginLeft: "10%" }}>
-                  <p>Start Time: {viewroutes.start_time}</p>
-                  <p>Stop Time: {viewroutes.stop_time}</p>
-                </div>
-              </div>
-              <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
-                <button className="btn btn-danger" onClick={() => confirmDelete(viewroutes.id)} data-testid="delete-button">
-                  Delete
-                </button>
-              </div>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+  const renderCards = () => (
+    data.length === 0 ? (
+      <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+        No data found
       </div>
-    ));
-  };
+    ) : (
+      data.map((viewroutes) => (
+        <div key={viewroutes.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
+          <Accordion defaultActiveKey="1">
+            <Accordion.Item eventKey="1" data-testid="accordian-button">
+              <Accordion.Header>
+                <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
+              </Accordion.Header>
+              <Accordion.Body>
+                <div style={{ display: "flex" }}>
+                  <div>
+                    <p>Start Point: {viewroutes.start_point_name}</p>
+                    <p>End Point: {viewroutes.end_point_name}</p>
+                    <p style={{ maxWidth: "20vw", wordWrap: "break-word" }}>Via: {viewroutes.via}</p>
+                  </div>
+                  <div style={{ marginLeft: "10%" }}>
+                    <p>Distance: {parseFloat(viewroutes.distance).toFixed(2)}</p>
+                    <p>Duration: {parseFloat(viewroutes.duration).toFixed(2)}</p>
+                    <p>Travel Fare: {parseFloat(viewroutes.travel_fare).toFixed(2)}</p>
+                  </div>
+                  <div style={{ marginLeft: "10%" }}>
+                    <p>Start Time: {viewroutes.start_time}</p>
+                    <p>Stop Time: {viewroutes.stop_time}</p>
+                  </div>
+                </div>
+                <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
+                  <button className="btn btn-danger" onClick={() => confirmDelete(viewroutes.id)} data-testid="delete-button">
+                    Delete
+                  </button>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </div>
+      ))
+    )
+  );
+  
+
 
   const confirmDelete = (id) => {
     Swal.fire({
