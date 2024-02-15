@@ -129,7 +129,11 @@ function ListCoupon() {
               navigate("/admin-dashboard/create-coupon");
             }}
           >
-            <PlusLg color="white"></PlusLg> New coupon
+            <div className="d-flex align-items-center">
+            <PlusLg color="white"></PlusLg> 
+            <text> New Coupon</text>
+            </div>
+           
           </Button>
         </Col>
       </Row>
