@@ -21,36 +21,6 @@ jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
 
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  AddSeatContext: jest.fn().mockReturnValue({
-    propsData: 11,
-    currentData: [
-      {
-        bus: 1,
-        seat_ui_order: 11,
-        seat_number: "1",
-        seat_type: 0,
-        deck: 0,
-        seat_cost: 200,
-      },
-    ],
-    currentSeatData: [
-      {
-        bus: 1,
-        seat_ui_order: 11,
-        seat_number: "1",
-        seat_type: 0,
-        deck: 0,
-        seat_cost: 200,
-      },
-    ],
-    updateCurrentSeatData: jest.fn(),
-    reRender: false,
-    updateReRender: jest.fn(),
-  }),
-}));
-
 describe("FormComponent component", () => {
   it("renders card", () => {
     render(
@@ -60,7 +30,7 @@ describe("FormComponent component", () => {
     );
   });
 
-  it("form submit", () => {
+  it("form submit", async () => {
     render(
       <AddSeatContextProvider>
         <FormComponent bus={1} seatType={1} />
@@ -74,12 +44,12 @@ describe("FormComponent component", () => {
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    mock.onPost("bus-owner/add-seat-details").reply(201);
+    await mock.onPost("bus-owner/add-seat-details").reply(201);
   });
 
-  it("form submit success else", () => {
+  it("form submit success else", async () => {
     render(
       <AddSeatContextProvider>
         <FormComponent bus={1} seatType={2} />
@@ -93,12 +63,12 @@ describe("FormComponent component", () => {
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    mock.onPost("bus-owner/add-seat-details").reply(204);
+    await mock.onPost("bus-owner/add-seat-details").reply(204);
   });
 
-  it("form submit catch error", () => {
+  it("form submit catch error", async () => {
     render(
       <AddSeatContextProvider>
         <FormComponent bus={1} seatType={0} />
@@ -112,14 +82,14 @@ describe("FormComponent component", () => {
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    mock
+    await mock
       .onPost("bus-owner/add-seat-details")
       .reply(400, { seat_ui_order: "error" });
   });
 
-  it("form submit catch error 2", () => {
+  it("form submit catch error 2", async () => {
     render(
       <AddSeatContextProvider>
         <FormComponent bus={1} seatType={0} />
@@ -133,11 +103,14 @@ describe("FormComponent component", () => {
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    mock.onPost("bus-owner/add-seat-details").reply(400, { data: "error" });
+    await mock
+      .onPost("bus-owner/add-seat-details")
+      .reply(400, { data: "error" });
   });
-  it("form submit catch error 3", () => {
+
+  it("form submit catch error 3", async () => {
     render(
       <AddSeatContextProvider>
         <FormComponent bus={1} seatType={0} />
@@ -151,8 +124,10 @@ describe("FormComponent component", () => {
     fireEvent.change(costTextbox, { target: { value: 0 } });
 
     const submitButton = screen.getByText("Submit");
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    mock.onPost("bus-owner/add-seat-details").reply(400, { error: "error" });
+    await mock
+      .onPost("bus-owner/add-seat-details")
+      .reply(400, { error: "error" });
   });
 });
