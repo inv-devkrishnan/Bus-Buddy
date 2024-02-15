@@ -33,7 +33,7 @@ beforeEach(() => {
 afterEach(() => {
     mock.restore();
 });
-describe("list coupon ", () => {
+describe("list coupon", () => {
     it('render list coupon', () => {
         render(
             <BrowserRouter>
@@ -66,13 +66,16 @@ describe("list coupon ", () => {
                 <ListCoupon />
             </BrowserRouter>
         )
-        mock.onGet(`adminstrator/view-coupon/`).reply(200);
+        mock.onGet(`adminstrator/view-coupon/`).reply(200,data);
+        await new Promise(resolve => setTimeout(resolve, 2000))
         fireEvent.click(screen.getByText("View : All"))
         fireEvent.click(screen.getByText("Active Coupons"))
+      
         mock.onGet(`adminstrator/view-coupon/?page=1&status=0`).reply(200, data);
         await waitFor(() => {
             expect(screen.getByText('View : Active Coupons')).toBeInTheDocument();
         });
+        await new Promise(resolve => setTimeout(resolve, 2000))
         fireEvent.click(screen.getByText("View : Active Coupons"))
         fireEvent.click(screen.getByText("InActive Coupons"))
         mock.onGet(`adminstrator/view-coupon/?page=1&status=1`).reply(200, data);

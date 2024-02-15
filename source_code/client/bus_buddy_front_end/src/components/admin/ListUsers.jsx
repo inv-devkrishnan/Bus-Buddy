@@ -30,7 +30,7 @@ function ListUsers(props) {
   const listOrder = useRef(-1); // to store the sorting order
   const userStatus = useRef(props.busApproval ? 3 : 100); // to store the user status
   const userRole = useRef(100); // to store current user role
-  const [isTableLoading, setIsTableLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(true);
 
   const [showBusOwnerInfo, setShowBusOwnerInfo] = useState(false);
   const handleBusOwnerInfoClose = () => setShowBusOwnerInfo(false);
@@ -75,6 +75,7 @@ function ListUsers(props) {
         })
         .catch(function (error) {
           displayErrorMessage(error);
+          console.log(error)
         });
       setIsTableLoading(false);
     },

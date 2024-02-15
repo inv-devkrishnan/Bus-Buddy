@@ -21,7 +21,7 @@ function ViewComplaints() {
   const toSelectedDate = useRef();
 
   const [complaintList, setComplaintList] = useState([]);
-  const [complaintListLoading, setComplaintListLoading] = useState(false);
+  const [complaintListLoading, setComplaintListLoading] = useState(true);
 
   const [searchMode, setSearchMode] = useState(false); // to indicate weather a search operation is ongoing
   const [searchEnabled, setSearchEnabled] = useState(false); // to enable and disable search button

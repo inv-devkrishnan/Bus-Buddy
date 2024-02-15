@@ -56,7 +56,7 @@ describe('ViewComplaints component', () => {
     // Mock Axios GET request
 
     render(<ViewComplaints />);
-
+    mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
     // Simulate clicking the "Filter by Date" button
     fireEvent.click(screen.getByTestId('Filter by Date'));
 
@@ -145,11 +145,12 @@ describe('ViewComplaints component', () => {
     // Mock Axios GET request
 
     render(<ViewComplaints />);
-
-
-    fireEvent.click(screen.getByText('View : All'));
-    fireEvent.click(screen.getByText('Responded Complaints'));
     mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
+    mock.onGet(`adminstrator/view-complaints/?page=1&created_date__range=1970-01-01,2100-01-01&status=1`).reply(200, data);
+    fireEvent.click(screen.getByText('View : All'));
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    fireEvent.click(screen.getByText('Responded Complaints'));
+   
   });
 
   it('view not responded complaints', async () => {
@@ -157,9 +158,10 @@ describe('ViewComplaints component', () => {
 
     render(<ViewComplaints />);
     fireEvent.click(screen.getByText('View : All'));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     fireEvent.click(screen.getByText('Not Responded Complaints'));
     mock.onGet(`adminstrator/view-complaints/`).reply(200, data);
-
+    mock.onGet('adminstrator/view-complaints/?page=1&created_date__range=1970-01-01,2100-01-01').reply(200,data)
     await waitFor(() => {
       expect(screen.getByText('View : Not Responded')).toBeInTheDocument();
   });

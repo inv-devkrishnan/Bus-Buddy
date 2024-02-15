@@ -18,7 +18,7 @@ function ListCoupon() {
   const [searchMode, setSearchMode] = useState(false); // to indicate weather a search operation is ongoing
   const [searchEnabled, setSearchEnabled] = useState(false); // to enable and disable search button
 
-  const [couponListLoading, setCouponListLoading] = useState(false);
+  const [couponListLoading, setCouponListLoading] = useState(true);
 
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
