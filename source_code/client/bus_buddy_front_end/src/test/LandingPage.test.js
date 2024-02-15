@@ -82,6 +82,34 @@ describe("landing Page", () => {
     fireEvent.click(screen.getByText("Search"));
   });
 
+  test("landing Page render search disabled", async() => {
+    mock.onGet(`get-location-data/`).reply(200, data);
+    render(
+      <SeatContextProvider>
+        <AddSeatContextProvider>
+          <UserContextProvider>
+            <BrowserRouter>
+              <LandingPage />
+            </BrowserRouter>
+          </UserContextProvider>
+        </AddSeatContextProvider>
+      </SeatContextProvider>
+    );
+  
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    fireEvent.change(screen.getByPlaceholderText("From location"), {
+      target: { value: "Trivandrum" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("To location"), {
+      target: { value: "Pathanamthitta" },
+    });
+
+    fireEvent.change(screen.getByTestId("date-selector"), {
+      target: { value: "2023-12-12" },
+    });
+    fireEvent.click(screen.getByText("Search"));
+  });
+
   test("landing Page render fail", () => {
     mock.onGet(`get-location-data/`).reply(400, { error_code: "5542" });
     render(

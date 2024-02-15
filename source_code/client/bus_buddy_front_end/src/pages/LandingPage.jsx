@@ -59,6 +59,10 @@ function LandingPage(props) {
 
     let endlocation = document.getElementById("end_text_box")?.value.trim();
     let date = document.getElementById("trip_date_picker")?.value;
+    let enteredDate = new Date(date);
+    let todaysDate = new Date(getCurrentDate());
+
+    const date_regex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
     if (
       startlocation !== endlocation &&
       startlocation.length !== 0 &&
@@ -67,7 +71,12 @@ function LandingPage(props) {
     ) {
       let start_location_id = validLocation(startlocation); // gets the id of the given start location
       let end_location_id = validLocation(endlocation); // gets the id of the given end location
-      if (start_location_id !== -1 && end_location_id !== -1) {
+      if (
+        start_location_id !== -1 &&
+        end_location_id !== -1 &&
+        date_regex.test(date) &&
+        enteredDate >= todaysDate
+      ) {
         // if the id's are valid then enable search and store id's in state variable
         setStartLocation(start_location_id);
         setEndLocation(end_location_id);
@@ -114,9 +123,9 @@ function LandingPage(props) {
               </>
             )}
           </Row>
-
           <Row className="justify-content-end">
-            <Col lg={12} xl={3} >
+            <Col lg={12} xl={3}>
+              <text>From Location</text>
               <input
                 className="form-control mb-1"
                 list="datalistOptions"
@@ -126,7 +135,8 @@ function LandingPage(props) {
                 placeholder="From location"
               />
             </Col>
-            <Col  lg={12}  xl={3}>
+            <Col lg={12} xl={3}>
+            <text>To Location</text>
               <input
                 className="form-control  mb-1"
                 list="datalistOptions"
@@ -136,7 +146,8 @@ function LandingPage(props) {
                 placeholder="To location"
               />
             </Col>
-            <Col  lg={12}  xl={3}>
+            <Col lg={12} xl={3}>
+            <text>Date</text>
               <input
                 className="form-control  mb-1"
                 data-testid="date-selector"
@@ -146,7 +157,8 @@ function LandingPage(props) {
                 min={getCurrentDate()}
               />
             </Col>
-            <Col  lg={12}  xl={2}>
+            <Col lg={12} xl={2} className="d-flex align-items-end mb-1">
+  
               <Button
                 disabled={!enableSearch}
                 onClick={() => {
