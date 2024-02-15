@@ -135,6 +135,7 @@ function App() {
             path="/BusHome/delete-account"
             element={<DeleteAccountPage />}
           />
+          <Route path="/BusHome/change-password" element={<ChangePassword />} />
         </Route>
         <Route path="/traveller-data" element={<TravellerDetail />} />
         <Route path="/full-sleeper-details" element={<FullSleeperDetails />} />

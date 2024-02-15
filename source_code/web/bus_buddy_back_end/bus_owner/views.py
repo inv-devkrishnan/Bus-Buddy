@@ -19,6 +19,7 @@ from normal_user.models import UserReview, BookedSeats, Bookings
 from bus_owner.serializers import OwnerModelSerializer as OMS
 from bus_owner.serializers import OwnerDataSerializer as ODS
 from rest_framework.filters import OrderingFilter, SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
     BusSerializer,
@@ -377,8 +378,10 @@ class Viewbus(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter]
-    search_fields = ["bus_details_status"]
+    filter_backends = [SearchFilter,DjangoFilterBackend]
+    search_fields = ["bus_details_status","bus_name"]
+    filterset_fields = {"bus_details_status"}
+
 
     def list(self, request):
         try:
@@ -611,6 +614,11 @@ class Viewroutes(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
     pagination_class = CustomPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ["start_point__location_name","end_point__location_name"]
+    ordering_fields = ["travel_fare"]
+
+    
 
     def list(self, request):
         try:
@@ -619,6 +627,7 @@ class Viewroutes(ListAPIView):
             logger.info("fetching all data from routes model matching the conditions")
             queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewRoutesSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
 
             if page is not None:
@@ -793,14 +802,19 @@ class Viewtrip(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewTripSerializer
     pagination_class = CustomPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ["bus__bus_name", "route__start_point__location_name", "route__end_point__location_name"]
+    ordering_fields = ["start_date"]
+    
 
     def list(self, request):
         try:
             user_id = request.user.id
             queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
-            serializer = ViewRoutesSerializer(queryset)
+            serializer = ViewTripSerializer(queryset)
+            queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
-
+            
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(serializer.data)

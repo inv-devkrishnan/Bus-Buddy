@@ -98,7 +98,7 @@ export default function Addbus() {
       const errorMessage = error?.response?.data?.bus_name?.[0];
       if (errorMessage === "This field may not be blank.") {
         setBusNameError("Bus name cannot be blank");
-      } else if (errorMessage === "Plate no already exist") {
+      } else if (error?.response?.data?.plate_no?.[0] === "Plate no already exist") {
         setPlateNoError("Plate number already exists");
       }
       else{
@@ -124,7 +124,7 @@ export default function Addbus() {
       <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Bus</Card.Title>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex",justifyContent:"center" }}>
             <Form  onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" >

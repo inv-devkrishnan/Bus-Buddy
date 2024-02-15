@@ -28,6 +28,14 @@ export default function Addrecurringtrip() {
   const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
 
+  const reset= () => {
+    setBus("");
+    setRoute("");
+
+    document.getElementById("bus").value = "";
+    document.getElementById("route").value = "";
+  }
+
   const dates = (selectedPeriodStartDate, selectedPeriodEndDate) => {
     const today = new Date();
     const sixMonthsFromNow = new Date(today);
@@ -186,7 +194,7 @@ export default function Addrecurringtrip() {
       }
 
       const response = await axiosApi.post(
-        `bus-owner/add-recurring-trip/?start=${start}&end=${end}`,
+        `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
         {
           bus: bus,
           route: route,
@@ -247,7 +255,7 @@ export default function Addrecurringtrip() {
                   <Form.Label htmlFor="periodStartDate">Start Date :</Form.Label>
                   <DatePicker
                     selected={selectedPeriodStartDate}
-                    onChange={(date) => setSelectedPeriodStartDate(date)}
+                    onChange={(date) => {setSelectedPeriodStartDate(date);reset()}}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
@@ -267,7 +275,7 @@ export default function Addrecurringtrip() {
                   <Form.Label htmlFor="periodEndDate">End Date :</Form.Label>
                   <DatePicker
                     selected={selectedPeriodEndDate}
-                    onChange={(date) => setSelectedPeriodEndDate(date)}
+                    onChange={(date) => {setSelectedPeriodEndDate(date);reset()}}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
@@ -346,6 +354,7 @@ export default function Addrecurringtrip() {
                       setBus(e.target.value);
                     }}
                     data-testid="bus-select"
+                    id="bus"
                     required
                   >
                     <option value="">Select option</option>
@@ -364,6 +373,7 @@ export default function Addrecurringtrip() {
                       setRoute(e.target.value);
                     }}
                     data-testid="route-select"
+                    id="route"
                     required
                   >
                     <option value="">Select option</option>
