@@ -611,7 +611,7 @@ class SeatDetailSerializer(serializers.ModelSerializer):
             ),
         ],
     )
-    seat_cost = serializers.DecimalField(max_digits=5, decimal_places=2)
+    seat_cost = serializers.DecimalField(max_digits=6, decimal_places=2)
     seat_ui_order = serializers.IntegerField()
 
 

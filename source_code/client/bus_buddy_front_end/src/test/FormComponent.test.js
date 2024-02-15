@@ -16,6 +16,11 @@ afterEach(() => {
   mock.restore();
 });
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
+
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
   AddSeatContext: jest.fn().mockReturnValue({
@@ -50,7 +55,7 @@ describe("FormComponent component", () => {
   it("renders card", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={0}/>
+        <FormComponent bus={1} seatType={0} />
       </AddSeatContextProvider>
     );
   });
@@ -58,7 +63,7 @@ describe("FormComponent component", () => {
   it("form submit", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={1}/>
+        <FormComponent bus={1} seatType={1} />
       </AddSeatContextProvider>
     );
 
@@ -77,7 +82,7 @@ describe("FormComponent component", () => {
   it("form submit success else", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={2}/>
+        <FormComponent bus={1} seatType={2} />
       </AddSeatContextProvider>
     );
 
@@ -96,7 +101,7 @@ describe("FormComponent component", () => {
   it("form submit catch error", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={0}/>
+        <FormComponent bus={1} seatType={0} />
       </AddSeatContextProvider>
     );
 
@@ -117,7 +122,7 @@ describe("FormComponent component", () => {
   it("form submit catch error 2", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={0}/>
+        <FormComponent bus={1} seatType={0} />
       </AddSeatContextProvider>
     );
 
@@ -135,7 +140,7 @@ describe("FormComponent component", () => {
   it("form submit catch error 3", () => {
     render(
       <AddSeatContextProvider>
-        <FormComponent bus={1} seatType={0}/>
+        <FormComponent bus={1} seatType={0} />
       </AddSeatContextProvider>
     );
 
