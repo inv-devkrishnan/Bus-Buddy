@@ -380,6 +380,10 @@ class Viewbus(ListAPIView):
     search_fields = ["bus_details_status","bus_name"]
     filterset_fields = {"bus_details_status"}
 
+    def filter_queryset(self, request):
+        val = super().filter_queryset(request)
+        print("***************!!!!!!!!!!!!!!!!!!!!!")
+        return val
 
     def list(self, request):
         try:
