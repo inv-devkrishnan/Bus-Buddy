@@ -250,14 +250,16 @@ export default function UserBookingHistory() {
             </thead>
             <tbody>
               {isLoading ? (
-                <div className="d-flex flex-column justify-content-center align-items-center mt-5">
-                  <div className="w-50 ms-auto me-auto">
-                    <ProgressBar animated now={100} />
-                  </div>
-                  <p className="ms-3 mt-3 text-center">
-                    Loading bookings.Please Wait...
-                  </p>
-                </div>
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    <div className="w-50 ms-auto me-auto mt-5">
+                      <ProgressBar animated now={100} />
+                    </div>
+                    <p className="ms-3 mt-3 text-center">
+                      Loading bookings. Please Wait...
+                    </p>
+                  </td>
+                </tr>
               ) : (
                 <>
                   {bookingData.length !== 0 ? (
