@@ -199,9 +199,9 @@ export default function Viewallbus() {
   
 
   return (
-    <div style={{minHeight:"50vh"}}>
+    <div style={{minHeight:"50vh",marginLeft:"1%"}}>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <Dropdown style={{width:"10%",marginLeft:"1%"}}>
+      <Dropdown style={{width:"10%"}}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">
         Filter By
       </Dropdown.Toggle>
@@ -213,8 +213,8 @@ export default function Viewallbus() {
         <Dropdown.Item onClick={()=>setFilter(2)} > Fully  completed</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-    <Form style={{ textAlign: "center" }}>
-        <div className="input-group" style={{ width: "60%",marginLeft:"-90%" }}>
+    <Form style={{ textAlign: "center" ,width:"19%"}}>
+        <div className="input-group" >
           <input
             type="text"
             className="form-control"
@@ -227,10 +227,10 @@ export default function Viewallbus() {
           </button>
         </div>
       </Form>
-        <h1 style={{marginLeft:"-60%"}}>View All Bus</h1>
+        <h1 >View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
-            <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>
+            <button className="btn btn-primary">+ Add Bus</button>
           </Link>
         </Form>
       </Navbar>

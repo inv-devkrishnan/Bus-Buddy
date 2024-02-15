@@ -193,7 +193,7 @@ export default function Addrecurringtrip() {
         setEndDateError("");
       }
 
-      const response = await axiosApi.post(
+      await axiosApi.post(
         `bus-owner/add-reccuring-trip/?start=${start}&end=${end}`,
         {
           bus: bus,
@@ -202,8 +202,8 @@ export default function Addrecurringtrip() {
           end_date: formattedEndDate,
           recurrence: parseInt(recurrence),
         }
-      );
-      if (response.status === 200) {
+      )
+      .then((response) => {
         console.log("trips Inserted");
         Swal.close();
         Swal.fire({
@@ -211,16 +211,25 @@ export default function Addrecurringtrip() {
           title: "Added Successfully",
           text: "Recurring trip added successfully",
         });
-      }
+      })
       navi("/BusHome/view-trips");
     } catch (error) {
-      console.error("Error adding trips:", error);
+      console.error("Error adding trips:",error?.response?.data?.message);
       Swal.close();
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Error adding Recurring trip",
-      });
+      if(error?.response?.data?.message === "The route's start time has already passed for today"){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The route's start time has already passed for today",
+        });
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error adding Recurring trip",
+        });
+      }
+      
     }
   };
 

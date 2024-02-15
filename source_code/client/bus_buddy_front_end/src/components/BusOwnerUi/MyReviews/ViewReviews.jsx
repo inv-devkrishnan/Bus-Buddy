@@ -89,7 +89,7 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <h1 className="mx-auto">Viewall</h1>
+        <h1 className="mx-auto">Viewall Reviews</h1>
         <Form style={{ textAlign: "center" }}></Form>
       </Navbar>
       <div className="card-container">{renderCards()}</div>

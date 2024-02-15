@@ -19,12 +19,11 @@ export default function Ownerprofile() {
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ marginBottom: "2%", marginTop: "11%",marginLeft:"-15%" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems:"center", margin:"5%" }}>
+      <div >
         <Card
           style={{
-            width: "150%",
-            height: "100%",
+            width: " 100%",
             boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
           }}
         >

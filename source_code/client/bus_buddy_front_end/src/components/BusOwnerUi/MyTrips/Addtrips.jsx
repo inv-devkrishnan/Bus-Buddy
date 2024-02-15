@@ -47,21 +47,31 @@ export default function Addtrips() {
   };
 
   const callApi = async (formattedStartDate, formattedEndDate) => {
-    const response = await axiosApi.post("bus-owner/add-trip/", {
+     await axiosApi.post("bus-owner/add-trip/", {
       bus: bus,
       route: route,
       start_date: formattedStartDate,
       end_date: formattedEndDate,
-    });
+    })
 
-    if (response.status === 200) {
+    .then((response)=>{
       console.log("Trip Inserted");
       Swal.fire({
         icon: "success",
         title: "Added Successfully",
         text: "Trip added successfully",
       });
-    }
+    })
+    .catch((error)=>{
+      console.log(error?.response?.data?.message)
+      if(error?.response?.data?.message === "The route's start time has already passed for today"){
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "The route's start time has already passed for today",
+        });
+      }
+    })
   };
 
   const dates = (selectedStartDate, selectedEndDate) => {
