@@ -580,8 +580,8 @@ function ListUsers(props) {
       {
         // to show search results info
         searchMode && (
-          <Row className="mt-5 ms-5">
-            <h2>Search Results for : {searchbox.value}</h2>
+          <Row className="mt-5 ms-1">
+            <h2 style={{wordWrap:"anywhere"}} >Search Results for : "{searchbox.value}"</h2>
           </Row>
         )
       }

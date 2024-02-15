@@ -260,7 +260,7 @@ function ViewComplaints() {
       {searchMode && (
         <Row className="mt-2">
           <Col>
-            <h2>Search result for "{searchbox.value}"</h2>
+            <h2 style={{wordWrap:"anywhere"}}>Search result for "{searchbox.value}"</h2>
           </Col>
         </Row>
       )}
