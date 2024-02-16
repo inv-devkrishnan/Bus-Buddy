@@ -26,13 +26,12 @@ function DeleteAccount() {
       });
       logout();
     } else if (!response.status) {
-      console.log(response.message.response.data);
       handleClose();
       await Swal.fire({
         icon: "error",
         title: "Account Deletion Failed !",
         text:
-          response.message.response.data.error_code === "D1035"
+          response.message?.response?.data?.error_code === "D1035"
             ? "Due to active bookings associated with your account, the deletion process cannot be completed at this time."
             : "Since there are ongoing trips associated with your account, the deletion process cannot be carried out.",
       });
