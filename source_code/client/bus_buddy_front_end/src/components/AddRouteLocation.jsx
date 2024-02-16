@@ -121,7 +121,8 @@ function AddRouteLocation(props) {
   };
   const checkStopLocationTime = () => {
     let status = true;
-    if (arrivalDate === departureDate) {
+    let actualArrivalDate =  props.stopLocations.length === 0 ? "0" : arrivalDate
+    if (actualArrivalDate === departureDate) {
       // if bus arrive and leave on same date
       if (stopArrivalTime > arrivalTime && stopArrivalTime < departureTime) {
         // if stop time is between arrival time and departure time of location
@@ -237,7 +238,7 @@ function AddRouteLocation(props) {
     setStopName("");
     setArrivalTime("");
     setStopArrivalTime("");
-    setArrivalDate("");
+    setArrivalDate("0");
     setDepartureDate("");
     setLandmark("");
     setDepartureTime("");
