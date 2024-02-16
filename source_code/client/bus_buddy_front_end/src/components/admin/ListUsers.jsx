@@ -75,7 +75,7 @@ function ListUsers(props) {
         })
         .catch(function (error) {
           displayErrorMessage(error);
-          console.log(error)
+          console.log(error);
         });
       setIsTableLoading(false);
     },
@@ -87,13 +87,17 @@ function ListUsers(props) {
     userStatus.current = props.busApproval ? 3 : 100;
     userRole.current = 100;
     listOrder.current = -1;
+
+    getUsers();
+  }, [getUsers, props.busApproval]);
+
+  useEffect(() => {
+    console.log(" inside use effect")
     if (searchbox) {
       searchbox.value = "";
       setSearchMode(false);
     }
-
-    getUsers();
-  }, [getUsers, props.busApproval, searchbox]);
+  }, [searchbox,props.busApproval]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -582,7 +586,9 @@ function ListUsers(props) {
         // to show search results info
         searchMode && (
           <Row className="mt-5 ms-1">
-            <h2 style={{wordWrap:"anywhere"}} >Search Results for : "{searchbox.value}"</h2>
+            <h2 style={{ wordWrap: "anywhere" }}>
+              Search Results for : "{searchbox.value}"
+            </h2>
           </Row>
         )
       }

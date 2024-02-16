@@ -105,6 +105,6 @@ describe("list coupon", () => {
             </BrowserRouter>
         )
         mock.onGet(`adminstrator/view-coupon/`).reply(200);
-        fireEvent.click(screen.getByText("New coupon"))
+        fireEvent.click(screen.getByText("New Coupon"))
     })
 })
