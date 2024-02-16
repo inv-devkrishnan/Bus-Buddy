@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 from django.urls import reverse
 from decouple import config
 from rest_framework.test import APIClient
-from .models import User, EmailAndOTP
+from .models import User, EmailAndOTP, WhiteListedTokens
 from .models import User
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -281,7 +281,7 @@ class VerifyOTP(BaseTest):
         )
         print(response.content)
         self.assertEqual(response.status_code, 205)
-        
+
     @patch("bus_buddy_back_end.email.send_email_with_template")
     def test_04_exception_verify(self, mock_validate):
         mock_validate.side_effect = EmailAndOTP.DoesNotExist
@@ -290,7 +290,7 @@ class VerifyOTP(BaseTest):
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
-        
+
     @patch("bus_buddy_back_end.email.send_email_with_template")
     def test_05_exception_verify(self, mock_validate):
         mock_validate.side_effect = Exception("DB error")
@@ -299,9 +299,27 @@ class VerifyOTP(BaseTest):
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
+
+
 class ForgetPasswordTest(BaseTest):
+    expired_response = b'{"error_code":"D1032","error_message":"Provided forgot passsword token is invalid or expired"}'
+
+    def test_00_can_send_change_password_email_once(self):
+        request_data = {"email": self.email}
+        response = self.client.post(
+            self.forgot_password_mail,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(response.content, b'{"message":"email sent"}')
+
     def test_01_can_send_change_password_email(self):
         request_data = {"email": self.email}
+        self.client.post(
+            self.forgot_password_mail,
+            data=request_data,
+            format="json",
+        )
         response = self.client.post(
             self.forgot_password_mail,
             data=request_data,
@@ -358,6 +376,7 @@ class ForgetPasswordTest(BaseTest):
         )
 
     def test_06_can_verify_valid_token(self):
+
         valid_token = jwt.encode(
             {
                 "user_id": self.user.id,
@@ -367,6 +386,7 @@ class ForgetPasswordTest(BaseTest):
             os.getenv("SECRET_KEY"),
             algorithm="HS256",
         )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user)
         request_data = {"token": valid_token}
         response = self.client.post(
             self.forgot_password_verify,
@@ -410,6 +430,7 @@ class ForgetPasswordTest(BaseTest):
             os.getenv("SECRET_KEY"),
             algorithm="HS256",
         )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user)
         request_data = {"token": valid_token, "new_password": "Devk@106"}
         response = self.client.put(
             self.forgot_password_change_password,
@@ -442,4 +463,134 @@ class ForgetPasswordTest(BaseTest):
         self.assertEquals(
             response.content,
             b'{"error_code":"D1002","error_message":"token field must not be blank"}',
+        )
+
+    def test_12_cant_use_same_link_twice(self):
+        valid_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user, status=1)
+        request_data = {"token": valid_token, "new_password": "Devk@107"}
+        response = self.client.put(
+            self.forgot_password_change_password,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            b'{"error_code":"D1034","error_message":"Link Already used"}',
+        )
+
+    def test_13_cant_use_old_link_when_new_link_created(self):
+
+        old_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=15),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        valid_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user, status=0)
+        request_data = {"token": old_token, "new_password": "Devk@106"}
+        response = self.client.put(
+            self.forgot_password_change_password,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            self.expired_response,
+        )
+
+    def test_14_cant_verify_used_token(self):
+        valid_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user, status=1)
+        request_data = {"token": valid_token}
+        response = self.client.post(
+            self.forgot_password_verify,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            b'{"error_code":"D1034","error_message":"Link Already used"}',
+        )
+
+    def test_15_cant_previous_token(self):
+
+        old_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=15),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        valid_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        WhiteListedTokens.objects.create(token=valid_token, user=self.user, status=0)
+        request_data = {"token": old_token}
+        response = self.client.post(
+            self.forgot_password_verify,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            self.expired_response,
+        )
+
+    def test_16_cant_verify_not_existing_token(self):
+
+        valid_token = jwt.encode(
+            {
+                "user_id": self.user.id,
+                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "iat": datetime.utcnow(),
+            },
+            os.getenv("SECRET_KEY"),
+            algorithm="HS256",
+        )
+        request_data = {"token": valid_token}
+        response = self.client.post(
+            self.forgot_password_verify,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            self.expired_response,
         )

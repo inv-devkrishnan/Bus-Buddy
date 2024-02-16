@@ -3,6 +3,7 @@ import random
 import os
 import jwt
 from django.db.utils import IntegrityError
+from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -12,7 +13,7 @@ from .serializer import GoogleAuthSerializer as GAS
 from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
 from .serializer import EmailOtpSerializer, EmailOtpUpdateSerializer
-from .models import User, EmailAndOTP
+from .models import User, EmailAndOTP, WhiteListedTokens
 from .google_auth import Google
 from .serializer import ForgetPasswordSerializer as FPS
 from .serializer import ForgotPasswordChangeSerializer as FPCS
@@ -42,6 +43,24 @@ def check_user_status(user):
         return Response({"error_code": "D1011"}, status=401)
     elif user.status == 99:
         return Response({"error_code": "D1001"}, status=401)
+
+
+def validate_token(token, user):
+    # check if the token is in whitelisted token list
+    try:
+        existing_token = WhiteListedTokens.objects.get(user_id=user)
+        if existing_token.status != 0:
+            logger.warn("forgot password token already used")
+            return -2
+        elif token == existing_token.token:
+            logger.info("forgot password token is valid")
+            return 0
+        else:
+            logger.info("forgot password token is expired")
+            return -1
+    except WhiteListedTokens.DoesNotExist:
+        logger.info("token doesn't exist")
+        return -3
 
 
 class LoginWithGoogle(APIView):
@@ -279,8 +298,8 @@ class VerifyOTP(UpdateAPIView):
 
     def get(self, request):
         try:
-            encoded_email = request.GET.get('email')
-            decoded_email = encoded_email.replace(' ', '+')
+            encoded_email = request.GET.get("email")
+            decoded_email = encoded_email.replace(" ", "+")
             print(decoded_email)
             instance = EmailAndOTP.objects.get(email=decoded_email)
             if str(instance.otp).zfill(6) == str(request.GET.get("otp")):
@@ -302,8 +321,27 @@ class VerifyOTP(UpdateAPIView):
         except Exception as e:
             logger.error(f"Error: {e}")
             return Response({"error": str(e)}, status=400)
+
+
 class ForgetPasswordSendMail(APIView):
     permission_classes = (AllowAny,)
+
+    def add_whitelisted_token(self, token, user):
+        try:
+            whitelisted_token = WhiteListedTokens.objects.get(user=user)
+            whitelisted_token.token = token
+            whitelisted_token.status =0
+            logger.info(
+                "forgot password token already exist's for the  user !. replaced with new token"
+            )
+            whitelisted_token.save()  # replaces existing token with new token
+        except WhiteListedTokens.DoesNotExist:
+            logger.info(
+                "forgot password token doesn't exist for the new user creating a new entry"
+            )
+            WhiteListedTokens.objects.create(
+                token=token, user=user
+            )  # adds new token to the db
 
     def post(self, request):
         serialized_data = FPS(data=request.data)
@@ -331,6 +369,7 @@ class ForgetPasswordSendMail(APIView):
                     status=8,
                 )
                 if is_email_sent:
+                    self.add_whitelisted_token(token, user)
                     return Response({"message": "email sent"})
                 else:
                     return Response(
@@ -388,7 +427,23 @@ class ForgetPasswordTokenVerify(APIView):
                 User.objects.get(
                     id=user_id, status=0, account_provider=0
                 )  # cross check wether such mail exist's
-                return Response({"is_token_valid": True})
+                is_token_valid = validate_token(token, user_id)
+                if is_token_valid == 0:
+                    return Response({"is_token_valid": True})
+                elif is_token_valid == -2:
+                    return Response(
+                        {
+                            "error_code": "D1034",
+                            "error_message": "Link Already used",
+                        }
+                    )
+                else:
+                    return Response(
+                        {
+                            "error_code": "D1032",
+                            "error_message": "Provided forgot passsword token is invalid or expired",
+                        }
+                    )
             except Exception as e:
                 logger.warn(str(e))
                 return Response(
@@ -414,9 +469,29 @@ class ForgetPasswordChange(APIView):
                 user = User.objects.get(
                     id=user_id, status=0, account_provider=0
                 )  # cross check wether such mail exist's
-                user.set_password(serialized_data.validated_data["new_password"])
-                user.save()
-                return Response({"message": "password changed"}, status=200)
+                is_token_validated = validate_token(token,user_id)
+                if is_token_validated ==0:
+                    with transaction.atomic():
+                        current_token = WhiteListedTokens.objects.get(token=token)
+                        current_token.status =1
+                        current_token.save()  # indicates that token is already been used
+                        user.set_password(serialized_data.validated_data["new_password"])
+                        user.save()
+                        return Response({"message": "password changed"}, status=200)
+                elif is_token_validated == -2:
+                    return Response(
+                        {
+                            "error_code": "D1034",
+                            "error_message": "Link Already used",
+                        }
+                    )
+                else:
+                    return Response(
+                        {
+                            "error_code": "D1032",
+                            "error_message": "Provided forgot passsword token is invalid or expired",
+                        }
+                    )  
             except Exception as e:
                 logger.warn(str(e))
                 return Response(

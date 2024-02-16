@@ -199,6 +199,9 @@ describe("Error Messages", () => {
       expect(getForgotPasswordErrorMessages("D1033")).toBe(
         "Operation only applicable for active accounts"
       );
+      expect(getForgotPasswordErrorMessages("D1034")).toBe(
+        "Link already used"
+      );
       expect(getForgotPasswordErrorMessages("UNKNOWN_ERROR_CODE")).toBe(
         "Unknown error"
       );
