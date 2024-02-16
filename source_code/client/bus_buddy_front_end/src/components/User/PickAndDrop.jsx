@@ -7,9 +7,9 @@ import PropTypes from "prop-types";
 import { SeatContext } from "../../utils/SeatContext";
 
 export default function PickAndDrop(props) {
-  const [pick, setPick] = useState([]); // for storing pick up data
-  const [drop, setDrop] = useState([]); // for storing drop off data
-  const { seatData } = useContext(SeatContext); // use context with seat data
+  const [pick, setPick] = useState([]);
+  const [drop, setDrop] = useState([]);
+  const { seatData } = useContext(SeatContext);
 
   useEffect(() => {
     const storedPickUp = localStorage.getItem("pick_up");
@@ -44,8 +44,39 @@ export default function PickAndDrop(props) {
     }
   }, [seatData]);
 
+  const handlePickSelection = (params) => {
+    const selectedPickId = params.id;
+
+    if (props.selectionModelPick.includes(selectedPickId)) {
+      props.setSelectionModelPick([]);
+      props.setSelectedPickStop([]);
+    } else {
+      props.setSelectionModelPick([selectedPickId]);
+      props.setSelectedPickStop(params.row.stops);
+    }
+
+    // Update localStorage with the new selection
+    localStorage.setItem("pick_up", [selectedPickId]);
+    localStorage.setItem("pick_stop", params.row.stops);
+  };
+
+  const handleDropSelection = (params) => {
+    const selectedDropId = params.id;
+
+    if (props.selectionModelDrop.includes(selectedDropId)) {
+      props.setSelectionModelDrop([]);
+      props.setSelectedDropStop([]);
+    } else {
+      props.setSelectionModelDrop([selectedDropId]);
+      props.setSelectedDropStop(params.row.stops);
+    }
+
+    // Update localStorage with the new selection
+    localStorage.setItem("drop_off", [selectedDropId]);
+    localStorage.setItem("drop_stop", params.row.stops);
+  };
+
   const columnsPick = [
-    // holds the column details of pick up point datagrid
     {
       field: "radioButton",
       headerName: "",
@@ -57,15 +88,7 @@ export default function PickAndDrop(props) {
       renderCell: (params) => (
         <Radio
           checked={props.selectionModelPick.includes(params.id)}
-          onChange={() => {
-            if (props.selectionModelPick.includes(params.id)) {
-              props.setSelectionModelPick([]);
-              props.setSelectedPickStop([]);
-            } else {
-              props.setSelectionModelPick([params.id]);
-              props.setSelectedPickStop([params.row.stops]);
-            }
-          }}
+          onChange={() => handlePickSelection(params)}
           value={params.id}
         />
       ),
@@ -73,6 +96,7 @@ export default function PickAndDrop(props) {
     {
       field: "stops",
       headerName: "Stops",
+      headerClassName: "bold-header",
       width: 150,
       editable: false,
       hideable: false,
@@ -80,7 +104,6 @@ export default function PickAndDrop(props) {
   ];
 
   const columnsDrop = [
-    // holds the column details of drop off point datagrid
     {
       field: "radioButton",
       headerName: "",
@@ -92,15 +115,7 @@ export default function PickAndDrop(props) {
       renderCell: (params) => (
         <Radio
           checked={props.selectionModelDrop.includes(params.id)}
-          onChange={() => {
-            if (props.selectionModelDrop.includes(params.id)) {
-              props.setSelectionModelDrop([]);
-              props.setSelectedDropStop([]);
-            } else {
-              props.setSelectionModelDrop([params.id]);
-              props.setSelectedDropStop([params.row.stops]);
-            }
-          }}
+          onChange={() => handleDropSelection(params)}
           value={params.id}
         />
       ),
@@ -108,6 +123,7 @@ export default function PickAndDrop(props) {
     {
       field: "stops",
       headerName: "Stops",
+      headerClassName: "bold-header",
       width: 150,
       editable: false,
       hideable: false,
@@ -149,6 +165,9 @@ export default function PickAndDrop(props) {
               "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
                 py: "11px",
               },
+              "& .MuiDataGrid-columnHeaderTitle": {
+                fontWeight: "bold",
+              },
             }}
           />
         </div>
@@ -178,6 +197,9 @@ export default function PickAndDrop(props) {
               "&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell": {
                 py: "11px",
               },
+              "& .MuiDataGrid-columnHeaderTitle": {
+                fontWeight: "bold",
+              },
             }}
           />
         </div>
@@ -185,6 +207,7 @@ export default function PickAndDrop(props) {
     </Card>
   );
 }
+
 PickAndDrop.propTypes = {
   selectionModelPick: PropTypes.array,
   setSelectionModelPick: PropTypes.func,

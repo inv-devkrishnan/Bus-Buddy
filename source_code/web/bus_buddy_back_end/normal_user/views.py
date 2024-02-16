@@ -784,7 +784,7 @@ class CancelBooking(UpdateAPIView):
                 logger.info("Booking cancelled successfully")
                 email = self.send_mail(
                     first_name=request.user.first_name,
-                    booking_id=booking_id,
+                    booking_id=instance.booking_id,
                     email=request.user.email,
                     code=code,
                     now=now,
@@ -1098,15 +1098,18 @@ class RegisterComplaint(APIView):
 
     def post(self, request):
 
-        try:            
+        try:
             mutable_data = request.data.dict()
             mutable_data["user"] = request.user.id
             receiving_user = User.objects.get(id=mutable_data["complaint_for"])
             if receiving_user.role != 2:
-                
-                if "complaint_image" in mutable_data and not mutable_data["complaint_image"]:
+
+                if (
+                    "complaint_image" in mutable_data
+                    and not mutable_data["complaint_image"]
+                ):
                     del mutable_data["complaint_image"]
-                
+
                 serialized_data = ComplaintSerializer(data=mutable_data)
                 if serialized_data.is_valid():
                     serialized_data.save()

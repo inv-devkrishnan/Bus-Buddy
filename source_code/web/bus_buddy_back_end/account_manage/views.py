@@ -13,6 +13,8 @@ from .serializer import LoginSerializer as LS
 from .serializer import PasswordSerializer as PS
 from .serializer import EmailOtpSerializer, EmailOtpUpdateSerializer
 from .models import User, EmailAndOTP
+from normal_user.models import Bookings
+from bus_owner.models import Trip
 from .google_auth import Google
 from .serializer import ForgetPasswordSerializer as FPS
 from .serializer import ForgotPasswordChangeSerializer as FPCS
@@ -134,10 +136,26 @@ class DeleteAccount(APIView):
             user_id = request.user.id
             user = User.objects.get(id=user_id)
             logger.info("user instance aquired")
-            user.status = 99  # status code of deleted user
-            user.save()
-            logger.info("user deleted sucessfully")
-            return Response({"success_code": "D2000"}, status=200)
+            bookings_under_user = []
+            trip_under_user = []
+            if request.user.role == 2:
+                bookings_under_user = Bookings.objects.filter(
+                    user=request.user, status=0
+                )
+            elif request.user.role == 3:
+                trip_under_user = Trip.objects.filter(user=request.user, status=0)
+
+            if bookings_under_user and len(bookings_under_user) > 0:
+                logger.error("user deleted failed due to bookings")
+                return Response({"error_code": "D1035"}, status=400)
+            elif trip_under_user and len(trip_under_user) > 0:
+                logger.error("user deleted failed due to trips")
+                return Response({"error_code": "D1036"}, status=400)
+            else:
+                user.status = 99  # status code of deleted user
+                user.save()
+                logger.info("user deleted sucessfully")
+                return Response({"success_code": "D2000"}, status=200)
         except User.DoesNotExist as e:
             logger.warn("user deletion failed Reason" + str(e))
             return Response({"error_code": "D1004"}, status=403)
@@ -279,8 +297,8 @@ class VerifyOTP(UpdateAPIView):
 
     def get(self, request):
         try:
-            encoded_email = request.GET.get('email')
-            decoded_email = encoded_email.replace(' ', '+')
+            encoded_email = request.GET.get("email")
+            decoded_email = encoded_email.replace(" ", "+")
             print(decoded_email)
             instance = EmailAndOTP.objects.get(email=decoded_email)
             if str(instance.otp).zfill(6) == str(request.GET.get("otp")):
@@ -302,6 +320,8 @@ class VerifyOTP(UpdateAPIView):
         except Exception as e:
             logger.error(f"Error: {e}")
             return Response({"error": str(e)}, status=400)
+
+
 class ForgetPasswordSendMail(APIView):
     permission_classes = (AllowAny,)
 
