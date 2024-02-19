@@ -349,13 +349,13 @@ export default function UserBookingHistory() {
           <div className="d-flex flex-column flex-lg-row justify-content-around">
             <div className="m-2">
               <p>
-                Booking date:{" "}
+                Booking date &ensp;&ensp;:{" "}
                 <strong>
                   {new Date(modalData?.created_date).toLocaleDateString()}
                 </strong>
               </p>
               <p>
-                Booking status:{" "}
+                Booking status&ensp;:{" "}
                 <strong>
                   {modalData?.status === 99 && (
                     <span style={{ color: "tomato" }}>Cancelled</span>
@@ -378,7 +378,8 @@ export default function UserBookingHistory() {
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
               <p>
-                From:{" "}
+                &ensp; From
+                &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(
                   Typography,
                   modalData?.pick_up?.start_stop_location?.location
@@ -388,7 +389,8 @@ export default function UserBookingHistory() {
                 )}
               </p>
               <p>
-                To:{" "}
+                &ensp;
+                To&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(
                   Typography,
                   modalData?.drop_off?.start_stop_location?.location
@@ -398,7 +400,7 @@ export default function UserBookingHistory() {
                 )}
               </p>
               <p>
-                Departure Date:{" "}
+                &ensp; Departure Date&ensp;:{" "}
                 <strong>
                   {new Date(
                     new Date(modalData?.trip?.start_date).getTime() +
@@ -412,25 +414,25 @@ export default function UserBookingHistory() {
                 </strong>
               </p>
               <p>
-                Pick up point:{" "}
+                &ensp; Pick up point &ensp;&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.pick_up?.bus_stop, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
                 <br />
-                Pick up time:{" "}
+                &ensp; Pick up time&ensp;&ensp;&ensp;&ensp;:{" "}
                 <strong>
                   {modalData?.pick_up?.start_stop_location?.arrival_time}
                 </strong>
               </p>
               <p>
-                Drop off point:{" "}
+                &ensp; Drop off point&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.drop_off?.bus_stop, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
                 <br />
-                Drop off time:{" "}
+                &ensp; Drop off time &nbsp;&ensp;&ensp;:{" "}
                 <strong>
                   {modalData?.drop_off?.start_stop_location?.arrival_time}
                 </strong>
@@ -439,19 +441,20 @@ export default function UserBookingHistory() {
             <div className="m-2">
               <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
               <p>
-                Bus Name:{" "}
+                &ensp; Bus Name&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.trip?.bus?.bus_name, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
               </p>
               <p>
-                Bus Plate Number:{" "}
+                &ensp; Bus Plate Number&ensp;:{" "}
                 <strong>{modalData?.trip?.bus?.plate_no}</strong>
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
               <p>
-                Total amount: <strong>{modalData?.total_amount}</strong>
+                &ensp; Total amount&ensp;: ₹
+                <strong>{modalData?.total_amount}</strong>
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Passenger Details</h5>
               <Table responsive="md">
