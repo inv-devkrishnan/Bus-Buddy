@@ -39,7 +39,7 @@ export default function Addtrips() {
       .catch((error) => console.error("Error fetching Bus data:", error));
 
     axiosApi
-      .get(`/bus-owner/view-routes/?ordering=${3}`)
+      .get(`/bus-owner/view-routes/`)
       .then((response) => {
         setRouteData(response.data.results);
       })
