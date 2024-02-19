@@ -15,7 +15,7 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateFlag, setUpdateFlag] = useState(false);
-  const [order, setOrder] = useState("");
+  const [order, setOrder] = useState(3);
   const [search, setSearch] = useState("");
   const navi = useNavigate();
 
@@ -182,12 +182,26 @@ export default function Viewallbus() {
             setUpdateFlag((prevFlag) => !prevFlag);
           })
           .catch((error) => {
-            console.error("Error deleting trip:", error?.response?.data?.message);
-            if ( error?.response?.data?.message === "Start date must be at least 2 days from the present date.") {
+            console.error(
+              "Error deleting trip:",
+              error?.response?.data?.message
+            );
+            if (
+              error?.response?.data?.message ===
+              "Start date must be at least 2 days from the present date."
+            ) {
               Swal.fire({
                 icon: "error",
                 title: "Error",
                 text: "Error Deleting Trip, Start date should be atleast 2 days from present date.",
+              });
+            } else if (
+              error?.response?.data?.message === "The trip has bookings"
+            ) {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error Deleting Trip, The trip has bookings.",
               });
             } else {
               Swal.fire({
@@ -196,7 +210,6 @@ export default function Viewallbus() {
                 text: "Error Deleting Trip",
               });
             }
-            
           });
       }
     });
@@ -205,52 +218,47 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
-          <button className="btn btn-primary"> + Add Trip</button>
-        </Link>
-        <Form style={{ textAlign: "center" }}>
-          <div
-            className="input-group"
-            style={{ width: "60%", marginLeft: "-10%" }}
-          >
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Bus name/start/end location"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button
-              className="btn btn-primary"
-              style={{ width: "20%" }}
-              type="button"
-              onClick={handleSearchClick}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
-        </Form>
-        <h1 style={{ marginLeft: "-13%" }}>View All Trips</h1>
-        <Dropdown style={{ width: "10%", marginLeft: "1%" }}>
-          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Order By
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => setOrder("")}>
-              {" "}
-              Latest trip{" "}
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => setOrder("-start_date")}>
-              Trips in descending by date
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => setOrder("start_date")}>
-              trips in ascending by date
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Link to={"/BusHome/add-recurring-trips"}>
-          <button className="btn btn-primary"> + Add Recurring Trip</button>
-        </Link>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "30%" }}>
+          <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
+            <button className="btn btn-primary"> + Add Trip</button>
+          </Link>
+          <Form style={{ textAlign: "center", width: "60%" }}>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Bus name/start/end location"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button
+                className="btn btn-primary"
+                style={{ width: "20%" }}
+                type="button"
+                onClick={handleSearchClick}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </Form>
+        </div>
+        <h1 style={{ textAlign: "center", flex: "1", margin: "0" }}>View All Trips</h1>
+        <div style={{ display: "flex", alignItems: "flex-end", width: "30%", justifyContent: "flex-end" }}>
+          <Dropdown style={{ width: "33%", marginLeft: "1%" }}>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Order By
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setOrder(3)}> Most Recently Added </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(0)}> Least Recently Added </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder("1")}> Trips in descending by date </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder("start_date")}> trips in ascending by date </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Link to={"/BusHome/add-recurring-trips"}>
+            <button className="btn btn-primary"> + Add Recurring Trip</button>
+          </Link>
+        </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div
@@ -270,4 +278,6 @@ export default function Viewallbus() {
       </div>
     </div>
   );
+  
+  
 }

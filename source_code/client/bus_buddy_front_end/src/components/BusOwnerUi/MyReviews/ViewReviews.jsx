@@ -1,17 +1,16 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
-import { StarFill } from 'react-bootstrap-icons';
+import { StarFill } from "react-bootstrap-icons";
 import { Badge } from "react-bootstrap";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
-
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage,setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchData = useCallback(async (page) => {
     try {
@@ -22,16 +21,14 @@ export default function Viewallbus() {
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
+    } catch (err) {
+      console.error("Error:", err);
     }
-    catch(err) {
-      console.error("Error:", err);}
-    
   }, []);
 
   useEffect(() => {
     fetchData(currentPage);
-  }, [fetchData,currentPage,]);
-
+  }, [fetchData, currentPage]);
 
   const getBadgeColor = (rate) => {
     switch (rate) {
@@ -52,7 +49,6 @@ export default function Viewallbus() {
     }
   };
 
-  
   const renderCards = () => {
     return data.map((viewreview) => (
       <div
@@ -60,22 +56,53 @@ export default function Viewallbus() {
         style={{ marginBottom: "2.5%", borderBlockColor: "black" }}
       >
         <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1" data-testid = "accordian-button">
+          <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
               <h4>Title : {viewreview.review_title}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
                 <div>
+                  <h5>Trip : {viewreview.start_point_name}{" - "}{viewreview.end_point_name}</h5>
                   <p>{viewreview.review_body}</p>
-                  <p>
-                    Rating :&nbsp;
-                    <Badge bg={getBadgeColor(viewreview.rating)}>
-                        {viewreview.rating} &nbsp;
-                      <StarFill />
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <p
+                      style={{
+                        margin: "0",
+                        marginRight: "5px",
+                        lineHeight: "1",
+                      }}
+                    >
+                      Rating:{" "}
+                    </p>
+                    <Badge
+                      bg={getBadgeColor(viewreview.rating)}
+                      style={{
+                        lineHeight: "1",
+                        verticalAlign: "middle",
+                        display: "inline-flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "calc(1em + 2px)",
+                          marginRight: "2px",
+                          verticalAlign: "bottom",
+                        }}
+                      >
+                        {viewreview.rating}
+                      </span>
+                      <span style={{ fontSize: "1em" }}>
+                        <StarFill />
+                      </span>
                     </Badge>
+                  </div>
+
+                  <p>
+                    Review By : {viewreview.user_id.first_name}{" "}
+                    {viewreview.user_id.last_name}
                   </p>
-                  <p>Review By : {viewreview.user_id.first_name}  {viewreview.user_id.last_name}</p>
                   <p>Email Id : {viewreview.user_id.email} </p>
                 </div>
               </div>

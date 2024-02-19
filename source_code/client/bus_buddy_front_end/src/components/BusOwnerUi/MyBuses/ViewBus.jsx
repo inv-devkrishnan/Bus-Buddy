@@ -15,7 +15,7 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
-  const [filter,setFilter] = useState('')
+  const [filter,setFilter] = useState(3)
   const [search, setSearch] = useState('');
 
 
@@ -84,7 +84,8 @@ export default function Viewallbus() {
 
   const fetchData = useCallback(async (page) => {
     try {
-      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${search}&bus_details_status=${filter}`);
+      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${search}&filter=${filter}`);
+
       setData(response.data.results);
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
@@ -199,36 +200,38 @@ export default function Viewallbus() {
   
 
   return (
-    <div style={{minHeight:"50vh",marginLeft:"1%"}}>
-      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <Dropdown style={{width:"10%"}}>
-      <Dropdown.Toggle variant="primary" id="dropdown-basic">
-        Filter By
-      </Dropdown.Toggle>
+    <div style={{ minHeight: "50vh", marginLeft: "1%" }}>
+     <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setFilter('')} > All </Dropdown.Item>
-        <Dropdown.Item onClick={()=>setFilter(0)} > Details not completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setFilter(1)} > Partial completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setFilter(2)} > Fully  completed</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-    <Form style={{ textAlign: "center" ,width:"19%"}}>
-        <div className="input-group" >
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Bus name"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSearchClick}>
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
+        <div style={{ display: "flex", alignItems:"flex-end" }}>
+          <Dropdown style={{ width: "33%" }}>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Filter By
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setFilter(3)}> All </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter(0)}> Details not completed</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter(1)}> Partial completed</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter(2)}> Fully  completed</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Form style={{ textAlign: "center", width: "35%" }}>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Bus name"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button className="btn btn-primary" style={{ width: "29%" }} type="button" onClick={handleSearchClick}>
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </Form>
         </div>
-      </Form>
-        <h1 >View All Bus</h1>
-        <Form style={{ textAlign: "center" }}>
+        <h1 style={{ flex: "1", textAlign: "center" }}>View All Bus</h1>
+        <Form style={{ textAlign: "center", width: "33%",display:"flex",justifyContent:"flex-end" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary">+ Add Bus</button>
           </Link>
@@ -240,4 +243,6 @@ export default function Viewallbus() {
       </div>
     </div>
   );
+  
+  
 }

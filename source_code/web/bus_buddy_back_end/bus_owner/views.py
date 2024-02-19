@@ -376,16 +376,27 @@ class Viewbus(ListAPIView):
     pagination_class = CustomPagination
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ["bus_name"]
-    filterset_fields = {"bus_details_status"}
-
     def list(self, request):
         try:
             logger.info("gettin the user is from user model")
             user_id = request.user.id
-            logger.info("fetching all  data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0, user=user_id).order_by(
+            filter_bus = eval(request.GET.get("filter"))
+            print("before if:  ",filter_bus)
+            if filter_bus == 3  :
+                print("bus : ",filter_bus)
+                queryset = Bus.objects.filter(status=0, user=user_id).order_by(
                 "-id"
             )  # to filter out bus objects which has been soft deleted
+            elif filter_bus is not None :
+                queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status = filter_bus).order_by(
+                "-id"
+            )
+
+            else : 
+                 return Response("Invalid Value")
+
+            logger.info("fetching all  data from Bus model matching the condition")
+            
             serializer = ViewBusSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
@@ -537,65 +548,78 @@ class Deleteroutes(APIView):
 
     def put(self, request, id):
         try:
+            bookings = Bookings.objects.filter(status=0)
+            booked_route = [booking.trip.route.id for booking in bookings]
             logger.info("fetching the route obj")
             data = Routes.objects.get(id=id)  # to get route object matching the id
-            print(data)
+            if id in booked_route:
+                logger.info("route didn't as it has bookings")
+                return Response("route has Bookings", status=400)
             if data.status == 99:
                 return Response("route already deleted")
             else:
-                data.status = 99
-                data.save()
-                logger.info("Deleted")
-            try:
-                logger.info("fetching the trip obj associated with route ")
-                data = Trip.objects.filter(
-                    route=id
-                )  # to get trips object matching the id
-                for trip in data:
-                    print(trip)
-                    if trip.status == 0:
-                        trip.status = 99
-                        trip.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("no trip obj associated with route")
-                logger.info(entry)
-                return Response({"message": entry}, status=400)
-            try:
-                logger.info("fetching the startstoplocations associated with routes")
-                data = StartStopLocations.objects.filter(
-                    route=id
-                )  # to get start stop object matching the id
-                for ssl in data:
-                    print(ssl)
-                    if ssl.status == 0:
-                        ssl.status = 99
-                        ssl.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("there are no start stop locations associated with routes")
-                logger.info(entry)
-                return Response({"message": entry}, status=404)
-
-            try:
-                logger.info("fetching pickdroppoints associated with routes")
-                data = PickAndDrop.objects.filter(
-                    route=id
-                )  # to get pick&drop object matching the id
-                for pad in data:
-                    print(pad)
-                    if pad.status == 0:
-                        pad.status = 99
-                        pad.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("there are no pickupdropoff points associated with routes")
-                logger.info(entry)
-
-            return Response({"message": "Deletion successful"}, status=200)
+                self.delete_route(data)
+                self.delete_related_objects(id)
+                return Response({"message": "Deletion successful"}, status=200)
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)
+            return Response({"message": "route not found"}, status=404)
+
+    def delete_route(self, data):
+        data.status = 99
+        data.save()
+        logger.info("Deleted")
+
+    def delete_related_objects(self, route_id):
+        self.delete_trips(route_id)
+        self.delete_start_stop_locations(route_id)
+        self.delete_pick_drop_points(route_id)
+
+    def delete_trips(self, route_id):
+        try:
+            logger.info("fetching the trip obj associated with route ")
+            data = Trip.objects.filter(route=route_id)
+            for trip in data:
+                print(trip)
+                if trip.status == 0:
+                    trip.status = 99
+                    trip.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("no trip obj associated with route")
+            logger.info(entry)
+            return Response({"message": entry}, status=400)
+
+    def delete_start_stop_locations(self, route_id):
+        try:
+            logger.info("fetching the startstoplocations associated with routes")
+            data = StartStopLocations.objects.filter(route=route_id)
+            for ssl in data:
+                print(ssl)
+                if ssl.status == 0:
+                    ssl.status = 99
+                    ssl.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("there are no start stop locations associated with routes")
+            logger.info(entry)
+            return Response({"message": entry}, status=404)
+
+    def delete_pick_drop_points(self, route_id):
+        try:
+            logger.info("fetching pickdroppoints associated with routes")
+            data = PickAndDrop.objects.filter(route=route_id)
+            for pad in data:
+                print(pad)
+                if pad.status == 0:
+                    pad.status = 99
+                    pad.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("there are no pickupdropoff points associated with routes")
+            logger.info(entry)
+
             return Response({"message": "route not found"}, status=404)
 
 
@@ -609,14 +633,21 @@ class Viewroutes(ListAPIView):
     pagination_class = CustomPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ["start_point__location_name", "end_point__location_name"]
-    ordering_fields = ["travel_fare"]
 
     def list(self, request):
         try:
+            order_routes = eval(request.GET.get("ordering"))
             logger.info("fetching user id ")
             user_id = request.user.id
             logger.info("fetching all data from routes model matching the conditions")
-            queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
+            if order_routes == 2:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("travel_fare")
+            elif order_routes == 0:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("id")
+            elif order_routes == 1:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("-travel_fare")
+            else :
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewRoutesSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
@@ -769,14 +800,16 @@ class Deletetrip(APIView):
 
     def put(self, request, id):
         try:
+            booking = Bookings.objects.filter(trip=id, status=0)
             logger.info("fetching the trip obj for the obj")
             data = Trip.objects.get(id=id)  # to get trip object matching the id
             present_date = datetime.now().date()
             start_date = data.start_date
             diff = start_date - present_date
             print(diff)
+            if booking.count() != 0:
+                 raise ValueError("The trip has bookings")
             if (diff) < timedelta(days=2) and diff > timedelta(days=0):
-                print("condition ok ")
                 raise ValueError(
                     "Start date must be at least 2 days from the present date."
                 )
@@ -809,8 +842,16 @@ class Viewtrip(ListAPIView):
 
     def list(self, request):
         try:
+            order_trips = eval(request.GET.get("ordering"))
             user_id = request.user.id
-            queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
+            if order_trips == 1:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-start_date")
+            elif order_trips == 2: 
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("start_date")
+            elif order_trips == 0:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
+            else:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)

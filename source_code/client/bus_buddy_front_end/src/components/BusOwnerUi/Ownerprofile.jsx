@@ -38,15 +38,15 @@ export default function Ownerprofile() {
             >
               {currentUserData["first_name"]} {currentUserData["last_name"]}
             </Card.Title>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
               Name: {currentUserData["first_name"]}
             </p>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
               Last name: {currentUserData["last_name"]}
             </p>
             <p>Phone Number: {currentUserData["phone"]}</p>
             <p>Email ID: {currentUserData["email"]}</p>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{ maxWidth:"40vw", wordWrap: "break-word" }}>
               Company Name: {currentUserData["company_name"]}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
