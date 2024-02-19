@@ -144,12 +144,11 @@ export default function ComplaintResponse(props) {
                 {props.complaintData.map((data) => (
                   <Accordion.Item key={data?.id} eventKey={data?.id}>
                     <Accordion.Header style={{ overflowWrap: "break-word" }}>
-                      {withTooltip(
-                        Typography,
-                        `${data?.complaint_title}-(${data?.created_date})`,
-                        20,
-                        { style: { fontWeight: "bold" }, component: "span" }
-                      )}
+                      <div
+                        style={{ wordWrap: "break-word", maxWidth: "90%" }}
+                      >
+                        {`${data?.complaint_title}-(${data?.created_date})`}
+                      </div>
                     </Accordion.Header>
                     <Accordion.Body className="d-flex flex-column m-1">
                       <div style={{ overflowWrap: "break-word" }}>
