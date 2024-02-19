@@ -117,7 +117,7 @@ function UpdateProfile() {
         <Col xs={11} sm={12} md={8} lg={6} xl={5} xxl={4}>
           {!isProfileLoading ? (
             <Card className="p-5 pt-3 mt-2 mb-5 shadow-lg w-100">
-              <Card.Title className="mb-4">Update Profile</Card.Title>
+              <h2 className="mb-4">Update Profile</h2>
               <Formik
                 // filling initial from props
                 initialValues={{
@@ -302,7 +302,7 @@ function UpdateProfile() {
             </Card>
           )}
         </Col>
-        <Col xs={12} lg={6} xl={7} xxl={8}>
+        <Col xs={12} lg={6} xl={7} xxl={8} className="d-flex justify-content-end">
           <Image
             fluid
             className="mt-5"

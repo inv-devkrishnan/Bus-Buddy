@@ -65,14 +65,14 @@ function ChangePassword() {
       }
   };
   return (
-    <Container fluid className="mt-3 mb-5">
+    <Container  className="mt-3 mb-5 me-0">
       <Row>
-        <Col xs={8} md={6}>
+        <Col xs={12} md={6} sm={12}>
           <h1>Change password</h1>
           <Form
             noValidate
             onSubmit={handleSubmit(submitData)}
-            className="ms-3 mt-3"
+            className="ms-0 mt-3"
           >
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label> Old password</Form.Label>
@@ -200,7 +200,7 @@ function ChangePassword() {
           </Form>
         </Col>
 
-        <Col md={6}>
+        <Col md={6} sm={12} className="d-flex align-items-center">
           <Card className="p-3 m-2 mt-5" style={{ width: "100%" }}>
             <Card.Title className="text-center">
               Password Requirements

@@ -36,6 +36,11 @@ function ProfileView() {
   return (
     <Container className="ms-0 ps-0 mt-2">
       <Container>
+      <Row>
+        <Col>
+          <h1 >Profile Management</h1>
+        </Col>
+      </Row>
         <Row>
           <Col xl={6} lg={12} className="mt-5">
             {isProfileLoading ? (

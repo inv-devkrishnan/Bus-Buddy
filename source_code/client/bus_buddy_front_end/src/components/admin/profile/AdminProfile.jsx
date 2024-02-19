@@ -8,11 +8,6 @@ function AdminProfile() {
     <Container className="ms-2 mt-2">
       <Row>
         <Col>
-          <h1 className="ms-3">Profile Management</h1>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
           <Outlet />
         </Col>
       </Row>
