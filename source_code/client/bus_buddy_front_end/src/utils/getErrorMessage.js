@@ -110,7 +110,9 @@ export function getForgotPasswordErrorMessages(errorCode) {
     case "D1033":
       return "Operation not applicable for accounts removed by admin";
     case "D1034":
-      return "Link already used";  
+      return "Link already used";
+    case "D1037":
+      return "Operation not applicable for banned or unapproved accounts";
     default:
       return getErrorMessage(errorCode);
   }

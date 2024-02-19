@@ -10,7 +10,6 @@ import {
 
 describe("Error Messages", () => {
   describe("getErrorMessage", () => {
-
     it("returns correct error message for D0001", () => {
       expect(getErrorMessage("D1001")).toBe("User doesn't exist ");
     });
@@ -93,7 +92,9 @@ describe("Error Messages", () => {
 
     it("returns2 correct error1", () => {
       expect(getLoginErrorMessages("D1009")).toBe("User Banned Permanently");
-      expect(getLoginErrorMessages("D1010")).toBe("User account removed by admin");
+      expect(getLoginErrorMessages("D1010")).toBe(
+        "User account removed by admin"
+      );
       expect(getLoginErrorMessages("D1015")).toBe(
         "Please login using different sign in method"
       );
@@ -199,14 +200,13 @@ describe("Error Messages", () => {
       expect(getForgotPasswordErrorMessages("D1033")).toBe(
         "Operation not applicable for accounts removed by admin"
       );
-      expect(getForgotPasswordErrorMessages("D1034")).toBe(
-        "Link already used"
+      expect(getForgotPasswordErrorMessages("D1034")).toBe("Link already used");
+      expect(getForgotPasswordErrorMessages("D1037")).toBe(
+        "Operation not applicable for banned or unapproved accounts"
       );
       expect(getForgotPasswordErrorMessages("UNKNOWN_ERROR_CODE")).toBe(
         "Unknown error"
       );
     });
   });
-
-  
 });
