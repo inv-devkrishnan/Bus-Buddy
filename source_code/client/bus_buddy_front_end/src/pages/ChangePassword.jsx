@@ -105,12 +105,12 @@ function ChangePassword() {
              
               {errors.old_password &&
                 errors.old_password.type === "required" && (
-                  <p className="text-danger">* required field</p>
+                  <p className="text-danger">* Required field</p>
                 )}
               {errors.old_password &&
                 errors.old_password.type === "pattern" && (
                   <p className="text-danger">
-                    password doesn't meet the criteria
+                    Password doesn't meet the criteria
                   </p>
                 )}
             </Form.Group>
@@ -146,16 +146,16 @@ function ChangePassword() {
               
               {errors.new_password &&
                 errors.new_password.type === "required" && (
-                  <p className="text-danger">* required field</p>
+                  <p className="text-danger">* Required field</p>
                 )}
               {errors.new_password &&
                 errors.new_password.type === "pattern" && (
                   <p className="text-danger">
-                    password doesn't meet the criteria
+                    Password doesn't meet the criteria
                   </p>
                 )}
                {errors.new_password && errors.new_password.type === "validate" && (
-                <p className="text-danger">new password can't be same as old password</p>
+                <p className="text-danger">New password can't be same as old password</p>
               )} 
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -188,10 +188,10 @@ function ChangePassword() {
              
               {errors.re_password &&
                 errors.re_password.type === "required" && (
-                  <p className="text-danger">* required field</p>
+                  <p className="text-danger">* Required field</p>
                 )}
               {errors.re_password && errors.re_password.type === "validate" && (
-                <p className="text-danger">password doesn't match</p>
+                <p className="text-danger">Password doesn't match</p>
               )}
             </Form.Group>
             <Button variant="success mt-2" type="submit">

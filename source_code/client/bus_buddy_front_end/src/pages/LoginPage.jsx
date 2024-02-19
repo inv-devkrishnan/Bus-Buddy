@@ -162,9 +162,9 @@ function LoginPage() {
       localStorage.setItem("user_name", loginRes.message.user_name);
 
       if (localStorage.getItem("current_trip") && seatList.length > 0) {
-        navigate("/traveller-data");
+        navigate("/traveller-data", { replace: true });
       } else if (loginRes.message.user_role === 2) {
-        navigate("/user-dashboard");
+        navigate("/user-dashboard/profile");
       } else if (loginRes.message.user_role === 1) {
         navigate("/admin-dashboard/view-profile");
       } else {
@@ -204,14 +204,13 @@ function LoginPage() {
           <Image src={LoginSplash} draggable={false} fluid></Image>
         </Col>
         <Col
-          xl={6}
-          lg={7}
+          xl={5}
+          lg={6}
           md={12}
-          sm={12}
           xs={12}
           className="d-flex justify-content-center align-items-center"
         >
-          <Card className="p-5 shadow-lg p-3 bg-body rounded">
+          <Card className="p-5 shadow-lg p-3 bg-body rounded w-100">
             <h1 className="text-center">Login</h1>
             <Form noValidate validated={validated} onSubmit={handleLoginSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">

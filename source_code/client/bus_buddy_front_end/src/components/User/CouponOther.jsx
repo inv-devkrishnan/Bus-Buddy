@@ -7,7 +7,7 @@ import { FileText } from "react-bootstrap-icons";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
+import truncateText from "../../utils/truncateText";
 import Other from "../../assets/images/couponOther.png";
 
 export default function CouponOther(props) {
@@ -29,7 +29,7 @@ export default function CouponOther(props) {
                 <Card.Title
                   style={{ color: "lightgoldenrodyellow", fontSize: "20px" }}
                 >
-                  {props.data?.coupon_name}
+                  {truncateText(props.data?.coupon_name, 10)}
                 </Card.Title>
                 <Card.Body>
                   <Card.Text
@@ -96,8 +96,18 @@ export default function CouponOther(props) {
       </Card>
 
       <Modal show={show} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Coupon List</Modal.Title>
+        <Modal.Header
+          closeButton
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "start",
+            margin: 2,
+          }}
+        >
+          <Modal.Title style={{ wordWrap: "break-word", maxWidth: "95%" }}>
+            {props.data?.coupon_name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ wordWrap: "break-word" }}>
           {props.data?.coupon_description}

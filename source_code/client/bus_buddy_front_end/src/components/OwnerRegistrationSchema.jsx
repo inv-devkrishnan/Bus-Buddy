@@ -1,6 +1,6 @@
 import * as yup from "yup";
 const onlyNumberRule = /^\d+$/;
-const chargeRule = /^\d+(\.\d+)?$/;
+const chargeRule = /^\d+(\.\d{1,2})?$/;
 const nameRules = /^[A-Za-z]+$/;
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 

@@ -68,6 +68,18 @@ class AddSeatDetails(APIView):
 
     permission_classes = (IsAuthenticated,)
 
+    def get_message(self, count, bus_instance):
+        if count == 30:
+            bus_instance.bus_details_status = (
+                2  # to mark the finish of bus detail entry
+            )
+            bus_instance.save()
+            logger.info("seat detail complete")
+            return "All seat details have been added successfully", 200
+        else:
+            logger.info("seat data saved successfully")
+            return "Details added successfully", 201
+
     def post(self, request):
         user_id = request.user.id
         bus_id = request.data.get("bus")
@@ -92,22 +104,14 @@ class AddSeatDetails(APIView):
                 ) or SeatDetails.objects.filter(seat_number=seat_number, bus=bus_id):
                     logger.info("seat already registered")
                     return Response(
-                        {"data": "seat number already registered"}, status=400
+                        {"data": "Seat number already registered"}, status=400
                     )
                 else:
                     if serialized_data.is_valid():
                         serialized_data.save()
                         count = SeatDetails.objects.filter(bus=bus_id).count()
-                        if count == 30:
-                            bus_instance.bus_details_status = (
-                                2  # to mark the finish of bus detail entry
-                            )
-                            bus_instance.save()
-                            logger.info("seat detail complete")
-                        logger.info("seat data saved successfully")
-                        return Response(
-                            {"message": "details added successfully"}, status=201
-                        )
+                        message, status = self.get_message(count, bus_instance)
+                        return Response({"message": message}, status=status)
                     else:
                         logger.warning(serialized_data.errors)
                         return Response(serialized_data.errors, status=400)
@@ -936,14 +940,16 @@ class Addreccuringrip(APIView):
             stop_date_offset = stop_date + timedelta(days=offset)
             stop_date_offset_str = stop_date_offset.strftime(date_format)
             request_data["end_date"] = stop_date_offset_str
-            
 
             recurrence_type = request_data["recurrence"]
 
-            start_date, end_date = datetime.strptime(start_date_str, date_format), datetime.strptime(end_date_str, date_format)
+            start_date, end_date = datetime.strptime(
+                start_date_str, date_format
+            ), datetime.strptime(end_date_str, date_format)
             start_time, end_time = seq_first.arrival_time, seq_last.departure_time
-            start_datetime, end_datetime = datetime.combine(start_date, start_time), datetime.combine(end_date, end_time)
-
+            start_datetime, end_datetime = datetime.combine(
+                start_date, start_time
+            ), datetime.combine(end_date, end_time)
 
             psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
             psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
@@ -954,7 +960,14 @@ class Addreccuringrip(APIView):
                         "The route's start time has already passed for today"},status=400
                     )
             if self.is_in_date_range(start_datetime, end_datetime, psd, ped):
-                trip_objects = self.generate_recurring_trips(request_data, start_datetime, end_datetime, psd, ped, recurrence_type)
+                trip_objects = self.generate_recurring_trips(
+                    request_data,
+                    start_datetime,
+                    end_datetime,
+                    psd,
+                    ped,
+                    recurrence_type,
+                )
                 return Response({"message": "Trips inserted", "trips": trip_objects})
             else:
                 return Response({"message": "Failed to add recurring trip"}, status=400)
@@ -966,7 +979,9 @@ class Addreccuringrip(APIView):
     def is_in_date_range(self, start_datetime, end_datetime, psd, ped):
         return psd <= start_datetime <= ped and psd <= end_datetime <= ped
 
-    def generate_recurring_trips(self, request_data, start_datetime, end_datetime, psd, ped, recurrence_type):
+    def generate_recurring_trips(
+        self, request_data, start_datetime, end_datetime, psd, ped, recurrence_type
+    ):
         trip_objects = []
         iterations = self.calculate_iterations(psd, ped, recurrence_type)
 
@@ -982,7 +997,13 @@ class Addreccuringrip(APIView):
             if not self.is_within_date_range(current_end_date, ped):
                 break
 
-            current_request_data = self.update_request_data_dates(request_data, current_start_date, current_end_date, start_datetime.time(), end_datetime.time())
+            current_request_data = self.update_request_data_dates(
+                request_data,
+                current_start_date,
+                current_end_date,
+                start_datetime.time(),
+                end_datetime.time(),
+            )
 
             current_serializer = TripSerializer(data=current_request_data)
 
@@ -1011,7 +1032,9 @@ class Addreccuringrip(APIView):
     def is_within_date_range(self, current_end_date, ped):
         return current_end_date <= ped
 
-    def update_request_data_dates(self, request_data, current_start_date, current_end_date, start_time, end_time):
+    def update_request_data_dates(
+        self, request_data, current_start_date, current_end_date, start_time, end_time
+    ):
         current_request_data = request_data.copy()
         current_request_data["start_date"] = current_start_date.strftime(date_format)
         current_request_data["end_date"] = current_end_date.strftime(date_format)

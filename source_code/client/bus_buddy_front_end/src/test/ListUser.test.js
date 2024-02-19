@@ -53,6 +53,7 @@ describe("list user", () => {
     test("list user ascending and decending", async () => {
         mock.onGet(`adminstrator/list-users/`).reply(200, data);
         await renderListUser();
+        await new Promise(resolve => setTimeout(resolve, 2000));
         fireEvent.click(screen.getByText("Sort : None"));
         fireEvent.click(screen.getByText("Name Ascending"));
         fireEvent.click(screen.getByText("Sort : Name Ascending"));
@@ -102,6 +103,7 @@ describe("list user", () => {
 
     test("list user by search", async () => {
        await renderListUser();
+       await new Promise(resolve => setTimeout(resolve, 2000));
         fireEvent.change(screen.getByPlaceholderText("Search"), {
             target: { value: "dev" },
         });
@@ -152,7 +154,7 @@ describe("list user", () => {
             expect(screen.getByText('Role')).toBeInTheDocument();
         });
         fireEvent.click(screen.getByText("Unban User"));
-        fireEvent.click(screen.getByText("UnBan user"));
+        fireEvent.click(screen.getByText("Unban user"));
         mock.onPut(`adminstrator/unban-user/1/`).reply(200, data);
     })
 
@@ -173,7 +175,7 @@ describe("list user", () => {
             expect(screen.getByText('Role')).toBeInTheDocument();
         });
         fireEvent.click(screen.getByText("Unban User"));
-        fireEvent.click(screen.getByText("UnBan user"));
+        fireEvent.click(screen.getByText("Unban user"));
         mock.onPut(`adminstrator/unban-user/1/`).reply(400, data);
     })
 
@@ -264,6 +266,8 @@ describe("list user", () => {
 
     test("list bus owner by search", async () => {
         mock.onGet(`adminstrator/list-users/?status=3`).reply(200, data);
+       
+        await new Promise(resolve => setTimeout(resolve, 2000));
         render(
             <BrowserRouter>
                 <ListUsers busApproval={true} />
@@ -276,7 +280,7 @@ describe("list user", () => {
             target: { value: "tom" },
         });
         fireEvent.click(screen.getByText("Search"));
-        fireEvent.click(screen.getByText("Clear"));
+        mock.onGet(`adminstrator/list-users/?keyword=tom&status=3`).reply(200, data);
     })
 
     test("list bus owner view details and aproval", async () => {

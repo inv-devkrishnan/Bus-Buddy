@@ -1,4 +1,6 @@
 import { React, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   FormControl,
   TextField,
@@ -32,6 +34,7 @@ export default function FormComponent(props) {
     updateIsClicked,
   } = useContext(AddSeatContext); // use context holds ui order,current data and for storing current data
   const [changedSeatType, setChangedSeatType] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // for setting current seat data using ui order(propsData)
@@ -82,6 +85,15 @@ export default function FormComponent(props) {
           Swal.fire("Success!", "Seat added successfully!", "success");
           resetForm();
           updateReRender(!reRender);
+        } else if (res.status === 200) {
+          Swal.fire(
+            "Success!",
+            "All seat details has been added successfully!",
+            "success"
+          );
+          resetForm();
+          updateReRender(!reRender);
+          navigate("/BusHome/Viewbus");
         } else {
           console.log(res);
         }

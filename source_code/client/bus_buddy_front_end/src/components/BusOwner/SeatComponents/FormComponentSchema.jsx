@@ -1,17 +1,30 @@
 import * as yup from "yup";
-const numberRule = /^\d+$/;
+const numberRule = /^\d+(\.\d+)?$/;
 const alphanum = /^[a-zA-Z\d]+$/;
+const maxCost = /^\d{1,4}(\.\d{1,2})?$/;
 
 export const FormComponentSchema = yup.object().shape({
   // form validation for formik
   seatNumber: yup
     .string()
-    .matches(alphanum, "The seat number may only include letters and numbers.")
+    .matches(
+      alphanum,
+      "The seat number should consist only of letters and numbers."
+    )
     .required("Seat number is required"),
   seatType: yup.number().required("Seat type is required"),
   deck: yup.number().required("Deck is required"),
   seatCost: yup
     .string()
-    .matches(numberRule, "Seat cost must be numbers")
+    .notOneOf(["0", "0.0", "0.00"], "Cost cannot be zero")
+    .matches(
+      maxCost,
+      "Up to 4 digits before the decimal point and up to 2 digits after the decimal point"
+    )
+    .matches(
+      numberRule,
+      "Seat cost must be numbers. If only decimal places are necessary, please use zero before the decimal point."
+    )
+
     .required("Seat cost is required"),
 });

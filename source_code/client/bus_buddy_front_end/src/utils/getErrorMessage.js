@@ -25,6 +25,10 @@ export function getErrorMessage(errorCode) {
       return "Mail Operation Failed ";
     case "D1029":
       return "Database Error";
+    case "D1035":
+      return "Account Deletion failed due to existing bookings";
+    case "D1036":
+      return "Account Deletion failed due to existing trips";
     case "T0001":
       return "Too many request please try again later";
     default:
@@ -109,6 +113,8 @@ export function getForgotPasswordErrorMessages(errorCode) {
       return "Current Session is invalid or expired please try again";
     case "D1033":
       return "Operation only applicable for active accounts";
+    case "D1034":
+      return "Link already used";  
     default:
       return getErrorMessage(errorCode);
   }

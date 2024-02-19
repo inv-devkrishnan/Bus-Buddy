@@ -48,7 +48,7 @@ function CardPayment(props) {
 
         window.history.replaceState({}, "", "/");
         window.history.pushState({}, "", "/"); // clears previous history
-        navigate("/user-dashboard");
+        navigate("/user-dashboard/my-trips");
       })
       .catch((err) => {
         Swal.fire({

@@ -247,10 +247,7 @@ export default function ReviewHistory() {
         </>
       )}
 
-      <div
-        className="align-self-center"
-        style={{ position: "fixed", bottom: 0 }}
-      >
+      <div className="align-self-center m-3">
         <CustomPaginator
           totalPages={totalPages}
           currentPage={curentPage}
