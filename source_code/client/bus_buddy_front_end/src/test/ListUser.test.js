@@ -154,7 +154,7 @@ describe("list user", () => {
             expect(screen.getByText('Role')).toBeInTheDocument();
         });
         fireEvent.click(screen.getByText("Unban User"));
-        fireEvent.click(screen.getByText("UnBan user"));
+        fireEvent.click(screen.getByText("Unban user"));
         mock.onPut(`adminstrator/unban-user/1/`).reply(200, data);
     })
 
@@ -175,7 +175,7 @@ describe("list user", () => {
             expect(screen.getByText('Role')).toBeInTheDocument();
         });
         fireEvent.click(screen.getByText("Unban User"));
-        fireEvent.click(screen.getByText("UnBan user"));
+        fireEvent.click(screen.getByText("Unban user"));
         mock.onPut(`adminstrator/unban-user/1/`).reply(400, data);
     })
 

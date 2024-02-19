@@ -291,10 +291,10 @@ function ListUsers(props) {
 
     //shows dialog
     const unBanUserDialog = {
-      title: "UnBan User",
+      title: "Unban User",
       text: "Are you sure you want to unban this user",
       icon: "warning",
-      confirmButtonText: "UnBan user",
+      confirmButtonText: "Unban user",
       confirmButtonColor: "#5cb85c",
       showCancelButton: true,
       cancelButtonText: "Cancel",
