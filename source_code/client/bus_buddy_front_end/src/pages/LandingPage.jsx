@@ -125,7 +125,7 @@ function LandingPage(props) {
           </Row>
           <Row className="justify-content-end">
             <Col lg={12} xl={3}>
-              <text>From Location</text>
+              <p className="m-0 p-0">From Location</p>
               <input
                 className="form-control mb-1"
                 list="datalistOptions"
@@ -136,7 +136,7 @@ function LandingPage(props) {
               />
             </Col>
             <Col lg={12} xl={3}>
-            <text>To Location</text>
+              <p className="m-0 p-0">To Location</p>
               <input
                 className="form-control  mb-1"
                 list="datalistOptions"
@@ -147,7 +147,7 @@ function LandingPage(props) {
               />
             </Col>
             <Col lg={12} xl={3}>
-            <text>Date</text>
+              <p className="m-0 p-0">Date</p>
               <input
                 className="form-control  mb-1"
                 data-testid="date-selector"
@@ -158,7 +158,6 @@ function LandingPage(props) {
               />
             </Col>
             <Col lg={12} xl={2} className="d-flex align-items-end mb-1">
-  
               <Button
                 disabled={!enableSearch}
                 onClick={() => {
