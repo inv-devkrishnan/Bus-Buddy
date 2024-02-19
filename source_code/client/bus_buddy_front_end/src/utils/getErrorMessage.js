@@ -44,7 +44,7 @@ export function getLoginErrorMessages(errorCode) {
     case "D1009":
       return "User Banned Permanently";
     case "D1010":
-      return "User Account Disabled";
+      return "User account removed by admin";
     case "D1015":
       return "Please login using different sign in method";
     case "D1011":
@@ -108,7 +108,7 @@ export function getForgotPasswordErrorMessages(errorCode) {
     case "D1032":
       return "Current Session is invalid or expired please try again";
     case "D1033":
-      return "Operation only applicable for active accounts";
+      return "Operation not applicable for accounts removed by admin";
     case "D1034":
       return "Link already used";  
     default:

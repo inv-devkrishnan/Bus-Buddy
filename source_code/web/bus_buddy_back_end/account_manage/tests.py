@@ -88,6 +88,38 @@ class LocalLoginTestCase(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_cant_login_with_banned_user(self):
+        self.user.status = 2
+        self.user.save()
+        response = self.client.post(
+            self.local_login_url, data=self.local_login_valid_credentials, format="json"
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_cant_login_with_unapproved_user(self):
+        self.user.status = 3
+        self.user.save()
+        response = self.client.post(
+            self.local_login_url, data=self.local_login_valid_credentials, format="json"
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_cant_login_with_removed_user(self):
+        self.user.status = 98
+        self.user.save()
+        response = self.client.post(
+            self.local_login_url, data=self.local_login_valid_credentials, format="json"
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_cant_login_with_deleted_user(self):
+        self.user.status = 99
+        self.user.save()
+        response = self.client.post(
+            self.local_login_url, data=self.local_login_valid_credentials, format="json"
+        )
+        self.assertEqual(response.status_code, 200)
+
     def test_cannot_login_with_invalid_email(self):
         response = self.client.post(
             self.local_login_url, data=self.local_login_invalid_email, format="json"
@@ -357,7 +389,7 @@ class ForgetPasswordTest(BaseTest):
         )
         self.assertEquals(
             response.content,
-            b'{"error_code":"D1033","error_message":"Only applicable for active accounts"}',
+            b'{"error_code":"D1037","error_message":"not applicable for banned or unapproved accounts"}',
         )
 
     def test_05_can_send_change_password_3rd_party_sign_in_account(self):
@@ -593,4 +625,19 @@ class ForgetPasswordTest(BaseTest):
         self.assertEquals(
             response.content,
             self.expired_response,
+        )
+
+    def test_17_cant__change_password_admin_removed_account(self):
+        User.objects.create_user(
+            email="dragoon@gmail.com", password=password, account_provider=0, status=98
+        )
+        request_data = {"email": "dragoon@gmail.com"}
+        response = self.client.post(
+            self.forgot_password_mail,
+            data=request_data,
+            format="json",
+        )
+        self.assertEquals(
+            response.content,
+            b'{"error_code":"D1033","error_message":"Operation not applicable for disabled accounts by admin"}',
         )

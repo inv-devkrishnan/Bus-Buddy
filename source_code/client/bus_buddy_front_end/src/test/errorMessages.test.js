@@ -93,7 +93,7 @@ describe("Error Messages", () => {
 
     it("returns2 correct error1", () => {
       expect(getLoginErrorMessages("D1009")).toBe("User Banned Permanently");
-      expect(getLoginErrorMessages("D1010")).toBe("User Account Disabled");
+      expect(getLoginErrorMessages("D1010")).toBe("User account removed by admin");
       expect(getLoginErrorMessages("D1015")).toBe(
         "Please login using different sign in method"
       );
@@ -197,7 +197,7 @@ describe("Error Messages", () => {
         "Current Session is invalid or expired please try again"
       );
       expect(getForgotPasswordErrorMessages("D1033")).toBe(
-        "Operation only applicable for active accounts"
+        "Operation not applicable for accounts removed by admin"
       );
       expect(getForgotPasswordErrorMessages("D1034")).toBe(
         "Link already used"
