@@ -30,7 +30,7 @@ function ListUsers(props) {
   const listOrder = useRef(-1); // to store the sorting order
   const userStatus = useRef(props.busApproval ? 3 : 100); // to store the user status
   const userRole = useRef(100); // to store current user role
-  const [isTableLoading, setIsTableLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(true);
 
   const [showBusOwnerInfo, setShowBusOwnerInfo] = useState(false);
   const handleBusOwnerInfoClose = () => setShowBusOwnerInfo(false);
@@ -75,6 +75,7 @@ function ListUsers(props) {
         })
         .catch(function (error) {
           displayErrorMessage(error);
+          console.log(error);
         });
       setIsTableLoading(false);
     },
@@ -86,13 +87,17 @@ function ListUsers(props) {
     userStatus.current = props.busApproval ? 3 : 100;
     userRole.current = 100;
     listOrder.current = -1;
+
+    getUsers();
+  }, [getUsers, props.busApproval]);
+
+  useEffect(() => {
+    console.log(" inside use effect")
     if (searchbox) {
       searchbox.value = "";
       setSearchMode(false);
     }
-
-    getUsers();
-  }, [getUsers, props.busApproval, searchbox]);
+  }, [searchbox,props.busApproval]);
 
   const showDialog = (dialogData) => {
     return Swal.fire({
@@ -119,10 +124,10 @@ function ListUsers(props) {
     } else if (searchbox.value) {
       props.busApproval
         ? getUsers(
-            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&status=3`
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&status=3&order=${listOrder.current}`
           )
         : getUsers(
-            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}`
+            `adminstrator/list-users/?page=${page}&keyword=${searchbox.value}&order=${listOrder.current}`
           );
     } else {
       getUsers(
@@ -174,8 +179,8 @@ function ListUsers(props) {
           )
         : getUsers(`adminstrator/list-users/?keyword=${searchbox.value}`);
 
-      listOrder.current = -1;
       userStatus.current = 100;
+      userRole.current = 100;
     }
   };
   const banUser = async (user_id) => {
@@ -217,28 +222,67 @@ function ListUsers(props) {
 
   const userInfo = () => {
     return (
-      <>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">First Name</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3" style={{wordWrap:"anywhere"}}>{busOwnerInfo.first_name}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Last Name</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.last_name || "Not Provided"}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Email</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.email}</p>
-        </ListGroup.Item>
-        <ListGroup.Item className="d-flex">
-          <p className="m-0 me-3">Phone</p>
-          <p className="m-0">:</p>
-          <p className="m-0 ms-3">{busOwnerInfo.phone || "Not Provided"}</p>
-        </ListGroup.Item>
-      </>
+      <Container>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">First Name</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.first_name}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Last Name</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.last_name || "Not Provided"}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Email</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                {busOwnerInfo.email}
+              </p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+        <Row>
+          <ListGroup.Item className="d-flex">
+            <Col xs={5}>
+              <p className="m-0 me-3">Phone</p>
+            </Col>
+            <Col xs={1}>
+              <p className="m-0">:</p>
+            </Col>
+            <Col xs={6}>
+              <p className="m-0">{busOwnerInfo.phone || "Not Provided"}</p>
+            </Col>
+          </ListGroup.Item>
+        </Row>
+      </Container>
     );
   };
 
@@ -247,10 +291,10 @@ function ListUsers(props) {
 
     //shows dialog
     const unBanUserDialog = {
-      title: "UnBan User",
+      title: "Unban User",
       text: "Are you sure you want to unban this user",
       icon: "warning",
-      confirmButtonText: "UnBan user",
+      confirmButtonText: "Unban user",
       confirmButtonColor: "#5cb85c",
       showCancelButton: true,
       cancelButtonText: "Cancel",
@@ -394,7 +438,7 @@ function ListUsers(props) {
       <Row>
         <Col xl={3} lg={3} md={6} sm={3}>
           <Dropdown>
-            <Dropdown.Toggle variant="light" disabled={searchMode}>
+            <Dropdown.Toggle variant="light">
               {/* shows current sorting mode */}
               Sort : {showOrder(listOrder.current)}
             </Dropdown.Toggle>
@@ -541,8 +585,10 @@ function ListUsers(props) {
       {
         // to show search results info
         searchMode && (
-          <Row className="mt-5 ms-5">
-            <h2>Search Results for : {searchbox.value}</h2>
+          <Row className="mt-5 ms-1">
+            <h2 style={{ wordWrap: "anywhere" }}>
+              Search Results for : "{searchbox.value}"
+            </h2>
           </Row>
         )
       }
@@ -670,32 +716,70 @@ function ListUsers(props) {
         <Modal.Body>
           <ListGroup>
             {userInfo()}
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Company Name</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3"  style={{wordWrap:"anywhere"}}>{busOwnerInfo.company_name}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">Aadhaar No</p>
-              <p className="m-0">:</p>
-              <div className="d-flex ms-3">
-                {formatAadhaarNumber(busOwnerInfo.aadhaar_no).map((block) => (
-                  <p className="m-0" key={block}>
-                    {block}&nbsp;
-                  </p>
-                ))}
-              </div>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">MSME number</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.msme_no}</p>
-            </ListGroup.Item>
-            <ListGroup.Item className="d-flex">
-              <p className="m-0 me-3">GST</p>
-              <p className="m-0">:</p>
-              <p className="m-0 ms-3">{busOwnerInfo.extra_charges} %</p>
-            </ListGroup.Item>
+            <Container>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">Company Name</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0" style={{ wordWrap: "anywhere" }}>
+                      {busOwnerInfo.company_name}
+                    </p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">Aadhaar No</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <div className="d-flex">
+                      {formatAadhaarNumber(busOwnerInfo.aadhaar_no).map(
+                        (block) => (
+                          <p className="m-0" key={block}>
+                            {block}&nbsp;
+                          </p>
+                        )
+                      )}
+                    </div>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">MSME number</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0">{busOwnerInfo.msme_no}</p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+              <Row>
+                <ListGroup.Item className="d-flex">
+                  <Col xs={5}>
+                    <p className="m-0 me-3">GST</p>
+                  </Col>
+                  <Col xs={1}>
+                    <p className="m-0">:</p>
+                  </Col>
+                  <Col xs={6}>
+                    <p className="m-0">{busOwnerInfo.extra_charges} %</p>
+                  </Col>
+                </ListGroup.Item>
+              </Row>
+            </Container>
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>

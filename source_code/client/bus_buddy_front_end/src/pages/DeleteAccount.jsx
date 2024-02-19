@@ -51,12 +51,12 @@ function DeleteAccount() {
           </span>
         </p>
         <Button data-testid="delete-btn" variant="danger" onClick={handleShow}>
-          Delete account
+          Delete Account
         </Button>
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Conformation</Modal.Title>
+          <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete ?</Modal.Body>
         <Modal.Footer>

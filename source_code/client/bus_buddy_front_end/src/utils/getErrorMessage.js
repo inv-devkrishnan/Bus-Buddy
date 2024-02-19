@@ -113,6 +113,8 @@ export function getForgotPasswordErrorMessages(errorCode) {
       return "Current Session is invalid or expired please try again";
     case "D1033":
       return "Operation only applicable for active accounts";
+    case "D1034":
+      return "Link already used";  
     default:
       return getErrorMessage(errorCode);
   }

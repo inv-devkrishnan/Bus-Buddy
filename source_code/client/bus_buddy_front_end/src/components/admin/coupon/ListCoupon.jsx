@@ -18,7 +18,7 @@ function ListCoupon() {
   const [searchMode, setSearchMode] = useState(false); // to indicate weather a search operation is ongoing
   const [searchEnabled, setSearchEnabled] = useState(false); // to enable and disable search button
 
-  const [couponListLoading, setCouponListLoading] = useState(false);
+  const [couponListLoading, setCouponListLoading] = useState(true);
 
   const [totalPages, setTotalPages] = useState(0); // to store total pages
   const [currentPage, setCurrentPage] = useState(1); // to get current page
@@ -129,7 +129,11 @@ function ListCoupon() {
               navigate("/admin-dashboard/create-coupon");
             }}
           >
-            <PlusLg color="white"></PlusLg> New coupon
+            <div className="d-flex align-items-center">
+            <PlusLg color="white"></PlusLg> 
+            <text> New Coupon</text>
+            </div>
+           
           </Button>
         </Col>
       </Row>
@@ -226,7 +230,7 @@ function ListCoupon() {
       {searchMode && (
         <Row className="mt-2">
           <Col>
-            <h2>Search result for "{searchbox.value}"</h2>
+            <h2 style={{wordWrap:"anywhere"}}>Search result for "{searchbox.value}"</h2>
           </Col>
         </Row>
       )}

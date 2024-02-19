@@ -62,6 +62,7 @@ function UpdateProfile() {
           title: "Profile Updated !",
         });
         updateFirstName(values.first_name);
+        localStorage.setItem("user_name",values.first_name)
         navigate("/admin-dashboard/view-profile");
       })
       .catch(function (error) {
