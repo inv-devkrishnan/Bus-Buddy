@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
-import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "../index.css";
 function AddRouteLocation(props) {
@@ -121,7 +121,8 @@ function AddRouteLocation(props) {
   };
   const checkStopLocationTime = () => {
     let status = true;
-    if (arrivalDate === departureDate) {
+    let actualArrivalDate =  props.stopLocations.length === 0 ? "0" : arrivalDate
+    if (actualArrivalDate === departureDate) {
       // if bus arrive and leave on same date
       if (stopArrivalTime > arrivalTime && stopArrivalTime < departureTime) {
         // if stop time is between arrival time and departure time of location
@@ -237,7 +238,7 @@ function AddRouteLocation(props) {
     setStopName("");
     setArrivalTime("");
     setStopArrivalTime("");
-    setArrivalDate("");
+    setArrivalDate("0");
     setDepartureDate("");
     setLandmark("");
     setDepartureTime("");
@@ -259,12 +260,8 @@ function AddRouteLocation(props) {
         <Modal.Title>
           {props.locationAdded ? "Add Stops" : "Add Location"}
         </Modal.Title>
-        <OverlayTrigger
-          placement="right"
-          overlay={<Tooltip id="closeButtonTooltip">Close</Tooltip>}
-        >
-          <Button variant="close" onClick={onClose} />
-        </OverlayTrigger>
+          <Button variant="close" onClick={onClose}  data-toggle="tooltip"
+                title="Close" />
       </Modal.Header>
       <Modal.Body>
         {props.locationAdded ? (

@@ -1,7 +1,7 @@
 .sidebar {
   width: 340px;
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
+  z-index: 98; /* prevents overlap */
   top: 10; /* Stay at the top */
   left: 0;
   height: 100%;

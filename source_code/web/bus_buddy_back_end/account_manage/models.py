@@ -62,3 +62,13 @@ class EmailAndOTP(models.Model):
 
     class Meta:
         db_table = "email_and_otp"
+        
+class WhiteListedTokens(models.Model):
+    token = models.CharField(max_length=255,null=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=False)
+    status = models.SmallIntegerField(default=0)
+    
+    class Meta:
+        db_table = "whitelisted_tokens"
+    
+            

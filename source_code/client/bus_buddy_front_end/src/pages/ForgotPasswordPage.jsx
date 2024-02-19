@@ -175,12 +175,12 @@ function ForgotPasswordPage() {
 
                           {errors.new_password &&
                             errors.new_password.type === "required" && (
-                              <p className="text-danger">* required field</p>
+                              <p className="text-danger">* Required field</p>
                             )}
                           {errors.new_password &&
                             errors.new_password.type === "pattern" && (
                               <p className="text-danger">
-                                password doesn't meet the criteria
+                                Password doesn't meet the criteria
                               </p>
                             )}
                         </Form.Group>
@@ -223,12 +223,12 @@ function ForgotPasswordPage() {
 
                           {errors.re_password &&
                             errors.re_password.type === "required" && (
-                              <p className="text-danger">* required field</p>
+                              <p className="text-danger">* Required field</p>
                             )}
                           {errors.re_password &&
                             errors.re_password.type === "validate" && (
                               <p className="text-danger">
-                                password doesn't match
+                                Password doesn't match
                               </p>
                             )}
                         </Form.Group>
