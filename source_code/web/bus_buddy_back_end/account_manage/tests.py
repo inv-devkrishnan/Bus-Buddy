@@ -575,26 +575,26 @@ class ForgetPasswordTest(BaseTest):
 
     def test_15_cant_previous_token(self):
 
-        old_token = jwt.encode(
+        old_token_15 = jwt.encode(
             {
                 "user_id": self.user.id,
-                "exp": datetime.utcnow() + timedelta(minutes=15),
+                "exp": datetime.utcnow() + timedelta(minutes=10),
                 "iat": datetime.utcnow(),
             },
             os.getenv("SECRET_KEY"),
             algorithm="HS256",
         )
-        valid_token = jwt.encode(
+        valid_token_15 = jwt.encode(
             {
                 "user_id": self.user.id,
-                "exp": datetime.utcnow() + timedelta(minutes=30),
+                "exp": datetime.utcnow() + timedelta(minutes=35),
                 "iat": datetime.utcnow(),
             },
             os.getenv("SECRET_KEY"),
             algorithm="HS256",
         )
-        WhiteListedTokens.objects.create(token=valid_token, user=self.user, status=0)
-        request_data = {"token": old_token}
+        WhiteListedTokens.objects.create(token=valid_token_15, user=self.user, status=0)
+        request_data = {"token": old_token_15}
         response = self.client.post(
             self.forgot_password_verify,
             data=request_data,

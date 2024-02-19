@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -16,7 +16,7 @@ function DeleteAccount() {
   const deleteAccount = async () => {
     // function which calls the api to delete account
     const response = await deleteUserAccount();
-    console.log(response)
+    console.log(response);
     if (response.status) {
       handleClose();
       await Swal.fire({
@@ -25,10 +25,18 @@ function DeleteAccount() {
         text: "Now you will be redirected to login page",
       });
       logout();
-    }
-    else
-    {
-      console.log("deletion failed")
+    } else if (!response.status) {
+      handleClose();
+      await Swal.fire({
+        icon: "error",
+        title: "Account Deletion Failed !",
+        text:
+          response.message?.response?.data?.error_code === "D1035"
+            ? "Due to active bookings associated with your account, the deletion process cannot be completed at this time."
+            : "Since there are ongoing trips associated with your account, the deletion process cannot be carried out.",
+      });
+    } else {
+      console.log("deletion failed");
     }
   };
   return (
@@ -43,7 +51,7 @@ function DeleteAccount() {
           </span>
         </p>
         <Button data-testid="delete-btn" variant="danger" onClick={handleShow}>
-          Delete account
+          Delete Account
         </Button>
       </div>
       <Modal show={show} onHide={handleClose}>

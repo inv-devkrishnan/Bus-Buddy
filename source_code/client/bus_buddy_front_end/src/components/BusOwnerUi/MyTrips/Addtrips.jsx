@@ -22,6 +22,14 @@ export default function Addtrips() {
   const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
 
+  const reset= () => {
+    setBus("");
+    setRoute("");
+
+    document.getElementById("bus").value = "";
+    document.getElementById("route").value = "";
+  }
+
   const callFunction = (start, end) => {
     axiosApi
       .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
@@ -178,7 +186,7 @@ export default function Addtrips() {
                     name="startDate"
                     id="startDate"
                     selected={selectedStartDate}
-                    onChange={(date) => setSelectedStartDate(date)}
+                    onChange={(date) => {setSelectedStartDate(date);reset()}}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     required
@@ -193,7 +201,7 @@ export default function Addtrips() {
                   <Form.Label htmlFor="endDate">End Date :</Form.Label>
                   <DatePicker
                     selected={selectedEndDate}
-                    onChange={(date) => setSelectedEndDate(date)}
+                    onChange={(date) => {setSelectedEndDate(date);reset()}}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
@@ -232,6 +240,7 @@ export default function Addtrips() {
                     onChange={(e) => {
                       setBus(e.target.value);
                     }}
+                    id="bus"
                     data-testid="bus-select"
                     required
                   >
@@ -250,6 +259,7 @@ export default function Addtrips() {
                     onChange={(e) => {
                       setRoute(e.target.value);
                     }}
+                    id="route"
                     data-testid="route-select"
                   >
                     <option value="">Select option</option>

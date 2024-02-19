@@ -23,6 +23,14 @@ export default function Updatetrips() {
   const [startDateError, setStartDateError] = useState("");
   const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
+
+  const reset= () => {
+    setBusData("");
+    setRouteData("");
+
+    document.getElementById("bus").value = "";
+    document.getElementById("route").value = "";
+  }
   
 
   const onSubmit = async (e) => {
@@ -116,6 +124,7 @@ console.log(formik.errors);
         })
         .catch((error) => console.error("Error fetching Bus data:", error));
     }
+    setRoute();
   };
 
   useEffect(() => {
@@ -128,15 +137,20 @@ console.log(formik.errors);
       .catch((error) => console.error("Error fetching Bus data:", error));
     },[]);
   
-  useEffect(() => {
-    // Fetch Route data
+  const setRoute = () =>{
     axiosApi
       .get("bus-owner/view-routes/")
       .then((response) => {
         setRouteData(response.data.results);
       })
       .catch((error) => console.error("Error fetching Route data:", error));
+  }
+  useEffect(() => {
+    // Fetch Route data
+    setRoute();
   }, []);
+
+  console.log(routeData)
   
   useEffect(() => {
     // Fetch current trip data
@@ -192,8 +206,8 @@ console.log(formik.errors);
                   <DatePicker
                     selected={formik.values.startdate}
                     onChange={(date) =>
-                      formik.setFieldValue("startdate", date)
-                    }
+                      {formik.setFieldValue("startdate", date);reset()
+                    }}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
@@ -214,8 +228,8 @@ console.log(formik.errors);
                   <DatePicker
                     selected={formik.values.enddate}
                     onChange={(date) =>
-                      formik.setFieldValue("enddate", date,false)
-                    }
+                      {formik.setFieldValue("enddate", date,false);reset()
+                    }}
                     className="form-control"
                     dateFormat="yyyy-MM-dd"
                     minDate={new Date()} // Disable dates before today
@@ -242,11 +256,12 @@ console.log(formik.errors);
                     value={formik.values.busName || ""}
                     onChange={formik.handleChange}
                     data-testid="bus-select"
+                    id="bus"
                     required
                     isInvalid={formik.touched.busName && formik.errors.busName}
                   >Bus must be a positive number
                     <option value="">Selected Option</option>
-                    { busData.map((bus) => (
+                    { busData && busData.map((bus) => (
                       <option key={bus.id} value={bus.id}>
                         {bus.bus_name}
                       </option>
@@ -263,12 +278,13 @@ console.log(formik.errors);
                     as="select"
                     value={formik.values.routeName || ""}
                     onChange={formik.handleChange}
+                    id="route"
                     data-testid = "route-select"
                     required
                     isInvalid={formik.touched.routeName && formik.errors.routeName}
                   >
                     <option value="">Selected Option</option>
-                    {routeData.map((route) => (
+                    {routeData && routeData.map((route) => (
                       <option key={route.id} value={route.id}>
                         {route.start_point_name} - {route.end_point_name}
                       </option>

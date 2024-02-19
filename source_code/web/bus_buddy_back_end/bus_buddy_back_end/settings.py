@@ -34,10 +34,11 @@ ALLOWED_HOSTS = [
     "https://bus-buddy-api.innovaturelabs.com",
     "bus-buddy-api.innovaturelabs.com",
     "127.0.0.1",
+    "localhost"
 ]
 INTERNAL_IPS = [
     # ...
-    "127.0.0.1",
+    "127.0.0.1","localhost"
     # ...
 ]
 

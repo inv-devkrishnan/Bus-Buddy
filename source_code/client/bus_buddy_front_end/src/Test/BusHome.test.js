@@ -18,6 +18,7 @@ jest.mock("react-router-dom", () => ({
 jest.mock("../utils/hooks/useAuth", () => ({
   useAuthStatus: jest.fn(() => true),
 }));
+
 describe("Bus Home component", () => {
   useNavigate.mockImplementation(() => jest.fn());
   it("renders component",async () => {

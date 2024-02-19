@@ -41,6 +41,10 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import Ownerprofile from "./components/BusOwnerUi/Ownerprofile";
 import ViewReviews from "./components/BusOwnerUi/MyReviews/ViewReviews.jsx";
 import UserDashboardReal from "./pages/UserDashboard.jsx";
+import UserProfilePage from "./components/User/UserProfilePage.jsx";
+import UserBookingHistory from "./components/User/UserBookingHistory.jsx";
+import UserComplaint from "./components/User/UserComplaint.jsx";
+import ReviewHistory from "./components/User/ReviewHistory.jsx";
 
 function App() {
   return (
@@ -84,7 +88,19 @@ function App() {
             element={<ListUsers busApproval={false} />}
           />
         </Route>
-        <Route path="/user-dashboard" element={<UserDashboardReal />} />
+        <Route path="/user-dashboard" element={<UserDashboardReal />}>
+          <Route path="/user-dashboard/profile" element={<UserProfilePage />} />
+          <Route
+            path="/user-dashboard/my-trips"
+            element={<UserBookingHistory />}
+          />
+          <Route
+            path="/user-dashboard/delete"
+            element={<DeleteAccountPage />}
+          />
+          <Route path="/user-dashboard/complaint" element={<UserComplaint />} />
+          <Route path="/user-dashboard/review" element={<ReviewHistory />} />
+        </Route>
         <Route path="/BusHome" element={<BusHome />}>
           <Route path="/BusHome/Ownerprofile" element={<Ownerprofile />} />
           <Route path="/BusHome/update-owner" element={<OwnerUpdateCard />} />
@@ -119,6 +135,7 @@ function App() {
             path="/BusHome/delete-account"
             element={<DeleteAccountPage />}
           />
+          <Route path="/BusHome/change-password" element={<ChangePassword />} />
         </Route>
         <Route path="/traveller-data" element={<TravellerDetail />} />
         <Route path="/full-sleeper-details" element={<FullSleeperDetails />} />

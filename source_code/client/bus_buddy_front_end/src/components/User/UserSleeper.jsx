@@ -150,9 +150,9 @@ function UserSleeper(props) {
         disableScrollLock
       >
         <Typography sx={{ p: 1 }}>
-          seat: {presentSeat.seat_number} <br />
-          fare: ₹ {presentSeat.seat_cost} <br />
-          type: {presentSeat.seat_type === 0 ? "Seater" : "Sleeper"}
+          Seat: {presentSeat.seat_number} <br />
+          Fare: ₹ {presentSeat.seat_cost} <br />
+          Type: {presentSeat.seat_type === 0 ? "Seater" : "Sleeper"}
         </Typography>
       </Popover>
 

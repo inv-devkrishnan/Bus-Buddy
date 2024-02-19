@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate,Outlet,useLocation } from "react-router-dom";
+import { useEffect, useReducer, useCallback } from "react";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth.js";
 import SideBar from "../common/SideBar.jsx";
 import "aos/dist/aos.css";
-;
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -18,130 +17,196 @@ export default function UserDashboard() {
     }
   };
 
-
-
-
-  const [myProfileSelect, setMyProfileSelect] = useState(true);
-  const [myBusSelect, setMyBusSelect] = useState(false);
-  const [myRouteSelect, setMyRouteSelect] = useState(false);
-  const [myTripSelect, setMyTripSelect] = useState(false);
-  const [myReviewsSelect, setMyReviewsSelect] = useState(false)
-  const [deleteSelect, setDeleteSelect] = useState(false);
-  const [complaintSelect,setComplaintSelect] = useState(false);
-
-  const myProfileSelected = () => {
-    setMyProfileSelect(true);
-    setMyBusSelect(false);
-    setMyRouteSelect(false)
-    setMyTripSelect(false);
-    setDeleteSelect(false);
-    setMyReviewsSelect(false)
-    setComplaintSelect(false);
-    navigation("/BusHome/Ownerprofile")
+  const optionSelection = (state, action) => {
+    switch (action.type) {
+      case "profile":
+        return {
+          myProfileSelect: true,
+          myBusSelect: false,
+          myRouteSelect: false,
+          myTripSelect: false,
+          deleteSelect: false,
+          myReviewsSelect: false,
+          complaintSelect: false,
+        };
+      case "myBus":
+        return {
+          myProfileSelect: false,
+          myBusSelect: true,
+          myRouteSelect: false,
+          myTripSelect: false,
+          deleteSelect: false,
+          myReviewsSelect: false,
+          complaintSelect: false,
+        };
+      case "myRoute":
+        return {
+          myProfileSelect: false,
+          myBusSelect: false,
+          myRouteSelect: true,
+          myTripSelect: false,
+          deleteSelect: false,
+          myReviewsSelect: false,
+          complaintSelect: false,
+        };
+      case "myTrip":
+        return {
+          myProfileSelect: false,
+          myBusSelect: false,
+          myRouteSelect: false,
+          myTripSelect: true,
+          deleteSelect: false,
+          myReviewsSelect: false,
+          complaintSelect: false,
+        };
+      case "delete":
+        return {
+          myProfileSelect: false,
+          myBusSelect: false,
+          myRouteSelect: false,
+          myTripSelect: false,
+          deleteSelect: true,
+          myReviewsSelect: false,
+          complaintSelect: false,
+        };
+      case "myReviews":
+        return {
+          myProfileSelect: false,
+          myBusSelect: false,
+          myRouteSelect: false,
+          myTripSelect: false,
+          deleteSelect: false,
+          myReviewsSelect: true,
+          complaintSelect: false,
+        };
+      case "complaint":
+        return {
+          myProfileSelect: false,
+          myBusSelect: false,
+          myRouteSelect: false,
+          myTripSelect: false,
+          deleteSelect: false,
+          myReviewsSelect: false,
+          complaintSelect: true,
+        };
+      default:
+        return state;
+    }
   };
+  const initialState = {
+    profile: false,
+    myBus: false,
+    myRoute: false,
+    myTrip: false,
+    delete: false,
+    myReviews: false,
+    complaint: false,
+  };
+  const [state, dispatch] = useReducer(optionSelection, initialState);
+
+  const profileSelected = () => {
+    dispatch({ type: "profile" });
+    navigation("/BusHome/Ownerprofile");
+  };
+
   const myBusSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(true);
-    setMyRouteSelect(false)
-    setMyTripSelect(false);
-    setDeleteSelect(false);
-    setMyReviewsSelect(false)
-    setComplaintSelect(false);
-    navigation("/BusHome/ViewBus")
-  };  
+    dispatch({ type: "myBus" });
+    navigation("/BusHome/ViewBus");
+  };
+
   const myRouteSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(false);
-    setMyRouteSelect(true)
-    setMyTripSelect(false);
-    setDeleteSelect(false);
-    setMyReviewsSelect(false)
-    setComplaintSelect(false);
-    navigation("/BusHome/ViewRoutes")
+    dispatch({ type: "myRoute" });
+    navigation("/BusHome/ViewRoutes");
   };
+
   const myTripSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(false);
-    setMyRouteSelect(false)
-    setMyTripSelect(true);
-    setDeleteSelect(false);
-    setMyReviewsSelect(false)
-    setComplaintSelect(false);
-    navigation("/BusHome/view-trips")
+    dispatch({ type: "myTrip" });
+    navigation("/BusHome/view-trips");
   };
+
   const deleteSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(false);
-    setMyRouteSelect(false)
-    setMyTripSelect(false);
-    setDeleteSelect(true);
-    setMyReviewsSelect(false)
-    setComplaintSelect(false);
-    navigation("/BusHome/delete-account")
+    dispatch({ type: "delete" });
+    navigation("/BusHome/delete-account");
   };
 
   const complaintSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(false);
-    setMyRouteSelect(false)
-    setMyTripSelect(false);
-    setDeleteSelect(false);
-    setComplaintSelect(true);
-    setMyReviewsSelect(false)
-    navigation("/BusHome/view-complaints")
+    dispatch({ type: "complaint" });
+    navigation("/BusHome/view-complaints");
   };
+
   const myReviewsSelected = () => {
-    setMyProfileSelect(false);
-    setMyBusSelect(false);
-    setMyRouteSelect(false)
-    setMyTripSelect(false);
-    setDeleteSelect(false);
-    setMyReviewsSelect(true)
-    setComplaintSelect(false);
-    navigation("/BusHome/view-reviews")
-  }
+    dispatch({ type: "myReviews" });
+    navigation("/BusHome/view-reviews");
+  };
 
   const options = [
     // options list  for the sidebar component
     {
       name: " My Profile",
-      state: myProfileSelect,
-      onChange: myProfileSelected,
+      state: state.myProfileSelect,
+      onChange: profileSelected,
     },
     {
       name: "My buses",
-      state: myBusSelect,
+      state: state.myBusSelect,
       onChange: myBusSelected,
     },
 
     {
       name: "My Routes",
-      state: myRouteSelect,
+      state: state.myRouteSelect,
       onChange: myRouteSelected,
     },
     {
       name: "My Trips",
-      state: myTripSelect,
+      state: state.myTripSelect,
       onChange: myTripSelected,
     },
     {
       name: "My Reviews",
-      state: myReviewsSelect,
+      state: state.myReviewsSelect,
       onChange: myReviewsSelected,
     },
     {
       name: "Delete Account",
-      state: deleteSelect,
+      state: state.deleteSelect,
       onChange: deleteSelected,
-    }, 
-    
+    },
 
     {
       name: "View Complaints",
-      state: complaintSelect,
+      state: state.complaintSelect,
       onChange: complaintSelected,
     },
   ];
+
+  const highlightSelected = useCallback(() => {
+    switch (location.pathname) {
+      case "/BusHome/Ownerprofile":
+        dispatch({ type: "profile" });
+        break;
+      case "/BusHome/ViewBus":
+        dispatch({ type: "myBus" });
+        break;
+      case "/BusHome/ViewRoutes":
+        dispatch({ type: "myRoute" });
+        break;
+      case "/BusHome/view-trips":
+        dispatch({ type: "myTrip" });
+        break;
+      case "/BusHome/delete-account":
+        dispatch({ type: "delete" });
+        break;
+      case "/BusHome/view-complaints":
+        dispatch({ type: "complaint" });
+        break;
+      case "/BusHome/view-reviews":
+        dispatch({ type: "myReviews" });
+        break;
+      default:
+        console.log("invalid path");
+    }
+  }, [location]);
 
   useEffect(() => {
     if (authStatus) {
@@ -152,18 +217,17 @@ export default function UserDashboard() {
     } else {
       navigate("/login"); // if user not logged in redirect to login
     }
-  }, [navigate,authStatus]);
+    highlightSelected();
+  }, [navigate, authStatus, highlightSelected]);
 
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
-      <div  className="fixed-sidebar">
-        <SideBar heading="Bus Owner Profile" options={options} 
-        />
+      <div className="fixed-sidebar">
+        <SideBar heading="Bus Owner Profile" options={options} />
       </div>
-      <div className="main_content" style={{ width: "98vw"}}>
+      <div className="main_content" style={{ width: "98vw" }}>
         <Outlet />
       </div>
     </div>
   );
 }
-

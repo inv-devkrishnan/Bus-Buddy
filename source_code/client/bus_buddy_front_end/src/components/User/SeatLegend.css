@@ -4,13 +4,12 @@
     height: 50%;
     margin: 3px;
     padding: 5px;
-    border: 2px solid #000;
   }
   
   /* Styles for larger viewports (e.g., 768px and above) */
   @media screen and (min-width: 500px) {
     .card {
-      width: 60%;
+      width: 100%;
     }
   }
   
