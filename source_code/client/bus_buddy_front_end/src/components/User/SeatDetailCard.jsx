@@ -25,7 +25,7 @@ export default function SeatDetailCard(props) {
         sumOfCost = Number(element.seat_cost) + sumOfCost; // adds the cost of all seats
       });
       const routeCost = Number(props?.routeCost);
-      const gst = Number(props?.gst) || 0;
+      const gst = Number(props?.gst) === 0 ? 1 : Number(props?.gst);
       const result =
         sumOfCost + routeCost + ((sumOfCost + routeCost) * gst) / 100;
       const roundedResult = result.toFixed(2);
@@ -57,6 +57,7 @@ export default function SeatDetailCard(props) {
     localStorage.setItem("total_amount", totalCost);
     let seat = JSON.stringify(seatList);
     localStorage.setItem("seat_list", seat);
+    
     if (localStorage.getItem("refresh_token")) {
       setLoginModal(false);
       navigate("/traveller-data");
@@ -67,9 +68,10 @@ export default function SeatDetailCard(props) {
 
   return (
     <>
-      <Card sx={{width: "68%", margin: 4, padding: 2, boxShadow: 5 }}>
+      <Card className="m-2 p-3" sx={{ width: "68%", boxShadow: 5 }}>
         <div className="d-flex flex-column">
-          <div>
+          <SeatLegend />
+          <div className="mt-3">
             <Typography id="modal-modal-title" variant="h5" component="h2">
               Seat Details
             </Typography>
@@ -83,9 +85,15 @@ export default function SeatDetailCard(props) {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell>Seat Number</TableCell>
-                    <TableCell align="right">Seat Type</TableCell>
-                    <TableCell align="right">Price (₹)</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Seat Number
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }} align="right">
+                      Seat Type
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }} align="right">
+                      Price (₹)
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -112,25 +120,25 @@ export default function SeatDetailCard(props) {
               <br />
               ________________
               <br />
-              Total Cost : ₹ {totalCost}
+              <strong>Total Cost : ₹ {totalCost}</strong>
             </Typography>
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={
-                !(
-                  seatList.length &&
-                  props.selectionModelPick.length &&
-                  props.selectionModelDrop.length
-                )
-              }
-              onClick={handleSubmit}
-            >
-              Enter traveller details
-            </Button>
+            <div className="d-flex justify-content-end align-items-end">
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={
+                  !(
+                    seatList.length &&
+                    props.selectionModelPick.length &&
+                    props.selectionModelDrop.length
+                  )
+                }
+                onClick={handleSubmit}
+              >
+                Enter traveller details
+              </Button>
+            </div>
           </div>
-
-          <SeatLegend />
         </div>
       </Card>
 

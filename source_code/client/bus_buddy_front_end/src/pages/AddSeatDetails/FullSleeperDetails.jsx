@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Grid } from "@mui/material";
@@ -22,11 +22,11 @@ export default function FullSleeperDetails() {
       <Grid item md={12} xs={12} sm={12} lg={12}>
         <SeatDescription />
       </Grid>
-      <Grid item md={9} xs={12} sm={12} lg={7}>
+      <Grid item md={12} xs={12} sm={12} lg={12}>
         <FullSleeperLayout bus={location?.state?.id} />
       </Grid>
 
-      <Grid item md={3} xs={12} sm={12} lg={5}>
+      <Grid item md={12} xs={12} sm={12} lg={9}>
         {isClicked && (
           <FormComponent
             bus={location?.state?.id}

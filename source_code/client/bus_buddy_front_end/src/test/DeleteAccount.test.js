@@ -40,7 +40,23 @@ describe("Delete Account", () => {
   test("delete Account Button Click fail", async () => {
     deleteUserAccount.mockResolvedValueOnce({
       status: false,
-      message: "def",
+      message: { response: { data: { error_code: "D1035" } } },
+    });
+    render(
+      <UserContextProvider>
+        <BrowserRouter>
+          <DeleteAccount />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("delete-btn-prompt"));
+  });
+
+  test("delete Account Button Click fail else", async () => {
+    deleteUserAccount.mockResolvedValueOnce({
+      status: false,
+      message: { data: { error_code: "D1036" } },
     });
     render(
       <UserContextProvider>

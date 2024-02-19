@@ -65,6 +65,7 @@ export default function AvailableCoupons(props) {
 
     if (inputValue === "") {
       setCouponValue("");
+      setCouponData("");
       setCouponError(true);
     } else if (alphanumericRegex.test(inputValue)) {
       setCouponValue(inputValue);
@@ -80,6 +81,7 @@ export default function AvailableCoupons(props) {
       setCouponError(true);
     } else {
       showLoadingAlert("Applying coupon");
+      setCouponError(false);
       axiosApi
         .get(
           `user/redeem-coupon/?trip_id=${parseInt(
@@ -88,6 +90,7 @@ export default function AvailableCoupons(props) {
         )
         .then((res) => {
           Swal.close();
+
           if (res.data?.coupon_status === "200") {
             const discount =
               parseFloat(localStorage.getItem("total_amount")) *
@@ -138,7 +141,7 @@ export default function AvailableCoupons(props) {
       ) : (
         <>
           <div className="h5 d-flex flex-column align-items-center m-2">
-            Available coupons
+            Available Coupons
           </div>
 
           <Carousel variant="dark" indicators={false}>
@@ -165,6 +168,7 @@ export default function AvailableCoupons(props) {
                   onChange={handleChange}
                   minLength={10}
                   maxLength={10}
+                  readOnly
                 />
                 <Button
                   data-testid="apply_coupon"
@@ -174,6 +178,10 @@ export default function AvailableCoupons(props) {
                   Apply Coupon
                 </Button>
               </InputGroup>
+              <span style={{ fontSize: "11px", color: "GrayText" }}>
+                Please copy the code from the coupon. Typing is not permitted in
+                this field.
+              </span>
               {couponError ? (
                 <div style={{ color: "red" }}>
                   Please enter a valid coupon code
@@ -205,7 +213,7 @@ export default function AvailableCoupons(props) {
         </>
       )}
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      <Modal show={show} onHide={handleClose} centered size="md">
         <Modal.Header closeButton>
           <Modal.Title>Coupon List</Modal.Title>
         </Modal.Header>
@@ -223,8 +231,16 @@ export default function AvailableCoupons(props) {
               <TableBody>
                 {couponList.map((data) => (
                   <TableRow key={data?.id}>
-                    <TableCell>{data?.coupon_name}</TableCell>
-                    <TableCell>{data?.coupon_description}</TableCell>
+                    <TableCell>
+                      <div style={{ wordWrap: "break-word", maxWidth: 200 }}>
+                        {data?.coupon_name}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div style={{ wordWrap: "break-word", maxWidth: 250 }}>
+                        {data?.coupon_description}
+                      </div>
+                    </TableCell>
                     <TableCell>
                       {data?.coupon_code}
                       <Tooltip

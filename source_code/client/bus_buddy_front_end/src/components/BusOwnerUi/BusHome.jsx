@@ -1,9 +1,8 @@
-import { useEffect,useReducer,useCallback } from "react";
-import { useNavigate,Outlet,useLocation } from "react-router-dom";
+import { useEffect, useReducer, useCallback } from "react";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStatus } from "../../utils/hooks/useAuth.js";
 import SideBar from "../common/SideBar.jsx";
 import "aos/dist/aos.css";
-;
 
 export default function UserDashboard() {
   const authStatus = useAuthStatus();
@@ -18,7 +17,6 @@ export default function UserDashboard() {
     }
   };
 
-  
   const optionSelection = (state, action) => {
     switch (action.type) {
       case "profile":
@@ -110,37 +108,36 @@ export default function UserDashboard() {
     dispatch({ type: "profile" });
     navigation("/BusHome/Ownerprofile");
   };
-  
+
   const myBusSelected = () => {
     dispatch({ type: "myBus" });
     navigation("/BusHome/ViewBus");
   };
-  
+
   const myRouteSelected = () => {
     dispatch({ type: "myRoute" });
     navigation("/BusHome/ViewRoutes");
   };
-  
+
   const myTripSelected = () => {
     dispatch({ type: "myTrip" });
     navigation("/BusHome/view-trips");
   };
-  
+
   const deleteSelected = () => {
     dispatch({ type: "delete" });
     navigation("/BusHome/delete-account");
   };
-  
+
   const complaintSelected = () => {
     dispatch({ type: "complaint" });
     navigation("/BusHome/view-complaints");
   };
-  
+
   const myReviewsSelected = () => {
     dispatch({ type: "myReviews" });
     navigation("/BusHome/view-reviews");
   };
-  
 
   const options = [
     // options list  for the sidebar component
@@ -174,8 +171,7 @@ export default function UserDashboard() {
       name: "Delete Account",
       state: state.deleteSelect,
       onChange: deleteSelected,
-    }, 
-    
+    },
 
     {
       name: "View Complaints",
@@ -211,7 +207,6 @@ export default function UserDashboard() {
         console.log("invalid path");
     }
   }, [location]);
-  
 
   useEffect(() => {
     if (authStatus) {
@@ -223,18 +218,16 @@ export default function UserDashboard() {
       navigate("/login"); // if user not logged in redirect to login
     }
     highlightSelected();
-  }, [navigate,authStatus,highlightSelected]);
+  }, [navigate, authStatus, highlightSelected]);
 
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
-      <div  className="fixed-sidebar">
-        <SideBar heading="Bus Owner Profile" options={options} 
-        />
+      <div className="fixed-sidebar">
+        <SideBar heading="Bus Owner Profile" options={options} />
       </div>
-      <div className="main_content" style={{ width: "98vw"}}>
+      <div className="main_content" style={{ width: "98vw" }}>
         <Outlet />
       </div>
     </div>
   );
 }
-
