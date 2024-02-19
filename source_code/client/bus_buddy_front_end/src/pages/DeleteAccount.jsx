@@ -51,7 +51,7 @@ function DeleteAccount() {
           </span>
         </p>
         <Button data-testid="delete-btn" variant="danger" onClick={handleShow}>
-          Delete account
+          Delete Account
         </Button>
       </div>
       <Modal show={show} onHide={handleClose}>
