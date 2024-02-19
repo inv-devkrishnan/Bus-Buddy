@@ -100,7 +100,7 @@ class AddSeatDetails(APIView):
                 return Response({"data": "All seats have been registered"}, status=400)
             else:
                 if SeatDetails.objects.filter(
-                    seat_ui_order=ui_order, bus=bus_id
+                    seat_ui_order=ui_order, bus=bu
                 ) or SeatDetails.objects.filter(seat_number=seat_number, bus=bus_id):
                     logger.info("seat already registered")
                     return Response(
@@ -629,7 +629,7 @@ class Deleteroutes(APIView):
 
 class Viewroutes(ListAPIView):
     """
-    function to list all routes added by the bus owner
+    Function to list all routes added by the bus owner
     """
 
     permission_classes = (IsAuthenticated,)
@@ -640,32 +640,30 @@ class Viewroutes(ListAPIView):
 
     def list(self, request):
         try:
-            order_routes = eval(request.GET.get("ordering"))
-            logger.info("fetching user id ")
+            order_routes = int(request.GET.get("ordering", -1))  # Parse ordering parameter as an integer
+            logger.info("Fetching user id")
             user_id = request.user.id
-            logger.info("fetching all data from routes model matching the conditions")
+            logger.info("Fetching all data from routes model matching the conditions")
             if order_routes == 2:
                 queryset = Routes.objects.filter(status=0, user=user_id).order_by("travel_fare")
             elif order_routes == 0:
                 queryset = Routes.objects.filter(status=0, user=user_id).order_by("id")
             elif order_routes == 1:
                 queryset = Routes.objects.filter(status=0, user=user_id).order_by("-travel_fare")
-            else :
+            else:
                 queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
-            serializer = ViewRoutesSerializer(queryset)
-            queryset = self.filter_queryset(queryset)
+                
+            # Pagination
             page = self.paginate_queryset(queryset)
-
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
-
+            
             serializer = self.get_serializer(queryset, many=True)
-
-            return Response(serializer.data)
-
+            return Response({"data": serializer.data})
+        
         except ValueError:
-            return Response(serializer._errors)
+            return Response({"error": "Invalid ordering parameter"}, status=400)
 
 
 class Addtrip(APIView):
