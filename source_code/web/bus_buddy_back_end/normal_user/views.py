@@ -392,9 +392,18 @@ class ViewTrip(APIView):
                 else:
                     logger.info(data)
                     seat_count = SeatDetails.objects.filter(bus_id=data.bus_id).count()
-                    booked_seats = BookedSeats.objects.filter(trip_id=data.trip_id,status=2).count()
-                    logger.info("seat count of bus "+str(data.bus_id)+": "+str(seat_count))
-                    logger.info("booked seats of trip "+str(data.trip_id)+": "+str(booked_seats))
+                    booked_seats = BookedSeats.objects.filter(
+                        trip_id=data.trip_id, status=2
+                    ).count()
+                    logger.info(
+                        "seat count of bus " + str(data.bus_id) + ": " + str(seat_count)
+                    )
+                    logger.info(
+                        "booked seats of trip "
+                        + str(data.trip_id)
+                        + ": "
+                        + str(booked_seats)
+                    )
                     trip_data = {
                         # stores each trip information
                         "route": data.route_id,
@@ -411,7 +420,7 @@ class ViewTrip(APIView):
                         "company_name": data.company_name,
                         "route_cost": data.route_cost,
                         "gst": data.gst,
-                        "available_seats": (seat_count-booked_seats),
+                        "available_seats": (seat_count - booked_seats),
                         "amenities": {
                             "emergency_no": data.emergency_no,
                             "water_bottle": data.water_bottle,
@@ -775,7 +784,7 @@ class CancelBooking(UpdateAPIView):
                 logger.info("Booking cancelled successfully")
                 email = self.send_mail(
                     first_name=request.user.first_name,
-                    booking_id=booking_id,
+                    booking_id=instance.booking_id,
                     email=request.user.email,
                     code=code,
                     now=now,
@@ -1088,26 +1097,37 @@ class RegisterComplaint(APIView):
             return Response({"error": f"{e}"}, status=400)
 
     def post(self, request):
-        request_body = request.data.copy()
-        request_body["user"] = request.user.id
 
         try:
-            receiving_user = User.objects.get(id=request_body["complaint_for"])
+            mutable_data = request.data.dict()
+            mutable_data["user"] = request.user.id
+            receiving_user = User.objects.get(id=mutable_data["complaint_for"])
             if receiving_user.role != 2:
-                serialized_data = ComplaintSerializer(data=request_body)
+
+                if (
+                    "complaint_image" in mutable_data
+                    and not mutable_data["complaint_image"]
+                ):
+                    del mutable_data["complaint_image"]
+
+                serialized_data = ComplaintSerializer(data=mutable_data)
                 if serialized_data.is_valid():
                     serialized_data.save()
+                    logger.info("Compliant registered")
                     return Response(
                         {"message": "Complaint registered successfully"}, status=201
                     )
                 else:
+                    logger.error(serialized_data.errors)
                     return Response({"error": serialized_data.errors}, status=400)
             else:
+                logger.error("wrong complaint for")
                 return Response(
                     {"error": "Users cannot register complaint against other users"},
                     status=400,
                 )
         except Exception as e:
+            logger.error("Error in post view: %s", str(e))
             return Response({"error": f"{e}"}, status=400)
 
 
@@ -1130,7 +1150,9 @@ class ViewComplaintResponse(ListAPIView):
     def list(self, request):
         user_id = request.user.id
         try:
-            queryset = UserComplaints.objects.filter(user_id=user_id)
+            queryset = UserComplaints.objects.filter(user_id=user_id).order_by(
+                "-created_date"
+            )
 
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)

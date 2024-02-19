@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -13,7 +15,9 @@ export default function Viewallbus() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [deletedBusFlag, setDeletedBusFlag] = useState(false);
-  const [filter,setfilter] = useState('')
+  const [filter,setFilter] = useState('')
+  const [search, setSearch] = useState('');
+
 
   const navi = useNavigate();
 
@@ -33,6 +37,10 @@ export default function Viewallbus() {
     navi("/BusHome/full-sleeper-details", {
       state: { id: `${id}`, bus_seat_type: bus_seat_type },
     });
+  };
+
+  const handleSearchClick = () => {
+    fetchData(currentPage);
   };
 
   const deleted = (id) => {
@@ -76,7 +84,7 @@ export default function Viewallbus() {
 
   const fetchData = useCallback(async (page) => {
     try {
-      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${filter}`);
+      const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${search}&bus_details_status=${filter}`);
       setData(response.data.results);
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
@@ -84,7 +92,7 @@ export default function Viewallbus() {
     } catch (err) {
       console.error("Error:", err);
     }
-  }, [filter]);
+  }, [filter, search]);
 
   useEffect(() => {
     fetchData(currentPage);
@@ -124,65 +132,74 @@ export default function Viewallbus() {
     }
   };
 
-  const renderCards = () => {
-    return data.map((viewbus) => (
-      <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black" }}>
-        <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>
-              <h4 style={{ maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
-            </Accordion.Header>
-            <Accordion.Body>
-              <div style={{ display: "flex" }}>
-                <div>
-                  <p>Plate No : {viewbus.plate_no}</p>
-                  <p>Bus A/c : {getBusACLabel(viewbus.bus_ac)}</p>
-                </div>
-                <div style={{ marginLeft: "10%" }}>
-                  <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
-                  <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_seat_type)} </p>
-                </div>
-              </div>
-              <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
-                <button className="btn btn-primary" onClick={() => update(viewbus.id)} data-testid="update-button">
-                  Update
-                </button>
-                <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id, viewbus.bus_seat_type)} data-testid="add-seat-button">
-                  Seat Details
-                </button>
-                <button className="btn btn-danger" onClick={() => deleted(viewbus.id)} data-testid="delete-button">
-                  Delete
-                </button>
-              </div>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid="accordian-button">
-            <Accordion.Header style={{ maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
-            <Accordion.Body>
-              {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
-                <>
-                  <p>Do you want to update the existing amenities?</p>
-                  <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)} data-testid="update-amenities-button">
-                    Update amenities
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
-                  <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)} data-testid="add-amenities-button">
-                    Add amenities
-                  </button>
-                </>
-              )}
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+  const renderCards = () => (
+    !data || data.length === 0 ? (
+      <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
+        No data found
       </div>
-    ));
-  };
+    ) : (
+      <div>
+        {data.map((viewbus) => (
+          <div key={viewbus.id} style={{ marginBottom: "2.5%", borderBlockColor: "black"}}>
+            <Accordion defaultActiveKey="1">
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>
+                  <h4 style={{ maxWidth: "100%", wordWrap: "break-word" }}>Name : {viewbus.bus_name}</h4>
+                </Accordion.Header>
+                <Accordion.Body>
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <p>Plate No : {viewbus.plate_no}</p>
+                      <p>Bus A/c : {getBusACLabel(viewbus.bus_ac)}</p>
+                    </div>
+                    <div style={{ marginLeft: "10%" }}>
+                      <p>Bus Type: {getBusTypeLabel(viewbus.bus_type)}</p>
+                      <p>Bus Seat Type: {getBusSeatLabel(viewbus.bus_seat_type)} </p>
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: "1%", display: "flex", justifyContent: "space-evenly" }}>
+                    <button className="btn btn-primary" onClick={() => update(viewbus.id)} data-testid="update-button">
+                      Update
+                    </button>
+                    <button className="btn btn-primary" onClick={() => addSeatDetails(viewbus.id, viewbus.bus_seat_type)} data-testid="add-seat-button">
+                      Seat Details
+                    </button>
+                    <button className="btn btn-danger" onClick={() => deleted(viewbus.id)} data-testid="delete-button">
+                      Delete
+                    </button>
+                  </div>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="0" onClick={() => viewbus.id} data-testid="accordian-button">
+                <Accordion.Header style={{ maxWidth: "100%", wordWrap: "break-word" }}>Amenities of {viewbus.bus_name}</Accordion.Header>
+                <Accordion.Body>
+                  {viewbus.amenities_data && viewbus.amenities_data.length > 0 ? (
+                    <>
+                      <p>Do you want to update the existing amenities?</p>
+                      <button className="btn btn-primary" onClick={() => updateAmenities(viewbus.id)} data-testid="update-amenities-button">
+                        Update amenities
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p>There are no Amenities added for this bus. Please add amenities for your bus.</p>
+                      <button className="btn btn-primary" onClick={() => addAmenities(viewbus.id)} data-testid="add-amenities-button">
+                        Add amenities
+                      </button>
+                    </>
+                  )}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </div>
+        ))}
+      </div>
+    )
+  );
+  
 
   return (
-    <div>
+    <div style={{minHeight:"50vh"}}>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
       <Dropdown style={{width:"10%",marginLeft:"1%"}}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -190,13 +207,27 @@ export default function Viewallbus() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={()=>setfilter('')} > All </Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(0)} > Details not completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(1)} > Partial completed</Dropdown.Item>
-        <Dropdown.Item onClick={()=>setfilter(2)} > Fully  completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter('')} > All </Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(0)} > Details not completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(1)} > Partial completed</Dropdown.Item>
+        <Dropdown.Item onClick={()=>setFilter(2)} > Fully  completed</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-        <h1 className="mx-auto">View All Bus</h1>
+    <Form style={{ textAlign: "center" }}>
+        <div className="input-group" style={{ width: "60%",marginLeft:"-90%" }}>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Bus name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSearchClick}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+      </Form>
+        <h1 style={{marginLeft:"-60%"}}>View All Bus</h1>
         <Form style={{ textAlign: "center" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary" style={{ width:"100%",marginRight: "10%" }}>+ Add Bus</button>

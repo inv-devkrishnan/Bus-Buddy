@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 
 import { useAuthStatus } from "../utils/hooks/useAuth";
 import SideBar from "../components/common/SideBar";
-import DeleteAccount from "../pages/DeleteAccount";
-import UserProfilePage from "../components/User/UserProfilePage";
-import UserBookingHistory from "../components/User/UserBookingHistory";
-import UserComplaint from "../components/User/UserComplaint";
-import ReviewHistory from "../components/User/ReviewHistory";
 
 export default function UserDashboardReal() {
   const navigate = useNavigate();
+  const location = useLocation();
   const authStatus = useAuthStatus();
   const [myProfileSelect, setMyProfileSelect] = useState(true);
   const [myTripSelect, setMyTripSelect] = useState(false);
@@ -18,52 +14,61 @@ export default function UserDashboardReal() {
   const [complaintSelect, setComplaintSelect] = useState(false);
   const [reviewHistorySelect, setReviewHistorySelect] = useState(false);
 
-  useEffect(() => {
-    if (authStatus) {
-      if (localStorage.getItem("user_role") !== "2") {
-        // if user is not user redirect to login
-        navigate("/login");
+  const navigation = useCallback(
+    (url) => {
+      if (location.pathname === url) {
+        navigate(url, { replace: true });
+      } else {
+        navigate(url);
       }
-    } else {
-      navigate("/login"); // if user not logged in redirect to login
-    }
-  }, [navigate, authStatus]);
+    },
+    [location.pathname, navigate]
+  );
 
-  const myProfileSelected = () => {
+  const myProfileSelected = useCallback(() => {
     setMyProfileSelect(true);
     setMyTripSelect(false);
     setDeleteSelect(false);
     setComplaintSelect(false);
     setReviewHistorySelect(false);
-  };
-  const myTripSelected = () => {
+    navigation("/user-dashboard/profile");
+  }, [navigation]);
+
+  const myTripSelected = useCallback(() => {
     setMyProfileSelect(false);
     setMyTripSelect(true);
     setDeleteSelect(false);
     setComplaintSelect(false);
     setReviewHistorySelect(false);
-  };
-  const deleteSelected = () => {
+    navigation("/user-dashboard/my-trips");
+  }, [navigation]);
+
+  const deleteSelected = useCallback(() => {
     setMyProfileSelect(false);
     setMyTripSelect(false);
     setDeleteSelect(true);
     setComplaintSelect(false);
     setReviewHistorySelect(false);
-  };
-  const complaintSelected = () => {
+    navigation("/user-dashboard/delete");
+  }, [navigation]);
+
+  const complaintSelected = useCallback(() => {
     setMyProfileSelect(false);
     setMyTripSelect(false);
     setDeleteSelect(false);
     setComplaintSelect(true);
     setReviewHistorySelect(false);
-  };
-  const reviewHistorySelected = () => {
+    navigation("/user-dashboard/complaint");
+  }, [navigation]);
+
+  const reviewHistorySelected = useCallback(() => {
     setMyProfileSelect(false);
     setMyTripSelect(false);
     setDeleteSelect(false);
     setComplaintSelect(false);
     setReviewHistorySelect(true);
-  };
+    navigation("/user-dashboard/review");
+  }, [navigation]);
 
   const options = [
     // options list  for the sidebar component
@@ -94,17 +99,61 @@ export default function UserDashboardReal() {
     },
   ];
 
+  const highlightChoice = useCallback(() => {
+    switch (location.pathname) {
+      case "/user-dashboard/profile":
+        myProfileSelected();
+        break;
+      case "/user-dashboard/profile/edit":
+        myProfileSelected();
+        break;
+      case "/user-dashboard/profile/change-password":
+        myProfileSelected();
+        break;
+      case "/user-dashboard/my-trips":
+        myTripSelected();
+        break;
+      case "/user-dashboard/delete":
+        deleteSelected();
+        break;
+      case "/user-dashboard/complaint":
+        complaintSelected();
+        break;
+      case "/user-dashboard/review":
+        reviewHistorySelected();
+        break;
+
+      default:
+        console.log("invalid path");
+    }
+  }, [
+    complaintSelected,
+    deleteSelected,
+    location.pathname,
+    myProfileSelected,
+    myTripSelected,
+    reviewHistorySelected,
+  ]);
+
+  useEffect(() => {
+    if (authStatus) {
+      if (localStorage.getItem("user_role") !== "2") {
+        // if user is not user redirect to login
+        navigate("/login");
+      }
+    } else {
+      navigate("/login"); // if user not logged in redirect to login
+    }
+    highlightChoice();
+  }, [navigate, authStatus, highlightChoice]);
+
   return (
     <div className="d-flex flex-column flex-md-row flex-lg-row">
       <div className="fixed-sidebar">
         <SideBar heading={"Profile"} options={options} />
       </div>
       <div className="flex-fill bd-highlight main_content">
-        {myProfileSelect && <UserProfilePage />}
-        {myTripSelect && <UserBookingHistory />}
-        {deleteSelect && <DeleteAccount />}
-        {complaintSelect && <UserComplaint />}
-        {reviewHistorySelect && <ReviewHistory />}
+        <Outlet />
       </div>
     </div>
   );

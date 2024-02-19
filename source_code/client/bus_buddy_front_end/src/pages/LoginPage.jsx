@@ -162,9 +162,9 @@ function LoginPage() {
       localStorage.setItem("user_name", loginRes.message.user_name);
 
       if (localStorage.getItem("current_trip") && seatList.length > 0) {
-        navigate("/traveller-data");
+        navigate("/traveller-data", { replace: true });
       } else if (loginRes.message.user_role === 2) {
-        navigate("/user-dashboard");
+        navigate("/user-dashboard/profile");
       } else if (loginRes.message.user_role === 1) {
         navigate("/admin-dashboard/view-profile");
       } else {

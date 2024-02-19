@@ -20,7 +20,7 @@ export default function ViewSeatDetails(props) {
   }, []);
 
   return (
-    <Card className="m-3 p-3">
+    <Card className="m-3 p-3"> 
       <Grid
         container
         spacing={2}

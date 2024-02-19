@@ -166,7 +166,7 @@ describe("View Route component", () => {
         }
     ]
 }
-  mock.onGet(`bus-owner/view-routes/?page=${1}`).reply(200, data);
+  mock.onGet(`bus-owner/view-routes/?page=${1}&search=${""}&ordering=${""}`).reply(200, data);
   mock.onPut(`bus-owner/delete-routes/${3}/`).reply(200, deleteData);
  
     render(
@@ -337,7 +337,7 @@ describe("View Route component", () => {
         }
     ]
 }
-  mock.onGet(`bus-owner/view-routes/?page=${1}`).reply(200, data);
+  mock.onGet(`bus-owner/view-routes/?page=${1}&search=${""}&ordering=${""}`).reply(200, data);
   mock.onPut(`bus-owner/delete-routes/${5256}/`).reply(404, deleteData);
  
     render(
@@ -502,7 +502,7 @@ it("renders component modal success",async () => {
         }
     ]
 }
-  mock.onGet(`bus-owner/view-routes/?page=${1}`).reply(200, data);
+  mock.onGet(`bus-owner/view-routes/?page=${1}&search=${""}&ordering=${""}`).reply(200, data);
   mock.onPut(`bus-owner/delete-routes/${3}/`).reply(200, deleteData);
  
     render(

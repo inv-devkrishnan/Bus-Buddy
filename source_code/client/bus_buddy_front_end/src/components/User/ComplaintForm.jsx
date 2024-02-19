@@ -32,10 +32,12 @@ export default function ComplaintForm() {
       .then((res) => {
         setAvailable(res.data);
         let sample = [];
-        res.data[1].forEach((element) => {
-          sample = [...sample, String(element[0])];
-          setBusArray(sample);
-        });
+        if (Array.isArray(res.data[1])) {
+          res.data[1].forEach((element) => {
+            sample = [...sample, String(element[0])];
+            setBusArray(sample);
+          });
+        }
       })
       .catch((err) => {
         console.log("Error:", err);
@@ -52,16 +54,24 @@ export default function ComplaintForm() {
       .required("This is a required field"),
     complaint_image: yup
       .mixed()
-      .test(
-        "is-valid-type",
-        "Not a valid type(jpeg,jpg or png)",
-        (value) => photoRules.includes(value?.type) || []
-      )
-      .test(
-        "is-valid-size",
-        "Maximum allowed size is 5MB",
-        (value) => (value && value?.size <= 5120) || []
-      ),
+      .test("is-valid-size", "Maximum allowed size is 5MB", (value) => {
+        if (value.length === 0) {
+          return true;
+        } else if (Number(value?.size) <= 5242880) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .test("is-valid-type", "Not a valid type(jpeg,jpg or png)", (value) => {
+        if (value.length === 0) {
+          return true;
+        } else if (photoRules.includes(value?.type)) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
   });
 
   const onSubmit = (values, actions) => {
@@ -82,6 +92,7 @@ export default function ComplaintForm() {
         console.log(res);
         Swal.close();
         actions.resetForm();
+        document.getElementById("complaint_image").value = "";
         actions.setFieldValue("complaint_body", "");
         setVisible(false);
         Swal.fire({
@@ -98,7 +109,6 @@ export default function ComplaintForm() {
           icon: "error",
         });
       });
-      
   };
 
   return (
@@ -215,7 +225,7 @@ export default function ComplaintForm() {
             </Form.Group>
             <Form.Group>
               <Form.Label htmlFor="complaint_image">
-                Upload image as proof:{" "}
+                Upload image as proof:
               </Form.Label>
               <Form.Control
                 type="file"
@@ -223,12 +233,17 @@ export default function ComplaintForm() {
                 id="complaint_image"
                 accept={photoRules}
                 onChange={(e) => {
-                  formikProps.setFieldValue(
-                    "complaint_image",
-                    e.currentTarget.files[0]
-                  );
-                  setVisible(false);
+                  const selectedFile = e.currentTarget.files[0];
+
+                  if (selectedFile) {
+                    formikProps.setFieldValue("complaint_image", selectedFile);
+                    setVisible(false);
+                  } else {
+                    formikProps.setFieldValue("complaint_image", []);
+                    setVisible(false);
+                  }
                 }}
+                onBlur={formikProps.handleBlur}
               />
               <ErrorMessage
                 component="span"

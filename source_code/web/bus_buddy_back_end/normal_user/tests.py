@@ -998,14 +998,14 @@ class UpdateReviewTrip(BaseTest):
 class RegisterComplaintTest(BaseTest):
     def test_01_can_register_complaint(self):
         response = self.client.post(
-            self.complaint, self.valid_complaint_values, format="json"
+            self.complaint, self.valid_complaint_values, format="multipart"
         )
         print(response.content)
         self.assertEqual(response.status_code, 201)
 
     def test_02_cannot_register_complaint(self):
         response = self.client.post(
-            self.complaint, self.invalid_complaint_values, format="json"
+            self.complaint, self.invalid_complaint_values, format="multipart"
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
@@ -1014,7 +1014,7 @@ class RegisterComplaintTest(BaseTest):
         response = self.client.post(
             self.complaint,
             self.invalid_complaint_serializer_error_values,
-            format="json",
+            format="multipart",
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
@@ -1023,7 +1023,7 @@ class RegisterComplaintTest(BaseTest):
         response = self.client.post(
             self.complaint,
             self.invalid_complaint_not_a_valid_owner_values,
-            format="json",
+            format="multipart",
         )
         print(response.content)
         self.assertEqual(response.status_code, 400)
@@ -1031,7 +1031,7 @@ class RegisterComplaintTest(BaseTest):
     def test_05_get_of_register_complaint(self):
         response = self.client.get(
             self.complaint,
-            format="json",
+            format="multipart",
         )
         print(response.content)
         self.assertEqual(response.status_code, 200)

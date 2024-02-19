@@ -22,6 +22,7 @@ jest.mock("react", () => ({
     reRender: true,
   }),
 }));
+
 describe("FullSleeperLayout component", () => {
   it("renders card", () => {
     mock.onGet(`bus-owner/get-seat-details?bus_id=${1}`).reply(200);

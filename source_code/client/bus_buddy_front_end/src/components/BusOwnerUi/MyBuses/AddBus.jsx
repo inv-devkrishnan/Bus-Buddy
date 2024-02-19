@@ -124,7 +124,7 @@ export default function Addbus() {
       <Card style={{ width: "35rem", height: "30rem", paddingTop: "3rem",boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)" }}>
         <Card.Body>
           <Card.Title style={{ textAlign: "center" }}>Add Bus</Card.Title>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex",justifyContent:"center" }}>
             <Form  onSubmit={handleSubmit} style={{ paddingTop: "3rem" }}>
               <Row className="mb-2">
                 <Form.Group as={Col} md="6" >
