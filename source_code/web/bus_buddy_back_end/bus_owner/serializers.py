@@ -280,7 +280,7 @@ class PickAndDropSerializer(serializers.ModelSerializer):
             "start_stop_location",
             "route",
         )
-
+        depth = 2
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
     """

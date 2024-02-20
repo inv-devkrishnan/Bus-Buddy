@@ -148,7 +148,7 @@ export default function Viewallroutes() {
               <input
                 type="text"
                 className="form-control"
-                placeholder="start/Stop Locations"
+                placeholder="Start/Stop Locations"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -160,7 +160,7 @@ export default function Viewallroutes() {
         </div>
         <h1 style={{ flex: "1", textAlign: "center" }}>View All Routes</h1>
         <Form style={{ textAlign: "center", width: "33%", display: "flex", justifyContent: "flex-end" }}>
-          <Link to={"/BusHome/AddBus"}>
+          <Link to={"/BusHome/Addroutes"}>
             <button className="btn btn-primary">+ Add Route</button>
           </Link>
         </Form>
