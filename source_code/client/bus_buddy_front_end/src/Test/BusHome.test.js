@@ -32,7 +32,7 @@ describe("Bus Home component", () => {
     const profileButton = screen.getByText("My Profile");
     fireEvent.click(profileButton);
 
-    const busesButton = screen.getByText("My buses");
+    const busesButton = screen.getByText("My Buses");
     fireEvent.click(busesButton);
 
     const routeButton = screen.getByText("My Routes");

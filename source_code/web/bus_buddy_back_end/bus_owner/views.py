@@ -378,25 +378,29 @@ class Viewbus(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewBusSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter,DjangoFilterBackend]
-    search_fields = ["bus_details_status","bus_name"]
-    filterset_fields = {"bus_details_status"}
-
-    def filter_queryset(self, request):
-        val = super().filter_queryset(request)
-        print("***************!!!!!!!!!!!!!!!!!!!!!")
-        return val
-
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ["bus_name"]
     def list(self, request):
         try:
             logger.info("gettin the user is from user model")
             user_id = request.user.id
-            print(user_id)
-            logger.info("fetching all  data from Bus model matching the condition")
-            queryset = Bus.objects.filter(status=0, user=user_id).order_by(
+            filter_bus = int(request.GET.get("filter",-1))
+            print("before if:  ",filter_bus)
+            if filter_bus == 3  :
+                print("bus : ",filter_bus)
+                queryset = Bus.objects.filter(status=0, user=user_id).order_by(
                 "-id"
             )  # to filter out bus objects which has been soft deleted
-            print(queryset)
+            elif filter_bus  in [0,1,2] :
+                queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status = filter_bus).order_by(
+                "-id"
+            )
+
+            else : 
+                 return Response("Invalid Value")
+
+            logger.info("fetching all  data from Bus model matching the condition")
+            
             serializer = ViewBusSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
@@ -548,102 +552,118 @@ class Deleteroutes(APIView):
 
     def put(self, request, id):
         try:
+            bookings = Bookings.objects.filter(status=0)
+            booked_route = [booking.trip.route.id for booking in bookings]
             logger.info("fetching the route obj")
             data = Routes.objects.get(id=id)  # to get route object matching the id
-            print(data)
+            if id in booked_route:
+                logger.info("route didn't as it has bookings")
+                return Response("route has Bookings", status=400)
             if data.status == 99:
                 return Response("route already deleted")
             else:
-                data.status = 99
-                data.save()
-                logger.info("Deleted")
-            try:
-                logger.info("fetching the trip obj associated with route ")
-                data = Trip.objects.filter(
-                    route=id
-                )  # to get trips object matching the id
-                for trip in data:
-                    print(trip)
-                    if trip.status == 0:
-                        trip.status = 99
-                        trip.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("no trip obj associated with route")
-                logger.info(entry)
-                return Response({"message": entry}, status=400)
-            try:
-                logger.info("fetching the startstoplocations associated with routes")
-                data = StartStopLocations.objects.filter(
-                    route=id
-                )  # to get start stop object matching the id
-                for ssl in data:
-                    print(ssl)
-                    if ssl.status == 0:
-                        ssl.status = 99
-                        ssl.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("there are no start stop locations associated with routes")
-                logger.info(entry)
-                return Response({"message": entry}, status=404)
-
-            try:
-                logger.info("fetching pickdroppoints associated with routes")
-                data = PickAndDrop.objects.filter(
-                    route=id
-                )  # to get pick&drop object matching the id
-                for pad in data:
-                    print(pad)
-                    if pad.status == 0:
-                        pad.status = 99
-                        pad.save()
-                logger.info("Deleted")
-            except ObjectDoesNotExist:
-                logger.info("there are no pickupdropoff points associated with routes")
-                logger.info(entry)
-
-            return Response({"message": "Deletion successful"}, status=200)
+                self.delete_route(data)
+                self.delete_related_objects(id)
+                return Response({"message": "Deletion successful"}, status=200)
         except ObjectDoesNotExist:
             logger.info("no route obj present")
             logger.info(entry)
             return Response({"message": "route not found"}, status=404)
 
+    def delete_route(self, data):
+        data.status = 99
+        data.save()
+        logger.info("Deleted")
+
+    def delete_related_objects(self, route_id):
+        self.delete_trips(route_id)
+        self.delete_start_stop_locations(route_id)
+        self.delete_pick_drop_points(route_id)
+
+    def delete_trips(self, route_id):
+        try:
+            logger.info("fetching the trip obj associated with route ")
+            data = Trip.objects.filter(route=route_id)
+            for trip in data:
+                print(trip)
+                if trip.status == 0:
+                    trip.status = 99
+                    trip.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("no trip obj associated with route")
+            logger.info(entry)
+            return Response({"message": entry}, status=400)
+
+    def delete_start_stop_locations(self, route_id):
+        try:
+            logger.info("fetching the startstoplocations associated with routes")
+            data = StartStopLocations.objects.filter(route=route_id)
+            for ssl in data:
+                print(ssl)
+                if ssl.status == 0:
+                    ssl.status = 99
+                    ssl.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("there are no start stop locations associated with routes")
+            logger.info(entry)
+            return Response({"message": entry}, status=404)
+
+    def delete_pick_drop_points(self, route_id):
+        try:
+            logger.info("fetching pickdroppoints associated with routes")
+            data = PickAndDrop.objects.filter(route=route_id)
+            for pad in data:
+                print(pad)
+                if pad.status == 0:
+                    pad.status = 99
+                    pad.save()
+            logger.info("Deleted")
+        except ObjectDoesNotExist:
+            logger.info("there are no pickupdropoff points associated with routes")
+            logger.info(entry)
+
+            return Response({"message": "route not found"}, status=404)
+
 
 class Viewroutes(ListAPIView):
     """
-    function to list all routes added by the bus owner
+    Function to list all routes added by the bus owner
     """
 
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter,OrderingFilter]
-    search_fields = ["start_point__location_name","end_point__location_name"]
-    ordering_fields = ["travel_fare"]
-
-    
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ["start_point__location_name", "end_point__location_name"]
 
     def list(self, request):
         try:
-            logger.info("fetching user id ")
+            order_routes = int(request.GET.get("ordering", -1))  # Parse ordering parameter as an integer
+            logger.info("Fetching user id")
             user_id = request.user.id
-            logger.info("fetching all data from routes model matching the conditions")
-            queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
-            serializer = ViewRoutesSerializer(queryset)
-            queryset = self.filter_queryset(queryset)
+            logger.info("Fetching all data from routes model matching the conditions")
+            if order_routes == 2:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("travel_fare")
+            elif order_routes == 0:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("id")
+            elif order_routes == 1:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("-travel_fare")
+            else:
+                queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
+                
+            # Pagination
             page = self.paginate_queryset(queryset)
-
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
-
+            
             serializer = self.get_serializer(queryset, many=True)
-
-            return Response(serializer.data)
-
+            return Response({"data": serializer.data})
+        
         except ValueError:
-            return Response(serializer._errors)
+            return Response({"error": "Invalid ordering parameter"}, status=400)
 
 
 class Addtrip(APIView):
@@ -676,12 +696,20 @@ class Addtrip(APIView):
             request_data["start_time"] = seq_first.arrival_time
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
+            current_time = datetime.now().time()
+            if stop_date.date() == datetime.now().date():
+                if seq_first.arrival_time <= current_time:
+                    raise ValueError(
+                        "The route's start time has already passed for today"
+                    )
             if serializer.is_valid():
                 serializer.save()
                 logger.info("Inserted")
                 return Response({"message": "Inserted", "trip": serializer.data["id"]})
             else:
                 return Response(serializer.errors, status=400)
+        except ValueError as e:
+            return Response({"message": str(e)}, status=400)
         except ValidationError:
             logger.info(entry)
             return Response(entry, status=400)
@@ -739,8 +767,6 @@ class Updatetrip(UpdateAPIView):
             start_date = datetime.strptime(
                 request_data["start_date"], date_format
             ).date()
-            print(start_date)
-            print(present_date)
             if (start_date - present_date) < timedelta(days=2):
                 print("condition ok ")
                 raise ValueError(
@@ -776,14 +802,16 @@ class Deletetrip(APIView):
 
     def put(self, request, id):
         try:
+            booking = Bookings.objects.filter(trip=id, status=0)
             logger.info("fetching the trip obj for the obj")
             data = Trip.objects.get(id=id)  # to get trip object matching the id
             present_date = datetime.now().date()
             start_date = data.start_date
             diff = start_date - present_date
             print(diff)
+            if booking.count() != 0:
+                 raise ValueError("The trip has bookings")
             if (diff) < timedelta(days=2) and diff > timedelta(days=0):
-                print("condition ok ")
                 raise ValueError(
                     "Start date must be at least 2 days from the present date."
                 )
@@ -806,19 +834,30 @@ class Viewtrip(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewTripSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter,OrderingFilter]
-    search_fields = ["bus__bus_name", "route__start_point__location_name", "route__end_point__location_name"]
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = [
+        "bus__bus_name",
+        "route__start_point__location_name",
+        "route__end_point__location_name",
+    ]
     ordering_fields = ["start_date"]
-    
 
     def list(self, request):
         try:
+            order_trips = int(request.GET.get("ordering",-1))
             user_id = request.user.id
-            queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
+            if order_trips == 1:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-start_date")
+            elif order_trips == 2: 
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("start_date")
+            elif order_trips == 0:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
+            else:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
-            
+
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
@@ -911,10 +950,13 @@ class Addreccuringrip(APIView):
             ), datetime.combine(end_date, end_time)
 
             psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
-            psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(
-                ped_str, date_format
-            ) + timedelta(days=1)
-
+            psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
+            if stop_date.date() == datetime.now().date():
+                current_time = datetime.now().time()
+                if seq_first.arrival_time <= current_time:
+                    return Response({"message":
+                        "The route's start time has already passed for today"},status=400
+                    )
             if self.is_in_date_range(start_datetime, end_datetime, psd, ped):
                 trip_objects = self.generate_recurring_trips(
                     request_data,
@@ -997,6 +1039,9 @@ class Addreccuringrip(APIView):
         current_request_data["start_time"] = start_time
         current_request_data["end_time"] = end_time
         return current_request_data
+    
+    
+        
 
 
 class Viewnotifications(ListAPIView):

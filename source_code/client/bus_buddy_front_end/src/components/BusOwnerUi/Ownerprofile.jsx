@@ -19,12 +19,11 @@ export default function Ownerprofile() {
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ marginBottom: "2%", marginTop: "11%",marginLeft:"-15%" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems:"center", margin:"5%" }}>
+      <div >
         <Card
           style={{
-            width: "150%",
-            height: "100%",
+            width: " 100%",
             boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
           }}
         >
@@ -39,15 +38,15 @@ export default function Ownerprofile() {
             >
               {currentUserData["first_name"]} {currentUserData["last_name"]}
             </Card.Title>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
               Name: {currentUserData["first_name"]}
             </p>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
               Last name: {currentUserData["last_name"]}
             </p>
             <p>Phone Number: {currentUserData["phone"]}</p>
             <p>Email ID: {currentUserData["email"]}</p>
-            <p style={{ maxWidth: "100%", wordWrap: "break-word" }}>
+            <p style={{ maxWidth:"40vw", wordWrap: "break-word" }}>
               Company Name: {currentUserData["company_name"]}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>

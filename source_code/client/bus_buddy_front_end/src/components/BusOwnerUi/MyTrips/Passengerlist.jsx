@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {  useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { axiosApi } from "../../../utils/axiosApi";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
-import "./Passengerlist.css"
+import "./Passengerlist.css";
 
 export default function PassengerList() {
   const location = useLocation();
@@ -71,6 +71,9 @@ export default function PassengerList() {
           </thead>
           <tbody>{getContent()}</tbody>
         </table>
+      </div>
+      <div className="text-center mt-3">
+        <Link to="/BusHome/view-trips" className="btn btn-primary">Back to View Trips</Link>
       </div>
       <div
         style={{

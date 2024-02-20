@@ -308,6 +308,9 @@ class BaseTest2(TestCase):
         self.bus2 = Bus.objects.create(
             bus_name="Bus3", plate_no="CD456GF", user=self.user
         )
+        self.bus3 = Bus.objects.create(
+            bus_name="Bus3", plate_no="CD456LF", user=self.user
+        )
         
         self.loc_1 = LocationData.objects.create(location_name="Alapuzhya")
         self.loc_2 = LocationData.objects.create(location_name="Thrivanthapuram")
@@ -327,10 +330,29 @@ class BaseTest2(TestCase):
             duration=2,
             travel_fare=399,
         )
+        self.route2 = Routes.objects.create(
+            user=self.user,
+            start_point=self.loc_1,
+            end_point=self.loc_2,
+            via="Kollam",
+            distance=120,
+            duration=2,
+            travel_fare=399,
+        )
         self.trip = Trip.objects.create(
             user=self.user,
             bus=self.bus,
             route=self.route,
+            status=0,
+            start_date="2024-07-03",
+            end_date="2024-07-03",
+            start_time="10:00",
+            end_time="11:00",
+        )
+        self.trip3 = Trip.objects.create(
+            user=self.user,
+            bus=self.bus3,
+            route=self.route2,
             status=0,
             start_date="2024-07-03",
             end_date="2024-07-03",
@@ -350,9 +372,11 @@ class BaseTest2(TestCase):
         )
         
         route_id = self.route.id
+        route2_id = self.route2.id
         bus_id = self.bus.id
         bus2_id = self.bus2.id
         trip_id = self.trip.id
+        trip3_id = self.trip3.id
         trip2_id = self.trip2.id
         self.amenities = Amenities.objects.create(bus=self.bus)
         self.start_stop_1 = StartStopLocations.objects.create(
@@ -602,7 +626,9 @@ class BaseTest2(TestCase):
         self.add_route = reverse("add-routes")
         self.update_amenities = reverse("update-amenities", args=[bus_id])
         self.can_delete_route = reverse("delete-routes", args=[route_id])
+        self.can_delete_route_wo_booking = reverse("delete-routes", args=[route2_id])
         self.can_delete_trip = reverse("delete-trip", args=[trip_id])
+        self.can_delete_trip_wo_booking = reverse("delete-trip", args=[trip3_id])
         self.can_update_trip = reverse("update-trip", args=[trip2_id])
         self.can_update_trip_booking = reverse("update-trip", args=[trip_id])
         self.change_notification_status = reverse("change-notification-status")
@@ -710,6 +736,11 @@ class BusActions(BaseTest2):
     def test_can_delete_route(self):
         print("14")
         response = self.client.put(self.can_delete_route)
+        self.assertEqual(response.status_code, 400)
+        
+    def test_can_delete_route_wo_booking(self):
+        print("14")
+        response = self.client.put(self.can_delete_route_wo_booking)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_delete_route(self):
@@ -743,6 +774,11 @@ class BusActions(BaseTest2):
     def test_can_delete_trip(self):
         print("20")
         response = self.client.put(self.can_delete_trip)
+        self.assertEqual(response.status_code, 400)
+        
+    def test_can_delete_trip_wo_booking(self):
+        print("20")
+        response = self.client.put(self.can_delete_trip_wo_booking)
         self.assertEqual(response.status_code, 200)
 
     def test_cant_delete_trip(self):

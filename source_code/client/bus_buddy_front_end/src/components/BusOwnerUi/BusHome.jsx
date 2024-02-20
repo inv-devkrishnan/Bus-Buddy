@@ -147,7 +147,7 @@ export default function UserDashboard() {
       onChange: profileSelected,
     },
     {
-      name: "My buses",
+      name: "My Buses",
       state: state.myBusSelect,
       onChange: myBusSelected,
     },
