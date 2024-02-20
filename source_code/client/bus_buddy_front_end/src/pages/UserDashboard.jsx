@@ -34,6 +34,24 @@ export default function UserDashboardReal() {
     navigation("/user-dashboard/profile");
   }, [navigation]);
 
+  const changePasswordSelected = useCallback(() => {
+    setMyProfileSelect(true);
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(false);
+    setReviewHistorySelect(false);
+    navigation("/user-dashboard/profile/change-password");
+  }, [navigation]);
+
+  const editSelected = useCallback(() => {
+    setMyProfileSelect(true);
+    setMyTripSelect(false);
+    setDeleteSelect(false);
+    setComplaintSelect(false);
+    setReviewHistorySelect(false);
+    navigation("/user-dashboard/profile/edit");
+  }, [navigation]);
+
   const myTripSelected = useCallback(() => {
     setMyProfileSelect(false);
     setMyTripSelect(true);
@@ -105,10 +123,10 @@ export default function UserDashboardReal() {
         myProfileSelected();
         break;
       case "/user-dashboard/profile/edit":
-        myProfileSelected();
+        editSelected();
         break;
       case "/user-dashboard/profile/change-password":
-        myProfileSelected();
+        changePasswordSelected();
         break;
       case "/user-dashboard/my-trips":
         myTripSelected();
@@ -127,11 +145,13 @@ export default function UserDashboardReal() {
         console.log("invalid path");
     }
   }, [
-    complaintSelected,
-    deleteSelected,
     location.pathname,
     myProfileSelected,
+    editSelected,
+    changePasswordSelected,
     myTripSelected,
+    deleteSelected,
+    complaintSelected,
     reviewHistorySelected,
   ]);
 
