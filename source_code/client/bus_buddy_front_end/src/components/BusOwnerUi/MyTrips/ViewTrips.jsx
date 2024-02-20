@@ -249,10 +249,10 @@ export default function Viewallbus() {
               Order By
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setOrder(3)}> Most Recently Added </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(0)}> Least Recently Added </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder("1")}> Trips in descending by date </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder("start_date")}> trips in ascending by date </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(3)}>Most Recently Added</Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(0)}>Least Recently Added</Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(1)}>Trips in descending by date</Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(2)}>Trips in ascending by date</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <Link to={"/BusHome/add-recurring-trips"}>
