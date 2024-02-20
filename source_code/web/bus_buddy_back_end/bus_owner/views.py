@@ -100,7 +100,7 @@ class AddSeatDetails(APIView):
                 return Response({"data": "All seats have been registered"}, status=400)
             else:
                 if SeatDetails.objects.filter(
-                    seat_ui_order=ui_order, bus=bu
+                    seat_ui_order=ui_order, bus=bus_id
                 ) or SeatDetails.objects.filter(seat_number=seat_number, bus=bus_id):
                     logger.info("seat already registered")
                     return Response(
@@ -384,14 +384,14 @@ class Viewbus(ListAPIView):
         try:
             logger.info("gettin the user is from user model")
             user_id = request.user.id
-            filter_bus = eval(request.GET.get("filter"))
+            filter_bus = int(request.GET.get("filter",-1))
             print("before if:  ",filter_bus)
             if filter_bus == 3  :
                 print("bus : ",filter_bus)
                 queryset = Bus.objects.filter(status=0, user=user_id).order_by(
                 "-id"
             )  # to filter out bus objects which has been soft deleted
-            elif filter_bus is not None :
+            elif filter_bus  in [0,1,2] :
                 queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status = filter_bus).order_by(
                 "-id"
             )
@@ -844,7 +844,7 @@ class Viewtrip(ListAPIView):
 
     def list(self, request):
         try:
-            order_trips = eval(request.GET.get("ordering"))
+            order_trips = int(request.GET.get("ordering",-1))
             user_id = request.user.id
             if order_trips == 1:
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("-start_date")

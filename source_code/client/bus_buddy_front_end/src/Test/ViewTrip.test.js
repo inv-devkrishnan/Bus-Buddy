@@ -131,7 +131,7 @@ describe("View Trips component", () => {
     "route": 1
 }
 
-mock.onGet(`bus-owner/view-trip/?page=${1}&search=${""}&ordering=${""}`).reply(200, data);
+mock.onGet(`bus-owner/view-trip/?page=${1}&search=${""}&ordering=${3}`).reply(200, data);
 mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
     render(
         <MemoryRouter>

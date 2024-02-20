@@ -111,6 +111,23 @@ export default function Addrecurringtrip() {
   console.log(busData);
   console.log(routeData);
 
+  const callStartDateError =(formattedStartDate,today_date,sixMonthsFromNow,start)=>{
+    if (
+      !formattedStartDate ||
+      formattedStartDate < today_date ||
+      formattedStartDate > sixMonthsFromNow
+    ) {
+      setStartDateError(
+        "Start date should be same as the present date or future dates and less than 6 months"
+      );
+    }
+    else if(formattedStartDate < start ){
+      setStartDateError("The start date should be a date in period start and end dates")
+    } 
+    else {
+      setStartDateError("");
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const today = new Date();
@@ -161,21 +178,9 @@ export default function Addrecurringtrip() {
             .split("T")[0]
         : null;
 
-      if (
-        !formattedStartDate ||
-        formattedStartDate < today_date ||
-        formattedStartDate > sixMonthsFromNow
-      ) {
-        setStartDateError(
-          "Start date should be same as the present date or future dates and less than 6 months"
-        );
-      }
-      else if(formattedStartDate < start ){
-        setStartDateError("The start date should be a date in period start and end dates")
-      } 
-      else {
-        setStartDateError("");
-      }
+      callStartDateError(formattedStartDate,today_date,sixMonthsFromNow,start);
+
+      
 
       if (
         !formattedEndDate ||
