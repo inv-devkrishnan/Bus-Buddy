@@ -26,6 +26,7 @@ function UpdateProfile() {
     "Platform charges are expected in % and should be in range 0 - 100";
   const [adminDetails, setAdminDetails] = useState({});
   const [isProfileLoading, setIsProfileLoading] = useState(false); // to show/hide placeholder
+  const [isDataChanged, setIsDataChanged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,12 +63,12 @@ function UpdateProfile() {
           title: "Profile Updated !",
         });
         updateFirstName(values.first_name);
-        localStorage.setItem("user_name",values.first_name)
+        localStorage.setItem("user_name", values.first_name);
         navigate("/admin-dashboard/view-profile");
       })
       .catch(function (error) {
         Swal.close();
-        console.log(error)
+        console.log(error);
         Swal.fire({
           icon: "error",
           title: "Profile Update Failed !",
@@ -111,6 +112,9 @@ function UpdateProfile() {
 
     setShowModal(false);
   };
+  const handleOnChange = () => {
+    setIsDataChanged(true);
+  }
   return (
     <Container className="ms-3 p-0">
       <Row>
@@ -183,7 +187,7 @@ function UpdateProfile() {
 
                   isSubmitting,
                 }) => (
-                  <Form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit} onChange={handleOnChange}>
                     <Form.Group className="mb-3">
                       <Form.Label>First Name</Form.Label>
                       <Form.Control
@@ -263,7 +267,7 @@ function UpdateProfile() {
                         data-testid="update-profile"
                         variant="primary"
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !isDataChanged}
                       >
                         Update Profile
                       </Button>
@@ -302,10 +306,17 @@ function UpdateProfile() {
             </Card>
           )}
         </Col>
-        <Col xs={12} lg={6} xl={7} xxl={8} className="d-flex justify-content-end">
+        <Col
+          xs={12}
+          lg={6}
+          xl={7}
+          xxl={8}
+          className="d-flex justify-content-end"
+        >
           <Image
             fluid
             className="mt-5"
+            draggable={false}
             src={AdminProfileSplash}
             alt="admin_splash"
           ></Image>
