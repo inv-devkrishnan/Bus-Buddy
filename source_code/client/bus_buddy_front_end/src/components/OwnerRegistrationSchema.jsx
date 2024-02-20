@@ -57,5 +57,13 @@ export const OwnerRegistrationSchema = yup.object().shape({
   extraCharges: yup
     .string()
     .matches(chargeRule, "GST must be a valid number")
+    .test({
+      message: "GST must be between 1 and 100",
+      test: (value) => {
+        const numericValue = parseInt(value, 10);
+        return numericValue >= 1 && numericValue <= 100;
+      },
+    })
+
     .required("GST is required"),
 });
