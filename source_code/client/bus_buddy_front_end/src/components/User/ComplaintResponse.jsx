@@ -39,7 +39,6 @@ export default function ComplaintResponse(props) {
           setIsLoading(false);
         })
         .catch((err) => {
-          console.log(err.response);
           setIsLoading(false);
           Swal.fire({
             title: "Oops",

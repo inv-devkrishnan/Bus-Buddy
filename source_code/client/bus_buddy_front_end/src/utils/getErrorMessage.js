@@ -25,10 +25,6 @@ export function getErrorMessage(errorCode) {
       return "Mail Operation Failed ";
     case "D1029":
       return "Database Error";
-    case "D1035":
-      return "Account Deletion failed due to existing bookings";
-    case "D1036":
-      return "Account Deletion failed due to existing trips";
     case "T0001":
       return "Too many request please try again later";
     default:
