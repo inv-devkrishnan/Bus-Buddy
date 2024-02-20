@@ -1,5 +1,4 @@
 import { React, useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -9,12 +8,14 @@ import Swal from "sweetalert2";
 import { axiosApi } from "../../utils/axiosApi";
 import EmailVerification from "../common/EmailVerification";
 import { UserContext } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
-export default function UpdateForm(props) {
+export default function UpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [values, setValues] = useState([]);
   const { updateFirstName } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const UpdateUser = (values) => {
     axiosApi
@@ -25,7 +26,7 @@ export default function UpdateForm(props) {
           localStorage.setItem("user_name", values.first_name);
           Swal.close();
           Swal.fire("Success!", "Updated successfully!", "success");
-          props.goToProfile();
+          navigate("/user-dashboard/profile");
         } else {
           console.log(res);
         }
@@ -162,7 +163,9 @@ export default function UpdateForm(props) {
                 <Button
                   variant="secondary"
                   style={{ margin: "4px" }}
-                  onClick={props.goToProfile}
+                  onClick={() => {
+                    navigate("/user-dashboard/profile");
+                  }}
                 >
                   Cancel
                 </Button>
@@ -182,6 +185,3 @@ export default function UpdateForm(props) {
     </>
   );
 }
-UpdateForm.propTypes = {
-  goToProfile: PropTypes.func,
-};
