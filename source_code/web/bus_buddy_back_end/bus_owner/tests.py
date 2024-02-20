@@ -633,6 +633,7 @@ class BaseTest2(TestCase):
         self.can_update_trip_booking = reverse("update-trip", args=[trip_id])
         self.change_notification_status = reverse("change-notification-status")
         self.passenger_list = reverse("passenger-list",args = [trip_id])
+        self.route_stops = reverse("pick-and-drop-stops",args=[route_id])
 
         return super().setUp()
 
@@ -931,6 +932,15 @@ class BusActions(BaseTest2):
         print("39")
         response = self.client.get(
             reverse("get-valid-bus"),
+            format="json",
+        )
+        print(response)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_get_stops(self):
+        print("40")
+        response = self.client.get(
+            self.route_stops,
             format="json",
         )
         print(response)

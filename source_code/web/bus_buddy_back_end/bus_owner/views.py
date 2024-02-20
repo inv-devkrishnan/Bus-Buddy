@@ -37,6 +37,7 @@ from .serializers import (
     ReviewSerializer,
     ViewNotificationsSerializer,
     PassengerListSerializer,
+    PickAndDropSerializer
 )
 import logging
 
@@ -635,7 +636,7 @@ class Viewroutes(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ViewRoutesSerializer
     pagination_class = CustomPagination
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [SearchFilter]
     search_fields = ["start_point__location_name", "end_point__location_name"]
 
     def list(self, request):
@@ -654,6 +655,7 @@ class Viewroutes(ListAPIView):
                 queryset = Routes.objects.filter(status=0, user=user_id).order_by("-id")
                 
             # Pagination
+            queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
@@ -664,6 +666,14 @@ class Viewroutes(ListAPIView):
         
         except ValueError:
             return Response({"error": "Invalid ordering parameter"}, status=400)
+        
+class Viewstops(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self,request,id):
+        queryset = PickAndDrop.objects.filter(status = 0,route = id).order_by("start_stop_location__seq_id")
+        serializer = PickAndDropSerializer(queryset,many=True)
+        return Response({"data":serializer.data})
 
 
 class Addtrip(APIView):
@@ -697,7 +707,12 @@ class Addtrip(APIView):
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
             current_time = datetime.now().time()
+            print("stop_date: ",stop_date.date())
+            print(datetime.now().date())
             if stop_date.date() == datetime.now().date():
+                print("inside")
+                print("seq :",seq_first.arrival_time)
+                print("current :" ,current_time)
                 if seq_first.arrival_time <= current_time:
                     raise ValueError(
                         "The route's start time has already passed for today"
@@ -851,9 +866,9 @@ class Viewtrip(ListAPIView):
             elif order_trips == 2: 
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("start_date")
             elif order_trips == 0:
-                queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
-            else:
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
+            else:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
             serializer = ViewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
@@ -892,8 +907,9 @@ class Viewavailablebus(ListAPIView):
             startdate = datetime.strptime(start, date_format).date()
             enddate = datetime.strptime(end, date_format).date()
             trips = Trip.objects.filter(
-                status=0, user=user_id, start_date__lte=enddate, end_date__gte=startdate
+                status=0, user=user_id, start_date__lte=startdate, end_date__gte=enddate
             )
+            print("trips : ",trips)
             buses = trips.values_list("bus", flat=True)
             print(buses)
             # Filter Buses Based on Usage

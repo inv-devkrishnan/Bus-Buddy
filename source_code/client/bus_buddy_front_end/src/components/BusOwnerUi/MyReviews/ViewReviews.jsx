@@ -58,13 +58,13 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
-              <h4>Title : {viewreview.review_title}</h4>
+              <h4 style={{ maxWidth: "50vw", wordWrap: "break-word" }}>Title : {viewreview.review_title}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
                 <div>
                   <h5>Trip : {viewreview.start_point_name}{" - "}{viewreview.end_point_name}</h5>
-                  <p>{viewreview.review_body}</p>
+                  <p style={{ maxWidth: "100vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <p
                       style={{
