@@ -352,7 +352,7 @@ const TravellerDetail = () => {
                     {withTooltip(
                       Typography,
                       currentTrip?.startLocationName,
-                      7,
+                      10,
                       { variant: "h6", component: "span" }
                     )}
                     <Typography>
@@ -389,7 +389,7 @@ const TravellerDetail = () => {
                     style={{ m: "auto 0" }}
                     variant="body2"
                   >
-                    {withTooltip(Typography, currentTrip?.endLocationName, 7, {
+                    {withTooltip(Typography, currentTrip?.endLocationName, 10, {
                       variant: "h6",
                       component: "span",
                     })}
@@ -427,7 +427,10 @@ const TravellerDetail = () => {
                     <TimelineDot variant="outlined" sx={"sm"} color="success" />
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2, m: "auto 0" }}>
+                  <TimelineContent
+                    sx={{ py: "12px", px: 2, m: "auto 0" }}
+                    variant="body2"
+                  >
                     {withTooltip(
                       Typography,
                       localStorage.getItem("drop_stop"),
