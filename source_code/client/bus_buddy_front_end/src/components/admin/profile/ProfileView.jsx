@@ -5,10 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Image from "react-bootstrap/Image";
 import Placeholder from "react-bootstrap/Placeholder";
-
-import AdminProfileSplash from "../../../assets/images/adminProfileView.png";
 import { axiosApi } from "../../../utils/axiosApi";
 import { useNavigate } from "react-router-dom";
 
@@ -36,13 +33,13 @@ function ProfileView() {
   return (
     <Container className="ms-0 ps-0 mt-2">
       <Container>
-      <Row>
-        <Col>
-          <h1 >Profile Management</h1>
-        </Col>
-      </Row>
         <Row>
-          <Col xl={6} lg={12} className="mt-5">
+          <Col>
+            <h1>My Profile</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col xl={12} lg={12} className="mt-5">
             {isProfileLoading ? (
               <Card className="p-5 shadow-lg w-100">
                 <Card.Body>
@@ -53,43 +50,94 @@ function ProfileView() {
                     <Placeholder xs={8} />
                   </Placeholder>
                 </Card.Body>
-                <div className="d-flex">
+                <div className="d-flex justify-content-end">
                   <Placeholder.Button
                     variant="primary"
-                    xs={6}
+                    xs={2}
                     className="me-2"
                   />
-                  <Placeholder.Button variant="primary" xs={6} />
+                  <Placeholder.Button variant="primary" xs={2} />
                 </div>
               </Card>
             ) : (
-              <Card className="p-5 shadow-lg w-100">
-                <Card.Text>First Name : {adminDetails?.first_name}</Card.Text>
-                <Card.Text>Last Name : {adminDetails?.last_name}</Card.Text>
-                <Card.Text>Email : {adminDetails?.email}</Card.Text>
-                <Card.Text>Phone : {adminDetails?.phone}</Card.Text>
-                <div className="d-flex">
-                  <Button
-                    className="me-2"
-                    onClick={() => {
-                      navigate("/admin-dashboard/view-profile/change-password");
-                    }}
-                  >
-                    Change Password
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      navigate("/admin-dashboard/view-profile/update");
-                    }}
-                  >
-                    Update Profile
-                  </Button>
-                </div>
+              <Card className="p-4 mb-5 shadow-lg w-100">
+                <Container className="m-0 p-0">
+                  <Row>
+                    <Col>
+                      <Card.Text>
+                        Your Name :<br></br>{" "}
+                        <span>
+                          <Card.Title className="mt-2">
+                            {adminDetails?.first_name} {adminDetails?.last_name}{" "}
+                          </Card.Title>{" "}
+                        </span>
+                      </Card.Text>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Card.Text className="text-secondary mt-2 mb-2">
+                        Contact Details :
+                      </Card.Text>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Card.Text>
+                        Phone number :<br></br>{" "}
+                        <span>
+                          <Card.Title className="mt-2">
+                            {adminDetails?.phone}
+                          </Card.Title>{" "}
+                        </span>
+                      </Card.Text>
+                    </Col>
+                    <Col>
+                      <Card.Text>
+                        Email :<br></br>{" "}
+                        <span>
+                          <Card.Title className="mt-2">
+                            {adminDetails?.email}
+                          </Card.Title>{" "}
+                        </span>
+                      </Card.Text>
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-end">
+                    <Col
+                      className="d-flex justify-content-end"
+                      sm={12}
+                      md={"auto"}
+                    >
+                      <Button
+                        className="mt-1"
+                        onClick={() => {
+                          navigate(
+                            "/admin-dashboard/view-profile/change-password"
+                          );
+                        }}
+                      >
+                        Change Password
+                      </Button>
+                    </Col>
+                    <Col
+                      className="d-flex justify-content-end"
+                      sm={12}
+                      md={"auto"}
+                    >
+                      <Button
+                        className="mt-1"
+                        onClick={() => {
+                          navigate("/admin-dashboard/view-profile/update");
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </Col>
+                  </Row>
+                </Container>
               </Card>
             )}
-          </Col>
-          <Col xl={6} lg={12}>
-            <Image fluid draggable={false} src={AdminProfileSplash} alt="admin_splash"></Image>
           </Col>
         </Row>
       </Container>
