@@ -64,6 +64,8 @@ export default function Viewallbus() {
               <div style={{ display: "flex" }}>
                 <div>
                   <h5>Trip : {viewreview.start_point_name}{" - "}{viewreview.end_point_name}</h5>
+                  <h6>Bus Name : {viewreview.trip_id.bus.bus_name}</h6>
+                  <h6>Trip Date : {viewreview.trip_id.start_date} - {viewreview.trip_id.end_date}</h6>
                   <p style={{ maxWidth: "100vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <p
@@ -116,7 +118,7 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <h1 className="mx-auto">Viewall Reviews</h1>
+        <h1 className="mx-auto">View All Reviews</h1>
         <Form style={{ textAlign: "center" }}></Form>
       </Navbar>
       <div className="card-container">{renderCards()}</div>

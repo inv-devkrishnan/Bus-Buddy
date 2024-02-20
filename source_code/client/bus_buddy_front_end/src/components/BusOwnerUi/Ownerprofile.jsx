@@ -32,7 +32,7 @@ export default function Ownerprofile() {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                maxWidth: "100%",
+                maxWidth:"40vw",
                 wordWrap: "break-word",
               }}
             >

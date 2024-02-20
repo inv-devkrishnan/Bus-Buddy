@@ -9,6 +9,8 @@ import { axiosApi } from "../../../utils/axiosApi";
 import Accordion from "react-bootstrap/Accordion";
 import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 export default function Viewallroutes() {
   const [data, setData] = useState([]);
@@ -16,6 +18,8 @@ export default function Viewallroutes() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [order, setOrder] = useState(3);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState("")
 
   const fetchData = useCallback(async (page) => {
     try {
@@ -27,6 +31,41 @@ export default function Viewallroutes() {
       console.error("Error:", err);
     }
   }, [order, search]);
+
+  const handleButtonClick = async (id) => {
+    try {
+      const response = await axiosApi.get(`bus-owner/pick-and-drop-stops/${id}/`);
+      console.log(response)
+      setModalData({...response.data})
+      setShowModal(true); // Show the modal after successful API call
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
+
+  const  RouteDetailsModal=(data) => {
+    console.log(data.data.data[0])
+    return (
+      <Modal.Body>
+        {data?.data?.data?.map((item) => (
+          <div key={item.start_stop_location.id} style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p style={{  }}>Location: {item.start_stop_location.location?.location_name}</p>
+            <p>Arrival Time: {item.start_stop_location.arrival_time}</p>
+          </div>
+          {item.bus_stop && (
+            <div style={{ display: "flex", justifyContent: "space-between",marginBottom:"5%" }}>
+              <p>Bus Stop: {item.bus_stop}</p>
+              <p>Arrival Time: {item.arrival_time}</p>
+              <p>Landmark: {item.landmark}</p>
+            </div>
+          )}
+        </div>
+        ))}
+      </Modal.Body>
+    );
+  }
+  
 
   useEffect(() => {
     fetchData(currentPage);
@@ -50,7 +89,7 @@ export default function Viewallroutes() {
                 <h4>Route : {viewroutes.start_point_name} to {viewroutes.end_point_name}</h4>
               </Accordion.Header>
               <Accordion.Body>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex",justifyContent:"space-between" }}>
                   <div>
                     <p>Start Point: {viewroutes.start_point_name}</p>
                     <p>End Point: {viewroutes.end_point_name}</p>
@@ -70,6 +109,8 @@ export default function Viewallroutes() {
                   <button className="btn btn-danger" onClick={() => confirmDelete(viewroutes.id)} data-testid="delete-button">
                     Delete
                   </button>
+                  <button className="btn btn-primary" onClick={() => handleButtonClick(viewroutes.id)}>Route Details</button>
+
                 </div>
               </Accordion.Body>
             </Accordion.Item>
@@ -131,7 +172,11 @@ export default function Viewallroutes() {
   return (
     <div style={{ minHeight: "50vh", marginLeft: "1%" }}>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
+      <div style={{display:"flex",flexDirection:"column",width:"100%"}}> 
+        <div>
+        <h1 style={{ flex: "1", textAlign: "center" }}>View All Routes</h1>
+        </div>
+        <div style={{ display: "flex", justifyContent:"space-between"}}>
           <Dropdown style={{ width: "33%" }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               Filter By
@@ -143,7 +188,7 @@ export default function Viewallroutes() {
               <Dropdown.Item onClick={() => setOrder(2)}> low to high trip Fare </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Form style={{ textAlign: "center", width: "35%" }}>
+          <Form style={{ textAlign: "center", width: "22%" }}>
             <div className="input-group">
               <input
                 type="text"
@@ -157,18 +202,29 @@ export default function Viewallroutes() {
               </button>
             </div>
           </Form>
-        </div>
-        <h1 style={{ flex: "1", textAlign: "center" }}>View All Routes</h1>
         <Form style={{ textAlign: "center", width: "33%", display: "flex", justifyContent: "flex-end" }}>
           <Link to={"/BusHome/Addroutes"}>
             <button className="btn btn-primary">+ Add Route</button>
           </Link>
         </Form>
+      </div>
+      </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
         <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title >Route Detail</Modal.Title>
+        </Modal.Header>
+        <RouteDetailsModal data ={modalData} />
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
   

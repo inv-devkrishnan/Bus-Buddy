@@ -202,8 +202,12 @@ export default function Viewallbus() {
   return (
     <div style={{ minHeight: "50vh", marginLeft: "1%" }}>
      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-
-        <div style={{ display: "flex", alignItems:"flex-end" }}>
+     <div style={{display:"flex",flexDirection:"column",width:"100%"}}>
+      <div
+        style={{width:"100%",marginBottom:"1%"}}>
+        <h1 style={{ flex: "1", textAlign: "center" }}>View All Bus</h1>
+      </div>
+      <div style={{ display: "flex", justifyContent:"space-between" }}>
           <Dropdown style={{ width: "33%" }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               Filter By
@@ -215,7 +219,7 @@ export default function Viewallbus() {
               <Dropdown.Item onClick={() => setFilter(2)}> Fully  completed</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Form style={{ textAlign: "center", width: "35%" }}>
+          <Form style={{ textAlign: "center", width: "20%" }}>
             <div className="input-group">
               <input
                 type="text"
@@ -229,13 +233,13 @@ export default function Viewallbus() {
               </button>
             </div>
           </Form>
-        </div>
-        <h1 style={{ flex: "1", textAlign: "center" }}>View All Bus</h1>
-        <Form style={{ textAlign: "center", width: "33%",display:"flex",justifyContent:"flex-end" }}>
+          <Form style={{ textAlign: "center", width: "33%",display:"flex",justifyContent:"flex-end" }}>
           <Link to={"/BusHome/AddBus"}>
             <button className="btn btn-primary">+ Add Bus</button>
           </Link>
         </Form>
+        </div>
+      </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
       <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>

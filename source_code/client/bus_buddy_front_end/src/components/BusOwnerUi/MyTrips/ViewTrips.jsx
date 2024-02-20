@@ -9,6 +9,8 @@ import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
@@ -17,6 +19,8 @@ export default function Viewallbus() {
   const [updateFlag, setUpdateFlag] = useState(false);
   const [order, setOrder] = useState(3);
   const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState("");
   const navi = useNavigate();
 
   const fetchData = useCallback(
@@ -34,6 +38,42 @@ export default function Viewallbus() {
     },
     [order, search]
   );
+
+  const handleButtonClick = async (id) => {
+    try {
+      const response = await axiosApi.get(
+        `bus-owner/pick-and-drop-stops/${id}/`
+      );
+      console.log(response);
+      setModalData({ ...response.data });
+      setShowModal(true); // Show the modal after successful API call
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
+
+  const RouteDetailsModal = (data) => {
+    console.log(data.data.data[0]);
+    return (
+      <Modal.Body>
+        {data?.data?.data?.map((item) => (
+          <div key={item.start_stop_location.id} style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p style={{  }}>Location: {item.start_stop_location.location?.location_name}</p>
+            <p>Arrival Time: {item.start_stop_location.arrival_time}</p>
+          </div>
+          {item.bus_stop && (
+            <div style={{ display: "flex", justifyContent: "space-between",marginBottom:"5%" }}>
+              <p>Bus Stop: {item.bus_stop}</p>
+              <p>Arrival Time: {item.arrival_time}</p>
+              <p>Landmark: {item.landmark}</p>
+            </div>
+          )}
+        </div>
+        ))}
+      </Modal.Body>
+    );
+  };
 
   useEffect(() => {
     fetchData(currentPage);
@@ -134,6 +174,12 @@ export default function Viewallbus() {
                   >
                     Passenger List
                   </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleButtonClick(trip.route.id)}
+                  >
+                    Route Details
+                  </button>
                 </div>
                 <p style={{ fontSize: "small", color: "coral" }}>
                   *The end date may have been or may have not been according to
@@ -218,11 +264,24 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "30%" }}>
+      <div style={{display:"flex",flexDirection:"column",width:"100%"}}>
+        <div
+        style={{width:"100%",marginBottom:"1%"}}>
+        <h1 style={{ textAlign: "center", flex: "1", margin: "0" }}>
+          View All Trips
+        </h1>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width:"100%"
+          }}
+        >
           <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
             <button className="btn btn-primary"> + Add Trip</button>
           </Link>
-          <Form style={{ textAlign: "center", width: "60%" }}>
+          <Form style={{ textAlign: "center", width: "26%" }}>
             <div className="input-group">
               <input
                 type="text"
@@ -240,24 +299,30 @@ export default function Viewallbus() {
                 <FontAwesomeIcon icon={faSearch} />
               </button>
             </div>
-          </Form>
-        </div>
-        <h1 style={{ textAlign: "center", flex: "1", margin: "0" }}>View All Trips</h1>
-        <div style={{ display: "flex", alignItems: "flex-end", width: "30%", justifyContent: "flex-end" }}>
-          <Dropdown style={{ width: "33%", marginLeft: "1%" }}>
+          </Form>        
+          <Dropdown style={{ marginLeft: "1%" }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
               Order By
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setOrder(3)}>Most Recently Added</Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(0)}>Least Recently Added</Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(1)}>Trips in descending by date</Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(2)}>Trips in ascending by date</Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(3)}>
+                Most Recently Added
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(0)}>
+                Least Recently Added
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(1)}>
+                Trips in descending by date
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(2)}>
+                Trips in ascending by date
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <Link to={"/BusHome/add-recurring-trips"}>
             <button className="btn btn-primary"> + Add Recurring Trip</button>
           </Link>
+        </div>
         </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
@@ -276,8 +341,17 @@ export default function Viewallbus() {
           viewPage={fetchData}
         />
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title >Route Detail</Modal.Title>
+        </Modal.Header>
+        <RouteDetailsModal data ={modalData} />
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-  
-  
 }
