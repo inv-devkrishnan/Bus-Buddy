@@ -8,16 +8,12 @@ import {
   Form,
   InputGroup,
   Image,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { ExclamationCircle } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
-import truncateText from "../../utils/truncateText";
 import { axiosApi } from "../../utils/axiosApi";
 import CustomPaginator from "../common/paginator/CustomPaginator";
-import { Typography } from "@mui/material";
 
 export default function ComplaintResponse(props) {
   const [sortQuery, setSortQuery] = useState("");
@@ -87,24 +83,6 @@ export default function ComplaintResponse(props) {
     setSearchText(event.target.value);
   };
 
-  const withTooltip = (
-    WrappedComponent,
-    tooltipText,
-    truncateLength,
-    componentProps
-  ) => {
-    return (
-      <OverlayTrigger
-        placement="bottom"
-        overlay={<Tooltip id="tooltip">{tooltipText}</Tooltip>}
-      >
-        <WrappedComponent {...componentProps}>
-          {truncateText(tooltipText, truncateLength)}
-        </WrappedComponent>
-      </OverlayTrigger>
-    );
-  };
-
   return (
     <div className="m-3">
       <div className="d-flex justify-content-end">
@@ -144,9 +122,7 @@ export default function ComplaintResponse(props) {
                 {props.complaintData.map((data) => (
                   <Accordion.Item key={data?.id} eventKey={data?.id}>
                     <Accordion.Header style={{ overflowWrap: "break-word" }}>
-                      <div
-                        style={{ wordWrap: "break-word", maxWidth: "90%" }}
-                      >
+                      <div style={{ wordWrap: "break-word", maxWidth: "90%" }}>
                         {`${data?.complaint_title}-(${data?.created_date})`}
                       </div>
                     </Accordion.Header>
