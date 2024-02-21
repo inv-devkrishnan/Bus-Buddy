@@ -204,7 +204,7 @@ describe("Add trip component", () => {
       const endDateField = screen.getByLabelText("End Date :");
       fireEvent.change(endDateField,{target:{value :"2024-01-16"}})
 
-      const serachButton = screen.getByText("search");
+      const serachButton = screen.getByText("Search");
       fireEvent.click(serachButton);
 
       const busSelect = screen.getByTestId("bus-select");

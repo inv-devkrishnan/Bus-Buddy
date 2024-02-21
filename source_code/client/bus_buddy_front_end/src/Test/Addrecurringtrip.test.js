@@ -159,7 +159,7 @@ describe("Add Recurring Trip component", () => {
     const periodEndField = screen.getByLabelText("End Date :");
     fireEvent.change(periodEndField, { target: { value: "2024-12-25" } });
 
-    const searchButton = screen.getByText("search");
+    const searchButton = screen.getByText("Search");
     fireEvent.click(searchButton);
 
     const startDateField = screen.getByLabelText("Start Date:");
@@ -314,7 +314,7 @@ describe("Add Recurring Trip component", () => {
     const periodEndField = screen.getByLabelText("End Date :");
     fireEvent.change(periodEndField, { target: { value: "2023-12-25" } });
 
-    const searchButton = screen.getByText("search");
+    const searchButton = screen.getByText("Search");
     fireEvent.click(searchButton);
 
     const startDateField = screen.getByLabelText("Start Date:");
@@ -469,7 +469,7 @@ describe("Add Recurring Trip component", () => {
     const periodEndField = screen.getByLabelText("End Date :");
     fireEvent.change(periodEndField, { target: { value: "2024-12-25" } });
 
-    const searchButton = screen.getByText("search");
+    const searchButton = screen.getByText("Search");
     fireEvent.click(searchButton);
 
     const startDateField = screen.getByLabelText("Start Date:");

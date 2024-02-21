@@ -476,7 +476,7 @@ describe("Update trips component", () => {
       const endDateField = screen.getByLabelText("End Date :");
       fireEvent.change(endDateField,{target:{value :""}})
 
-      const serachButton = screen.getByText("search");
+      const serachButton = screen.getByText("Search");
       fireEvent.click(serachButton);
 
       const busSelect = screen.getByTestId("bus-select");
@@ -947,7 +947,7 @@ describe("Update trips component", () => {
       const endDateField = screen.getByLabelText("End Date :");
       fireEvent.change(endDateField,{target:{value :"2025-01-18"}})
 
-      const serachButton = screen.getByText("search");
+      const serachButton = screen.getByText("Search");
       fireEvent.click(serachButton);
 
       const busSelect = screen.getByTestId("bus-select");
