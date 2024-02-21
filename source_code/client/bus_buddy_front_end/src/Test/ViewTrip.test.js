@@ -170,6 +170,9 @@ mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
       const stopButton = screen.getAllByTestId("route-button");
       fireEvent.click(stopButton[0]);
 
+      const passengerButton = screen.getAllByText("Passenger List");
+      fireEvent.click(passengerButton[0]);
+
   
   });
 });

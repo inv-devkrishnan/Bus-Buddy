@@ -188,6 +188,14 @@ describe("View Route component", () => {
 
     const stopButton = screen.getAllByTestId("route-button");
     fireEvent.click(stopButton[0]);
+
+    mock.onGet(`bus-owner/pick-and-drop-stops/${3}/`).reply(200, data);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const closeButton = screen.getAllByTestId("close-button");
+    fireEvent.click(closeButton);
+
+    
   
   });
 
