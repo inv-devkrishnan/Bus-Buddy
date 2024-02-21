@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, Page
 from datetime import datetime, timedelta
+import pytz
 
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, ListAPIView
@@ -47,6 +48,16 @@ entry = "Invalid entry"
 dentry = "Deleted the record"
 missing = "missing"
 date_format = "%Y-%m-%d"
+
+def ist_converter():
+    utc_now = datetime.utcnow()
+    # Convert UTC time to IST
+    ist = pytz.timezone('Asia/Kolkata')
+    ist_now = utc_now.astimezone(ist)
+    # Get the time part only
+    ist_time = ist_now.time()
+    print("Current time in IST:", ist_time)
+    return ist_time
 
 
 def get_status(bus_instance):
@@ -706,9 +717,8 @@ class Addtrip(APIView):
             request_data["start_time"] = seq_first.arrival_time
             request_data["end_time"] = seq_last.departure_time
             serializer = TripSerializer(data=request_data)
-            current_time = datetime.now().time()
+            current_time = ist_converter()
             print("stop_date: ",stop_date.date())
-            print(datetime.now().date())
             if stop_date.date() == datetime.now().date():
                 print("inside")
                 print("seq :",seq_first.arrival_time)
@@ -968,7 +978,7 @@ class Addreccuringrip(APIView):
             psd_str, ped_str = request.GET.get("start"), request.GET.get("end")
             psd, ped = datetime.strptime(psd_str, date_format), datetime.strptime(ped_str, date_format) + timedelta(days=1)
             if stop_date.date() == datetime.now().date():
-                current_time = datetime.now().time()
+                current_time = ist_converter()
                 if seq_first.arrival_time <= current_time:
                     return Response({"message":
                         "The route's start time has already passed for today"},status=400
