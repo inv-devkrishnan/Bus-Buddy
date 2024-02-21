@@ -232,7 +232,7 @@ export default function Addtrips() {
                     type="button"
                     onClick={() => dates(selectedStartDate, selectedEndDate)}
                   >
-                    search
+                    Search
                   </Button>
                 </div>
                 <p style={{ fontSize: "11px" }}>

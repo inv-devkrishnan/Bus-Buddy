@@ -56,22 +56,37 @@ export default function Viewallbus() {
     console.log(data.data.data[0]);
     return (
       <Modal.Body>
-        {data?.data?.data?.map((item) => (
-          <div key={item.start_stop_location.id} style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p style={{  }}>Location: {item.start_stop_location.location?.location_name}</p>
-            <p>Arrival Time: {item.start_stop_location.arrival_time}</p>
-          </div>
-          {item.bus_stop && (
-            <div style={{ display: "flex", justifyContent: "space-between",marginBottom:"5%" }}>
-              <p>Bus Stop: {item.bus_stop}</p>
-              <p>Arrival Time: {item.arrival_time}</p>
-              <p>Landmark: {item.landmark}</p>
-            </div>
-          )}
-        </div>
-        ))}
-      </Modal.Body>
+      <table style={{ width: "100%" }}>
+        <tbody>
+          <tr>
+            <th style={{ fontWeight: "bold", textAlign: "left" }}>Location</th>
+            <th style={{ fontWeight: "bold", textAlign: "left" }}>Bus Stop</th>
+            <th style={{ fontWeight: "bold", textAlign: "left" }}>Landmark</th>
+            <th style={{ fontWeight: "bold", textAlign: "left" }}>Arrival Time</th>
+          </tr>
+          {data?.data?.data?.map((item) => (
+            <React.Fragment key={item.start_stop_location.id}>
+              {Array.isArray(item.bus_stop) && item.bus_stop.map((busStop, index) => (
+                <tr key={index}>
+                  {index === 0 && <td rowSpan={item.bus_stop.length}>{item.start_stop_location.location?.location_name}</td>}
+                  <td>{busStop}</td>
+                  <td>{item.landmark}</td>
+                  {index === 0 && <td rowSpan={item.bus_stop.length}>{item.start_stop_location.arrival_time.slice(0, 5)}</td>}
+                </tr>
+              ))}
+              {!Array.isArray(item.bus_stop) && (
+                <tr>
+                  <td>{item.start_stop_location.location?.location_name}</td>
+                  <td>{item.bus_stop}</td>
+                  <td>{item.landmark}</td>
+                  <td>{item.arrival_time.slice(0, 5)}</td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </Modal.Body>
     );
   };
 
@@ -281,12 +296,12 @@ export default function Viewallbus() {
           <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
             <button className="btn btn-primary"> + Add Trip</button>
           </Link>
-          <Form style={{ textAlign: "center", width: "26%" }}>
+          <Form style={{ textAlign: "center", width: "20.5%" }}>
             <div className="input-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Bus name/start/end location"
+                placeholder="Bus/start/end location"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -341,17 +356,19 @@ export default function Viewallbus() {
           viewPage={fetchData}
         />
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title >Route Detail</Modal.Title>
-        </Modal.Header>
-        <RouteDetailsModal data ={modalData} />
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
+  <Modal.Header closeButton>
+    <Modal.Title>Route Detail</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <RouteDetailsModal data={modalData} />
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
     </div>
   );
 }

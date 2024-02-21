@@ -58,7 +58,7 @@ export default function Viewallbus() {
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="1" data-testid="accordian-button">
             <Accordion.Header>
-              <h4 style={{ maxWidth: "50vw", wordWrap: "break-word" }}>Title : {viewreview.review_title}</h4>
+              <h4 style={{ maxWidth: "70vw", wordWrap: "break-word" }}>Title : {viewreview.review_title}</h4>
             </Accordion.Header>
             <Accordion.Body>
               <div style={{ display: "flex" }}>
@@ -66,9 +66,9 @@ export default function Viewallbus() {
                   <h5>Trip : {viewreview.start_point_name}{" - "}{viewreview.end_point_name}</h5>
                   <h6>Bus Name : {viewreview.trip_id.bus.bus_name}</h6>
                   <h6>Trip Date : {viewreview.trip_id.start_date} - {viewreview.trip_id.end_date}</h6>
-                  <p style={{ maxWidth: "100vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
+                  <h6>Trip Time : {viewreview.trip_id.start_time} - {viewreview.trip_id.end_time}</h6>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <p
+                    <h6
                       style={{
                         margin: "0",
                         marginRight: "5px",
@@ -76,7 +76,7 @@ export default function Viewallbus() {
                       }}
                     >
                       Rating:{" "}
-                    </p>
+                    </h6>
                     <Badge
                       bg={getBadgeColor(viewreview.rating)}
                       style={{
@@ -101,11 +101,12 @@ export default function Viewallbus() {
                     </Badge>
                   </div>
 
-                  <p>
+                  <h6 className="mt-1">
                     Review By : {viewreview.user_id.first_name}{" "}
                     {viewreview.user_id.last_name}
-                  </p>
-                  <p>Email Id : {viewreview.user_id.email} </p>
+                  </h6>
+                  <h6>Email Id : {viewreview.user_id.email} </h6>
+                  <p style={{ maxWidth: "100vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
                 </div>
               </div>
             </Accordion.Body>

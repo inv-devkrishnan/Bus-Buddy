@@ -313,7 +313,7 @@ export default function Addrecurringtrip() {
                       dates(selectedPeriodStartDate, selectedPeriodEndDate)
                     }
                   >
-                    search
+                    Search
                   </Button>
                 </div>
                 <p style={{ fontSize: "13px" }}>

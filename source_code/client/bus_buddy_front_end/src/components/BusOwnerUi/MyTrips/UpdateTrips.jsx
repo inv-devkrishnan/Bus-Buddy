@@ -235,7 +235,7 @@ console.log(formik.errors);
                   )}
                 </Form.Group>
                 <div style={{display:"flex",justifyContent:"center"}}>
-                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>search</Button>
+                  <Button style={{marginTop:"2%",width:"35%",}} type="button" onClick={() => dates(formik.values.startdate, formik.values.enddate)}>Search</Button>
                 </div>
                 <p style={{fontSize:"11px"}}>Press the search button to search for buses available for the new dates you have entered<br/>Please Select the bus once again if you have changed the dates</p>
                 <Form.Group as={Col} md="6">

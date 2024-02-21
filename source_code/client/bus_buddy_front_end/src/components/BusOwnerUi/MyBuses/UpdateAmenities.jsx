@@ -127,7 +127,7 @@ export default function Updateamenities() {
                 </div>
               ))}
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="submit">Update Amenitie</Button>
+              <Button type="submit" data-testid="bus-type-select">Update Amenities</Button>
               </div>
             </Form>
           </div>
