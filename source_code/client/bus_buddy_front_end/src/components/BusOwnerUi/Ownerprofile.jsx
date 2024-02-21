@@ -1,28 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { axiosApi } from "../../utils/axiosApi";
 import Card from "react-bootstrap/Card";
 import CardText from "react-bootstrap/esm/CardText";
 import { Placeholder } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 
 
 
 export default function Ownerprofile() {
   const [currentUserData, setCurrentUserData] = useState({});
-  const [myProfileView, setMyProfileView] = useState(true);
   const [isProfileLoading, setIsProfileLoading] = useState(true); // to show/hide placeholder
-  const navigate = useNavigate();
 
-  const changePasswordViewSelected = () => {
-    setMyProfileView(false);
-    navigate("/BusHome/change-password");
-  };
-
-  const updateProfileViewSelected = () => {
-    setMyProfileView(false);
-    navigate("/BusHome/update-owner");
-  };
+ 
   const fetchUserData = async () => {
     try {
       const res = await axiosApi.get("bus-owner/update-profile");
@@ -44,7 +33,7 @@ export default function Ownerprofile() {
         <h1>My Profile</h1>
       </div>
       <div className="p-2">
-        {myProfileView && (
+        {(
           <div>
             {isProfileLoading ? (
               <Card
@@ -154,15 +143,24 @@ export default function Ownerprofile() {
                 </div>
                 <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
                   <div className="d-flex m-1">
-                    {( // for rendering change password button only for normal sign in
-                      <Button onClick={changePasswordViewSelected}>
-                        Change password
-                      </Button>
-                    )}
-                  </div>
-                  <div className="m-1">
-                    <Button onClick={updateProfileViewSelected}>Edit</Button>
-                  </div>
+                  <Link to="/BusHome/update-owner">
+                <button
+                  className="btn btn-primary m-3"
+                  style={{ width: "100%", height: "58%" }} // Set width and height here
+                >
+                  Update Profile
+                </button>
+                
+              </Link>&nbsp;
+              <Link to="/BusHome/change-password">
+                <button 
+                  className="btn btn-primary m-3"
+                  style={{ width: "100%", height: "58%" }} // Set width and height here
+                >
+                  Change Password
+                </button>
+              </Link>
+                </div>
                 </div>
               </Card>
             )}
