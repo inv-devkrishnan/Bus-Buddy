@@ -107,7 +107,7 @@ function CardPayment(props) {
     <Container>
       <Row>
         <Col className="mt-3">
-          <h1>Make Payment</h1>
+          <h1 className="text-center">Make Payment</h1>
         </Col>
       </Row>
       <Row>
@@ -118,27 +118,29 @@ function CardPayment(props) {
             </h3>
             <form onSubmit={dopay} className="ml-auto mr-auto">
               <PaymentElement></PaymentElement>
-              <Button
-                className="mt-3"
-                type="submit"
-                variant="success"
-                disabled={isLoading || !stripe || !elements}
-              >
-                {isLoading ? (
-                  <div>
-                    <Spinner
-                      as="span"
-                      animation="grow"
-                      size="sm"
-                      role="output"
-                      aria-hidden="true"
-                    />
-                    Loading...
-                  </div>
-                ) : (
-                  "Pay ₹ " + props.data.total_amount
-                )}
-              </Button>
+              <div className="d-flex justify-content-center">
+                <Button
+                  className="mt-3"
+                  type="submit"
+                  variant="success"
+                  disabled={isLoading || !stripe || !elements}
+                >
+                  {isLoading ? (
+                    <div>
+                      <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="output"
+                        aria-hidden="true"
+                      />
+                      Loading...
+                    </div>
+                  ) : (
+                    "Pay ₹ " + props.data.total_amount
+                  )}
+                </Button>
+              </div>
             </form>
           </Card>
         </div>

@@ -122,8 +122,8 @@ def ban_normal_user(old_status, new_status, instance):
     stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
         (old_status == 0 and new_status == 2)
-        or (old_status == 0 and new_status == 99)
-        or (old_status == 2 and new_status == 99)
+        or (old_status == 0 and new_status == 98)
+        or (old_status == 2 and new_status == 98)
     ) and instance.role == 2:
         logger.info("Normal User ban/Delete After Process initiated")
         try:
@@ -257,7 +257,7 @@ def remove_bus_owner_buses(instance):
 def remove_bus_owner(old_status, new_status, instance):
     stripe.api_key = os.getenv("STRIPE_API_KEY")
     if (
-        (old_status == 0 and new_status == 99) or (old_status == 2 and new_status == 99)
+        (old_status == 0 and new_status == 98) or (old_status == 2 and new_status == 98)
     ) and instance.role == 3:
         try:
             logger.info("initiated bus owner removal")
@@ -481,7 +481,7 @@ class ListUsers(ListAPIView):
             and self.validate_status(status)
             and self.validate_role(role)
         ):
-            queryset = User.objects.filter(~Q(role=1), ~Q(status=99)).order_by(
+            queryset = User.objects.filter(~Q(role=1), ~Q(status=99) ,~Q(status=98)).order_by(
                 self.ordering(order)
             )
             data = self.filter_queryset(queryset)
@@ -540,7 +540,7 @@ class RemoveUser(UpdateAPIView):
     permission_classes = (AllowAdminsOnly,)
 
     def update(self, request, user_id):
-        return update_status(self, user_id, 99)
+        return update_status(self, user_id, 98)
 
     def put(self, request, user_id):
         logger.info("Removing Bus Owner with id " + str(user_id))

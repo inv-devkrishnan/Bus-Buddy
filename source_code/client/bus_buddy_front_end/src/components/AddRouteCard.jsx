@@ -238,7 +238,7 @@ export default function AddRouteCard() {
                     />
                     <InputGroup.Text>hrs</InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      Please provide valid Duration
+                      Please provide valid Duration between 1-100 
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -257,7 +257,7 @@ export default function AddRouteCard() {
                     />
                     <InputGroup.Text>km</InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      Please provide valid Distance
+                      Please provide valid Distance between 1-100000 
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -276,7 +276,7 @@ export default function AddRouteCard() {
                       step="0.01"
                     />
                     <Form.Control.Feedback type="invalid">
-                      Please provide valid travel fare
+                      Please provide valid travel fare between 1-10000 
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>

@@ -63,7 +63,7 @@ function SideBar(props) {
   return (
     <div id="sidebar" className="sidebar">
       <div className="header">
-        <h2 className="text-light text-center pt-3">{props.heading}</h2>
+        <h2 className="text-light text-center m-0">{props.heading}</h2>
       </div>
       {showDiv ? (
         <Accordion flush activeKey={activeKey} onSelect={handleAccordionToggle}>

@@ -197,12 +197,13 @@ function ComplaintCard(props) {
               >
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label className="fw-bold">
-                    Your Response (maximum 5000 characters) :
+                    Your Response:
                   </Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
                     required
+                    placeholder="Enter your Response here (maximum 5000 characters) "
                     maxLength={5000}
                     onInput={(event) => {
                       const value = event.target.value;

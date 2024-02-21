@@ -26,6 +26,7 @@ function UpdateProfile() {
     "Platform charges are expected in % and should be in range 0 - 100";
   const [adminDetails, setAdminDetails] = useState({});
   const [isProfileLoading, setIsProfileLoading] = useState(false); // to show/hide placeholder
+  const [isDataChanged, setIsDataChanged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,12 +63,12 @@ function UpdateProfile() {
           title: "Profile Updated !",
         });
         updateFirstName(values.first_name);
-        localStorage.setItem("user_name",values.first_name)
+        localStorage.setItem("user_name", values.first_name);
         navigate("/admin-dashboard/view-profile");
       })
       .catch(function (error) {
         Swal.close();
-        console.log(error)
+        console.log(error);
         Swal.fire({
           icon: "error",
           title: "Profile Update Failed !",
@@ -111,13 +112,25 @@ function UpdateProfile() {
 
     setShowModal(false);
   };
+  const checkIfDataChanged = (firstName, lastName, email, phone) => {
+    if (
+      firstName !== adminDetails?.first_name ||
+      lastName !== adminDetails?.last_name ||
+      email !== adminDetails?.email ||
+      phone !== adminDetails?.phone
+    ) {
+      setIsDataChanged(true);
+    } else {
+      setIsDataChanged(false);
+    }
+  };
   return (
     <Container className="ms-3 p-0">
       <Row>
         <Col xs={11} sm={12} md={8} lg={6} xl={5} xxl={4}>
           {!isProfileLoading ? (
             <Card className="p-5 pt-3 mt-2 mb-5 shadow-lg w-100">
-              <Card.Title className="mb-4">Update Profile</Card.Title>
+              <h2 className="mb-4">Update Profile</h2>
               <Formik
                 // filling initial from props
                 initialValues={{
@@ -129,7 +142,12 @@ function UpdateProfile() {
                 validate={(values) => {
                   // validation for email,first_name,last_name,phone number
                   const errors = {};
-
+                  checkIfDataChanged(
+                    values.first_name,
+                    values.last_name,
+                    values.email,
+                    values.phone
+                  );
                   if (!values.email) {
                     errors.email = "Required";
                   } else if (
@@ -263,7 +281,7 @@ function UpdateProfile() {
                         data-testid="update-profile"
                         variant="primary"
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !isDataChanged}
                       >
                         Update Profile
                       </Button>
@@ -302,10 +320,17 @@ function UpdateProfile() {
             </Card>
           )}
         </Col>
-        <Col xs={12} lg={6} xl={7} xxl={8}>
+        <Col
+          xs={12}
+          lg={6}
+          xl={7}
+          xxl={8}
+          className="d-flex justify-content-end"
+        >
           <Image
             fluid
             className="mt-5"
+            draggable={false}
             src={AdminProfileSplash}
             alt="admin_splash"
           ></Image>
