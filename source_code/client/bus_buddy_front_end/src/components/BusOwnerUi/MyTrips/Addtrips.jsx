@@ -55,7 +55,6 @@ export default function Addtrips() {
     })
 
     .then((response)=>{
-      console.log("Trip Inserted");
       Swal.fire({
         icon: "success",
         title: "Added Successfully",
@@ -63,7 +62,6 @@ export default function Addtrips() {
       });
     })
     .catch((error)=>{
-      console.log(error?.response?.data?.message)
       if(error?.response?.data?.message === "The route's start time has already passed for today"){
         Swal.fire({
           icon: "error",
