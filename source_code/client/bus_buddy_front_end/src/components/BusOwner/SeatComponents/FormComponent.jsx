@@ -187,7 +187,7 @@ export default function FormComponent(props) {
 
   return (
     <div>
-      <Card sx={{ width: "60%", marginLeft: 2, marginRight: 2, boxShadow: 4 }}>
+      <Card sx={{ width: "60%", boxShadow: 4 }}>
         <Box
           component="form"
           onSubmit={formik.handleSubmit}

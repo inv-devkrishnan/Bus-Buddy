@@ -349,13 +349,21 @@ export default function UserBookingHistory() {
           <div className="d-flex flex-column flex-lg-row justify-content-around">
             <div className="m-2">
               <p>
-                Booking date &ensp;&ensp;:{" "}
+                &ensp; Booking date &nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;:{" "}
                 <strong>
-                  {new Date(modalData?.created_date).toLocaleDateString()}
+                  {modalData?.created_date
+                    ? `${new Date(
+                        modalData.created_date
+                      ).getFullYear()}-${String(
+                        new Date(modalData.created_date).getMonth() + 1
+                      ).padStart(2, "0")}-${String(
+                        new Date(modalData.created_date).getDate()
+                      ).padStart(2, "0")}`
+                    : "Invalid Date"}
                 </strong>
               </p>
               <p>
-                Booking status&ensp;:{" "}
+                &ensp; Booking status &ensp;&ensp;&ensp;&ensp;&nbsp;:{" "}
                 <strong>
                   {modalData?.status === 99 && (
                     <span style={{ color: "tomato" }}>Cancelled</span>
@@ -379,7 +387,7 @@ export default function UserBookingHistory() {
               <h5 style={{ color: "cornflowerblue" }}>Route Details</h5>
               <p>
                 &ensp; From
-                &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
+                &nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(
                   Typography,
                   modalData?.pick_up?.start_stop_location?.location
@@ -389,8 +397,8 @@ export default function UserBookingHistory() {
                 )}
               </p>
               <p>
-                &ensp;
-                To&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
+                &ensp; To
+                &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(
                   Typography,
                   modalData?.drop_off?.start_stop_location?.location
@@ -400,39 +408,63 @@ export default function UserBookingHistory() {
                 )}
               </p>
               <p>
-                &ensp; Departure Date&ensp;:{" "}
+                &ensp; Departure Date &ensp;&ensp;&ensp;&ensp;:{" "}
                 <strong>
-                  {new Date(
-                    new Date(modalData?.trip?.start_date).getTime() +
-                      modalData?.pick_up?.start_stop_location
-                        ?.arrival_date_offset *
-                        24 *
-                        60 *
-                        60 *
-                        1000
-                  ).toDateString()}
+                  {modalData?.trip?.start_date &&
+                  modalData?.pick_up?.start_stop_location
+                    ?.arrival_date_offset !== undefined
+                    ? `${new Date(
+                        new Date(modalData.trip.start_date).getTime() +
+                          modalData.pick_up.start_stop_location
+                            .arrival_date_offset *
+                            24 *
+                            60 *
+                            60 *
+                            1000
+                      ).getFullYear()}-${String(
+                        new Date(
+                          new Date(modalData.trip.start_date).getTime() +
+                            modalData.pick_up.start_stop_location
+                              .arrival_date_offset *
+                              24 *
+                              60 *
+                              60 *
+                              1000
+                        ).getMonth() + 1
+                      ).padStart(2, "0")}-${String(
+                        new Date(
+                          new Date(modalData.trip.start_date).getTime() +
+                            modalData.pick_up.start_stop_location
+                              .arrival_date_offset *
+                              24 *
+                              60 *
+                              60 *
+                              1000
+                        ).getDate()
+                      ).padStart(2, "0")}`
+                    : "Invalid Date"}
                 </strong>
               </p>
               <p>
-                &ensp; Pick up point &ensp;&ensp;&ensp;:{" "}
+                &ensp; Pick up point &nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.pick_up?.bus_stop, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
                 <br />
-                &ensp; Pick up time&ensp;&ensp;&ensp;&ensp;:{" "}
+                &ensp; Pick up time &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 <strong>
                   {modalData?.pick_up?.start_stop_location?.arrival_time}
                 </strong>
               </p>
               <p>
-                &ensp; Drop off point&ensp;&ensp;:{" "}
+                &ensp; Drop off point &ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.drop_off?.bus_stop, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
                 <br />
-                &ensp; Drop off time &nbsp;&ensp;&ensp;:{" "}
+                &ensp; Drop off time &nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 <strong>
                   {modalData?.drop_off?.start_stop_location?.arrival_time}
                 </strong>
@@ -441,23 +473,24 @@ export default function UserBookingHistory() {
             <div className="m-2">
               <h5 style={{ color: "cornflowerblue" }}>Bus Details</h5>
               <p>
-                &ensp; Bus Name&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
+                &ensp; Bus Name
+                &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:{" "}
                 {withTooltip(Typography, modalData?.trip?.bus?.bus_name, 10, {
                   style: { fontWeight: "bold" },
                   component: "span",
                 })}
               </p>
               <p>
-                &ensp; Bus Plate Number&ensp;:{" "}
+                &ensp; Bus Plate Number&ensp;&ensp;:{" "}
                 <strong>{modalData?.trip?.bus?.plate_no}</strong>
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Payment Details</h5>
               <p>
-                &ensp; Total amount&ensp;: ₹
+                &ensp; Total amount&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;: ₹
                 <strong>{modalData?.total_amount}</strong>
               </p>
               <h5 style={{ color: "cornflowerblue" }}>Passenger Details</h5>
-              <Table responsive="md">
+              <Table responsive="md" className="m-1">
                 <thead>
                   <tr>
                     <th>Name</th>

@@ -29,7 +29,14 @@ export default function CouponOther(props) {
                 <Card.Title
                   style={{ color: "lightgoldenrodyellow", fontSize: "20px" }}
                 >
-                  {truncateText(props.data?.coupon_name, 10)}
+                  {props.data?.coupon_name !== undefined &&
+                  props.data?.coupon_name.length > 29 ? (
+                    <Tooltip title={props.data?.coupon_name} placement="bottom">
+                      {truncateText(props.data?.coupon_name, 29)}
+                    </Tooltip>
+                  ) : (
+                    props.data?.coupon_name
+                  )}
                 </Card.Title>
                 <Card.Body>
                   <Card.Text
@@ -39,7 +46,7 @@ export default function CouponOther(props) {
                       marginLeft: 60,
                     }}
                   >
-                    {description_length > 88 ? (
+                    {description_length > 37 ? (
                       <Tooltip
                         title="Read description"
                         placement="bottom-start"
