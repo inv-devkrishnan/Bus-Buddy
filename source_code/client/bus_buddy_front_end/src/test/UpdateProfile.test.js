@@ -8,10 +8,10 @@ import { UserContextProvider } from "../components/User/UserContext";
 
 let mock;
 let data = {
-  first_name: "dev",
-  last_name: "krishnan",
-  email: "dev@123.com",
-  phone: "1233553435",
+  first_name: "Dek",
+  last_name: "VA",
+  email: "dev@gmail.com",
+  phone: "9400531221",
 };
 beforeEach(() => {
   mock = new MockAdapter(axiosApi);
@@ -86,6 +86,26 @@ describe("update profile", () => {
     });
     submitForm("Dev", "VA", "dev@gmail.com", "9400531221");
     await new Promise((resolve) => setTimeout(resolve, 1000));
+  });
+
+  test("test02 update same data fail", async () => {
+    mock.onGet(`adminstrator/update-profile/`).reply(200, data);
+    render(
+      <UserContextProvider>
+        <BrowserRouter>
+          <UpdateProfile />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId("update-profile")).toBeInTheDocument();
+    });
+    fireEvent.change(screen.getByTestId("phone"),{ target: { value: "9037760634" } })
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+     fireEvent.change(screen.getByTestId("first-name"),{ target: { value: "Dek" } })
+    fireEvent.change(screen.getByTestId("last-name"),{ target: { value: "VA" } })
+    fireEvent.change(screen.getByTestId("email"),{ target: { value: "dev@gmail.com" } })
+    fireEvent.change(screen.getByTestId("phone"),{ target: { value: "9400531221" } })
   });
 
   test("test02 enter details fail", async () => {

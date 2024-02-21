@@ -41,11 +41,11 @@ function DeleteAccount() {
   };
   return (
     <Container className="mt-3">
-      <h1>Delete Account</h1>
+      <h1 className="ms-2">Delete Account</h1>
       <div className="ms-3 mt-3">
         <p>
           After deleting your account you have no longer access to the contents
-          of this account. <br></br>{" "}
+          of this account.In future if you have changed your mind, you can restore this account by logging in with the same credentials.<br></br> <br></br>{" "}
           <span className="fw-bolder">
             Are you sure you want delete this account ?
           </span>
@@ -68,7 +68,7 @@ function DeleteAccount() {
             variant="danger"
             onClick={deleteAccount}
           >
-            Delete account
+            Delete Account
           </Button>
         </Modal.Footer>
       </Modal>

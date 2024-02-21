@@ -6,7 +6,7 @@ import RegisterCard from "../components/User/RegisterCard";
 export default function RegisterUser() {
   return (
     <Container fluid>
-      <Row>
+      <Row className="align-items-center">
         <Col lg={6} md={4} sm={12}>
           <Image
             draggable={false}

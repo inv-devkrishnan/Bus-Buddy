@@ -48,32 +48,32 @@
     <h3>Onward Journey Ticket Details</h3>
     <div class="flex-container">
       <div>
-        <p>Booking Id:</p>
-        <p>Recipient:</p>
-        <p>Boarding point:</p>
-        <p>Departure time:</p>
-        <p>Arrival point:</p>
-        <p>Arrival time:</p>
+        <p>Booking Id</p>
+        <p>Recipient</p>
+        <p>Boarding point</p>
+        <p>Departure time</p>
+        <p>Arrival point</p>
+        <p>Arrival time</p>
       </div>
       <div>
-        <p><strong>{{booking_id}}</strong></p>
-        <p><strong>{{recipient}}</strong></p>
-        <p><strong>{{pick_up.point}}</strong></p>
-        <p><strong>{{pick_up.time}}</strong></p>
-        <p><strong>{{drop_off.point}}</strong></p>
-        <p><strong>{{drop_off.time}}</strong></p>
+        <p>:<strong>{{booking_id}}</strong></p>
+        <p>:<strong>{{recipient}}</strong></p>
+        <p>:<strong>{{pick_up.point}}</strong></p>
+        <p>:<strong>{{pick_up.time}}</strong></p>
+        <p>:<strong>{{drop_off.point}}</strong></p>
+        <p>:<strong>{{drop_off.time}}</strong></p>
       </div>
 
       <div>
-        <p>Date of Journey:</p>
-        <p>Bus name:</p>
-        <p>Route:</p>
+        <p>Date of Journey</p>
+        <p>Bus name</p>
+        <p>Route</p>
       </div>
       <div>
-        <p><strong>{{trip_start}}</strong></p>
-        <p><strong>{{bus}}</strong></p>
+        <p>:<strong>{{trip_start}}</strong></p>
+        <p>:<strong>{{bus}}</strong></p>
         <p>
-          <strong>{{route.from}}</strong> to
+          :<strong>{{route.from}}</strong> to
           <strong>{{route.to}}</strong>
         </p>
       </div>
@@ -83,18 +83,18 @@
     </p>
     <div class="other-flex-container">
       <div style="margin: 10px">
-        <p>Seat cost:</p>
-        <p>Travel cost:</p>
-        <p>GST:</p>
+        <p>Seat cost</p>
+        <p>Travel cost</p>
+        <p>GST</p>
       </div>
       <div style="margin: 10px">
-        <p>{{seat_cost}}</p>
-        <p>{{route_cost}}</p>
-        <p>{{gst}}</p>
+        <p>:₹{{seat_cost}}</p>
+        <p>:₹{{route_cost}}</p>
+        <p>:₹{{gst}}</p>
       </div>
     </div>
     <p style="margin: 11px">
-      Total fare: <span><strong>{{total}}</strong></span>
+      Total fare: <span><strong>₹{{total}}</strong></span>
     </p>
     <br />
 

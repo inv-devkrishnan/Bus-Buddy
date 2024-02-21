@@ -4,6 +4,7 @@ import os
 import jwt
 from django.db.utils import IntegrityError
 from django.db import transaction
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -39,12 +40,16 @@ def check_user_status(user):
         return Response(token, status=200)
     elif user.status == 2:
         return Response({"error_code": "D1009"}, status=401)
-    elif user.status == 1:
-        return Response({"error_code": "D1010"}, status=401)
     elif user.status == 3:
         return Response({"error_code": "D1011"}, status=401)
+    elif user.status == 98:
+        return Response({"error_code": "D1010"}, status=401)
     elif user.status == 99:
-        return Response({"error_code": "D1001"}, status=401)
+        token = generate_token(user)
+        user.status = 0
+        user.save()
+        logger.info("Account Restored")
+        return Response(token, status=200)
 
 
 def validate_token(token, user):
@@ -348,7 +353,7 @@ class ForgetPasswordSendMail(APIView):
         try:
             whitelisted_token = WhiteListedTokens.objects.get(user=user)
             whitelisted_token.token = token
-            whitelisted_token.status =0
+            whitelisted_token.status = 0
             logger.info(
                 "forgot password token already exist's for the  user !. replaced with new token"
             )
@@ -366,7 +371,9 @@ class ForgetPasswordSendMail(APIView):
         if serialized_data.is_valid():
             try:
                 user = User.objects.get(
-                    email=serialized_data.data["email"], status=0, account_provider=0
+                    Q(email=serialized_data.data["email"])
+                    & (Q(status=0) | Q(status=99)),
+                    account_provider=0,
                 )
                 token = generate_jwt_token(
                     user.id, os.getenv("FORGOT_PASSWORD_EXPIRATION_IN_MINUTES")
@@ -400,11 +407,11 @@ class ForgetPasswordSendMail(APIView):
             except User.DoesNotExist:
                 try:
                     user = User.objects.get(email=serialized_data.data["email"])
-                    if user.status != 0:
+                    if user.status == 98:
                         return Response(
                             {
                                 "error_code": "D1033",
-                                "error_message": "Only applicable for active accounts",
+                                "error_message": "Operation not applicable for disabled accounts by admin",
                             }
                         )
                     elif user.account_provider != 0:
@@ -414,6 +421,13 @@ class ForgetPasswordSendMail(APIView):
                                 "error_message": "not applicable for google sign in or other 3rd party sign in users",
                             }
                         )
+                    else:
+                        return Response(
+                            {
+                                "error_code": "D1037",
+                                "error_message": "not applicable for banned or unapproved accounts",
+                            }
+                        )    
 
                 except User.DoesNotExist:
                     return Response(
@@ -443,7 +457,7 @@ class ForgetPasswordTokenVerify(APIView):
                 )  # decodes the token
                 user_id = value.get("user_id")
                 User.objects.get(
-                    id=user_id, status=0, account_provider=0
+                   Q(status=0) | Q(status=99),id=user_id,account_provider=0
                 )  # cross check wether such mail exist's
                 is_token_valid = validate_token(token, user_id)
                 if is_token_valid == 0:
@@ -485,15 +499,17 @@ class ForgetPasswordChange(APIView):
                 )  # decodes the token
                 user_id = value.get("user_id")
                 user = User.objects.get(
-                    id=user_id, status=0, account_provider=0
+                    Q(status=0) | Q(status=99),id=user_id,account_provider=0
                 )  # cross check wether such mail exist's
-                is_token_validated = validate_token(token,user_id)
-                if is_token_validated ==0:
+                is_token_validated = validate_token(token, user_id)
+                if is_token_validated == 0:
                     with transaction.atomic():
                         current_token = WhiteListedTokens.objects.get(token=token)
-                        current_token.status =1
+                        current_token.status = 1
                         current_token.save()  # indicates that token is already been used
-                        user.set_password(serialized_data.validated_data["new_password"])
+                        user.set_password(
+                            serialized_data.validated_data["new_password"]
+                        )
                         user.save()
                         return Response({"message": "password changed"}, status=200)
                 elif is_token_validated == -2:
@@ -509,7 +525,7 @@ class ForgetPasswordChange(APIView):
                             "error_code": "D1032",
                             "error_message": "Provided forgot passsword token is invalid or expired",
                         }
-                    )  
+                    )
             except Exception as e:
                 logger.warn(str(e))
                 return Response(

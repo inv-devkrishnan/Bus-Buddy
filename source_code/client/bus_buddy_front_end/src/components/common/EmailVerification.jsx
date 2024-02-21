@@ -169,7 +169,7 @@ export default function EmailVerification(props) {
       <Modal.Header closeButton>
         <Modal.Title>Email Verification</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="m-1">
         To finalize this process, kindly verify your email address.
         <Formik
           initialValues={{ otp: "", email: props.values.email }}
