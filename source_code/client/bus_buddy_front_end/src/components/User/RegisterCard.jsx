@@ -94,7 +94,7 @@ export default function RegisterCard() {
               <Form onSubmit={formikProps.handleSubmit} id="userRegisterForm">
                 <Row>
                   <div className="d-flex flex-column flex-md-row flex-lg-row">
-                    <Form.Group className="me-1 mb-3">
+                    <Form.Group className="mb-3">
                       <Form.Label>First name</Form.Label>
                       <Field
                         as={Form.Control}
@@ -114,8 +114,8 @@ export default function RegisterCard() {
                         style={{ color: "red" }}
                       />
                     </Form.Group>
-
-                    <Form.Group className="ms-1 mb-3">
+                    &nbsp;
+                    <Form.Group className="mb-3">
                       <Form.Label>Last name</Form.Label>
                       <Field
                         as={Form.Control}

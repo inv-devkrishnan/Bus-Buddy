@@ -65,6 +65,15 @@ export default function UpdateForm() {
       });
   }, []);
 
+  const checkChange = (formikProps) => {
+    return !!(
+      currentUserData["first_name"] === formikProps.values.first_name &&
+      currentUserData["last_name"] === formikProps.values.last_name &&
+      currentUserData["email"] === formikProps.values.email &&
+      currentUserData["phone"] === formikProps.values.phone
+    );
+  };
+
   return (
     <>
       <Card
@@ -157,6 +166,7 @@ export default function UpdateForm() {
                   variant="primary"
                   type="submit"
                   style={{ margin: "4px" }}
+                  disabled={checkChange(formikProps)}
                 >
                   Submit
                 </Button>

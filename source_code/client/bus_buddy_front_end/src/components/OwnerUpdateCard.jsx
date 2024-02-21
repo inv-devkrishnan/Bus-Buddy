@@ -14,6 +14,7 @@ export default function OwnerUpdateForm() {
   const [currentUserData, setCurrentUserData] = useState([]);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [updateValues, setUpdateValues] = useState([]);
+  const [disable, setDisable] = useState(true);
   const { updateFirstName } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -119,6 +120,27 @@ export default function OwnerUpdateForm() {
     onSubmit,
   });
 
+  useEffect(() => {
+    if (
+      currentUserData["first_name"] !== formik.values.firstName ||
+      currentUserData["last_name"] !== formik.values.lastName ||
+      currentUserData["email"] !== formik.values.email ||
+      currentUserData["phone"] !== formik.values.phone ||
+      currentUserData["company_name"] !== formik.values.companyName
+    ) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [
+    currentUserData,
+    formik.values.companyName,
+    formik.values.email,
+    formik.values.firstName,
+    formik.values.lastName,
+    formik.values.phone,
+  ]);
+
   return (
     <>
       <Card style={{ width: "50%" }}>
@@ -210,14 +232,19 @@ export default function OwnerUpdateForm() {
                 {formik.errors.companyName}
               </Form.Control.Feedback>
             </Form.Group>
-            <Button variant="primary" type="submit" style={{ margin: "4px" }}>
+            <Button
+              variant="primary"
+              type="submit"
+              style={{ margin: "4px" }}
+              disabled={disable}
+            >
               Submit
             </Button>
             <Button
               data-testid="Cancel"
               variant="secondary"
               style={{ margin: "4px" }}
-              onClick={() => navigate("/BusHome")}
+              onClick={() => navigate("/BusHome/Ownerprofile")}
             >
               Cancel
             </Button>
