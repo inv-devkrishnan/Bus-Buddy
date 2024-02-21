@@ -236,7 +236,7 @@ export default function Viewallroutes() {
   <Modal.Body>{routeDetailsModal(modalData)}<routeDetailsModal data={modalData} />
   </Modal.Body>
   <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
+    <Button variant="secondary" data-testid="close-button" onClick={() => setShowModal(false)}>
       Close
     </Button>
   </Modal.Footer>

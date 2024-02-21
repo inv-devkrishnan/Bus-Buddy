@@ -25,7 +25,7 @@ function DeleteAccount() {
         text: "Now you will be redirected to login page",
       });
       logout();
-    } else if (!response.status) {
+    } else {
       handleClose();
       await Swal.fire({
         icon: "error",
@@ -35,8 +35,6 @@ function DeleteAccount() {
             ? "Due to active bookings associated with your account, the deletion process cannot be completed at this time."
             : "Since there are ongoing trips associated with your account, the deletion process cannot be carried out.",
       });
-    } else {
-      console.log("deletion failed");
     }
   };
   return (
@@ -45,7 +43,9 @@ function DeleteAccount() {
       <div className="ms-3 mt-3">
         <p>
           After deleting your account you have no longer access to the contents
-          of this account.In future if you have changed your mind, you can restore this account by logging in with the same credentials.<br></br> <br></br>{" "}
+          of this account.In future if you have changed your mind, you can
+          restore this account by logging in with the same credentials.<br></br>{" "}
+          <br></br>{" "}
           <span className="fw-bolder">
             Are you sure you want delete this account ?
           </span>
