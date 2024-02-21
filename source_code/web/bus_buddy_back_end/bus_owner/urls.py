@@ -26,5 +26,7 @@ urlpatterns = [
     path('change-notification-status/',views.Changenotificationstatus.as_view(),name="change-notification-status"),
     path('passenger-list/<int:id>/',views.Getpassengerlist.as_view(),name="passenger-list"),
     path('get-valid-bus/',views.Getvalidbus.as_view(),name="get-valid-bus"),
+    path('pick-and-drop-stops/<int:id>/',views.Viewstops.as_view(),name="pick-and-drop-stops"),
+    
     
 ]

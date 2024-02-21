@@ -20,8 +20,6 @@ export default function Updatetrips() {
   const [busData, setBusData] = useState([]);
   const [routeData, setRouteData] = useState([]);
   const [currentTripData, setCurrentTripData] = useState([]);
-  const [startDateError, setStartDateError] = useState("");
-  const [endDateError, setEndDateError] = useState("");
   const navi = useNavigate();
 
   const reset= () => {
@@ -35,6 +33,9 @@ export default function Updatetrips() {
 
   const onSubmit = async (e) => {
     const startTimeDifference = new Date(formik.values.startdate).getTime() - new Date().getTime();
+
+    
+
     const hoursUntilStartTime = startTimeDifference / (1000 * 60 * 60);
       if (hoursUntilStartTime < 48) {
         Swal.fire({
@@ -98,24 +99,13 @@ export default function Updatetrips() {
 console.log(formik.errors);
   const dates = (selectedStartDate, selectedEndDate) => {
     // Fetch Bus data
-    if (formik.values.startdate && formik.values.enddate) {
+    
+    if (selectedStartDate && selectedEndDate) {
       const start = new Date(formik.values.startdate).toISOString().split("T")[0];
       const end = new Date(formik.values.enddate).toISOString().split("T")[0];
-      if (!start ) {
-        setStartDateError(
-          "Start date should be present date or in the future and in the range of the period"
-        );
-      } else {
-        setStartDateError("");
-      }
-      if (!end || end < start) {
-        setEndDateError(
-          "End date should be the same as the start date or a future date within the period"
-        );
-      } else {
-        setEndDateError("");
-      }
-  
+     
+      console.log("Start Date:", start);
+      console.log("End Date:", end);
       axiosApi
         .get(`bus-owner/view-available-bus/?start=${start}&end=${end}`)
         .then((response) => {
@@ -126,6 +116,7 @@ console.log(formik.errors);
     }
     setRoute();
   };
+  console.log("Formik Errors:", formik.errors);
 
   useEffect(() => {
     // Fetch Bus data without date filtering
@@ -215,11 +206,10 @@ console.log(formik.errors);
                     name="startDate"
                     id="startDate"
                     data-testid="start-date"
-                    required
                   />
-                  {startDateError && (
+                  {formik.errors.startdate && (
                     <div style={{ color: "red", fontSize: "11px" }}>
-                      {startDateError}
+                     {formik.errors.startdate}
                     </div>
                   )}
                 </Form.Group>
@@ -236,11 +226,11 @@ console.log(formik.errors);
                     maxDate={addMonths(new Date(), 6)}
                     name = "endDate"
                     id= "endDate"
-                    required
+                    
                   />
-                  {endDateError && (
+                  {formik.errors.enddate && (
                     <div style={{ color: "red", fontSize: "11px" }}>
-                      {endDateError}
+                      {formik.errors.enddate}
                     </div>
                   )}
                 </Form.Group>
@@ -257,7 +247,6 @@ console.log(formik.errors);
                     onChange={formik.handleChange}
                     data-testid="bus-select"
                     id="bus"
-                    required
                     isInvalid={formik.touched.busName && formik.errors.busName}
                   >Bus must be a positive number
                     <option value="">Selected Option</option>
@@ -280,7 +269,6 @@ console.log(formik.errors);
                     onChange={formik.handleChange}
                     id="route"
                     data-testid = "route-select"
-                    required
                     isInvalid={formik.touched.routeName && formik.errors.routeName}
                   >
                     <option value="">Selected Option</option>

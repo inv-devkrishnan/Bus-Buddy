@@ -131,7 +131,7 @@ describe("View Trips component", () => {
     "route": 1
 }
 
-mock.onGet(`bus-owner/view-trip/?page=${1}&search=${""}&ordering=${""}`).reply(200, data);
+mock.onGet(`bus-owner/view-trip/?page=${1}&search=${""}&ordering=${3}`).reply(200, data);
 mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
     render(
         <MemoryRouter>
@@ -149,7 +149,24 @@ mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
       const accordianButtons = screen.getAllByTestId("accordian-button");
       fireEvent.click(accordianButtons[0]);
 
-  
+      const filterOrder = screen.getAllByText("Order By");
+      fireEvent.click(filterOrder[0]);
+
+      const filterRecent = screen.getAllByText("Most Recently Added");
+      fireEvent.click(filterRecent[0]);
+
+      const filterLeastRecent = screen.getAllByText("Least Recently Added");
+      fireEvent.click(filterLeastRecent[0]);
+
+      const filterDesc = screen.getAllByText("Trips in descending by date");
+      fireEvent.click(filterDesc[0]);
+
+      const filterAscend = screen.getAllByText("Trips in ascending by date");
+      fireEvent.click(filterAscend[0]);
+
+      const modalButton = screen.getByText("Yes, delete it!");
+      fireEvent.click(modalButton);
+
   
   });
 });

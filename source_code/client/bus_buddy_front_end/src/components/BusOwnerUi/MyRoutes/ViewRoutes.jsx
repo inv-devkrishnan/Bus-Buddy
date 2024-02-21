@@ -15,7 +15,7 @@ export default function Viewallroutes() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [order, setOrder] = useState('');
+  const [order, setOrder] = useState(3);
 
   const fetchData = useCallback(async (page) => {
     try {
@@ -103,6 +103,7 @@ export default function Viewallroutes() {
       .put(`bus-owner/delete-routes/${id}/`)
       .then((response) => {
         console.log("Route deleted successfully");
+        setData(data.filter(route => route.id !== id));
         Swal.fire({
           icon: "success",
           title: "Deleted",
@@ -110,57 +111,65 @@ export default function Viewallroutes() {
         });
       })
       .catch((error) => {
-        if (error.response) {
-          console.log("HTTP status code:", error.response.status);
+        console.error("Error deleting route:", error?.response?.data);
+        if (error?.response?.data === "route has Bookings") {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error Deleting Route,route has Bookings",
+          });
         } else {
-          console.error("An error occurred:", error.message);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error Deleting Route",
+          });
         }
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error Deleting Route",
-        });
       });
   };
   
   return (
-  <div>
-    <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <Dropdown style={{ width: "10%", marginLeft: "1%" }}>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">
-          Order By
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setOrder('')}> Latest </Dropdown.Item>
-          <Dropdown.Item onClick={() => setOrder("-travel_fare")}>Travel Fair high - low</Dropdown.Item>
-          <Dropdown.Item onClick={() => setOrder("travel_fare")}>Travel Fair low - high</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-      <Form style={{ textAlign: "center" }}>
-        <div className="input-group" style={{ width: "60%",marginLeft:"-80%" }}>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="start / end location "
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSearchClick}>
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
+    <div style={{ minHeight: "50vh", marginLeft: "1%" }}>
+      <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
+        <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <Dropdown style={{ width: "33%" }}>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Filter By
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setOrder(3)}> Most Recent </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(0)}> Least Recent</Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(1)}> high to low trip Fare </Dropdown.Item>
+              <Dropdown.Item onClick={() => setOrder(2)}> low to high trip Fare </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Form style={{ textAlign: "center", width: "35%" }}>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Start/Stop Locations"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button className="btn btn-primary" style={{ width: "29%" }} type="button" onClick={handleSearchClick}>
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </Form>
         </div>
-      </Form>
-      <h1  style={{ marginLeft: "-50%" }}>View All Routes</h1>
-      <Form style={{ textAlign: "center" }}>
-        <Link to={"/BusHome/Addroutes"}>
-          <button className="btn btn-primary">+ Add Routes</button>
-        </Link>
-      </Form>
-    </Navbar>
-    <div className="card-container">{renderCards()}</div>
-    <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
-      <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
+        <h1 style={{ flex: "1", textAlign: "center" }}>View All Routes</h1>
+        <Form style={{ textAlign: "center", width: "33%", display: "flex", justifyContent: "flex-end" }}>
+          <Link to={"/BusHome/Addroutes"}>
+            <button className="btn btn-primary">+ Add Route</button>
+          </Link>
+        </Form>
+      </Navbar>
+      <div className="card-container">{renderCards()}</div>
+      <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
+        <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
+      </div>
     </div>
-  </div>
-);
+  );
+  
 }

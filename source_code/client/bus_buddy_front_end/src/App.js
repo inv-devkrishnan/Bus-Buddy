@@ -45,6 +45,7 @@ import UserProfilePage from "./components/User/UserProfilePage.jsx";
 import UserBookingHistory from "./components/User/UserBookingHistory.jsx";
 import UserComplaint from "./components/User/UserComplaint.jsx";
 import ReviewHistory from "./components/User/ReviewHistory.jsx";
+import UpdateFormCard from "./components/User/UpdateFormCard.jsx";
 
 function App() {
   return (
@@ -89,6 +90,14 @@ function App() {
           />
         </Route>
         <Route path="/user-dashboard" element={<UserDashboardReal />}>
+          <Route
+            path="/user-dashboard/profile/change-password"
+            element={<ChangePassword />}
+          />
+          <Route
+            path="/user-dashboard/profile/edit"
+            element={<UpdateFormCard />}
+          />
           <Route path="/user-dashboard/profile" element={<UserProfilePage />} />
           <Route
             path="/user-dashboard/my-trips"

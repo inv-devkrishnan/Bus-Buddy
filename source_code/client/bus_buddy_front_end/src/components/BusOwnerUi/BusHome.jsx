@@ -147,7 +147,7 @@ export default function UserDashboard() {
       onChange: profileSelected,
     },
     {
-      name: "My buses",
+      name: "My Buses",
       state: state.myBusSelect,
       onChange: myBusSelected,
     },
@@ -168,16 +168,16 @@ export default function UserDashboard() {
       onChange: myReviewsSelected,
     },
     {
+      name: "View Complaints",
+      state: state.complaintSelect,
+      onChange: complaintSelected,
+    },
+    {
       name: "Delete Account",
       state: state.deleteSelect,
       onChange: deleteSelected,
     },
 
-    {
-      name: "View Complaints",
-      state: state.complaintSelect,
-      onChange: complaintSelected,
-    },
   ];
 
   const highlightSelected = useCallback(() => {

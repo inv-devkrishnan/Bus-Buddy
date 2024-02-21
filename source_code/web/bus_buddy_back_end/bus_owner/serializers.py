@@ -39,10 +39,29 @@ class ReviewSerializer(serializers.ModelSerializer):
     """
     serializer for model Userreviews. For listing
     """
+    start_point_name = serializers.CharField(
+        source="trip_id.route.start_point.location_name", read_only=True
+    )
+    end_point_name = serializers.CharField(
+        source="trip_id.route.end_point.location_name", read_only=True
+    )
 
     class Meta:
         model = UserReview
-        fields = "__all__"
+        fields = (
+            "id",
+            "review_title",
+            "review_body",
+            "rating",
+            "created_date",
+            "updated_time",
+            "user_id",
+            "trip_id",
+            "booking_id",
+            "review_for",
+            "start_point_name",
+            "end_point_name",
+        )
         depth = 1
 
 
@@ -261,7 +280,7 @@ class PickAndDropSerializer(serializers.ModelSerializer):
             "start_stop_location",
             "route",
         )
-
+        depth = 2
 
 class StartStopLocationsSerializer(serializers.ModelSerializer):
     """
