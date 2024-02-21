@@ -167,6 +167,9 @@ mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
       const modalButton = screen.getByText("Yes, delete it!");
       fireEvent.click(modalButton);
 
+      const stopButton = screen.getAllByTestId("route-button");
+      fireEvent.click(stopButton[0]);
+
   
   });
 });
