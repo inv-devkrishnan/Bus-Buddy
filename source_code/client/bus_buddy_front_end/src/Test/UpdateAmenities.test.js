@@ -51,7 +51,7 @@ describe("update Amenities component", () => {
           <UpdateAmenities />
         </MemoryRouter>
       );
-      const update = screen.getByText("Update Amenitie");
+      const update = screen.getByTestId("bus-type-select");
       fireEvent.click(update)
   
   });

@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import CardText from "react-bootstrap/esm/CardText";
 import { Placeholder } from "react-bootstrap";
-
 import { axiosApi } from "../../utils/axiosApi";
 import { useNavigate } from "react-router-dom";
 

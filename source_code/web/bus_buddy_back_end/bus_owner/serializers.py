@@ -62,7 +62,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "start_point_name",
             "end_point_name",
         )
-        depth = 1
+        depth = 2
 
 
 class BusSerializer(serializers.ModelSerializer):

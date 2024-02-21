@@ -1,74 +1,173 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { axiosApi } from "../../utils/axiosApi";
 import Card from "react-bootstrap/Card";
+import CardText from "react-bootstrap/esm/CardText";
+import { Placeholder } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+
+
 
 export default function Ownerprofile() {
   const [currentUserData, setCurrentUserData] = useState({});
+  const [myProfileView, setMyProfileView] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(true); // to show/hide placeholder
+  const navigate = useNavigate();
+
+  const changePasswordViewSelected = () => {
+    setMyProfileView(false);
+    navigate("/BusHome/change-password");
+  };
+
+  const updateProfileViewSelected = () => {
+    setMyProfileView(false);
+    navigate("/BusHome/update-owner");
+  };
+  const fetchUserData = async () => {
+    try {
+      const res = await axiosApi.get("bus-owner/update-profile");
+      setCurrentUserData(res.data);
+      setIsProfileLoading(false);
+    } catch (err) {
+      console.error(err.response);
+      setIsProfileLoading(false);
+    }
+  };
 
   useEffect(() => {
-    axiosApi
-      .get("bus-owner/update-profile")
-      .then((res) => {
-        setCurrentUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert("User does not exist!!");
-      });
+    fetchUserData();
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems:"center", margin:"5%" }}>
-      <div >
-        <Card
-          style={{
-            width: " 100%",
-            boxShadow: "5px 5px 30px 0 rgba(29, 108, 177, 0.5)",
-          }}
-        >
-          <Card.Body>
-            <Card.Title
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                maxWidth: "100%",
-                wordWrap: "break-word",
-              }}
-            >
-              {currentUserData["first_name"]} {currentUserData["last_name"]}
-            </Card.Title>
-            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
-              Name: {currentUserData["first_name"]}
-            </p>
-            <p style={{  maxWidth:"40vw", wordWrap: "break-word" }}>
-              Last name: {currentUserData["last_name"]}
-            </p>
-            <p>Phone Number: {currentUserData["phone"]}</p>
-            <p>Email ID: {currentUserData["email"]}</p>
-            <p style={{ maxWidth:"40vw", wordWrap: "break-word" }}>
-              Company Name: {currentUserData["company_name"]}
-            </p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Link to="/BusHome/update-owner">
-                <button
-                  className="btn btn-primary m-3"
-                  style={{ width: "80%", height: "58%" }} // Set width and height here
-                >
-                  Update Profile
-                </button>
-              </Link>
-              <Link to="/BusHome/change-password">
-                <button
-                  className="btn btn-primary m-3"
-                  style={{ width: "80%", height: "58%" }} // Set width and height here
-                >
-                  Change Password
-                </button>
-              </Link>
-            </div>
-          </Card.Body>
-        </Card>
+    <div className="p-2">
+      <div className="mb-auto p-2 bd-highlight m-3">
+        <h1>My Profile</h1>
+      </div>
+      <div className="p-2">
+        {myProfileView && (
+          <div>
+            {isProfileLoading ? (
+              <Card
+                className="d-flex flex-column"
+                style={{
+                  width: "100%",
+                  boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div className="d-flex flex-column m-2 p-1">
+                  <Placeholder as={CardText} animation="glow">
+                    <Placeholder xs={6} />
+                  </Placeholder>{" "}
+                  <Placeholder as={CardText} animation="glow">
+                    <Placeholder xs={6} />
+                  </Placeholder>
+                </div>
+
+                <div className="d-flex">
+                  <CardText style={{ color: "gray" }}>
+                    &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
+                  </CardText>
+                </div>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12 col-lg-3">
+                      <Placeholder as={CardText} animation="glow">
+                        <Placeholder xs={4} />
+                      </Placeholder>{" "}
+                      <Placeholder as={CardText} animation="glow">
+                        <Placeholder xs={4} />
+                      </Placeholder>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-9">
+                      <Placeholder as={CardText} animation="glow">
+                        <Placeholder xs={8} />
+                      </Placeholder>{" "}
+                      <Placeholder as={CardText} animation="glow">
+                        <Placeholder xs={8} />
+                      </Placeholder>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
+                  {( // for rendering change password button only for normal sign in
+                    <Placeholder.Button
+                      variant="primary"
+                      xs={3}
+                      className="m-1"
+                    />
+                  )}
+                  <Placeholder.Button
+                    variant="primary"
+                    xs={2}
+                    className="m-1"
+                  />
+                </div>
+              </Card>
+            ) : (
+              <Card
+                className="d-flex flex-column p-3"
+                style={{
+                  width: "100%",
+                  boxShadow: "0px 0px 22px 4px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div className="container">
+                <div className="row">
+
+                <div className="col-sm-12 col-md-12 col-lg-3">
+                  <CardText>Your name:</CardText>
+                  <CardText as="h5">
+                    {currentUserData["first_name"] +
+                      " " +
+                      (currentUserData["last_name"]
+                        ? currentUserData["last_name"]
+                        : "")}
+                  </CardText>
+                </div>
+                <div className="col-sm-12 col-md-12 col-lg-9">
+                  <CardText>Company name:</CardText>
+                  <CardText as="h5">
+                    {currentUserData["company_name"]}
+                  </CardText>
+                </div>
+                </div>
+                </div>
+                <div className="d-flex mt-3">
+                  <CardText style={{ color: "gray" }}>
+                    &nbsp;&nbsp; Contact Details &nbsp;&nbsp;
+                  </CardText>
+                </div>
+                <div className="container">
+                  <div className="row">
+                    {currentUserData["phone"] && (
+                      <div className="col-sm-12 col-md-12 col-lg-3">
+                        <CardText>Phone number:</CardText>
+                        <CardText as="h5">{currentUserData["phone"]}</CardText>
+                      </div>
+                    )}
+                    <div className="col-sm-12 col-md-12 col-lg-9">
+                      <CardText>Email: </CardText>
+                      <CardText as="h5">{currentUserData["email"]}</CardText>
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
+                  <div className="d-flex m-1">
+                    {( // for rendering change password button only for normal sign in
+                      <Button onClick={changePasswordViewSelected}>
+                        Change password
+                      </Button>
+                    )}
+                  </div>
+                  <div className="m-1">
+                    <Button onClick={updateProfileViewSelected}>Edit</Button>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
