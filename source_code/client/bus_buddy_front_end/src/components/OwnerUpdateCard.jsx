@@ -143,6 +143,9 @@ export default function OwnerUpdateForm() {
 
   return (
     <>
+    <div className="mb-auto p-2 bd-highlight m-3">
+        <h1>Update Profile</h1>
+      </div>
       <Card style={{ width: "50%" }}>
         <Card.Body>
           <Form onSubmit={formik.handleSubmit} id="ownerRegisterForm">
