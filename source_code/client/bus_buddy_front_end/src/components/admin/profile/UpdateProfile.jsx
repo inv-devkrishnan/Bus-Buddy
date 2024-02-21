@@ -112,9 +112,18 @@ function UpdateProfile() {
 
     setShowModal(false);
   };
-  const handleOnChange = () => {
-    setIsDataChanged(true);
-  }
+  const checkIfDataChanged = (firstName, lastName, email, phone) => {
+    if (
+      firstName !== adminDetails?.first_name ||
+      lastName !== adminDetails?.last_name ||
+      email !== adminDetails?.email ||
+      phone !== adminDetails?.phone
+    ) {
+      setIsDataChanged(true);
+    } else {
+      setIsDataChanged(false);
+    }
+  };
   return (
     <Container className="ms-3 p-0">
       <Row>
@@ -133,7 +142,12 @@ function UpdateProfile() {
                 validate={(values) => {
                   // validation for email,first_name,last_name,phone number
                   const errors = {};
-
+                  checkIfDataChanged(
+                    values.first_name,
+                    values.last_name,
+                    values.email,
+                    values.phone
+                  );
                   if (!values.email) {
                     errors.email = "Required";
                   } else if (
@@ -187,7 +201,7 @@ function UpdateProfile() {
 
                   isSubmitting,
                 }) => (
-                  <Form onSubmit={handleSubmit} onChange={handleOnChange}>
+                  <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
                       <Form.Label>First Name</Form.Label>
                       <Form.Control
