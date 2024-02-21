@@ -52,8 +52,8 @@ export default function Viewallbus() {
     }
   };
 
-  const RouteDetailsModal = (data) => {
-    console.log(data.data.data[0]);
+  const routeDetailsModal = (data) => {
+    console.log(data.data)
     return (
       <Modal.Body>
       <table style={{ width: "100%" }}>
@@ -64,10 +64,10 @@ export default function Viewallbus() {
             <th style={{ fontWeight: "bold", textAlign: "left" }}>Landmark</th>
             <th style={{ fontWeight: "bold", textAlign: "left" }}>Arrival Time</th>
           </tr>
-          {data?.data?.data?.map((item) => (
+          {data?.data?.map((item) => (
             <React.Fragment key={item.start_stop_location.id}>
               {Array.isArray(item.bus_stop) && item.bus_stop.map((busStop, index) => (
-                <tr key={index}>
+                <tr key={item.id}>
                   {index === 0 && <td rowSpan={item.bus_stop.length}>{item.start_stop_location.location?.location_name}</td>}
                   <td>{busStop}</td>
                   <td>{item.landmark}</td>
@@ -192,6 +192,7 @@ export default function Viewallbus() {
                   <button
                     className="btn btn-primary"
                     onClick={() => handleButtonClick(trip.route.id)}
+                    data-testid="route-button"
                   >
                     Route Details
                   </button>
@@ -361,7 +362,7 @@ export default function Viewallbus() {
     <Modal.Title>Route Detail</Modal.Title>
   </Modal.Header>
   <Modal.Body>
-    <RouteDetailsModal data={modalData} />
+   {routeDetailsModal(modalData)}
   </Modal.Body>
   <Modal.Footer>
     <Button variant="secondary" onClick={() => setShowModal(false)}>

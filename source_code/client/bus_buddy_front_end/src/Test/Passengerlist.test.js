@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render,screen,fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from 'react-router-dom';
 import PassengerList from "../components/BusOwnerUi/MyTrips/Passengerlist";
@@ -194,6 +194,9 @@ describe("View Passenger List component", () => {
       </MemoryRouter>
     );
     await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const serachButton = screen.getByText("Back to View Trips");
+      fireEvent.click(serachButton);
 });
 
 it("renders component fail", async() => {

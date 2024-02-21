@@ -185,6 +185,9 @@ describe("View Route component", () => {
 
     const modalButton = screen.getByText("Cancel");
     fireEvent.click(modalButton);
+
+    const stopButton = screen.getAllByTestId("route-button");
+    fireEvent.click(stopButton[0]);
   
   });
 
