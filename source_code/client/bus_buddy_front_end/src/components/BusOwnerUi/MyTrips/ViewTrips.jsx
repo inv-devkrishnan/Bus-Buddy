@@ -86,10 +86,10 @@ export default function Viewallbus() {
               ))}
               {!Array.isArray(item.bus_stop) && (
                 <tr>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.landmark}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.landmark}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
                 </tr>
               )}
             </React.Fragment>
@@ -307,7 +307,7 @@ export default function Viewallbus() {
           <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
             <button className="btn btn-primary"> + Add Trip</button>
           </Link>
-          <Form style={{ textAlign: "center", width: "20.5%" }}>
+          <Form style={{ textAlign: "center", width: "25%" }}>
             <div className="input-group">
               <input
                 type="text"

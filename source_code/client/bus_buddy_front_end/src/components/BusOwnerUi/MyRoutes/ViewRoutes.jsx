@@ -75,10 +75,10 @@ export default function Viewallroutes() {
               ))}
               {!Array.isArray(item.bus_stop) && (
                 <tr>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.landmark}</td>
-                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.landmark}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
                 </tr>
               )}
             </React.Fragment>
@@ -211,12 +211,12 @@ export default function Viewallroutes() {
               <Dropdown.Item onClick={() => setOrder(2)}> low to high trip Fare </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Form style={{ textAlign: "center", width: "22%" }}>
+          <Form style={{ textAlign: "center", width: "25%" }}>
             <div className="input-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Start/Stop Locations"
+                placeholder="Start/Stop Location"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
