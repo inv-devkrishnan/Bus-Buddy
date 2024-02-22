@@ -23,11 +23,13 @@ export default function Viewallbus() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const navi = useNavigate();
 
   const fetchData = useCallback(
     async (page) => {
       showLoadingAlert("Fetching Trips");
+
 
       try {
         const response = await axiosApi.get(
@@ -37,8 +39,10 @@ export default function Viewallbus() {
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
         Swal.close();
+        setIsLoading(false)
       } catch (err) {
         Swal.close();
+        setIsLoading(false)
         console.error("Error:", err);
       }
     },
@@ -101,7 +105,7 @@ export default function Viewallbus() {
   }, [fetchData, currentPage, updateFlag]);
 
   const renderCards = () =>
-    data.length === 0 ? (
+   !isLoading && data.length === 0 ? (
       <div
         style={{
           textAlign: "center",

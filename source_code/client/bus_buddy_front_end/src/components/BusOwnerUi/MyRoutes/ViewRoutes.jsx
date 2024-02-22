@@ -22,6 +22,7 @@ export default function Viewallroutes() {
   const [order, setOrder] = useState(3);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("")
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = useCallback(async (page) => {
     showLoadingAlert("Fetching Routes");
@@ -31,8 +32,10 @@ export default function Viewallroutes() {
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
       Swal.close();
+      setIsLoading(false)
     } catch (err) {
       Swal.close();
+      setIsLoading(false)
       console.error("Error:", err);
     }
   }, [order, search]);
@@ -96,7 +99,7 @@ export default function Viewallroutes() {
   };
 
   const renderCards = () => (
-    data.length === 0 ? (
+    !isLoading && data.length === 0 ? (
       <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
         No data found
       </div>

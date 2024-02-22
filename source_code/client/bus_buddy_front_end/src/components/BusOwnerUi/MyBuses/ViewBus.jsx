@@ -19,6 +19,8 @@ export default function Viewallbus() {
   const [enabledBusFlag, setEnabledBusFlag] = useState(false);
   const [filter, setFilter] = useState(3);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const navi = useNavigate();
 
@@ -117,8 +119,10 @@ export default function Viewallbus() {
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
         Swal.close();
+        setIsLoading(false)
       } catch (err) {
         Swal.close();
+        setIsLoading(false)
         console.error("Error:", err);
       }
     },
@@ -164,7 +168,7 @@ export default function Viewallbus() {
   };
 
   const renderCards = () =>
-    !data || data.length === 0 ? (
+  !isLoading && data.length === 0 ? (
       <div
         style={{
           textAlign: "center",
