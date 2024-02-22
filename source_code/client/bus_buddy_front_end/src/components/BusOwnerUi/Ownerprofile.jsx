@@ -5,13 +5,10 @@ import Card from "react-bootstrap/Card";
 import CardText from "react-bootstrap/esm/CardText";
 import { Placeholder } from "react-bootstrap";
 
-
-
 export default function Ownerprofile() {
   const [currentUserData, setCurrentUserData] = useState({});
   const [isProfileLoading, setIsProfileLoading] = useState(true); // to show/hide placeholder
 
- 
   const fetchUserData = async () => {
     try {
       const res = await axiosApi.get("bus-owner/update-profile");
@@ -33,7 +30,7 @@ export default function Ownerprofile() {
         <h1>My Profile</h1>
       </div>
       <div className="p-2">
-        {(
+        {
           <div>
             {isProfileLoading ? (
               <Card
@@ -79,13 +76,14 @@ export default function Ownerprofile() {
                 </div>
 
                 <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
-                  {( // for rendering change password button only for normal sign in
+                  {
+                    // for rendering change password button only for normal sign in
                     <Placeholder.Button
                       variant="primary"
                       xs={3}
                       className="m-1"
                     />
-                  )}
+                  }
                   <Placeholder.Button
                     variant="primary"
                     xs={2}
@@ -102,25 +100,24 @@ export default function Ownerprofile() {
                 }}
               >
                 <div className="container">
-                <div className="row">
-
-                <div className="col-sm-12 col-md-12 col-lg-3">
-                  <CardText>Your name:</CardText>
-                  <CardText as="h5">
-                    {currentUserData["first_name"] +
-                      " " +
-                      (currentUserData["last_name"]
-                        ? currentUserData["last_name"]
-                        : "")}
-                  </CardText>
-                </div>
-                <div className="col-sm-12 col-md-12 col-lg-9">
-                  <CardText>Company name:</CardText>
-                  <CardText as="h5">
-                    {currentUserData["company_name"]}
-                  </CardText>
-                </div>
-                </div>
+                  <div className="row">
+                    <div className="col-sm-12 col-md-12 col-lg-3">
+                      <CardText>Your name:</CardText>
+                      <CardText as="h5">
+                        {currentUserData["first_name"] +
+                          " " +
+                          (currentUserData["last_name"]
+                            ? currentUserData["last_name"]
+                            : "")}
+                      </CardText>
+                    </div>
+                    <div className="col-sm-12 col-md-12 col-lg-9">
+                      <CardText>Company name:</CardText>
+                      <CardText as="h5">
+                        {currentUserData["company_name"]}
+                      </CardText>
+                    </div>
+                  </div>
                 </div>
                 <div className="d-flex mt-3">
                   <CardText style={{ color: "gray" }}>
@@ -143,29 +140,29 @@ export default function Ownerprofile() {
                 </div>
                 <div className="d-flex justify-content-end flex-column flex-md-row flex-lg-row m-3">
                   <div className="d-flex m-1">
-                  <Link to="/BusHome/update-owner">
-                <button
-                  className="btn btn-primary m-3"
-                  style={{ width: "100%", height: "58%" }} // Set width and height here
-                >
-                  Update Profile
-                </button>
-                
-              </Link>&nbsp;
-              <Link to="/BusHome/change-password">
-                <button 
-                  className="btn btn-primary m-3"
-                  style={{ width: "100%", height: "58%" }} // Set width and height here
-                >
-                  Change Password
-                </button>
-              </Link>
-                </div>
+                    <Link to="/BusHome/change-password">
+                      <button
+                        className="btn btn-primary m-3"
+                        style={{ width: "100%", height: "58%" }} // Set width and height here
+                      >
+                        Change Password
+                      </button>
+                    </Link>{" "}
+                    &nbsp;
+                    <Link to="/BusHome/update-owner">
+                      <button
+                        className="btn btn-primary m-3"
+                        style={{ width: "100%", height: "58%" }} // Set width and height here
+                      >
+                        Edit
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </Card>
             )}
           </div>
-        )}
+        }
       </div>
     </div>
   );
