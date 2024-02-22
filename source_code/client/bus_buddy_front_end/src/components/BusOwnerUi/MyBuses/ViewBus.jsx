@@ -9,6 +9,8 @@ import Accordion from "react-bootstrap/Accordion";
 import { axiosApi } from "../../../utils/axiosApi";
 import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
@@ -83,6 +85,8 @@ export default function Viewallbus() {
   };
 
   const fetchData = useCallback(async (page) => {
+    showLoadingAlert("Fetching Buses");
+
     try {
       const response = await axiosApi.get(`bus-owner/view-bus/?page=${page}&search=${search}&filter=${filter}`);
 
@@ -90,7 +94,9 @@ export default function Viewallbus() {
       console.log(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
+      Swal.close();
     } catch (err) {
+      Swal.close();
       console.error("Error:", err);
     }
   }, [filter, search]);

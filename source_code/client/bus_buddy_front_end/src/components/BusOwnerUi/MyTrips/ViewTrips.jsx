@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
@@ -25,6 +27,8 @@ export default function Viewallbus() {
 
   const fetchData = useCallback(
     async (page) => {
+      showLoadingAlert("Fetching Trips");
+
       try {
         const response = await axiosApi.get(
           `bus-owner/view-trip/?page=${page}&search=${search}&ordering=${order}`
@@ -32,7 +36,9 @@ export default function Viewallbus() {
         setData(response.data.results);
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
+        Swal.close();
       } catch (err) {
+        Swal.close();
         console.error("Error:", err);
       }
     },

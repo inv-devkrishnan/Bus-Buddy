@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+
 
 export default function Viewallroutes() {
   const [data, setData] = useState([]);
@@ -22,12 +24,15 @@ export default function Viewallroutes() {
   const [modalData, setModalData] = useState("")
 
   const fetchData = useCallback(async (page) => {
+    showLoadingAlert("Fetching Routes");
     try {
       const response = await axiosApi.get(`bus-owner/view-routes/?page=${page}&search=${search}&ordering=${order}`);
       setData(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
+      Swal.close();
     } catch (err) {
+      Swal.close();
       console.error("Error:", err);
     }
   }, [order, search]);
