@@ -164,9 +164,6 @@ mock.onPut(`bus-owner/delete-trip/${20}/`).reply(200, deleteData);
       const filterAscend = screen.getAllByText("Trips in ascending by date");
       fireEvent.click(filterAscend[0]);
 
-    //   const modalButton = screen.getByText("Yes, delete it!");
-    //   fireEvent.click(modalButton);
-
       const stopButton = screen.getAllByTestId("route-button");
       fireEvent.click(stopButton[0]);
 
