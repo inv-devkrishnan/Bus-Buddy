@@ -73,4 +73,38 @@ describe("ComplaintResponse component", () => {
     const sortEmpty = screen.getByText("Clear sorting");
     fireEvent.click(sortEmpty);
   });
+
+  it("renders component on get", async() => {
+    const data = [
+      {
+        id: 9,
+        complaint_title: "Bad air conditioning",
+        complaint_body: "Your bus had bad air conditioning",
+        complaint_image: null,
+        response: "Please provide details",
+        status: 0,
+        created_date: "2023-12-18",
+        updated_date: "2023-12-18",
+        user: 4,
+        complaint_for: 2,
+      },
+    ];
+    mock.onGet(`user/list-complaints/?page=${1}&&ordering=&&search=`).reply(200, data);
+    render(
+      <ComplaintResponse
+        complaintData={data}
+        setComplaintData={jest.fn()}
+        curentPage={1}
+        setCurentPage={jest.fn()}
+        totalPages={1}
+        setTotalPages={jest.fn()}
+      />
+    );
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const responseButton = screen.getByText("View Response")
+    fireEvent.click(responseButton)
+
+  });
 });

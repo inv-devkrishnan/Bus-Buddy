@@ -48,6 +48,13 @@ describe("ComplaintForm component", () => {
     mock.onGet(`user/register-complaint/`).reply(400);
 
     render(<ComplaintForm />);
+    const file = new File(["(⌐□_□)"], "sample.html", { type: "image/html" });
+    const photoInput = screen.getByLabelText("Upload image as proof:");
+    fireEvent.click(photoInput);
+    fireEvent.change(photoInput, {
+      target: { files: [file] },
+    });
+
   });
 
   it("gets admin and form clear", async () => {
@@ -59,7 +66,7 @@ describe("ComplaintForm component", () => {
     fireEvent.click(clearButton);
   });
 
-  it("gets admin and form submit",  () => {
+  it("gets admin and form submit",  async() => {
     const data = [1, [[2, "Shekar travels"]]];
     mock.onGet(`user/register-complaint/`).reply(200, data);
 
@@ -77,6 +84,10 @@ describe("ComplaintForm component", () => {
     
     const adminRadio = screen.getByTestId("admin_radio");
     fireEvent.click(adminRadio);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const busRadio = screen.getByTestId("bus_radio");
+    fireEvent.click(busRadio);
 
     const submitButton = screen.getByText("Submit");
     fireEvent.click(submitButton);
