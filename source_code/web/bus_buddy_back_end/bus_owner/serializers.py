@@ -186,6 +186,7 @@ class ViewBusSerializer(serializers.ModelSerializer):
             "user",
             "bus_seat_type",
             "bus_details_status",
+            "status"
         )
 
 

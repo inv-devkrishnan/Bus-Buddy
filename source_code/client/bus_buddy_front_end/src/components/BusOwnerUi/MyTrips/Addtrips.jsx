@@ -23,8 +23,8 @@ export default function Addtrips() {
   const navi = useNavigate();
 
   const reset= () => {
-    setBus("");
-    setRoute("");
+    setBusData("");
+    setRouteData("");
 
     document.getElementById("bus").value = "";
     document.getElementById("route").value = "";

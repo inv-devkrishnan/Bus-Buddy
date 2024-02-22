@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+
 
 export default function Viewallroutes() {
   const [data, setData] = useState([]);
@@ -20,14 +22,20 @@ export default function Viewallroutes() {
   const [order, setOrder] = useState(3);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("")
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = useCallback(async (page) => {
+    showLoadingAlert("Fetching Routes");
     try {
       const response = await axiosApi.get(`bus-owner/view-routes/?page=${page}&search=${search}&ordering=${order}`);
       setData(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
+      Swal.close();
+      setIsLoading(false)
     } catch (err) {
+      Swal.close();
+      setIsLoading(false)
       console.error("Error:", err);
     }
   }, [order, search]);
@@ -67,10 +75,10 @@ export default function Viewallroutes() {
               ))}
               {!Array.isArray(item.bus_stop) && (
                 <tr>
-                  <td>{item.start_stop_location.location?.location_name}</td>
-                  <td>{item.bus_stop}</td>
-                  <td>{item.landmark}</td>
-                  <td>{item.arrival_time.slice(0, 5)}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.landmark}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
                 </tr>
               )}
             </React.Fragment>
@@ -91,7 +99,7 @@ export default function Viewallroutes() {
   };
 
   const renderCards = () => (
-    data.length === 0 ? (
+    !isLoading && data.length === 0 ? (
       <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "1.5rem", marginTop: "20px" }}>
         No data found
       </div>
@@ -203,12 +211,12 @@ export default function Viewallroutes() {
               <Dropdown.Item onClick={() => setOrder(2)}> low to high trip Fare </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Form style={{ textAlign: "center", width: "22%" }}>
+          <Form style={{ textAlign: "center", width: "25%" }}>
             <div className="input-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Start/Stop Locations"
+                placeholder="Start/Stop Location"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

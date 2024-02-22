@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import CustomPaginator from "../../common/paginator/CustomPaginator";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
+
 
 export default function Viewallbus() {
   const [data, setData] = useState([]);
@@ -21,10 +23,14 @@ export default function Viewallbus() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const navi = useNavigate();
 
   const fetchData = useCallback(
     async (page) => {
+      showLoadingAlert("Fetching Trips");
+
+
       try {
         const response = await axiosApi.get(
           `bus-owner/view-trip/?page=${page}&search=${search}&ordering=${order}`
@@ -32,7 +38,11 @@ export default function Viewallbus() {
         setData(response.data.results);
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
+        Swal.close();
+        setIsLoading(false)
       } catch (err) {
+        Swal.close();
+        setIsLoading(false)
         console.error("Error:", err);
       }
     },
@@ -76,10 +86,10 @@ export default function Viewallbus() {
               ))}
               {!Array.isArray(item.bus_stop) && (
                 <tr>
-                  <td>{item.start_stop_location.location?.location_name}</td>
-                  <td>{item.bus_stop}</td>
-                  <td>{item.landmark}</td>
-                  <td>{item.arrival_time.slice(0, 5)}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.landmark}</td>
+                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
                 </tr>
               )}
             </React.Fragment>
@@ -95,7 +105,7 @@ export default function Viewallbus() {
   }, [fetchData, currentPage, updateFlag]);
 
   const renderCards = () =>
-    data.length === 0 ? (
+   !isLoading && data.length === 0 ? (
       <div
         style={{
           textAlign: "center",
@@ -297,7 +307,7 @@ export default function Viewallbus() {
           <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
             <button className="btn btn-primary"> + Add Trip</button>
           </Link>
-          <Form style={{ textAlign: "center", width: "20.5%" }}>
+          <Form style={{ textAlign: "center", width: "25%" }}>
             <div className="input-group">
               <input
                 type="text"

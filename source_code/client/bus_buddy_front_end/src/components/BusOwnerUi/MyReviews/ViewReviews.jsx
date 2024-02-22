@@ -106,7 +106,7 @@ export default function Viewallbus() {
                     {viewreview.user_id.last_name}
                   </h6>
                   <h6>Email Id : {viewreview.user_id.email} </h6>
-                  <p style={{ maxWidth: "100vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
+                  <p style={{ maxWidth: "65vw", wordWrap: "break-word" }}>{viewreview.review_body}</p>
                 </div>
               </div>
             </Accordion.Body>

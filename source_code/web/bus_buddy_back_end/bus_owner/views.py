@@ -307,6 +307,42 @@ class Deletebus(APIView):
             logger.info("there is no bus obj matching the id")
             logger.info(entry)
             return Response(status=404)
+        
+class Enablebus(APIView):
+    """
+    function to change the status to 99 to perform logical error
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, id):
+        try:
+            logger.info("fetching bus obj matching the requested id")
+            data = Bus.objects.get(id=id)  # to retrive bus object that matches the id
+            if data.status == 0:
+                return Response({"message": "bus already enabled"})
+            else:
+                data.status = 0  # soft delete
+                data.save()
+                logger.info("Enabled bus")
+            try:
+                logger.info("fetching the amenities obj associated with the bus obj")
+                data = Amenities.objects.get(
+                    bus=id
+                )  # to get the amenities obj associated with bus obj
+                if data.status == 0:
+                    logger.info("Amenities already enabled")
+                else:
+                    data.status = 0  # soft delete
+                    data.save()
+                    logger.info("Enabled amenities")
+            except ObjectDoesNotExist:
+                logger.info(entry)
+            return Response({"message": "Bus enabled successfully"}, status=200)
+        except ObjectDoesNotExist:
+            logger.info("there is no bus obj matching the id")
+            logger.info(entry)
+            return Response(status=404)
 
 
 class Updatebus(UpdateAPIView):
@@ -403,6 +439,10 @@ class Viewbus(ListAPIView):
                 queryset = Bus.objects.filter(status=0, user=user_id).order_by(
                 "-id"
             )  # to filter out bus objects which has been soft deleted
+            elif filter_bus == 4:
+                queryset = Bus.objects.filter(status=99, user=user_id).order_by(
+                "-id"
+            )
             elif filter_bus  in [0,1,2] :
                 queryset = Bus.objects.filter(status=0, user=user_id,bus_details_status = filter_bus).order_by(
                 "-id"
@@ -876,9 +916,9 @@ class Viewtrip(ListAPIView):
             elif order_trips == 2: 
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("start_date")
             elif order_trips == 0:
-                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
-            else:
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
+            else:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
