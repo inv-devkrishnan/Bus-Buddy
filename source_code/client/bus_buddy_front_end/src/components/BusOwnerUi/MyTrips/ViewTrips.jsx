@@ -82,10 +82,10 @@ export default function Viewallbus() {
               ))}
               {!Array.isArray(item.bus_stop) && (
                 <tr>
-                  <td>{item.start_stop_location.location?.location_name}</td>
-                  <td>{item.bus_stop}</td>
-                  <td>{item.landmark}</td>
-                  <td>{item.arrival_time.slice(0, 5)}</td>
+                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
+                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
+                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.landmark}</td>
+                  <td style={{ maxWidth: "20vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
                 </tr>
               )}
             </React.Fragment>

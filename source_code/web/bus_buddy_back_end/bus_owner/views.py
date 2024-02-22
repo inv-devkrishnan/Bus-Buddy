@@ -876,9 +876,9 @@ class Viewtrip(ListAPIView):
             elif order_trips == 2: 
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("start_date")
             elif order_trips == 0:
-                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
-            else:
                 queryset = Trip.objects.filter(status=0, user=user_id).order_by("id")
+            else:
+                queryset = Trip.objects.filter(status=0, user=user_id).order_by("-id")
             serializer = ViewTripSerializer(queryset)
             queryset = self.filter_queryset(queryset)
             page = self.paginate_queryset(queryset)
