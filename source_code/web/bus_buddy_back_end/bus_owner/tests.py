@@ -305,6 +305,9 @@ class BaseTest2(TestCase):
         self.bus = Bus.objects.create(
             bus_name="Bus2", plate_no="CD456EF", user=self.user
         )
+        self.bus5 = Bus.objects.create(
+            bus_name="Bus5",status =99, plate_no="CD456EF", user=self.user
+        )
         self.bus2 = Bus.objects.create(
             bus_name="Bus3", plate_no="CD456GF", user=self.user
         )
@@ -374,6 +377,7 @@ class BaseTest2(TestCase):
         route_id = self.route.id
         route2_id = self.route2.id
         bus_id = self.bus.id
+        bus5_id = self.bus5.id
         bus2_id = self.bus2.id
         trip_id = self.trip.id
         trip3_id = self.trip3.id
@@ -634,6 +638,8 @@ class BaseTest2(TestCase):
         self.change_notification_status = reverse("change-notification-status")
         self.passenger_list = reverse("passenger-list",args = [trip_id])
         self.route_stops = reverse("pick-and-drop-stops",args=[route_id])
+        self.enable_bus = reverse("enable-bus", args=[bus5_id])
+        self.enable_enabled_bus = reverse("enable-bus", args=[bus_id])
 
         return super().setUp()
 
@@ -682,12 +688,29 @@ class BusActions(BaseTest2):
         print("6")
         response = self.client.put(self.delete_bus, format="json")
         self.assertEqual(response.status_code, 200)
-
+        
+    def test_can_enable_bus(self):
+        print("6")
+        response = self.client.put(self.enable_bus, format="json")
+        self.assertEqual(response.status_code, 200)
+        
+    def test_can_enable_bus_already(self):
+        print("7")
+        response = self.client.put(self.enable_enabled_bus, format="json")
+        self.assertEqual(response.status_code, 200)
+        
     def test_cant_delete_bus(self):
         print("7")
 
         self.delete_invalid_bus = reverse("delete-bus", args=[1])
         response = self.client.put(self.delete_invalid_bus, format="json")
+        self.assertEqual(response.status_code, 404)
+
+    def test_cant_enable_bus(self):
+        print("7")
+
+        self.enable_invalid_bus = reverse("enable-bus", args=[1])
+        response = self.client.put(self.enable_invalid_bus, format="json")
         self.assertEqual(response.status_code, 404)
 
     def test_can_add_amenities(self):
