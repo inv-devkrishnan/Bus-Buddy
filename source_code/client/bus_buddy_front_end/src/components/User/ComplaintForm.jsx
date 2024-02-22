@@ -54,6 +54,7 @@ export default function ComplaintForm() {
       .required("This is a required field"),
     complaint_image: yup
       .mixed()
+      .notRequired()
       .test("is-valid-size", "Maximum allowed size is 5MB", (value) => {
         if (value.length === 0) {
           return true;
