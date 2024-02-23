@@ -13,7 +13,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { showLoadingAlert } from "../../common/loading_alert/LoadingAlert";
 
-
 export default function Viewallbus() {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -30,7 +29,6 @@ export default function Viewallbus() {
     async (page) => {
       showLoadingAlert("Fetching Trips");
 
-
       try {
         const response = await axiosApi.get(
           `bus-owner/view-trip/?page=${page}&search=${search}&ordering=${order}`
@@ -39,10 +37,10 @@ export default function Viewallbus() {
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
         Swal.close();
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (err) {
         Swal.close();
-        setIsLoading(false)
+        setIsLoading(false);
         console.error("Error:", err);
       }
     },
@@ -62,40 +60,65 @@ export default function Viewallbus() {
   };
 
   const routeDetailsModal = (data) => {
-    console.log(data.data)
+    console.log(data.data);
     return (
       <Modal.Body>
-      <table style={{ width: "100%" }}>
-        <tbody>
-          <tr>
-            <th style={{ fontWeight: "bold", textAlign: "left" }}>Location</th>
-            <th style={{ fontWeight: "bold", textAlign: "left" }}>Bus Stop</th>
-            <th style={{ fontWeight: "bold", textAlign: "left" }}>Landmark</th>
-            <th style={{ fontWeight: "bold", textAlign: "left" }}>Arrival Time</th>
-          </tr>
-          {data?.data?.map((item) => (
-            <React.Fragment key={item.start_stop_location.id}>
-              {Array.isArray(item.bus_stop) && item.bus_stop.map((busStop, index) => (
-                <tr key={item.id}>
-                  {index === 0 && <td rowSpan={item.bus_stop.length}>{item.start_stop_location.location?.location_name}</td>}
-                  <td>{busStop}</td>
-                  <td>{item.landmark}</td>
-                  {index === 0 && <td rowSpan={item.bus_stop.length}>{item.start_stop_location.arrival_time.slice(0, 5)}</td>}
-                </tr>
-              ))}
-              {!Array.isArray(item.bus_stop) && (
-                <tr>
-                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.start_stop_location.location?.location_name}</td>
-                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.bus_stop}</td>
-                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.landmark}</td>
-                  <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>{item.arrival_time.slice(0, 5)}</td>
-                </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-    </Modal.Body>
+        <table style={{ width: "100%" }}>
+          <tbody>
+            <tr>
+              <th style={{ fontWeight: "bold", textAlign: "left" }}>
+                Location
+              </th>
+              <th style={{ fontWeight: "bold", textAlign: "left" }}>
+                Bus Stop
+              </th>
+              <th style={{ fontWeight: "bold", textAlign: "left" }}>
+                Landmark
+              </th>
+              <th style={{ fontWeight: "bold", textAlign: "left" }}>
+                Arrival Time
+              </th>
+            </tr>
+            {data?.data?.map((item) => (
+              <React.Fragment key={item.start_stop_location.id}>
+                {Array.isArray(item.bus_stop) &&
+                  item.bus_stop.map((busStop, index) => (
+                    <tr key={item.id}>
+                      {index === 0 && (
+                        <td rowSpan={item.bus_stop.length}>
+                          {item.start_stop_location.location?.location_name}
+                        </td>
+                      )}
+                      <td>{busStop}</td>
+                      <td>{item.landmark}</td>
+                      {index === 0 && (
+                        <td rowSpan={item.bus_stop.length}>
+                          {item.start_stop_location.arrival_time.slice(0, 5)}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                {!Array.isArray(item.bus_stop) && (
+                  <tr>
+                    <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>
+                      {item.start_stop_location.location?.location_name}
+                    </td>
+                    <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>
+                      {item.bus_stop}
+                    </td>
+                    <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>
+                      {item.landmark}
+                    </td>
+                    <td style={{ maxWidth: "10vw", wordWrap: "break-word" }}>
+                      {item.arrival_time.slice(0, 5)}
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </Modal.Body>
     );
   };
 
@@ -104,7 +127,7 @@ export default function Viewallbus() {
   }, [fetchData, currentPage, updateFlag]);
 
   const renderCards = () =>
-   !isLoading && data.length === 0 ? (
+    !isLoading && data.length === 0 ? (
       <div
         style={{
           textAlign: "center",
@@ -289,96 +312,98 @@ export default function Viewallbus() {
   return (
     <div>
       <Navbar className="bg-body-tertiary d-flex justify-content-between align-items-center">
-      <div style={{display:"flex",flexDirection:"column",width:"100%"}}>
         <div
-        style={{width:"100%",marginBottom:"1%"}}>
-        <h1 style={{ textAlign: "center", flex: "1", margin: "0" }}>
-          View All Trips
-        </h1>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width:"100%"
-          }}
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
-            <button className="btn btn-primary"> + Add Trip</button>
-          </Link>
-          <Form style={{ textAlign: "center", width: "25%" }}>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Bus/start/end location"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button
-                className="btn btn-primary"
-                style={{ width: "20%" }}
-                type="button"
-                onClick={handleSearchClick}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </div>
-          </Form>        
-          <Dropdown style={{ marginLeft: "1%" }}>
-            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              Order By
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setOrder(3)}>
-                Most Recently Added
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(0)}>
-                Least Recently Added
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(1)}>
-                Trips in descending by date
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOrder(2)}>
-                Trips in ascending by date
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Link to={"/BusHome/add-recurring-trips"}>
-            <button className="btn btn-primary"> + Add Recurring Trip</button>
-          </Link>
-        </div>
+          <div style={{ width: "100%", marginBottom: "1%" }}>
+            <h1 style={{ textAlign: "center", flex: "1", margin: "0" }}>
+              View All Trips
+            </h1>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Link to={"/BusHome/add-trips"} style={{ marginLeft: "1%" }}>
+              <button className="btn btn-primary"> + Add Trip</button>
+            </Link>
+            <Form style={{ textAlign: "center", width: "25%" }}>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Bus/start/end location"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <button
+                  className="btn btn-primary"
+                  style={{ width: "20%" }}
+                  type="button"
+                  onClick={handleSearchClick}
+                >
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </div>
+            </Form>
+            <Dropdown style={{ marginLeft: "1%" }}>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                Order By
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setOrder(3)}>
+                  Most Recently Added
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setOrder(0)}>
+                  Least Recently Added
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setOrder(1)}>
+                  Trips in descending by date
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setOrder(2)}>
+                  Trips in ascending by date
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Link to={"/BusHome/add-recurring-trips"}>
+              <button className="btn btn-primary"> + Add Recurring Trip</button>
+            </Link>
+          </div>
         </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "20px",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <CustomPaginator
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={fetchData}
-        />
-      </div>
+      {data.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={fetchData}
+          />
+        </div>
+      )}
+
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
-  <Modal.Header closeButton>
-    <Modal.Title>Route Detail</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-   {routeDetailsModal(modalData)}
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
-      Close
-    </Button>
-  </Modal.Footer>
-</Modal>
+        <Modal.Header closeButton>
+          <Modal.Title>Route Detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{routeDetailsModal(modalData)}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -367,21 +367,23 @@ export default function Viewallbus() {
         </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "20px",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <CustomPaginator
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={fetchData}
-        />
-      </div>
+      {data.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={fetchData}
+          />
+        </div>
+      )}
     </div>
   );
 }

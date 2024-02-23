@@ -238,9 +238,23 @@ export default function Viewallroutes() {
       </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
-        <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
-      </div>
+      {data.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={fetchData}
+          />
+        </div>
+      )}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
   <Modal.Header closeButton>
     <Modal.Title>Route Detail</Modal.Title>
