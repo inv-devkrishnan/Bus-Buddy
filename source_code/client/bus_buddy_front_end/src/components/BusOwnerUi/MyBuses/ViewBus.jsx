@@ -80,14 +80,17 @@ export default function Viewallbus() {
       if (result.isConfirmed) {
         axiosApi
           .put(`bus-owner/delete-bus/${id}/`)
-          .then((response) => {
+          .then(async(response) => {
             console.log("Bus deleted successfully");
-            Swal.fire({
+            await Swal.fire({
               icon: "success",
               title: "Deleted",
               text: "Bus Deleted successfully",
             });
+            
             setDeletedBusFlag((prevFlag) => !prevFlag);
+          
+          
           })
           .catch((error) => {
             if (error.response) {
@@ -118,8 +121,8 @@ export default function Viewallbus() {
         console.log(response.data.results);
         setTotalPages(response.data.total_pages);
         setCurrentPage(response.data.current_page_number);
-        Swal.close();
         setIsLoading(false)
+        Swal.close();
       } catch (err) {
         Swal.close();
         setIsLoading(false)
@@ -364,21 +367,23 @@ export default function Viewallbus() {
         </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "20px",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <CustomPaginator
-          totalPages={totalPages}
-          currentPage={currentPage}
-          viewPage={fetchData}
-        />
-      </div>
+      {data.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={fetchData}
+          />
+        </div>
+      )}
     </div>
   );
 }

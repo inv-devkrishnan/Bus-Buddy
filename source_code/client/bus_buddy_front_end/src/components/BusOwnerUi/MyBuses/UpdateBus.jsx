@@ -60,7 +60,7 @@ export default function Updatebus() {
       console.log("updated");
       if (response.status === 200) {
         console.log("Amenities Inserted");
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Updated Successfully",
           text: "Bus Updated ",

@@ -349,7 +349,7 @@ describe("View Route component", () => {
     ]
 }
   mock.onGet(`bus-owner/view-routes/?page=${1}&search=${""}&ordering=${3}`).reply(200, data);
-  mock.onPut(`bus-owner/delete-routes/${3}/`).reply(200, deleteData);
+  mock.onPut(`bus-owner/delete-routes/${6}/`).reply(400, deleteData);
  
     render(
         <MemoryRouter>
@@ -367,6 +367,21 @@ describe("View Route component", () => {
 
     const modalButton = screen.getByText("Cancel");
     fireEvent.click(modalButton);
+
+    const filterByButton = screen.getByText("Order By");
+    fireEvent.click(filterByButton);
+
+    const filterMostRecent= screen.getByText("Most Recent");
+    fireEvent.click(filterMostRecent);
+
+    const filterLeastRecent= screen.getByText("Least Recent");
+    fireEvent.click(filterLeastRecent);
+
+    const filterLowTripFare= screen.getByText("high to low trip Fare");
+    fireEvent.click(filterLowTripFare);
+
+    const filterHighTripFare= screen.getByText("low to high trip Fare");
+    fireEvent.click(filterHighTripFare);
 
     const stopButton = screen.getAllByTestId("route-button");
     fireEvent.click(stopButton[0]);
@@ -542,6 +557,9 @@ describe("View Route component", () => {
 
     const deleteButtons = screen.getAllByTestId("delete-button");
     fireEvent.click(deleteButtons[0]);
+
+    const yesDeleteButtons = screen.getAllByText("Yes, delete it!");
+    fireEvent.click(yesDeleteButtons[0]);
 
 });
 

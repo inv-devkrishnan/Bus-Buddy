@@ -208,10 +208,10 @@ export default function Addrecurringtrip() {
           recurrence: parseInt(recurrence),
         }
       )
-      .then((response) => {
+      .then(async(response) => {
         console.log("trips Inserted");
         Swal.close();
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Added Successfully",
           text: "Recurring trip added successfully",
@@ -406,6 +406,7 @@ export default function Addrecurringtrip() {
                     value={recurrence}
                     data-testid="recurrence-select"
                     required
+                    style={{width:"130%"}}
                   >
                     <option value="0">Select option</option>
                     <option value="1"> Daily </option>

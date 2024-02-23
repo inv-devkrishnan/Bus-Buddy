@@ -28,11 +28,13 @@ export default function Viewallroutes() {
     showLoadingAlert("Fetching Routes");
     try {
       const response = await axiosApi.get(`bus-owner/view-routes/?page=${page}&search=${search}&ordering=${order}`);
+       
       setData(response.data.results);
       setTotalPages(response.data.total_pages);
       setCurrentPage(response.data.current_page_number);
-      Swal.close();
+     
       setIsLoading(false)
+      Swal.close();
     } catch (err) {
       Swal.close();
       setIsLoading(false)
@@ -167,12 +169,14 @@ export default function Viewallroutes() {
       .put(`bus-owner/delete-routes/${id}/`)
       .then((response) => {
         console.log("Route deleted successfully");
-        setData(data.filter(route => route.id !== id));
+        Swal.close()
         Swal.fire({
           icon: "success",
           title: "Deleted",
           text: "Route Deleted successfully",
         });
+        setData(data.filter(route => route.id !== id));
+      
       })
       .catch((error) => {
         console.error("Error deleting route:", error?.response?.data);
@@ -202,7 +206,7 @@ export default function Viewallroutes() {
         <div style={{ display: "flex", justifyContent:"space-between"}}>
           <Dropdown style={{ width: "33%" }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              Filter By
+              Order By
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => setOrder(3)}> Most Recent </Dropdown.Item>
@@ -234,9 +238,23 @@ export default function Viewallroutes() {
       </div>
       </Navbar>
       <div className="card-container">{renderCards()}</div>
-      <div style={{ display: "flex", justifyContent: "center", margin: "20px", alignItems: "center", flexDirection: "column" }}>
-        <CustomPaginator totalPages={totalPages} currentPage={currentPage} viewPage={fetchData} />
-      </div>
+      {data.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "20px",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <CustomPaginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            viewPage={fetchData}
+          />
+        </div>
+      )}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
   <Modal.Header closeButton>
     <Modal.Title>Route Detail</Modal.Title>
