@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import BusHome from "../components/BusOwnerUi/BusHome";
-import { MemoryRouter, useNavigate,useLocation,BrowserRouter } from "react-router-dom";
+import { MemoryRouter,useLocation,BrowserRouter } from "react-router-dom";
 
 jest.mock("../components/BusOwnerUi/Ownerprofile.jsx");
 jest.mock("../components/BusOwnerUi/MyBuses/ViewBus");
