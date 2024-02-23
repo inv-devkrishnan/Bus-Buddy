@@ -54,7 +54,6 @@ export default function Viewallbus() {
       const response = await axiosApi.get(
         `bus-owner/pick-and-drop-stops/${id}/`
       );
-      console.log(response);
       setModalData({ ...response.data });
       setShowModal(true); // Show the modal after successful API call
     } catch (error) {
@@ -244,9 +243,9 @@ export default function Viewallbus() {
       if (result.isConfirmed) {
         axiosApi
           .put(`bus-owner/delete-trip/${trip.id}/`)
-          .then((response) => {
+          .then(async (response) => {
             console.log("Trip deleted successfully");
-            Swal.fire({
+            await Swal.fire({
               icon: "success",
               title: "Deleted",
               text: "Trip Deleted successfully",
