@@ -91,6 +91,11 @@ export default function Addbus() {
         console.log(response);
         const data =  response.data.bus
         console.log(data);
+        await Swal.fire({
+          icon: "success",
+          title: "Added Successfully",
+          text: "Bus added successfully",
+        });
         navi("/BusHome/Addamenities", { state: data });
       }
     } catch (error) {

@@ -45,7 +45,7 @@ export default function Addamenities() {
 
       if (response.status === 200) {
         console.log("Amenities Inserted");
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Added Successfully",
           text: "Bus Amenities added successfully",
