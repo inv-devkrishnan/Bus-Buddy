@@ -94,7 +94,7 @@ export default function AddRouteCard() {
       Swal.close();
       if (response.status === 200) {
         console.log("Route Added");
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Added Successfully",
           text: "Route added successfully",

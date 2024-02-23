@@ -75,7 +75,7 @@ export default function Updateamenities() {
 
       if (response.status === 200) {
         console.log("Amenities Updated");
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Updated Successfully",
           text: "Bus Amenities updated successfully",
