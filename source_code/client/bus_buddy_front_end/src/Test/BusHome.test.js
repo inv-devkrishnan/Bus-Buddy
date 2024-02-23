@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import BusHome from "../components/BusOwnerUi/BusHome";
-import { MemoryRouter, useNavigate } from "react-router-dom";
+import { MemoryRouter, useNavigate,useLocation,BrowserRouter } from "react-router-dom";
 
 jest.mock("../components/BusOwnerUi/Ownerprofile.jsx");
 jest.mock("../components/BusOwnerUi/MyBuses/ViewBus");
@@ -18,9 +18,28 @@ jest.mock("react-router-dom", () => ({
 jest.mock("../utils/hooks/useAuth", () => ({
   useAuthStatus: jest.fn(() => true),
 }));
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useLocation: jest.fn().mockReturnValue({
+    pathname: "/BusHome/profile",
+  }),
+}));
+
+const renderDifferentOption = (pathname) => {
+  useLocation.mockImplementation(
+    jest.fn().mockReturnValue({
+      pathname: pathname,
+    })
+  );
+  render(
+    <BrowserRouter>
+      <BusHome />
+    </BrowserRouter>
+  );
+};
+
 
 describe("Bus Home component", () => {
-  useNavigate.mockImplementation(() => jest.fn());
   it("renders component",async () => {
     render(
       <MemoryRouter>
@@ -50,5 +69,16 @@ describe("Bus Home component", () => {
     const complaintButton = screen.getByText("View Complaints");
     fireEvent.click(complaintButton);
 
+  });
+
+  test("user dashboard", () => {
+    renderDifferentOption("/BusHome/Ownerprofile");
+    renderDifferentOption("/BusHome/ViewBus");
+    renderDifferentOption("/BusHome/ViewRoutes");
+    renderDifferentOption("/BusHome/view-trips");
+    renderDifferentOption("/BusHome/delete-account");
+    renderDifferentOption("/BusHome/view-complaints");
+    renderDifferentOption("/BusHome/view-reviews");
+    renderDifferentOption("/fdsffds/fdsf");
   });
 });

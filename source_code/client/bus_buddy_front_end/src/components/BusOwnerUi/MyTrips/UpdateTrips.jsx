@@ -59,7 +59,7 @@ export default function Updatetrips() {
       );
       console.log("updated");
       if (response.status === 200) {
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "Updated Successfully",
           text: "trip Updated successfully",

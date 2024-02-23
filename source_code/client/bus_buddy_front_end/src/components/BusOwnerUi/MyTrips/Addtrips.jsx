@@ -54,8 +54,8 @@ export default function Addtrips() {
       end_date: formattedEndDate,
     })
 
-    .then((response)=>{
-      Swal.fire({
+    .then(async(response)=>{
+      await Swal.fire({
         icon: "success",
         title: "Added Successfully",
         text: "Trip added successfully",
